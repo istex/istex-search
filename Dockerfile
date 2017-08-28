@@ -13,8 +13,8 @@ WORKDIR /usr/share/nginx/html/
 COPY ./package.json /usr/share/nginx/html/
 RUN npm install
 
-# ngnix config
-COPY ./ngnix/prod.conf /etc/nginx/conf.d/default.conf
+# nginx config
+COPY ./nginx/prod.conf /etc/nginx/conf.d/default.conf
 
 # add source code (after npm install for docker build optimization reason)
 COPY ./www/ /usr/share/nginx/html/www/

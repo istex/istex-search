@@ -8,7 +8,10 @@
     "lint": "eslint --ext=.js ./test/*.js ./src/*.js",
     "build": "babel www/src --out-dir www/dist",
     "start": "ws",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "insertversion:docker-compose": "sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "version": "npm run insertversion:docker-compose && git add docker-compose.yml",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

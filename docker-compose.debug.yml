@@ -15,7 +15,7 @@ services:
 
   istex-dl-www:
     container_name: istex-dl-www
-    image: node:6.9.1
+    image: node:8.4.0
     working_dir: /app
     volumes:
       - .:/app
@@ -26,5 +26,5 @@ services:
       DEBUG: ${DEBUG}
     ports:
       - 8080:8080
-      - 3123:3123
-    command: npm run dev
+      - 3123:3123 # webpack ???
+    command: npm start

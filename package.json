@@ -35,10 +35,6 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-html": "2.0.1",
     "eslint-plugin-react": "^6.10.3"
-  },
-  "dependencies": {
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.2.1",
     "local-web-server": "^2.2.4"
   }
 }

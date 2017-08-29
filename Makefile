@@ -18,6 +18,7 @@ endif
 
 install: ## install depedencies thanks to a dockerized npm install
 	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.4.0 npm install -q
+	@docker run -it --rm -v $$(pwd)/www:/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.4.0 npm install -q
 	@make chown
 
 build: ## build the docker istex/istex-dl image locally
@@ -35,6 +36,7 @@ run-debug: ## run istex-dl in debug mode (live regenerate the bundle.js if js ar
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:
 	@test ! -d $$(pwd)/node_modules || docker run -it --rm --net=host -v $$(pwd):/app node:8.4.0 chown -R $$(id -u):$$(id -g) /app/
+	@test ! -d $$(pwd)/www/node_modules || docker run -it --rm --net=host -v $$(pwd)/www:/app node:8.4.0 chown -R $$(id -u):$$(id -g) /app/
 
 npm: ## npm wrapper. example: make npm install --save mongodb-querystring
 	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.4.0 npm $(filter-out $@,$(MAKECMDGOALS))

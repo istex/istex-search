@@ -1,3 +1,5 @@
-function getZip() {
+/* eslint-env browsser */
+
+function getZip(e) {
 
 }

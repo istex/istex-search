@@ -13,6 +13,13 @@ WORKDIR /usr/share/nginx/html/
 COPY ./package.json /usr/share/nginx/html/
 RUN npm install
 
+# install libs
+WORKDIR /usr/share/nginx/html/www/
+COPY ./www/package.json /usr/share/nginx/html/www/
+RUN npm install
+
+WORKDIR /usr/share/nginx/html/
+
 # nginx config
 COPY ./nginx/prod.conf /etc/nginx/conf.d/default.conf
 

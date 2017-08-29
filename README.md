@@ -4,10 +4,8 @@
 
 ```bash
 make build
-npm install
+make install
 ```
-
-> **Note**: `make install` does not seem to work, that's why `npm install` is used instead. Node (and npm) is required.
 
 ## Run in debug mode
 

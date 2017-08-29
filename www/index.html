@@ -24,11 +24,57 @@
   <body>
     <h1>ISTEX Download</h1>
 
+    <form action="https://api.istex.fr/document/" method="get" class="form-horizontal">
+      <div class="form-group">
+        <label for="q" class="col-sm-1 control-label">Requête</label>
+        <div class="col-sm-11">
+            <textarea name="q" id="q" rows="3" class="form-control" placeholder="brain surgery"></textarea>
+        </div>
+      </div>
+      <div class="checkbox">
+        <label class="col-sm-offset-1">
+          <input type="checkbox" name="extract" id="extractMetadata" value="metadata">
+          Métadonnées
+        </label>
+      </div>
+      <div class="checkbox">
+          <label class="col-sm-offset-1">
+            <input type="checkbox" name="extract" id="extractFulltext" value="fulltext">
+            Fulltext
+          </label>
+      </div>
+      <div class="checkbox">
+          <label class="col-sm-offset-1">
+            <input type="checkbox" name="extract" id="extractEnrichments" value="enrichments">
+            Enrichments
+          </label>
+      </div>
+      <div class="checkbox">
+          <label class="col-sm-offset-1">
+            <input type="checkbox" name="extract" id="extractCover" value="cover">
+            Cover
+          </label>
+      </div>
+      <div class="checkbox">
+          <label class="col-sm-offset-1">
+            <input type="checkbox" name="extract" id="extractAnnexes" value="annexes">
+            Annexes
+          </label>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-1 col-sm-11">
+            <button type="submit" class="btn btn-default">Télécharger</button>
+        </div>
+      </div>
+      <input type="hidden" name="size" value="10000">
+    </form>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/dist/main.js"></script>
   </body>
 </html>
 

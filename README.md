@@ -25,7 +25,7 @@ Istex-dl is ezmaterized so you just have to deploy the latest [istex-dl docker i
 Or if you do not use ezmaste,  you can deploy istex-dl thanks to the [docker-compose.yml](https://github.com/istex/istex-dl/blob/master/docker-compose.yml) dedicated to production this way:
 
 ```bash
-curl https://github.com/istex/istex-dl/raw/master/docker-compose.yml > docker-compose.istex-dl.yml
+curl https://raw.githubusercontent.com/istex/istex-dl/master/docker-compose.yml > docker-compose.istex-dl.yml
 docker-compose -f docker-compose.istex-dl.yml up -d
 ```
 

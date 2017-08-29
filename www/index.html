@@ -22,59 +22,17 @@
   </head>
 
   <body>
-    <h1>ISTEX Download</h1>
+      <h1>ISTEX Download</h1>
+      <div id="root">
+      </div>
 
-    <form action="https://api.istex.fr/document/" method="get" accept-charset="UTF-8" class="form-horizontal">
-      <div class="form-group">
-        <label for="q" class="col-sm-1 control-label">Requête</label>
-        <div class="col-sm-11">
-            <textarea name="q" id="q" rows="3" autofocus="true" class="form-control" placeholder="brain surgery"></textarea>
-        </div>
-      </div>
-      <div class="checkbox">
-        <label class="col-sm-offset-1">
-          <input type="checkbox" name="extract" id="extractMetadata" value="metadata">
-          Métadonnées
-        </label>
-      </div>
-      <div class="checkbox">
-          <label class="col-sm-offset-1">
-            <input type="checkbox" name="extract" id="extractFulltext" value="fulltext">
-            Fulltext
-          </label>
-      </div>
-      <div class="checkbox">
-          <label class="col-sm-offset-1">
-            <input type="checkbox" name="extract" id="extractEnrichments" value="enrichments">
-            Enrichments
-          </label>
-      </div>
-      <div class="checkbox">
-          <label class="col-sm-offset-1">
-            <input type="checkbox" name="extract" id="extractCovers" value="covers">
-            Covers
-          </label>
-      </div>
-      <div class="checkbox">
-          <label class="col-sm-offset-1">
-            <input type="checkbox" name="extract" id="extractAnnexes" value="annexes">
-            Annexes
-          </label>
-      </div>
-      <div class="form-group">
-        <div class="col-sm-offset-1 col-sm-11">
-            <button type="submit" class="btn btn-primary">Télécharger</button>
-        </div>
-      </div>
-      <input type="hidden" name="size" value="100">
-    </form>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/dist/main.js"></script>
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+      <script src="/dist/bundle.js"></script>
   </body>
 </html>
 

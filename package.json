@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext=.js ./test/*.js ./src/*.js",
-    "build": "babel www/src --out-dir www/dist",
+    "build": "browserify src/index.jsx -t babelify -o www/dist/bundle.js",
+    "build-prod": "browserify ./index.jsx -t babelify -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./www/dist/bundle.js",
+    "prestart": "npm run build",
     "start": "ws",
     "prepublish": "npm run build",
     "insertversion:docker-compose": "sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
@@ -24,17 +26,26 @@
   },
   "homepage": "https://github.com/istex/istex-dl#readme",
   "devDependencies": {
-    "npm-run-all": "4.0.2",
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.1",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
+    "bundle-collapser": "^1.3.0",
+    "envify": "^4.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-html": "2.0.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-html": "2.0.1",
     "eslint-plugin-react": "^6.10.3",
-    "local-web-server": "^2.2.4"
-  }
+    "local-web-server": "^2.2.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "uglify-js": "^3.0.28",
+    "uglifyify": "^4.0.3"
+  },
+  "dependencies": {}
 }

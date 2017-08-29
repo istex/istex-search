@@ -13,7 +13,7 @@
 git clone git@github.com:istex/istex-dl.git && cd istex-dl
 npm install
 cd www/ && npm install
-npm start
+cd .. && npm start
 ```
 
 Then istex-dl is listening at this URL: http://127.0.0.1:8080

@@ -14,7 +14,7 @@ export default class Filetype extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         this.formats = this.props.formats
-            .map((format, n) => <Format label={this.props.label[n]} format={format} />);
+            .map((format, n) => <Format label={this.props.labels[n]} format={format} />);
     }
 
     handleInputChange(event) {

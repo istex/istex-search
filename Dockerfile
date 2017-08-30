@@ -42,5 +42,5 @@ RUN echo '{ \
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
 COPY ./.babelrc /usr/share/nginx/html/
-COPY ./src /usr/share/nginx/html/www/src/
+COPY ./src /usr/share/nginx/html/src/
 RUN npm run build

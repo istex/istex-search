@@ -1,5 +1,7 @@
 import React from 'react';
-import { URL } from 'universal-url';
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
+import { URL } from 'url';
 
 export default class Form extends React.Component {
 
@@ -21,8 +23,9 @@ export default class Form extends React.Component {
 
     handleInputChange(event) {
         const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
+
+        const value = target.type && target.type === 'checkbox' ? target.checked : target.value;
 
         this.setState({
             [name]: value,
@@ -144,12 +147,11 @@ export default class Form extends React.Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="size" className="col-sm-offset-1">Size</label>
-                    <input
-                        type="number"
-                        id="size"
-                        name="size"
+                    <InputRange
+                        maxValue={200}
+                        minValue={0}
                         value={this.state.size}
-                        onChange={this.handleInputChange}
+                        onChange={size => this.setState({ size })}
                     />
                 </div>
                 <div className="form-group">

@@ -18,20 +18,14 @@ endif
 
 install: ## install depedencies thanks to a dockerized npm install
 	@docker run -it --rm -v $$(pwd):/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.4.0 npm install -q
-	@docker run -it --rm -v $$(pwd)/www:/app -w /app --net=host -e NODE_ENV -e http_proxy -e https_proxy node:8.4.0 npm install -q
 	@make chown
 
 build: ## build the docker istex/istex-dl image locally
 	@docker build -t istex/istex-dl --build-arg http_proxy --build-arg https_proxy .
 
-run-prod: ## run istex-dl in production mode
+run: ## run istex-dl in production mode
 	@docker-compose -f ./docker-compose.yml up -d
 	@tail -f -n 0 ./logs/*.log
-
-run-debug: ## run istex-dl in debug mode (live regenerate the bundle.js if js are modified on fs)
-	@docker-compose -f ./docker-compose.debug.yml up -d
-	@# attach to the istex-dl-www container in order to be able to stop it easily with CTRL+C
-	@docker attach istex-dl-www
 
 # makefile rule used to keep current user's unix rights on the docker mounted files
 chown:

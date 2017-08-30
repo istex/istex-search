@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext=.js ./test/*.js ./src/*.js",
-    "build": "browserify src/index.jsx -t babelify -o www/dist/bundle.js",
+    "build": "browserify src/index.jsx -t babelify  -g [ envify --NODE_ENV production ] -p bundle-collapser/plugin -o www/dist/bundle.js",
     "build-prod": "browserify ./index.jsx -t babelify -g [ envify --NODE_ENV production ] -g uglifyify -p bundle-collapser/plugin | uglifyjs --compress --mangle > ./www/dist/bundle.js",
     "prestart": "npm run build",
     "start": "ws",
@@ -45,7 +45,8 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "uglify-js": "^3.0.28",
-    "uglifyify": "^4.0.3"
+    "uglifyify": "^4.0.3",
+    "universal-url": "^1.0.0"
   },
   "dependencies": {}
 }

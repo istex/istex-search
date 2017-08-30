@@ -4,7 +4,7 @@ services:
 
   istex-dl:
     container_name: istex-dl
-    image: istex/istex-dl:2.0.8
+    image: istex/istex-dl:2.0.9
     volumes:
       - ./logs/:/var/log/nginx
     ports:

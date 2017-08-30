@@ -1,6 +1,8 @@
 # istex-dl
 
-[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It makes possible to download [ISTEX](https://www.istex.fr) documents easiely using a web interface.  
+![Docker Pulls](https://img.shields.io/docker/pulls/istex/istex-dl.svg)](https://registry.hub.docker.com/u/istex/istex-dl/)
+
+[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It makes possible to download several [ISTEX](https://www.istex.fr) documents easiely in a ZIP file using a web interface.  
 
 ## Prerequisites
 

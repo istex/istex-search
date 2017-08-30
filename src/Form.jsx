@@ -1,13 +1,13 @@
 import React from 'react';
 import { URL } from 'universal-url';
 
-
 export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             q: '',
+            size: 2000,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -64,53 +64,90 @@ export default class Form extends React.Component {
                         />
                     </div>
                 </div>
-                <div className="checkbox">
-                    <label htmlFor="extractMetadata" className="col-sm-offset-1">Métadonnées</label>
-                    <input
-                        type="checkbox"
-                        id="extractMetadata"
-                        name="extractMetadata"
-                        checked={this.state.extractMetadata}
-                        onChange={this.handleInputChange}
-                    />
+                <div className="form-group">
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="extractMetadata" className="col-sm-1">Métadonnées</label>
+                            <input
+                                className="col-sm-1"
+                                type="checkbox"
+                                id="extractMetadata"
+                                name="extractMetadata"
+                                checked={this.state.extractMetadata}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="checkbox">
-                    <label htmlFor="extractFulltext" className="col-sm-offset-1">Fulltext</label>
-                    <input
-                        type="checkbox"
-                        id="extractFulltext"
-                        name="extractFulltext"
-                        checked={this.state.extractFulltext}
-                        onChange={this.handleInputChange}
-                    />
+                <div className="form-group">
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="extractFulltext" className="col-sm-1">Fulltext</label>
+                            <input
+                                className="col-sm-1"
+                                type="checkbox"
+                                id="extractFulltext"
+                                name="extractFulltext"
+                                checked={this.state.extractFulltext}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="checkbox">
-                    <label htmlFor="extractEnrichments" className="col-sm-offset-1">Enrichments</label>
-                    <input
-                        type="checkbox"
-                        id="extractEnrichments"
-                        name="extractEnrichments"
-                        checked={this.state.extractEnrichments}
-                        onChange={this.handleInputChange}
-                    />
+                <div className="form-group">
+                    <div className="col-sm-10">
+
+                        <div className="checkbox">
+                            <label htmlFor="extractEnrichments" className="col-sm-1">Enrichments</label>
+                            <input
+                                className="col-sm-1"
+                                type="checkbox"
+                                id="extractEnrichments"
+                                name="extractEnrichments"
+                                checked={this.state.extractEnrichments}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="checkbox">
-                    <label htmlFor="extractCover" className="col-sm-offset-1">Cover</label>
-                    <input
-                        type="checkbox"
-                        id="extractCover"
-                        name="extractCover"
-                        checked={this.state.extractCover}
-                        onChange={this.handleInputChange}
-                    />
+                <div className="form-group">
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="extractCover" className="col-sm-1">Cover</label>
+                            <input
+                                className="col-sm-1"
+                                type="checkbox"
+                                id="extractCover"
+                                name="extractCover"
+                                checked={this.state.extractCover}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className="checkbox">
-                    <label htmlFor="extractAnnexes" className="col-sm-offset-1">Annexes</label>
+
+                <div className="form-group">
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="extractAnnexes" className="col-sm-1">Annexes</label>
+                            <input
+                                className="col-sm-1"
+                                type="checkbox"
+                                id="extractAnnexes"
+                                name="extractAnnexes"
+                                checked={this.state.extractAnnexes}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="size" className="col-sm-offset-1">Size</label>
                     <input
-                        type="checkbox"
-                        id="extractAnnexes"
-                        name="extractAnnexes"
-                        checked={this.state.extractAnnexes}
+                        type="number"
+                        id="size"
+                        name="size"
+                        value={this.state.size}
                         onChange={this.handleInputChange}
                     />
                 </div>
@@ -119,7 +156,6 @@ export default class Form extends React.Component {
                         <button type="submit" className="btn btn-primary">Télécharger</button>
                     </div>
                 </div>
-                <input type="hidden" name="size" value="100" />
             </form>
         );
     }

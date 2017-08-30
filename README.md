@@ -1,6 +1,6 @@
 # istex-dl
 
-[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It makes possible to download [ISTEX](https://www.istex.fr) documents easiely using a web interface.  
+[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It makes possible to download [ISTEX](https://www.istex.fr) documents easiely using a web interface.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ cd www/ && npm install
 cd .. && npm start
 ```
 
-Then istex-dl is listening at this URL: http://127.0.0.1:8080
+Then istex-dl is listening at this URL: [http://127.0.0.1:8080](http://127.0.0.1:8080)
 
 ## Run in production mode
 
@@ -29,4 +29,4 @@ curl https://raw.githubusercontent.com/istex/istex-dl/master/docker-compose.yml 
 docker-compose -f docker-compose.istex-dl.yml up -d
 ```
 
-Then istex-dl is listening at this URL: http://127.0.0.1:45445 (replace `127.0.0.1` by your server hostname)
+Then istex-dl is listening at this URL: [http://127.0.0.1:45445](http://127.0.0.1:45445) (replace `127.0.0.1` by your server hostname)

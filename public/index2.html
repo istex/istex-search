@@ -12,14 +12,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <style>
-      .istex-dl-baseline {
+      /* punchline */
+      .istex-dl-punchline {
         padding: 10px 15px;
         text-align: center;
       }
-      .istex-dl-baseline .lead {
+      .istex-dl-punchline .lead {
         padding-top: 10px;
       }
 
+
+      /* footer */
+      footer.istex-dl-footer {
+        font-size: 80%;
+        vertical-align: middle;
+      } 
+      footer.istex-dl-footer hr {
+        margin-bottom: 5px;
+      }
+      footer.istex-dl-footer .istex-dl-github-link {
+        margin-left: 5px;
+      }
     </style>
 
   </head>
@@ -27,7 +40,7 @@
 
     <div class="container">
 
-      <div class="istex-dl-baseline">
+      <div class="istex-dl-punchline">
         <h1>Téléchargez un corpus ISTEX</h1>
         <p class="lead">
           Vous souhaitez extraire votre corpus de documents ISTEX ?<br/>
@@ -35,8 +48,19 @@
         </p>
       </div>
 
-
     </div><!-- /.container -->
+
+
+    
+    <footer class="istex-dl-footer">
+      <hr />
+      <div class="col-lg-12">
+        <p class="muted pull-right">
+          <a href="/">ISTEX DL</a> version 3.0.0
+          <a href="https://github.com/istex/istex-dl" class="istex-dl-github-link"><img src="/images/github-16x16.png" alt="Code source d'ISTEX DL" /></a>
+        </p>
+      </div>
+    </footer>
 
     <!-- Bootstrap stuff -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

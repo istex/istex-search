@@ -42,6 +42,7 @@ export default class Form extends React.Component {
 
         toAPI.searchParams.set('q', this.state.q);
         toAPI.searchParams.set('extract', extract);
+        toAPI.searchParams.set('size', this.state.size);
 
         window.location = toAPI.href;
         event.preventDefault();

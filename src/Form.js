@@ -148,10 +148,10 @@ export default class Form extends React.Component {
                 <div className="form-group">
                     <label htmlFor="size" className="col-sm-offset-1">Size</label>
                     <InputRange
-                      maxValue={200}
-                      minValue={0}
-                      value={this.state.size}
-                      onChange={size => this.setState({ size })}
+                        maxValue={200}
+                        minValue={0}
+                        value={this.state.size}
+                        onChange={size => this.setState({ size })}
                     />
                 </div>
                 <div className="form-group">

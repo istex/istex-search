@@ -1,7 +1,8 @@
 import React from 'react';
 import InputRange from 'react-input-range';
-import 'react-input-range/lib/css/index.css';
 import { URL } from 'url';
+import 'react-input-range/lib/css/index.css';
+import './style.css';
 
 export default class Form extends React.Component {
 

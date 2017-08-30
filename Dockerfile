@@ -16,7 +16,7 @@ RUN npm install
 WORKDIR /usr/share/nginx/html/
 
 # nginx config
-COPY ./nginx/prod.conf /etc/nginx/conf.d/default.conf
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # ezmasterization of istex-dl
 # see https://github.com/Inist-CNRS/ezmaster
@@ -27,4 +27,5 @@ RUN echo '{ \
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
 COPY ./src /usr/share/nginx/html/src/
+COPY ./public /usr/share/nginx/html/public/
 RUN npm run build

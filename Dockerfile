@@ -41,5 +41,6 @@ RUN echo '{ \
 }' > /etc/ezmaster.json
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
-COPY ./.babelrc /usr/share/nginx/html/www/
+COPY ./.babelrc /usr/share/nginx/html/
+COPY ./src /usr/share/nginx/html/www/src/
 RUN npm run build

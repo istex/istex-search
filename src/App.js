@@ -18,8 +18,9 @@ function App() {
                     <div className="col-lg-8">
                         <h1>Téléchargez un corpus ISTEX</h1>
                         <p className="lead">
-                          Vous souhaitez extraire votre corpus de documents ISTEX ?<br />
-                          3 étapes suffisent pour récupérer une archive ZIP sur votre disque dur.
+                          Vous êtes membre de l’Enseignement Supérieur et de la Recherche et
+                          vous souhaitez extraire un corpus de documents Istex ?
+                          3 étapes suffisent et vous pouvez récupérer une archive zip sur votre disque dur.
                         </p>
                     </div>
                     <div className="col-lg-2">
@@ -31,7 +32,7 @@ function App() {
                 <div className="istex-dl-error-api row">
                     <div className="col-lg-2" />
                     <div className="col-lg-8">
-                        <p>Erreur api indispo</p>
+                        <p>La plateforme Istex est en maintenance. Réessayez plus tard…</p>
                     </div>
                     <div className="col-lg-2" />
                 </div>

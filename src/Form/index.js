@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
+import NumericInput from 'react-numeric-input';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import 'react-input-range/lib/css/index.css';
@@ -13,7 +14,7 @@ export default class Form extends React.Component {
         super(props);
         this.state = {
             q: '',
-            size: 1,
+            size: 5000,
             limitNbDoc: 10000,
             extractMetadata: true,
             extractFulltext: false,
@@ -55,7 +56,8 @@ export default class Form extends React.Component {
                     }
                     const { total } = json;
                     return this.setState({
-                        total,
+                        size: (total <= this.state.limitNbDoc ? total : this.state.limitNbDoc),
+                        total
                     });
                 });
             })
@@ -162,21 +164,45 @@ export default class Form extends React.Component {
     }
 
     render() {
+        const popoverRequestHelp = (
+            <Popover
+                id="popover-request-help"
+                html="true"
+                title="Aide à la construction de requêtes"
+                trigger="click"
+            >
+                Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur Istex</a> ou
+                de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation Istex</a> pour construire votre requête.<br />
+                Des exemples vous sont également proposés sur la droite.<br />
+                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>.
+            </Popover>
+        );
+        const popoverRequestExamples = (
+            <Popover
+                id="popover-request-examples"
+                html="true"
+                title="Exemples de requêtes"
+                trigger="click"
+            >
+                Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
+                Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l'exemple.
+            </Popover>
+        );        
+        const resetTooltip = (
+            <Tooltip data-html="true">Réinitialisez votre requête (les formulaires de cette page seront vidés)</Tooltip>
+        );
         const previewTooltip = (
             <Tooltip data-html="true">Cliquez pour pré-visualiser les documents correspondant à votre requête</Tooltip>
         );
         const popoverRequestLimitWarning = (
             <Popover
-                id="popover-basic"
-                placement="right"
+                id="popover-request-limit-warning"
                 html="true"
                 title="Attention"
                 trigger="click"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents
                 classés par ordre de pertinence (sur les {this.state.total} résultats potentiels).
-                Vous pouvez aussi modifier le nombre de documents souhaités juste en dessous pour
-                augmenter à la limite max des {this.state.limitNbDoc} documents.
             </Popover>
         );
 
@@ -191,12 +217,20 @@ export default class Form extends React.Component {
                         <div className="col-lg-8">
                             <h2>
                                 Requête
-
-                                <span role="button" className="glyphicon glyphicon-question-sign" aria-hidden="true" />
-                                <span role="button" className="glyphicon glyphicon-erase" aria-hidden="true" />
+                                &nbsp;
+                                <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                </OverlayTrigger>
+                                &nbsp;
+                                <OverlayTrigger placement="right" overlay={resetTooltip}>
+                                    <span 
+                                        role="button" className="glyphicon glyphicon-erase"
+                                        onClick={() => this.setState({ q: '' })}
+                                    />
+                                </OverlayTrigger>
 
                             </h2>
-
+                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité.</p>
                             <div className="form-group">
                                 <textarea
                                     className="form-control"
@@ -210,9 +244,9 @@ export default class Form extends React.Component {
                                 />
                             </div>
 
-                            {this.state.total > 0 &&
+                            {this.state.total > 0 && this.state.q != '' &&
                             <p>
-                                Aperçu des résultats de la requête :
+                                L'équation saisie retourne 
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                     <a>
@@ -237,10 +271,19 @@ export default class Form extends React.Component {
                             }
 
                             <div className="form-group">
-                                <label htmlFor="size" className="col-sm-1">Size</label>
-                                <div className="col-sm-1">
+                                Limite du nombre de documents souhaités :
+                                &nbsp;&nbsp;&nbsp;
+                                <div style={{ width: '200px', display: 'inline-block' }}>
+                                    <NumericInput
+                                        className="form-control"
+                                        min={0} max={this.state.limitNbDoc} value={this.state.size}
+                                        onChange={size => this.setState({ size })}
+                                    />
+                                </div>
+                                &nbsp;&nbsp;&nbsp;
+                                <div style={{ width: '200px', display: 'inline-block' }}>
                                     <InputRange
-                                        id="size"
+                                        id="nb-doc-to-download"
                                         maxValue={this.state.limitNbDoc}
                                         minValue={0}
                                         value={this.state.size}
@@ -252,11 +295,17 @@ export default class Form extends React.Component {
                         </div>
 
                         <div className="istex-dl-examples col-lg-2">
-                            <h3>Exemples de corpus à télécharger</h3>
+                            <h4>
+                                Exemples de corpus à télécharger &nbsp;
+                                <OverlayTrigger trigger="click" placement="left" overlay={popoverRequestExamples}>
+                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                </OverlayTrigger>                                
+                            </h4>
 
-                            <button type="button" className="istex-dl-help btn btn-default btn-sm">
-                                <span className="glyphicon glyphicon-question-sign" aria-hidden="true" />
-                            </button>
+                            <button type="button" className="btn-exemple btn-sm">Poisson</button>
+                            <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
+                            <button type="button" className="btn-exemple btn-sm">Polaris</button>
+
                         </div>
                     </div>
 
@@ -266,7 +315,9 @@ export default class Form extends React.Component {
                         <div className="col-lg-8">
                             <p>
                                 Erreur de syntaxe dans votre requête &nbsp;
-                                <span role="button" className="glyphicon glyphicon-question-sign" aria-hidden="true" />
+                                <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                </OverlayTrigger>
                                 <br />
                                 <blockquote>{this.state.errorRequestSyntax}</blockquote>
                             </p>

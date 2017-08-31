@@ -14,6 +14,7 @@ export default class Form extends React.Component {
         this.state = {
             q: '',
             size: 1,
+            limitNbDoc: 10000,
             extractMetadata: true,
             extractFulltext: false,
             extractEnrichments: false,
@@ -165,8 +166,8 @@ export default class Form extends React.Component {
                 title="Attention"
                 trigger="click"
             >
-                Vous souhaitez <strong>amazing</strong> télécharger 56322 résultats.
-                Les 10000 premiers seront téléchargés par ordre de pertinence.
+                Vous souhaitez télécharger {this.state.total} résultats.
+                Les {this.state.limitNbDoc} premiers seront téléchargés par ordre de pertinence.
             </Popover>
         );
 
@@ -213,9 +214,11 @@ export default class Form extends React.Component {
                                     {this.state.total ? this.state.total + ' documents' : ''}
                                 </a>
                                 &nbsp;
-                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRequestLimitWarning}>
-                                    <span role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }} />
-                                </OverlayTrigger>
+                                {this.state.total > this.state.limitNbDoc &&
+                                    <OverlayTrigger trigger="click" placement="right" overlay={popoverRequestLimitWarning}>
+                                        <span role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }} />
+                                    </OverlayTrigger>
+                                }
                             </p>
                         </div>
                     </div>
@@ -268,7 +271,7 @@ export default class Form extends React.Component {
                                 <div className="col-sm-1">
                                     <InputRange
                                         id="size"
-                                        maxValue={200}
+                                        maxValue={this.state.limitNbDoc}
                                         minValue={0}
                                         value={this.state.size}
                                         onChange={size => this.setState({ size })}

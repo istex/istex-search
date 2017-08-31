@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Checkbox, FormGroup } from 'react-bootstrap';
 import Format from './Format';
 
 export default class Filetype extends React.Component {
@@ -40,19 +41,18 @@ export default class Filetype extends React.Component {
 
     render() {
         return (
-            <div className="checkbox">
-                <label htmlFor="checkbox">{this.props.label}</label>
-                <input
-                    type="checkbox"
-                    id="checkbox"
+            <FormGroup>
+                <Checkbox
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
-                />
-                <div>
+                >
+                    {this.props.label}
+                </Checkbox>
+                <FormGroup bsClass="indent">
                     {this.formats}
-                </div>
-            </div>
+                </FormGroup>
+            </FormGroup>
         );
     }
 }

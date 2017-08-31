@@ -155,28 +155,57 @@ export default class Form extends React.Component {
 
     render() {
         return (
-            <div className={this.props.className}>
+            <div className={`container-fluid ${this.props.className}`}>
+
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="q" className="col-sm-1 control-label">Requête</label>
-                        <div className="col-sm-11">
-                            <textarea
-                                className="form-control"
-                                name="q"
-                                id="q"
-                                rows="3"
-                                autoFocus="true"
-                                value={this.state.q}
-                                onChange={this.handleQueryChange}
-                            />
+
+                    <div className="istex-dl-request row">
+
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <h2>
+                                Requête
+
+                                <button type="button" className="istex-dl-help btn btn-default btn-sm">
+                                    <span className="glyphicon glyphicon-question-sign" aria-hidden="true" />
+                                </button>
+
+                                <span role="button" className="glyphicon glyphicon-erase btn-sm" aria-hidden="true" />
+
+                            </h2>
+
+                            <div className="form-group">
+                                <label htmlFor="q" className="col-sm-1 control-label">Requête</label>
+                                <div className="col-sm-11">
+                                    <textarea
+                                        className="form-control"
+                                        placeholder="brain AND language:fre"
+                                        name="q"
+                                        id="q"
+                                        rows="3"
+                                        autoFocus="true"
+                                        value={this.state.q}
+                                        onChange={this.handleQueryChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <p>
+                                Aperçu de la requête :
+                                <a href="" data-toggle="tooltip" title="Cliquez pour pré-visualiser les documents correspondant à votre requête" data-html="true">
+                                    {this.state.total} documents
+                                </a>
+                                <span
+                                    role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }}
+                                    data-toggle="popover" data-placement="right"
+                                    data-trigger="click" data-html="true"
+                                    data-title="Attention"
+                                    data-content="Vous souhaitez télécharger 56322 résultats. Les 10000 premiers seront téléchargés par ordre de pertinence." />
+                            </p>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <span className="col-sm-1 control-label">Documents à télécharger</span>
-                        <div className="col-sm-11">
-                            {this.state.total}
-                        </div>
-                    </div>
+
+
                     <Filetype
                         label="Métadonnées"
                         filetype="metadata"
@@ -239,6 +268,9 @@ export default class Form extends React.Component {
                         </div>
                     </div>
                 </form>
+
+
+
                 <Modal show={this.state.downloading} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Téléchargement</Modal.Title>

@@ -7,33 +7,8 @@
  */
  
 
-/* istex style  */
-
-
-     .istex-dl-punchline {
-        background-color: #ef5464;
-      }
-      .istex-dl-error-api {
-        background-color: #f36d52;
-      }
-      .istex-dl-request {
-        background-color: #6798d0;
-      }
-      .istex-dl-error-request {
-        background-color: #ffcf56;
-      }
-      .istex-dl-format {
-        background-color: #5bc2a7;
-      }
-      .istex-dl-download {
-        background-color: #ea88b9;
-      }
-      .istex-dl-error-download {
-        background-color: #e7eaef;
-      }
-
-       
-
+/* istex style Fluo */
+  
       /* footer */
       footer.istex-dl-footer {
         font-size: 80%;
@@ -46,6 +21,141 @@
         margin-left: 5px;
       }
 
+ /* général */
+
+body {
+  background-color: #f2f2f2;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+   
+}
+
+
+.centered {
+    text-align: center;
+}
+
+
+
+/* Links */
+a {
+    color: #f85c37;
+    word-wrap: break-word;
+
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+}
+
+a:hover,
+a:focus {
+    color: #7b7b7b;
+    text-decoration: none;
+    outline: 0;
+}
+
+
+
+
+/* Bootstrap Modifications */
  
-  
+
+.btn-theme {
+	color: #ffffff;
+	background-color: #c4d733;
+	border-color: transparent;
+}
+
+.btn {
+	padding: 10px 30px;
+	margin-bottom: 0;
+	font-size: 28px;
+	border: 5px solid transparent;
+	border-radius: 0px;
+}
+
+
+
+/* punchline */
+.istex-dl-punchline {
+	background-color: #eaeade;
+}
+
+
+.istex-dl-punchline h1 {
+	font-size: 50px;
+	font-weight: 300;
+	color: #458ca6;
+}
+
+.istex-dl-punchline h2 {
+	color: #c0c0c0;
+	font-weight: 200;
+    font-style: italic;
+}
+.lead {
+
+	font-weight: 200;
+    font-style: italic;
+}
+
+.istex-dl-error-api{
+	background-color: #c4d733;
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+.istex-dl-error-api p {
+	color: white;
+	font-weight: 400;
+	font-size: 20px;
+     text-align: center;
+    
+}
+
+/* zone requete*/
+ .istex-dl-request {
+        background-color: #f2f2f2;
+      }
+
+.istex-dl-error-request{
+	background-color: #c4d733;
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+/* zone format*/
+.istex-dl-format {
+    background-color: #eaeade;
+}
+
+    
+/* zone Download */
+ .istex-dl-download {
+        background-color: #f2f2f2;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+      }
+
+
+
+.istex-dl-error-download {
+	background-color: #c4d733;
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+.istex-dl-error-download p {
+	color: white;
+	font-weight: 400;
+	font-size: 20px;
+     text-align: center;
+    
+}
+
 

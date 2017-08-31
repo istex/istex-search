@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import { Modal, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import decamelize from 'decamelize';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
 import Filetype from '../Filetype';
@@ -112,14 +113,36 @@ export default class Form extends React.Component {
 
     buildURLFromState() {
         const ISTEX = new URL('https://api.istex.fr/document/');
-        let extract = '';
 
-        if (this.state.extractMetadata) {
-            extract = extract.concat('metadata;');
+        const filetypeFormats = Object.keys(this.state)
+        .filter(key => key.startsWith('extract'))
+        .filter(key => this.state[key])
+        .map(key => decamelize(key, '-'))
+        .map(key => key.split('-').slice(1))
+        .map(([filetype, format]) => ({ filetype, format }))
+        .reduce((prev, { filetype, format }) => {
+            if (!prev[filetype]) {
+                prev[filetype] = [format];
+            } else {
+                prev[filetype].push(format);
+            }
+            return prev;
+        }, {});
+
+
+        const extract = Object.keys(filetypeFormats)
+        .reduce((prev, filetype) => {
+            const formats = filetypeFormats[filetype];
+            if (formats[0]) {
+                return prev
+                .concat(filetype)
+                .concat('[')
+                .concat(formats.join(','))
+                .concat('];');
+            }
+            return prev.concat(filetype).concat(';');
         }
-        if (this.state.extractFulltext) {
-            extract = extract.concat('fulltext;');
-        }
+        , '');
 
         ISTEX.searchParams.set('q', this.state.q);
         ISTEX.searchParams.set('extract', extract);

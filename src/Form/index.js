@@ -233,6 +233,14 @@ export default class Form extends React.Component {
                                 }
                             </p>
                         </div>
+
+                        <div className="istex-dl-examples col-lg-2">
+                            <h3>Exemples de corpus à télécharger</h3>
+
+                            <button type="button" className="istex-dl-help btn btn-default btn-sm">
+                                <span className="glyphicon glyphicon-question-sign" aria-hidden="true" />
+                            </button>
+                        </div>
                     </div>
                     <div className="istex-dl-request row">
 

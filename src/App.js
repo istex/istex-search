@@ -6,41 +6,55 @@ import './istexdl.css';
 import Form from './Form/';
 import './App.css';
 
-function App() {
-    return (
-        <div className="App">
+export default class App extends React.Component {
 
-            <div className="container-fluid">
+    constructor(props) {
+        super(props);
+        this.state = {
+            errorApiDown: '', // TODO: to an ajax request to know if API is down
+        };
+    }
 
-                <div className="istex-dl-punchline text-center row">
+    render() {
+        return (
+            <div className="App">
 
-                    <div className="col-lg-2" />
-                    <div className="col-lg-8">
-                        <h1>Téléchargez un corpus ISTEX</h1>
-                        <p className="lead">
-                          Vous êtes membre de l’Enseignement Supérieur et de la Recherche et
-                          vous souhaitez extraire un corpus de documents Istex ?
-                          3 étapes suffisent et vous pouvez récupérer une archive zip sur votre disque dur.
-                        </p>
+                <div className="container-fluid">
+
+                    <div className="istex-dl-punchline text-center row">
+
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <h1>Téléchargez un corpus ISTEX</h1>
+                            <p className="lead">
+                            Vous êtes membre de l’Enseignement Supérieur et de la Recherche et
+                            vous souhaitez extraire un corpus de documents Istex ?
+                            3 étapes suffisent et vous pouvez récupérer une archive zip sur votre disque dur.
+                            </p>
+                        </div>
+                        <div className="col-lg-2">
+                            <img src="/images/beta.png" className="istex-dl-beta hidden-md hidden-xs hidden-sm" alt="" />
+                        </div>
+
                     </div>
-                    <div className="col-lg-2">
-                        <img src="/images/beta.png" className="istex-dl-beta hidden-md hidden-xs hidden-sm" alt="" />
+
+                    { this.state.errorApiDown &&
+                    <div className="istex-dl-error-api row">
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <p>
+                            <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />&nbsp;
+                            La plateforme Istex est en maintenance. Réessayez plus tard…
+                            <blockquote>{this.state.errorApiDown}</blockquote>
+                            </p>
+                        </div>
+                        <div className="col-lg-2" />
                     </div>
+                    }
 
                 </div>
-
-                <div className="istex-dl-error-api row">
-                    <div className="col-lg-2" />
-                    <div className="col-lg-8">
-                        <p>La plateforme Istex est en maintenance. Réessayez plus tard…</p>
-                    </div>
-                    <div className="col-lg-2" />
-                </div>
-
+                <Form />
             </div>
-            <Form />
-        </div>
-    );
+        );
+    }
 }
-
-export default App;

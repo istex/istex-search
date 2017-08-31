@@ -24,6 +24,7 @@ export default class Form extends React.Component {
             downloading: false,
             URL2Download: '',
             errorRequestSyntax: '',
+            errorDuringDownload: '',
         };
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -214,7 +215,7 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
-                Les équipes Istex travaillent à augmenter cette limite.
+                L’<a href="mailto:contact@listes.istex.fr">équipe Istex</a> travaille à augmenter cette limite.
             </Popover>
         );
         const enrichmentsDisabledTooltip = (
@@ -297,7 +298,7 @@ export default class Form extends React.Component {
                                 &nbsp;
                                 :
                                 &nbsp;&nbsp;
-                                <div style={{ width: '200px', display: 'inline-block' }}>
+                                <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
@@ -326,8 +327,8 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                             </h4>
 
-                            <button type="button" className="btn-exemple btn-sm">Poisson</button>
-                            <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
+                            <button type="button" className="btn-exemple btn-sm">Poisson</button>&nbsp;
+                            <button type="button" className="btn-exemple btn-sm">Vieillissement</button>&nbsp;
                             <button type="button" className="btn-exemple btn-sm">Polaris</button>
 
                         </div>
@@ -418,17 +419,20 @@ export default class Form extends React.Component {
 
                     </div>
 
+                    {this.state.errorDuringDownload &&
                     <div className="istex-dl-error-download row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
                             <p>
-                                Erreur de téléchargement &nbsp;
-                                <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />
+                                <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />&nbsp;
+                                Votre téléchargement s’est interrompu :
+                                <blockquote>« …message technique de l’API… »</blockquote>
+                                Veuillez réessayer plus tard ou <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>
                             </p>
                         </div>
                         <div className="col-lg-2" />
                     </div>
-
+                    }
 
                 </form>
 

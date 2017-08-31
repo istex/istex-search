@@ -169,7 +169,7 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Vous souhaitez télécharger {this.state.total} résultats.
-                Les {this.state.limitNbDoc} premiers seront téléchargés par ordre de pertinence.
+                Les {this.state.size} premiers seront téléchargés par ordre de pertinence.
             </Popover>
         );
 
@@ -214,12 +214,12 @@ export default class Form extends React.Component {
                                 Aperçu des résultats de la requête :
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
-                                    <a href="">
+                                    <a>
                                         {this.state.total ? String(this.state.total).concat(' documents') : ''}
                                     </a>
                                 </OverlayTrigger>
                                 &nbsp;
-                                {this.state.total > this.state.limitNbDoc &&
+                                {this.state.total > this.state.size &&
                                 <OverlayTrigger
                                     trigger="click"
                                     placement="right"
@@ -234,6 +234,20 @@ export default class Form extends React.Component {
                                 }
                             </p>
                             }
+
+                            <div className="form-group">
+                                <label htmlFor="size" className="col-sm-1">Size</label>
+                                <div className="col-sm-1">
+                                    <InputRange
+                                        id="size"
+                                        maxValue={this.state.limitNbDoc}
+                                        minValue={0}
+                                        value={this.state.size}
+                                        onChange={size => this.setState({ size })}
+                                    />
+                                </div>
+                            </div>
+
                         </div>
 
                         <div className="istex-dl-examples col-lg-2">
@@ -304,32 +318,27 @@ export default class Form extends React.Component {
                         <div className="col-lg-2" />
                     </div>
 
-                    <div className="istex-dl-request row">
+                    <div className="istex-dl-download row">
+
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8 text-center">
+                        <button type="submit" className="btn btn-theme btn-lg">
+                            <span className="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Télécharger
+                        </button>
+                        </div>
+                        <div className="col-lg-2" />
+
+                    </div>
+
+                    <div className="istex-dl-error-download row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
-                            <div className="form-group">
-                                <div className="col-sm-10">
-                                    <div className="checkbox">
-                                        <label htmlFor="size" className="col-sm-1">Size</label>
-                                        <div className="col-sm-1">
-                                            <InputRange
-                                                id="size"
-                                                maxValue={this.state.limitNbDoc}
-                                                minValue={0}
-                                                value={this.state.size}
-                                                onChange={size => this.setState({ size })}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="col-sm-offset-1 col-sm-11">
-                                        <button type="submit" className="btn btn-primary">Télécharger</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <p>Erreur de téléchargement  <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></p>
                         </div>
+                        <div className="col-lg-2" />
                     </div>
+
+
                 </form>
 
                 <Modal show={this.state.downloading} onHide={this.close}>

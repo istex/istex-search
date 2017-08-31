@@ -119,9 +119,7 @@ export default class Form extends React.Component {
         .filter(key => this.state[key])
         .map(key => decamelize(key, '-'))
         .map(key => key.split('-').slice(1))
-        .map(([filetype, format]) => {
-            return { filetype, format };
-        })
+        .map(([filetype, format]) => ({ filetype, format }))
         .reduce((prev, { filetype, format }) => {
             if (!prev[filetype]) {
                 prev[filetype] = [format];

@@ -12,26 +12,32 @@
     <!-- Bootstrap stuff -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
-      /* punchline */
+
       .istex-dl-punchline {
-        padding: 10px 15px;
-        text-align: center;
+        background-color: #ef5464;
       }
-      .istex-dl-punchline .lead {
-        padding-top: 10px;
+      .istex-dl-error-api {
+        background-color: #f36d52;
       }
-      .istex-dl-punchline .istex-dl-beta {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+      .istex-dl-request {
+        background-color: #6798d0;
       }
-
-
-      /* download button */
+      .istex-dl-error-request {
+        background-color: #ffcf56;
+      }
+      .istex-dl-format {
+        background-color: #5bc2a7;
+      }
       .istex-dl-download {
-        margin: auto;
+        background-color: #ea88b9;
+      }
+      .istex-dl-error-download {
+        background-color: #e7eaef;
       }
 
+      .istex-dl-help {
+
+      }      
 
       /* footer */
       footer.istex-dl-footer {
@@ -51,84 +57,120 @@
 
     <div class="container-fluid">
 
+      <!-- PUNCHLINE -->
+      <div class="istex-dl-punchline text-center row">
 
-      <div class="istex-dl-punchline row">
-
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
           <h1>Téléchargez un corpus ISTEX</h1>
           <p class="lead">
             Vous souhaitez extraire votre corpus de documents ISTEX ?<br/>
             3 étapes suffisent pour récupérer une archive ZIP sur votre disque dur.
           </p>
         </div>
-        <div class="col-md-2">
-          <img src="/images/beta.png" class="istex-dl-beta" alt="" />          
+        <div class="col-lg-2">
+          <img src="/images/beta.png" class="istex-dl-beta hidden-md hidden-xs hidden-sm" alt="" />          
         </div>
 
       </div>
-
 
       <div class="istex-dl-error-api row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
           <p>Erreur api indispo</p>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-lg-2"></div>
       </div>
 
 
-      <div class="istex-dl-step1 row">
+      <!-- 1) REQUEST -->
+      <div class="istex-dl-request row">
 
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <h2>Requête</h2>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+          <h2>
+            Requête
+            
+            <button type="button" class="istex-dl-help btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            </button>
+
+            <span role="button" class="glyphicon glyphicon-erase btn-sm" aria-hidden="true"></span>
+
+          </h2>
+
+          <div class="form-group">
+            <textarea name="textarea" class="form-control" placeholder="brain AND language:fre"></textarea>
+          </div>
+          <p>Aperçu de la requête : <a href="">56322 résultats</a>
+            <span role="button" class="glyphicon glyphicon-warning-sign" style="color: red" aria-hidden="true"></span>
+          </p>
+
+
         </div>
-        <div class="col-md-2">
+
+        <div class="istex-dl-examples col-lg-2">
           <h3>Exemples de corpus à télécharger</h3>
+
+          <button type="button" class="istex-dl-help btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+          </button>
         </div>
 
       </div>
 
+      <div class="istex-dl-error-request row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+          <p>Erreur request syntaxe</p>
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
 
-      <div class="istex-dl-step2 row">
 
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+      <!-- 2) FORMAT -->
+      <div class="istex-dl-format row">
+
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
           <h2>Formats des fichiers</h2>
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
         </div>
 
       </div>
 
-      <div class="istex-dl-step3 row">
+      <!-- 3) DOWNLOAD -->
+      <div class="istex-dl-download row">
 
-        <div class="col-md-2"></div>
-        <div class="col-md-8 text-center">
-          <button type="button" class="istex-dl-download btn btn-default btn-lg">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 text-center">
+          <button type="button" class="btn btn-default btn-lg">
             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Télécharger
           </button>
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
         </div>
 
       </div>
 
+      <div class="istex-dl-error-download row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+          <p>Erreur download</p>
 
-      <button type="button" class="istex-dl-reset btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
-      </button>
+          <button type="button" class="istex-dl-warning btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+          </button>
+
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
 
 
-      <button type="button" class="istex-dl-warning btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-      </button>
 
-      <button type="button" class="istex-dl-help btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-      </button>
 
+      
 
     </div><!-- /.container -->
 

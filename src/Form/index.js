@@ -134,8 +134,32 @@ export default class Form extends React.Component {
                     <Filetype
                         label="Métadonnées"
                         filetype="metadata"
-                        formats="mods,tei"
-                        labels="MODS|Text Encoding Initiative"
+                        formats="xml,mods"
+                        labels="XML|MODS"
+                    />
+                    <Filetype
+                        label="Texte intégral"
+                        filetype="fulltext"
+                        formats="pdf,tei,txt,ocr,zip,tiff"
+                        labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                    />
+                    <Filetype
+                        label="Annexes"
+                        filetype="annexes"
+                        formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
+                        labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
+                    />
+                    <Filetype
+                        label="Couvertures"
+                        filetype="covers"
+                        formats="pdf,gif,jpg"
+                        labels="PDF|GIF|JPEG"
+                    />
+                    <Filetype
+                        label="Enrichissements"
+                        filetype="enrichments"
+                        formats="tei"
+                        labels="TEI"
                     />
                     <div className="form-group">
                         <div className="col-sm-10">
@@ -152,10 +176,10 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="form-group">
-                        <div className="col-sm-offset-1 col-sm-11">
-                            <button type="submit" className="btn btn-primary">Télécharger</button>
+                        <div className="form-group">
+                            <div className="col-sm-offset-1 col-sm-11">
+                                <button type="submit" className="btn btn-primary">Télécharger</button>
+                            </div>
                         </div>
                     </div>
                 </form>

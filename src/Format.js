@@ -6,7 +6,7 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            [props.format]: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -25,12 +25,12 @@ export default class Format extends React.Component {
     render() {
         return (
             <div className="checkbox">
-                <label htmlFor="checkbox">{this.props.label}</label>
+                <label htmlFor={`checkbox${this.props.filetype}${this.props.format}`}>{this.props.label}</label>
                 <input
                     type="checkbox"
-                    id={`checkbox${this.props.format}`}
+                    id={`checkbox${this.props.filetype}${this.props.format}`}
                     name={this.props.format}
-                    checked={this.state.checked}
+                    checked={this.state[this.props.format]}
                     onChange={this.handleInputChange}
                 />
             </div>
@@ -41,4 +41,5 @@ export default class Format extends React.Component {
 Format.propTypes = {
     label: PropTypes.string.isRequired,
     format: PropTypes.string.isRequired,
+    filetype: PropTypes.string.isRequired,
 };

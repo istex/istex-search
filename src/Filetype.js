@@ -7,12 +7,17 @@ export default class Filetype extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            [props.filetype]: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.formats = props.formats.split(',')
-            .map((format, n) => <Format key={`format${format}`} label={this.props.labels.split('|')[n]} format={format} />);
+            .map((format, n) => <Format
+                key={`format${format}`}
+                label={props.labels.split('|')[n]}
+                format={format}
+                filetype={props.filetype}
+            />);
     }
 
     handleInputChange(event) {
@@ -33,7 +38,7 @@ export default class Filetype extends React.Component {
                     type="checkbox"
                     id="checkbox"
                     name={this.props.filetype}
-                    checked={this.state.checked}
+                    checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                 />
                 <div>

@@ -1,0 +1,51 @@
+/*
+ * Author: istex dl
+ *
+ * Project Name: istex dl  - Bootstrap 3 Theme
+ * Version: 1.0
+ *
+ */
+ 
+
+/* istex style  */
+
+
+     .istex-dl-punchline {
+        background-color: #ef5464;
+      }
+      .istex-dl-error-api {
+        background-color: #f36d52;
+      }
+      .istex-dl-request {
+        background-color: #6798d0;
+      }
+      .istex-dl-error-request {
+        background-color: #ffcf56;
+      }
+      .istex-dl-format {
+        background-color: #5bc2a7;
+      }
+      .istex-dl-download {
+        background-color: #ea88b9;
+      }
+      .istex-dl-error-download {
+        background-color: #e7eaef;
+      }
+
+       
+
+      /* footer */
+      footer.istex-dl-footer {
+        font-size: 80%;
+        vertical-align: middle;
+      } 
+      footer.istex-dl-footer hr {
+        margin-bottom: 5px;
+      }
+      footer.istex-dl-footer .istex-dl-github-link {
+        margin-left: 5px;
+      }
+
+ 
+  
+

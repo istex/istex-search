@@ -57,7 +57,7 @@ export default class Form extends React.Component {
                     const { total } = json;
                     return this.setState({
                         size: (total <= this.state.limitNbDoc ? total : this.state.limitNbDoc),
-                        total
+                        total,
                     });
                 });
             })
@@ -185,9 +185,9 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
-                Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l'exemple.
+                Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l’exemple.
             </Popover>
-        );        
+        );
         const resetTooltip = (
             <Tooltip data-html="true">Réinitialisez votre requête (les formulaires de cette page seront vidés)</Tooltip>
         );
@@ -223,7 +223,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                 &nbsp;
                                 <OverlayTrigger placement="right" overlay={resetTooltip}>
-                                    <span 
+                                    <span
                                         role="button" className="glyphicon glyphicon-erase"
                                         onClick={() => this.setState({ q: '' })}
                                     />
@@ -244,9 +244,9 @@ export default class Form extends React.Component {
                                 />
                             </div>
 
-                            {this.state.total > 0 && this.state.q != '' &&
+                            {this.state.total > 0 && this.state.q !== '' &&
                             <p>
-                                L'équation saisie retourne 
+                                L’équation saisie retourne
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                     <a>
@@ -299,7 +299,7 @@ export default class Form extends React.Component {
                                 Exemples de corpus à télécharger &nbsp;
                                 <OverlayTrigger trigger="click" placement="left" overlay={popoverRequestExamples}>
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
-                                </OverlayTrigger>                                
+                                </OverlayTrigger>
                             </h4>
 
                             <button type="button" className="btn-exemple btn-sm">Poisson</button>

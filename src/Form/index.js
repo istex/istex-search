@@ -52,6 +52,9 @@ export default class Form extends React.Component {
                         total,
                     });
                 });
+            })
+            .catch((error) => {
+                console.error('Don\'t forget to display the error', error);
             });
     }
 

@@ -38,7 +38,7 @@ export default class Filetype extends React.Component {
                     type="checkbox"
                     id="checkbox"
                     name={this.props.filetype}
-                    checked={this.state.checked}
+                    checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                 />
                 <div>

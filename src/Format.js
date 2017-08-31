@@ -30,7 +30,7 @@ export default class Format extends React.Component {
                     type="checkbox"
                     id={`checkbox${this.props.filetype}${this.props.format}`}
                     name={this.props.format}
-                    checked={this.state.checked}
+                    checked={this.state[this.props.format]}
                     onChange={this.handleInputChange}
                 />
             </div>

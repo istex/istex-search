@@ -12,7 +12,12 @@ export default class Filetype extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.formats = props.formats.split(',')
-            .map((format, n) => <Format key={`format${format}`} label={this.props.labels.split('|')[n]} format={format} />);
+            .map((format, n) => <Format
+                key={`format${format}`}
+                label={props.labels.split('|')[n]}
+                format={format}
+                filetype={props.filetype}
+            />);
     }
 
     handleInputChange(event) {

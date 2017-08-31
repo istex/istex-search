@@ -11,12 +11,14 @@ export default class Filetype extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        // this.handleFormatChange = this.handleFormatChange.bind(this);
         this.formats = props.formats.split(',')
             .map((format, n) => <Format
                 key={`format${format}`}
                 label={props.labels.split('|')[n]}
                 format={format}
                 filetype={props.filetype}
+                onChange={props.onFormatChange}
             />);
     }
 
@@ -32,8 +34,20 @@ export default class Filetype extends React.Component {
         this.props.onChange({
             filetype: this.props.filetype,
             value,
+            format: this.state,
         });
     }
+
+    // handleFormatChange(formatEvent) {
+    //     const filetype = formatEvent.filetype;
+    //     const format = formatEvent.format;
+    //     const name = 'extract'
+    //         .concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1))
+    //         .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
+    //     this.setState({
+    //         [name]: formatEvent.value,
+    //     });
+    // }
 
     render() {
         return (
@@ -60,4 +74,5 @@ Filetype.propTypes = {
     formats: PropTypes.string.isRequired,
     labels: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onFormatChange: PropTypes.func.isRequired,
 };

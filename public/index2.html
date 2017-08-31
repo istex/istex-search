@@ -35,6 +35,10 @@
         background-color: #e7eaef;
       }
 
+      .istex-dl-help {
+
+      }      
+
       /* footer */
       footer.istex-dl-footer {
         font-size: 80%;
@@ -84,17 +88,27 @@
 
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-          <h2>Requête</h2>
+          <h2>
+            Requête
+            
+            <button type="button" class="istex-dl-help btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+            </button>
 
-          <button type="button" class="istex-dl-reset btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
-          </button>
+            <span role="button" class="glyphicon glyphicon-erase btn-sm" aria-hidden="true"></span>
 
-          <button type="button" class="istex-dl-help btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-          </button>
+          </h2>
+
+          <div class="form-group">
+            <textarea name="textarea" class="form-control" placeholder="brain AND language:fre"></textarea>
+          </div>
+          <p>Aperçu de la requête : <a href="">56322 résultats</a>
+            <span role="button" class="glyphicon glyphicon-warning-sign" style="color: red" aria-hidden="true"></span>
+          </p>
+
 
         </div>
+
         <div class="istex-dl-examples col-lg-2">
           <h3>Exemples de corpus à télécharger</h3>
 

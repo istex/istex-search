@@ -142,7 +142,8 @@ export default class Form extends React.Component {
             }
             return prev.concat(filetype).concat(';');
         }
-        , '');
+        , '')
+        .slice(0, -1);
 
         ISTEX.searchParams.set('q', this.state.q);
         ISTEX.searchParams.set('extract', extract);

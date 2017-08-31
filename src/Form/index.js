@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
-import { Modal, Button, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
@@ -157,7 +157,10 @@ export default class Form extends React.Component {
     }
 
     render() {
-
+        
+        const previewTooltip = (
+            <Tooltip data-html="true">Cliquez pour pré-visualiser les documents correspondant à votre requête</Tooltip>
+        );
         const popoverRequestLimitWarning = (
             <Popover
                 id="popover-basic"
@@ -210,9 +213,11 @@ export default class Form extends React.Component {
                             <p>
                                 Aperçu de la requête :
                                 &nbsp;
-                                <a href="" data-toggle="tooltip" title="Cliquez pour pré-visualiser les documents correspondant à votre requête" data-html="true">
-                                    {this.state.total ? this.state.total + ' documents' : ''}
-                                </a>
+                                <OverlayTrigger placement="bottom" overlay={previewTooltip}>
+                                    <a href="">
+                                        {this.state.total ? this.state.total + ' documents' : ''}
+                                    </a>
+                                </OverlayTrigger>                                
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
                                     <OverlayTrigger trigger="click" placement="right" overlay={popoverRequestLimitWarning}>

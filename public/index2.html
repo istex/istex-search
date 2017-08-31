@@ -65,8 +65,13 @@
           <div class="form-group">
             <textarea name="textarea" class="form-control" placeholder="brain AND language:fre"></textarea>
           </div>
-          <p>Aperçu de la requête : <a href="">56322 résultats</a>
-            <span role="button" class="glyphicon glyphicon-warning-sign" style="color: red" aria-hidden="true"></span>
+          <p>Aperçu de la requête : <a href="" data-toggle="tooltip" title="Cliquez pour pré-visualiser les documents correspondant à votre requête" data-html="true">56322 résultats</a>
+            <span role="button" class="glyphicon glyphicon-warning-sign" style="color: red"
+              data-toggle="popover" data-placement="right"
+              data-trigger="click" data-html="true"
+              data-title="Attention"
+              data-content="Vous souhaitez télécharger 56322 résultats. Les 10000 premiers seront téléchargés par ordre de pertinence."></span>
+
           </p>
 
 
@@ -152,6 +157,16 @@
     <!-- Bootstrap stuff -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Active les tooltips et les popover -->
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      });
+      $(function () {
+        $('[data-toggle="popover"]').popover()
+      })
+    </script>
 
     <!-- ISTEX HEADER -->    
     <script src="//content-delivery.istex.fr/web-header/main.js"></script>

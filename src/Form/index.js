@@ -25,6 +25,7 @@ export default class Form extends React.Component {
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
+        this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,10 +66,27 @@ export default class Form extends React.Component {
     }
 
     handleFiletypeChange(filetypeEvent) {
-        const filetype = filetypeEvent.filetype;
+        const { filetype, value } = filetypeEvent;
         const name = 'extract'.concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1));
         this.setState({
-            [name]: filetypeEvent.value,
+            [name]: value,
+        });
+    }
+
+    // handleFormatChange(format) {
+    //     this.setState({
+    //         ...format,
+    //     });
+    // }
+
+    handleFormatChange(formatEvent) {
+        const filetype = formatEvent.filetype;
+        const format = formatEvent.format;
+        const name = 'extract'
+            .concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1))
+            .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
+        this.setState({
+            [name]: formatEvent.value,
         });
     }
 
@@ -146,6 +164,7 @@ export default class Form extends React.Component {
                         formats="xml,mods"
                         labels="XML|MODS"
                         onChange={this.handleFiletypeChange}
+                        onFormatChange={this.handleFormatChange}
                     />
                     <Filetype
                         label="Texte intégral"
@@ -153,6 +172,7 @@ export default class Form extends React.Component {
                         formats="pdf,tei,txt,ocr,zip,tiff"
                         labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
                         onChange={this.handleFiletypeChange}
+                        onFormatChange={this.handleFormatChange}
                     />
                     <Filetype
                         label="Annexes"
@@ -160,6 +180,7 @@ export default class Form extends React.Component {
                         formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
                         labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
                         onChange={this.handleFiletypeChange}
+                        onFormatChange={this.handleFormatChange}
                     />
                     <Filetype
                         label="Couvertures"
@@ -167,6 +188,7 @@ export default class Form extends React.Component {
                         formats="pdf,gif,jpg"
                         labels="PDF|GIF|JPEG"
                         onChange={this.handleFiletypeChange}
+                        onFormatChange={this.handleFormatChange}
                     />
                     <Filetype
                         label="Enrichissements"
@@ -174,6 +196,7 @@ export default class Form extends React.Component {
                         formats="tei"
                         labels="TEI"
                         onChange={this.handleFiletypeChange}
+                        onFormatChange={this.handleFormatChange}
                     />
                     <div className="form-group">
                         <div className="col-sm-10">

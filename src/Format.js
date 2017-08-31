@@ -20,6 +20,12 @@ export default class Format extends React.Component {
         this.setState({
             [name]: value,
         });
+
+        this.props.onChange({
+            filetype: this.props.filetype,
+            format: this.props.format,
+            value,
+        });
     }
 
     render() {
@@ -42,4 +48,5 @@ Format.propTypes = {
     label: PropTypes.string.isRequired,
     format: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
 };

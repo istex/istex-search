@@ -168,15 +168,17 @@ export default class Form extends React.Component {
                 title="Attention"
                 trigger="click"
             >
-                Vous souhaitez télécharger {this.state.total} résultats.
-                Les {this.state.size} premiers seront téléchargés par ordre de pertinence.
+                Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents
+                classés par ordre de pertinence (sur les {this.state.total} résultats potentiels).
+                Vous pouvez aussi modifier le nombre de documents souhaités juste en dessous pour 
+                augmenter à la limite max des {this.state.limitNbDoc} documents.
             </Popover>
         );
 
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
-                <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
 
                     <div className="istex-dl-request row">
 
@@ -185,28 +187,22 @@ export default class Form extends React.Component {
                             <h2>
                                 Requête
 
-                                <button type="button" className="istex-dl-help btn btn-default btn-sm">
-                                    <span className="glyphicon glyphicon-question-sign" aria-hidden="true" />
-                                </button>
-
-                                <span role="button" className="glyphicon glyphicon-erase btn-sm" aria-hidden="true" />
+                                <span role="button" className="glyphicon glyphicon-question-sign" aria-hidden="true" />
+                                <span role="button" className="glyphicon glyphicon-erase" aria-hidden="true" />
 
                             </h2>
 
                             <div className="form-group">
-                                <label htmlFor="q" className="col-sm-1 control-label">Requête</label>
-                                <div className="col-sm-11">
-                                    <textarea
-                                        className="form-control"
-                                        placeholder="brain AND language:fre"
-                                        name="q"
-                                        id="q"
-                                        rows="3"
-                                        autoFocus="true"
-                                        value={this.state.q}
-                                        onChange={this.handleQueryChange}
-                                    />
-                                </div>
+                                <textarea
+                                    className="form-control"
+                                    placeholder="brain AND language:fre"
+                                    name="q"
+                                    id="q"
+                                    rows="3"
+                                    autoFocus="true"
+                                    value={this.state.q}
+                                    onChange={this.handleQueryChange}
+                                />
                             </div>
 
                             {this.state.total > 0 &&
@@ -262,7 +258,10 @@ export default class Form extends React.Component {
                     <div className="istex-dl-error-request row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
-                            <p>Erreur de syntaxe dans votre requête</p>
+                            <p>
+                            Erreur de syntaxe dans votre requête :
+                             « …message renvoyé par l’API… » + symbole ? qui renvoie à bulle d’aide 2
+                             </p>
                         </div>
                         <div className="col-lg-2" />
                     </div>

@@ -96,9 +96,13 @@ body {
 }
 
 /* zone requete*/
- .istex-dl-request {
-        background-color: #f2f2f2;
-      }
+.istex-dl-request {
+	background-color: #f2f2f2;
+}
+.istex-dl-request h2 span {
+	margin-left: 8px;
+	font-size: 80%;
+}
 
 .istex-dl-error-request{
 	background-color: #c4d733;

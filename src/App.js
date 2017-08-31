@@ -2,6 +2,7 @@ import 'url-polyfill';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import './istexdl.css';
 import Form from './Form/';
 import './App.css';
 

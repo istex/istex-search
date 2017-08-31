@@ -9,7 +9,7 @@ import logo from './logo.svg';
 function App() {
     return (
         <div className="App">
-            <h2>Télécharger un coprus <img src={logo} alt="ISTEX" /></h2>
+            <h2>Télécharger un corpus <img src={logo} alt="ISTEX" /></h2>
             <Form />
         </div>
     );

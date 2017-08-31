@@ -7,7 +7,7 @@
  */
  
 
-/* istex style Fluo */
+/* istex style sg */
   
       /* footer */
       footer.istex-dl-footer {
@@ -28,39 +28,14 @@ body {
     font-weight: 300;
     font-size: 16px;
     color: #555;
-   
 }
-
 
 .centered {
     text-align: center;
 }
 
 
-
-/* Links */
-a {
-    color: #f85c37;
-    word-wrap: break-word;
-
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
-}
-
-a:hover,
-a:focus {
-    color: #7b7b7b;
-    text-decoration: none;
-    outline: 0;
-}
-
-
-
-
-/* Bootstrap Modifications */
+/* Boutons */
  
 
 .btn-theme {
@@ -70,13 +45,20 @@ a:focus {
 }
 
 .btn {
-	padding: 10px 30px;
-	margin-bottom: 0;
+	padding: 10px 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	font-size: 28px;
 	border: 5px solid transparent;
 	border-radius: 0px;
 }
 
+.btn-exemple {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-size: 20px;
+	border: 2px solid transparent;
+}
 
 
 /* punchline */
@@ -90,14 +72,12 @@ a:focus {
 	font-weight: 300;
 	color: #458ca6;
 }
-
 .istex-dl-punchline h2 {
 	color: #c0c0c0;
 	font-weight: 200;
     font-style: italic;
 }
 .lead {
-
 	font-weight: 200;
     font-style: italic;
 }
@@ -113,7 +93,6 @@ a:focus {
 	font-weight: 400;
 	font-size: 20px;
      text-align: center;
-    
 }
 
 /* zone requete*/
@@ -127,6 +106,19 @@ a:focus {
 	margin-bottom: 0px;
 }
 
+.istex-dl-error-request p {
+	color: white;
+	font-weight: 400;
+	font-size: 20px;
+     text-align: center;
+}
+
+.istex-dl-apercu { 
+    font-weight: 300;
+    font-size: 18px;
+    color: #555;
+}
+
 /* zone format*/
 .istex-dl-format {
     background-color: #eaeade;
@@ -135,7 +127,7 @@ a:focus {
     
 /* zone Download */
  .istex-dl-download {
-        background-color: #f2f2f2;
+    background-color: #f2f2f2;
     font-weight: 300;
     font-size: 16px;
     color: #555;

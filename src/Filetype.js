@@ -7,7 +7,7 @@ export default class Filetype extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            [props.filetype]: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);

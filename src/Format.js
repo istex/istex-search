@@ -6,7 +6,7 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: false,
+            [props.format]: false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);

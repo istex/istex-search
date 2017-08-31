@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover } from 'react-bootstrap';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
 import Filetype from '../Filetype';
@@ -129,6 +129,20 @@ export default class Form extends React.Component {
     }
 
     render() {
+
+        const popoverRequestLimitWarning = (
+            <Popover
+                id="popover-basic"
+                placement="right"
+                html="true"
+                title="Attention"
+                trigger="click"
+            >
+                Vous souhaitez <strong>amazing</strong> télécharger 56322 résultats.
+                Les 10000 premiers seront téléchargés par ordre de pertinence.
+            </Popover>
+        );
+
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -167,15 +181,14 @@ export default class Form extends React.Component {
 
                             <p>
                                 Aperçu de la requête :
+                                &nbsp;
                                 <a href="" data-toggle="tooltip" title="Cliquez pour pré-visualiser les documents correspondant à votre requête" data-html="true">
-                                    {this.state.total} documents
+                                    {this.state.total ? this.state.total + ' documents' : ''}
                                 </a>
-                                <span
-                                    role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }}
-                                    data-toggle="popover" data-placement="right"
-                                    data-trigger="click" data-html="true"
-                                    data-title="Attention"
-                                    data-content="Vous souhaitez télécharger 56322 résultats. Les 10000 premiers seront téléchargés par ordre de pertinence." />
+                                &nbsp;
+                                <OverlayTrigger trigger="click" placement="right" overlay={popoverRequestLimitWarning}>
+                                    <span role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }} />
+                                </OverlayTrigger>
                             </p>
                         </div>
                     </div>

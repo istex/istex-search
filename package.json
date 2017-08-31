@@ -28,7 +28,8 @@
         "eject": "react-scripts eject",
         "insertversion:docker-compose": "sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
         "insertversion:footer2": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" public/index2.html",
-        "version": "npm run insertversion:docker-compose && npm run insertversion:footer2 && git add docker-compose.yml public/index2.html",
+        "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" public/index.html",
+        "version": "npm run insertversion:docker-compose && npm run insertversion:footer2 && git add docker-compose.yml public/index2.html public/index.html",
         "postversion": "git push && git push --tags"
     },
     "homepage": "http://dl.istex.fr"

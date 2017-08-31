@@ -206,6 +206,20 @@ export default class Form extends React.Component {
             </Popover>
         );
 
+        const popoverRequestLimitHelp = (
+            <Popover
+                id="popover-request-limit-help"
+                html="true"
+                title="Limite temporaire"
+                trigger="click"
+            >
+                Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
+                Les équipes Istex travaillent à augmenter cette limite.
+            </Popover>
+        );
+        const enrichmentsDisabledTooltip = (
+            <Tooltip data-html="true">Les différents enrichissements proposés dans Istex seront prochainement téléchargeables</Tooltip>
+        );
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -271,8 +285,18 @@ export default class Form extends React.Component {
                             }
 
                             <div className="form-group">
-                                Limite du nombre de documents souhaités :
-                                &nbsp;&nbsp;&nbsp;
+                                Limite du nombre de documents souhaités
+                                &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    placement="right"
+                                    overlay={popoverRequestLimitHelp}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                </OverlayTrigger>
+                                &nbsp;
+                                :
+                                &nbsp;&nbsp;
                                 <div style={{ width: '200px', display: 'inline-block' }}>
                                     <NumericInput
                                         className="form-control"
@@ -331,6 +355,10 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
+                            <h2>
+                                Formats et types de fichiers
+                            </h2>
+                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous.</p>
 
                             <Filetype
                                 label="Métadonnées"
@@ -364,6 +392,7 @@ export default class Form extends React.Component {
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
+
                             <Filetype
                                 label="Enrichissements"
                                 filetype="enrichments"

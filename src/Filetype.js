@@ -28,6 +28,11 @@ export default class Filetype extends React.Component {
         this.setState({
             [name]: value,
         });
+
+        this.props.onChange({
+            filetype: this.props.filetype,
+            value,
+        });
     }
 
     render() {
@@ -54,4 +59,5 @@ Filetype.propTypes = {
     filetype: PropTypes.string.isRequired,
     formats: PropTypes.string.isRequired,
     labels: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
 };

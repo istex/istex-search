@@ -16,7 +16,7 @@ export default class Form extends React.Component {
             extractMetadata: true,
             extractFulltext: false,
             extractEnrichments: false,
-            extractCover: false,
+            extractCovers: false,
             extractAnnexes: false,
             downloading: false,
             URL2Download: '',
@@ -24,6 +24,7 @@ export default class Form extends React.Component {
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -60,6 +61,14 @@ export default class Form extends React.Component {
 
         this.setState({
             [name]: value,
+        });
+    }
+
+    handleFiletypeChange(filetypeEvent) {
+        const filetype = filetypeEvent.filetype;
+        const name = 'extract'.concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1));
+        this.setState({
+            [name]: filetypeEvent.value,
         });
     }
 
@@ -136,30 +145,35 @@ export default class Form extends React.Component {
                         filetype="metadata"
                         formats="xml,mods"
                         labels="XML|MODS"
+                        onChange={this.handleFiletypeChange}
                     />
                     <Filetype
                         label="Texte intégral"
                         filetype="fulltext"
                         formats="pdf,tei,txt,ocr,zip,tiff"
                         labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                        onChange={this.handleFiletypeChange}
                     />
                     <Filetype
                         label="Annexes"
                         filetype="annexes"
                         formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
                         labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
+                        onChange={this.handleFiletypeChange}
                     />
                     <Filetype
                         label="Couvertures"
                         filetype="covers"
                         formats="pdf,gif,jpg"
                         labels="PDF|GIF|JPEG"
+                        onChange={this.handleFiletypeChange}
                     />
                     <Filetype
                         label="Enrichissements"
                         filetype="enrichments"
                         formats="tei"
                         labels="TEI"
+                        onChange={this.handleFiletypeChange}
                     />
                     <div className="form-group">
                         <div className="col-sm-10">

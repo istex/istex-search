@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox } from 'react-bootstrap';
+import './Format.css';
 
 
 export default class Format extends React.Component {

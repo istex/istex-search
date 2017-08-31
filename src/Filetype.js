@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Checkbox, FormGroup } from 'react-bootstrap';
 import Format from './Format';
 
 export default class Filetype extends React.Component {
@@ -49,7 +49,7 @@ export default class Filetype extends React.Component {
                 >
                     {this.props.label}
                 </Checkbox>
-                <FormGroup>
+                <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>
             </FormGroup>

@@ -209,8 +209,9 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
 
+                            {this.state.total > 0 &&
                             <p>
-                                Aperçu de la requête :
+                                Aperçu des résultats de la requête :
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                     <a href="">
@@ -232,6 +233,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                 }
                             </p>
+                            }
                         </div>
 
                         <div className="istex-dl-examples col-lg-2">
@@ -242,6 +244,17 @@ export default class Form extends React.Component {
                             </button>
                         </div>
                     </div>
+
+                    <div className="istex-dl-error-request row">
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <p>Erreur de syntaxe dans votre requête</p>
+                        </div>
+                        <div className="col-lg-2" />
+                    </div>
+
+
+
                     <div className="istex-dl-request row">
 
                         <div className="col-lg-2" />

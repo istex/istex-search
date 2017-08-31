@@ -255,11 +255,10 @@ export default class Form extends React.Component {
 
 
 
-                    <div className="istex-dl-request row">
+                    <div className="istex-dl-format row">
 
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
-
 
                             <Filetype
                                 label="Métadonnées"
@@ -302,28 +301,30 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                         </div>
-                        <div className="istex-dl-request row">
-                            <div className="col-lg-2" />
-                            <div className="col-lg-8">
-                                <div className="form-group">
-                                    <div className="col-sm-10">
-                                        <div className="checkbox">
-                                            <label htmlFor="size" className="col-sm-1">Size</label>
-                                            <div className="col-sm-1">
-                                                <InputRange
-                                                    id="size"
-                                                    maxValue={this.state.limitNbDoc}
-                                                    minValue={0}
-                                                    value={this.state.size}
-                                                    onChange={size => this.setState({ size })}
-                                                />
-                                            </div>
+                        <div className="col-lg-2" />
+                    </div>
+
+                    <div className="istex-dl-request row">
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <div className="form-group">
+                                <div className="col-sm-10">
+                                    <div className="checkbox">
+                                        <label htmlFor="size" className="col-sm-1">Size</label>
+                                        <div className="col-sm-1">
+                                            <InputRange
+                                                id="size"
+                                                maxValue={this.state.limitNbDoc}
+                                                minValue={0}
+                                                value={this.state.size}
+                                                onChange={size => this.setState({ size })}
+                                            />
                                         </div>
                                     </div>
-                                    <div className="form-group">
-                                        <div className="col-sm-offset-1 col-sm-11">
-                                            <button type="submit" className="btn btn-primary">Télécharger</button>
-                                        </div>
+                                </div>
+                                <div className="form-group">
+                                    <div className="col-sm-offset-1 col-sm-11">
+                                        <button type="submit" className="btn btn-primary">Télécharger</button>
                                     </div>
                                 </div>
                             </div>

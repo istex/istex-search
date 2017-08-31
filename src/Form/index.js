@@ -323,7 +323,7 @@ export default class Form extends React.Component {
                         <div className="col-lg-2" />
                         <div className="col-lg-8 text-center">
                         <button type="submit" className="btn btn-theme btn-lg">
-                            <span className="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Télécharger
+                            <span className="glyphicon glyphicon-download-alt" aria-hidden="true" /> Télécharger
                         </button>
                         </div>
                         <div className="col-lg-2" />
@@ -333,7 +333,7 @@ export default class Form extends React.Component {
                     <div className="istex-dl-error-download row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
-                            <p>Erreur de téléchargement  <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></p>
+                            <p>Erreur de téléchargement  <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" /></p>
                         </div>
                         <div className="col-lg-2" />
                     </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import InputRange from 'react-input-range';
-import { URL } from 'url';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
 import Filetype from '../Filetype';
@@ -11,7 +10,7 @@ export default class Form extends React.Component {
         super(props);
         this.state = {
             q: '',
-            size: 2000,
+            size: 1,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -19,8 +18,32 @@ export default class Form extends React.Component {
             extractAnnexes: false,
         };
 
+        this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleQueryChange(event) {
+        const target = event.target;
+        this.setState({
+            q: target.value,
+        });
+        const ISTEX = this.buildURLFromState();
+
+        ISTEX.searchParams.delete('extract');
+
+        fetch(ISTEX.href)
+            .then((response) => {
+                if (response.status >= 400) {
+                    throw new Error('Bad response from server');
+                }
+                return response.json().then((json) => {
+                    const { total } = json;
+                    this.setState({
+                        total,
+                    });
+                });
+            });
     }
 
     handleInputChange(event) {
@@ -35,7 +58,13 @@ export default class Form extends React.Component {
     }
 
     handleSubmit(event) {
-        const toAPI = new URL('https://api.istex.fr/document/');
+        const { href } = this.buildURLFromState();
+        window.location = href;
+        event.preventDefault();
+    }
+
+    buildURLFromState() {
+        const ISTEX = new URL('https://api.istex.fr/document/');
         let extract = '';
 
         if (this.state.extractMetadata) {
@@ -45,17 +74,36 @@ export default class Form extends React.Component {
             extract = extract.concat('fulltext;');
         }
 
-        toAPI.searchParams.set('q', this.state.q);
-        toAPI.searchParams.set('extract', extract);
-        toAPI.searchParams.set('size', this.state.size);
+        ISTEX.searchParams.set('q', this.state.q);
+        ISTEX.searchParams.set('extract', extract);
+        ISTEX.searchParams.set('size', this.state.size);
 
-        window.location = toAPI.href;
-        event.preventDefault();
+        return ISTEX;
     }
 
     render() {
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="q" className="col-sm-1 control-label">Requête</label>
+                    <div className="col-sm-11">
+                        <textarea
+                            className="form-control"
+                            name="q"
+                            id="q"
+                            rows="3"
+                            autoFocus="true"
+                            value={this.state.q}
+                            onChange={this.handleQueryChange}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <span className="col-sm-1 control-label">Documents à télécharger</span>
+                    <div className="col-sm-11">
+                        {this.state.total}
+                    </div>
+                </div>
                 <Filetype
                     label="Métadonnées"
                     filetype="metadata"
@@ -63,13 +111,20 @@ export default class Form extends React.Component {
                     labels="MODS|Text Encoding Initiative"
                 />
                 <div className="form-group">
-                    <label htmlFor="size" className="col-sm-offset-1">Size</label>
-                    <InputRange
-                        maxValue={200}
-                        minValue={0}
-                        value={this.state.size}
-                        onChange={size => this.setState({ size })}
-                    />
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="size" className="col-sm-1">Size</label>
+                            <div className="col-sm-1">
+                                <InputRange
+                                    id="size"
+                                    maxValue={200}
+                                    minValue={0}
+                                    value={this.state.size}
+                                    onChange={size => this.setState({ size })}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="form-group">
                     <div className="col-sm-offset-1 col-sm-11">

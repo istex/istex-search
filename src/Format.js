@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Checkbox } from 'react-bootstrap';
+
 
 export default class Format extends React.Component {
 
@@ -30,16 +32,15 @@ export default class Format extends React.Component {
 
     render() {
         return (
-            <div className="checkbox">
-                <label htmlFor={`checkbox${this.props.filetype}${this.props.format}`}>{this.props.label}</label>
-                <input
-                    type="checkbox"
-                    id={`checkbox${this.props.filetype}${this.props.format}`}
-                    name={this.props.format}
-                    checked={this.state[this.props.format]}
-                    onChange={this.handleInputChange}
-                />
-            </div>
+            <Checkbox
+                inline
+                id={`checkbox${this.props.filetype}${this.props.format}`}
+                name={this.props.format}
+                checked={this.state[this.props.format]}
+                onChange={this.handleInputChange}
+            >
+                {this.props.label}
+            </Checkbox>
         );
     }
 }

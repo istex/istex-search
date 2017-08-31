@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import Form from './Form';
+import Form from './Form/';
 import './App.css';
 import logo from './logo.svg';
 

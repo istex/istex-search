@@ -22,6 +22,7 @@ export default class Form extends React.Component {
             extractAnnexes: false,
             downloading: false,
             URL2Download: '',
+            errorRequestSyntax: '',
         };
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -36,6 +37,7 @@ export default class Form extends React.Component {
     handleQueryChange(event) {
         const target = event.target;
         this.setState({
+            errorRequestSyntax: '',
             q: target.value,
         });
         const ISTEX = this.buildURLFromState();
@@ -44,10 +46,13 @@ export default class Form extends React.Component {
 
         fetch(ISTEX.href)
             .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error('Bad response from server');
+                if (response.status >= 500) {
+                    return this.setState({ errorServer: 'Error server TODO ...' });
                 }
                 return response.json().then((json) => {
+                    if (response.status >= 400 && response.status < 500) {
+                        return this.setState({ errorRequestSyntax: json._error });
+                    }
                     const { total } = json;
                     this.setState({
                         total,
@@ -55,7 +60,7 @@ export default class Form extends React.Component {
                 });
             })
             .catch((error) => {
-                console.error('Don\'t forget to display the error', error);
+                console.log(error);
             });
     }
 
@@ -255,17 +260,21 @@ export default class Form extends React.Component {
                         </div>
                     </div>
 
+                    {this.state.errorRequestSyntax &&
                     <div className="istex-dl-error-request row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
                             <p>
-                            Erreur de syntaxe dans votre requête :
-                             « …message renvoyé par l’API… » + symbole ? qui renvoie à bulle d’aide 2
-                             </p>
+                                Erreur de syntaxe dans votre requête &nbsp;
+                                <span role="button" className="glyphicon glyphicon-question-sign" aria-hidden="true" />
+                                <br />
+                                <blockquote>{this.state.errorRequestSyntax}</blockquote>
+                                
+                            </p>
                         </div>
                         <div className="col-lg-2" />
                     </div>
-
+                    }
 
 
                     <div className="istex-dl-format row">

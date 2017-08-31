@@ -3,6 +3,7 @@ import InputRange from 'react-input-range';
 import { URL } from 'url';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
+import Filetype from '../Filetype';
 
 export default class Form extends React.Component {
 
@@ -55,97 +56,12 @@ export default class Form extends React.Component {
     render() {
         return (
             <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="q" className="col-sm-1 control-label">Requête</label>
-                    <div className="col-sm-11">
-                        <textarea
-                            className="form-control"
-                            name="q"
-                            id="q"
-                            rows="3"
-                            autoFocus="true"
-                            value={this.state.q}
-                            onChange={this.handleInputChange}
-                        />
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="col-sm-10">
-                        <div className="checkbox">
-                            <label htmlFor="extractMetadata" className="col-sm-1">Métadonnées</label>
-                            <input
-                                className="col-sm-1"
-                                type="checkbox"
-                                id="extractMetadata"
-                                name="extractMetadata"
-                                checked={this.state.extractMetadata}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="col-sm-10">
-                        <div className="checkbox">
-                            <label htmlFor="extractFulltext" className="col-sm-1">Fulltext</label>
-                            <input
-                                className="col-sm-1"
-                                type="checkbox"
-                                id="extractFulltext"
-                                name="extractFulltext"
-                                checked={this.state.extractFulltext}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="col-sm-10">
-
-                        <div className="checkbox">
-                            <label htmlFor="extractEnrichments" className="col-sm-1">Enrichments</label>
-                            <input
-                                className="col-sm-1"
-                                type="checkbox"
-                                id="extractEnrichments"
-                                name="extractEnrichments"
-                                checked={this.state.extractEnrichments}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <div className="col-sm-10">
-                        <div className="checkbox">
-                            <label htmlFor="extractCover" className="col-sm-1">Cover</label>
-                            <input
-                                className="col-sm-1"
-                                type="checkbox"
-                                id="extractCover"
-                                name="extractCover"
-                                checked={this.state.extractCover}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <div className="col-sm-10">
-                        <div className="checkbox">
-                            <label htmlFor="extractAnnexes" className="col-sm-1">Annexes</label>
-                            <input
-                                className="col-sm-1"
-                                type="checkbox"
-                                id="extractAnnexes"
-                                name="extractAnnexes"
-                                checked={this.state.extractAnnexes}
-                                onChange={this.handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <Filetype
+                    label="Métadonnées"
+                    filetype="metadata"
+                    formats="mods,tei"
+                    labels="MODS|Text Encoding Initiative"
+                />
                 <div className="form-group">
                     <label htmlFor="size" className="col-sm-offset-1">Size</label>
                     <InputRange

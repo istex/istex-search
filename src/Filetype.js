@@ -11,10 +11,8 @@ export default class Filetype extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.formats = this.props.formats
-            .map((format, n) => <Format label={this.props.labels[n]} format={format} />);
+        this.formats = props.formats.split(',')
+            .map((format, n) => <Format key={`format${format}`} label={this.props.labels.split('|')[n]} format={format} />);
     }
 
     handleInputChange(event) {
@@ -49,6 +47,6 @@ export default class Filetype extends React.Component {
 Filetype.propTypes = {
     label: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
-    formats: PropTypes.arrayOf.string.isRequired,
-    labels: PropTypes.arrayOf.string.isRequired,
+    formats: PropTypes.string.isRequired,
+    labels: PropTypes.string.isRequired,
 };

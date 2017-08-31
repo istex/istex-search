@@ -10,7 +10,6 @@ export default class Format extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleInputChange(event) {
@@ -29,7 +28,7 @@ export default class Format extends React.Component {
                 <label htmlFor="checkbox">{this.props.label}</label>
                 <input
                     type="checkbox"
-                    id="checkbox"
+                    id={`checkbox${this.props.format}`}
                     name={this.props.format}
                     checked={this.state.checked}
                     onChange={this.handleInputChange}

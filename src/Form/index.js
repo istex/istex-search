@@ -73,12 +73,6 @@ export default class Form extends React.Component {
         });
     }
 
-    // handleFormatChange(format) {
-    //     this.setState({
-    //         ...format,
-    //     });
-    // }
-
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;

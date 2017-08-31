@@ -38,17 +38,6 @@ export default class Filetype extends React.Component {
         });
     }
 
-    // handleFormatChange(formatEvent) {
-    //     const filetype = formatEvent.filetype;
-    //     const format = formatEvent.format;
-    //     const name = 'extract'
-    //         .concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1))
-    //         .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
-    //     this.setState({
-    //         [name]: formatEvent.value,
-    //     });
-    // }
-
     render() {
         return (
             <div className="checkbox">

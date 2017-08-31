@@ -17,8 +17,32 @@ export default class Form extends React.Component {
             extractAnnexes: false,
         };
 
+        this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleQueryChange(event) {
+        const target = event.target;
+        this.setState({
+            q: target.value,
+        });
+        const ISTEX = this.buildURLFromState();
+
+        ISTEX.searchParams.delete('extract');
+
+        fetch(ISTEX.href)
+            .then((response) => {
+                if (response.status >= 400) {
+                    throw new Error('Bad response from server');
+                }
+                return response.json().then((json) => {
+                    const { total } = json;
+                    this.setState({
+                        total,
+                    });
+                });
+            });
     }
 
     handleInputChange(event) {
@@ -33,7 +57,13 @@ export default class Form extends React.Component {
     }
 
     handleSubmit(event) {
-        const toAPI = new URL('https://api.istex.fr/document/');
+        const { href } = this.buildURLFromState();
+        window.location = href;
+        event.preventDefault();
+    }
+
+    buildURLFromState() {
+        const ISTEX = new URL('https://api.istex.fr/document/');
         let extract = '';
 
         if (this.state.extractMetadata) {
@@ -43,13 +73,11 @@ export default class Form extends React.Component {
             extract = extract.concat('fulltext;');
         }
 
-        toAPI.searchParams.set('q', this.state.q);
-        toAPI.searchParams.set('extract', extract);
-        toAPI.searchParams.set('size', this.state.size);
+        ISTEX.searchParams.set('q', this.state.q);
+        ISTEX.searchParams.set('extract', extract);
+        ISTEX.searchParams.set('size', this.state.size);
 
-        window.location = toAPI.href;
-        event.preventDefault();
-        return false;
+        return ISTEX;
     }
 
     render() {
@@ -65,10 +93,17 @@ export default class Form extends React.Component {
                             rows="3"
                             autoFocus="true"
                             value={this.state.q}
-                            onChange={this.handleInputChange}
+                            onChange={this.handleQueryChange}
                         />
                     </div>
                 </div>
+                <div className="form-group">
+                    <span className="col-sm-1 control-label">Documents à télécharger</span>
+                    <div className="col-sm-11">
+                        {this.state.total}
+                    </div>
+                </div>
+
                 <div className="form-group">
                     <div className="col-sm-10">
                         <div className="checkbox">

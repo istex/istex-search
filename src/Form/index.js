@@ -54,13 +54,13 @@ export default class Form extends React.Component {
                         return this.setState({ errorRequestSyntax: json._error });
                     }
                     const { total } = json;
-                    this.setState({
+                    return this.setState({
                         total,
                     });
                 });
             })
             .catch((error) => {
-                console.log(error);
+                console.error('TODO gérer ce cas', error);
             });
     }
 
@@ -175,7 +175,7 @@ export default class Form extends React.Component {
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents
                 classés par ordre de pertinence (sur les {this.state.total} résultats potentiels).
-                Vous pouvez aussi modifier le nombre de documents souhaités juste en dessous pour 
+                Vous pouvez aussi modifier le nombre de documents souhaités juste en dessous pour
                 augmenter à la limite max des {this.state.limitNbDoc} documents.
             </Popover>
         );
@@ -269,7 +269,6 @@ export default class Form extends React.Component {
                                 <span role="button" className="glyphicon glyphicon-question-sign" aria-hidden="true" />
                                 <br />
                                 <blockquote>{this.state.errorRequestSyntax}</blockquote>
-                                
                             </p>
                         </div>
                         <div className="col-lg-2" />
@@ -330,9 +329,10 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-2" />
                         <div className="col-lg-8 text-center">
-                        <button type="submit" className="btn btn-theme btn-lg">
-                            <span className="glyphicon glyphicon-download-alt" aria-hidden="true" /> Télécharger
-                        </button>
+                            <button type="submit" className="btn btn-theme btn-lg">
+                                <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
+                                Télécharger
+                            </button>
                         </div>
                         <div className="col-lg-2" />
 
@@ -341,7 +341,10 @@ export default class Form extends React.Component {
                     <div className="istex-dl-error-download row">
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
-                            <p>Erreur de téléchargement  <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" /></p>
+                            <p>
+                                Erreur de téléchargement &nbsp;
+                                <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />
+                            </p>
                         </div>
                         <div className="col-lg-2" />
                     </div>

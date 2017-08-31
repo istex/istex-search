@@ -119,35 +119,35 @@ export default class Form extends React.Component {
         const ISTEX = new URL('https://api.istex.fr/document/');
 
         const filetypeFormats = Object.keys(this.state)
-        .filter(key => key.startsWith('extract'))
-        .filter(key => this.state[key])
-        .map(key => decamelize(key, '-'))
-        .map(key => key.split('-').slice(1))
-        .map(([filetype, format]) => ({ filetype, format }))
-        .reduce((prev, { filetype, format }) => {
-            if (!prev[filetype]) {
-                prev[filetype] = [format];
-            } else {
-                prev[filetype].push(format);
-            }
-            return prev;
-        }, {});
+            .filter(key => key.startsWith('extract'))
+            .filter(key => this.state[key])
+            .map(key => decamelize(key, '-'))
+            .map(key => key.split('-').slice(1))
+            .map(([filetype, format]) => ({ filetype, format }))
+            .reduce((prev, { filetype, format }) => {
+                if (!prev[filetype]) {
+                    prev[filetype] = [format];
+                } else {
+                    prev[filetype].push(format);
+                }
+                return prev;
+            }, {});
 
 
         const extract = Object.keys(filetypeFormats)
-        .reduce((prev, filetype) => {
-            const formats = filetypeFormats[filetype];
-            if (formats[0]) {
-                return prev
-                .concat(filetype)
-                .concat('[')
-                .concat(formats.join(','))
-                .concat('];');
+            .reduce((prev, filetype) => {
+                const formats = filetypeFormats[filetype];
+                if (formats[0]) {
+                    return prev
+                        .concat(filetype)
+                        .concat('[')
+                        .concat(formats.join(','))
+                        .concat('];');
+                }
+                return prev.concat(filetype).concat(';');
             }
-            return prev.concat(filetype).concat(';');
-        }
-        , '')
-        .slice(0, -1);
+                , '')
+            .slice(0, -1);
 
         ISTEX.searchParams.set('q', this.state.q);
         ISTEX.searchParams.set('extract', extract);
@@ -157,7 +157,6 @@ export default class Form extends React.Component {
     }
 
     render() {
-        
         const previewTooltip = (
             <Tooltip data-html="true">Cliquez pour pré-visualiser les documents correspondant à votre requête</Tooltip>
         );
@@ -215,84 +214,97 @@ export default class Form extends React.Component {
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                     <a href="">
-                                        {this.state.total ? this.state.total + ' documents' : ''}
+                                        {this.state.total ? String(this.state.total).concat(' documents') : ''}
                                     </a>
-                                </OverlayTrigger>                                
+                                </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
-                                    <OverlayTrigger trigger="click" placement="right" overlay={popoverRequestLimitWarning}>
-                                        <span role="button" className="glyphicon glyphicon-warning-sign" style={{ color: 'red' }} />
-                                    </OverlayTrigger>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    placement="right"
+                                    overlay={popoverRequestLimitWarning}
+                                >
+                                    <span
+                                        role="button"
+                                        className="glyphicon glyphicon-warning-sign"
+                                        style={{ color: 'red' }}
+                                    />
+                                </OverlayTrigger>
                                 }
                             </p>
                         </div>
                     </div>
+                    <div className="istex-dl-request row">
+
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
 
 
-                    <Filetype
-                        label="Métadonnées"
-                        filetype="metadata"
-                        formats="xml,mods"
-                        labels="XML|MODS"
-                        onChange={this.handleFiletypeChange}
-                        onFormatChange={this.handleFormatChange}
-                    />
-                    <Filetype
-                        label="Texte intégral"
-                        filetype="fulltext"
-                        formats="pdf,tei,txt,ocr,zip,tiff"
-                        labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
-                        onChange={this.handleFiletypeChange}
-                        onFormatChange={this.handleFormatChange}
-                    />
-                    <Filetype
-                        label="Annexes"
-                        filetype="annexes"
-                        formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
-                        labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
-                        onChange={this.handleFiletypeChange}
-                        onFormatChange={this.handleFormatChange}
-                    />
-                    <Filetype
-                        label="Couvertures"
-                        filetype="covers"
-                        formats="pdf,gif,jpg"
-                        labels="PDF|GIF|JPEG"
-                        onChange={this.handleFiletypeChange}
-                        onFormatChange={this.handleFormatChange}
-                    />
-                    <Filetype
-                        label="Enrichissements"
-                        filetype="enrichments"
-                        formats="tei"
-                        labels="TEI"
-                        onChange={this.handleFiletypeChange}
-                        onFormatChange={this.handleFormatChange}
-                    />
-                    <div className="form-group">
-                        <div className="col-sm-10">
-                            <div className="checkbox">
-                                <label htmlFor="size" className="col-sm-1">Size</label>
-                                <div className="col-sm-1">
-                                    <InputRange
-                                        id="size"
-                                        maxValue={this.state.limitNbDoc}
-                                        minValue={0}
-                                        value={this.state.size}
-                                        onChange={size => this.setState({ size })}
-                                    />
+                            <Filetype
+                                label="Métadonnées"
+                                filetype="metadata"
+                                formats="xml,mods"
+                                labels="XML|MODS"
+                                onChange={this.handleFiletypeChange}
+                                onFormatChange={this.handleFormatChange}
+                            />
+                            <Filetype
+                                label="Texte intégral"
+                                filetype="fulltext"
+                                formats="pdf,tei,txt,ocr,zip,tiff"
+                                labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                onChange={this.handleFiletypeChange}
+                                onFormatChange={this.handleFormatChange}
+                            />
+                            <Filetype
+                                label="Annexes"
+                                filetype="annexes"
+                                formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
+                                labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
+                                onChange={this.handleFiletypeChange}
+                                onFormatChange={this.handleFormatChange}
+                            />
+                            <Filetype
+                                label="Couvertures"
+                                filetype="covers"
+                                formats="pdf,gif,jpg"
+                                labels="PDF|GIF|JPEG"
+                                onChange={this.handleFiletypeChange}
+                                onFormatChange={this.handleFormatChange}
+                            />
+                            <Filetype
+                                label="Enrichissements"
+                                filetype="enrichments"
+                                formats="tei"
+                                labels="TEI"
+                                onChange={this.handleFiletypeChange}
+                                onFormatChange={this.handleFormatChange}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <div className="col-sm-10">
+                                <div className="checkbox">
+                                    <label htmlFor="size" className="col-sm-1">Size</label>
+                                    <div className="col-sm-1">
+                                        <InputRange
+                                            id="size"
+                                            maxValue={this.state.limitNbDoc}
+                                            minValue={0}
+                                            value={this.state.size}
+                                            onChange={size => this.setState({ size })}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="col-sm-offset-1 col-sm-11">
-                                <button type="submit" className="btn btn-primary">Télécharger</button>
+                            <div className="form-group">
+                                <div className="col-sm-offset-1 col-sm-11">
+                                    <button type="submit" className="btn btn-primary">Télécharger</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </form>
-
-
 
                 <Modal show={this.state.downloading} onHide={this.close}>
                     <Modal.Header>

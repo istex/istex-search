@@ -107,8 +107,32 @@ export default class Form extends React.Component {
                 <Filetype
                     label="Métadonnées"
                     filetype="metadata"
-                    formats="mods,tei"
-                    labels="MODS|Text Encoding Initiative"
+                    formats="xml,mods"
+                    labels="XML|MODS: format commun à tous les éditeurs"
+                />
+                <Filetype
+                    label="Texte intégral"
+                    filetype="fulltext"
+                    formats="pdf,tei,txt,ocr,zip,tiff"
+                    labels="PDF|TEI|Texte brut|OCR|Archive ZIP|TIFF"
+                />
+                <Filetype
+                    label="Annexes"
+                    filetype="annexes"
+                    formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
+                    labels="PDF|JPEG|Quick Time|PowerPoint|Excel|AVI|XML|GIF|WMV"
+                />
+                <Filetype
+                    label="Couvertures"
+                    filetype="covers"
+                    formats="pdf,gif,jpg"
+                    labels="PDF|GIF|JPEG"
+                />
+                <Filetype
+                    label="Enrichissements"
+                    filetype="enrichments"
+                    formats="tei"
+                    labels="TEI: Text Encoding Initiative"
                 />
                 <div className="form-group">
                     <div className="col-sm-10">

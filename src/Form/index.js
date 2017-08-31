@@ -1,6 +1,5 @@
 import React from 'react';
 import InputRange from 'react-input-range';
-import { URL } from 'url';
 import 'react-input-range/lib/css/index.css';
 import './style.css';
 
@@ -10,7 +9,7 @@ export default class Form extends React.Component {
         super(props);
         this.state = {
             q: '',
-            size: 2000,
+            size: 1,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -50,6 +49,7 @@ export default class Form extends React.Component {
 
         window.location = toAPI.href;
         event.preventDefault();
+        return false;
     }
 
     render() {
@@ -147,13 +147,20 @@ export default class Form extends React.Component {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="size" className="col-sm-offset-1">Size</label>
-                    <InputRange
-                        maxValue={200}
-                        minValue={0}
-                        value={this.state.size}
-                        onChange={size => this.setState({ size })}
-                    />
+                    <div className="col-sm-10">
+                        <div className="checkbox">
+                            <label htmlFor="size" className="col-sm-1">Size</label>
+                            <div className="col-sm-1">
+                                <InputRange
+                                    id="size"
+                                    maxValue={200}
+                                    minValue={0}
+                                    value={this.state.size}
+                                    onChange={size => this.setState({ size })}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="form-group">
                     <div className="col-sm-offset-1 col-sm-11">

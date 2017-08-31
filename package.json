@@ -9,7 +9,8 @@
         "react-dom": "^15.6.1",
         "react-input-range": "^1.2.1",
         "react-scripts": "1.0.12",
-        "universal-url": "^1.0.0"
+        "universal-url": "^1.0.0",
+        "url-polyfill": "^1.0.7"
     },
     "devDependencies": {
         "babel-eslint": "^7.2.1",

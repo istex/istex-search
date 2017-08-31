@@ -7,31 +7,8 @@
  */
  
 
-/* istex style  */
-
-
-     .istex-dl-punchline {
-        background-color: #ef5464;
-      }
-     
-      .istex-dl-request {
-        background-color: #6798d0;
-      }
-      .istex-dl-error-request {
-        background-color: #ffcf56;
-      }
-      .istex-dl-format {
-        background-color: #5bc2a7;
-      }
-      .istex-dl-download {
-        background-color: #ea88b9;
-      }
-      .istex-dl-error-download {
-        background-color: #e7eaef;
-      }
-
-       
-
+/* istex style Fluo */
+  
       /* footer */
       footer.istex-dl-footer {
         font-size: 80%;
@@ -44,38 +21,22 @@
         margin-left: 5px;
       }
 
- /* OVERALL ASPECT */
+ /* général */
 
 body {
   background-color: #f2f2f2;
     font-weight: 300;
     font-size: 16px;
     color: #555;
-
    
 }
 
-/* Titles */
-h1, h2, h3, h4, h5, h6 {
-   
-    font-weight: 300;
-    color: #333;
-}
-
-
-/* Paragraph & Typographic */
-p {
-    line-height: 28px;
-    margin-bottom: 25px;
-}
 
 .centered {
     text-align: center;
 }
 
-.mt {
-	margin-top: 40px;
-}
+
 
 /* Links */
 a {
@@ -102,38 +63,31 @@ a:focus {
 /* Bootstrap Modifications */
  
 
-
 .btn-theme {
 	color: #ffffff;
-	background-color: #74cfae;
+	background-color: #c4d733;
 	border-color: transparent;
 }
 
 .btn {
 	padding: 10px 30px;
 	margin-bottom: 0;
-	font-size: 18px;
+	font-size: 28px;
 	border: 5px solid transparent;
 	border-radius: 0px;
 }
 
-.lead {
-	letter-spacing: 1px;
-}
 
-/* WRAP SECTIONS */
 
 /* punchline */
 .istex-dl-punchline {
-	
-     background-color: #eaeade;
+	background-color: #eaeade;
 }
 
 
 .istex-dl-punchline h1 {
 	font-size: 50px;
 	font-weight: 300;
-	
 	color: #458ca6;
 }
 
@@ -148,14 +102,11 @@ a:focus {
     font-style: italic;
 }
 
-/* zone erreur API */
 .istex-dl-error-api{
 	background-color: #c4d733;
 	padding-top: 10px;
 	margin-bottom: 0px;
 }
-
-
 
 .istex-dl-error-api p {
 	color: white;
@@ -164,6 +115,49 @@ a:focus {
      text-align: center;
     
 }
+
+/* zone requete*/
+ .istex-dl-request {
+        background-color: #f2f2f2;
+      }
+
+.istex-dl-error-request{
+	background-color: #c4d733;
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+/* zone format*/
+.istex-dl-format {
+    background-color: #eaeade;
+}
+
+    
+/* zone Download */
+ .istex-dl-download {
+        background-color: #f2f2f2;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+      }
+
+
+
+.istex-dl-error-download {
+	background-color: #c4d733;
+	padding-top: 10px;
+	margin-bottom: 0px;
+}
+
+.istex-dl-error-download p {
+	color: white;
+	font-weight: 400;
+	font-size: 20px;
+     text-align: center;
+    
+}
+
 
 /* Skills */
 #skills {

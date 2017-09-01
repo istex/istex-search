@@ -45,6 +45,9 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 q: target.value,
             });
+            // state is not uptodate this time so force the refresh
+            // or the request last letter will be ignored
+            query = target.value;
         } else {
             this.setState({
                 errorRequestSyntax: '',
@@ -53,7 +56,7 @@ export default class Form extends React.Component {
         const ISTEX = this.buildURLFromState(query, false);
 
         ISTEX.searchParams.delete('extract');
-        
+
         this.istexDlXhr && this.istexDlXhr.abort();
         this.istexDlXhr = $.get(ISTEX.href)
             .done(function(json) {

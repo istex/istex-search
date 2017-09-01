@@ -38,7 +38,9 @@ export default class Format extends React.Component {
 
     render() {
         const tooltip = (
-            <Tooltip data-html="true">{text(this.state.name, this.state.name)}</Tooltip>
+            <Tooltip data-html="true" id="tooltip{this.props.filetype}{this.props.format}">
+                {text(this.state.name, this.state.name)}
+            </Tooltip>
         );
 
         return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup } from 'react-bootstrap';
+import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 
 export default class Filetype extends React.Component {
@@ -21,6 +21,16 @@ export default class Filetype extends React.Component {
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
             />);
+
+        if (props.tooltip) {
+            this.overlayedLabel = (
+                <OverlayTrigger placement="top" overlay={this.props.tooltip}>
+                    <span>{props.label}</span>
+                </OverlayTrigger>
+            );
+        } else {
+            this.overlayedLabel = props.label;
+        }
     }
 
     handleInputChange(event) {
@@ -48,7 +58,7 @@ export default class Filetype extends React.Component {
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
                 >
-                    {this.props.label}
+                    {this.overlayedLabel}
                 </Checkbox>
                 <FormGroup bsClass="indent">
                     {this.formats}
@@ -67,9 +77,11 @@ Filetype.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    tooltip: PropTypes.element,
 };
 
 Filetype.defaultProps = {
     value: false,
     disabled: false,
+    tooltip: null,
 };

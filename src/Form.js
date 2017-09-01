@@ -313,10 +313,14 @@ export default class Form extends React.Component {
             </Popover>
         );
         const resetTooltip = (
-            <Tooltip data-html="true">Réinitialisez votre requête (les formulaires de cette page seront vidés)</Tooltip>
+            <Tooltip data-html="true" id="resetTooltip">
+                Réinitialisez votre requête (les formulaires de cette page seront vidés)
+            </Tooltip>
         );
         const previewTooltip = (
-            <Tooltip data-html="true">Cliquez pour pré-visualiser les documents correspondant à votre requête</Tooltip>
+            <Tooltip data-html="true" id="previewTooltip">
+                Cliquez pour pré-visualiser les documents correspondant à votre requête
+            </Tooltip>
         );
         const popoverRequestLimitWarning = (
             <Popover
@@ -342,7 +346,7 @@ export default class Form extends React.Component {
             </Popover>
         );
         const enrichmentsDisabledTooltip = (
-            <Tooltip data-html="true">
+            <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
                 Les différents enrichissements proposés dans Istex seront prochainement téléchargeables
             </Tooltip>
         );
@@ -564,7 +568,8 @@ export default class Form extends React.Component {
                                 value={this.state.extractEnrichments}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
-                                disabled="true"
+                                disabled
+                                tooltip={enrichmentsDisabledTooltip}
                             />
                         </div>
                         <div className="col-lg-2" />

@@ -221,7 +221,7 @@ export default class Form extends React.Component {
                 </button>
             </Popover>
         );
-        const queryExample3 = 'abstract:((species OR genus) AND (arthropod* OR arachnid* OR acari* OR centiped* OR crustac* OR /spiders?/ OR /mites?/ OR /scorpions?/ OR /barnacles?/ OR /crabs?/ OR /lobsters?/ OR /shrimps?/)) AND language:"eng" AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.0 TO *] AND (publicationDate:[1950 TO *] OR copyrightDate:[1950 TO *]) NOT (/insects?/ OR entomolog* OR fungu* OR bacteria* OR /microorganisms?/ OR /viruse?s?/ OR neuro* OR botan* OR protozoa*)';
+        const queryExample3 = 'abstract:((species OR genus) AND (/fishe?s?/ chondrichth* osteichth*)) AND language:eng AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.0 TO *] AND (publicationDate:[1950 TO *] OR copyrightDate:[1950 TO *]) NOT (fungu* bacteria* /microorganisms?/ /viruse?s?/ neuro* botan* protozoa* parasit*)';
         const popoverRequestExample3 = (
             <Popover
                 id="popover-request-example3"

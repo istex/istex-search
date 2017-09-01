@@ -32,7 +32,6 @@ export default class Form extends React.Component {
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
-        this.handleSave = this.handleSave.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -103,23 +102,18 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
+        window.setTimeout(() => {
+            window.location = href;
+        }, 1000);
         event.preventDefault();
     }
 
     handleCancel(event) {
         this.setState({
             downloading: false,
+            q: '',
             URL2Download: '',
         });
-        event.preventDefault();
-    }
-
-    handleSave(event) {
-        this.setState({
-            downloading: false,
-            URL2Download: '',
-        });
-        window.location = this.state.URL2Download;
         event.preventDefault();
     }
 
@@ -452,8 +446,7 @@ export default class Form extends React.Component {
 
                     <Modal.Footer>
                         <Modal.Footer>
-                            <Button onClick={this.handleCancel}>Annuler</Button>
-                            <Button onClick={this.handleSave}>Enregistrer</Button>
+                            <Button onClick={this.handleCancel}>Fermer</Button>
                         </Modal.Footer>
                     </Modal.Footer>
                 </Modal>

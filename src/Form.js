@@ -520,11 +520,22 @@ export default class Form extends React.Component {
 
                 <Modal show={this.state.downloading} onHide={this.close}>
                     <Modal.Header>
-                        <Modal.Title>Téléchargement</Modal.Title>
+                        <Modal.Title>Téléchargement en cours</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                        La génération de votre corpus est en cours...
+                        <div className="text-center">
+                            La génération de votre corpus est en cours.<br/>
+                            Veuillez patienter… L’archive sera bientôt téléchargée.
+                            <br/>
+                            <img src="/images/loader.gif" alt="" />
+                        </div>
+                        
+                        <br/>
+                        Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez 
+                        ouvrir l’archive zip sous Windows, veuillez utiliser par exemple 
+                        <a href="http://www.7-zip.org/" target="_blank">7zip</a> qui sait
+                        gérer les grandes tailles.
                     </Modal.Body>
 
                     <Modal.Footer>

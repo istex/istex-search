@@ -5,8 +5,8 @@ import NumericInput from 'react-numeric-input';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import 'react-input-range/lib/css/index.css';
-import './style.css';
-import Filetype from '../Filetype';
+import './Form.css';
+import Filetype from './Filetype';
 
 export default class Form extends React.Component {
 

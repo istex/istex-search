@@ -8,7 +8,7 @@ export default class Filetype extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            [props.filetype]: false,
+            [props.filetype]: props.value || false,
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -62,6 +62,7 @@ Filetype.propTypes = {
     filetype: PropTypes.string.isRequired,
     formats: PropTypes.string.isRequired,
     labels: PropTypes.string.isRequired,
+    value: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
 };

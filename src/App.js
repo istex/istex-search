@@ -42,17 +42,21 @@ export default class App extends React.Component {
                     </div>
 
                     { this.state.errorApiDown &&
-                            <div className="istex-dl-error-api row">
-                                <div className="col-lg-2" />
-                                <div className="col-lg-8">
-                                    <p>
-                                        <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />&nbsp;
-                                        La plateforme Istex est en maintenance. Réessayez plus tard…
-                                        <blockquote>{this.state.errorApiDown}</blockquote>
-                                    </p>
-                                </div>
-                                <div className="col-lg-2" />
-                            </div>
+                    <div className="istex-dl-error-api row">
+                        <div className="col-lg-2" />
+                        <div className="col-lg-8">
+                            <p>
+                                <span
+                                    role="button"
+                                    className="glyphicon glyphicon-warning-sign"
+                                    aria-hidden="true"
+                                />&nbsp;
+                                La plateforme Istex est en maintenance. Réessayez plus tard…
+                                <blockquote>{this.state.errorApiDown}</blockquote>
+                            </p>
+                        </div>
+                        <div className="col-lg-2" />
+                    </div>
                     }
 
                 </div>

@@ -2,12 +2,15 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/istex/istex-dl.svg)](https://registry.hub.docker.com/u/istex/istex-dl/)
 
-[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It makes possible to download several [ISTEX](https://www.istex.fr) documents easiely in a ZIP file using a web interface.
+[Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX
+sub-corpus extraction. It makes possible to download several
+[ISTEX](https://www.istex.fr) documents easily in a ZIP file using a web
+interface.
 
 ## Prerequisites
 
 - For debug mode: nodejs >= 8
-- For production mode: docker & docker-compose or ezmaster
+- For production mode: docker & docker-compose or [ezmaster](https://github.com/inist-cnrs/ezmaster)
 
 ## Run in debug mode
 
@@ -18,7 +21,7 @@ cd www/ && npm install
 cd .. && npm start
 ```
 
-Then istex-dl is listening at this URL: [http://127.0.0.1:8080](http://127.0.0.1:8080)
+Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
 ## Run in production mode
 

@@ -390,7 +390,7 @@ export default class Form extends React.Component {
 
                             {this.state.total > 0 && this.state.q !== '' &&
                             <p>
-                                L’équation saisie retourne
+                                L’équation saisie correspond à
                                 &nbsp;
                                 <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                     <a>

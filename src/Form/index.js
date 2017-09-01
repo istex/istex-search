@@ -36,13 +36,19 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleQueryChange(event) {
-        const target = event.target;
-        this.setState({
-            errorRequestSyntax: '',
-            q: target.value,
-        });
-        const ISTEX = this.buildURLFromState();
+    handleQueryChange(event, query = null) {
+        if (event) {
+            const target = event.target;
+            this.setState({
+                errorRequestSyntax: '',
+                q: target.value,
+            });
+        } else {
+            this.setState({
+                errorRequestSyntax: '',
+            });
+        }
+        const ISTEX = this.buildURLFromState(query);
 
         ISTEX.searchParams.delete('extract');
 
@@ -123,7 +129,7 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
-    buildURLFromState() {
+    buildURLFromState(query = null) {
         const ISTEX = new URL('https://api.istex.fr/document/');
 
         const filetypeFormats = Object.keys(this.state)
@@ -157,7 +163,7 @@ export default class Form extends React.Component {
                 , '')
             .slice(0, -1);
 
-        ISTEX.searchParams.set('q', this.state.q);
+        ISTEX.searchParams.set('q', query ? query : this.state.q);
         ISTEX.searchParams.set('extract', extract);
         ISTEX.searchParams.set('size', this.state.size);
 
@@ -187,6 +193,38 @@ export default class Form extends React.Component {
             >
                 Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
                 Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l’exemple.
+            </Popover>
+        );
+        const queryExample1 = 'id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR 3A8120D6DED99C2FAD8D43AF79856518895BA64A OR 1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58 OR 01EB25144332E39473868AF8B0F14983799C26F6 OR 17D7475DD004ED094F4F47CFC05D8EC2B8700646 OR 514805A478954ADD1317C6CA82BADF3B26490A61 OR 6B98A9867529969E3C54E224CE4A1533BE6CBEB1)';
+        const popoverRequestExample1 = (
+            <Popover
+                id="popover-request-example1"
+                html="true"
+                title="Extrait corpus “Vieillissement”"
+                trigger="click"
+            >
+                Équation utilisant des identifiants Istex<br />
+                <button
+                    type="button" className="btn-sm"
+                    onClick={() => { this.setState({ q: queryExample1 }); this.handleQueryChange(null, queryExample1); this.refs.popoverExample1.hide(); } }>
+                    Essayer cette requête 
+                </button>
+            </Popover>
+        );
+        const queryExample2 = '((host.issn:"0922-6435" AND publicationDate:1995) OR (host.issn:"1387-6473" AND publicationDate:2001) OR (host.title:"JOURNAL OF GEOPHYSICAL RESEARCH: SPACE PHYSICS" AND publicationDate:1980 AND host.issue.raw:A1)) AND genre:("research-article" OR "article" OR "brief-communication")';
+        const popoverRequestExample2 = (
+            <Popover
+                id="popover-request-example2"
+                html="true"
+                title="Extrait corpus “Astrophysique”"
+                trigger="click"
+            >
+                Équation utilisant des données bibliographiques<br />
+                <button
+                    type="button" className="btn-sm"
+                    onClick={() => { this.setState({ q: queryExample2 }); this.handleQueryChange(null, queryExample2); this.refs.popoverExample2.hide(); } }>
+                    Essayer cette requête
+                </button>
             </Popover>
         );
         const resetTooltip = (
@@ -327,8 +365,14 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                             </h4>
 
-                            <button type="button" className="btn-exemple btn-sm">Poisson</button>&nbsp;
-                            <button type="button" className="btn-exemple btn-sm">Vieillissement</button>&nbsp;
+                            <OverlayTrigger ref="popoverExample1" trigger="click" placement="left" overlay={popoverRequestExample1}>
+                                <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
+                            </OverlayTrigger>
+                            &nbsp;
+                            <OverlayTrigger ref="popoverExample2" trigger="click" placement="left" overlay={popoverRequestExample2}>
+                                <button type="button" className="btn-exemple btn-sm">Astrophysique</button>
+                            </OverlayTrigger>
+                            &nbsp;
                             <button type="button" className="btn-exemple btn-sm">Polaris</button>
 
                         </div>

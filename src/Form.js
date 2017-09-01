@@ -221,6 +221,38 @@ export default class Form extends React.Component {
                 </button>
             </Popover>
         );
+        const queryExample3 = 'abstract:((species OR genus) AND (arthropod* OR arachnid* OR acari* OR centiped* OR crustac* OR /spiders?/ OR /mites?/ OR /scorpions?/ OR /barnacles?/ OR /crabs?/ OR /lobsters?/ OR /shrimps?/)) AND language:"eng" AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.0 TO *] AND (publicationDate:[1950 TO *] OR copyrightDate:[1950 TO *]) NOT (/insects?/ OR entomolog* OR fungu* OR bacteria* OR /microorganisms?/ OR /viruse?s?/ OR neuro* OR botan* OR protozoa*)';
+        const popoverRequestExample3 = (
+            <Popover
+                id="popover-request-example3"
+                html="true"
+                title="Extrait corpus “Poissons”"
+                trigger="click"
+            >
+               Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
+                <button
+                    type="button" className="btn-sm"
+                    onClick={() => { this.setState({ q: queryExample3 }); this.handleQueryChange(null, queryExample3); this.refs.popoverExample3.hide(); } }>
+                    Essayer cette requête
+                </button>
+            </Popover>
+        );
+        const queryExample4 = 'title:(Arctic NOT (arctic AND /charr?/) OR Arctique OR Subarctic~1 OR Sub?arctic OR Subarctique OR "North pole" OR "pôle Nord" OR "north?west passage" OR "northwest passage" OR "Passage du Nord-Ouest" OR "north?east passage" OR "northeast passage" OR "passage du Nord-Est" OR "Northern sea route" OR "route maritime du Nord" OR Alaska  OR Greenland OR Groënland OR Groenland OR Grönland OR Grünland OR Grønland OR Iceland OR Islande OR Svalbard OR /spit[sz]berg(en)?/ OR Lapland OR Laponie OR Finnmark OR "Northwest Territories" OR "Territoires du Nord-Ouest" OR /nun[ai](tsia)?v[aiu][tk]/ OR "Ile Ellesmere" OR "Ellesmere Island" OR "Queen Elizabeth Islands" OR "îles Reine Elizabeth" OR (Franz AND /jose[fp]h?/ AND Land) OR "Archipel François-Joseph" OR "Terre François-Joseph" OR "Jan Mayen" OR "Kola Peninsula" OR "Péninsule de Kola" OR "Novaya Zemlya" OR "Nouvelle Zemble" OR "Severnaya Zemlya" OR Chukotka OR Tchoukotka OR "New Siberian Islands" OR "îles de Nouvelle-Sibérie" OR "Nouvelle-Sibérie" OR /[yi]ako?uti?[ae]?/ OR Sakha OR "Oural Polaire" OR "Polar Urals" OR Baffin OR Barents OR Chukchi OR "Mer des Tchouktches" OR "Mer Blanche" OR "White Sea" OR "Mer de Beaufort" OR "Beaufort Sea" OR "Mer de Kara" OR "Kara Sea" OR "Mer de Laptev" OR "Laptev Sea" OR "Mer de Norvège" OR "Norwegian Sea" OR "Mer de Sibérie Est" OR "Mer de Sibérie Orientale" OR "East Siberian Sea" OR "Beaufort seas"~2  OR "East Siberian seas"~2 OR "Kara seas"~2  OR "Laptev seas"~2 OR "Norwegian seas"~2 OR "White seas"~2 OR "Détroit de Davis" OR "Davis Strait" OR "Détroit du Danemark" OR "Danemark Strait" OR "Détroit de Fram" OR "Fram Strait" OR (/beh?ring/ AND strait) OR (Détroit AND de AND /beh?ring/) OR /ale?o?ut[ei]?i?[tq]?/ OR /sugpia[tq]/ OR Tchouktches OR Inuit OR Inuk OR Inuvialuit OR /i[nñ]upia?[tqk]/ OR /naukan(ski)?/ OR /nenee?[nt]s(es)?/ OR Samoyeds OR /sag?[dl]l[ei]u?rmiut/ OR Sámi OR Saami OR Lapps OR Laplanders OR Lapons OR /sireniki?/ OR /es[kq]u?im[oa]u?[sx]?/ OR /yupii?[tk]/ OR "Yup\'ik") AND publicationDate:[* TO 1918}';
+        const popoverRequestExample4 = (
+            <Popover
+                id="popover-request-example4"
+                html="true"
+                title="Extrait corpus “Polaris”"
+                trigger="click"
+            >
+               Équation utilisant des mots-clés et tous les types d’opérateurs ou de modes de recherches proposées dans Istex<br />
+                <button
+                    type="button" className="btn-sm"
+                    onClick={() => { this.setState({ q: queryExample4 }); this.handleQueryChange(null, queryExample4); this.refs.popoverExample4.hide(); } }>
+                    Essayer cette requête
+                </button>
+            </Popover>
+        );        
         const resetTooltip = (
             <Tooltip data-html="true">Réinitialisez votre requête (les formulaires de cette page seront vidés)</Tooltip>
         );
@@ -367,7 +399,14 @@ export default class Form extends React.Component {
                                 <button type="button" className="btn-exemple btn-sm">Astrophysique</button>
                             </OverlayTrigger>
                             &nbsp;
-                            <button type="button" className="btn-exemple btn-sm">Polaris</button>
+                            <OverlayTrigger ref="popoverExample3" trigger="click" placement="left" overlay={popoverRequestExample3}>
+                                <button type="button" className="btn-exemple btn-sm">Poissons</button>
+                            </OverlayTrigger>
+                            &nbsp;
+                            <OverlayTrigger ref="popoverExample4" trigger="click" placement="left" overlay={popoverRequestExample4}>
+                                <button type="button" className="btn-exemple btn-sm">Polaris</button>
+                            </OverlayTrigger>
+                            &nbsp;
 
                         </div>
                     </div>

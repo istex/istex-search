@@ -25,7 +25,7 @@ export default class Filetype extends React.Component {
         if (props.tooltip) {
             this.overlayedLabel = (
                 <OverlayTrigger placement="top" overlay={this.props.tooltip}>
-                    {props.label}
+                    <span>{props.label}</span>
                 </OverlayTrigger>
             );
         } else {

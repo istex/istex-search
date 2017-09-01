@@ -12,7 +12,6 @@ export default class Filetype extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        // this.handleFormatChange = this.handleFormatChange.bind(this);
         this.formats = props.formats.split(',')
             .map((format, n) => <Format
                 key={`format${format}`}
@@ -65,4 +64,8 @@ Filetype.propTypes = {
     value: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
+};
+
+Filetype.defaultProps = {
+    value: false,
 };

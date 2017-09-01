@@ -530,11 +530,11 @@ export default class Form extends React.Component {
                             <br/>
                             <img src="/images/loader.gif" alt="" />
                         </div>
-                        
+
                         <br/>
                         Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez 
-                        ouvrir l’archive zip sous Windows, veuillez utiliser par exemple 
-                        <a href="http://www.7-zip.org/" target="_blank">7zip</a> qui sait
+                        ouvrir l’archive zip sous Windows, veuillez utiliser par exemple
+                        &nbsp;<a href="http://www.7-zip.org/" target="_blank">7zip</a> qui sait
                         gérer les grandes tailles.
                     </Modal.Body>
 

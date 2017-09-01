@@ -28,6 +28,7 @@ export default class App extends React.Component {
                             <p className="lead">
                                 Vous êtes membre de l’Enseignement Supérieur et de la Recherche et
                                 vous souhaitez extraire un corpus de documents Istex&nbsp;?
+                                <br />
                                 3 étapes suffisent et vous pouvez récupérer une archive zip sur votre disque dur.
                             </p>
                         </div>

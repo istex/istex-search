@@ -157,7 +157,7 @@ export default class Form extends React.Component {
                 , '')
             .slice(0, -1);
 
-        ISTEX.searchParams.set('q', query ? query : this.state.q);
+        ISTEX.searchParams.set('q', query || this.state.q);
         ISTEX.searchParams.set('extract', extract);
         ISTEX.searchParams.set('size', this.state.size);
 
@@ -189,7 +189,11 @@ export default class Form extends React.Component {
                 Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l’exemple.
             </Popover>
         );
-        const queryExample1 = 'id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR 3A8120D6DED99C2FAD8D43AF79856518895BA64A OR 1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58 OR 01EB25144332E39473868AF8B0F14983799C26F6 OR 17D7475DD004ED094F4F47CFC05D8EC2B8700646 OR 514805A478954ADD1317C6CA82BADF3B26490A61 OR 6B98A9867529969E3C54E224CE4A1533BE6CBEB1)';
+        const queryExample1 = 'id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR '
+                            + 'B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR 3A8120D6DED99C2FAD8D43AF79856518895BA64A OR '
+                            + '1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58 OR 01EB25144332E39473868AF8B0F14983799C26F6 OR '
+                            + '17D7475DD004ED094F4F47CFC05D8EC2B8700646 OR 514805A478954ADD1317C6CA82BADF3B26490A61 OR '
+                            + '6B98A9867529969E3C54E224CE4A1533BE6CBEB1)';
         const popoverRequestExample1 = (
             <Popover
                 id="popover-request-example1"
@@ -200,7 +204,12 @@ export default class Form extends React.Component {
                 Équation utilisant des identifiants Istex<br />
                 <button
                     type="button" className="btn-sm"
-                    onClick={() => { this.setState({ q: queryExample1 }); this.handleQueryChange(null, queryExample1); this.refs.popoverExample1.hide(); } }>
+                    onClick={() => {
+                        this.setState({ q: queryExample1 });
+                        this.handleQueryChange(null, queryExample1);
+                        this.refs.popoverExample1.hide();
+                    }}
+                >
                     Essayer cette requête
                 </button>
             </Popover>
@@ -216,7 +225,12 @@ export default class Form extends React.Component {
                 Équation utilisant des données bibliographiques<br />
                 <button
                     type="button" className="btn-sm"
-                    onClick={() => { this.setState({ q: queryExample2 }); this.handleQueryChange(null, queryExample2); this.refs.popoverExample2.hide(); } }>
+                    onClick={() => {
+                        this.setState({ q: queryExample2 });
+                        this.handleQueryChange(null, queryExample2);
+                        this.refs.popoverExample2.hide();
+                    }}
+                >
                     Essayer cette requête
                 </button>
             </Popover>
@@ -232,7 +246,12 @@ export default class Form extends React.Component {
                Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
                 <button
                     type="button" className="btn-sm"
-                    onClick={() => { this.setState({ q: queryExample3 }); this.handleQueryChange(null, queryExample3); this.refs.popoverExample3.hide(); } }>
+                    onClick={() => {
+                        this.setState({ q: queryExample3 });
+                        this.handleQueryChange(null, queryExample3);
+                        this.refs.popoverExample3.hide();
+                    }}
+                >
                     Essayer cette requête
                 </button>
             </Popover>
@@ -245,14 +264,22 @@ export default class Form extends React.Component {
                 title="Extrait corpus “Polaris”"
                 trigger="click"
             >
-               Équation utilisant des mots-clés et tous les types d’opérateurs ou de modes de recherches proposées dans Istex<br />
+
+               Équation utilisant des mots-clés et tous les types d’opérateurs
+               ou de modes de recherches proposées dans Istex<br />
+
                 <button
                     type="button" className="btn-sm"
-                    onClick={() => { this.setState({ q: queryExample4 }); this.handleQueryChange(null, queryExample4); this.refs.popoverExample4.hide(); } }>
+                    onClick={() => {
+                        this.setState({ q: queryExample4 });
+                        this.handleQueryChange(null, queryExample4);
+                        this.refs.popoverExample4.hide();
+                    }}
+                >
                     Essayer cette requête
                 </button>
             </Popover>
-        );        
+        );
         const resetTooltip = (
             <Tooltip data-html="true">Réinitialisez votre requête (les formulaires de cette page seront vidés)</Tooltip>
         );
@@ -283,7 +310,9 @@ export default class Form extends React.Component {
             </Popover>
         );
         const enrichmentsDisabledTooltip = (
-            <Tooltip data-html="true">Les différents enrichissements proposés dans Istex seront prochainement téléchargeables</Tooltip>
+            <Tooltip data-html="true">
+                Les différents enrichissements proposés dans Istex seront prochainement téléchargeables
+            </Tooltip>
         );
         return (
             <div className={`container-fluid ${this.props.className}`}>
@@ -506,10 +535,15 @@ export default class Form extends React.Component {
                         <div className="col-lg-2" />
                         <div className="col-lg-8">
                             <p>
-                                <span role="button" className="glyphicon glyphicon-warning-sign" aria-hidden="true" />&nbsp;
+                                <span
+                                    role="button"
+                                    className="glyphicon glyphicon-warning-sign"
+                                    aria-hidden="true"
+                                />&nbsp;
                                 Votre téléchargement s’est interrompu :
                                 <blockquote>« …message technique de l’API… »</blockquote>
-                                Veuillez réessayer plus tard ou <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>
+                                Veuillez réessayer plus tard ou
+                                <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>
                             </p>
                         </div>
                         <div className="col-lg-2" />
@@ -525,16 +559,16 @@ export default class Form extends React.Component {
 
                     <Modal.Body>
                         <div className="text-center">
-                            La génération de votre corpus est en cours.<br/>
+                            La génération de votre corpus est en cours.<br />
                             Veuillez patienter… L’archive sera bientôt téléchargée.
-                            <br/>
+                            <br />
                             <img src="/images/loader.gif" alt="" />
                         </div>
 
-                        <br/>
-                        Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez 
+                        <br />
+                        Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez
                         ouvrir l’archive zip sous Windows, veuillez utiliser par exemple
-                        &nbsp;<a href="http://www.7-zip.org/" target="_blank">7zip</a> qui sait
+                        &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
                         gérer les grandes tailles.
                     </Modal.Body>
 

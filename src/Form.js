@@ -201,7 +201,7 @@ export default class Form extends React.Component {
                 <button
                     type="button" className="btn-sm"
                     onClick={() => { this.setState({ q: queryExample1 }); this.handleQueryChange(null, queryExample1); this.refs.popoverExample1.hide(); } }>
-                    Essayer cette requête 
+                    Essayer cette requête
                 </button>
             </Popover>
         );
@@ -420,8 +420,8 @@ export default class Form extends React.Component {
                             <Filetype
                                 label="Annexes"
                                 filetype="annexes"
-                                formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
-                                labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
+                                formats="pdf,txt,doc,jpeg,qt,mpeg,mp4,ppt,xls,xlsx,avi,xml,rtf,gif,wmv"
+                                labels="PDF|TXT|DOC|JPEG|QT|MPEG|MP4|PPT|XLS|XLSX|AVI|XML|RTF|GIF|WMV"
                                 value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -429,8 +429,8 @@ export default class Form extends React.Component {
                             <Filetype
                                 label="Couvertures"
                                 filetype="covers"
-                                formats="pdf,gif,jpg"
-                                labels="PDF|GIF|JPEG"
+                                formats="pdf,gif,jpg,tiff,html"
+                                labels="PDF|GIF|JPEG|TIFF|HTML"
                                 value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}

@@ -366,6 +366,7 @@ export default class Form extends React.Component {
                                 filetype="metadata"
                                 formats="xml,mods"
                                 labels="XML|MODS"
+                                value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -374,6 +375,7 @@ export default class Form extends React.Component {
                                 filetype="fulltext"
                                 formats="pdf,tei,txt,ocr,zip,tiff"
                                 labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                value={this.state.extractFulltext}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -382,6 +384,7 @@ export default class Form extends React.Component {
                                 filetype="annexes"
                                 formats="pdf,jpeg,qt,ppt,xls,avi,xml,gif,wmv"
                                 labels="PDF|JPEG|QT|PPT|XLS|AVI|XML|GIF|WMV"
+                                value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -390,6 +393,7 @@ export default class Form extends React.Component {
                                 filetype="covers"
                                 formats="pdf,gif,jpg"
                                 labels="PDF|GIF|JPEG"
+                                value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -399,6 +403,7 @@ export default class Form extends React.Component {
                                 filetype="enrichments"
                                 formats="tei"
                                 labels="TEI"
+                                value={this.state.extractEnrichments}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />

@@ -1,7 +1,9 @@
 import React from 'react';
+import $ from 'jquery';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
+import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import 'react-input-range/lib/css/index.css';
@@ -36,6 +38,7 @@ export default class Form extends React.Component {
     }
 
     handleQueryChange(event, query = null) {
+        const self = this;
         if (event) {
             const target = event.target;
             this.setState({
@@ -47,29 +50,33 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
             });
         }
-        const ISTEX = this.buildURLFromState(query);
+        const ISTEX = this.buildURLFromState(query, false);
 
         ISTEX.searchParams.delete('extract');
-
-        fetch(ISTEX.href)
-            .then((response) => {
-                if (response.status >= 500) {
-                    return this.setState({ errorServer: 'Error server TODO ...' });
-                }
-                return response.json().then((json) => {
-                    if (response.status >= 400 && response.status < 500) {
-                        return this.setState({ errorRequestSyntax: json._error });
-                    }
-                    const { total } = json;
-                    return this.setState({
-                        size: (total <= this.state.limitNbDoc ? total : this.state.limitNbDoc),
-                        total,
-                    });
+        
+        this.istexDlXhr && this.istexDlXhr.abort();
+        this.istexDlXhr = $.get(ISTEX.href)
+            .done(function(json) {
+                console.log( "second success", json );
+                const { total } = json;
+                return self.setState({
+                    size: (total <= self.state.limitNbDoc ? total : self.state.limitNbDoc),
+                    total,
                 });
             })
-            .catch((error) => {
-                console.error('TODO gérer ce cas', error);
+            .fail(function(err) {
+                if (err.status >= 500) {
+                    return self.setState({ errorServer: 'Error server TODO ...' });
+                }
+                if (err.status >= 400 && err.status < 500) {
+                    return self.setState({ errorRequestSyntax: err.responseJSON._error });
+                }
+                console.log( "error", err );
+            })
+            .always(function() {
+                self.istexDlXhr = null;
             });
+
     }
 
     handleInputChange(event) {
@@ -123,7 +130,7 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
-    buildURLFromState(query = null) {
+    buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
 
         const filetypeFormats = Object.keys(this.state)
@@ -159,7 +166,10 @@ export default class Form extends React.Component {
 
         ISTEX.searchParams.set('q', query || this.state.q);
         ISTEX.searchParams.set('extract', extract);
-        ISTEX.searchParams.set('size', this.state.size);
+        if (withHits) {
+            ISTEX.searchParams.set('size', this.state.size);
+        }
+        ISTEX.searchParams.set('sid', 'istex-dl');
 
         return ISTEX;
     }
@@ -376,7 +386,7 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité.</p>
                             <div className="form-group">
-                                <textarea
+                                <Textarea
                                     className="form-control"
                                     placeholder="brain AND language:fre"
                                     name="q"

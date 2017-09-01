@@ -564,6 +564,7 @@ export default class Form extends React.Component {
                                 value={this.state.extractEnrichments}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
+                                disabled="true"
                             />
                         </div>
                         <div className="col-lg-2" />

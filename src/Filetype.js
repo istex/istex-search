@@ -19,6 +19,7 @@ export default class Filetype extends React.Component {
                 format={format}
                 filetype={props.filetype}
                 onChange={props.onFormatChange}
+                disabled={props.disabled}
             />);
     }
 
@@ -45,6 +46,7 @@ export default class Filetype extends React.Component {
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
+                    disabled={this.props.disabled}
                 >
                     {this.props.label}
                 </Checkbox>
@@ -64,8 +66,10 @@ Filetype.propTypes = {
     value: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
 };
 
 Filetype.defaultProps = {
     value: false,
+    disabled: false,
 };

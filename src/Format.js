@@ -49,6 +49,7 @@ export default class Format extends React.Component {
                     name={this.props.format}
                     checked={this.state[this.props.format]}
                     onChange={this.handleInputChange}
+                    disabled={this.props.disabled}
                 >
                     {this.props.label}
                 </Checkbox>
@@ -62,4 +63,9 @@ Format.propTypes = {
     format: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+};
+
+Format.defaultProps = {
+    disabled: false,
 };

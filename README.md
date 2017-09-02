@@ -1,6 +1,6 @@
 # istex-dl
 
-[![Tableau Trello de suivi](https://user-images.githubusercontent.com/328244/29981270-6381ed6c-8f4d-11e7-9b35-6f77b7df853f.png)](https://trello.com/b/DIEeZLDw/istex-dl-suivi-t%C3%A9l%C3%A9chargez-un-corpus-istex) [![Docker Pulls](https://img.shields.io/docker/pulls/istex/istex-dl.svg)](https://registry.hub.docker.com/u/istex/istex-dl/)
+[![Tableau Trello de suivi](https://user-images.githubusercontent.com/328244/29981270-6381ed6c-8f4d-11e7-9b35-6f77b7df853f.png)](https://trello.com/b/DIEeZLDw/istex-dl-suivi-t%C3%A9l%C3%A9chargez-un-corpus-istex) [![Build Status](https://travis-ci.org/istex/istex-dl.svg?branch=master)](https://travis-ci.org/istex/istex-dl) [![Docker Pulls](https://img.shields.io/docker/pulls/istex/istex-dl.svg)](https://registry.hub.docker.com/u/istex/istex-dl/)
 
 [Istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX
 sub-corpus extraction. It makes possible to download several

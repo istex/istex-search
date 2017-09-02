@@ -1,8 +1,8 @@
-FROM nginx:1.11.4
+FROM nginx:1.13.3
 
 # to help docker debugging
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && apt-get -y install vim curl git-core
+RUN apt-get -y update && apt-get -y install vim curl git-core gnupg2
 
 # nodejs installation used for build tools
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -

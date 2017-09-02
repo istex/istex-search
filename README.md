@@ -17,8 +17,7 @@ interface.
 ```bash
 git clone git@github.com:istex/istex-dl.git && cd istex-dl
 npm install
-cd www/ && npm install
-cd .. && npm start
+npm start
 ```
 
 Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)

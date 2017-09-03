@@ -22,6 +22,7 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80 \
+  "configPath": "/usr/share/nginx/html/config.json" \
 }' > /etc/ezmaster.json
 
 # build www/dist/bundle.js and www/dist/bundle.css for production

@@ -21,7 +21,7 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # ezmasterization of istex-dl
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
-  "httpPort": 80 \
+  "httpPort": 80, \
   "configPath": "/usr/share/nginx/html/config.json" \
 }' > /etc/ezmaster.json
 

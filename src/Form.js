@@ -199,7 +199,7 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
-                Cliquez sur celle de votre choix et la zone de requête sera remplies par le contenu de l’exemple.
+                Cliquez sur celle de votre choix et la zone de requête sera remplie par le contenu de l’exemple.
             </Popover>
         );
         const queryExample1 = 'id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR '
@@ -310,8 +310,8 @@ export default class Form extends React.Component {
                 trigger="click"
             >
 
-               Équation utilisant des mots-clés et tous les types d’opérateurs
-               ou de modes de recherches proposées dans Istex<br />
+               Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
+               et de modes de recherches proposés dans Istex<br />
 
                 <button
                     type="button" className="btn-sm"
@@ -387,7 +387,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
 
                             </h2>
-                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité.</p>
+                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité</p>
                             <div className="form-group">
                                 <Textarea
                                     className="form-control"
@@ -534,7 +534,7 @@ export default class Form extends React.Component {
                             <h2>
                                 Formats et types de fichiers
                             </h2>
-                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous.</p>
+                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous</p>
 
                             <Filetype
                                 label="Métadonnées"
@@ -631,7 +631,7 @@ export default class Form extends React.Component {
                     <Modal.Body>
                         <div className="text-center">
                             La génération de votre corpus est en cours.<br />
-                            Veuillez patienter… L’archive sera bientôt téléchargée.
+                            Veuillez patienter…L’archive sera bientôt téléchargée.
                             <br />
                             <img src="/images/loader.gif" alt="" />
                         </div>

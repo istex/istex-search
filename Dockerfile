@@ -9,11 +9,10 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y build-essential nodejs
 
 # install tools for bundle.js
-WORKDIR /usr/share/nginx/html/
-COPY ./package.json /usr/share/nginx/html/
+WORKDIR /app/
+COPY ./package.json /app/
+COPY ./package-lock.json /app/
 RUN npm install
-
-WORKDIR /usr/share/nginx/html/
 
 # nginx config
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
@@ -22,10 +21,14 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/usr/share/nginx/html/config.json" \
+  "configPath": "/app/config.json" \
 }' > /etc/ezmaster.json
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
-COPY ./src /usr/share/nginx/html/src/
-COPY ./public /usr/share/nginx/html/public/
+COPY ./src /app/src/
+COPY ./public /app/public/
 RUN npm run build
+
+# remove service-worker stuff
+# see https://github.com/facebookincubator/create-react-app/issues/2398
+RUN rm -f /app/build/service-worker.js

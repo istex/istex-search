@@ -1,6 +1,6 @@
 {
     "name": "istex-dl",
-    "version": "4.4.10",
+    "version": "4.4.11",
     "private": true,
     "dependencies": {
         "bootstrap": "^3.3.7",

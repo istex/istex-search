@@ -387,7 +387,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
 
                             </h2>
-                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité</p>
+                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
                                 <Textarea
                                     className="form-control"
@@ -534,7 +534,7 @@ export default class Form extends React.Component {
                             <h2>
                                 Formats et types de fichiers
                             </h2>
-                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous</p>
+                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 
                             <Filetype
                                 label="Métadonnées"

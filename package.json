@@ -32,9 +32,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "insertversion:docker-compose": "cross-var sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1$npm_package_version#g\" docker-compose.yml",
-    "insertversion:makefile": "cross-var sed -i \"s#\\(istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1$npm_package_version#g\" Makefile",
+    "insertversion:makefile": "cross-var sed -i \"s#\\( istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1$npm_package_version#g\" makefile",
     "insertversion:footer": "cross-var sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1$npm_package_version#g\" public/index.html",
-    "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml Makefile public/index.html",
+    "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml makefile public/index.html",
     "postversion": "git push && git push --tags"
   },
   "homepage": "https://dl.istex.fr"

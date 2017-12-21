@@ -1,40 +1,40 @@
 {
-    "name": "istex-dl",
-    "version": "4.4.11",
-    "private": true,
-    "dependencies": {
-        "bootstrap": "^3.3.7",
-        "decamelize": "^1.2.0",
-        "jquery": "^3.2.1",
-        "react": "^15.6.1",
-        "react-bootstrap": "^0.31.2",
-        "react-dom": "^15.6.1",
-        "react-input-range": "^1.2.1",
-        "react-numeric-input": "^2.2.0",
-        "react-scripts": "1.0.12",
-        "react-textarea-autosize": "^5.1.0",
-        "universal-url": "^1.0.0",
-        "url-polyfill": "^1.0.7"
-    },
-    "devDependencies": {
-        "babel-eslint": "^7.2.1",
-        "eslint": "^3.19.0",
-        "eslint-config-airbnb": "^14.1.0",
-        "eslint-plugin-html": "2.0.1",
-        "eslint-plugin-import": "^2.2.0",
-        "eslint-plugin-jsx-a11y": "^4.0.0",
-        "eslint-plugin-react": "^6.10.3"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom",
-        "eject": "react-scripts eject",
-        "insertversion:docker-compose": "sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
-        "insertversion:makefile": "sed -i \"s#\\(istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-        "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" public/index.html",
-        "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml Makefile public/index.html",
-        "postversion": "git push && git push --tags"
-    },
-    "homepage": "https://dl.istex.fr"
+  "name": "istex-dl",
+  "version": "4.4.12",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "decamelize": "^1.2.0",
+    "jquery": "^3.2.1",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
+    "react-dom": "^15.6.1",
+    "react-input-range": "^1.2.1",
+    "react-numeric-input": "^2.2.0",
+    "react-scripts": "1.0.12",
+    "react-textarea-autosize": "^5.1.0",
+    "universal-url": "^1.0.0",
+    "url-polyfill": "^1.0.7"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-html": "2.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "insertversion:docker-compose": "sed -i \"s#\\(image: istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion:makefile": "sed -i \"s#\\(istex/istex-dl:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "insertversion:footer": "sed -i \"s#\\(version \\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" public/index.html",
+    "version": "npm run insertversion:docker-compose && npm run insertversion:makefile && npm run insertversion:footer && git add docker-compose.yml Makefile public/index.html",
+    "postversion": "git push && git push --tags"
+  },
+  "homepage": "https://dl.istex.fr"
 }

@@ -9,10 +9,10 @@ interface.
 
 ## Prerequisites
 
-- For debug mode: nodejs >= 8
-- For production mode: docker & docker-compose or [ezmaster](https://github.com/inist-cnrs/ezmaster)
+- For debug: nodejs >= 8
+- For production: docker & docker-compose or [ezmaster](https://github.com/inist-cnrs/ezmaster)
 
-## Run in debug mode
+## Run for debug
 
 ```bash
 git clone git@github.com:istex/istex-dl.git && cd istex-dl
@@ -22,7 +22,7 @@ npm start
 
 Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
-## Run in production mode
+## Run for production
 
 Istex-dl is ezmaterized so you just have to deploy the latest [istex-dl docker image](https://hub.docker.com/r/istex/istex-dl/builds/) with [ezmaster](https://github.com/Inist-CNRS/ezmaster).
 

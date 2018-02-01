@@ -51,7 +51,7 @@ export default class App extends React.Component {
                                     className="glyphicon glyphicon-warning-sign"
                                     aria-hidden="true"
                                 />&nbsp;
-                                La plateforme Istex est en maintenance. Réessayez plus tard…
+                                La plateforme ISTEX est en maintenance. Réessayez plus tard…
                                 <blockquote>{this.state.errorApiDown}</blockquote>
                             </p>
                         </div>

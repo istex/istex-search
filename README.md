@@ -26,7 +26,7 @@ Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1
 
 Istex-dl is ezmaterized so you just have to deploy the latest [istex-dl docker image](https://hub.docker.com/r/istex/istex-dl/builds/) with [ezmaster](https://github.com/Inist-CNRS/ezmaster).
 
-Or if you do not use ezmaste,  you can deploy istex-dl thanks to the [docker-compose.yml](https://github.com/istex/istex-dl/blob/master/docker-compose.yml) dedicated to production this way:
+Or if you do not use ezmaster, you can deploy istex-dl thanks to the [docker-compose.yml](https://github.com/istex/istex-dl/blob/master/docker-compose.yml) dedicated to production this way:
 
 ```bash
 curl https://raw.githubusercontent.com/istex/istex-dl/master/docker-compose.yml > docker-compose.istex-dl.yml

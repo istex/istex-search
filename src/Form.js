@@ -154,7 +154,7 @@ export default class Form extends React.Component {
 
         const extract = Object.keys(filetypeFormats)
             .reduce((prev, filetype) => {
-                const formats = filetypeFormats[filetype];f
+                const formats = filetypeFormats[filetype];
                 if (formats[0]) {
                     return prev
                         .concat(filetype)

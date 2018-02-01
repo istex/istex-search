@@ -154,7 +154,7 @@ export default class Form extends React.Component {
 
         const extract = Object.keys(filetypeFormats)
             .reduce((prev, filetype) => {
-                const formats = filetypeFormats[filetype];
+                const formats = filetypeFormats[filetype];f
                 if (formats[0]) {
                     return prev
                         .concat(filetype)
@@ -185,10 +185,10 @@ export default class Form extends React.Component {
                 title="Aide à la construction de requêtes"
                 trigger="click"
             >
-                Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur Istex</a> ou
-                de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation Istex</a> pour construire votre requête.<br />
+                Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur ISTEX</a> ou
+                de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation ISTEX</a> pour construire votre requête.<br />
                 Des exemples vous sont également proposés sur la droite.<br />
-                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>.
+                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>.
             </Popover>
         );
         const popoverRequestExamples = (
@@ -214,7 +214,7 @@ export default class Form extends React.Component {
                 title="Extrait corpus “Vieillissement”"
                 trigger="click"
             >
-                Équation utilisant des identifiants Istex<br />
+                Équation utilisant des identifiants ISTEX<br />
                 <button
                     type="button" className="btn-sm"
                     onClick={() => {
@@ -311,7 +311,7 @@ export default class Form extends React.Component {
             >
 
                Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
-               et de modes de recherches proposés dans Istex<br />
+               et de modes de recherches proposés dans ISTEX<br />
 
                 <button
                     type="button" className="btn-sm"
@@ -355,12 +355,12 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
-                L’<a href="mailto:contact@listes.istex.fr">équipe Istex</a> travaille à augmenter cette limite.
+                L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
         const enrichmentsDisabledTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
-                Les différents enrichissements proposés dans Istex seront prochainement téléchargeables
+                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
             </Tooltip>
         );
         return (
@@ -614,7 +614,7 @@ export default class Form extends React.Component {
                                 Votre téléchargement s’est interrompu :
                                 <blockquote>« …message technique de l’API… »</blockquote>
                                 Veuillez réessayer plus tard ou
-                                <a href="mailto:contact@listes.istex.fr">contactez l’équipe Istex</a>
+                                <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                             </p>
                         </div>
                         <div className="col-lg-2" />

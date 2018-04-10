@@ -539,8 +539,8 @@ export default class Form extends React.Component {
                             <Filetype
                                 label="Métadonnées"
                                 filetype="metadata"
-                                formats="xml,mods"
-                                labels="XML|MODS"
+                                formats="xml,mods,json"
+                                labels="XML|MODS|JSON"
                                 value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}

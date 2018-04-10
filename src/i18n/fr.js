@@ -3,6 +3,7 @@ export default {
                     + ' format de structuration de documents (fourni par l\'éditeur)',
     extractMetadataMods: '"Metadata Object Description Schema" :'
                     + ' format de description des métadonnées (commun à tous les éditeurs)',
+    extractMetadataJson: '"Format json --------------------------------------"',
 
     extractFulltextPdf: 'Texte intégral PDF "Portable Document Format"',
     extractFulltextTei: '"Text Encoding Initiative" : format de codage de documents structurés',

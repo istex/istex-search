@@ -18,6 +18,9 @@ interface.
 git clone git@github.com:istex/istex-dl.git && cd istex-dl
 npm install
 npm start
+
+# or run this command on windows instead of "npm start"
+./node_modules/react-scripts/bin/react-scripts.js start
 ```
 
 Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)

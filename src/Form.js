@@ -163,7 +163,6 @@ export default class Form extends React.Component {
             .reduce((prev, filetype) => {
                 const formats = filetypeFormats[filetype];
             //   if (formats[0]) {
-
                     return prev
                         .concat(filetype)
                         .concat('[')
@@ -547,8 +546,11 @@ export default class Form extends React.Component {
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+                              <br/>
 
-                            <Button bsStyle="primary"  bsSize="small" onClick={()=>{
+
+                            <button className="buttonSelect"  onClick={(event)=>{
+                              event.preventDefault();
                               var e = new Event("test");
                                 this.child.forEach((c)=> {
                                   if(!c.props.disabled){
@@ -560,8 +562,12 @@ export default class Form extends React.Component {
                                 }
                              });
                             }
-                          }>Sélectionner tout</Button>
 
+                          }><span>
+                          Sélectionner tout
+                          </span>
+                          </button>
+                          <br/><br/>
 
                             <Filetype
                                 ref={instance => { this.child[0]=instance; }}

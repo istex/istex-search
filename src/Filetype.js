@@ -85,14 +85,14 @@ export default class Filetype extends React.Component {
     render() {
         return (
             <FormGroup>
-                <Checkbox
+                <li
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
                 >
                     {this.overlayedLabel}
-                </Checkbox>
+                </li>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>

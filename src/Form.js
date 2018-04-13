@@ -35,6 +35,8 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.child=new Array();
     }
 
     handleQueryChange(event, query = null) {
@@ -83,7 +85,7 @@ export default class Form extends React.Component {
     }
 
     handleInputChange(event) {
-      /*
+
         const target = event.target;
         const name = target.name;
 
@@ -91,7 +93,7 @@ export default class Form extends React.Component {
 
         this.setState({
             [name]: value,
-        });*/
+        });
     }
 
     handleFiletypeChange(filetypeEvent) {
@@ -542,25 +544,22 @@ export default class Form extends React.Component {
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 
                             <Button bsStyle="primary"  bsSize="small" onClick={()=>{
-                                this.setState({
-                                extractMetadata: true,
-                                extractFulltext: true,
-                                extractEnrichments: true,
-                                extractCovers: true,
-                                extractAnnexes: true,
-                              });
-
                               var e = new Event("test");
-                              e.All=true;
-
-                                console.log("child",this.child);
-                               this.child.handleInputChange(e);
+                                this.child.forEach((c)=> {
+                                  if(!c.props.disabled){
+                                    const name = 'extract'.concat(c.props.filetype.charAt(0).toUpperCase()).concat(c.props.filetype.slice(1));
+                                    this.setState({
+                                      [name]:false
+                                    })
+                                  c.check(e);
+                                }
+                             });
                             }
                           }>Sélectionner tout</Button>
 
 
                             <Filetype
-                                ref={instance => { this.child = instance; }}
+                                ref={instance => { this.child[0]=instance; }}
                                 label="Métadonnées"
                                 filetype="metadata"
                                 formats="xml,mods,json"
@@ -570,6 +569,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
+                            ref={instance => { this.child[1] = instance; }}
                                 label="Texte intégral"
                                 filetype="fulltext"
                                 formats="pdf,tei,txt,ocr,zip,tiff"
@@ -579,7 +579,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
-
+                                ref={instance => { this.child[2] = instance; }}
                                 label="Annexes"
                                 filetype="annexes"
                                 formats="pdf,txt,doc,jpeg,qt,mpeg,mp4,ppt,xls,xlsx,avi,xml,rtf,gif,wmv"
@@ -589,7 +589,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
-
+                                ref={instance => { this.child[3] = instance; }}
                                 label="Couvertures"
                                 filetype="covers"
                                 formats="pdf,gif,jpg,tiff,html"
@@ -600,7 +600,7 @@ export default class Form extends React.Component {
                             />
 
                             <Filetype
-
+                                ref={instance => { this.child[4] = instance; }}
                                 label="Enrichissements"
                                 filetype="enrichments"
                                 formats="tei"

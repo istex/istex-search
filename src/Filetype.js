@@ -37,28 +37,19 @@ export default class Filetype extends React.Component {
     alert('getAlert from Child');
   }
 
+
+    check(event){
+        console.log("filtype "+this.props.filetype)
+        if(this.props.disabled===false){
+      this.setState({
+          [this.props.filetype]: true,
+      });
+    }
+  }
+
     handleInputChange(event) {
-      let value;
-      console.log("Reussite fileType")
-      if(event.All===true){
-          console.log("Résuitte all")
-          this.setState({
-              fulltext: true,
-              metadata: true,
-              annexes:true,
-              Couvertures:true,
-              enrichments:true,
-          });
-          this.props.onChange({
-              filetype: this.props.filetype,
-              value: true,
-              format: this.state,
-          });
-      }else{
-
-
         const target = event.target;
-        value = target.type === 'checkbox' ? target.checked : target.value;
+        const  value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
         this.setState({
@@ -70,7 +61,7 @@ export default class Filetype extends React.Component {
             value,
             format: this.state,
         });
-    }
+
   }
 
     render() {

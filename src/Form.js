@@ -138,6 +138,10 @@ export default class Form extends React.Component {
 
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
+        /*
+          console.log("URL",Object.keys(this.state));
+          setTimeout()
+          */
 
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
@@ -158,14 +162,15 @@ export default class Form extends React.Component {
         const extract = Object.keys(filetypeFormats)
             .reduce((prev, filetype) => {
                 const formats = filetypeFormats[filetype];
-                if (formats[0]) {
+            //   if (formats[0]) {
+
                     return prev
                         .concat(filetype)
                         .concat('[')
-                        .concat(formats.join(','))
+                        .concat(formats.slice(1,formats.length))
                         .concat('];');
-                }
-                return prev.concat(filetype).concat(';');
+                //}
+              //  return prev.concat(filetype).concat(';');
             }
                 , '')
             .slice(0, -1);

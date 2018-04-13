@@ -14,8 +14,37 @@ export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
+
+        const url=document.location.href;
+        console.log("AAAAAAAAAAAA",this.url);
+        //TRouver meilleure condition
+        if(url.indexOf("q=")>=0){
+
+          const urlTraite=decodeURIComponent(url.toString().substring(url.lastIndexOf("=")+1))
+
+
+            this.state = {
+              q: urlTraite,
+              size: 5000,
+              limitNbDoc: 10000,
+              extractMetadata: false,
+              extractFulltext: false,
+              extractEnrichments: false,
+              extractCovers: false,
+              extractAnnexes: false,
+              downloading: false,
+              URL2Download: '',
+              errorRequestSyntax: '',
+              errorDuringDownload: '',
+}
+
+              let eventQuery=new Event("Query");
+              eventQuery.query=urlTraite;
+              this.handleQueryChange(eventQuery);
+
+    }  else{
         this.state = {
-            q: '',
+            q:'',
             size: 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
@@ -28,6 +57,11 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
+          }
+
+        //trouver condition montrant qu'il y a une requête
+        ///?q=categories.inist.raw%3A(%224%20-%20embryologie%3A%20invertebres%20et%20vertebres.%20teratologie%22)
+
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,14 +76,13 @@ export default class Form extends React.Component {
     handleQueryChange(event, query = null) {
         const self = this;
         if (event) {
-            const target = event.target;
             this.setState({
                 errorRequestSyntax: '',
-                q: target.value,
+                q: event.query||event.target.value,
             });
             // state is not uptodate this time so force the refresh
             // or the request last letter will be ignored
-            query = target.value;
+            query = event.query||event.target.value;
         } else {
             this.setState({
                 errorRequestSyntax: '',

@@ -36,6 +36,21 @@ export default class Format extends React.Component {
         });
     }
 
+    check(event){
+      console.log("THISFORMAT",this)
+        if(this.props.disabled===false){
+      this.setState({
+          [this.props.format]: true,
+      });
+      this.props.onChange({
+        filetype: this.props.filetype,
+        format: this.props.format,
+          value: true,
+      });
+    }
+  }
+
+
     render() {
         const tooltip = (
             <Tooltip data-html="true" id="tooltip{this.props.filetype}{this.props.format}">

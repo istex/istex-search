@@ -12,8 +12,16 @@ export default class Filetype extends React.Component {
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
+
+
+
+
+        this.child=new Array();
+
+
         this.formats = props.formats.split(',')
             .map((format, n) => <Format
+                ref={instance => { this.child[n]=instance }}
                 key={`format${format}`}
                 label={props.labels.split('|')[n]}
                 format={format}
@@ -39,10 +47,20 @@ export default class Filetype extends React.Component {
 
 
     check(event){
-        console.log("filtype "+this.props.filetype)
+        console.log("filtype "+this.props.filetype);
+        console.log("Les formats",this.props.formats);
         if(this.props.disabled===false){
       this.setState({
           [this.props.filetype]: true,
+      });
+
+      //On parcourt les formats pour les cocher + ARRIVER A OBTENIR OBJET FORMAT
+      this.child.forEach((c)=>{
+          this.setState({
+            count: this.state.count + 1
+          });
+          console.log("TEST",this.state.count)
+        c.check(new Event("format"));
       });
     }
   }

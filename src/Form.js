@@ -549,7 +549,7 @@ export default class Form extends React.Component {
                                   if(!c.props.disabled){
                                     const name = 'extract'.concat(c.props.filetype.charAt(0).toUpperCase()).concat(c.props.filetype.slice(1));
                                     this.setState({
-                                      [name]:false
+                                      [name]:true
                                     })
                                   c.check(e);
                                 }

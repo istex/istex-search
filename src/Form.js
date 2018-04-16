@@ -18,7 +18,7 @@ export default class Form extends React.Component {
             q: '',
             size: 5000,
             limitNbDoc: 10000,
-            extractMetadata: true,
+            extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
@@ -35,6 +35,8 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.child=new Array();
     }
 
     handleQueryChange(event, query = null) {
@@ -83,6 +85,7 @@ export default class Form extends React.Component {
     }
 
     handleInputChange(event) {
+
         const target = event.target;
         const name = target.name;
 
@@ -135,6 +138,10 @@ export default class Form extends React.Component {
 
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
+        /*
+          console.log("URL",Object.keys(this.state));
+          setTimeout()
+          */
 
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
@@ -155,14 +162,14 @@ export default class Form extends React.Component {
         const extract = Object.keys(filetypeFormats)
             .reduce((prev, filetype) => {
                 const formats = filetypeFormats[filetype];
-                if (formats[0]) {
+            //   if (formats[0]) {
                     return prev
                         .concat(filetype)
                         .concat('[')
-                        .concat(formats.join(','))
+                        .concat(formats.slice(1,formats.length))
                         .concat('];');
-                }
-                return prev.concat(filetype).concat(';');
+                //}
+              //  return prev.concat(filetype).concat(';');
             }
                 , '')
             .slice(0, -1);
@@ -363,6 +370,10 @@ export default class Form extends React.Component {
                 Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
             </Tooltip>
         );
+
+
+
+
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -535,8 +546,31 @@ export default class Form extends React.Component {
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+                              <br/>
+
+
+                            <button className="buttonSelect"  onClick={(event)=>{
+                              event.preventDefault();
+                              var e = new Event("test");
+                                this.child.forEach((c)=> {
+                                  if(!c.props.disabled){
+                                    const name = 'extract'.concat(c.props.filetype.charAt(0).toUpperCase()).concat(c.props.filetype.slice(1));
+                                    this.setState({
+                                      [name]:true
+                                    })
+                                  c.check(e);
+                                }
+                             });
+                            }
+
+                          }><span>
+                          Sélectionner tout
+                          </span>
+                          </button>
+                          <br/><br/>
 
                             <Filetype
+                                ref={instance => { this.child[0]=instance; }}
                                 label="Métadonnées"
                                 filetype="metadata"
                                 formats="xml,mods,json"
@@ -546,6 +580,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
+                            ref={instance => { this.child[1] = instance; }}
                                 label="Texte intégral"
                                 filetype="fulltext"
                                 formats="pdf,tei,txt,ocr,zip,tiff"
@@ -555,6 +590,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
+                                ref={instance => { this.child[2] = instance; }}
                                 label="Annexes"
                                 filetype="annexes"
                                 formats="pdf,txt,doc,jpeg,qt,mpeg,mp4,ppt,xls,xlsx,avi,xml,rtf,gif,wmv"
@@ -564,6 +600,7 @@ export default class Form extends React.Component {
                                 onFormatChange={this.handleFormatChange}
                             />
                             <Filetype
+                                ref={instance => { this.child[3] = instance; }}
                                 label="Couvertures"
                                 filetype="covers"
                                 formats="pdf,gif,jpg,tiff,html"
@@ -574,6 +611,7 @@ export default class Form extends React.Component {
                             />
 
                             <Filetype
+                                ref={instance => { this.child[4] = instance; }}
                                 label="Enrichissements"
                                 filetype="enrichments"
                                 formats="tei"

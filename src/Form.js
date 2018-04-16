@@ -182,14 +182,18 @@ export default class Form extends React.Component {
     const extract = Object.keys(filetypeFormats)
     .reduce((prev, filetype) => {
       const formats = filetypeFormats[filetype];
+
       return prev
       .concat(filetype)
       .concat('[')
-      .concat(formats.slice(1,formats.length))
+      .concat(!formats[0] ? formats.slice(1) : formats)
       .concat('];');
     }
     , '')
     .slice(0, -1);
+
+
+
 
     ISTEX.searchParams.set('q', query || this.state.q);
     ISTEX.searchParams.set('extract', extract);

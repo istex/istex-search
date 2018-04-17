@@ -552,35 +552,6 @@ export default class Form extends React.Component {
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
-                            <br />
-
-
-                            <button
-                                className="buttonSelect"
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    const e = new Event('test');
-                                    this.child.forEach((c) => {
-                                        if (!c.props.disabled) {
-                                            const name = 'extract'.concat(c.props.filetype.charAt(0).toUpperCase())
-                                                                  .concat(c.props.filetype.slice(1));
-                                            this.setState({
-                                                [name]: true,
-                                            });
-                                            c.check(e);
-                                        }
-                                    });
-                                }
-
-                            }
-                            >
-                                <span>
-                                    Sélectionner tout
-                                </span>
-                            </button>
-                            <br />
-                            <br />
-
                             <Filetype
                                 ref={(instance) => { this.child[0] = instance; }}
                                 label="Métadonnées"

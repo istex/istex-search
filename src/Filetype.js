@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 
 export default class Filetype extends React.Component {
@@ -11,6 +11,7 @@ export default class Filetype extends React.Component {
             [props.filetype]: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.checkCurrent = this.checkCurrent.bind(this);
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
@@ -22,6 +23,8 @@ export default class Filetype extends React.Component {
                 filetype={props.filetype}
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
+                checkParent={this.checkCurrent}
+
             />);
         }
 
@@ -36,20 +39,28 @@ export default class Filetype extends React.Component {
         }
     }
 
+    checkChildren() {
+        this.child.forEach((c) => {
+            c.check(this);
+        });
+    }
 
-    check() {
-        if (this.props.disabled === false) {
-            this.setState({
-                [this.props.filetype]: true,
-            });
+    uncheckChildren() {
+        this.child.forEach((c) => {
+            c.uncheck();
+        });
+    }
 
-            this.child.forEach((c) => {
-                this.setState({
-                    count: this.state.count + 1,
-                });
-                c.check(new Event('format'));
-            });
-        }
+    checkCurrent(FileType) {
+        this.setState({
+            [FileType]: true,
+        });
+
+        this.props.onChange({
+            filetype: this.props.filetype,
+            value: true,
+            format: this.state,
+        });
     }
 
     handleInputChange(event) {
@@ -66,19 +77,25 @@ export default class Filetype extends React.Component {
             value,
             format: this.state,
         });
+        if (value) {
+            this.checkChildren();
+        } else {
+            this.uncheckChildren();
+        }
     }
 
     render() {
         return (
-            <FormGroup>
-                <li
+            <FormGroup >
+                <Checkbox
+                    bsStyle="default"
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
                 >
                     {this.overlayedLabel}
-                </li>
+                </Checkbox>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>

@@ -13,10 +13,8 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            [props.format]: false,
             name: 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format)),
         };
-
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -34,6 +32,7 @@ export default class Format extends React.Component {
             format: this.props.format,
             value,
         });
+        this.props.checkParent(this.props.filetype);
     }
 
     check() {
@@ -45,6 +44,19 @@ export default class Format extends React.Component {
                 filetype: this.props.filetype,
                 format: this.props.format,
                 value: true,
+            });
+        }
+    }
+
+    uncheck() {
+        if (this.props.disabled === false) {
+            this.setState({
+                [this.props.format]: false,
+            });
+            this.props.onChange({
+                filetype: this.props.filetype,
+                format: this.props.format,
+                value: false,
             });
         }
     }
@@ -80,6 +92,7 @@ Format.propTypes = {
     filetype: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    checkParent: PropTypes.func.isRequired,
 };
 
 Format.defaultProps = {

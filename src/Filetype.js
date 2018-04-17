@@ -12,16 +12,18 @@ export default class Filetype extends React.Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.child = [];
-        this.formats = props.formats.split(',')
-        .map((format, n) => <Format
-            ref={(instance) => { this.child[n] = instance; }}
-            key={`format${format}`}
-            label={props.labels.split('|')[n]}
-            format={format}
-            filetype={props.filetype}
-            onChange={props.onFormatChange}
-            disabled={props.disabled}
-        />);
+        if (this.props.formats) {
+            this.formats = props.formats.split(',')
+            .map((format, n) => <Format
+                ref={(instance) => { this.child[n] = instance; }}
+                key={`format${format}`}
+                label={props.labels.split('|')[n]}
+                format={format}
+                filetype={props.filetype}
+                onChange={props.onFormatChange}
+                disabled={props.disabled}
+            />);
+        }
 
         if (props.tooltip) {
             this.overlayedLabel = (

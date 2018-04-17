@@ -6,11 +6,11 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
+import qs from 'qs';
 import 'react-input-range/lib/css/index.css';
 import './Form.css';
 import Filetype from './Filetype';
 
-const qs = require('qs');
 
 export default class Form extends React.Component {
 

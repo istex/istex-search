@@ -22,10 +22,9 @@ export default class Format extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-
         this.setState({
             [name]: value,
-        });
+        }, () => this.props.verifyOtherFormats(this.props.filetype));
 
         this.props.onChange({
             filetype: this.props.filetype,
@@ -34,6 +33,7 @@ export default class Format extends React.Component {
         });
         this.props.checkParent(this.props.filetype);
     }
+
 
     check() {
         if (this.props.disabled === false) {
@@ -93,6 +93,7 @@ Format.propTypes = {
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     checkParent: PropTypes.func.isRequired,
+    verifyOtherFormats: PropTypes.func.isRequired,
 };
 
 Format.defaultProps = {

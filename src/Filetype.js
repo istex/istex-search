@@ -12,6 +12,9 @@ export default class Filetype extends React.Component {
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.checkCurrent = this.checkCurrent.bind(this);
+        this.verifyChildren = this.verifyChildren.bind(this);
+
+
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
@@ -24,6 +27,7 @@ export default class Filetype extends React.Component {
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
                 checkParent={this.checkCurrent}
+                verifyOtherFormats={this.verifyChildren}
 
             />);
         }
@@ -61,6 +65,32 @@ export default class Filetype extends React.Component {
             value: true,
             format: this.state,
         });
+    }
+
+    uncheckCurrent(type) {
+        this.setState({
+            [type]: false,
+        });
+
+        this.props.onChange({
+            filetype: this.props.filetype,
+            value: false,
+            format: this.state,
+        });
+    }
+
+    verifyChildren(type) {
+        let noChildChecked = true;
+        let i = 0;
+        while (i < this.child.length && noChildChecked) {
+            if (this.child[i].state[this.child[i].props.format]) {
+                noChildChecked = false;
+            }
+            i += 1;
+        }
+        if (noChildChecked) {
+            this.uncheckCurrent(type);
+        }
     }
 
     handleInputChange(event) {

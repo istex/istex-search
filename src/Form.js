@@ -387,7 +387,7 @@ export default class Form extends React.Component {
         );
 
         const appendicesTooltip = (
-            <Tooltip data-html="true" id="apeendixesTooltip">
+            <Tooltip data-html="true" id="appendicesTooltip">
                 ANNEXES --------------------------
             </Tooltip>
         );

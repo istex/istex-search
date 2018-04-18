@@ -380,6 +380,18 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const coversTooltip = (
+            <Tooltip data-html="true" id="coversTooltip">
+                COUVERTURES --------------------------
+            </Tooltip>
+        );
+
+        const appendicesTooltip = (
+            <Tooltip data-html="true" id="apeendixesTooltip">
+                ANNEXES --------------------------
+            </Tooltip>
+        );
+
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -552,6 +564,7 @@ export default class Form extends React.Component {
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+
                             <Filetype
                                 ref={(instance) => { this.child[0] = instance; }}
                                 label="Métadonnées"
@@ -562,6 +575,7 @@ export default class Form extends React.Component {
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
+
                             <Filetype
                                 ref={(instance) => { this.child[1] = instance; }}
                                 label="Texte intégral"
@@ -579,6 +593,7 @@ export default class Form extends React.Component {
                                 value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
+                                tooltip={appendicesTooltip}
                             />
                             <Filetype
                                 ref={(instance) => { this.child[3] = instance; }}
@@ -587,6 +602,7 @@ export default class Form extends React.Component {
                                 value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
+                                tooltip={coversTooltip}
                             />
 
                             <Filetype

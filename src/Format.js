@@ -14,6 +14,7 @@ export default class Format extends React.Component {
         super(props);
         this.state = {
             name: 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format)),
+            [props.format]: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
     }

@@ -590,6 +590,8 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[2] = instance; }}
                                 label="Annexes"
                                 filetype="annexes"
+                                formats=""
+                                labels=""
                                 value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -599,6 +601,8 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[3] = instance; }}
                                 label="Couvertures"
                                 filetype="covers"
+                                formats=""
+                                labels=""
                                 value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}

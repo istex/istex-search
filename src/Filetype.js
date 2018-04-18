@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Checkbox } from 'antd';
+import 'antd/lib/button/style/css';
 import Format from './Format';
 
 export default class Filetype extends React.Component {
@@ -9,9 +11,10 @@ export default class Filetype extends React.Component {
         super(props);
         this.state = {
             [props.filetype]: false,
+            indeterminate: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.checkCurrent = this.checkCurrent.bind(this);
+        this.updateCurrent = this.updateCurrent.bind(this);
         this.verifyChildren = this.verifyChildren.bind(this);
 
 
@@ -26,7 +29,7 @@ export default class Filetype extends React.Component {
                 filetype={props.filetype}
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
-                checkParent={this.checkCurrent}
+                updateParent={this.updateCurrent}
                 verifyOtherFormats={this.verifyChildren}
 
             />);
@@ -55,9 +58,27 @@ export default class Filetype extends React.Component {
         });
     }
 
-    checkCurrent(FileType) {
+    updateCurrent(type, childNewValue) {
         this.setState({
-            [FileType]: true,
+            indeterminate: { childNewValue },
+        });
+        if (!childNewValue) {
+            this.setState({
+                [type]: false,
+            });
+        }
+
+        this.props.onChange({
+            filetype: this.props.filetype,
+            value: false,
+            format: this.state,
+        });
+    }
+
+    checkCurrent(type) {
+        this.setState({
+            indeterminate: false,
+            [type]: true,
         });
 
         this.props.onChange({
@@ -70,6 +91,7 @@ export default class Filetype extends React.Component {
     uncheckCurrent(type) {
         this.setState({
             [type]: false,
+            indeterminate: false,
         });
 
         this.props.onChange({
@@ -90,6 +112,20 @@ export default class Filetype extends React.Component {
         }
         if (noChildChecked) {
             this.uncheckCurrent(type);
+        } else {
+            i = 0;
+            let allChildChecked = true;
+            while (i < this.child.length && allChildChecked) {
+                if (!this.child[i].state[this.child[i].props.format]) {
+                    allChildChecked = false;
+                }
+                i += 1;
+            }
+            if (allChildChecked) {
+                this.checkCurrent(type);
+            } else {
+                this.updateCurrent(type);
+            }
         }
     }
 
@@ -98,10 +134,22 @@ export default class Filetype extends React.Component {
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        this.setState({
-            [name]: value,
-        });
-
+        if (this.state.indeterminate) {
+            this.setState({
+                [name]: true,
+                indeterminate: false,
+            });
+        } else if (this.state[name]) {
+            this.setState({
+                [name]: false,
+                indeterminate: false,
+            });
+        } else {
+            this.setState({
+                [name]: true,
+                indeterminate: false,
+            });
+        }
         this.props.onChange({
             filetype: this.props.filetype,
             value,
@@ -123,6 +171,7 @@ export default class Filetype extends React.Component {
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
+                    indeterminate={this.state.indeterminate}
                 >
                     {this.overlayedLabel}
                 </Checkbox>

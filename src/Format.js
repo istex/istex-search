@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Checkbox } from 'antd';
+import 'antd/lib/checkbox/style/css';
 import './Format.css';
 import Labelize from './i18n/fr';
 
@@ -32,7 +34,7 @@ export default class Format extends React.Component {
             format: this.props.format,
             value,
         });
-        this.props.checkParent(this.props.filetype);
+        this.props.updateParent(this.props.filetype, value);
     }
 
 
@@ -93,7 +95,7 @@ Format.propTypes = {
     filetype: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    checkParent: PropTypes.func.isRequired,
+    updateParent: PropTypes.func.isRequired,
     verifyOtherFormats: PropTypes.func.isRequired,
 };
 

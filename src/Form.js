@@ -174,9 +174,9 @@ export default class Form extends React.Component {
             const formats = filetypeFormats[filetype];
             return prev
             .concat(filetype)
-            .concat('[')
+            .concat(formats[0] || formats.length > 1 ? '[' : '')
             .concat(!formats[0] ? formats.slice(1) : formats)
-            .concat('];');
+            .concat(formats[0] || formats.length > 1 ? '];' : ';');
         }
         , '')
         .slice(0, -1);

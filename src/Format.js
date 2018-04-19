@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Checkbox } from 'antd';
-import 'antd/lib/checkbox/style/css';
+import 'antd/lib/checkbox/style/index.css';
 import './Format.css';
 import Labelize from './i18n/fr';
 

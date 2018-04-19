@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, OverlayTrigger } from 'react-bootstrap';
 import { Checkbox } from 'antd';
-import 'antd/lib/button/style/css';
 import Format from './Format';
 
 export default class Filetype extends React.Component {

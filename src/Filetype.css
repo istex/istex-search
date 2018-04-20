@@ -1,0 +1,42 @@
+.determinate input[type=checkbox] {
+    padding-left:5px;
+    padding-right:5px;
+
+    -webkit-appearance:button;
+
+
+    background-color:red;
+    color:#FFF;
+    white-space: nowrap;
+    overflow:hidden;
+
+    width:15px;
+    height:15px;
+}
+
+.indeterminate input[type=checkbox] {
+    padding-left:5px;
+    padding-right:5px;
+
+    -webkit-appearance:button;
+
+
+    background-color:yellow;
+    color:#FFF;
+    white-space: nowrap;
+    overflow:hidden;
+
+    width:15px;
+    height:15px;
+}
+
+
+.determinate input[type=checkbox]:checked {
+    background-color:green;
+    border-left-color:#06F;
+    border-right-color:#06F;
+}
+
+.determinate input[type=checkbox]:hover {
+    box-shadow:0px 0px 10px #1300ff;
+}

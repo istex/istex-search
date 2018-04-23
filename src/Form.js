@@ -174,9 +174,9 @@ export default class Form extends React.Component {
             const formats = filetypeFormats[filetype];
             return prev
             .concat(filetype)
-            .concat('[')
+            .concat(formats[0] || formats.length > 1 ? '[' : '')
             .concat(!formats[0] ? formats.slice(1) : formats)
-            .concat('];');
+            .concat(formats[0] || formats.length > 1 ? '];' : ';');
         }
         , '')
         .slice(0, -1);
@@ -380,6 +380,18 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const coversTooltip = (
+            <Tooltip data-html="true" id="coversTooltip">
+                Documents textuels, images, etc.
+            </Tooltip>
+        );
+
+        const appendicesTooltip = (
+            <Tooltip data-html="true" id="appendicesTooltip">
+                Documents textuels, images, vidéos, etc.
+            </Tooltip>
+        );
+
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -552,34 +564,6 @@ export default class Form extends React.Component {
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
-                            <br />
-
-
-                            <button
-                                className="buttonSelect"
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    const e = new Event('test');
-                                    this.child.forEach((c) => {
-                                        if (!c.props.disabled) {
-                                            const name = 'extract'.concat(c.props.filetype.charAt(0).toUpperCase())
-                                                                  .concat(c.props.filetype.slice(1));
-                                            this.setState({
-                                                [name]: true,
-                                            });
-                                            c.check(e);
-                                        }
-                                    });
-                                }
-
-                            }
-                            >
-                                <span>
-                                    Sélectionner tout
-                                </span>
-                            </button>
-                            <br />
-                            <br />
 
                             <Filetype
                                 ref={(instance) => { this.child[0] = instance; }}
@@ -591,6 +575,7 @@ export default class Form extends React.Component {
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
+
                             <Filetype
                                 ref={(instance) => { this.child[1] = instance; }}
                                 label="Texte intégral"
@@ -605,21 +590,23 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[2] = instance; }}
                                 label="Annexes"
                                 filetype="annexes"
-                                formats="pdf,txt,doc,jpeg,qt,mpeg,mp4,ppt,xls,xlsx,avi,xml,rtf,gif,wmv"
-                                labels="PDF|TXT|DOC|JPEG|QT|MPEG|MP4|PPT|XLS|XLSX|AVI|XML|RTF|GIF|WMV"
+                                formats=""
+                                labels=""
                                 value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
+                                tooltip={appendicesTooltip}
                             />
                             <Filetype
                                 ref={(instance) => { this.child[3] = instance; }}
                                 label="Couvertures"
                                 filetype="covers"
-                                formats="pdf,gif,jpg,tiff,html"
-                                labels="PDF|GIF|JPEG|TIFF|HTML"
+                                formats=""
+                                labels=""
                                 value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
+                                tooltip={coversTooltip}
                             />
 
                             <Filetype

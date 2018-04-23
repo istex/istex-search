@@ -3,6 +3,7 @@
   "version": "4.5.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.4.1",
     "bootstrap": "^3.3.7",
     "decamelize": "^1.2.0",
     "jquery": "^3.2.1",

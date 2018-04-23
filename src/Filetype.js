@@ -176,7 +176,6 @@ export default class Filetype extends React.Component {
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
-                    indeterminate={this.state.indeterminate}
                 >
                     {this.overlayedLabel}
                 </Checkbox>

@@ -178,6 +178,7 @@ export default class Filetype extends React.Component {
                     disabled={this.props.disabled}
                 >
                     {this.overlayedLabel}
+                    <span />
                 </Checkbox>
                 <FormGroup bsClass="indent">
                     {this.formats}

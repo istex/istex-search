@@ -177,8 +177,8 @@ export default class Filetype extends React.Component {
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
                 >
-                    {this.overlayedLabel}
                     <span />
+                    {this.overlayedLabel}
                 </Checkbox>
                 <FormGroup bsClass="indent">
                     {this.formats}

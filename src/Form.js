@@ -382,13 +382,13 @@ export default class Form extends React.Component {
 
         const coversTooltip = (
             <Tooltip data-html="true" id="coversTooltip">
-                COUVERTURES --------------------------
+                Documents textuels, images, etc.
             </Tooltip>
         );
 
         const appendicesTooltip = (
             <Tooltip data-html="true" id="appendicesTooltip">
-                ANNEXES --------------------------
+                Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
 

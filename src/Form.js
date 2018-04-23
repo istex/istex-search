@@ -6,60 +6,44 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
+import qs from 'qs';
 import 'react-input-range/lib/css/index.css';
 import './Form.css';
 import Filetype from './Filetype';
+
 
 export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
         const url = document.location.href;
-        if (url.indexOf('q=') >= 0) {
-            const urlTraite = decodeURIComponent(url.toString().substring(url.lastIndexOf('=') + 1));
-            this.state = {
-                q: urlTraite,
-                size: 5000,
-                limitNbDoc: 10000,
-                extractMetadata: false,
-                extractFulltext: false,
-                extractEnrichments: false,
-                extractCovers: false,
-                extractAnnexes: false,
-                downloading: false,
-                URL2Download: '',
-                errorRequestSyntax: '',
-                errorDuringDownload: '',
-            };
+        const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        this.state = {
+            q: parsedUrl.q || '',
+            size: 5000,
+            limitNbDoc: 10000,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            extractCovers: false,
+            extractAnnexes: false,
+            downloading: false,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+        };
+        if (parsedUrl.q) {
             const eventQuery = new Event('Query');
-            eventQuery.query = urlTraite;
+            eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
-        } else {
-            this.state = {
-                q: '',
-                size: 5000,
-                limitNbDoc: 10000,
-                extractMetadata: false,
-                extractFulltext: false,
-                extractEnrichments: false,
-                extractCovers: false,
-                extractAnnexes: false,
-                downloading: false,
-                URL2Download: '',
-                errorRequestSyntax: '',
-                errorDuringDownload: '',
-            };
         }
-
-
+        this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-        this.child = [];
     }
 
     handleQueryChange(event, query = null) {

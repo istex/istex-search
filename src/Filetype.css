@@ -1,12 +1,12 @@
 .indeterminate input[type="checkbox"] {
   opacity: 0;
   position: absolute;
+  cursor: pointer;
 }
 
 .indeterminate input[type="checkbox"] + span:after{
   content: '';
   display: inline-block;
-  cursor: pointer;
   margin-right: 10px;
   margin-bottom: -3px;
   width: 18px;
@@ -24,6 +24,7 @@
 .determinate input[type="checkbox"] {
   opacity: 0;
   position: absolute;
+    cursor: pointer;
 }
 
 .determinate input[type="checkbox"] + span:after{
@@ -31,7 +32,6 @@
   margin-right: 10px;
   margin-bottom: -3px;
   display: inline-block;
-  cursor: pointer;
   width: 18px;
   height: 18px;
   background: white;
@@ -48,19 +48,21 @@
   border-color: #42cbf4
 }
 
-.determinate input[type="checkbox"]:disabled + span:after{
+.determinate input[type="checkbox"]:disabled {
    background-color: grey;
+   cursor: not-allowed;
+}
+.determinate input[type="checkbox"]:disabled +span:after{
+   background-color: grey;
+   border-color: grey;
 }
 
-.determinate input[type="checkbox"]:disabled:hover + span:after{
-  border-color: grey;
-  cursor: not-allowed;
-}
+
 
 .determinate input[type="checkbox"]:hover + span:after{
   border-color: #42cbf4;
 }
 
 .indeterminate input[type="checkbox"]:hover + span:after{
-  border-color: #42cbf4
+  border-color: #42cbf4;
 }

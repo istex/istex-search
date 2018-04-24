@@ -208,7 +208,8 @@ export default class Form extends React.Component {
                 id="popover-request-example1"
                 html="true"
                 title="Extrait corpus “Vieillissement”"
-                trigger="focus"
+                trigger="click"
+                rootClose
             >
                 Équation utilisant des identifiants ISTEX<br />
                 <button
@@ -233,7 +234,8 @@ export default class Form extends React.Component {
                 id="popover-request-example2"
                 html="true"
                 title="Extrait corpus “Astrophysique”"
-                trigger="focus"
+                trigger="click"
+                rootClose
             >
                 Équation utilisant des données bibliographiques<br />
                 <button
@@ -259,7 +261,7 @@ export default class Form extends React.Component {
                 id="popover-request-example3"
                 html="true"
                 title="Extrait corpus “Poissons”"
-                trigger="focus"
+                trigger="click"
             >
                 Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
                 <button
@@ -306,7 +308,7 @@ export default class Form extends React.Component {
                 id="popover-request-example4"
                 html="true"
                 title="Extrait corpus “Polaris”"
-                trigger="focus"
+                trigger="click"
             >
 
                 Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
@@ -340,7 +342,7 @@ export default class Form extends React.Component {
                 id="popover-request-limit-warning"
                 html="true"
                 title="Attention"
-                trigger="focus"
+                trigger="click"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents,
                 classés par ordre de pertinence, (sur les {this.state.total} résultats potentiels)
@@ -352,7 +354,7 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 html="true"
                 title="Limite temporaire"
-                trigger="focus"
+                trigger="click"
             >
                 Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
@@ -494,7 +496,8 @@ export default class Form extends React.Component {
                             </h4>
 
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample1}
                             >
@@ -502,7 +505,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample2}
                             >
@@ -510,7 +514,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample3}
                             >
@@ -518,7 +523,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample4}
                             >

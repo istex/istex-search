@@ -208,7 +208,7 @@ export default class Form extends React.Component {
                 id="popover-request-example1"
                 html="true"
                 title="Extrait corpus “Vieillissement”"
-                trigger="click"
+                trigger="focus"
             >
                 Équation utilisant des identifiants ISTEX<br />
                 <button
@@ -233,7 +233,7 @@ export default class Form extends React.Component {
                 id="popover-request-example2"
                 html="true"
                 title="Extrait corpus “Astrophysique”"
-                trigger="click"
+                trigger="focus"
             >
                 Équation utilisant des données bibliographiques<br />
                 <button
@@ -259,7 +259,7 @@ export default class Form extends React.Component {
                 id="popover-request-example3"
                 html="true"
                 title="Extrait corpus “Poissons”"
-                trigger="click"
+                trigger="focus"
             >
                 Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
                 <button
@@ -306,7 +306,7 @@ export default class Form extends React.Component {
                 id="popover-request-example4"
                 html="true"
                 title="Extrait corpus “Polaris”"
-                trigger="click"
+                trigger="focus"
             >
 
                 Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
@@ -340,7 +340,7 @@ export default class Form extends React.Component {
                 id="popover-request-limit-warning"
                 html="true"
                 title="Attention"
-                trigger="click"
+                trigger="focus"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents,
                 classés par ordre de pertinence, (sur les {this.state.total} résultats potentiels)
@@ -352,7 +352,7 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 html="true"
                 title="Limite temporaire"
-                trigger="click"
+                trigger="focus"
             >
                 Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
@@ -388,7 +388,7 @@ export default class Form extends React.Component {
                             <h2>
                                 Requête
                                 &nbsp;
-                                <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                <OverlayTrigger trigger="click" rootClose placement="top" overlay={popoverRequestHelp}>
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                                     &nbsp;
@@ -430,6 +430,7 @@ export default class Form extends React.Component {
                                     {this.state.total > this.state.size &&
                                     <OverlayTrigger
                                         trigger="click"
+                                        rootClose
                                         placement="right"
                                         overlay={popoverRequestLimitWarning}
 
@@ -449,6 +450,7 @@ export default class Form extends React.Component {
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
+                                    rootClose
                                     placement="right"
                                     overlay={popoverRequestLimitHelp}
                                 >
@@ -481,7 +483,12 @@ export default class Form extends React.Component {
                         <div className="istex-dl-examples col-lg-2">
                             <h4>
                                 Exemples de corpus à télécharger &nbsp;
-                                <OverlayTrigger trigger="click" placement="left" overlay={popoverRequestExamples}>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="left"
+                                    overlay={popoverRequestExamples}
+                                >
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                             </h4>
@@ -528,7 +535,12 @@ export default class Form extends React.Component {
                             <div className="col-lg-8">
                                 <p>
                                     Erreur de syntaxe dans votre requête &nbsp;
-                                    <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                    <OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverRequestHelp}
+                                    >
                                         <span role="button" className="glyphicon glyphicon-question-sign" />
                                     </OverlayTrigger>
                                     <br />

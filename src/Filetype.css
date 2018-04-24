@@ -8,6 +8,7 @@
   display: inline-block;
   cursor: pointer;
   margin-right: 10px;
+  margin-bottom: -3px;
   width: 18px;
   height: 18px;
   background: yellow;
@@ -28,6 +29,7 @@
 .determinate input[type="checkbox"] + span:after{
   content: '';
   margin-right: 10px;
+  margin-bottom: -3px;
   display: inline-block;
   cursor: pointer;
   width: 18px;

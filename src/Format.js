@@ -74,6 +74,7 @@ export default class Format extends React.Component {
         return (
             <OverlayTrigger placement="top" overlay={tooltip}>
                 <Checkbox
+                    bsClass="determinate"
                     inline
                     id={`checkbox${this.props.filetype}${this.props.format}`}
                     name={this.props.format}
@@ -81,6 +82,7 @@ export default class Format extends React.Component {
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
                 >
+                    <span />
                     {this.props.label}
                 </Checkbox>
             </OverlayTrigger>

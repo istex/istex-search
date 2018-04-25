@@ -14,6 +14,7 @@
     "react-numeric-input": "^2.2.0",
     "react-scripts": "1.0.12",
     "react-textarea-autosize": "^5.1.0",
+    "universal-cookie": "^2.1.2",
     "universal-url": "^1.0.0",
     "url-polyfill": "^1.0.7"
   },

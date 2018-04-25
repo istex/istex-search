@@ -7,6 +7,7 @@ import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
+import Cookies from 'universal-cookie';
 import 'react-input-range/lib/css/index.css';
 import './Form.css';
 import Filetype from './Filetype';
@@ -16,6 +17,7 @@ export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
+        const cookies = new Cookies();
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.state = {
@@ -36,7 +38,11 @@ export default class Form extends React.Component {
             const eventQuery = new Event('Query');
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
+            cookies.set('dlISTEXstate', this.state, { path: '/' });
+        } else if (cookies.get('dlISTEXstate')) {
+            this.state = cookies.get('dlISTEXstate');
         }
+
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -53,12 +59,12 @@ export default class Form extends React.Component {
             this.setState({
                 errorRequestSyntax: '',
                 q: event.query || event.target.value,
-            });
+            }, this.updateCookies());
             queryNotNull = event.query || event.target.value;
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            });
+            }, this.updateCookies());
         }
         const ISTEX = this.buildURLFromState(queryNotNull, false);
         ISTEX.searchParams.delete('extract');
@@ -198,7 +204,10 @@ export default class Form extends React.Component {
             }
         });
     }
-
+    updateCookies() {
+        const cookies = new Cookies();
+        cookies.set('dlISTEXstate', this.state, { path: '/' });
+    }
     render() {
         const popoverRequestHelp = (
             <Popover

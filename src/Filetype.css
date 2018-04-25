@@ -62,3 +62,9 @@
 .indeterminate input[type="checkbox"]:hover + span:after{
   border-color: #42cbf4
 }
+
+#glyphiconFiletype {
+    padding-left: 15px;
+    vertical-align: center;
+    font-size: 18px;
+}

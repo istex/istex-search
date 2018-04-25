@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 import './Filetype.css';
 
@@ -168,6 +168,37 @@ export default class Filetype extends React.Component {
         } else {
             CssClass = 'determinate';
         }
+
+        let popoverTitle = 'Description ';
+        switch (this.props.filetype) {
+        case 'metadata': popoverTitle += 'Métadonnées';
+            break;
+        case 'fulltext': popoverTitle += 'Texte intégral';
+            break;
+        case 'annexes': popoverTitle += 'Annexes';
+            break;
+        case 'covers': popoverTitle += 'Couvertures';
+            break;
+        case 'enrichments': popoverTitle += 'Enrichissements';
+            break;
+        default: popoverTitle = 'Type de Fichier Non reconnu';
+        }
+
+        let popoverText = '';
+        switch (this.props.filetype) {
+        case 'metadata': popoverText = 'Insérer texte pour les Métadonnées';
+            break;
+        case 'fulltext': popoverText = 'Insérer texte pour les textes intégraux';
+            break;
+        case 'annexes': popoverText = 'Insérer texte pour les annexes';
+            break;
+        case 'covers': popoverText = 'Insérer texte pour les Couvertures';
+            break;
+        case 'enrichments': popoverText = 'Insérer texte pour les Enrichissements';
+            break;
+        default: popoverText = 'Type de Fichier Non reconnu';
+        }
+
         return (
             <FormGroup >
                 <Checkbox
@@ -176,10 +207,27 @@ export default class Filetype extends React.Component {
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
+                    inline
                 >
                     <span />
                     {this.overlayedLabel}
+
                 </Checkbox>
+
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="right"
+                    overlay={
+                        <Popover
+                            id={`popover-${this.props.filetype}`}
+                            title={popoverTitle}
+                        >
+                            {popoverText}
+                        </Popover>}
+                >
+                    <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
+                </OverlayTrigger>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>

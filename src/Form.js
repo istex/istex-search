@@ -343,10 +343,10 @@ export default class Form extends React.Component {
                 title="Attention"
                 trigger="click"
             >
-                Reformulez votre requête ou vous ne pourrez télécharger que les <br />
-                {commaNumber.bindWith(' ', '')(this.state.size)} premiers
-                documents,classés par ordre de pertinence, (sur les <br />
-                {commaNumber.bindWith(' ', '')(this.state.total)} résultats potentiels)
+                Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                documents,classés par ordre de pertinence, (sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels)
             </Popover>
         );
 
@@ -357,7 +357,7 @@ export default class Form extends React.Component {
                 title="Limite temporaire"
                 trigger="click"
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
+                Aujourd’hui, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
@@ -427,7 +427,7 @@ export default class Form extends React.Component {
                                     <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                         <a>
                                             {this.state.total ?
-                                             commaNumber.bindWith(' ', '')(this.state.total).concat(' documents') : ''}
+                                             commaNumber.bindWith('\xa0', '')(this.state.total).concat(' documents') : ''}
                                         </a>
                                     </OverlayTrigger>
                                     &nbsp;

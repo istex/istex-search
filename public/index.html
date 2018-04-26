@@ -1,86 +1,348 @@
 <!doctype html>
-<html lang="fr">
-  <head>
+<html>
+
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta name="keywords" content="istex, semantic web, linked data">
+    <meta name="description" content="Site on semantic web approch to ISTEX data">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Téléchargez un corpus ISTEX</title>
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="/api/export/atom">
 
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="/css/istex.css">
 
-    <div id="root"></div>
+    <!-- <script src="//content-delivery.istex.fr/web-header/main.js"></script> -->
 
-    <footer class="istex-dl-footer">
-      <hr />
-      <div class="col-lg-12">
-        <p class="muted pull-right">
-          <a href="/">ISTEX DL</a> version 4.5.0
-          <a href="https://github.com/istex/istex-dl" class="istex-dl-github-link"><img src="/images/github-16x16.png" alt="Code source d'ISTEX DL" /></a>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat&amp;subset=latin,latin-ext" type="text/css">
+
+    <title>data.istex.fr : Linked Data from ISTEX</title>
+
+    <style>
+        .header-resource-section {
+            margin-bottom: 2rem;
+            background-color: rgba(233, 236, 239, 0.52);
+            border-radius: .3rem;
+            padding: 1rem;
+        }
+
+        /*
+ * Author: istex dl
+ *
+ * Project Name: istex dl  - Bootstrap 3 Theme
+ * Version: 1.0
+ *
+ */
+
+        /* istex style sg */
+
+        /* général */
+
+        .centered {
+            text-align: center;
+        }
+
+        /* Boutons */
+
+        .btn-theme {
+            color: #ffffff;
+            /* background-color: #c4d733; */
+            border-color: transparent;
+        }
+
+        .btn {
+            padding: 10px 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 28px;
+            border: 5px solid transparent;
+            border-radius: 0px;
+        }
+
+        .btn-exemple {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            border: 2px solid transparent;
+        }
+
+        .istex-dl-error-api {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-api p {
+            color: white;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* zone requete*/
+
+        .istex-dl-request {
+            /* background-color: #f2f2f2; */
+        }
+
+        .istex-dl-request h2 span {
+            font-size: 80%;
+        }
+
+        .istex-dl-error-request {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-request p {
+            color: white;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .istex-dl-apercu {
+            font-weight: 300;
+            font-size: 18px;
+            color: #555;
+        }
+
+        /* zone format*/
+
+        .istex-dl-format {
+            /* background-color: #eaeade; */
+        }
+
+        /* zone Download */
+
+        .istex-dl-download {
+            /* background-color: #f2f2f2; */
+            font-weight: 300;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .istex-dl-error-download {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-download p {
+            color: white;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+        .indent {
+    padding-left: 52px;
+}
+.buttonSelect {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #70a6ff;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 15px;
+  padding: 8px;
+  width: 160px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  position: absolute;
+ left: 50%;
+
+}
+
+.buttonSelect span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.buttonSelect span:after {
+  content: '\002705';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -30px;
+  transition: 0.5s;
+}
+
+.buttonSelect:hover span {
+  padding-right: 25px;
+}
+
+.buttonSelect:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Lodex</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/graph">Resources</a>
+                </li>
+                <li>
+                    <a href="/admin">Administration</a>
+                </li>
+                <li>
+                    <a href="/login">Connection</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="pageHead">
+        <div id="istexTools">
+            <img src="/img/istex_logo.svg" class="istexLogo" alt="">
+        </div>
+        <a href="https://data.istex.fr/">
+            <img src="/img/ic_telecharger_corpus.svg" class="dataLogo" alt="">
+        </a>
+        <div id="pageTitle">
+            <a href="https://dl.istex.fr/"> Téléchargez un corpus ISTEX </a>
+        </div>
+        <p class="text-center">
+            Vous êtes membre de l’Enseignement Supérieur et de la Recherche et vous souhaitez extraire un corpus de documents ISTEX&nbsp;?
+            <br /> 3 étapes suffisent pour récupérer une archive zip sur votre disque dur.
         </p>
-      </div>
-    </footer>
 
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <div class="container-fuild">
+        <div id="root"></div>
+    </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script src="//content-delivery.istex.fr/web-header/main.js"></script>
+    <div id="pageFooter">
+        <div class="bloc bgc-carmine-pink d-bloc">
+            <div class="container bloc-md">
+
+            </div>
+        </div>
+        <!-- services -->
+        <div class="bloc l-bloc bgc-white">
+            <div class="container bloc-lg">
+                <div class="row">
+                    <div class="col-sm-4">
+
+                        <div id="twitter_feed_widget-2" class="widget widget_twitter_feed_widget">
+                            <a class="twitter-timeline" href="https://twitter.com/Projet_ISTEX" data-tweet-limit="1" data-chrome="noheader nofooter noborders transparent noscrollbar">
+                            Tweets de @Projet_ISTEX</a>
+                            <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+                        </div>
+                    </div>
 
 
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <a href="http://www.agence-nationale-recherche.fr/" title="CNRS" target="_blank">
+                                <img src="/img/investissement_avenir.png" alt="ANR" title="Le site ANR">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <a href="http://www.cnrs.fr/" title="CNRS" target="_blank">
+                                <img src="/img/cnrs130.png" alt="CNRS" title="Le site du CNRS">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- services END -->
+
+
+        <!-- Footer - quote -->
+        <div class="bloc bgc-carmine-pink d-bloc" id="quote">
+            <div class="container bloc-md">
+
+            </div>
+        </div>
+        <!-- Footer - quote END -->
+
+
+        <!-- Footer - bloc-8 -->
+        <div class="bloc bgc-platinum l-bloc" id="bloc-8">
+            <div class="container bloc-sm">
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        <div class="col-sm-4 text-center">
+                            <a class="social-lg" href="https://twitter.com/lodex_team" target="_blank">
+                                <span class="fa fa-twitter icon-md icon-carmine-pink" title="Twitter de Lodex"></span>
+                            </a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            2018 data.istex.fr&nbsp;|&nbsp;
+                            <a class="btn-admin" href="/admin" title="Administration">
+                                Administration
+                            </a>
+                        </div>
+                        <div class="col-sm-4 text-center">
+                            <a class="social-lg" href="https://github.com/Inist-CNRS/lodex" target="_blank">
+                                <span class="fa fa-github icon-md icon-carmine-pink" title="GitHub de Lodex"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer - bloc-8 END -->
     <!-- Piwik -->
-    <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push([function() {
-      var self = this;
-      function getOriginalVisitorCookieTimeout() {
-      var now = new Date(),
-      nowTs = Math.round(now.getTime() / 1000),
-      visitorInfo = self.getVisitorInfo();
-      var createTs = parseInt(visitorInfo[2]);
-      var cookieTimeout = 33696000;
-      var originalTimeout = createTs + cookieTimeout - nowTs;
-      return originalTimeout;
-    }
-    this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );
-    }]);
 
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="https://piwik2.inist.fr/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', '42']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
+    <script>
+        var _paq = _paq || [];
+        _paq.push([function () {
+            var self = this;
+            function getOriginalVisitorCookieTimeout() {
+                var now = new Date(),
+                    nowTs = Math.round(now.getTime() / 1000),
+                    visitorInfo = self.getVisitorInfo();
+                var createTs = parseInt(visitorInfo[2]);
+                var cookieTimeout = 33696000;
+                var originalTimeout = createTs + cookieTimeout - nowTs;
+                return originalTimeout;
+            }
+            this.setVisitorCookieTimeout(getOriginalVisitorCookieTimeout());
+        }]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "https://piwik2.inist.fr/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '39']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
     </script>
-    <noscript><p><img src="//piwik2.inist.fr/piwik.php?idsite=42" style="border:0;" alt="" /></p></noscript>
     <!-- End Piwik Code -->
+</body>
 
-  </body>
 </html>

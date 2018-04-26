@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
+
 import './Filetype.css';
 
 export default class Filetype extends React.Component {
@@ -15,8 +16,6 @@ export default class Filetype extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.updateCurrent = this.updateCurrent.bind(this);
         this.verifyChildren = this.verifyChildren.bind(this);
-
-
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
@@ -45,6 +44,19 @@ export default class Filetype extends React.Component {
         }
     }
 
+    componentDidMount() {
+        if (this.child.length !== 0) {
+            this.verifyChildren(this.props.filetype);
+        } else if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            const name = 'extract'
+            .concat(this.props.filetype.charAt(0).toUpperCase())
+            .concat(this.props.filetype.slice(1));
+            if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))[name]) {
+                this.checkCurrent(this.props.filetype);
+            }
+        }
+    }
+
     checkChildren() {
         this.child.forEach((c) => {
             c.check(this);
@@ -57,21 +69,19 @@ export default class Filetype extends React.Component {
         });
     }
 
-    updateCurrent(type, childNewValue) {
+    updateCurrent(type) {
         this.setState({
-            indeterminate: { childNewValue },
+            indeterminate: true,
         });
-        if (!childNewValue) {
+        if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            this.setState({
+                [type]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[type],
+            });
+        } else {
             this.setState({
                 [type]: false,
             });
         }
-
-        this.props.onChange({
-            filetype: this.props.filetype,
-            value: false,
-            format: this.state,
-        });
     }
 
     checkCurrent(type) {
@@ -104,29 +114,31 @@ export default class Filetype extends React.Component {
     }
 
     verifyChildren(type) {
-        let noChildChecked = true;
-        let i = 0;
-        while (i < this.child.length && noChildChecked) {
-            if (this.child[i].state[this.child[i].props.format]) {
-                noChildChecked = false;
-            }
-            i += 1;
-        }
-        if (noChildChecked) {
-            this.uncheckCurrent(type);
-        } else {
-            i = 0;
-            let allChildChecked = true;
-            while (i < this.child.length && allChildChecked) {
-                if (!this.child[i].state[this.child[i].props.format]) {
-                    allChildChecked = false;
+        if (this.child.length !== 0) {
+            let noChildChecked = true;
+            let i = 0;
+            while (i < this.child.length && noChildChecked) {
+                if (this.child[i].state[this.child[i].props.format]) {
+                    noChildChecked = false;
                 }
                 i += 1;
             }
-            if (allChildChecked) {
-                this.checkCurrent(type);
+            if (noChildChecked) {
+                this.uncheckCurrent(type);
             } else {
-                this.updateCurrent(type);
+                i = 0;
+                let allChildChecked = true;
+                while (i < this.child.length && allChildChecked) {
+                    if (!this.child[i].state[this.child[i].props.format]) {
+                        allChildChecked = false;
+                    }
+                    i += 1;
+                }
+                if (allChildChecked) {
+                    this.checkCurrent(type);
+                } else {
+                    this.updateCurrent(type);
+                }
             }
         }
     }
@@ -171,6 +183,7 @@ export default class Filetype extends React.Component {
         } else {
             CssClass = 'determinate';
         }
+
         return (
             <FormGroup >
                 <Checkbox

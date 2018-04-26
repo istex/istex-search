@@ -7,7 +7,6 @@ import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
-import Cookies from 'universal-cookie';
 import 'react-input-range/lib/css/index.css';
 import './Form.css';
 import Filetype from './Filetype';
@@ -17,7 +16,6 @@ export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        const cookies = new Cookies();
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.state = {
@@ -34,15 +32,16 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
+
         if (parsedUrl.q) {
             const eventQuery = new Event('Query');
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
-            cookies.set('dlISTEXstate', this.state, { path: '/' });
-        } else if (cookies.get('dlISTEXstate')) {
-            this.state = cookies.get('dlISTEXstate');
+            localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        } else if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))
+        && !JSON.parse(localStorage.getItem('dlISTEXstateForm')).downloading) {
+            this.state = JSON.parse(localStorage.getItem('dlISTEXstateForm'));
         }
-
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -59,12 +58,12 @@ export default class Form extends React.Component {
             this.setState({
                 errorRequestSyntax: '',
                 q: event.query || event.target.value,
-            }, this.updateCookies());
+            });
             queryNotNull = event.query || event.target.value;
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            }, this.updateCookies());
+            });
         }
         const ISTEX = this.buildURLFromState(queryNotNull, false);
         ISTEX.searchParams.delete('extract');
@@ -180,6 +179,15 @@ export default class Form extends React.Component {
     }
 
     erase() {
+        this.child.forEach((c) => {
+            if (!c.props.disabled) {
+                const name = 'extract'
+                .concat(c.props.filetype.charAt(0).toUpperCase())
+                .concat(c.props.filetype.slice(1));
+                c.uncheckCurrent(name);
+            }
+        });
+
         this.setState({
             q: '',
             size: 5000,
@@ -193,21 +201,10 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-        });
+        }, () => { localStorage.clear(); });
+    }
 
-        this.child.forEach((c) => {
-            if (!c.props.disabled) {
-                const name = 'extract'
-                .concat(c.props.filetype.charAt(0).toUpperCase())
-                .concat(c.props.filetype.slice(1));
-                c.uncheckCurrent(name);
-            }
-        });
-    }
-    updateCookies() {
-        const cookies = new Cookies();
-        cookies.set('dlISTEXstate', this.state, { path: '/' });
-    }
+
     render() {
         const popoverRequestHelp = (
             <Popover
@@ -410,6 +407,8 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
+        const savedState = this.state;
+        localStorage.setItem('dlISTEXstateForm', JSON.stringify(savedState));
 
         return (
             <div className={`container-fluid ${this.props.className}`}>

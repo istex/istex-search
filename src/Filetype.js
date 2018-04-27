@@ -47,7 +47,7 @@ export default class Filetype extends React.Component {
     componentDidMount() {
         if (this.child.length !== 0) {
             this.verifyChildren(this.props.filetype);
-        } else if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+        } else if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
             const name = 'extract'
             .concat(this.props.filetype.charAt(0).toUpperCase())
             .concat(this.props.filetype.slice(1));

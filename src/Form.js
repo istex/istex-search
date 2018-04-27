@@ -15,9 +15,6 @@ import Filetype from './Filetype';
 export default class Form extends React.Component {
 
     constructor(props) {
-
-
-
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
@@ -40,9 +37,12 @@ export default class Form extends React.Component {
             const eventQuery = new Event('Query');
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
-            this.test();
-        } else{
-            this.testT();
+            if (window.localStorage) {
+                localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+            }
+        } else if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))
+        && !JSON.parse(localStorage.getItem('dlISTEXstateForm')).downloading) {
+            this.state = JSON.parse(localStorage.getItem('dlISTEXstateForm'));
         }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -51,16 +51,6 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    test(){
-        localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-    }
-    testT(){
-        if(JSON.parse(localStorage.getItem('dlISTEXstateForm'))
-        && !JSON.parse(localStorage.getItem('dlISTEXstateForm')).downloading) {
-            this.state = JSON.parse(localStorage.getItem('dlISTEXstateForm'))
-        }
     }
 
     handleQueryChange(event, query = null) {
@@ -420,7 +410,9 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        if (window.localStorage) {
+            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        }
         return (
             <div className={`container-fluid ${this.props.className}`}>
 

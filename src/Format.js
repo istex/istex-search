@@ -14,22 +14,23 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
-
-        if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
-            this.state = {
-                name: fullName,
-                [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
-            };
-        } else {
             this.state = {
                 name: fullName,
                 [props.format]: false,
             };
-        }
+
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-
+    componentDidMount(){
+        const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
+        if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            this.state = {
+                name: fullName,
+                [this.props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
+            };
+    }
+}
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;

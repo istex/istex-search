@@ -57,6 +57,9 @@
    border-color: grey;
 }
 
+.determinate input[type="checkbox"]:disabled:hover +span:after{
+   border-color: grey;
+}
 
 
 .determinate input[type="checkbox"]:hover + span:after{

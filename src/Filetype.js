@@ -34,14 +34,23 @@ export default class Filetype extends React.Component {
             />);
         }
 
-        if (props.tooltip) {
-            this.overlayedLabel = (
-                <OverlayTrigger placement="top" overlay={this.props.tooltip}>
-                    <span>{props.label}</span>
-                </OverlayTrigger>
+        this.overlayedLabel = (
+            <span>{props.label}</span>
         );
-        } else {
-            this.overlayedLabel = props.label;
+
+        this.popoverText = '';
+        switch (this.props.filetype) {
+        case 'metadata': this.popoverText = 'Insérer texte pour les Métadonnées';
+            break;
+        case 'fulltext': this.popoverText = 'Insérer texte pour les textes intégraux';
+            break;
+        case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
+            break;
+        case 'covers': this.popoverText = 'Documents textuels, images, etc.';
+            break;
+        case 'enrichments': this.popoverText = 'Insérer texte pour les Enrichissements';
+            break;
+        default: this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
 
@@ -168,62 +177,28 @@ export default class Filetype extends React.Component {
         } else {
             CssClass = 'determinate';
         }
-
-        let popoverTitle = 'Description ';
-        switch (this.props.filetype) {
-        case 'metadata': popoverTitle += 'Métadonnées';
-            break;
-        case 'fulltext': popoverTitle += 'Texte intégral';
-            break;
-        case 'annexes': popoverTitle += 'Annexes';
-            break;
-        case 'covers': popoverTitle += 'Couvertures';
-            break;
-        case 'enrichments': popoverTitle += 'Enrichissements';
-            break;
-        default: popoverTitle = 'Type de Fichier Non reconnu';
-        }
-
-        let popoverText = '';
-        switch (this.props.filetype) {
-        case 'metadata': popoverText = 'Insérer texte pour les Métadonnées';
-            break;
-        case 'fulltext': popoverText = 'Insérer texte pour les textes intégraux';
-            break;
-        case 'annexes': popoverText = 'Insérer texte pour les annexes';
-            break;
-        case 'covers': popoverText = 'Insérer texte pour les Couvertures';
-            break;
-        case 'enrichments': popoverText = 'Insérer texte pour les Enrichissements';
-            break;
-        default: popoverText = 'Type de Fichier Non reconnu';
-        }
-
         return (
             <FormGroup >
                 <Checkbox
-                    bsClass={CssClass}
+                    className={CssClass}
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
                     disabled={this.props.disabled}
-                    inline
                 >
                     <span />
                     {this.overlayedLabel}
-
                 </Checkbox>
-
                 <OverlayTrigger
-                    trigger="click"
                     rootClose
+                    trigger="click"
                     placement="right"
                     overlay={
                         <Popover
                             id={`popover-${this.props.filetype}`}
-                            title={popoverTitle}
+                            title={`Descripiton ${this.props.label}`}
                         >
-                            {popoverText}
+                            {this.popoverText}
                         </Popover>}
                 >
                     <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
@@ -244,11 +219,9 @@ Filetype.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    tooltip: PropTypes.element,
 };
 
 Filetype.defaultProps = {
     value: false,
     disabled: false,
-    tooltip: null,
 };

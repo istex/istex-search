@@ -20,6 +20,14 @@
   background:yellow;
 }
 
+.determinate{
+    display: inline-block;
+}
+
+.indeterminate{
+    display: inline-block;
+}
+
 .determinate input[type="checkbox"] {
   opacity: 0;
   position: absolute;

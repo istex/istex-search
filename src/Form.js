@@ -38,11 +38,11 @@ export default class Form extends React.Component {
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
             if (window.localStorage) {
-                localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
             }
-        } else if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))
-        && !JSON.parse(localStorage.getItem('dlISTEXstateForm')).downloading) {
-            this.state = JSON.parse(localStorage.getItem('dlISTEXstateForm'));
+        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+        && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
+            this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
         }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -203,7 +203,7 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-        }, () => { localStorage.clear(); });
+        }, () => { window.localStorage.clear(); });
     }
 
 

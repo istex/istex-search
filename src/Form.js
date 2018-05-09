@@ -138,6 +138,11 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+    updateUrl() {
+        const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
+        window.history.pushState('', '', newUrl);
+    }
+
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
@@ -400,6 +405,7 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
+        this.updateUrl();
 
         return (
             <div className={`container-fluid ${this.props.className}`}>

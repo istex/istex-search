@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "comma-number": "^2.0.0",
     "decamelize": "^1.2.0",
     "jquery": "^3.2.1",
     "qs": "^6.5.1",

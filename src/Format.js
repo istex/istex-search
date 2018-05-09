@@ -83,7 +83,6 @@ export default class Format extends React.Component {
                     <p>{this.props.label}</p>
                 </OverlayTrigger>}
             </Checkbox>
-
         );
     }
   }

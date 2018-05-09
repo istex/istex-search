@@ -26,11 +26,21 @@ body {
 	width: 60px;
 	height: 60px;
 }
+/* Firefox n'affiche pas l'image lorsque la largeur et
+la hauteur sont exprimées en pourcentages
+Ancien:
+width: 76%;
+height: 76%;
+padding-top: 30px;
+padding-left: 12%;
+*/
 .dataLogo {
-	width: 76%;
-	height: 76%;
+	width: 10em;
+	height: 10em;
 	padding-top: 30px;
-	padding-left: 12%;
+}
+.glyphicon{
+	font-size: 24px;
 }
 #pageTitle {
 	font-size: 3rem;
@@ -53,7 +63,7 @@ body {
 	border-bottom: 1px solid #000;
 }
 .property_value {
-	font-family: 'Open Sans', sans-serif;	
+	font-family: 'Open Sans', sans-serif;
 }
 ._m70zbn + div {
 	margin-left: 10px;
@@ -169,7 +179,7 @@ body {
 }
 ._3hmsj:hover {
 	color: #fff!important;
-	background-color: #458ca5;	
+	background-color: #458ca5;
 }
 ._3hmsj:hover:before {
 	background-image: url(../img/ic_savoir_plus_white.svg);
@@ -240,4 +250,4 @@ button:hover>div>svg, button:hover>svg {
 	.property {
 		width: 100%!important;
 	}
-} 
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
+import './Format.css';
 
 const ucfirst = input => input.charAt(0).toUpperCase().concat(input.slice(1));
 const text = (name, def) => (Labelize[name] ? Labelize[name] : def);
@@ -79,6 +80,7 @@ export default class Format extends React.Component {
     );
         return (
             <Checkbox
+                bsClass="determinate"
                 inline
                 id={`checkbox${this.props.filetype}${this.props.format}`}
                 name={this.props.format}
@@ -86,8 +88,9 @@ export default class Format extends React.Component {
                 onChange={this.handleInputChange}
                 disabled={this.props.disabled}
             >
+                <span />
                 {<OverlayTrigger placement="top" overlay={tooltip}>
-                    <p>{this.props.label}</p>
+                    <span className="labelFormat">{this.props.label} </span>
                 </OverlayTrigger>}
             </Checkbox>
         );

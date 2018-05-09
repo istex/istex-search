@@ -7,10 +7,10 @@ import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
+import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
 import './Form.css';
 import Filetype from './Filetype';
-
 
 export default class Form extends React.Component {
 
@@ -18,6 +18,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+
         this.state = {
             q: parsedUrl.q || '',
             size: 5000,
@@ -342,8 +343,10 @@ export default class Form extends React.Component {
                 title="Attention"
                 trigger="click"
             >
-                Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents,
-                classés par ordre de pertinence, (sur les {this.state.total} résultats potentiels)
+                Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                documents,classés par ordre de pertinence, (sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels)
             </Popover>
         );
 
@@ -354,7 +357,7 @@ export default class Form extends React.Component {
                 title="Limite temporaire"
                 trigger="click"
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
+                Aujourd’hui, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
@@ -423,7 +426,8 @@ export default class Form extends React.Component {
                                     &nbsp;
                                     <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                         <a>
-                                            {this.state.total ? String(this.state.total).concat(' documents') : ''}
+                                            {this.state.total ?
+                                             commaNumber.bindWith('\xa0', '')(this.state.total).concat(' documents') : ''}
                                         </a>
                                     </OverlayTrigger>
                                     &nbsp;

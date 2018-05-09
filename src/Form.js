@@ -7,9 +7,9 @@ import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
+import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
-
 
 export default class Form extends React.Component {
 
@@ -17,6 +17,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+
         this.state = {
             q: parsedUrl.q || '',
             size: 5000,
@@ -31,10 +32,17 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
+
         if (parsedUrl.q) {
             const eventQuery = new Event('Query');
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
+            if (window.localStorage) {
+                window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+            }
+        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+        && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
+            this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
         }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -136,6 +144,11 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+    updateUrl() {
+        const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
+        window.history.pushState('', '', newUrl);
+    }
+
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
@@ -172,13 +185,47 @@ export default class Form extends React.Component {
         return ISTEX;
     }
 
+    erase() {
+        this.child.forEach((c) => {
+            if (!c.props.disabled) {
+                const name = 'extract'
+                .concat(c.props.filetype.charAt(0).toUpperCase())
+                .concat(c.props.filetype.slice(1));
+                c.uncheckCurrent(name);
+            }
+        });
+
+        this.setState({
+            q: '',
+            size: 5000,
+            limitNbDoc: 10000,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            extractCovers: false,
+            extractAnnexes: false,
+            downloading: false,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+        }, () => { window.localStorage.clear(); });
+    }
+
+
     render() {
+        const closingButton = (
+            <Button
+                bsClass="buttonClose"
+                onClick={() => { document.body.click(); }}
+            >
+                &#x2716;
+            </Button>);
+
         const popoverRequestHelp = (
             <Popover
                 id="popover-request-help"
-                html="true"
-                title="Aide à la construction de requêtes"
-                trigger="click"
+                title={<span> Aide à la construction de requêtes {closingButton}</span>}
+
             >
                 Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur ISTEX</a> ou
                 de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation ISTEX</a> pour construire votre requête.<br />
@@ -186,12 +233,11 @@ export default class Form extends React.Component {
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>.
             </Popover>
         );
+
         const popoverRequestExamples = (
             <Popover
                 id="popover-request-examples"
-                html="true"
-                title="Exemples de requêtes"
-                trigger="click"
+                title={<span> Exemples de requêtes {closingButton}</span>}
             >
                 Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
                 Cliquez sur celle de votre choix et la zone de requête sera remplie par le contenu de l’exemple.
@@ -205,9 +251,7 @@ export default class Form extends React.Component {
         const popoverRequestExample1 = (
             <Popover
                 id="popover-request-example1"
-                html="true"
-                title="Extrait corpus “Vieillissement”"
-                trigger="click"
+                title={<span> Extrait corpus “Vieillissement” {closingButton}</span>}
             >
                 Équation utilisant des identifiants ISTEX<br />
                 <button
@@ -230,9 +274,7 @@ export default class Form extends React.Component {
         const popoverRequestExample2 = (
             <Popover
                 id="popover-request-example2"
-                html="true"
-                title="Extrait corpus “Astrophysique”"
-                trigger="click"
+                title={<span> Extrait corpus “Astrophysique” {closingButton}</span>}
             >
                 Équation utilisant des données bibliographiques<br />
                 <button
@@ -256,9 +298,7 @@ export default class Form extends React.Component {
         const popoverRequestExample3 = (
             <Popover
                 id="popover-request-example3"
-                html="true"
-                title="Extrait corpus “Poissons”"
-                trigger="click"
+                title={<span> Extrait corpus “Poissons” {closingButton}</span>}
             >
                 Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
                 <button
@@ -303,9 +343,7 @@ export default class Form extends React.Component {
         const popoverRequestExample4 = (
             <Popover
                 id="popover-request-example4"
-                html="true"
-                title="Extrait corpus “Polaris”"
-                trigger="click"
+                title={<span> Extrait corpus “Poissons” {closingButton}</span>}
             >
 
                 Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
@@ -341,19 +379,19 @@ export default class Form extends React.Component {
                 title="Attention"
                 trigger="click"
             >
-                Reformulez votre requête ou vous ne pourrez télécharger que les {this.state.size} premiers documents,
-                classés par ordre de pertinence, (sur les {this.state.total} résultats potentiels)
+                Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                documents,classés par ordre de pertinence, (sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels)
             </Popover>
         );
 
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                html="true"
-                title="Limite temporaire"
-                trigger="click"
+                title={<span> Limite temporaire {closingButton}</span>}
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de {this.state.limitNbDoc} documents.
+                Aujourd’hui, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
@@ -374,7 +412,11 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
+        this.updateUrl();
 
+        if (window.localStorage) {
+            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        }
         return (
             <div className={`container-fluid ${this.props.className}`}>
 
@@ -387,14 +429,19 @@ export default class Form extends React.Component {
                             <h2>
                                 Requête
                                 &nbsp;
-                                <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="top"
+                                    overlay={popoverRequestHelp}
+                                >
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                                     &nbsp;
                                 <OverlayTrigger
                                     placement="right"
                                     overlay={resetTooltip}
-                                    onClick={() => this.setState({ q: '' })}
+                                    onClick={() => this.erase()}
                                 >
                                     <span
                                         role="button" className="glyphicon glyphicon-erase"
@@ -422,13 +469,15 @@ export default class Form extends React.Component {
                                     &nbsp;
                                     <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                         <a>
-                                            {this.state.total ? String(this.state.total).concat(' documents') : ''}
+                                            {this.state.total ?
+                                             commaNumber.bindWith('\xa0', '')(this.state.total).concat(' documents') : ''}
                                         </a>
                                     </OverlayTrigger>
                                     &nbsp;
                                     {this.state.total > this.state.size &&
                                     <OverlayTrigger
                                         trigger="click"
+                                        rootClose
                                         placement="right"
                                         overlay={popoverRequestLimitWarning}
 
@@ -448,6 +497,7 @@ export default class Form extends React.Component {
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
+                                    rootClose
                                     placement="right"
                                     overlay={popoverRequestLimitHelp}
                                 >
@@ -480,13 +530,19 @@ export default class Form extends React.Component {
                         <div className="istex-dl-examples col-lg-3">
                             <h4>
                                 Exemples de corpus à télécharger &nbsp;
-                                <OverlayTrigger trigger="click" placement="left" overlay={popoverRequestExamples}>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="left"
+                                    overlay={popoverRequestExamples}
+                                >
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                             </h4>
 
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample1}
                             >
@@ -494,7 +550,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample2}
                             >
@@ -502,7 +559,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample3}
                             >
@@ -510,7 +568,8 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
                             &nbsp;
                             <OverlayTrigger
-                                trigger="focus"
+                                trigger="click"
+                                rootClose
                                 placement="left"
                                 overlay={popoverRequestExample4}
                             >
@@ -527,7 +586,12 @@ export default class Form extends React.Component {
                             <div className="col-lg-7">
                                 <p>
                                     Erreur de syntaxe dans votre requête &nbsp;
-                                    <OverlayTrigger trigger="click" placement="top" overlay={popoverRequestHelp}>
+                                    <OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverRequestHelp}
+                                    >
                                         <span role="button" className="glyphicon glyphicon-question-sign" />
                                     </OverlayTrigger>
                                     <br />

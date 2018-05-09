@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
+
 import './Filetype.css';
 
 export default class Filetype extends React.Component {
@@ -15,8 +16,6 @@ export default class Filetype extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.updateCurrent = this.updateCurrent.bind(this);
         this.verifyChildren = this.verifyChildren.bind(this);
-
-
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
@@ -34,14 +33,36 @@ export default class Filetype extends React.Component {
             />);
         }
 
-        if (props.tooltip) {
-            this.overlayedLabel = (
-                <OverlayTrigger placement="top" overlay={this.props.tooltip}>
-                    <span>{props.label}</span>
-                </OverlayTrigger>
+        this.overlayedLabel = (
+            <span>{props.label}</span>
         );
-        } else {
-            this.overlayedLabel = props.label;
+
+        this.popoverText = '';
+        switch (this.props.filetype) {
+        case 'metadata': this.popoverText = 'Insérer texte pour les Métadonnées';
+            break;
+        case 'fulltext': this.popoverText = 'Insérer texte pour les textes intégraux';
+            break;
+        case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
+            break;
+        case 'covers': this.popoverText = 'Documents textuels, images, etc.';
+            break;
+        case 'enrichments': this.popoverText = 'Insérer texte pour les Enrichissements';
+            break;
+        default: this.popoverText = 'Type de Fichier Non reconnu';
+        }
+    }
+
+    componentDidMount() {
+        if (this.child.length !== 0) {
+            this.verifyChildren(this.props.filetype);
+        } else if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            const name = 'extract'
+            .concat(this.props.filetype.charAt(0).toUpperCase())
+            .concat(this.props.filetype.slice(1));
+            if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))[name]) {
+                this.checkCurrent(this.props.filetype);
+            }
         }
     }
 
@@ -57,21 +78,19 @@ export default class Filetype extends React.Component {
         });
     }
 
-    updateCurrent(type, childNewValue) {
+    updateCurrent(type) {
         this.setState({
-            indeterminate: { childNewValue },
+            indeterminate: true,
         });
-        if (!childNewValue) {
+        if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            this.setState({
+                [type]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[type],
+            });
+        } else {
             this.setState({
                 [type]: false,
             });
         }
-
-        this.props.onChange({
-            filetype: this.props.filetype,
-            value: false,
-            format: this.state,
-        });
     }
 
     checkCurrent(type) {
@@ -90,6 +109,7 @@ export default class Filetype extends React.Component {
     uncheckCurrent(type) {
         this.setState({
             [type]: false,
+            [this.props.filetype]: false,
             indeterminate: false,
         });
 
@@ -98,32 +118,36 @@ export default class Filetype extends React.Component {
             value: false,
             format: this.state,
         });
+
+        this.uncheckChildren();
     }
 
     verifyChildren(type) {
-        let noChildChecked = true;
-        let i = 0;
-        while (i < this.child.length && noChildChecked) {
-            if (this.child[i].state[this.child[i].props.format]) {
-                noChildChecked = false;
-            }
-            i += 1;
-        }
-        if (noChildChecked) {
-            this.uncheckCurrent(type);
-        } else {
-            i = 0;
-            let allChildChecked = true;
-            while (i < this.child.length && allChildChecked) {
-                if (!this.child[i].state[this.child[i].props.format]) {
-                    allChildChecked = false;
+        if (this.child.length !== 0) {
+            let noChildChecked = true;
+            let i = 0;
+            while (i < this.child.length && noChildChecked) {
+                if (this.child[i].state[this.child[i].props.format]) {
+                    noChildChecked = false;
                 }
                 i += 1;
             }
-            if (allChildChecked) {
-                this.checkCurrent(type);
+            if (noChildChecked) {
+                this.uncheckCurrent(type);
             } else {
-                this.updateCurrent(type);
+                i = 0;
+                let allChildChecked = true;
+                while (i < this.child.length && allChildChecked) {
+                    if (!this.child[i].state[this.child[i].props.format]) {
+                        allChildChecked = false;
+                    }
+                    i += 1;
+                }
+                if (allChildChecked) {
+                    this.checkCurrent(type);
+                } else {
+                    this.updateCurrent(type);
+                }
             }
         }
     }
@@ -168,10 +192,11 @@ export default class Filetype extends React.Component {
         } else {
             CssClass = 'determinate';
         }
+
         return (
             <FormGroup >
                 <Checkbox
-                    bsClass={CssClass}
+                    className={CssClass}
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
@@ -180,6 +205,20 @@ export default class Filetype extends React.Component {
                     <span />
                     {this.overlayedLabel}
                 </Checkbox>
+                <OverlayTrigger
+                    rootClose
+                    trigger="click"
+                    placement="right"
+                    overlay={
+                        <Popover
+                            id={`popover-${this.props.filetype}`}
+                            title={`Descripiton ${this.props.label}`}
+                        >
+                            {this.popoverText}
+                        </Popover>}
+                >
+                    <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
+                </OverlayTrigger>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>
@@ -196,11 +235,9 @@ Filetype.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    tooltip: PropTypes.element,
 };
 
 Filetype.defaultProps = {
     value: false,
     disabled: false,
-    tooltip: null,
 };

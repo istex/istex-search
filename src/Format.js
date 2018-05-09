@@ -12,10 +12,18 @@ export default class Format extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            name: 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format)),
-            [props.format]: false,
-        };
+        const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
+        if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+            this.state = {
+                name: fullName,
+                [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
+            };
+        } else {
+            this.state = {
+                name: fullName,
+                [props.format]: false,
+            };
+        }
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -69,20 +77,19 @@ export default class Format extends React.Component {
                 {text(this.state.name, this.state.name)}
             </Tooltip>
     );
-
         return (
-            <OverlayTrigger placement="top" overlay={tooltip}>
-                <Checkbox
-                    inline
-                    id={`checkbox${this.props.filetype}${this.props.format}`}
-                    name={this.props.format}
-                    checked={this.state[this.props.format]}
-                    onChange={this.handleInputChange}
-                    disabled={this.props.disabled}
-                >
-                    {this.props.label}
-                </Checkbox>
-            </OverlayTrigger>
+            <Checkbox
+                inline
+                id={`checkbox${this.props.filetype}${this.props.format}`}
+                name={this.props.format}
+                checked={this.state[this.props.format]}
+                onChange={this.handleInputChange}
+                disabled={this.props.disabled}
+            >
+                {<OverlayTrigger placement="top" overlay={tooltip}>
+                    <p>{this.props.label}</p>
+                </OverlayTrigger>}
+            </Checkbox>
         );
     }
   }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 
-import './Filetype.css';
 
 export default class Filetype extends React.Component {
 

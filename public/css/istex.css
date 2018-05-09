@@ -39,9 +39,7 @@ padding-left: 12%;
 	height: 10em;
 	padding-top: 30px;
 }
-.glyphicon{
-	font-size: 24px;
-}
+
 #pageTitle {
 	font-size: 3rem;
 	font-weight: bold;
@@ -114,10 +112,10 @@ padding-left: 12%;
 }
 .property_scheme {
 	background: url(../img/information.png);
-    background-repeat: no-repeat;
-    background-size: 20px 20px;
-    background-position: right;
-    line-height: 2.4;
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	background-position: right;
+	line-height: 2.4;
 }
 .property_scheme a {
 	visibility: hidden;
@@ -204,7 +202,7 @@ padding-left: 12%;
 }
 .resourceURI>div:first-child {
 	margin-top: 50px;
-    padding-bottom: 10px;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #000;
 }
 .main-resource-section button, a[tabindex] div span {
@@ -250,4 +248,141 @@ button:hover>div>svg, button:hover>svg {
 	.property {
 		width: 100%!important;
 	}
+}
+
+.glyphicon{
+	font-size: 24px;
+}
+
+.indent {
+	padding-left: 52px;
+}
+
+.determinate-inline input[type="checkbox"] {
+	opacity: 0;
+	position: absolute;
+}
+
+.determinate-inline input[type="checkbox"] + span:after{
+	content: '';
+	margin: 0px 10px -1px 20px;
+	display: inline-block;
+	cursor: pointer;
+	width: 14px;
+	height: 14px;
+	background: white;
+	border: 2px solid grey;
+	border-radius: 4px;
+	transition: .3s;
+}
+
+.determinate-inline input[type="checkbox"]:checked + span:after {
+	background:   #42f445;
+}
+
+.determinate-inline input[type="checkbox"]:focus + span:after{
+	border-color: #42cbf4
+}
+
+.determinate-inline input[type="checkbox"]:disabled + span:after{
+	background-color: grey;
+}
+
+.determinate-inline input[type="checkbox"]:disabled:hover + span:after{
+	border-color: grey;
+	cursor: not-allowed;
+}
+
+.determinate-inline input[type="checkbox"]:hover + span:after{
+	border-color: #42cbf4;
+}
+
+.labelFormat{
+	font-weight: normal;
+}
+
+.indeterminate input[type="checkbox"] {
+	opacity: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.indeterminate input[type="checkbox"] + span:after{
+	content: '';
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: -3px;
+	width: 18px;
+	height: 18px;
+	background: yellow;
+	border: 2px solid grey;
+	border-radius: 4px;
+	transition: .3s;
+}
+
+.indeterminate input[type="checkbox"]:checked + span:after {
+	background:yellow;
+
+}
+
+.determinate.checkbox{
+	display: inline-block;
+}
+
+.indeterminate.checkbox{
+	display: inline-block;
+}
+
+.determinate input[type="checkbox"] {
+	opacity: 0;
+	position: absolute;
+	cursor: pointer;
+}
+
+.determinate input[type="checkbox"] + span:after{
+	content: '';
+	margin-right: 10px;
+	margin-bottom: -3px;
+	display: inline-block;
+	width: 18px;
+	height: 18px;
+	background: white;
+	border: 2px solid grey;
+	border-radius: 4px;
+	transition: .3s;
+}
+
+.determinate input[type="checkbox"]:checked + span:after {
+	background:   #42f445;
+}
+
+.determinate input[type="checkbox"]:focus + span:after{
+	border-color: #42cbf4
+}
+
+.determinate input[type="checkbox"]:disabled {
+	background-color: grey;
+	cursor: not-allowed;
+}
+.determinate input[type="checkbox"]:disabled +span:after{
+	background-color: grey;
+	border-color: grey;
+}
+
+.determinate input[type="checkbox"]:disabled:hover +span:after{
+	border-color: grey;
+}
+
+
+.determinate input[type="checkbox"]:hover + span:after{
+	border-color: #42cbf4;
+}
+
+.indeterminate input[type="checkbox"]:hover + span:after{
+	border-color: #42cbf4;
+}
+
+#glyphiconFiletype {
+	padding-left: 15px;
+	font-size: 18px;
 }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
-import './Format.css';
 
 const ucfirst = input => input.charAt(0).toUpperCase().concat(input.slice(1));
 const text = (name, def) => (Labelize[name] ? Labelize[name] : def);

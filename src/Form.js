@@ -174,6 +174,32 @@ export default class Form extends React.Component {
         return ISTEX;
     }
 
+    erase() {
+        this.setState({
+            q: '',
+            size: 5000,
+            limitNbDoc: 10000,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            extractCovers: false,
+            extractAnnexes: false,
+            downloading: false,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+        });
+
+        this.child.forEach((c) => {
+            if (!c.props.disabled) {
+                const name = 'extract'
+                .concat(c.props.filetype.charAt(0).toUpperCase())
+                .concat(c.props.filetype.slice(1));
+                c.uncheckCurrent(name);
+            }
+        });
+    }
+
     render() {
         const closingButton = (
             <Button
@@ -399,7 +425,7 @@ export default class Form extends React.Component {
                                 <OverlayTrigger
                                     placement="right"
                                     overlay={resetTooltip}
-                                    onClick={() => this.setState({ q: '' })}
+                                    onClick={() => this.erase()}
                                 >
                                     <span
                                         role="button" className="glyphicon glyphicon-erase"

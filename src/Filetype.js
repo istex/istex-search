@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Button, Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 
 import './Filetype.css';
@@ -192,6 +192,13 @@ export default class Filetype extends React.Component {
         } else {
             CssClass = 'determinate';
         }
+        const closingButton = (
+            <Button
+                bsClass="buttonClose"
+                onClick={() => { document.body.click(); }}
+            >
+                &#x2716;
+            </Button>);
 
         return (
             <FormGroup >
@@ -212,7 +219,7 @@ export default class Filetype extends React.Component {
                     overlay={
                         <Popover
                             id={`popover-${this.props.filetype}`}
-                            title={`Descripiton ${this.props.label}`}
+                            title={<span>Description {this.props.label}{closingButton}</span>}
                         >
                             {this.popoverText}
                         </Popover>}

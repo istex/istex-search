@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
+import { Popover, Checkbox, FormGroup, OverlayTrigger } from 'react-bootstrap';
 import Format from './Format';
 
 import './Filetype.css';
@@ -33,14 +33,23 @@ export default class Filetype extends React.Component {
             />);
         }
 
-        if (props.tooltip) {
-            this.overlayedLabel = (
-                <OverlayTrigger placement="top" overlay={this.props.tooltip}>
-                    <span>{props.label}</span>
-                </OverlayTrigger>
+        this.overlayedLabel = (
+            <span>{props.label}</span>
         );
-        } else {
-            this.overlayedLabel = props.label;
+
+        this.popoverText = '';
+        switch (this.props.filetype) {
+        case 'metadata': this.popoverText = 'Insérer texte pour les Métadonnées';
+            break;
+        case 'fulltext': this.popoverText = 'Insérer texte pour les textes intégraux';
+            break;
+        case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
+            break;
+        case 'covers': this.popoverText = 'Documents textuels, images, etc.';
+            break;
+        case 'enrichments': this.popoverText = 'Insérer texte pour les Enrichissements';
+            break;
+        default: this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
 
@@ -187,7 +196,7 @@ export default class Filetype extends React.Component {
         return (
             <FormGroup >
                 <Checkbox
-                    bsClass={CssClass}
+                    className={CssClass}
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
@@ -196,6 +205,20 @@ export default class Filetype extends React.Component {
                     <span />
                     {this.overlayedLabel}
                 </Checkbox>
+                <OverlayTrigger
+                    rootClose
+                    trigger="click"
+                    placement="right"
+                    overlay={
+                        <Popover
+                            id={`popover-${this.props.filetype}`}
+                            title={`Descripiton ${this.props.label}`}
+                        >
+                            {this.popoverText}
+                        </Popover>}
+                >
+                    <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
+                </OverlayTrigger>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>
@@ -212,11 +235,9 @@ Filetype.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    tooltip: PropTypes.element,
 };
 
 Filetype.defaultProps = {
     value: false,
     disabled: false,
-    tooltip: null,
 };

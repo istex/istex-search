@@ -21,6 +21,14 @@
   background:yellow;
 }
 
+.determinate{
+    display: inline-block;
+}
+
+.indeterminate{
+    display: inline-block;
+}
+
 .determinate input[type="checkbox"] {
   opacity: 0;
   position: absolute;
@@ -68,4 +76,10 @@
 
 .indeterminate input[type="checkbox"]:hover + span:after{
   border-color: #42cbf4;
+}
+
+#glyphiconFiletype {
+    padding-left: 15px;
+    vertical-align: center;
+    font-size: 18px;
 }

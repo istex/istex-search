@@ -33,10 +33,17 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
+
         if (parsedUrl.q) {
             const eventQuery = new Event('Query');
             eventQuery.query = parsedUrl.q;
             this.handleQueryChange(eventQuery);
+            if (window.localStorage) {
+                window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+            }
+        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+        && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
+            this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
         }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -180,6 +187,15 @@ export default class Form extends React.Component {
     }
 
     erase() {
+        this.child.forEach((c) => {
+            if (!c.props.disabled) {
+                const name = 'extract'
+                .concat(c.props.filetype.charAt(0).toUpperCase())
+                .concat(c.props.filetype.slice(1));
+                c.uncheckCurrent(name);
+            }
+        });
+
         this.setState({
             q: '',
             size: 5000,
@@ -193,17 +209,9 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-        });
-
-        this.child.forEach((c) => {
-            if (!c.props.disabled) {
-                const name = 'extract'
-                .concat(c.props.filetype.charAt(0).toUpperCase())
-                .concat(c.props.filetype.slice(1));
-                c.uncheckCurrent(name);
-            }
-        });
+        }, () => { window.localStorage.clear(); });
     }
+
 
     render() {
         const closingButton = (
@@ -407,6 +415,9 @@ export default class Form extends React.Component {
         );
         this.updateUrl();
 
+        if (window.localStorage) {
+            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        }
         return (
             <div className={`container-fluid ${this.props.className}`}>
 

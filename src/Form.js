@@ -9,7 +9,6 @@ import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
-import './Form.css';
 import Filetype from './Filetype';
 
 export default class Form extends React.Component {
@@ -425,8 +424,8 @@ export default class Form extends React.Component {
 
                     <div className="istex-dl-request row">
 
-                        <div className="col-lg-2" />
-                        <div className="col-lg-8">
+                        <div className="col-lg-1" />
+                        <div className="col-lg-7">
                             <h2>
                                 Requête
                                 &nbsp;
@@ -528,7 +527,7 @@ export default class Form extends React.Component {
 
                         </div>
 
-                        <div className="istex-dl-examples col-lg-2">
+                        <div className="istex-dl-examples col-lg-3">
                             <h4>
                                 Exemples de corpus à télécharger &nbsp;
                                 <OverlayTrigger
@@ -583,8 +582,8 @@ export default class Form extends React.Component {
 
                     {this.state.errorRequestSyntax &&
                         <div className="istex-dl-error-request row">
-                            <div className="col-lg-2" />
-                            <div className="col-lg-8">
+                            <div className="col-lg-1" />
+                            <div className="col-lg-7">
                                 <p>
                                     Erreur de syntaxe dans votre requête &nbsp;
                                     <OverlayTrigger
@@ -599,15 +598,15 @@ export default class Form extends React.Component {
                                     <blockquote>{this.state.errorRequestSyntax}</blockquote>
                                 </p>
                             </div>
-                            <div className="col-lg-2" />
+                            <div className="col-lg-3" />
                         </div>
                     }
 
 
                     <div className="istex-dl-format row" >
 
-                        <div className="col-lg-2" />
-                        <div className="col-lg-8">
+                        <div className="col-lg-1" />
+                        <div className="col-lg-7">
                             <h2>
                                 Formats et types de fichiers
                             </h2>
@@ -670,26 +669,26 @@ export default class Form extends React.Component {
                                 tooltip={enrichmentsDisabledTooltip}
                             />
                         </div>
-                        <div className="col-lg-2" />
+                        <div className="col-lg-3" />
                     </div>
 
                     <div className="istex-dl-download row">
 
-                        <div className="col-lg-2" />
-                        <div className="col-lg-8 text-center">
+                        <div className="col-lg-1" />
+                        <div className="col-lg-7 text-center">
                             <button type="submit" className="btn btn-theme btn-lg">
                                 <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
                                     Télécharger
                             </button>
                         </div>
-                        <div className="col-lg-2" />
+                        <div className="col-lg-3" />
 
                     </div>
 
                     {this.state.errorDuringDownload &&
                         <div className="istex-dl-error-download row">
-                            <div className="col-lg-2" />
-                            <div className="col-lg-8">
+                            <div className="col-lg-1" />
+                            <div className="col-lg-7">
                                 <p>
                                     <span
                                         role="button"
@@ -705,7 +704,7 @@ export default class Form extends React.Component {
                                     <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                                 </p>
                             </div>
-                            <div className="col-lg-2" />
+                            <div className="col-lg-3" />
                         </div>
                     }
 

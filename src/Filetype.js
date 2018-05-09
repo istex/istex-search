@@ -90,6 +90,7 @@ export default class Filetype extends React.Component {
     uncheckCurrent(type) {
         this.setState({
             [type]: false,
+            [this.props.filetype]: false,
             indeterminate: false,
         });
 
@@ -98,6 +99,8 @@ export default class Filetype extends React.Component {
             value: false,
             format: this.state,
         });
+
+        this.uncheckChildren();
     }
 
     verifyChildren(type) {

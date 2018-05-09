@@ -70,20 +70,19 @@ export default class Format extends React.Component {
                 {text(this.state.name, this.state.name)}
             </Tooltip>
     );
-
         return (
-            <OverlayTrigger placement="top" overlay={tooltip}>
-                <Checkbox
-                    inline
-                    id={`checkbox${this.props.filetype}${this.props.format}`}
-                    name={this.props.format}
-                    checked={this.state[this.props.format]}
-                    onChange={this.handleInputChange}
-                    disabled={this.props.disabled}
-                >
-                    {this.props.label}
-                </Checkbox>
-            </OverlayTrigger>
+            <Checkbox
+                inline
+                id={`checkbox${this.props.filetype}${this.props.format}`}
+                name={this.props.format}
+                checked={this.state[this.props.format]}
+                onChange={this.handleInputChange}
+                disabled={this.props.disabled}
+            >
+                {<OverlayTrigger placement="top" overlay={tooltip}>
+                    <p>{this.props.label}</p>
+                </OverlayTrigger>}
+            </Checkbox>
         );
     }
   }

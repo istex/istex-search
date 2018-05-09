@@ -17,8 +17,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
-
-        this.state = {
+        this.defaultState = {
             q: parsedUrl.q || '',
             size: 5000,
             limitNbDoc: 10000,
@@ -32,6 +31,8 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
+
+        this.state = this.defaultState;
 
         if (parsedUrl.q) {
             const eventQuery = new Event('Query');
@@ -194,21 +195,9 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-
-        this.setState({
-            q: '',
-            size: 5000,
-            limitNbDoc: 10000,
-            extractMetadata: false,
-            extractFulltext: false,
-            extractEnrichments: false,
-            extractCovers: false,
-            extractAnnexes: false,
-            downloading: false,
-            URL2Download: '',
-            errorRequestSyntax: '',
-            errorDuringDownload: '',
-        }, () => { window.localStorage.clear(); });
+        const blankState = this.defaultState;
+        blankState.q = '';
+        this.setState(blankState, () => { window.localStorage.clear(); });
     }
 
 
@@ -376,7 +365,7 @@ export default class Form extends React.Component {
             <Popover
                 id="popover-request-limit-warning"
                 html="true"
-                title="Attention"
+                title={<span>Attention{closingButton}</span>}
                 trigger="click"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
@@ -391,7 +380,8 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Limite temporaire {closingButton}</span>}
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
+                Aujourd’hui, il n’est pas possible de télécharger plus de
+                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
@@ -470,7 +460,9 @@ export default class Form extends React.Component {
                                     <OverlayTrigger placement="bottom" overlay={previewTooltip}>
                                         <a>
                                             {this.state.total ?
-                                             commaNumber.bindWith('\xa0', '')(this.state.total).concat(' documents') : ''}
+                                             commaNumber.bindWith('\xa0', '')(this.state.total)
+                                            .concat(' documents')
+                                            : ''}
                                         </a>
                                     </OverlayTrigger>
                                     &nbsp;

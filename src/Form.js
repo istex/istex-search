@@ -398,7 +398,7 @@ export default class Form extends React.Component {
 
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
-                            <div claussName="form-group">
+                            <div className="form-group">
                                 <Textarea
                                     className="form-control"
                                     placeholder="brain AND language:fre"

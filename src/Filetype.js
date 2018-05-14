@@ -55,11 +55,11 @@ export default class Filetype extends React.Component {
     componentDidMount() {
         if (this.child.length !== 0) {
             this.verifyChildren(this.props.filetype);
-        } else if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
             const name = 'extract'
             .concat(this.props.filetype.charAt(0).toUpperCase())
             .concat(this.props.filetype.slice(1));
-            if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))[name]) {
+            if (JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))[name]) {
                 this.checkCurrent(this.props.filetype);
             }
         }
@@ -81,9 +81,9 @@ export default class Filetype extends React.Component {
         this.setState({
             indeterminate: true,
         });
-        if (JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+        if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
             this.setState({
-                [type]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[type],
+                [type]: JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))[type],
             });
         } else {
             this.setState({

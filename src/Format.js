@@ -15,8 +15,14 @@ export default class Format extends React.Component {
         const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
         if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
             this.state = {
+
                 name: fullName,
                 [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
+            };
+        } else if (props.format === 'json') {
+            this.state = {
+                name: fullName,
+                json: true,
             };
         } else {
             this.state = {

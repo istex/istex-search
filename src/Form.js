@@ -20,20 +20,24 @@ export default class Form extends React.Component {
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.defaultState = {
             q: parsedUrl.q || '',
-            size: 5000,
+            size: parsedUrl.size || 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
+            extractMetadataJson: true,
             extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
             extractAnnexes: false,
-            downloading: false,
+            downloading: parsedUrl.download || false,
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
         };
 
         this.state = this.defaultState;
+        if (parsedUrl.download) {
+            this.handleSubmit(new Event('submit'));
+        }
 
         if (parsedUrl.q) {
             const eventQuery = new Event('Query');
@@ -46,6 +50,7 @@ export default class Form extends React.Component {
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
         }
+
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -209,6 +214,12 @@ export default class Form extends React.Component {
         document.body.click();
     }
 
+    updateUrlAndLocalStorage() {
+        if (window.localStorage) {
+            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        }
+        this.updateUrl();
+    }
 
     render() {
         const closingButton = (
@@ -353,11 +364,7 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
-        this.updateUrl();
-
-        if (window.localStorage) {
-            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-        }
+        this.updateUrlAndLocalStorage();
         return (
             <div className={`container-fluid ${this.props.className}`}>
 

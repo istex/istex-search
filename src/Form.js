@@ -92,7 +92,7 @@ export default class Form extends React.Component {
                 return self.setState({ errorServer: 'Error server TODO ...' });
             }
             if (err.status >= 400 && err.status < 500) {
-                return self.setState({ errorRequestSyntax: err.responseJSON.error });
+                return self.setState({ errorRequestSyntax: err.responseJSON._error });
             }
             return null;
         },

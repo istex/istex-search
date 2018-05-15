@@ -342,7 +342,7 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Limite temporaire {closingButton}</span>}
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de
+                Aujourd’hui, il n’est pas possible de télécharger plus de&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
@@ -424,7 +424,7 @@ export default class Form extends React.Component {
                                         </a>
                                     </OverlayTrigger>
                                     &nbsp;
-                                    {this.state.total > this.state.size &&
+                                    {this.state.total > this.state.limitNbDoc &&
                                     <OverlayTrigger
                                         trigger="click"
                                         rootClose
@@ -460,6 +460,7 @@ export default class Form extends React.Component {
                                     <NumericInput
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
+                                        onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
@@ -669,7 +670,7 @@ export default class Form extends React.Component {
                             La génération de votre corpus est en cours.<br />
                         Veuillez patienter. L’archive sera bientôt téléchargée...
                         <br />
-                            <img src="/images/loader.gif" alt="" />
+                            <img src="/img/loader.gif" alt="" />
                         </div>
 
                         <br />

@@ -10,7 +10,6 @@ import qs from 'qs';
 import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
-import VersionComponent from './Version'
 import Labelize from './i18n/fr';
 
 export default class Form extends React.Component {

@@ -21,7 +21,7 @@ install: ## install depedencies thanks to a dockerized npm install
 	@make chown
 
 build: ## build the docker istex/istex-dl image locally
-	@docker build -t istex/istex-dl:4.7.2 --build-arg http_proxy --build-arg https_proxy .
+	@docker build -t istex/istex-dl:4.7.3 --build-arg http_proxy --build-arg https_proxy .
 
 run: ## run istex-dl in production mode
 	@docker-compose -f ./docker-compose.yml up -d

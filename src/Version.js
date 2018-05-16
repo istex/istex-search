@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 const { version } = require('../package.json');
 
@@ -10,5 +9,3 @@ const VersionComponent = () => (
     </span>
 );
 export { VersionComponent as default };
-
-ReactDOM.render(<VersionComponent />, document.getElementById('version'));

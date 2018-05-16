@@ -3,8 +3,7 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
-import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -18,6 +17,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        this.characterLimit = 20;
         this.defaultState = {
             q: parsedUrl.q || '',
             size: parsedUrl.size || 5000,
@@ -60,7 +60,16 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    characterNumberValidation() {
+        const length = this.state.q.length;
+        if (length < 10) return 'success';
+        else if (length < this.characterLimit) return 'warning';
+        else if (length > this.characterLimit) return 'error';
+        return null;
+    }
+
     handleQueryChange(event, query = null) {
+        console.log(event)
         const self = this;
         let queryNotNull = query;
         if (event) {
@@ -398,16 +407,33 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
-                                <Textarea
-                                    className="form-control"
-                                    placeholder="brain AND language:fre"
-                                    name="q"
-                                    id="q"
-                                    rows="3"
-                                    autoFocus="true"
-                                    value={this.state.q}
-                                    onChange={this.handleQueryChange}
-                                />
+                                <FormGroup
+                                    controlId="formBasicText"
+                                    validationState={this.characterNumberValidation()}
+                                >
+                                    <FormControl
+                                        componentClass="textarea"
+                                        className="form-control"
+                                        id="ABCDEF"
+                                        name="q"
+                                        type="textarea"
+                                        rows="3"
+                                        value={this.state.q}
+                                        placeholder="brain AND language:fre"
+                                        onChange={(e) => {
+                                            console.log("TESTESTS")
+                                            console.log(e.scrollHeight);
+                                            this.handleQueryChange(e);
+                                            e.target.style.height = 0;
+                                            e.target.style.overflow = 'hidden';
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }
+                                        }
+                                        on
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock>{this.state.q.length}/{this.characterLimit}</HelpBlock>
+                                </FormGroup>
                             </div>
 
                             {this.state.total > 0 && this.state.q !== '' &&

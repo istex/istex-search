@@ -386,3 +386,7 @@ button:hover>div>svg, button:hover>svg {
 	padding-left: 15px;
 	font-size: 18px;
 }
+
+.radioGroupRankBy {
+	margin-left: 15px;
+}

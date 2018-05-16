@@ -660,7 +660,7 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
-                            <button type="submit" className="btn btn-theme btn-lg">
+                            <button type="submit" className="btn btn-theme btn-lg" disabled={this.state.total !== 0}>
                                 <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
                                     Télécharger
                             </button>

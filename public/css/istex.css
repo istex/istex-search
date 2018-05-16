@@ -284,6 +284,10 @@ button:hover>div>svg, button:hover>svg {
 	border-color: #42cbf4
 }
 
+.determinate-inline input[type="checkbox"]:disabled:checked + span:after{
+	background:  #42f445;
+}
+
 .determinate-inline input[type="checkbox"]:disabled + span:after{
 	background-color: grey;
 }
@@ -369,6 +373,7 @@ button:hover>div>svg, button:hover>svg {
 	border-color: grey;
 }
 
+
 .determinate input[type="checkbox"]:disabled:hover +span:after{
 	border-color: grey;
 }
@@ -389,4 +394,8 @@ button:hover>div>svg, button:hover>svg {
 
 .radioGroupRankBy {
 	margin-left: 15px;
+}
+
+.determinate-inline#checkboxmetadatajson{
+	display: none
 }

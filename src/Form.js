@@ -421,8 +421,7 @@ export default class Form extends React.Component {
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock>Nombre de caractères restants: {
-                                        this.characterLimit - this.state.q.length >= 0 ?
-                                        this.characterLimit - this.state.q.length : 0
+                                        this.characterLimit - this.state.q.length
                                     }
                                     </HelpBlock>
                                 </FormGroup>

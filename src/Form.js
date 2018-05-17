@@ -217,6 +217,7 @@ export default class Form extends React.Component {
         });
         const blankState = this.defaultState;
         blankState.q = '';
+        blankState.rankBy = 'relevance';
         this.setState(blankState, () => { window.localStorage.clear(); });
     }
 

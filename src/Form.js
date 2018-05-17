@@ -23,7 +23,6 @@ export default class Form extends React.Component {
             size: parsedUrl.size || 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
-            extractMetadataJson: true,
             extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
@@ -61,6 +60,7 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
+        this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
     }
 
     handleQueryChange(event, query = null) {
@@ -167,6 +167,7 @@ export default class Form extends React.Component {
         window.history.pushState('', '', newUrl);
     }
 
+
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
@@ -235,6 +236,12 @@ export default class Form extends React.Component {
         this.updateUrl();
     }
 
+    isDownloadDisabled() {
+        const filetypeFormats = Object.keys(this.state)
+        .filter(key => key.startsWith('extract'))
+        .filter(key => this.state[key]);
+        return (this.state.q.length <= 0 || this.state.total <= 0 || filetypeFormats.length <= 0);
+    }
     render() {
         const closingButton = (
             <Button
@@ -337,6 +344,13 @@ export default class Form extends React.Component {
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
             </Tooltip>
         );
+
+        const disabledDownloadTooltip = (
+            <Tooltip data-html="true" id="disabledDownloadTooltip">
+                Pour télécharger indiquez une requête qui renvoie
+                au moins un document et cochez au moins un format de fichier
+            </Tooltip>
+        );
         const popoverRequestLimitWarning = (
             <Popover
                 id="popover-request-limit-warning"
@@ -373,12 +387,17 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const emptyTooltip = (
+            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
+        );
+
         const appendicesTooltip = (
             <Tooltip data-html="true" id="appendicesTooltip">
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
         this.updateUrlAndLocalStorage();
+        const downloadDisabled = this.isDownloadDisabled();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -600,8 +619,8 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[0] = instance; }}
                                 label="Métadonnées"
                                 filetype="metadata"
-                                formats="xml,mods,json"
-                                labels="XML|MODS|JSON"
+                                formats="xml,mods"
+                                labels="XML|MODS"
                                 value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -660,10 +679,15 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
-                            <button type="submit" className="btn btn-theme btn-lg" disabled={this.state.total !== 0}>
-                                <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
-                                    Télécharger
-                            </button>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}
+                            >
+                                <button type="submit" className="btn btn-theme btn-lg" disabled={downloadDisabled}>
+                                    <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
+                                        Télécharger
+                                </button>
+                            </OverlayTrigger>
                         </div>
                         <div className="col-lg-3" />
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, HelpBlock, FormGroup, FormControl } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -18,6 +18,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        this.characterLimit = 6776;
         this.defaultState = {
             q: parsedUrl.q || '',
             size: parsedUrl.size || 5000,
@@ -58,6 +59,13 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    characterNumberValidation() {
+        const length = this.state.q.length;
+        if (length < this.characterLimit - 1000) return 'success';
+        else if (length <= this.characterLimit) return 'warning';
+        else if (length > this.characterLimit) return 'error';
+        return null;
     }
 
     handleQueryChange(event, query = null) {
@@ -234,7 +242,6 @@ export default class Form extends React.Component {
             <Popover
                 id="popover-request-help"
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
-
             >
                 Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur ISTEX</a> ou
                 de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation ISTEX</a> pour construire votre requête.<br />
@@ -398,16 +405,27 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
-                                <Textarea
-                                    className="form-control"
-                                    placeholder="brain AND language:fre"
-                                    name="q"
-                                    id="q"
-                                    rows="3"
-                                    autoFocus="true"
-                                    value={this.state.q}
-                                    onChange={this.handleQueryChange}
-                                />
+                                <FormGroup
+                                    controlId="formBasicText"
+                                    validationState={this.characterNumberValidation()}
+                                >
+                                    <Textarea
+                                        className="form-control"
+                                        placeholder="brain AND language:fre"
+                                        name="q"
+                                        id="q"
+                                        rows="3"
+                                        autoFocus="true"
+                                        value={this.state.q}
+                                        onChange={this.handleQueryChange}
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock>Nombre de caractères restants: {
+                                        this.characterLimit - this.state.q.length >= 0 ?
+                                        this.characterLimit - this.state.q.length : 0
+                                    }
+                                    </HelpBlock>
+                                </FormGroup>
                             </div>
 
                             {this.state.total > 0 && this.state.q !== '' &&

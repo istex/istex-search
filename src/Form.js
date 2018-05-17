@@ -419,11 +419,20 @@ export default class Form extends React.Component {
                                         value={this.state.q}
                                         onChange={this.handleQueryChange}
                                     />
-                                    <FormControl.Feedback />
+
                                     <HelpBlock>Nombre de caractères restants: {
                                         this.characterLimit - this.state.q.length
                                     }
+                                        <FormControl.Feedback
+                                            style={{
+                                                position: 'relative',
+                                                display: 'inline-block',
+                                                verticalAlign: 'middle',
+                                                marginLeft: '20px',
+                                            }}
+                                        />
                                     </HelpBlock>
+
                                 </FormGroup>
                             </div>
 

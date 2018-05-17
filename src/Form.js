@@ -489,9 +489,9 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents :
+                                Choix du mode de tri des documents :
                             </div>
-                            <span className="radioGroupRankBy">
+                            <div className="radioGroupRankBy">
                                 <Radio
                                     id="radioRelevance"
                                     inline
@@ -499,7 +499,7 @@ export default class Form extends React.Component {
                                     checked={this.state.rankBy === 'relevance'}
                                     onChange={this.handlerankByChange}
                                 >
-                                    Par perticence
+                                    Par pertinence
                                 </Radio>
                                 <Radio
                                     id="radioRandom"
@@ -510,7 +510,7 @@ export default class Form extends React.Component {
                                 >
                                     Aléatoirement
                                 </Radio>
-                            </span>
+                            </div>
                         </div>
                         <div className="istex-dl-examples col-lg-3">
                             <h4>

@@ -23,7 +23,7 @@ export default class Form extends React.Component {
             size: parsedUrl.size || 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
-            extractFulltext: false,
+            extractFulltext: true,
             extractEnrichments: false,
             extractCovers: false,
             extractAnnexes: false,
@@ -47,10 +47,10 @@ export default class Form extends React.Component {
                     window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
                 }
             }
-        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+        } /*else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
-        }
+        }*/
 
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -61,8 +61,25 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
-    }
+        this.recupererEtatDesEnfants=this.recupererEtatDesEnfants.bind(this);
+}
 
+    componentDidMount(){
+        this.recupererEtatDesEnfants();
+    }
+    recupererEtatDesEnfants(){
+        const self=this;
+        this.child.forEach(function(type){
+            type.child.forEach(function(format){
+                if(format.state[format.props.format]){
+                    console.log(format)
+                    self.setState({
+                    [format.state.name]: true
+                })
+                }
+            })
+        })
+    }
     handleQueryChange(event, query = null) {
         const self = this;
         let queryNotNull = query;
@@ -229,10 +246,10 @@ export default class Form extends React.Component {
         document.body.click();
     }
 
-    updateUrlAndLocalStorage() {
+    updateUrlAndLocalStorage() {/*
         if (window.localStorage) {
             window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-        }
+        }*/
         this.updateUrl();
     }
 
@@ -398,6 +415,8 @@ export default class Form extends React.Component {
         );
         this.updateUrlAndLocalStorage();
         const downloadDisabled = this.isDownloadDisabled();
+        //console.log("STATE FORM",this.state);
+        //this.recupererEtatDesEnfants();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -502,7 +521,7 @@ export default class Form extends React.Component {
                                         id="nb-doc-to-download"
                                         maxValue={this.state.limitNbDoc}
                                         minValue={0}
-                                        value={this.state.size}
+                                        value={Number(this.state.size)}
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
@@ -632,7 +651,8 @@ export default class Form extends React.Component {
                                 filetype="fulltext"
                                 formats="pdf,tei,txt,ocr,zip,tiff"
                                 labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
-                                value={this.state.extractFulltext}
+                                value={true}
+                                enfantsValeurs='0|1|0|0|1'
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -642,7 +662,7 @@ export default class Form extends React.Component {
                                 filetype="annexes"
                                 formats=""
                                 labels=""
-                                value={this.state.extractAnnexes}
+                                value={true}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                                 tooltip={appendicesTooltip}

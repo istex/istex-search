@@ -13,18 +13,18 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
-        if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+    /*    if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
             this.state = {
 
                 name: fullName,
                 [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
             };
-        } else {
+        } else {*/
             this.state = {
                 name: fullName,
-                [props.format]: false,
+                [props.format]: props.value,
             };
-        }
+
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -78,6 +78,7 @@ export default class Format extends React.Component {
                 {text(this.state.name, this.state.name)}
             </Tooltip>
     );
+        //console.log("STATE FORMAT",this.state);
         return (
             <Checkbox
                 bsClass="determinate"

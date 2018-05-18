@@ -9,7 +9,7 @@ export default class Filetype extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            [props.filetype]: false,
+            [props.filetype]: props.value,
             indeterminate: false,
         };
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -24,6 +24,7 @@ export default class Filetype extends React.Component {
                 label={props.labels.split('|')[n]}
                 format={format}
                 filetype={props.filetype}
+                value={this.state[props.filetype]}
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
                 updateParent={this.updateCurrent}
@@ -51,7 +52,7 @@ export default class Filetype extends React.Component {
         default: this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
-
+/*
     componentDidMount() {
         if (this.child.length !== 0) {
             this.verifyChildren(this.props.filetype);
@@ -64,7 +65,7 @@ export default class Filetype extends React.Component {
             }
         }
     }
-
+*/
     checkChildren() {
         this.child.forEach((c) => {
             c.check(this);
@@ -198,7 +199,7 @@ export default class Filetype extends React.Component {
             >
                 &#x2716;
             </Button>);
-
+        //console.log("STATE Filetype",this.state);
         return (
             <FormGroup >
                 <Checkbox

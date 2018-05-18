@@ -25,8 +25,8 @@ export default class Form extends React.Component {
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
-            extractCovers: false,
-            extractAnnexes: false,
+            extractCovers: parsedUrl.extract.includes('covers') || false,
+            extractAnnexes: parsedUrl.extract.includes('annexes') || false,
             downloading: parsedUrl.download || false,
             URL2Download: '',
             errorRequestSyntax: '',
@@ -34,17 +34,18 @@ export default class Form extends React.Component {
             rankBy: parsedUrl.rankBy || 'relevance',
         };
         this.state = this.defaultState;
-
-        parsedUrl.extract.split(';').forEach((filetype) => {
-            const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-            const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
-            let res = '';
-            lesFormats.forEach((format) => {
-                res += `${format},`;
+        if (parsedUrl.extract) {
+            parsedUrl.extract.split(';').forEach((filetype) => {
+                const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                let res = '';
+                lesFormats.forEach((format) => {
+                    res += `${format},`;
+                });
+                res = res.slice(0, res.length - 1);
+                this.state[attribut] = res;
             });
-            res = res.slice(0, res.length - 1);
-            this.state[attribut] = res;
-        });
+        }
         if (parsedUrl.size > 0) {
             if (parsedUrl.download) {
                 this.handleSubmit(new Event('submit'));

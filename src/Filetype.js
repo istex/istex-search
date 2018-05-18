@@ -218,8 +218,6 @@ export default class Filetype extends React.Component {
             >
                 &#x2716;
             </Button>);
-
-        console.log(this.state[this.props.filetype])
         return (
             <FormGroup >
                 <Checkbox

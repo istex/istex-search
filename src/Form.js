@@ -16,37 +16,23 @@ export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        const url = document.location.href;
-        const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.defaultState = {
-            q: parsedUrl.q || '',
-            size: parsedUrl.size || 5000,
+            q: '',
+            size: 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
-            extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
-            extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
-            downloading: parsedUrl.download || false,
+            extractCovers: false,
+            extractAnnexes: false,
+            downloading: false,
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-            rankBy: parsedUrl.rankBy || 'relevance',
+            rankBy: 'relevance',
         };
         this.state = this.defaultState;
-        if (parsedUrl.size > 0) {
-            if (parsedUrl.download) {
-                this.handleSubmit(new Event('submit'));
-            }
-            if (parsedUrl.q) {
-                const eventQuery = new Event('Query');
-                eventQuery.query = parsedUrl.q;
-                this.handleQueryChange(eventQuery);
-                if (window.localStorage) {
-                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-                }
-            }
-        }
+
         /* else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
@@ -66,19 +52,48 @@ export default class Form extends React.Component {
     componentWillMount() {
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
-        if (parsedUrl.extract) {
-            parsedUrl.extract.split(';').forEach((filetype) => {
-                const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-                const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
-                let res = '';
-                lesFormats.forEach((format) => {
-                    res += `${format},`;
-                });
-                res = res.slice(0, res.length - 1);
-                this.setState({
-                    [attribut]: res,
-                });
+        if (parsedUrl.size > 0) {
+            this.setState({
+                q: parsedUrl.q || '',
+                size: parsedUrl.size || 5000,
+                limitNbDoc: 10000,
+                extractMetadata: false,
+                extractFulltext: false,
+                extractEnrichments: false,
+                extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
+                extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
+                downloading: parsedUrl.download || false,
+                URL2Download: '',
+                errorRequestSyntax: '',
+                errorDuringDownload: '',
+                rankBy: parsedUrl.rankBy || 'relevance',
             });
+            if (parsedUrl.q) {
+                const eventQuery = new Event('Query');
+                eventQuery.query = parsedUrl.q;
+                this.handleQueryChange(eventQuery);
+                if (window.localStorage) {
+                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                }
+            }
+            if (parsedUrl.extract) {
+                parsedUrl.extract.split(';').forEach((filetype) => {
+                    const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                    const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                    let res = '';
+                    lesFormats.forEach((format) => {
+                        res += `${format},`;
+                    });
+                    res = res.slice(0, res.length - 1);
+                    this.setState({
+                        [attribut]: res,
+                    }, () => {
+                        if (parsedUrl.download) {
+                            this.handleSubmit(new Event('submit'));
+                        }
+                    });
+                });
+            }
         }
     }
 
@@ -252,11 +267,7 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-
-        const blankState = this.defaultState;
-        blankState.q = '';
-        blankState.extractFulltext = false;
-        this.setState(blankState, () => { window.localStorage.clear(); });
+        this.setState(this.defaultState, () => { window.localStorage.clear(); });
     }
 
     tryExempleRequest(queryExample) {

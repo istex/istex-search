@@ -36,20 +36,20 @@ export default class Filetype extends React.Component {
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
-            .map((format, n) => <Format
-                ref={(instance) => { this.child[n] = instance; }}
-                key={`format${format}`}
-                label={props.labels.split('|')[n]}
-                format={format}
-                filetype={props.filetype}
-                value={props.enfantsCoches ?
-                        props.formats.split(',').includes(props.enfantsCoches.split(',')[n]) : false}
-                onChange={props.onFormatChange}
-                disabled={props.disabled}
-                updateParent={this.updateCurrent}
-                verifyOtherFormats={this.verifyChildren}
-
-            />);
+            .map((format, n) =>
+                <Format
+                    ref={(instance) => { this.child[n] = instance; }}
+                    key={`format${format}`}
+                    label={props.labels.split('|')[n]}
+                    format={format}
+                    filetype={props.filetype}
+                    value={props.enfantsCoches ?
+                            props.enfantsCoches.split(',').includes(props.formats.split(',')[n]) : false}
+                    onChange={props.onFormatChange}
+                    disabled={props.disabled}
+                    updateParent={this.updateCurrent}
+                    verifyOtherFormats={this.verifyChildren}
+                />);
         }
 
         this.overlayedLabel = (
@@ -218,6 +218,8 @@ export default class Filetype extends React.Component {
             >
                 &#x2716;
             </Button>);
+
+        console.log(this.state[this.props.filetype])
         return (
             <FormGroup >
                 <Checkbox

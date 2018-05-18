@@ -23,7 +23,7 @@ export default class Form extends React.Component {
             size: parsedUrl.size || 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
-            extractFulltext: true,
+            extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
             extractAnnexes: false,
@@ -33,8 +33,18 @@ export default class Form extends React.Component {
             errorDuringDownload: '',
             rankBy: parsedUrl.rankBy || 'relevance',
         };
-
         this.state = this.defaultState;
+
+        parsedUrl.extract.split(';').forEach((filetype) => {
+            const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+            const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+            let res = '';
+            lesFormats.forEach((format) => {
+                res += `${format},`;
+            });
+            res = res.slice(0, res.length - 1);
+            this.state[attribut] = res;
+        });
         if (parsedUrl.size > 0) {
             if (parsedUrl.download) {
                 this.handleSubmit(new Event('submit'));
@@ -80,6 +90,7 @@ export default class Form extends React.Component {
             });
         });
     }
+
 
     handleQueryChange(event, query = null) {
         const self = this;
@@ -642,7 +653,7 @@ export default class Form extends React.Component {
                                 filetype="metadata"
                                 formats="xml,mods"
                                 labels="XML|MODS"
-                                enfantsCoches="xml"
+                                enfantsCoches={this.state.Metadata}
                                 value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -655,7 +666,7 @@ export default class Form extends React.Component {
                                 formats="pdf,tei,txt,ocr,zip,tiff"
                                 labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
                                 value={this.state.extractFulltext}
-                                enfantsCoches="pdf,tei,txt,ocr,zip"
+                                enfantsCoches={this.state.Fulltext}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />

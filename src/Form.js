@@ -34,18 +34,6 @@ export default class Form extends React.Component {
             rankBy: parsedUrl.rankBy || 'relevance',
         };
         this.state = this.defaultState;
-        if (parsedUrl.extract) {
-            parsedUrl.extract.split(';').forEach((filetype) => {
-                const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-                const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
-                let res = '';
-                lesFormats.forEach((format) => {
-                    res += `${format},`;
-                });
-                res = res.slice(0, res.length - 1);
-                this.state[attribut] = res;
-            });
-        }
         if (parsedUrl.size > 0) {
             if (parsedUrl.download) {
                 this.handleSubmit(new Event('submit'));
@@ -75,6 +63,25 @@ export default class Form extends React.Component {
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
     }
 
+    componentWillMount() {
+        const url = document.location.href;
+        const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        if (parsedUrl.extract) {
+            parsedUrl.extract.split(';').forEach((filetype) => {
+                const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                let res = '';
+                lesFormats.forEach((format) => {
+                    res += `${format},`;
+                });
+                res = res.slice(0, res.length - 1);
+                this.setState({
+                    [attribut]: res,
+                });
+            });
+        }
+    }
+
     componentDidMount() {
         this.recupererEtatDesEnfants();
     }
@@ -91,7 +98,6 @@ export default class Form extends React.Component {
             });
         });
     }
-
 
     handleQueryChange(event, query = null) {
         const self = this;

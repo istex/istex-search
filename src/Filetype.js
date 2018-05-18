@@ -8,10 +8,28 @@ export default class Filetype extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            [props.filetype]: props.value,
-            indeterminate: false,
-        };
+
+        if (props.formats) {
+            // si tous les enfants on met à vrai sinon à false
+            if (props.enfantsCoches) {
+                const allChecked = props.enfantsCoches.split(',').length === props.formats.split(',').length;
+                this.state = {
+                    [props.filetype]: allChecked,
+                    indeterminate: !allChecked,
+                };
+            } else {
+                this.state = {
+                    [props.filetype]: false,
+                    indeterminate: false,
+                };
+            }
+        } else {
+            this.state = {
+                [props.filetype]: props.value,
+                indeterminate: false,
+            };
+        }
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.updateCurrent = this.updateCurrent.bind(this);
         this.verifyChildren = this.verifyChildren.bind(this);
@@ -24,7 +42,8 @@ export default class Filetype extends React.Component {
                 label={props.labels.split('|')[n]}
                 format={format}
                 filetype={props.filetype}
-                value={this.state[props.filetype]}
+                value={props.enfantsCoches ?
+                        props.formats.split(',').includes(props.enfantsCoches.split(',')[n]) : false}
                 onChange={props.onFormatChange}
                 disabled={props.disabled}
                 updateParent={this.updateCurrent}
@@ -199,7 +218,6 @@ export default class Filetype extends React.Component {
             >
                 &#x2716;
             </Button>);
-        //console.log("STATE Filetype",this.state);
         return (
             <FormGroup >
                 <Checkbox
@@ -237,8 +255,10 @@ export default class Filetype extends React.Component {
 Filetype.propTypes = {
     label: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
-    formats: PropTypes.string.isRequired,
-    labels: PropTypes.string.isRequired,
+    formats: PropTypes.string,
+    labels: PropTypes.string,
+    value: PropTypes.bool.isRequired,
+    enfantsCoches: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -247,4 +267,7 @@ Filetype.propTypes = {
 Filetype.defaultProps = {
     value: false,
     disabled: false,
+    formats: '',
+    labels: '',
+    enfantsCoches: '',
 };

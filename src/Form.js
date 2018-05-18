@@ -47,10 +47,11 @@ export default class Form extends React.Component {
                     window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
                 }
             }
-        } /*else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+        }
+        /* else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
-        }*/
+        } */
 
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
@@ -61,25 +62,25 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
-        this.recupererEtatDesEnfants=this.recupererEtatDesEnfants.bind(this);
-}
+    }
 
-    componentDidMount(){
+    componentDidMount() {
         this.recupererEtatDesEnfants();
     }
-    recupererEtatDesEnfants(){
-        const self=this;
-        this.child.forEach(function(type){
-            type.child.forEach(function(format){
-                if(format.state[format.props.format]){
-                    console.log(format)
+
+    recupererEtatDesEnfants() {
+        const self = this;
+        this.child.forEach((type) => {
+            type.child.forEach((format) => {
+                if (format.state[format.props.format]) {
                     self.setState({
-                    [format.state.name]: true
-                })
+                        [format.state.name]: true,
+                    });
                 }
-            })
-        })
+            });
+        });
     }
+
     handleQueryChange(event, query = null) {
         const self = this;
         let queryNotNull = query;
@@ -233,8 +234,10 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
+
         const blankState = this.defaultState;
         blankState.q = '';
+        blankState.extractFulltext = false;
         this.setState(blankState, () => { window.localStorage.clear(); });
     }
 
@@ -246,10 +249,11 @@ export default class Form extends React.Component {
         document.body.click();
     }
 
-    updateUrlAndLocalStorage() {/*
+    updateUrlAndLocalStorage() {
+        /*
         if (window.localStorage) {
             window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-        }*/
+        } */
         this.updateUrl();
     }
 
@@ -415,8 +419,6 @@ export default class Form extends React.Component {
         );
         this.updateUrlAndLocalStorage();
         const downloadDisabled = this.isDownloadDisabled();
-        //console.log("STATE FORM",this.state);
-        //this.recupererEtatDesEnfants();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -640,6 +642,7 @@ export default class Form extends React.Component {
                                 filetype="metadata"
                                 formats="xml,mods"
                                 labels="XML|MODS"
+                                enfantsCoches="xml"
                                 value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -651,8 +654,8 @@ export default class Form extends React.Component {
                                 filetype="fulltext"
                                 formats="pdf,tei,txt,ocr,zip,tiff"
                                 labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
-                                value={true}
-                                enfantsValeurs='0|1|0|0|1'
+                                value={this.state.extractFulltext}
+                                enfantsCoches="pdf,tei,txt,ocr,zip"
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />
@@ -660,9 +663,7 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[2] = instance; }}
                                 label="Annexes"
                                 filetype="annexes"
-                                formats=""
-                                labels=""
-                                value={true}
+                                value={this.state.extractAnnexes}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                                 tooltip={appendicesTooltip}
@@ -671,8 +672,6 @@ export default class Form extends React.Component {
                                 ref={(instance) => { this.child[3] = instance; }}
                                 label="Couvertures"
                                 filetype="covers"
-                                formats=""
-                                labels=""
                                 value={this.state.extractCovers}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}

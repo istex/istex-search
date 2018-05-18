@@ -19,11 +19,11 @@ export default class Format extends React.Component {
                 name: fullName,
                 [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
             };
-        } else {*/
-            this.state = {
-                name: fullName,
-                [props.format]: props.value,
-            };
+        } else { */
+        this.state = {
+            name: fullName,
+            [props.format]: props.value,
+        };
 
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -78,7 +78,6 @@ export default class Format extends React.Component {
                 {text(this.state.name, this.state.name)}
             </Tooltip>
     );
-        //console.log("STATE FORMAT",this.state);
         return (
             <Checkbox
                 bsClass="determinate"
@@ -103,6 +102,7 @@ Format.propTypes = {
     format: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    value: PropTypes.bool,
     disabled: PropTypes.bool,
     updateParent: PropTypes.func.isRequired,
     verifyOtherFormats: PropTypes.func.isRequired,
@@ -110,4 +110,5 @@ Format.propTypes = {
 
 Format.defaultProps = {
     disabled: false,
+    value: false,
 };

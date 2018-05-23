@@ -11,8 +11,8 @@ export default class Filetype extends React.Component {
 
         if (props.formats) {
             // si tous les enfants on met à vrai sinon à false
-            if (props.enfantsCoches) {
-                const allChecked = props.enfantsCoches.split(',').length === props.formats.split(',').length;
+            if (props.checkedFormats) {
+                const allChecked = props.checkedFormats.split(',').length === props.formats.split(',').length;
                 this.state = {
                     [props.filetype]: allChecked,
                     indeterminate: !allChecked,
@@ -43,8 +43,9 @@ export default class Filetype extends React.Component {
                     label={props.labels.split('|')[n]}
                     format={format}
                     filetype={props.filetype}
-                    value={props.enfantsCoches ?
-                            props.enfantsCoches.split(',').includes(props.formats.split(',')[n]) : false}
+                    value={props.checkedFormats
+                            ? props.checkedFormats.split(',').includes(props.formats.split(',')[n])
+                            : false}
                     onChange={props.onFormatChange}
                     disabled={props.disabled}
                     updateParent={this.updateCurrent}
@@ -258,7 +259,7 @@ Filetype.propTypes = {
     formats: PropTypes.string,
     labels: PropTypes.string,
     value: PropTypes.bool.isRequired,
-    enfantsCoches: PropTypes.string,
+    checkedFormats: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -269,5 +270,5 @@ Filetype.defaultProps = {
     disabled: false,
     formats: '',
     labels: '',
-    enfantsCoches: '',
+    checkedFormats: '',
 };

@@ -52,7 +52,7 @@ export default class Form extends React.Component {
     componentWillMount() {
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
-        if (parsedUrl.size > 0) {
+        if (Object.keys(parsedUrl).length > 1) {
             this.setState({
                 q: parsedUrl.q || '',
                 size: parsedUrl.size || 5000,
@@ -68,7 +68,8 @@ export default class Form extends React.Component {
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
             });
-            if (parsedUrl.q) {
+            // Pour recalculer la taille si elle n'est pas precisée
+            if (parsedUrl.q && !parsedUrl.size) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
                 this.handleQueryChange(eventQuery);
@@ -78,15 +79,15 @@ export default class Form extends React.Component {
             }
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
-                    const attribut = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-                    const lesFormats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                    const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                    const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
                     let res = '';
-                    lesFormats.forEach((format) => {
+                    formats.forEach((format) => {
                         res += `${format},`;
                     });
                     res = res.slice(0, res.length - 1);
                     this.setState({
-                        [attribut]: res,
+                        [type]: res,
                     }, () => {
                         if (parsedUrl.download) {
                             this.handleSubmit(new Event('submit'));
@@ -98,10 +99,10 @@ export default class Form extends React.Component {
     }
 
     componentDidMount() {
-        this.recupererEtatDesEnfants();
+        this.recoverFormatState();
     }
 
-    recupererEtatDesEnfants() {
+    recoverFormatState() {
         const self = this;
         this.child.forEach((type) => {
             type.child.forEach((format) => {
@@ -283,7 +284,9 @@ export default class Form extends React.Component {
         if (window.localStorage) {
             window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
         } */
-        this.updateUrl();
+        if (this.state !== this.defaultState) {
+            this.updateUrl();
+        }
     }
 
     isDownloadDisabled() {
@@ -671,7 +674,7 @@ export default class Form extends React.Component {
                                 filetype="metadata"
                                 formats="xml,mods"
                                 labels="XML|MODS"
-                                enfantsCoches={this.state.Metadata}
+                                checkedFormats={this.state.Metadata}
                                 value={this.state.extractMetadata}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
@@ -684,7 +687,7 @@ export default class Form extends React.Component {
                                 formats="pdf,tei,txt,ocr,zip,tiff"
                                 labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
                                 value={this.state.extractFulltext}
-                                enfantsCoches={this.state.Fulltext}
+                                checkedFormats={this.state.Fulltext}
                                 onChange={this.handleFiletypeChange}
                                 onFormatChange={this.handleFormatChange}
                             />

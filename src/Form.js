@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio, Table } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -49,11 +49,40 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
+        this.interpretURL = this.interpretURL.bind(this);
+        this.recoverFormatState = this.recoverFormatState.bind(this);
     }
 
     componentWillMount() {
         const url = document.location.href;
-        const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        const shortUrl = url.slice(url.indexOf('?') + 1);
+
+        this.interpretURL(shortUrl);
+    }
+
+    componentDidMount() {
+        this.recoverFormatState();
+    }
+    /* shouldComponentUpdate(nextProps, nextState){
+
+    } */
+
+
+    recoverFormatState() {
+        const self = this;
+        this.child.forEach((type) => {
+            type.child.forEach((format) => {
+                if (format.state[format.props.format]) {
+                    self.setState({
+                        [format.state.name]: true,
+                    });
+                }
+            });
+        });
+    }
+    interpretURL(url) {
+        console.log("Interpretation de l'url");
+        const parsedUrl = qs.parse(url);
         if (Object.keys(parsedUrl).length > 1) {
             this.setState({
                 q: parsedUrl.q || '',
@@ -70,15 +99,15 @@ export default class Form extends React.Component {
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
             });
-            // Pour recalculer la taille si elle n'est pas precisée
+                // Pour recalculer la taille si elle n'est pas precisée
             if (parsedUrl.q && !parsedUrl.size) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
                 this.handleQueryChange(eventQuery);
-                /*
-                if (window.localStorage) {
-                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-                } */
+                    /*
+                    if (window.localStorage) {
+                        window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                    } */
             }
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
@@ -100,24 +129,6 @@ export default class Form extends React.Component {
             }
         }
     }
-
-    componentDidMount() {
-        this.recoverFormatState();
-    }
-
-    recoverFormatState() {
-        const self = this;
-        this.child.forEach((type) => {
-            type.child.forEach((format) => {
-                if (format.state[format.props.format]) {
-                    self.setState({
-                        [format.state.name]: true,
-                    });
-                }
-            });
-        });
-    }
-
     handleQueryChange(event, query = null) {
         const self = this;
         let queryNotNull = query;
@@ -206,11 +217,14 @@ export default class Form extends React.Component {
             window.location = href;
         }, 1000);
         if (window.localStorage) {
-            const zefezgfze = {
+            const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
+            const dlStorage = {
                 url: href.slice(href.indexOf('?') + 1),
                 date: new Date(),
             };
-            window.localStorage.setItem('dlISTEX', JSON.stringify(zefezgfze));
+
+            ancien.push(dlStorage);
+            window.localStorage.setItem('dlISTEX', JSON.stringify(ancien));
         }
         event.preventDefault();
     }
@@ -306,8 +320,6 @@ export default class Form extends React.Component {
         return (this.state.q.length <= 0 || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
-        console.log(JSON.parse(window.localStorage.getItem('dlISTEX')));
-
         const closingButton = (
             <Button
                 bsClass="buttonClose"
@@ -461,8 +473,22 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
-        this.updateUrlAndLocalStorage();
+
+        const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
+        const test = [];
+        for (let i = 0; i < ancien.length; i += 1) {
+            test[i] = (
+                <tr key={`table ${i}`}>
+                    <td>{i}</td>
+                    <td onClick={() => {this.interpretURL(JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url); }}>
+                        {JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url}
+                    </td>
+                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].date}</td>
+                </tr>);
+        }
+
         const downloadDisabled = this.isDownloadDisabled();
+this.updateUrlAndLocalStorage()
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -666,6 +692,7 @@ export default class Form extends React.Component {
                                     <blockquote>{this.state.errorRequestSyntax}</blockquote>
                                 </p>
                             </div>
+
                             <div className="col-lg-3" />
                         </div>
                     }
@@ -675,6 +702,21 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
+
+
+                            <Table striped bordered condensed hover>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>URL</th>
+                                        <th>DATE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {test}
+                                </tbody>
+                            </Table>
+
                             <h2>
                                 Formats et types de fichiers
                             </h2>

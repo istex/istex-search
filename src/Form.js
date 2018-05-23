@@ -420,7 +420,7 @@ export default class Form extends React.Component {
                                         onChange={this.handleQueryChange}
                                     />
 
-                                    <HelpBlock>Nombre de caractères restants: {
+                                    <HelpBlock>Nombre de caractères restants&nbsp;: {
                                         this.characterLimit - this.state.q.length
                                     }
                                         <FormControl.Feedback

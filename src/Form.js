@@ -37,7 +37,9 @@ export default class Form extends React.Component {
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
         } */
+    //    if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEX'))) {
 
+    //    }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -73,9 +75,10 @@ export default class Form extends React.Component {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
                 this.handleQueryChange(eventQuery);
+                /*
                 if (window.localStorage) {
                     window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-                }
+                } */
             }
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
@@ -202,6 +205,13 @@ export default class Form extends React.Component {
         window.setTimeout(() => {
             window.location = href;
         }, 1000);
+        if (window.localStorage) {
+            const zefezgfze = {
+                url: href.slice(href.indexOf('?') + 1),
+                date: new Date(),
+            };
+            window.localStorage.setItem('dlISTEX', JSON.stringify(zefezgfze));
+        }
         event.preventDefault();
     }
 
@@ -296,6 +306,8 @@ export default class Form extends React.Component {
         return (this.state.q.length <= 0 || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
+        console.log(JSON.parse(window.localStorage.getItem('dlISTEX')));
+
         const closingButton = (
             <Button
                 bsClass="buttonClose"

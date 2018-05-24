@@ -701,9 +701,43 @@ export default class Form extends React.Component {
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
 
-                            <StorageHistory
-                                nomColonnes="#,Date,Format,Nb docs, Requête, Editer, Télécharger"
-                            />
+                            <button
+                                type="button"
+                                className="btn-exemple btn-sm"
+                                onClick={() => {
+                                    this.setState({
+                                        showHistory: true,
+                                    });
+                                }}
+                            >
+                                    Historique
+                            </button>
+                            <Modal show={this.state.showHistory} onHide={this.close}>
+                                <Modal.Header>
+                                    <Modal.Title>Historique des requêtes</Modal.Title>
+                                </Modal.Header>
+
+                                <Modal.Body>
+                                    <StorageHistory
+                                        nomColonnes="#,Date,Format,Nb docs, Requête, Editer, Télécharger"
+                                    />
+                                </Modal.Body>
+
+                                <Modal.Footer>
+                                    <Modal.Footer>
+                                        <Button
+                                            onClick={() => {
+                                                this.setState({
+                                                    showHistory: false,
+                                                });
+                                            }}
+                                        >
+                                            Fermer
+                                        </Button>
+                                    </Modal.Footer>
+                                </Modal.Footer>
+                            </Modal>
+
 
                             <h2>
                                 Formats et types de fichiers
@@ -810,7 +844,6 @@ export default class Form extends React.Component {
                     }
 
                 </form>
-
                 <Modal show={this.state.downloading} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Téléchargement en cours</Modal.Title>

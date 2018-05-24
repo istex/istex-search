@@ -126,7 +126,7 @@ export default class Form extends React.Component {
                         res += `${format},`;
                     });
                     res = res.slice(0, res.length - 1);
-console.log('Modification: ', type, ':', res);
+                    console.log('Modification: ', type, ':', res);
                     this.setState({
                         [type]: res,
                     }, () => {
@@ -226,15 +226,22 @@ console.log('Modification: ', type, ':', res);
             window.location = href;
         }, 1000);
         if (window.localStorage) {
-            const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
+            const url = href.slice(href.indexOf('?') + 1);
+            const formats = qs.parse(url).extract.split(';');
             const dlStorage = {
-                url: href.slice(href.indexOf('?') + 1),
+                url,
                 date: new Date(),
-                state: this.state,
+            //  state: this.state,
+                formats,
+                size: this.state.size,
             };
-
-            ancien.push(dlStorage);
-            window.localStorage.setItem('dlISTEX', JSON.stringify(ancien));
+            if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
+                const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
+                ancien.push(dlStorage);
+                window.localStorage.setItem('dlISTEX', JSON.stringify(ancien));
+            } else {
+                window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
+            }
         }
         event.preventDefault();
     }
@@ -484,10 +491,11 @@ console.log('Modification: ', type, ':', res);
             </Tooltip>
         );
 
+            const tableauHistorique= [];
+    if(window.localStorage &&JSON.parse(window.localStorage.getItem('dlISTEX'))){
         const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
-        const test = [];
         for (let i = 0; i < ancien.length; i += 1) {
-            test[i] = (
+            tableauHistorique[i] = (
                 <tr key={`table ${i}`}>
                     <td>{i}</td>
                     <td
@@ -499,8 +507,11 @@ console.log('Modification: ', type, ':', res);
                         {JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url}
                     </td>
                     <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].date}</td>
+                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].formats} test</td>
+                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].size}</td>
                 </tr>);
         }
+}
         console.log('RENDER');
         const downloadDisabled = this.isDownloadDisabled();
         this.updateUrlAndLocalStorage();
@@ -718,19 +729,22 @@ console.log('Modification: ', type, ':', res);
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
 
-
+                            {tableauHistorique.length>0 ?
                             <Table striped bordered condensed hover>
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>URL</th>
                                         <th>DATE</th>
+                                        <th>Formats</th>
+                                        <th>Nombre de docs</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {test}
+                                    {tableauHistorique}
                                 </tbody>
                             </Table>
+                            : null}
 
                             <h2>
                                 Formats et types de fichiers

@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio, Table } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
+import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
 export default class Form extends React.Component {
@@ -56,20 +57,12 @@ export default class Form extends React.Component {
     componentWillMount() {
         const url = document.location.href;
         const shortUrl = url.slice(url.indexOf('?') + 1);
-        console.log('URL barre adresse');
         this.interpretURL(shortUrl);
     }
 
     componentDidMount() {
         this.recoverFormatState();
     }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('ancien State', this.state);
-        console.log('nouveau State',  nextState);
-        return true;
-    }
-
 
     recoverFormatState() {
         const self = this;
@@ -86,9 +79,7 @@ export default class Form extends React.Component {
 
 
     interpretURL(url) {
-        console.log("Interpretation de l'url", qs.parse(url));
         const parsedUrl = qs.parse(url);
-
         if (Object.keys(parsedUrl).length > 1) {
             this.setState({
                 q: parsedUrl.q || '',
@@ -126,7 +117,6 @@ export default class Form extends React.Component {
                         res += `${format},`;
                     });
                     res = res.slice(0, res.length - 1);
-                    console.log('Modification: ', type, ':', res);
                     this.setState({
                         [type]: res,
                     }, () => {
@@ -222,11 +212,8 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
-        window.setTimeout(() => {
-            window.location = href;
-        }, 1000);
         if (window.localStorage) {
-            const url = href.slice(href.indexOf('?') + 1);
+            const url = href.slice(href.indexOf('?'));
             const formats = qs.parse(url).extract.split(';');
             const dlStorage = {
                 url,
@@ -234,15 +221,23 @@ export default class Form extends React.Component {
             //  state: this.state,
                 formats,
                 size: this.state.size,
+                q: this.state.q,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                ancien.push(dlStorage);
+                    // si plus de deux secondes de decalages on met a jour
+                if (new Date(ancien[ancien.length - 1].date).getTime() + 20000 < new Date(dlStorage.date).getTime()) {
+                    ancien.push(dlStorage);
+                }
                 window.localStorage.setItem('dlISTEX', JSON.stringify(ancien));
             } else {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
+
+        window.setTimeout(() => {
+            window.location = href;
+        }, 1000);
         event.preventDefault();
     }
 
@@ -490,29 +485,6 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
-
-            const tableauHistorique= [];
-    if(window.localStorage &&JSON.parse(window.localStorage.getItem('dlISTEX'))){
-        const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
-        for (let i = 0; i < ancien.length; i += 1) {
-            tableauHistorique[i] = (
-                <tr key={`table ${i}`}>
-                    <td>{i}</td>
-                    <td
-                        onClick={() => {
-                            //this.interpretURL(JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url);
-                                window.location = JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url;
-                        }}
-                    >
-                        {JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url}
-                    </td>
-                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].date}</td>
-                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].formats} test</td>
-                    <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].size}</td>
-                </tr>);
-        }
-}
-        console.log('RENDER');
         const downloadDisabled = this.isDownloadDisabled();
         this.updateUrlAndLocalStorage();
         return (
@@ -635,7 +607,7 @@ export default class Form extends React.Component {
                                     checked={this.state.rankBy === 'relevance'}
                                     onChange={this.handlerankByChange}
                                 >
-                                    Par perticence
+                                    Par pertinence
                                 </Radio>
                                 <Radio
                                     id="radioRandom"
@@ -729,22 +701,9 @@ export default class Form extends React.Component {
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
 
-                            {tableauHistorique.length>0 ?
-                            <Table striped bordered condensed hover>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>URL</th>
-                                        <th>DATE</th>
-                                        <th>Formats</th>
-                                        <th>Nombre de docs</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tableauHistorique}
-                                </tbody>
-                            </Table>
-                            : null}
+                            <StorageHistory
+                                nomColonnes="#,Date,Format,Nb docs, Requête, Editer, Télécharger"
+                            />
 
                             <h2>
                                 Formats et types de fichiers

@@ -102,15 +102,15 @@ export default class Filetype extends React.Component {
         this.setState({
             indeterminate: true,
         });
-        if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
+        /* if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
             this.setState({
                 [type]: JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))[type],
             });
-        } else {
-            this.setState({
-                [type]: false,
-            });
-        }
+        } else { */
+        this.setState({
+            [type]: false,
+        });
+        // }
     }
 
     checkCurrent(type) {

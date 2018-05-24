@@ -56,16 +56,19 @@ export default class Form extends React.Component {
     componentWillMount() {
         const url = document.location.href;
         const shortUrl = url.slice(url.indexOf('?') + 1);
-
+        console.log('URL barre adresse');
         this.interpretURL(shortUrl);
     }
 
     componentDidMount() {
         this.recoverFormatState();
     }
-    /* shouldComponentUpdate(nextProps, nextState){
 
-    } */
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('ancien State', this.state);
+        console.log('nouveau State',  nextState);
+        return true;
+    }
 
 
     recoverFormatState() {
@@ -80,9 +83,12 @@ export default class Form extends React.Component {
             });
         });
     }
+
+
     interpretURL(url) {
-        console.log("Interpretation de l'url");
+        console.log("Interpretation de l'url", qs.parse(url));
         const parsedUrl = qs.parse(url);
+
         if (Object.keys(parsedUrl).length > 1) {
             this.setState({
                 q: parsedUrl.q || '',
@@ -99,11 +105,13 @@ export default class Form extends React.Component {
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
             });
+
                 // Pour recalculer la taille si elle n'est pas precisée
             if (parsedUrl.q && !parsedUrl.size) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
                 this.handleQueryChange(eventQuery);
+
                     /*
                     if (window.localStorage) {
                         window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
@@ -118,6 +126,7 @@ export default class Form extends React.Component {
                         res += `${format},`;
                     });
                     res = res.slice(0, res.length - 1);
+console.log('Modification: ', type, ':', res);
                     this.setState({
                         [type]: res,
                     }, () => {
@@ -221,6 +230,7 @@ export default class Form extends React.Component {
             const dlStorage = {
                 url: href.slice(href.indexOf('?') + 1),
                 date: new Date(),
+                state: this.state,
             };
 
             ancien.push(dlStorage);
@@ -480,15 +490,20 @@ export default class Form extends React.Component {
             test[i] = (
                 <tr key={`table ${i}`}>
                     <td>{i}</td>
-                    <td onClick={() => {this.interpretURL(JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url); }}>
+                    <td
+                        onClick={() => {
+                            //this.interpretURL(JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url);
+                                window.location = JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url;
+                        }}
+                    >
                         {JSON.parse(window.localStorage.getItem('dlISTEX'))[i].url}
                     </td>
                     <td>{JSON.parse(window.localStorage.getItem('dlISTEX'))[i].date}</td>
                 </tr>);
         }
-
+        console.log('RENDER');
         const downloadDisabled = this.isDownloadDisabled();
-this.updateUrlAndLocalStorage()
+        this.updateUrlAndLocalStorage();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>

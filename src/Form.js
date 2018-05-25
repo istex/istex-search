@@ -218,18 +218,18 @@ export default class Form extends React.Component {
             const dlStorage = {
                 url,
                 date: new Date(),
-            //  state: this.state,
                 formats,
                 size: this.state.size,
                 q: this.state.q,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
-                const ancien = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                    // si plus de deux secondes de decalages on met a jour
-                if (new Date(ancien[ancien.length - 1].date).getTime() + 20000 < new Date(dlStorage.date).getTime()) {
-                    ancien.push(dlStorage);
+                const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
+                    // si moins de deux secondes de décalage on ne met pas à jour
+                if (new Date(oldStorage[oldStorage.length - 1].date).getTime() + 20000
+                    < new Date(dlStorage.date).getTime()) {
+                    oldStorage.push(dlStorage);
                 }
-                window.localStorage.setItem('dlISTEX', JSON.stringify(ancien));
+                window.localStorage.setItem('dlISTEX', JSON.stringify(oldStorage));
             } else {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
@@ -254,7 +254,6 @@ export default class Form extends React.Component {
         const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
         window.history.pushState('', '', newUrl);
     }
-
 
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');

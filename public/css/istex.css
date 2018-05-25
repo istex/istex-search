@@ -386,3 +386,14 @@ button:hover>div>svg, button:hover>svg {
 	padding-left: 15px;
 	font-size: 18px;
 }
+
+.otherGroup{
+	float: left;
+}
+
+.fulltextGroup{
+	float: left;
+}
+.enrichmentsGroup{
+	float:left;
+}

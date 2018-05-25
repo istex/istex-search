@@ -86,7 +86,6 @@ export default class Format extends React.Component {
         return (
             <Checkbox
                 bsClass="determinate"
-                inline
                 id={`checkbox${this.props.filetype}${this.props.format}`}
                 name={this.props.format}
                 checked={this.state[this.props.format]}

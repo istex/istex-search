@@ -201,7 +201,7 @@ export default class Filetype extends React.Component {
             </Button>);
 
         return (
-            <FormGroup >
+            <FormGroup bsClass="istex-form-group">
                 <Checkbox
                     className={CssClass}
                     name={this.props.filetype}

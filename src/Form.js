@@ -428,6 +428,11 @@ export default class Form extends React.Component {
                 Réinitialisez votre requête (les formulaires de cette page seront vidés)
             </Tooltip>
         );
+        const historyTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Cliquez pour accéder à l&apos;historique de vos téléchargements
+            </Tooltip>
+        );
         const previewTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
@@ -508,15 +513,24 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                     &nbsp;
                                 <OverlayTrigger
-                                    placement="right"
+                                    placement="top"
                                     overlay={resetTooltip}
                                     onClick={() => this.erase()}
                                 >
-                                    <span
-                                        role="button" className="glyphicon glyphicon-erase"
-                                    />
+                                    <span role="button" className="glyphicon glyphicon-erase" />
                                 </OverlayTrigger>
-
+                                    &nbsp;
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={historyTooltip}
+                                    onClick={() => {
+                                        this.setState({
+                                            showHistory: true,
+                                        });
+                                    }}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-repeat" />
+                                </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
@@ -700,45 +714,28 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
-
-                            <button
-                                type="button"
-                                className="btn-exemple btn-sm"
-                                onClick={() => {
-                                    this.setState({
-                                        showHistory: true,
-                                    });
-                                }}
-                            >
-                                    Historique
-                            </button>
-                            <Modal show={this.state.showHistory} onHide={this.close}>
+                            <Modal bsSize="large" show={this.state.showHistory} onHide={this.close}>
                                 <Modal.Header>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
 
                                 <Modal.Body>
                                     <StorageHistory
-                                        nomColonnes="#,Date,Format,Nb docs, Requête, Editer, Télécharger"
+                                        columnNames="#,Date,Format,Nb docs,Requête"
                                     />
                                 </Modal.Body>
-
                                 <Modal.Footer>
-                                    <Modal.Footer>
-                                        <Button
-                                            onClick={() => {
-                                                this.setState({
-                                                    showHistory: false,
-                                                });
-                                            }}
-                                        >
-                                            Fermer
-                                        </Button>
-                                    </Modal.Footer>
+                                    <Button
+                                        onClick={() => {
+                                            this.setState({
+                                                showHistory: false,
+                                            });
+                                        }}
+                                    >
+                                        Fermer
+                                    </Button>
                                 </Modal.Footer>
                             </Modal>
-
-
                             <h2>
                                 Formats et types de fichiers
                             </h2>

@@ -63,9 +63,9 @@ export default class storageHistory extends React.Component {
                     <tr key={`table ${i}`}>
                         <td>{i + 1}</td>
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
+                        <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>
                         <td>{this.localStorage[i].size}</td>
-                        <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td className="transparent-td">
                             <OverlayTrigger
                                 placement="top"
@@ -99,8 +99,12 @@ export default class storageHistory extends React.Component {
                                 overlay={removeTooltip}
                                 onClick={() => {
                                     const updateStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                                    updateStorage.splice(i, 1);
-                                    window.localStorage.setItem('dlISTEX', JSON.stringify(updateStorage));
+                                    if (i === 0) {
+                                        window.localStorage.clear();
+                                    } else {
+                                        updateStorage.splice(i, 1);
+                                        window.localStorage.setItem('dlISTEX', JSON.stringify(updateStorage));
+                                    }
                                     this.setState({
                                         update: true,
                                     });
@@ -129,7 +133,8 @@ export default class storageHistory extends React.Component {
                 </Table>
                 <Button
                     bsStyle="danger"
-                    disabled={!JSON.parse(window.localStorage.getItem('dlISTEX'))}
+                    disabled={!JSON.parse(window.localStorage.getItem('dlISTEX'))
+                            || JSON.parse(window.localStorage.getItem('dlISTEX')).length === 0}
                     onClick={() => {
                         this.setState({
                             showConfirm: true,

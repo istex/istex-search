@@ -225,7 +225,8 @@ export default class Form extends React.Component {
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
                     // si moins de deux secondes de décalage on ne met pas à jour
-                if (new Date(oldStorage[oldStorage.length - 1].date).getTime() + 20000
+                if (oldStorage[oldStorage.length - 1]
+                    && new Date(oldStorage[oldStorage.length - 1].date).getTime() + 20000
                     < new Date(dlStorage.date).getTime()) {
                     oldStorage.push(dlStorage);
                 }
@@ -720,7 +721,7 @@ export default class Form extends React.Component {
 
                                 <Modal.Body>
                                     <StorageHistory
-                                        columnNames="#,Date,Format,Nb docs,Requête"
+                                        columnNames="#,Date,Requête,Format,Nb docs"
                                     />
                                 </Modal.Body>
                                 <Modal.Footer>

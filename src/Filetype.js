@@ -40,7 +40,8 @@ export default class Filetype extends React.Component {
         switch (this.props.filetype) {
         case 'metadata': this.popoverText = 'Le format JSON est téléchargé par défaut';
             break;
-        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction de l'utilisation souhaitée du corpus';
+        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction ' +
+                                            'de l\'utilisation souhaitée du corpus';
             break;
         case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
             break;

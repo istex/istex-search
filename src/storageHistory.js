@@ -30,12 +30,17 @@ export default class storageHistory extends React.Component {
 
     render() {
         const editTooltip = (
-            <Tooltip data-html="true" id="dlTooltip">
+            <Tooltip data-html="true" id="editTooltip">
                 Editer cette requête
             </Tooltip>);
         const dlTooltip = (
             <Tooltip data-html="true" id="dlTooltip">
                 Télécharger cette requête
+            </Tooltip>);
+
+        const removeTooltip = (
+            <Tooltip data-html="true" id="removeTooltip">
+                Supprimer cette requête
             </Tooltip>);
         this.localStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
         this.columnNames = this.props.columnNames.split(',');
@@ -88,6 +93,24 @@ export default class storageHistory extends React.Component {
                                 />
                             </OverlayTrigger>
                         </td>
+                        <td className="transparent-td">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={removeTooltip}
+                                onClick={() => {
+                                    const updateStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
+                                    updateStorage.splice(i, 1);
+                                    window.localStorage.setItem('dlISTEX', JSON.stringify(updateStorage));
+                                    this.setState({
+                                        update: true,
+                                    });
+                                }}
+                            >
+                                <span
+                                    role="button" className="glyphicon glyphicon-remove"
+                                />
+                            </OverlayTrigger>
+                        </td>
                     </tr>);
             }
         }
@@ -106,6 +129,7 @@ export default class storageHistory extends React.Component {
                 </Table>
                 <Button
                     bsStyle="danger"
+                    disabled={!JSON.parse(window.localStorage.getItem('dlISTEX'))}
                     onClick={() => {
                         this.setState({
                             showConfirm: true,

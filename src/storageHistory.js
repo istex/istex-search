@@ -149,7 +149,7 @@ export default class storageHistory extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        Etes-vous sûr de vouloir supprimer l&apos;historique de vos téléchargements
+                        Etes-vous sûr de vouloir supprimer l&apos;historique de vos téléchargements ?
                     </Modal.Body>
 
                     <Modal.Footer>

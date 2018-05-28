@@ -99,7 +99,7 @@ export default class storageHistory extends React.Component {
                                 overlay={removeTooltip}
                                 onClick={() => {
                                     const updateStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                                    if (i === 0) {
+                                    if (i === 0 && updateStorage.length === 1) {
                                         window.localStorage.clear();
                                     } else {
                                         updateStorage.splice(i, 1);

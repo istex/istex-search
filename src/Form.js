@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -32,19 +32,21 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
+            rankBy: parsedUrl.rankBy || 'relevance',
         };
 
         this.state = this.defaultState;
-        if (parsedUrl.download) {
-            this.handleSubmit(new Event('submit'));
-        }
-
-        if (parsedUrl.q) {
-            const eventQuery = new Event('Query');
-            eventQuery.query = parsedUrl.q;
-            this.handleQueryChange(eventQuery);
-            if (window.localStorage) {
-                window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        if (parsedUrl.size > 0) {
+            if (parsedUrl.download) {
+                this.handleSubmit(new Event('submit'));
+            }
+            if (parsedUrl.q) {
+                const eventQuery = new Event('Query');
+                eventQuery.query = parsedUrl.q;
+                this.handleQueryChange(eventQuery);
+                if (window.localStorage) {
+                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                }
             }
         } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
@@ -58,6 +60,7 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlerankByChange = this.handlerankByChange.bind(this);
     }
 
     handleQueryChange(event, query = null) {
@@ -116,6 +119,14 @@ export default class Form extends React.Component {
         const name = 'extract'.concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1));
         this.setState({
             [name]: value,
+        });
+    }
+
+    handlerankByChange(rankByEvent) {
+        const target = rankByEvent.target;
+        const name = target.name;
+        this.setState({
+            rankBy: name,
         });
     }
 
@@ -189,6 +200,9 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('sid', 'istex-dl');
+        if (this.state.rankBy === 'random') {
+            ISTEX.searchParams.set('rankBy', this.state.rankBy);
+        }
         return ISTEX;
     }
 
@@ -203,6 +217,7 @@ export default class Form extends React.Component {
         });
         const blankState = this.defaultState;
         blankState.q = '';
+        blankState.rankBy = 'relevance';
         this.setState(blankState, () => { window.localStorage.clear(); });
     }
 
@@ -474,9 +489,30 @@ export default class Form extends React.Component {
                                     />
                                 </div>
                             </div>
-
+                            <div className="rankBy">
+                                Choix du mode de tri des documents :
+                            </div>
+                            <div className="radioGroupRankBy">
+                                <Radio
+                                    id="radioRelevance"
+                                    inline
+                                    name="relevance"
+                                    checked={this.state.rankBy === 'relevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Par pertinence
+                                </Radio>
+                                <Radio
+                                    id="radioRandom"
+                                    inline
+                                    name="random"
+                                    checked={this.state.rankBy === 'random'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Aléatoirement
+                                </Radio>
+                            </div>
                         </div>
-
                         <div className="istex-dl-examples col-lg-3">
                             <h4>
                                 Exemples de corpus à télécharger &nbsp;

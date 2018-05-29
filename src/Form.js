@@ -14,12 +14,11 @@ import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
+export const characterLimit = 6776;
 export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
-        this.characterLimit = 6776;
-
         this.defaultState = {
             q: '',
             size: 5000,
@@ -69,9 +68,9 @@ export default class Form extends React.Component {
 
     characterNumberValidation() {
         const length = this.state.q.length;
-        if (length < this.characterLimit - 1000) return 'success';
-        else if (length <= this.characterLimit) return 'warning';
-        else if (length > this.characterLimit) return 'error';
+        if (length < characterLimit - 1000) return 'success';
+        else if (length <= characterLimit) return 'warning';
+        else if (length > characterLimit) return 'error';
         return null;
     }
 
@@ -554,7 +553,7 @@ export default class Form extends React.Component {
                                     />
 
                                     <HelpBlock>Nombre de caractères restants&nbsp;: {
-                                        this.characterLimit - this.state.q.length
+                                        characterLimit - this.state.q.length
                                     }
                                         <FormControl.Feedback
                                             style={{

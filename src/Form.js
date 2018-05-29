@@ -544,7 +544,11 @@ export default class Form extends React.Component {
                                         <span role="button" className="glyphicon glyphicon-question-sign" />
                                     </OverlayTrigger>
                                     <br />
-                                    <blockquote>{this.state.errorRequestSyntax}</blockquote>
+                                    <blockquote
+                                        className="blockquote-Syntax-error"
+                                    >
+                                        {this.state.errorRequestSyntax}
+                                    </blockquote>
                                 </p>
                             </div>
                             <div className="col-lg-3" />
@@ -561,62 +565,67 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 
-                            <Filetype
-                                ref={(instance) => { this.child[0] = instance; }}
-                                label="Métadonnées"
-                                filetype="metadata"
-                                formats="xml,mods,json"
-                                labels="XML|MODS|JSON"
-                                value={this.state.extractMetadata}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                            />
 
-                            <Filetype
-                                ref={(instance) => { this.child[1] = instance; }}
-                                label="Texte intégral"
-                                filetype="fulltext"
-                                formats="pdf,tei,txt,ocr,zip,tiff"
-                                labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
-                                value={this.state.extractFulltext}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                            />
-                            <Filetype
-                                ref={(instance) => { this.child[2] = instance; }}
-                                label="Annexes"
-                                filetype="annexes"
-                                formats=""
-                                labels=""
-                                value={this.state.extractAnnexes}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                tooltip={appendicesTooltip}
-                            />
-                            <Filetype
-                                ref={(instance) => { this.child[3] = instance; }}
-                                label="Couvertures"
-                                filetype="covers"
-                                formats=""
-                                labels=""
-                                value={this.state.extractCovers}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                tooltip={coversTooltip}
-                            />
-
-                            <Filetype
-                                ref={(instance) => { this.child[4] = instance; }}
-                                label="Enrichissements"
-                                filetype="enrichments"
-                                formats="tei"
-                                labels="TEI"
-                                value={this.state.extractEnrichments}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                disabled
-                                tooltip={enrichmentsDisabledTooltip}
-                            />
+                            <span className="fulltextGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[1] = instance; }}
+                                    label="Texte intégral"
+                                    filetype="fulltext"
+                                    formats="pdf,tei,txt,ocr,zip,tiff"
+                                    labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                    value={this.state.extractFulltext}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                />
+                            </span>
+                            <span className="otherfileGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[0] = instance; }}
+                                    label="Métadonnées"
+                                    filetype="metadata"
+                                    formats="xml,mods,json"
+                                    labels="XML|MODS|JSON"
+                                    value={this.state.extractMetadata}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                />
+                                <Filetype
+                                    ref={(instance) => { this.child[2] = instance; }}
+                                    label="Annexes"
+                                    filetype="annexes"
+                                    formats=""
+                                    labels=""
+                                    value={this.state.extractAnnexes}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    tooltip={appendicesTooltip}
+                                />
+                                <Filetype
+                                    ref={(instance) => { this.child[3] = instance; }}
+                                    label="Couvertures"
+                                    filetype="covers"
+                                    formats=""
+                                    labels=""
+                                    value={this.state.extractCovers}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    tooltip={coversTooltip}
+                                />
+                            </span>
+                            <span className="enrichmentsGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[4] = instance; }}
+                                    label="Enrichissements"
+                                    filetype="enrichments"
+                                    formats="tei"
+                                    labels="TEI"
+                                    value={this.state.extractEnrichments}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    disabled
+                                    tooltip={enrichmentsDisabledTooltip}
+                                />
+                            </span>
                         </div>
                         <div className="col-lg-3" />
                     </div>

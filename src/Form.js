@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip, Radio } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, HelpBlock, FormGroup, FormControl } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -18,6 +18,7 @@ export default class Form extends React.Component {
         super(props);
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
+        this.characterLimit = 6776;
         this.defaultState = {
             q: parsedUrl.q || '',
             size: parsedUrl.size || 5000,
@@ -61,6 +62,13 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
+    }
+    characterNumberValidation() {
+        const length = this.state.q.length;
+        if (length < this.characterLimit - 1000) return 'success';
+        else if (length <= this.characterLimit) return 'warning';
+        else if (length > this.characterLimit) return 'error';
+        return null;
     }
 
     handleQueryChange(event, query = null) {
@@ -255,7 +263,6 @@ export default class Form extends React.Component {
             <Popover
                 id="popover-request-help"
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
-
             >
                 Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur ISTEX</a> ou
                 de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation ISTEX</a> pour construire votre requête.<br />
@@ -431,16 +438,35 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
-                                <Textarea
-                                    className="form-control"
-                                    placeholder="brain AND language:fre"
-                                    name="q"
-                                    id="q"
-                                    rows="3"
-                                    autoFocus="true"
-                                    value={this.state.q}
-                                    onChange={this.handleQueryChange}
-                                />
+                                <FormGroup
+                                    controlId="formBasicText"
+                                    validationState={this.characterNumberValidation()}
+                                >
+                                    <Textarea
+                                        className="form-control"
+                                        placeholder="brain AND language:fre"
+                                        name="q"
+                                        id="q"
+                                        rows="3"
+                                        autoFocus="true"
+                                        value={this.state.q}
+                                        onChange={this.handleQueryChange}
+                                    />
+
+                                    <HelpBlock>Nombre de caractères restants&nbsp;: {
+                                        this.characterLimit - this.state.q.length
+                                    }
+                                        <FormControl.Feedback
+                                            style={{
+                                                position: 'relative',
+                                                display: 'inline-block',
+                                                verticalAlign: 'middle',
+                                                marginLeft: '20px',
+                                            }}
+                                        />
+                                    </HelpBlock>
+
+                                </FormGroup>
                             </div>
 
                             {this.state.total > 0 && this.state.q !== '' &&
@@ -598,7 +624,11 @@ export default class Form extends React.Component {
                                         <span role="button" className="glyphicon glyphicon-question-sign" />
                                     </OverlayTrigger>
                                     <br />
-                                    <blockquote>{this.state.errorRequestSyntax}</blockquote>
+                                    <blockquote
+                                        className="blockquote-Syntax-error"
+                                    >
+                                        {this.state.errorRequestSyntax}
+                                    </blockquote>
                                 </p>
                             </div>
                             <div className="col-lg-3" />
@@ -615,62 +645,66 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 
-                            <Filetype
-                                ref={(instance) => { this.child[0] = instance; }}
-                                label="Métadonnées"
-                                filetype="metadata"
-                                formats="xml,mods"
-                                labels="XML|MODS"
-                                value={this.state.extractMetadata}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                            />
-
-                            <Filetype
-                                ref={(instance) => { this.child[1] = instance; }}
-                                label="Texte intégral"
-                                filetype="fulltext"
-                                formats="pdf,tei,txt,ocr,zip,tiff"
-                                labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
-                                value={this.state.extractFulltext}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                            />
-                            <Filetype
-                                ref={(instance) => { this.child[2] = instance; }}
-                                label="Annexes"
-                                filetype="annexes"
-                                formats=""
-                                labels=""
-                                value={this.state.extractAnnexes}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                tooltip={appendicesTooltip}
-                            />
-                            <Filetype
-                                ref={(instance) => { this.child[3] = instance; }}
-                                label="Couvertures"
-                                filetype="covers"
-                                formats=""
-                                labels=""
-                                value={this.state.extractCovers}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                tooltip={coversTooltip}
-                            />
-
-                            <Filetype
-                                ref={(instance) => { this.child[4] = instance; }}
-                                label="Enrichissements"
-                                filetype="enrichments"
-                                formats="tei"
-                                labels="TEI"
-                                value={this.state.extractEnrichments}
-                                onChange={this.handleFiletypeChange}
-                                onFormatChange={this.handleFormatChange}
-                                disabled
-                                tooltip={enrichmentsDisabledTooltip}
-                            />
+                            <span className="fulltextGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[1] = instance; }}
+                                    label="Texte intégral"
+                                    filetype="fulltext"
+                                    formats="pdf,tei,txt,ocr,zip,tiff"
+                                    labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                    value={this.state.extractFulltext}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                />
+                            </span>
+                            <span className="otherfileGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[0] = instance; }}
+                                    label="Métadonnées"
+                                    filetype="metadata"
+                                    formats="xml,mods,json"
+                                    labels="XML|MODS|JSON"
+                                    value={this.state.extractMetadata}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                />
+                                <Filetype
+                                    ref={(instance) => { this.child[2] = instance; }}
+                                    label="Annexes"
+                                    filetype="annexes"
+                                    formats=""
+                                    labels=""
+                                    value={this.state.extractAnnexes}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    tooltip={appendicesTooltip}
+                                />
+                                <Filetype
+                                    ref={(instance) => { this.child[3] = instance; }}
+                                    label="Couvertures"
+                                    filetype="covers"
+                                    formats=""
+                                    labels=""
+                                    value={this.state.extractCovers}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    tooltip={coversTooltip}
+                                />
+                            </span>
+                            <span className="enrichmentsGroup">
+                                <Filetype
+                                    ref={(instance) => { this.child[4] = instance; }}
+                                    label="Enrichissements"
+                                    filetype="enrichments"
+                                    formats="tei"
+                                    labels="TEI"
+                                    value={this.state.extractEnrichments}
+                                    onChange={this.handleFiletypeChange}
+                                    onFormatChange={this.handleFormatChange}
+                                    disabled
+                                    tooltip={enrichmentsDisabledTooltip}
+                                />
+                            </span>
                         </div>
                         <div className="col-lg-3" />
                     </div>

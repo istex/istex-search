@@ -38,9 +38,10 @@ export default class Filetype extends React.Component {
 
         this.popoverText = '';
         switch (this.props.filetype) {
-        case 'metadata': this.popoverText = 'Insérer texte pour les Métadonnées';
+        case 'metadata': this.popoverText = 'Le format JSON est téléchargé par défaut';
             break;
-        case 'fulltext': this.popoverText = 'Insérer texte pour les textes intégraux';
+        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction ' +
+                                            'de l\'utilisation souhaitée du corpus';
             break;
         case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
             break;
@@ -200,7 +201,7 @@ export default class Filetype extends React.Component {
             </Button>);
 
         return (
-            <FormGroup >
+            <FormGroup bsClass="istex-form-group">
                 <Checkbox
                     className={CssClass}
                     name={this.props.filetype}

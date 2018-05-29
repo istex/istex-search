@@ -392,10 +392,22 @@ button:hover>div>svg, button:hover>svg {
 	font-size: 18px;
 }
 
+disable-download
 .radioGroupRankBy {
 	margin-left: 15px;
 }
 
 .determinate-inline#checkboxmetadatajson{
 	display: none
+=======
+.otherfileGroup{
+	float: left;
+}
+
+.fulltextGroup{
+	float: left;
+}
+.enrichmentsGroup{
+	float:left;
+
 }

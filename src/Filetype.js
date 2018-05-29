@@ -8,28 +8,49 @@ export default class Filetype extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            [props.filetype]: false,
-            indeterminate: false,
-        };
+
+        if (props.formats) {
+            // si tous les enfants on met à vrai sinon à false
+            if (props.checkedFormats) {
+                const allChecked = props.checkedFormats.split(',').length === props.formats.split(',').length;
+                this.state = {
+                    [props.filetype]: allChecked,
+                    indeterminate: !allChecked,
+                };
+            } else {
+                this.state = {
+                    [props.filetype]: false,
+                    indeterminate: false,
+                };
+            }
+        } else {
+            this.state = {
+                [props.filetype]: props.value,
+                indeterminate: false,
+            };
+        }
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.updateCurrent = this.updateCurrent.bind(this);
         this.verifyChildren = this.verifyChildren.bind(this);
         this.child = [];
         if (this.props.formats) {
             this.formats = props.formats.split(',')
-            .map((format, n) => <Format
-                ref={(instance) => { this.child[n] = instance; }}
-                key={`format${format}`}
-                label={props.labels.split('|')[n]}
-                format={format}
-                filetype={props.filetype}
-                onChange={props.onFormatChange}
-                disabled={props.disabled}
-                updateParent={this.updateCurrent}
-                verifyOtherFormats={this.verifyChildren}
-
-            />);
+            .map((format, n) =>
+                <Format
+                    ref={(instance) => { this.child[n] = instance; }}
+                    key={`format${format}`}
+                    label={props.labels.split('|')[n]}
+                    format={format}
+                    filetype={props.filetype}
+                    value={props.checkedFormats
+                            ? props.checkedFormats.split(',').includes(props.formats.split(',')[n])
+                            : false}
+                    onChange={props.onFormatChange}
+                    disabled={props.disabled}
+                    updateParent={this.updateCurrent}
+                    verifyOtherFormats={this.verifyChildren}
+                />);
         }
 
         this.overlayedLabel = (
@@ -52,7 +73,7 @@ export default class Filetype extends React.Component {
         default: this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
-
+/*
     componentDidMount() {
         if (this.child.length !== 0) {
             this.verifyChildren(this.props.filetype);
@@ -65,7 +86,7 @@ export default class Filetype extends React.Component {
             }
         }
     }
-
+*/
     checkChildren() {
         this.child.forEach((c) => {
             c.check(this);
@@ -82,15 +103,15 @@ export default class Filetype extends React.Component {
         this.setState({
             indeterminate: true,
         });
-        if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
+        /* if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
             this.setState({
                 [type]: JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))[type],
             });
-        } else {
-            this.setState({
-                [type]: false,
-            });
-        }
+        } else { */
+        this.setState({
+            [type]: false,
+        });
+        // }
     }
 
     checkCurrent(type) {
@@ -199,7 +220,6 @@ export default class Filetype extends React.Component {
             >
                 &#x2716;
             </Button>);
-
         return (
             <FormGroup bsClass="istex-form-group">
                 <Checkbox
@@ -237,8 +257,10 @@ export default class Filetype extends React.Component {
 Filetype.propTypes = {
     label: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
-    formats: PropTypes.string.isRequired,
-    labels: PropTypes.string.isRequired,
+    formats: PropTypes.string,
+    labels: PropTypes.string,
+    value: PropTypes.bool.isRequired,
+    checkedFormats: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
@@ -247,4 +269,7 @@ Filetype.propTypes = {
 Filetype.defaultProps = {
     value: false,
     disabled: false,
+    formats: '',
+    labels: '',
+    checkedFormats: '',
 };

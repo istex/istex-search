@@ -13,18 +13,18 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
-        if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+    /*    if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
             this.state = {
 
                 name: fullName,
                 [props.format]: JSON.parse(localStorage.getItem('dlISTEXstateForm'))[fullName],
             };
-        } else {
-            this.state = {
-                name: fullName,
-                [props.format]: false,
-            };
-        }
+        } else { */
+        this.state = {
+            name: fullName,
+            [props.format]: props.value,
+        };
+
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -101,6 +101,7 @@ Format.propTypes = {
     format: PropTypes.string.isRequired,
     filetype: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    value: PropTypes.bool,
     disabled: PropTypes.bool,
     updateParent: PropTypes.func.isRequired,
     verifyOtherFormats: PropTypes.func.isRequired,
@@ -108,4 +109,5 @@ Format.propTypes = {
 
 Format.defaultProps = {
     disabled: false,
+    value: false,
 };

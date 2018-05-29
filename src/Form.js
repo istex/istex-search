@@ -10,49 +10,44 @@ import qs from 'qs';
 import commaNumber from 'comma-number';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
+import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
 export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
+
         const url = document.location.href;
         const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.characterLimit = 6776;
+
+      
+      
         this.defaultState = {
-            q: parsedUrl.q || '',
-            size: parsedUrl.size || 5000,
+            q: '',
+            size: 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
             extractAnnexes: false,
-            downloading: parsedUrl.download || false,
+            downloading: false,
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-            rankBy: parsedUrl.rankBy || 'relevance',
+            rankBy: 'relevance',
         };
-
         this.state = this.defaultState;
-        if (parsedUrl.size > 0) {
-            if (parsedUrl.download) {
-                this.handleSubmit(new Event('submit'));
-            }
-            if (parsedUrl.q) {
-                const eventQuery = new Event('Query');
-                eventQuery.query = parsedUrl.q;
-                this.handleQueryChange(eventQuery);
-                if (window.localStorage) {
-                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-                }
-            }
-        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
+
+        /* else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
             this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
-        }
+        } */
+    //    if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEX'))) {
 
+    //    }
         this.child = [];
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -62,6 +57,14 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
+        this.interpretURL = this.interpretURL.bind(this);
+        this.recoverFormatState = this.recoverFormatState.bind(this);
+    }
+
+    componentWillMount() {
+        const url = document.location.href;
+        const shortUrl = url.slice(url.indexOf('?') + 1);
+        this.interpretURL(shortUrl);
     }
     characterNumberValidation() {
         const length = this.state.q.length;
@@ -71,6 +74,74 @@ export default class Form extends React.Component {
         return null;
     }
 
+    componentDidMount() {
+        this.recoverFormatState();
+    }
+
+    recoverFormatState() {
+        const self = this;
+        this.child.forEach((type) => {
+            type.child.forEach((format) => {
+                if (format.state[format.props.format]) {
+                    self.setState({
+                        [format.state.name]: true,
+                    });
+                }
+            });
+        });
+    }
+
+
+    interpretURL(url) {
+        const parsedUrl = qs.parse(url);
+        if (Object.keys(parsedUrl).length > 1) {
+            this.setState({
+                q: parsedUrl.q || '',
+                size: parsedUrl.size || 5000,
+                limitNbDoc: 10000,
+                extractMetadata: false,
+                extractFulltext: false,
+                extractEnrichments: false,
+                extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
+                extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
+                downloading: parsedUrl.download || false,
+                URL2Download: '',
+                errorRequestSyntax: '',
+                errorDuringDownload: '',
+                rankBy: parsedUrl.rankBy || 'relevance',
+            });
+
+                // Pour recalculer la taille si elle n'est pas precisée
+            if (parsedUrl.q && !parsedUrl.size) {
+                const eventQuery = new Event('Query');
+                eventQuery.query = parsedUrl.q;
+                this.handleQueryChange(eventQuery);
+
+                    /*
+                    if (window.localStorage) {
+                        window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                    } */
+            }
+            if (parsedUrl.extract) {
+                parsedUrl.extract.split(';').forEach((filetype) => {
+                    const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                    const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                    let res = '';
+                    formats.forEach((format) => {
+                        res += `${format},`;
+                    });
+                    res = res.slice(0, res.length - 1);
+                    this.setState({
+                        [type]: res,
+                    }, () => {
+                        if (parsedUrl.download) {
+                            this.handleSubmit(new Event('submit'));
+                        }
+                    });
+                });
+            }
+        }
+    }
     handleQueryChange(event, query = null) {
         const self = this;
         let queryNotNull = query;
@@ -162,6 +233,26 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
+        if (window.localStorage) {
+            const { href } = this.buildURLFromState();
+            const url = href.slice(href.indexOf('?'));
+            const formats = qs.parse(url).extract.split(';');
+            const dlStorage = {
+                url,
+                date: new Date(),
+                formats,
+                size: this.state.size,
+                q: this.state.q,
+                rankBy: this.state.rankBy,
+            };
+            if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
+                const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
+                oldStorage.push(dlStorage);
+                window.localStorage.setItem('dlISTEX', JSON.stringify(oldStorage));
+            } else {
+                window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
+            }
+        }
         this.setState({
             downloading: false,
             q: '',
@@ -174,7 +265,6 @@ export default class Form extends React.Component {
         const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
         window.history.pushState('', '', newUrl);
     }
-
 
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
@@ -224,9 +314,7 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        const blankState = this.defaultState;
-        blankState.q = '';
-        this.setState(blankState, () => { window.localStorage.clear(); });
+        this.setState(this.defaultState, () => { window.localStorage.clear(); });
     }
 
     tryExempleRequest(queryExample) {
@@ -238,10 +326,13 @@ export default class Form extends React.Component {
     }
 
     updateUrlAndLocalStorage() {
+        /*
         if (window.localStorage) {
             window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        } */
+        if (this.state !== this.defaultState) {
+            this.updateUrl();
         }
-        this.updateUrl();
     }
 
     isDownloadDisabled() {
@@ -346,6 +437,11 @@ export default class Form extends React.Component {
                 Réinitialisez votre requête (les formulaires de cette page seront vidés)
             </Tooltip>
         );
+        const historyTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Cliquez pour accéder à l&apos;historique de vos téléchargements
+            </Tooltip>
+        );
         const previewTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
@@ -403,8 +499,8 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
-        this.updateUrlAndLocalStorage();
         const downloadDisabled = this.isDownloadDisabled();
+        this.updateUrlAndLocalStorage();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -426,15 +522,24 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                     &nbsp;
                                 <OverlayTrigger
-                                    placement="right"
+                                    placement="top"
                                     overlay={resetTooltip}
                                     onClick={() => this.erase()}
                                 >
-                                    <span
-                                        role="button" className="glyphicon glyphicon-erase"
-                                    />
+                                    <span role="button" className="glyphicon glyphicon-erase" />
                                 </OverlayTrigger>
-
+                                    &nbsp;
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={historyTooltip}
+                                    onClick={() => {
+                                        this.setState({
+                                            showHistory: true,
+                                        });
+                                    }}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-time" />
+                                </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
@@ -528,7 +633,7 @@ export default class Form extends React.Component {
                                         id="nb-doc-to-download"
                                         maxValue={this.state.limitNbDoc}
                                         minValue={0}
-                                        value={this.state.size}
+                                        value={Number(this.state.size)}
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
@@ -544,7 +649,7 @@ export default class Form extends React.Component {
                                     checked={this.state.rankBy === 'relevance'}
                                     onChange={this.handlerankByChange}
                                 >
-                                    Par perticence
+                                    Par pertinence
                                 </Radio>
                                 <Radio
                                     id="radioRandom"
@@ -631,6 +736,7 @@ export default class Form extends React.Component {
                                     </blockquote>
                                 </p>
                             </div>
+
                             <div className="col-lg-3" />
                         </div>
                     }
@@ -640,10 +746,33 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
+                            <Modal bsSize="large" show={this.state.showHistory} onHide={this.close}>
+                                <Modal.Header>
+                                    <Modal.Title>Historique des requêtes</Modal.Title>
+                                </Modal.Header>
+
+                                <Modal.Body>
+                                    <StorageHistory
+                                        columnNames="#,Date,Requête,Formats,Nb. docs,Ordre de tri"
+                                    />
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button
+                                        onClick={() => {
+                                            this.setState({
+                                                showHistory: false,
+                                            });
+                                        }}
+                                    >
+                                        Fermer
+                                    </Button>
+                                </Modal.Footer>
+                            </Modal>
                             <h2>
                                 Formats et types de fichiers
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+
 
                             <span className="fulltextGroup">
                                 <Filetype
@@ -705,6 +834,7 @@ export default class Form extends React.Component {
                                     tooltip={enrichmentsDisabledTooltip}
                                 />
                             </span>
+
                         </div>
                         <div className="col-lg-3" />
                     </div>
@@ -751,7 +881,6 @@ export default class Form extends React.Component {
                     }
 
                 </form>
-
                 <Modal show={this.state.downloading} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Téléchargement en cours</Modal.Title>

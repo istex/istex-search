@@ -15,6 +15,8 @@ import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
 export const characterLimit = 6776;
+export const nbHistory = 10;
+
 export default class Form extends React.Component {
 
     constructor(props) {
@@ -244,6 +246,9 @@ export default class Form extends React.Component {
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
                 oldStorage.push(dlStorage);
+                if (oldStorage.length > nbHistory) {
+                    oldStorage.shift();
+                }
                 window.localStorage.setItem('dlISTEX', JSON.stringify(oldStorage));
             } else {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));

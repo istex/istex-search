@@ -403,6 +403,7 @@ disable-download
 
 .otherfileGroup{
 	float: left;
+	margin-left: 60px;
 }
 
 .fulltextGroup{
@@ -410,5 +411,5 @@ disable-download
 }
 .enrichmentsGroup{
 	float:left;
-
+	margin-left: 60px;
 }

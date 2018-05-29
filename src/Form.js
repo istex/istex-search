@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover,
+        Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -17,13 +18,8 @@ export default class Form extends React.Component {
 
     constructor(props) {
         super(props);
-
-        const url = document.location.href;
-        const parsedUrl = qs.parse(url.slice(url.indexOf('?') + 1));
         this.characterLimit = 6776;
 
-      
-      
         this.defaultState = {
             q: '',
             size: 5000,
@@ -66,16 +62,17 @@ export default class Form extends React.Component {
         const shortUrl = url.slice(url.indexOf('?') + 1);
         this.interpretURL(shortUrl);
     }
+
+    componentDidMount() {
+        this.recoverFormatState();
+    }
+
     characterNumberValidation() {
         const length = this.state.q.length;
         if (length < this.characterLimit - 1000) return 'success';
         else if (length <= this.characterLimit) return 'warning';
         else if (length > this.characterLimit) return 'error';
         return null;
-    }
-
-    componentDidMount() {
-        this.recoverFormatState();
     }
 
     recoverFormatState() {
@@ -298,10 +295,8 @@ export default class Form extends React.Component {
         if (withHits) {
             ISTEX.searchParams.set('size', this.state.size);
         }
+        ISTEX.searchParams.set('rankBy', this.state.rankBy);
         ISTEX.searchParams.set('sid', 'istex-dl');
-        if (this.state.rankBy === 'random') {
-            ISTEX.searchParams.set('rankBy', this.state.rankBy);
-        }
         return ISTEX;
     }
 
@@ -782,6 +777,7 @@ export default class Form extends React.Component {
                                     formats="pdf,tei,txt,ocr,zip,tiff"
                                     labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
                                     value={this.state.extractFulltext}
+                                    checkedFormats={this.state.Fulltext}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
                                 />
@@ -791,9 +787,10 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[0] = instance; }}
                                     label="Métadonnées"
                                     filetype="metadata"
-                                    formats="xml,mods,json"
-                                    labels="XML|MODS|JSON"
+                                    formats="xml,mods"
+                                    labels="XML|MODS"
                                     value={this.state.extractMetadata}
+                                    checkedFormats={this.state.Metadata}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
                                 />

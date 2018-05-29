@@ -24,7 +24,6 @@ export default class Form extends React.Component {
             size: parsedUrl.size || 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
-            extractMetadataJson: true,
             extractFulltext: false,
             extractEnrichments: false,
             extractCovers: false,
@@ -33,19 +32,21 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
+            rankBy: parsedUrl.rankBy || 'relevance',
         };
 
         this.state = this.defaultState;
-        if (parsedUrl.download) {
-            this.handleSubmit(new Event('submit'));
-        }
-
-        if (parsedUrl.q) {
-            const eventQuery = new Event('Query');
-            eventQuery.query = parsedUrl.q;
-            this.handleQueryChange(eventQuery);
-            if (window.localStorage) {
-                window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+        if (parsedUrl.size > 0) {
+            if (parsedUrl.download) {
+                this.handleSubmit(new Event('submit'));
+            }
+            if (parsedUrl.q) {
+                const eventQuery = new Event('Query');
+                eventQuery.query = parsedUrl.q;
+                this.handleQueryChange(eventQuery);
+                if (window.localStorage) {
+                    window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
+                }
             }
         } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
         && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
@@ -59,6 +60,8 @@ export default class Form extends React.Component {
         this.handleFormatChange = this.handleFormatChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlerankByChange = this.handlerankByChange.bind(this);
+        this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
     }
     characterNumberValidation() {
         const length = this.state.q.length;
@@ -127,6 +130,14 @@ export default class Form extends React.Component {
         });
     }
 
+    handlerankByChange(rankByEvent) {
+        const target = rankByEvent.target;
+        const name = target.name;
+        this.setState({
+            rankBy: name,
+        });
+    }
+
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -164,6 +175,7 @@ export default class Form extends React.Component {
         window.history.pushState('', '', newUrl);
     }
 
+
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
@@ -197,6 +209,9 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('sid', 'istex-dl');
+        if (this.state.rankBy === 'random') {
+            ISTEX.searchParams.set('rankBy', this.state.rankBy);
+        }
         return ISTEX;
     }
 
@@ -229,6 +244,12 @@ export default class Form extends React.Component {
         this.updateUrl();
     }
 
+    isDownloadDisabled() {
+        const filetypeFormats = Object.keys(this.state)
+        .filter(key => key.startsWith('extract'))
+        .filter(key => this.state[key]);
+        return (this.state.q.length <= 0 || this.state.total <= 0 || filetypeFormats.length <= 0);
+    }
     render() {
         const closingButton = (
             <Button
@@ -330,6 +351,13 @@ export default class Form extends React.Component {
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
             </Tooltip>
         );
+
+        const disabledDownloadTooltip = (
+            <Tooltip data-html="true" id="disabledDownloadTooltip">
+                Pour télécharger indiquez une requête qui renvoie
+                au moins un document et cochez au moins un format de fichier
+            </Tooltip>
+        );
         const popoverRequestLimitWarning = (
             <Popover
                 id="popover-request-limit-warning"
@@ -366,12 +394,17 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const emptyTooltip = (
+            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
+        );
+
         const appendicesTooltip = (
             <Tooltip data-html="true" id="appendicesTooltip">
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
         this.updateUrlAndLocalStorage();
+        const downloadDisabled = this.isDownloadDisabled();
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <form onSubmit={this.handleSubmit}>
@@ -500,9 +533,30 @@ export default class Form extends React.Component {
                                     />
                                 </div>
                             </div>
-
+                            <div className="rankBy">
+                                Choisir les documents :
+                            </div>
+                            <span className="radioGroupRankBy">
+                                <Radio
+                                    id="radioRelevance"
+                                    inline
+                                    name="relevance"
+                                    checked={this.state.rankBy === 'relevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Par perticence
+                                </Radio>
+                                <Radio
+                                    id="radioRandom"
+                                    inline
+                                    name="random"
+                                    checked={this.state.rankBy === 'random'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Aléatoirement
+                                </Radio>
+                            </span>
                         </div>
-
                         <div className="istex-dl-examples col-lg-3">
                             <h4>
                                 Exemples de corpus à télécharger &nbsp;
@@ -591,7 +645,6 @@ export default class Form extends React.Component {
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 
-
                             <span className="fulltextGroup">
                                 <Filetype
                                     ref={(instance) => { this.child[1] = instance; }}
@@ -660,10 +713,15 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
-                            <button type="submit" className="btn btn-theme btn-lg">
-                                <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
-                                    Télécharger
-                            </button>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}
+                            >
+                                <button type="submit" className="btn btn-theme btn-lg" disabled={downloadDisabled}>
+                                    <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
+                                        Télécharger
+                                </button>
+                            </OverlayTrigger>
                         </div>
                         <div className="col-lg-3" />
 

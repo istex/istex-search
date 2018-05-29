@@ -20,13 +20,38 @@ export default class storageHistory extends React.Component {
         return res;
     }
 
+    static getHistory() {
+        return JSON.parse(window.localStorage.getItem('dlISTEX'));
+    }
+
     constructor(props) {
         super(props);
-        this.localStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
+        this.localStorage = storageHistory.getHistory();
         this.state = {
             showConfirm: false,
         };
     }
+
+    loadHistory() {
+        this.localStorage = storageHistory.getHistory();
+    }
+
+    refreshHistory() {
+        this.setState({
+            update: true,
+        });
+    }
+
+    cleanHistory() {
+        window.localStorage.clear();
+        this.refreshHistory();
+    }
+
+    updateStorage(element) {
+        window.localStorage.setItem('dlISTEX', JSON.stringify(element));
+        this.refreshHistory();
+    }
+
 
     render() {
         const editTooltip = (
@@ -42,7 +67,7 @@ export default class storageHistory extends React.Component {
             <Tooltip data-html="true" id="removeTooltip">
                 Supprimer cette requête
             </Tooltip>);
-        this.localStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
+        this.loadHistory();
         this.columnNames = this.props.columnNames.split(',');
         this.columnTab = [];
         for (let j = 0; j < this.columnNames.length; j += 1) {
@@ -50,7 +75,7 @@ export default class storageHistory extends React.Component {
             this.columnTab[j] = (<th key={this.columnNames[j]}>{onOneLign}</th>);
         }
 
-        this.hyistoryTab = [];
+        this.historyTab = [];
         this.correctformatLine = [];
         if (window.localStorage && this.localStorage) {
             for (let i = 0; i < this.localStorage.length; i += 1) {
@@ -59,19 +84,19 @@ export default class storageHistory extends React.Component {
                 for (let x = 0; x < formatLine.length; x += 1) {
                     this.correctformatLine[i][x] = (<div key={formatLine[x]}>{formatLine[x]}</div>);
                 }
-                this.hyistoryTab[i] = (
+                this.historyTab[i] = (
                     <tr key={`table ${i}`}>
                         <td>{i + 1}</td>
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
                         <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>
                         <td>{this.localStorage[i].size}</td>
+                        <td>{this.localStorage[i].rankBy}</td>
                         <td className="transparent-td">
                             <OverlayTrigger
                                 placement="top"
                                 overlay={editTooltip}
                                 onClick={() => {
-                                        // this.interpretURL(this.localStorage[i].url);
                                     window.location = this.localStorage[i].url;
                                 }}
                             >
@@ -98,16 +123,13 @@ export default class storageHistory extends React.Component {
                                 placement="top"
                                 overlay={removeTooltip}
                                 onClick={() => {
-                                    const updateStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                                    if (i === 0 && updateStorage.length === 1) {
-                                        window.localStorage.clear();
+                                    const updatedStorage = storageHistory.getHistory();
+                                    if (i === 0 && updatedStorage.length === 1) {
+                                        this.cleanHistory();
                                     } else {
-                                        updateStorage.splice(i, 1);
-                                        window.localStorage.setItem('dlISTEX', JSON.stringify(updateStorage));
+                                        updatedStorage.splice(i, 1);
+                                        this.updateStorage(updatedStorage);
                                     }
-                                    this.setState({
-                                        update: true,
-                                    });
                                 }}
                             >
                                 <span
@@ -121,20 +143,20 @@ export default class storageHistory extends React.Component {
 
         return (
             <div className="history">
-                <Table responsive condensed hover>
+                <Table responsive condensed hover striped>
                     <thead>
                         <tr>
                             {this.columnTab}
                         </tr>
                     </thead>
                     <tbody>
-                        {this.hyistoryTab}
+                        {this.historyTab}
                     </tbody>
                 </Table>
                 <Button
                     bsStyle="danger"
-                    disabled={!JSON.parse(window.localStorage.getItem('dlISTEX'))
-                            || JSON.parse(window.localStorage.getItem('dlISTEX')).length === 0}
+                    disabled={!storageHistory.getHistory()
+                            || storageHistory.getHistory().length === 0}
                     onClick={() => {
                         this.setState({
                             showConfirm: true,
@@ -165,10 +187,9 @@ export default class storageHistory extends React.Component {
                         <Button
                             bsStyle="primary"
                             onClick={() => {
-                                window.localStorage.clear();
+                                this.cleanHistory();
                                 this.setState({
                                     showConfirm: false,
-                                    update: true,
                                 });
                             }}
                         >

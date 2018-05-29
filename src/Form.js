@@ -212,7 +212,15 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
+        window.setTimeout(() => {
+            window.location = href;
+        }, 1000);
+        event.preventDefault();
+    }
+
+    handleCancel(event) {
         if (window.localStorage) {
+            const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
             const formats = qs.parse(url).extract.split(';');
             const dlStorage = {
@@ -221,28 +229,16 @@ export default class Form extends React.Component {
                 formats,
                 size: this.state.size,
                 q: this.state.q,
+                rankBy: this.state.rankBy,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
-                    // si moins de deux secondes de décalage on ne met pas à jour
-                if (oldStorage[oldStorage.length - 1]
-                    && new Date(oldStorage[oldStorage.length - 1].date).getTime() + 20000
-                    < new Date(dlStorage.date).getTime()) {
-                    oldStorage.push(dlStorage);
-                }
+                oldStorage.push(dlStorage);
                 window.localStorage.setItem('dlISTEX', JSON.stringify(oldStorage));
             } else {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
-
-        window.setTimeout(() => {
-            window.location = href;
-        }, 1000);
-        event.preventDefault();
-    }
-
-    handleCancel(event) {
         this.setState({
             downloading: false,
             q: '',
@@ -529,7 +525,7 @@ export default class Form extends React.Component {
                                         });
                                     }}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-repeat" />
+                                    <span role="button" className="glyphicon glyphicon-time" />
                                 </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
@@ -721,7 +717,7 @@ export default class Form extends React.Component {
 
                                 <Modal.Body>
                                     <StorageHistory
-                                        columnNames="#,Date,Requête,Format,Nb docs"
+                                        columnNames="#,Date,Requête,Formats,Nb. docs,Ordre de tri"
                                     />
                                 </Modal.Body>
                                 <Modal.Footer>

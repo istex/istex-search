@@ -397,9 +397,10 @@ disable-download
 	margin-left: 15px;
 }
 
-.determinate-inline#checkboxmetadatajson{
+/*.determinate-inline#checkboxmetadatajson{
 	display: none
-=======
+}*/
+
 .otherfileGroup{
 	float: left;
 }

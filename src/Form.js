@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover, Tooltip, HelpBlock, FormGroup, FormControl } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, Popover, Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';

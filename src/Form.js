@@ -308,7 +308,7 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        this.setState(this.defaultState, () => { window.localStorage.clear(); });
+        this.setState(this.defaultState);
     }
 
     tryExempleRequest(queryExample) {

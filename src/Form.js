@@ -224,7 +224,7 @@ export default class Form extends React.Component {
             URL2Download: href,
         });
         window.setTimeout(() => {
-            window.location = href;
+            window.location.replace(href);
         }, 1000);
         event.preventDefault();
     }

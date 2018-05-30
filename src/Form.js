@@ -17,6 +17,12 @@ import Labelize from './i18n/fr';
 export const characterLimit = 6776;
 export default class Form extends React.Component {
 
+    static handleReload() {
+        if (JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'))) {
+            window.location = JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'));
+        }
+    }
+
     constructor(props) {
         super(props);
         this.defaultState = {
@@ -138,6 +144,7 @@ export default class Form extends React.Component {
             }
         }
     }
+
     handleQueryChange(event, query = null) {
         const self = this;
         let queryNotNull = query;
@@ -227,6 +234,7 @@ export default class Form extends React.Component {
         }, 1000);
         event.preventDefault();
     }
+
 
     handleCancel(event) {
         if (window.localStorage) {
@@ -320,10 +328,11 @@ export default class Form extends React.Component {
     }
 
     updateUrlAndLocalStorage() {
-        /*
-        if (window.localStorage) {
-            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-        } */
+        if (window.localStorage && this.state !== this.defaultState) {
+            const { href } = this.buildURLFromState();
+            const url = href.slice(href.indexOf('?'));
+            window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
+        }
         if (this.state !== this.defaultState) {
             this.updateUrl();
         }
@@ -436,6 +445,13 @@ export default class Form extends React.Component {
                 Cliquez pour accéder à l&apos;historique de vos téléchargements
             </Tooltip>
         );
+
+        const reloadTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Cliquez pour recharcher le dernier formulaire
+            </Tooltip>
+        );
+
         const previewTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
@@ -533,6 +549,14 @@ export default class Form extends React.Component {
                                     }}
                                 >
                                     <span role="button" className="glyphicon glyphicon-time" />
+                                </OverlayTrigger>
+                                    &nbsp;
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={reloadTooltip}
+                                    onClick={Form.handleReload}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-repeat" />
                                 </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>

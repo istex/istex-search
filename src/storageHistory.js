@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Tooltip, OverlayTrigger, Button, Modal } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export default class storageHistory extends React.Component {
 
@@ -24,6 +27,9 @@ export default class storageHistory extends React.Component {
         return JSON.parse(window.localStorage.getItem('dlISTEX'));
     }
 
+    static handleCopy() {
+        NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
+    }
     constructor(props) {
         super(props);
         this.localStorage = storageHistory.getHistory();
@@ -52,7 +58,6 @@ export default class storageHistory extends React.Component {
         this.refreshHistory();
     }
 
-
     render() {
         const editTooltip = (
             <Tooltip data-html="true" id="editTooltip">
@@ -63,10 +68,16 @@ export default class storageHistory extends React.Component {
                 Télécharger cette requête
             </Tooltip>);
 
+        const shareTooltip = (
+            <Tooltip data-html="true" id="shareTooltip">
+                Partager cette requête
+            </Tooltip>);
+
         const removeTooltip = (
             <Tooltip data-html="true" id="removeTooltip">
                 Supprimer cette requête
             </Tooltip>);
+
         this.loadHistory();
         this.columnNames = this.props.columnNames.split(',');
         this.columnTab = [];
@@ -117,6 +128,23 @@ export default class storageHistory extends React.Component {
                                     role="button" className="glyphicon glyphicon-download-alt"
                                 />
                             </OverlayTrigger>
+                        </td>
+                        <td className="transparent-td">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+
+                                }}
+                            >
+                                <CopyToClipboard
+                                    text={`https://dl.istex.fr/${this.localStorage[i].url}`}
+                                    onCopy={storageHistory.handleCopy}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-link" />
+                                </CopyToClipboard>
+                            </OverlayTrigger>
+
                         </td>
                         <td className="transparent-td">
                             <OverlayTrigger

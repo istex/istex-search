@@ -6,6 +6,7 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
         Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
+import { NotificationContainer } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -497,6 +498,7 @@ export default class Form extends React.Component {
         this.updateUrlAndLocalStorage();
         return (
             <div className={`container-fluid ${this.props.className}`}>
+                <NotificationContainer />
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="istex-dl-request row">

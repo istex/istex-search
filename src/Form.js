@@ -747,7 +747,7 @@ export default class Form extends React.Component {
 
                                 <Modal.Body>
                                     <StorageHistory
-                                        columnNames="#,Date,Requête,Formats,Nb. docs,Ordre de tri"
+                                        columnNames="#,Date,Requête,Formats,Nb. docs,Tri"
                                     />
                                 </Modal.Body>
                                 <Modal.Footer>

@@ -39,6 +39,7 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: 'relevance',
+            total: 0,
         };
         this.state = this.defaultState;
 
@@ -257,11 +258,13 @@ export default class Form extends React.Component {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
+        /*
         this.setState({
             downloading: false,
             q: '',
             URL2Download: '',
-        });
+        }); */
+        this.erase();
         event.preventDefault();
     }
 
@@ -316,7 +319,7 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        this.setState(this.defaultState, () => { window.localStorage.clear(); });
+        this.setState(this.defaultState);
     }
 
     tryExempleRequest(queryExample) {
@@ -328,16 +331,31 @@ export default class Form extends React.Component {
     }
 
     updateUrlAndLocalStorage() {
-        if (window.localStorage && this.state !== this.defaultState) {
-            const { href } = this.buildURLFromState();
-            const url = href.slice(href.indexOf('?'));
-            window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
-        }
-        if (this.state !== this.defaultState) {
-            this.updateUrl();
+        if (window.localStorage) {
+            let isDefaultState = true;
+            Object.keys(this.defaultState).forEach((attribute) => {
+                if (this.defaultState[attribute] !== this.state[attribute]) {
+                    console.log(attribute)
+                    isDefaultState = false;
+                }
+            });
+            if (!isDefaultState) {
+                const { href } = this.buildURLFromState();
+                const url = href.slice(href.indexOf('?'));
+                this.updateUrl();
+                window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
+            }
         }
     }
-
+/*
+    const stateAttributes= Object.keys(this.state);
+    const defaultAttributes=Object.keys(this.defaultState);
+    let pareil=true
+    defaultState.forEach(function (element) {
+            pareil += this.state.includes;
+    });
+    }
+*/
     isDownloadDisabled() {
         const filetypeFormats = Object.keys(this.state)
         .filter(key => key.startsWith('extract'))
@@ -448,7 +466,7 @@ export default class Form extends React.Component {
 
         const reloadTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Cliquez pour recharcher le dernier formulaire
+                Rechargez les derniers formulaires (avant téléchargement)
             </Tooltip>
         );
 
@@ -541,6 +559,14 @@ export default class Form extends React.Component {
                                     &nbsp;
                                 <OverlayTrigger
                                     placement="top"
+                                    overlay={reloadTooltip}
+                                    onClick={Form.handleReload}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-repeat" />
+                                </OverlayTrigger>
+                                &nbsp;
+                                <OverlayTrigger
+                                    placement="top"
                                     overlay={historyTooltip}
                                     onClick={() => {
                                         this.setState({
@@ -549,14 +575,6 @@ export default class Form extends React.Component {
                                     }}
                                 >
                                     <span role="button" className="glyphicon glyphicon-time" />
-                                </OverlayTrigger>
-                                    &nbsp;
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={reloadTooltip}
-                                    onClick={Form.handleReload}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-repeat" />
                                 </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>

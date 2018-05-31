@@ -115,16 +115,15 @@ export default class Form extends React.Component {
             });
 
                 // Pour recalculer la taille si elle n'est pas precisée
-            if (parsedUrl.q && !parsedUrl.size) {
+            if (parsedUrl.q) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
-                this.handleQueryChange(eventQuery);
-
+                this.handleQueryChange(eventQuery, null, parsedUrl.size);
+            }
                     /*
                     if (window.localStorage) {
                         window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
                     } */
-            }
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
                     const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
@@ -146,7 +145,7 @@ export default class Form extends React.Component {
         }
     }
 
-    handleQueryChange(event, query = null) {
+    handleQueryChange(event, query = null, sizeParam = this.state.limitNbDoc) {
         const self = this;
         let queryNotNull = query;
         if (event) {
@@ -168,8 +167,16 @@ export default class Form extends React.Component {
         this.istexDlXhr = $.get(ISTEX.href)
         .done((json) => {
             const { total } = json;
+            let size = this.state.limitNbDoc;
+            if (sizeParam <= this.state.limitNbDoc && total <= this.state.limitNbDoc) {
+                if (sizeParam > total) {
+                    size = total;
+                } else {
+                    size = sizeParam;
+                }
+            }
             return self.setState({
-                size: (total <= self.state.limitNbDoc ? total : self.state.limitNbDoc),
+                size,
                 total,
             });
         })
@@ -335,7 +342,6 @@ export default class Form extends React.Component {
             let isDefaultState = true;
             Object.keys(this.defaultState).forEach((attribute) => {
                 if (this.defaultState[attribute] !== this.state[attribute]) {
-                    console.log(attribute)
                     isDefaultState = false;
                 }
             });

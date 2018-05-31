@@ -33,6 +33,7 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: 'relevance',
+            total: 0,
         };
         this.state = this.defaultState;
 

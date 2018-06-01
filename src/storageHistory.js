@@ -236,10 +236,10 @@ export default class storageHistory extends React.Component {
                     <Modal.Body>
                         <FormGroup>
                             <InputGroup>
-                                <FormControl bsSize="small" type="text" readOnly value={`https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}`} />
+                                <FormControl bsSize="small" type="text" readOnly value={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''} />
                                 <InputGroup.Button>
                                     <CopyToClipboard
-                                        text={`https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}`}
+                                        text={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''}
                                         onCopy={storageHistory.handleCopy}
                                     >
                                         <Button

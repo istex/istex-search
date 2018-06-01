@@ -848,7 +848,12 @@ export default class Form extends React.Component {
                                     NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
                                 }}
                             >
-                                <button onClick={(e)=> {e.preventDefault()}} className="btn btn-theme btn-lg" id='shareButton'>
+                                <button
+                                    onClick={(e) => { e.preventDefault(); }}
+                                    className="btn btn-theme btn-lg"
+                                    id="shareButton"
+                                    disabled={downloadDisabled}
+                                >
                                     <span className="glyphicon glyphicon-link" aria-hidden="true" />
                                         Partager
                                 </button>

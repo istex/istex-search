@@ -6,7 +6,8 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
         Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
-import { NotificationContainer } from 'react-notifications';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -841,6 +842,18 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
+                            <CopyToClipboard
+                                text={document.location.href}
+                                onCopy={() => {
+                                    NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
+                                }}
+                            >
+                                <button onClick={(e)=> {e.preventDefault()}} className="btn btn-theme btn-lg" id='shareButton'>
+                                    <span className="glyphicon glyphicon-link" aria-hidden="true" />
+                                        Partager
+                                </button>
+                            </CopyToClipboard>
+                            &nbsp;
                             <OverlayTrigger
                                 placement="top"
                                 overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}

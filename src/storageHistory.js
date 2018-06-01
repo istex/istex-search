@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Tooltip, OverlayTrigger, Button, Modal } from 'react-bootstrap';
+import { Table, Tooltip, OverlayTrigger, Button, Modal, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -35,6 +35,8 @@ export default class storageHistory extends React.Component {
         this.localStorage = storageHistory.getHistory();
         this.state = {
             showConfirm: false,
+            showLink: false,
+            numberLink: 0,
         };
     }
 
@@ -134,15 +136,16 @@ export default class storageHistory extends React.Component {
                                 placement="top"
                                 overlay={shareTooltip}
                                 onClick={() => {
-
+                                    this.setState({
+                                        showLink: true,
+                                        numberLink: i,
+                                    });
                                 }}
                             >
-                                <CopyToClipboard
-                                    text={`https://dl.istex.fr/${this.localStorage[i].url}`}
-                                    onCopy={storageHistory.handleCopy}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-link" />
-                                </CopyToClipboard>
+                                <span
+                                    className="glyphicon glyphicon-link"
+                                    role="button"
+                                />
                             </OverlayTrigger>
 
                         </td>
@@ -222,6 +225,48 @@ export default class storageHistory extends React.Component {
                             }}
                         >
                             Confirmer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showLink} onHide={this.close}>
+                    <Modal.Header>
+                        <Modal.Title>Partager</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <FormGroup>
+                            <InputGroup>
+                                <FormControl bsSize="small" type="text" readOnly value={`https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}`} />
+                                <InputGroup.Button>
+                                    <CopyToClipboard
+                                        text={`https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}`}
+                                        onCopy={storageHistory.handleCopy}
+                                    >
+                                        <Button
+                                            id="copyButton"
+                                            onClick={() => {
+                                                this.setState({
+                                                    showLink: false,
+                                                });
+                                            }}
+                                        >
+                                            Copier
+                                        </Button>
+                                    </CopyToClipboard>
+                                </InputGroup.Button>
+                            </InputGroup>
+                        </FormGroup>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    showLink: false,
+                                });
+                            }}
+                        >
+                            Annuler
                         </Button>
                     </Modal.Footer>
                 </Modal>

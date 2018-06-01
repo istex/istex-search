@@ -59,6 +59,7 @@ export default class Form extends React.Component {
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
+        this.hideModalShare = this.hideModalShare.bind(this);
     }
 
     componentWillMount() {

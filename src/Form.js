@@ -505,6 +505,7 @@ export default class Form extends React.Component {
         );
         const downloadDisabled = this.isDownloadDisabled();
         this.updateUrlAndLocalStorage();
+        const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <NotificationContainer />
@@ -933,10 +934,10 @@ export default class Form extends React.Component {
                     <Modal.Body>
                         <FormGroup>
                             <InputGroup>
-                                <FormControl bsSize="small" type="text" readOnly value={document.location.href} />
+                                <FormControl bsSize="small" type="text" readOnly value={urlToShare} />
                                 <InputGroup.Button>
                                     <CopyToClipboard
-                                        text={document.location.href}
+                                        text={urlToShare}
                                         onCopy={Form.handleCopy}
                                     >
                                         <Button

@@ -723,12 +723,12 @@ export default class Form extends React.Component {
                                         <span role="button" className="glyphicon glyphicon-question-sign" />
                                     </OverlayTrigger>
                                     <br />
-                                    <blockquote
-                                        className="blockquote-Syntax-error"
-                                    >
-                                        {this.state.errorRequestSyntax}
-                                    </blockquote>
                                 </p>
+                                <blockquote
+                                    className="blockquote-Syntax-error"
+                                >
+                                    {this.state.errorRequestSyntax}
+                                </blockquote>
                             </div>
 
                             <div className="col-lg-3" />

@@ -117,7 +117,7 @@ export default class Form extends React.Component {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
-            : this.buildURLFromState(this.state.queryWithID, false);
+            : this.buildURLFromState(this.transformID(), false);
         ISTEX.searchParams.delete('extract');
         ISTEX.searchParams.delete('withID');
         if (this.istexDlXhr) {
@@ -153,6 +153,37 @@ export default class Form extends React.Component {
         .always(() => {
             this.istexDlXhr = null;
         });
+    }
+
+    transformID() {
+/*
+FROM
+
+id EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0
+id B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9
+id 3A8120D6DED99C2FAD8D43AF79856518895BA64A
+id 1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58
+id 01EB25144332E39473868AF8B0F14983799C26F6
+id 17D7475DD004ED094F4F47CFC05D8EC2B8700646
+id 514805A478954ADD1317C6CA82BADF3B26490A61
+id 6B98A9867529969E3C54E224CE4A1533BE6CBEB1
+id 3530115B75E44A405D80DF7EAF4B793DD01C9D65
+id 11DC9947ED84DCF5D10CBC4CCF4B98F2BC06A375
+id 325B16D9062799EBB3E4F7456A8E50134D629768
+
+TO
+
+id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR
+B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
+3A8120D6DED99C2FAD8D43AF79856518895BA64A OR
+1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58 OR
+01EB25144332E39473868AF8B0F14983799C26F6 OR
+17D7475DD004ED094F4F47CFC05D8EC2B8700646 OR
+514805A478954ADD1317C6CA82BADF3B26490A61 OR
+6B98A9867529969E3C54E224CE4A1533BE6CBEB1)
+
+*/
+    return this.state.queryWithID.replace(new RegExp('id', 'g'), 'OR').replace('OR ','id:(').concat(')');
     }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
@@ -265,8 +296,11 @@ export default class Form extends React.Component {
     }
 
     handleSubmit(event) {
-        const { href } = this.buildURLFromState();
-        // href.searchParams.delete("withID");
+        const href = this.buildURLFromState();
+        if (this.state.activeKey === '2') {
+            href.searchParams.set('q', this.transformID())
+            href.searchParams.delete('withID');
+        }
         this.setState({
             downloading: true,
             URL2Download: href,
@@ -293,7 +327,7 @@ export default class Form extends React.Component {
                 date: new Date(),
                 formats,
                 size: this.state.size,
-                q: this.state.q,
+                q: this.state.activeKey === '1' ? this.state.q : this.state.queryWithID,
                 rankBy: this.state.rankBy,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {

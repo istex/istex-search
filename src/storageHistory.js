@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Tooltip, OverlayTrigger, Button, Modal } from 'react-bootstrap';
+import { Table, Tooltip, OverlayTrigger, Button, Modal, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export default class storageHistory extends React.Component {
 
@@ -24,11 +27,16 @@ export default class storageHistory extends React.Component {
         return JSON.parse(window.localStorage.getItem('dlISTEX'));
     }
 
+    static handleCopy() {
+        NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
+    }
     constructor(props) {
         super(props);
         this.localStorage = storageHistory.getHistory();
         this.state = {
             showConfirm: false,
+            showLink: false,
+            numberLink: 0,
         };
     }
 
@@ -52,7 +60,6 @@ export default class storageHistory extends React.Component {
         this.refreshHistory();
     }
 
-
     render() {
         const editTooltip = (
             <Tooltip data-html="true" id="editTooltip">
@@ -63,10 +70,16 @@ export default class storageHistory extends React.Component {
                 Télécharger cette requête
             </Tooltip>);
 
+        const shareTooltip = (
+            <Tooltip data-html="true" id="shareTooltip">
+                Partager cette requête
+            </Tooltip>);
+
         const removeTooltip = (
             <Tooltip data-html="true" id="removeTooltip">
                 Supprimer cette requête
             </Tooltip>);
+
         this.loadHistory();
         this.columnNames = this.props.columnNames.split(',');
         this.columnTab = [];
@@ -78,15 +91,15 @@ export default class storageHistory extends React.Component {
         this.historyTab = [];
         this.correctformatLine = [];
         if (window.localStorage && this.localStorage) {
-            for (let i = 0; i < this.localStorage.length; i += 1) {
+            for (let i = this.localStorage.length - 1; i >= 0; i -= 1) {
                 const formatLine = this.localStorage[i].formats;
                 this.correctformatLine[i] = [];
                 for (let x = 0; x < formatLine.length; x += 1) {
                     this.correctformatLine[i][x] = (<div key={formatLine[x]}>{formatLine[x]}</div>);
                 }
-                this.historyTab[i] = (
-                    <tr key={`table ${i}`}>
-                        <td>{i + 1}</td>
+                this.historyTab[this.localStorage.length - i] = (
+                    <tr key={`table ${this.localStorage.length - i}`}>
+                        <td>{this.localStorage.length - i}</td>
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
                         <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>
@@ -117,6 +130,24 @@ export default class storageHistory extends React.Component {
                                     role="button" className="glyphicon glyphicon-download-alt"
                                 />
                             </OverlayTrigger>
+                        </td>
+                        <td className="transparent-td">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showLink: true,
+                                        numberLink: i,
+                                    });
+                                }}
+                            >
+                                <span
+                                    className="glyphicon glyphicon-link"
+                                    role="button"
+                                />
+                            </OverlayTrigger>
+
                         </td>
                         <td className="transparent-td">
                             <OverlayTrigger
@@ -194,6 +225,48 @@ export default class storageHistory extends React.Component {
                             }}
                         >
                             Confirmer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showLink} onHide={this.close}>
+                    <Modal.Header>
+                        <Modal.Title>Partager</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <FormGroup>
+                            <InputGroup>
+                                <FormControl bsSize="small" type="text" readOnly value={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''} />
+                                <InputGroup.Button>
+                                    <CopyToClipboard
+                                        text={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''}
+                                        onCopy={storageHistory.handleCopy}
+                                    >
+                                        <Button
+                                            id="copyButton"
+                                            onClick={() => {
+                                                this.setState({
+                                                    showLink: false,
+                                                });
+                                            }}
+                                        >
+                                            Copier
+                                        </Button>
+                                    </CopyToClipboard>
+                                </InputGroup.Button>
+                            </InputGroup>
+                        </FormGroup>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    showLink: false,
+                                });
+                            }}
+                        >
+                            Annuler
                         </Button>
                     </Modal.Footer>
                 </Modal>

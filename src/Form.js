@@ -5,7 +5,7 @@ import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-        Tooltip, HelpBlock, FormGroup, FormControl, Radio, InputGroup } from 'react-bootstrap';
+        Tooltip, HelpBlock, FormGroup, FormControl, Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -36,6 +36,7 @@ export default class Form extends React.Component {
         super(props);
         this.defaultState = {
             q: '',
+            queryWithID: '',
             size: 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
@@ -49,6 +50,7 @@ export default class Form extends React.Component {
             errorDuringDownload: '',
             rankBy: 'relevance',
             total: 0,
+            activeKey: '1',
         };
         this.state = this.defaultState;
 
@@ -71,6 +73,7 @@ export default class Form extends React.Component {
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
         this.hideModalShare = this.hideModalShare.bind(this);
+        this.calculerNbDocs = this.calculerNbDocs.bind(this);
     }
 
     componentWillMount() {
@@ -109,11 +112,54 @@ export default class Form extends React.Component {
             showModalShare: false,
         });
     }
+
+    calculerNbDocs() {
+        const self = this;
+        const ISTEX = this.state.activeKey === '1'
+            ? this.buildURLFromState(this.state.q, false)
+            : this.buildURLFromState(this.state.queryWithID, false);
+        ISTEX.searchParams.delete('extract');
+        ISTEX.searchParams.delete('withID');
+        if (this.istexDlXhr) {
+            this.istexDlXhr.abort();
+        }
+        this.istexDlXhr = $.get(ISTEX.href)
+        .done((json) => {
+            const { total } = json;
+            let size = this.state.limitNbDoc;
+
+            const sizeParam = this.state.limitNbDoc;
+            if (sizeParam <= this.state.limitNbDoc && total <= this.state.limitNbDoc) {
+                if (sizeParam > total) {
+                    size = total;
+                } else {
+                    size = sizeParam;
+                }
+            }
+            return this.setState({
+                size,
+                total,
+            });
+        }).fail((err) => {
+            if (err.status >= 500) {
+                return self.setState({ errorServer: 'Error server TODO ...' });
+            }
+            if (err.status >= 400 && err.status < 500) {
+                return this.setState({ errorRequestSyntax: err.responseJSON._error });
+            }
+            return null;
+        },
+        )
+        .always(() => {
+            this.istexDlXhr = null;
+        });
+    }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
         if (Object.keys(parsedUrl).length > 1) {
             this.setState({
-                q: parsedUrl.q || '',
+                q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
+                queryWithID: parsedUrl.withID ? parsedUrl.q : '',
                 size: parsedUrl.size || 5000,
                 limitNbDoc: 10000,
                 extractMetadata: false,
@@ -126,14 +172,17 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
-            });
+                activeKey: parsedUrl.withID ? '2' : '1',
+                total: 0,
+            }, () => this.calculerNbDocs());
 
                 // Pour recalculer la taille si elle n'est pas precisée
-            if (parsedUrl.q) {
+            /* if (parsedUrl.q) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
-                this.handleQueryChange(eventQuery, null, parsedUrl.size);
-            }
+                // this.handleQueryChange(eventQuery, null, parsedUrl.size);
+            //    this.handleQueryChange(eventQuery);
+            } */
                     /*
                     if (window.localStorage) {
                         window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
@@ -159,54 +208,24 @@ export default class Form extends React.Component {
         }
     }
 
-    handleQueryChange(event, query = null, sizeParam = this.state.limitNbDoc) {
-        const self = this;
-        let queryNotNull = query;
+    handleQueryChange(event) {
         if (event) {
-            this.setState({
-                errorRequestSyntax: '',
-                q: event.query || event.target.value,
-            });
-            queryNotNull = event.query || event.target.value;
+            if (this.state.activeKey === '1') {
+                this.setState({
+                    errorRequestSyntax: '',
+                    q: event.query || event.target.value,
+                }, () => this.calculerNbDocs());
+            } else {
+                this.setState({
+                    errorRequestSyntax: '',
+                    queryWithID: event.query || event.target.value,
+                }, () => this.calculerNbDocs());
+            }
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            });
+            }, () => this.calculerNbDocs());
         }
-        const ISTEX = this.buildURLFromState(queryNotNull, false);
-        ISTEX.searchParams.delete('extract');
-        if (this.istexDlXhr) {
-            this.istexDlXhr.abort();
-        }
-        this.istexDlXhr = $.get(ISTEX.href)
-        .done((json) => {
-            const { total } = json;
-            let size = this.state.limitNbDoc;
-            if (sizeParam <= this.state.limitNbDoc && total <= this.state.limitNbDoc) {
-                if (sizeParam > total) {
-                    size = total;
-                } else {
-                    size = sizeParam;
-                }
-            }
-            return self.setState({
-                size,
-                total,
-            });
-        })
-        .fail((err) => {
-            if (err.status >= 500) {
-                return self.setState({ errorServer: 'Error server TODO ...' });
-            }
-            if (err.status >= 400 && err.status < 500) {
-                return self.setState({ errorRequestSyntax: err.responseJSON._error });
-            }
-            return null;
-        },
-        )
-        .always(() => {
-            self.istexDlXhr = null;
-        });
     }
 
     handleInputChange(event) {
@@ -247,6 +266,7 @@ export default class Form extends React.Component {
 
     handleSubmit(event) {
         const { href } = this.buildURLFromState();
+        // href.searchParams.delete("withID");
         this.setState({
             downloading: true,
             URL2Download: href,
@@ -257,6 +277,11 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+    handleSelect(eventKey) {
+        this.setState({
+            activeKey: eventKey,
+        }, () => this.calculerNbDocs());
+    }
 
     handleCancel(event) {
         if (window.localStorage) {
@@ -318,7 +343,12 @@ export default class Form extends React.Component {
         }
         , '')
         .slice(0, -1);
-        ISTEX.searchParams.set('q', query || this.state.q);
+        if (this.state.activeKey === '1') {
+            ISTEX.searchParams.set('q', query || this.state.q);
+        } else {
+            ISTEX.searchParams.set('q', query || this.state.queryWithID);
+            ISTEX.searchParams.set('withID', true);
+        }
         ISTEX.searchParams.set('extract', extract);
         if (withHits) {
             ISTEX.searchParams.set('size', this.state.size);
@@ -377,7 +407,7 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
         .filter(key => key.startsWith('extract'))
         .filter(key => this.state[key]);
-        return (this.state.q.length <= 0 || this.state.total <= 0 || filetypeFormats.length <= 0);
+        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
         const closingButton = (
@@ -602,14 +632,33 @@ export default class Form extends React.Component {
                                     controlId="formBasicText"
                                     validationState={this.characterNumberValidation()}
                                 >
+                                    <Nav
+                                        justified
+                                        bsStyle="tabs"
+                                        activeKey={this.state.activeKey}
+                                        onSelect={k => this.handleSelect(k)}
+                                    >
+                                        <NavItem eventKey="1" href="/home">
+                                            Recherche classique
+                                        </NavItem>
+                                        <NavItem eventKey="2" title="Item">
+                                            Recherche par id ou ark
+                                        </NavItem>
+                                    </Nav>
                                     <Textarea
                                         className="form-control"
-                                        placeholder="brain AND language:fre"
+                                        placeholder={this.state.activeKey === '1'
+                                                        ? 'brain AND language:fre'
+                                                        : 'AZDSQDGFDGH'
+                                                    }
                                         name="q"
-                                        id="q"
+                                        id={`area-${this.state.activeKey}`}
                                         rows="3"
                                         autoFocus="true"
-                                        value={this.state.q}
+                                        value={this.state.activeKey === '1'
+                                                        ? this.state.q
+                                                        : this.state.queryWithID
+                                                    }
                                         onChange={this.handleQueryChange}
                                     />
 
@@ -629,7 +678,7 @@ export default class Form extends React.Component {
                                 </FormGroup>
                             </div>
 
-                            {this.state.total > 0 && this.state.q !== '' &&
+                            {this.state.total > 0 && (this.state.q !== '' || this.state.queryWithID !== '') &&
                                 <p>
                                     L’équation saisie correspond à
                                     &nbsp;

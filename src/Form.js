@@ -17,7 +17,7 @@ import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
 export const characterLimit = 6776;
-export const nbHistory = 10;
+export const nbHistory = 50;
 
 export default class Form extends React.Component {
 
@@ -27,11 +27,11 @@ export default class Form extends React.Component {
             window.location = JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'));
         }
     }
-  
+
     static handleCopy() {
         NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
     }
-  
+
     constructor(props) {
         super(props);
         this.defaultState = {
@@ -621,7 +621,7 @@ export default class Form extends React.Component {
                                                 position: 'relative',
                                                 display: 'inline-block',
                                                 verticalAlign: 'middle',
-                                                marginLeft: '20px',
+                                                marginLeft: '8px',
                                             }}
                                         />
                                     </HelpBlock>
@@ -653,7 +653,7 @@ export default class Form extends React.Component {
                                         <span
                                             role="button"
                                             className="glyphicon glyphicon-warning-sign"
-                                            style={{ color: 'red' }}
+                                            style={{ color: 'red', marginLeft: '8px' }}
                                         />
                                     </OverlayTrigger>
                                     }

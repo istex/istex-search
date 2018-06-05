@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Tooltip, OverlayTrigger, Button, Modal, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationManager } from 'react-notifications';
+import commaNumber from 'comma-number';
 import 'react-notifications/lib/notifications.css';
 
 export default class storageHistory extends React.Component {
@@ -103,9 +104,11 @@ export default class storageHistory extends React.Component {
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
                         <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>
-                        <td>{this.localStorage[i].size}</td>
+                        <td style={{ textAlign: 'right', paddingRight: '10px' }}>
+                            {commaNumber.bindWith('\xa0', '')(this.localStorage[i].size)}
+                        </td>
                         <td>{this.localStorage[i].rankBy}</td>
-                        <td className="transparent-td">
+                        <td style={{ paddingLeft: '25px' }} className="transparent-td">
                             <OverlayTrigger
                                 placement="top"
                                 overlay={editTooltip}

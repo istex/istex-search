@@ -5,7 +5,9 @@ import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-        Tooltip, HelpBlock, FormGroup, FormControl, Radio } from 'react-bootstrap';
+        Tooltip, HelpBlock, FormGroup, FormControl, Radio, InputGroup } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
@@ -17,6 +19,9 @@ import Labelize from './i18n/fr';
 export const characterLimit = 6776;
 export default class Form extends React.Component {
 
+    static handleCopy() {
+        NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
+    }
     constructor(props) {
         super(props);
         this.defaultState = {
@@ -54,6 +59,7 @@ export default class Form extends React.Component {
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
+        this.hideModalShare = this.hideModalShare.bind(this);
     }
 
     componentWillMount() {
@@ -87,7 +93,11 @@ export default class Form extends React.Component {
         });
     }
 
-
+    hideModalShare() {
+        this.setState({
+            showModalShare: false,
+        });
+    }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
         if (Object.keys(parsedUrl).length > 1) {
@@ -495,8 +505,10 @@ export default class Form extends React.Component {
         );
         const downloadDisabled = this.isDownloadDisabled();
         this.updateUrlAndLocalStorage();
+        const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
             <div className={`container-fluid ${this.props.className}`}>
+                <NotificationContainer />
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="istex-dl-request row">
@@ -839,6 +851,17 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
+
+                            <button
+                                onClick={(e) => { e.preventDefault(); this.setState({ showModalShare: true }); }}
+                                className="btn btn-theme btn-lg"
+                                id="shareButton"
+                                disabled={downloadDisabled}
+                            >
+                                <span className="glyphicon glyphicon-link" aria-hidden="true" />
+                                    Partager
+                            </button>
+                            &nbsp;
                             <OverlayTrigger
                                 placement="top"
                                 overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}
@@ -901,6 +924,40 @@ export default class Form extends React.Component {
                         <Modal.Footer>
                             <Button onClick={this.handleCancel}>Fermer</Button>
                         </Modal.Footer>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showModalShare} onHide={this.close}>
+                    <Modal.Header>
+                        <Modal.Title>Partager</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <FormGroup>
+                            <InputGroup>
+                                <FormControl bsSize="small" type="text" readOnly value={urlToShare} />
+                                <InputGroup.Button>
+                                    <CopyToClipboard
+                                        text={urlToShare}
+                                        onCopy={Form.handleCopy}
+                                    >
+                                        <Button
+                                            id="copyButton"
+                                            onClick={this.hideModalShare}
+                                        >
+                                            Copier
+                                        </Button>
+                                    </CopyToClipboard>
+                                </InputGroup.Button>
+                            </InputGroup>
+                        </FormGroup>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={this.hideModalShare}
+                        >
+                            Annuler
+                        </Button>
                     </Modal.Footer>
                 </Modal>
             </div>

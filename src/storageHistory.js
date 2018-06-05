@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Table, Tooltip, OverlayTrigger, Button, Modal } from 'react-bootstrap';
+import { Table, Tooltip, OverlayTrigger, Button, Modal, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export default class storageHistory extends React.Component {
 
@@ -24,11 +27,16 @@ export default class storageHistory extends React.Component {
         return JSON.parse(window.localStorage.getItem('dlISTEX'));
     }
 
+    static handleCopy() {
+        NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
+    }
     constructor(props) {
         super(props);
         this.localStorage = storageHistory.getHistory();
         this.state = {
             showConfirm: false,
+            showLink: false,
+            numberLink: 0,
         };
     }
 
@@ -52,7 +60,6 @@ export default class storageHistory extends React.Component {
         this.refreshHistory();
     }
 
-
     render() {
         const editTooltip = (
             <Tooltip data-html="true" id="editTooltip">
@@ -63,10 +70,16 @@ export default class storageHistory extends React.Component {
                 Télécharger cette requête
             </Tooltip>);
 
+        const shareTooltip = (
+            <Tooltip data-html="true" id="shareTooltip">
+                Partager cette requête
+            </Tooltip>);
+
         const removeTooltip = (
             <Tooltip data-html="true" id="removeTooltip">
                 Supprimer cette requête
             </Tooltip>);
+
         this.loadHistory();
         this.columnNames = this.props.columnNames.split(',');
         this.columnTab = [];
@@ -117,6 +130,24 @@ export default class storageHistory extends React.Component {
                                     role="button" className="glyphicon glyphicon-download-alt"
                                 />
                             </OverlayTrigger>
+                        </td>
+                        <td className="transparent-td">
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showLink: true,
+                                        numberLink: i,
+                                    });
+                                }}
+                            >
+                                <span
+                                    className="glyphicon glyphicon-link"
+                                    role="button"
+                                />
+                            </OverlayTrigger>
+
                         </td>
                         <td className="transparent-td">
                             <OverlayTrigger
@@ -194,6 +225,48 @@ export default class storageHistory extends React.Component {
                             }}
                         >
                             Confirmer
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showLink} onHide={this.close}>
+                    <Modal.Header>
+                        <Modal.Title>Partager</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <FormGroup>
+                            <InputGroup>
+                                <FormControl bsSize="small" type="text" readOnly value={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''} />
+                                <InputGroup.Button>
+                                    <CopyToClipboard
+                                        text={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''}
+                                        onCopy={storageHistory.handleCopy}
+                                    >
+                                        <Button
+                                            id="copyButton"
+                                            onClick={() => {
+                                                this.setState({
+                                                    showLink: false,
+                                                });
+                                            }}
+                                        >
+                                            Copier
+                                        </Button>
+                                    </CopyToClipboard>
+                                </InputGroup.Button>
+                            </InputGroup>
+                        </FormGroup>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                this.setState({
+                                    showLink: false,
+                                });
+                            }}
+                        >
+                            Annuler
                         </Button>
                     </Modal.Footer>
                 </Modal>

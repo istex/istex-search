@@ -282,12 +282,6 @@ export default class Form extends React.Component {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
-        /*
-        this.setState({
-            downloading: false,
-            q: '',
-            URL2Download: '',
-        }); */
         this.erase();
         event.preventDefault();
     }

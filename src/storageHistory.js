@@ -91,15 +91,15 @@ export default class storageHistory extends React.Component {
         this.historyTab = [];
         this.correctformatLine = [];
         if (window.localStorage && this.localStorage) {
-            for (let i = 0; i < this.localStorage.length; i += 1) {
+            for (let i = this.localStorage.length - 1; i >= 0; i -= 1) {
                 const formatLine = this.localStorage[i].formats;
                 this.correctformatLine[i] = [];
                 for (let x = 0; x < formatLine.length; x += 1) {
                     this.correctformatLine[i][x] = (<div key={formatLine[x]}>{formatLine[x]}</div>);
                 }
-                this.historyTab[i] = (
-                    <tr key={`table ${i}`}>
-                        <td>{i + 1}</td>
+                this.historyTab[this.localStorage.length - i] = (
+                    <tr key={`table ${this.localStorage.length - i}`}>
+                        <td>{this.localStorage.length - i}</td>
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
                         <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>

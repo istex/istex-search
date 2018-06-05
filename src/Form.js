@@ -21,9 +21,17 @@ export const nbHistory = 10;
 
 export default class Form extends React.Component {
 
+
+    static handleReload() {
+        if (JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'))) {
+            window.location = JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'));
+        }
+    }
+  
     static handleCopy() {
         NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
     }
+  
     constructor(props) {
         super(props);
         this.defaultState = {
@@ -40,6 +48,7 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: 'relevance',
+            total: 0,
         };
         this.state = this.defaultState;
 
@@ -120,16 +129,15 @@ export default class Form extends React.Component {
             });
 
                 // Pour recalculer la taille si elle n'est pas precisée
-            if (parsedUrl.q && !parsedUrl.size) {
+            if (parsedUrl.q) {
                 const eventQuery = new Event('Query');
                 eventQuery.query = parsedUrl.q;
-                this.handleQueryChange(eventQuery);
-
+                this.handleQueryChange(eventQuery, null, parsedUrl.size);
+            }
                     /*
                     if (window.localStorage) {
                         window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
                     } */
-            }
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
                     const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
@@ -150,7 +158,8 @@ export default class Form extends React.Component {
             }
         }
     }
-    handleQueryChange(event, query = null) {
+
+    handleQueryChange(event, query = null, sizeParam = this.state.limitNbDoc) {
         const self = this;
         let queryNotNull = query;
         if (event) {
@@ -172,8 +181,16 @@ export default class Form extends React.Component {
         this.istexDlXhr = $.get(ISTEX.href)
         .done((json) => {
             const { total } = json;
+            let size = this.state.limitNbDoc;
+            if (sizeParam <= this.state.limitNbDoc && total <= this.state.limitNbDoc) {
+                if (sizeParam > total) {
+                    size = total;
+                } else {
+                    size = sizeParam;
+                }
+            }
             return self.setState({
-                size: (total <= self.state.limitNbDoc ? total : self.state.limitNbDoc),
+                size,
                 total,
             });
         })
@@ -240,6 +257,7 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
+
     handleCancel(event) {
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
@@ -264,11 +282,13 @@ export default class Form extends React.Component {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
+        /*
         this.setState({
             downloading: false,
             q: '',
             URL2Download: '',
-        });
+        }); */
+        this.erase();
         event.preventDefault();
     }
 
@@ -323,7 +343,7 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        this.setState(this.defaultState, () => { window.localStorage.clear(); });
+        this.setState(this.defaultState);
     }
 
     tryExempleRequest(queryExample) {
@@ -335,15 +355,30 @@ export default class Form extends React.Component {
     }
 
     updateUrlAndLocalStorage() {
-        /*
         if (window.localStorage) {
-            window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-        } */
-        if (this.state !== this.defaultState) {
-            this.updateUrl();
+            let isDefaultState = true;
+            Object.keys(this.defaultState).forEach((attribute) => {
+                if (this.defaultState[attribute] !== this.state[attribute]) {
+                    isDefaultState = false;
+                }
+            });
+            if (!isDefaultState) {
+                const { href } = this.buildURLFromState();
+                const url = href.slice(href.indexOf('?'));
+                this.updateUrl();
+                window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
+            }
         }
     }
-
+/*
+    const stateAttributes= Object.keys(this.state);
+    const defaultAttributes=Object.keys(this.defaultState);
+    let pareil=true
+    defaultState.forEach(function (element) {
+            pareil += this.state.includes;
+    });
+    }
+*/
     isDownloadDisabled() {
         const filetypeFormats = Object.keys(this.state)
         .filter(key => key.startsWith('extract'))
@@ -451,6 +486,13 @@ export default class Form extends React.Component {
                 Cliquez pour accéder à l&apos;historique de vos téléchargements
             </Tooltip>
         );
+
+        const reloadTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Rechargez les derniers formulaires (avant téléchargement)
+            </Tooltip>
+        );
+
         const previewTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
@@ -540,6 +582,14 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-erase" />
                                 </OverlayTrigger>
                                     &nbsp;
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={reloadTooltip}
+                                    onClick={Form.handleReload}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-repeat" />
+                                </OverlayTrigger>
+                                &nbsp;
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={historyTooltip}

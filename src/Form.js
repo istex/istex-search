@@ -71,6 +71,7 @@ export default class Form extends React.Component {
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
         this.hideModalShare = this.hideModalShare.bind(this);
+        this.hideModalExemple = this.hideModalExemple.bind(this);
     }
 
     componentWillMount() {
@@ -107,6 +108,12 @@ export default class Form extends React.Component {
     hideModalShare() {
         this.setState({
             showModalShare: false,
+        });
+    }
+
+    hideModalExemple() {
+        this.setState({
+            showModalExemple: false,
         });
     }
     interpretURL(url) {
@@ -729,43 +736,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                             </h4>
-
-                            <OverlayTrigger
-                                trigger="click"
-                                rootClose
-                                placement="left"
-                                overlay={popoverRequestExample1}
-                            >
-                                <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
-                            </OverlayTrigger>
-                            &nbsp;
-                            <OverlayTrigger
-                                trigger="click"
-                                rootClose
-                                placement="left"
-                                overlay={popoverRequestExample2}
-                            >
-                                <button type="button" className="btn-exemple btn-sm">Astrophysique</button>
-                            </OverlayTrigger>
-                            &nbsp;
-                            <OverlayTrigger
-                                trigger="click"
-                                rootClose
-                                placement="left"
-                                overlay={popoverRequestExample3}
-                            >
-                                <button type="button" className="btn-exemple btn-sm">Poissons</button>
-                            </OverlayTrigger>
-                            &nbsp;
-                            <OverlayTrigger
-                                trigger="click"
-                                rootClose
-                                placement="left"
-                                overlay={popoverRequestExample4}
-                            >
-                                <button type="button" className="btn-exemple btn-sm">Polaris</button>
-                            </OverlayTrigger>
-                            &nbsp;
+                            <button type="button" className="btn-exemple btn-sm" onClick={()=>this.setState({showModalExemple: true })}>Exemples</button>
                         </div>
                     </div>
 
@@ -1004,6 +975,59 @@ export default class Form extends React.Component {
                     <Modal.Footer>
                         <Button
                             onClick={this.hideModalShare}
+                        >
+                            Annuler
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+                <Modal show={this.state.showModalExemple} onHide={this.hideModalExemple} backdrop>
+                    <Modal.Header>
+                        <Modal.Title>Exemples de requêtes</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+
+                                                    <OverlayTrigger
+                                                        trigger="click"
+                                                        rootClose
+                                                        placement="left"
+                                                        overlay={popoverRequestExample1}
+                                                    >
+                                                        <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
+                                                    </OverlayTrigger>
+                                                    &nbsp;
+                                                    <OverlayTrigger
+                                                        trigger="click"
+                                                        rootClose
+                                                        placement="left"
+                                                        overlay={popoverRequestExample2}
+                                                    >
+                                                        <button type="button" className="btn-exemple btn-sm">Astrophysique</button>
+                                                    </OverlayTrigger>
+                                                    &nbsp;
+                                                    <OverlayTrigger
+                                                        trigger="click"
+                                                        rootClose
+                                                        placement="left"
+                                                        overlay={popoverRequestExample3}
+                                                    >
+                                                        <button type="button" className="btn-exemple btn-sm">Poissons</button>
+                                                    </OverlayTrigger>
+                                                    &nbsp;
+                                                    <OverlayTrigger
+                                                        trigger="click"
+                                                        rootClose
+                                                        placement="left"
+                                                        overlay={popoverRequestExample4}
+                                                    >
+                                                        <button type="button" className="btn-exemple btn-sm">Polaris</button>
+                                                    </OverlayTrigger>
+                                                    &nbsp;
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={this.hideModalExemple}
                         >
                             Annuler
                         </Button>

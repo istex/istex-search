@@ -350,6 +350,7 @@ export default class Form extends React.Component {
     tryExempleRequest(queryExample) {
         this.setState({
             q: queryExample,
+            showModalExemple: false,
         });
         this.handleQueryChange(null, queryExample);
         document.body.click();
@@ -407,6 +408,7 @@ export default class Form extends React.Component {
             </Popover>
         );
 
+
         const popoverRequestExamples = (
             <Popover
                 id="popover-request-examples"
@@ -416,67 +418,8 @@ export default class Form extends React.Component {
                 Cliquez sur celle de votre choix et la zone de requête sera remplie par le contenu de l’exemple.
             </Popover>
         );
-        const queryExample1 = Labelize.vieillissement;
-        const popoverRequestExample1 = (
-            <Popover
-                id="popover-request-example1"
-                title={<span> Extrait corpus “Vieillissement” {closingButton}</span>}
-            >
-                Équation utilisant des identifiants ISTEX<br />
-                <button
-                    type="button" className="btn-sm"
-                    onClick={() => this.tryExempleRequest(queryExample1)}
-                >
-                    Essayer cette requête
-                </button>
-            </Popover>
-        );
-        const queryExample2 = Labelize.astrophysique;
-        const popoverRequestExample2 = (
-            <Popover
-                id="popover-request-example2"
-                title={<span> Extrait corpus “Astrophysique” {closingButton}</span>}
-            >
-                Équation utilisant des données bibliographiques<br />
-                <button
-                    type="button" className="btn-sm"
-                    onClick={() => this.tryExempleRequest(queryExample2)}
-                >
-                    Essayer cette requête
-                </button>
-            </Popover>
-        );
-        const queryExample3 = Labelize.poissons;
-        const popoverRequestExample3 = (
-            <Popover
-                id="popover-request-example3"
-                title={<span> Extrait corpus “Poissons” {closingButton}</span>}
-            >
-                Équation utilisant des mots-clés, des données bibliographiques et des indicateurs de qualité<br />
-                <button
-                    type="button" className="btn-sm"
-                    onClick={() => this.tryExempleRequest(queryExample3)}
-                >
-                    Essayer cette requête
-                </button>
-            </Popover>
-        );
-        const queryExample4 = Labelize.polaris;
-        const popoverRequestExample4 = (
-            <Popover
-                id="popover-request-example4"
-                title={<span> Extrait corpus “Polaris” {closingButton}</span>}
-            >
-                Équation utilisant des mots-clés, ainsi que tous les types d’opérateurs
-                et de modes de recherches proposés dans ISTEX<br />
-                <button
-                    type="button" className="btn-sm"
-                    onClick={() => this.tryExempleRequest(queryExample4)}
-                >
-                Essayer cette requête
-                </button>
-            </Popover>
-        );
+
+
         const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
                 Réinitialisez votre requête (les formulaires de cette page seront vidés)
@@ -485,6 +428,12 @@ export default class Form extends React.Component {
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour accéder à l&apos;historique de vos téléchargements
+            </Tooltip>
+        );
+
+        const tryRequestTooltip = (
+            <Tooltip data-html="true" id="tryRequestTooltip">
+                Essayez cette requête !
             </Tooltip>
         );
 
@@ -736,7 +685,13 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                             </h4>
-                            <button type="button" className="btn-exemple btn-sm" onClick={()=>this.setState({showModalExemple: true })}>Exemples</button>
+                            <button
+                                type="button"
+                                className="btn-exemple btn-sm"
+                                onClick={() => this.setState({ showModalExemple: true })}
+                            >
+                                Exemples
+                            </button>
                         </div>
                     </div>
 
@@ -980,49 +935,130 @@ export default class Form extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.showModalExemple} onHide={this.hideModalExemple} backdrop>
+                <Modal show={this.state.showModalExemple} onHide={this.hideModalExemple} backdrop >
                     <Modal.Header>
                         <Modal.Title>Exemples de requêtes</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-
-                                                    <OverlayTrigger
-                                                        trigger="click"
-                                                        rootClose
-                                                        placement="left"
-                                                        overlay={popoverRequestExample1}
-                                                    >
-                                                        <button type="button" className="btn-exemple btn-sm">Vieillissement</button>
-                                                    </OverlayTrigger>
-                                                    &nbsp;
-                                                    <OverlayTrigger
-                                                        trigger="click"
-                                                        rootClose
-                                                        placement="left"
-                                                        overlay={popoverRequestExample2}
-                                                    >
-                                                        <button type="button" className="btn-exemple btn-sm">Astrophysique</button>
-                                                    </OverlayTrigger>
-                                                    &nbsp;
-                                                    <OverlayTrigger
-                                                        trigger="click"
-                                                        rootClose
-                                                        placement="left"
-                                                        overlay={popoverRequestExample3}
-                                                    >
-                                                        <button type="button" className="btn-exemple btn-sm">Poissons</button>
-                                                    </OverlayTrigger>
-                                                    &nbsp;
-                                                    <OverlayTrigger
-                                                        trigger="click"
-                                                        rootClose
-                                                        placement="left"
-                                                        overlay={popoverRequestExample4}
-                                                    >
-                                                        <button type="button" className="btn-exemple btn-sm">Polaris</button>
-                                                    </OverlayTrigger>
-                                                    &nbsp;
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des données bibliographiques
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des mots-clés et des données bibliographiques
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.ecologie)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des données bibliographiques et des indicateurs de qualité
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.motClefsSystematiqueVegetale)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des mots-clés et des opérateurs booléens imbriqués
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.regExpSystematiqueVegetale)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des mots-clés et des expressions régulières
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.regExpArctic)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des mots-clés et des expressions régulières
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.opArctic)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des mots-clés et leurs variantes d’écriture,
+                            ainsi que plusieurs modes de recherches
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.echinoderme)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des identifiants ISTEX de type ID
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.vieillissement)}
+                                >
+                                    <span role="button" className="glyphicon glyphicon-search" />
+                                </OverlayTrigger>
+                            </span>
+                            Équation utilisant des identifiants ISTEX de type ARK
+                        </div>
                     </Modal.Body>
 
                     <Modal.Footer>

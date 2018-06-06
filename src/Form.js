@@ -111,7 +111,7 @@ export default class Form extends React.Component {
     }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
-        if (Object.keys(parsedUrl).length > 1) {
+        if (Object.keys(parsedUrl).length >= 1) {
             this.setState({
                 q: parsedUrl.q || '',
                 size: parsedUrl.size || 5000,

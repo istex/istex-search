@@ -36,7 +36,7 @@ export default class Form extends React.Component {
         super(props);
         this.defaultState = {
             q: '',
-            queryWithID: '',
+            querywithIDorARK: '',
             size: 5000,
             limitNbDoc: 10000,
             extractMetadata: false,
@@ -53,15 +53,8 @@ export default class Form extends React.Component {
             activeKey: '1',
         };
         this.state = this.defaultState;
-
-        /* else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))
-        && !JSON.parse(window.localStorage.getItem('dlISTEXstateForm')).downloading) {
-            this.state = JSON.parse(window.localStorage.getItem('dlISTEXstateForm'));
-        } */
-    //    if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEX'))) {
-
-    //    }
         this.child = [];
+
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
@@ -73,7 +66,7 @@ export default class Form extends React.Component {
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
         this.hideModalShare = this.hideModalShare.bind(this);
-        this.calculerNbDocs = this.calculerNbDocs.bind(this);
+        this.calculateNbDocs = this.calculateNbDocs.bind(this);
     }
 
     componentWillMount() {
@@ -113,11 +106,11 @@ export default class Form extends React.Component {
         });
     }
 
-    calculerNbDocs(sizeParam = this.state.limitNbDoc) {
+    calculateNbDocs(sizeParam = this.state.limitNbDoc) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
-            : this.buildURLFromState(this.transformID(), false);
+            : this.buildURLFromState(this.transformIDorARK(), false);
         ISTEX.searchParams.delete('extract');
         ISTEX.searchParams.delete('withID');
         if (this.istexDlXhr) {
@@ -155,79 +148,30 @@ export default class Form extends React.Component {
         });
     }
 
-    transformID() {
-/*
-FROM
-
-id EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0
-id B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9
-id 3A8120D6DED99C2FAD8D43AF79856518895BA64A
-id 1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58
-id 01EB25144332E39473868AF8B0F14983799C26F6
-id 17D7475DD004ED094F4F47CFC05D8EC2B8700646
-id 514805A478954ADD1317C6CA82BADF3B26490A61
-id 6B98A9867529969E3C54E224CE4A1533BE6CBEB1
-id 3530115B75E44A405D80DF7EAF4B793DD01C9D65
-id 11DC9947ED84DCF5D10CBC4CCF4B98F2BC06A375
-id 325B16D9062799EBB3E4F7456A8E50134D629768
-
-TO
-
-id:(EC2AEDC35AEE067247941C2E4FCDBC02064CD3F0 OR
-B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
-3A8120D6DED99C2FAD8D43AF79856518895BA64A OR
-1AF40874F4E6B8EF15BDFB36AFA89A44D36BBA58 OR
-01EB25144332E39473868AF8B0F14983799C26F6 OR
-17D7475DD004ED094F4F47CFC05D8EC2B8700646 OR
-514805A478954ADD1317C6CA82BADF3B26490A61 OR
-6B98A9867529969E3C54E224CE4A1533BE6CBEB1)
-
-
-Liste d’ARK Istex en entrée
-
-"ark:/67375/6H6-C6N9VT6B-J"
-"ark:/67375/6H6-FG1DKS97-K"
-"ark:/67375/6H6-184CPV6X-1"
-"ark:/67375/6H6-J3FQ71K0-D"
-"ark:/67375/6H6-7SNJCN9T-S"
-"ark:/67375/6H6-1WGD5VWC-X"
-"ark:/67375/1BB-Z9XR1RHS-K"
-"ark:/67375/6H6-4PL23X33-3"
-"ark:/67375/6H6-04KTZSRD-8"
-"ark:/67375/6H6-TQ4XM01R-J"
-"ark:/67375/6H6-LBCVCDGG-1"
-"ark:/67375/6H6-NHCZ3Q1M-V"
-
-
-Dans champ requête, obtenir :
-
-?q=ark:/67375/("6H6-C6N9VT6B-J" "6H6-FG1DKS97-K" "6H6-184CPV6X-1"
-"6H6-J3FQ71K0-D" "6H6-7SNJCN9T-S" "6H6-1WGD5VWC-X" "1BB-Z9XR1RHS-K" "6H6-4PL23X33-3"
-"6H6-04KTZSRD-8" "6H6-TQ4XM01R-J" "6H6-LBCVCDGG-1" "6H6-NHCZ3Q1M-V")
-
-*/
-        if (this.state.queryWithID) {
-            if (this.state.queryWithID.includes('ark')) {
-                const prefixLength = this.state.queryWithID.split('/', 2).join('/').length;
-                const prefix = this.state.queryWithID.substring(1, prefixLength + 1);
+    transformIDorARK() {
+        if (this.state.querywithIDorARK) {
+            if (this.state.querywithIDorARK.includes('ark')) {
+                const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
+                const prefix = this.state.querywithIDorARK.substring(1, prefixLength + 1);
                 const res = prefix
                             .concat('(')
-                            .concat(this.state.queryWithID.replace(new RegExp(prefix, 'g'), ''))
+                            .concat(this.state.querywithIDorARK.replace(new RegExp(prefix, 'g'), ''))
                             .concat(')');
                 return res.replace(new RegExp('\n', 'g'), ' ');
             }
-            return this.state.queryWithID
+            return this.state.querywithIDorARK
             .replace(new RegExp('id', 'g'), ' ')
             .replace('  ', 'id:(').replace(new RegExp('\n', 'g'), '').concat(')');
         }
         return '';
     }
+
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
         if (Object.keys(parsedUrl).length > 1) {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
-                queryWithID: parsedUrl.withID ? parsedUrl.q : '',
+                querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
                 size: parsedUrl.size || 5000,
                 limitNbDoc: 10000,
                 extractMetadata: false,
@@ -242,19 +186,8 @@ Dans champ requête, obtenir :
                 rankBy: parsedUrl.rankBy || 'relevance',
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
-            }, () => this.calculerNbDocs(parsedUrl.size));
+            }, () => this.calculateNbDocs(parsedUrl.size));
 
-                // Pour recalculer la taille si elle n'est pas precisée
-            /* if (parsedUrl.q) {
-                const eventQuery = new Event('Query');
-                eventQuery.query = parsedUrl.q;
-                // this.handleQueryChange(eventQuery, null, parsedUrl.size);
-            //    this.handleQueryChange(eventQuery);
-            } */
-                    /*
-                    if (window.localStorage) {
-                        window.localStorage.setItem('dlISTEXstateForm', JSON.stringify(this.state));
-                    } */
             if (parsedUrl.extract) {
                 parsedUrl.extract.split(';').forEach((filetype) => {
                     const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
@@ -282,17 +215,17 @@ Dans champ requête, obtenir :
                 this.setState({
                     errorRequestSyntax: '',
                     q: event.query || event.target.value,
-                }, () => this.calculerNbDocs());
+                }, () => this.calculateNbDocs());
             } else {
                 this.setState({
                     errorRequestSyntax: '',
-                    queryWithID: event.query || event.target.value,
-                }, () => this.calculerNbDocs());
+                    querywithIDorARK: event.query || event.target.value,
+                }, () => this.calculateNbDocs());
             }
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            }, () => this.calculerNbDocs());
+            }, () => this.calculateNbDocs());
         }
     }
 
@@ -335,7 +268,7 @@ Dans champ requête, obtenir :
     handleSubmit(event) {
         const href = this.buildURLFromState();
         if (this.state.activeKey === '2') {
-            href.searchParams.set('q', this.transformID());
+            href.searchParams.set('q', this.transformIDorARK());
             href.searchParams.delete('withID');
         }
         this.setState({
@@ -348,10 +281,10 @@ Dans champ requête, obtenir :
         event.preventDefault();
     }
 
-    handleSelect(eventKey) {
+    handleSelectNav(eventKey) {
         this.setState({
             activeKey: eventKey,
-        }, () => this.calculerNbDocs());
+        }, () => this.calculateNbDocs());
     }
 
     handleCancel(event) {
@@ -364,7 +297,7 @@ Dans champ requête, obtenir :
                 date: new Date(),
                 formats,
                 size: this.state.size,
-                q: this.state.activeKey === '1' ? this.state.q : this.state.queryWithID,
+                q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 rankBy: this.state.rankBy,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
@@ -417,7 +350,7 @@ Dans champ requête, obtenir :
         if (this.state.activeKey === '1') {
             ISTEX.searchParams.set('q', query || this.state.q);
         } else {
-            ISTEX.searchParams.set('q', query || this.state.queryWithID);
+            ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
             ISTEX.searchParams.set('withID', true);
         }
         ISTEX.searchParams.set('extract', extract);
@@ -465,15 +398,7 @@ Dans champ requête, obtenir :
             }
         }
     }
-/*
-    const stateAttributes= Object.keys(this.state);
-    const defaultAttributes=Object.keys(this.defaultState);
-    let pareil=true
-    defaultState.forEach(function (element) {
-            pareil += this.state.includes;
-    });
-    }
-*/
+
     isDownloadDisabled() {
         const filetypeFormats = Object.keys(this.state)
         .filter(key => key.startsWith('extract'))
@@ -707,12 +632,12 @@ Dans champ requête, obtenir :
                                         justified
                                         bsStyle="tabs"
                                         activeKey={this.state.activeKey}
-                                        onSelect={k => this.handleSelect(k)}
+                                        onSelect={k => this.handleSelectNav(k)}
                                     >
-                                        <NavItem eventKey="1" href="/home">
+                                        <NavItem eventKey="1">
                                             Recherche classique
                                         </NavItem>
-                                        <NavItem eventKey="2" title="Item">
+                                        <NavItem eventKey="2">
                                             Recherche par id ou ark
                                         </NavItem>
                                     </Nav>
@@ -728,7 +653,7 @@ Dans champ requête, obtenir :
                                         autoFocus="true"
                                         value={this.state.activeKey === '1'
                                                         ? this.state.q
-                                                        : this.state.queryWithID
+                                                        : this.state.querywithIDorARK
                                                     }
                                         onChange={this.handleQueryChange}
                                     />
@@ -749,7 +674,7 @@ Dans champ requête, obtenir :
                                 </FormGroup>
                             </div>
 
-                            {this.state.total > 0 && (this.state.q !== '' || this.state.queryWithID !== '') &&
+                            {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                                 <p>
                                     L’équation saisie correspond à
                                     &nbsp;

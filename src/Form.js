@@ -182,10 +182,45 @@ B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
 514805A478954ADD1317C6CA82BADF3B26490A61 OR
 6B98A9867529969E3C54E224CE4A1533BE6CBEB1)
 
+
+Liste d’ARK Istex en entrée
+
+"ark:/67375/6H6-C6N9VT6B-J"
+"ark:/67375/6H6-FG1DKS97-K"
+"ark:/67375/6H6-184CPV6X-1"
+"ark:/67375/6H6-J3FQ71K0-D"
+"ark:/67375/6H6-7SNJCN9T-S"
+"ark:/67375/6H6-1WGD5VWC-X"
+"ark:/67375/1BB-Z9XR1RHS-K"
+"ark:/67375/6H6-4PL23X33-3"
+"ark:/67375/6H6-04KTZSRD-8"
+"ark:/67375/6H6-TQ4XM01R-J"
+"ark:/67375/6H6-LBCVCDGG-1"
+"ark:/67375/6H6-NHCZ3Q1M-V"
+
+
+Dans champ requête, obtenir :
+
+?q=ark:/67375/("6H6-C6N9VT6B-J" "6H6-FG1DKS97-K" "6H6-184CPV6X-1"
+"6H6-J3FQ71K0-D" "6H6-7SNJCN9T-S" "6H6-1WGD5VWC-X" "1BB-Z9XR1RHS-K" "6H6-4PL23X33-3"
+"6H6-04KTZSRD-8" "6H6-TQ4XM01R-J" "6H6-LBCVCDGG-1" "6H6-NHCZ3Q1M-V")
+
 */
-        return this.state.queryWithID
+        if (this.state.queryWithID) {
+            if (this.state.queryWithID.includes('ark')) {
+                const prefixLength = this.state.queryWithID.split('/', 2).join('/').length;
+                const prefix = this.state.queryWithID.substring(1, prefixLength + 1);
+                const res = prefix
+                            .concat('(')
+                            .concat(this.state.queryWithID.replace(new RegExp(prefix, 'g'), ''))
+                            .concat(')');
+                return res.replace(new RegExp('\n', 'g'), ' ');
+            }
+            return this.state.queryWithID
             .replace(new RegExp('id', 'g'), ' ')
-            .replace(' ', 'id:(').concat(')');
+            .replace('  ', 'id:(').replace(new RegExp('\n', 'g'), '').concat(')');
+        }
+        return '';
     }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);

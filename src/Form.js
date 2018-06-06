@@ -113,7 +113,7 @@ export default class Form extends React.Component {
         });
     }
 
-    calculerNbDocs() {
+    calculerNbDocs(sizeParam = this.state.limitNbDoc) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -126,15 +126,15 @@ export default class Form extends React.Component {
         this.istexDlXhr = $.get(ISTEX.href)
         .done((json) => {
             const { total } = json;
-            let size = this.state.limitNbDoc;
-
-            const sizeParam = this.state.limitNbDoc;
-            if (sizeParam <= this.state.limitNbDoc && total <= this.state.limitNbDoc) {
+            let size;
+            if (sizeParam <= this.state.limitNbDoc) {
                 if (sizeParam > total) {
                     size = total;
                 } else {
                     size = sizeParam;
                 }
+            } else {
+                size = this.state.limitNbDoc;
             }
             return this.setState({
                 size,
@@ -183,7 +183,9 @@ B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
 6B98A9867529969E3C54E224CE4A1533BE6CBEB1)
 
 */
-    return this.state.queryWithID.replace(new RegExp('id', 'g'), 'OR').replace('OR ','id:(').concat(')');
+        return this.state.queryWithID
+            .replace(new RegExp('id', 'g'), ' ')
+            .replace(' ', 'id:(').concat(')');
     }
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
@@ -205,7 +207,7 @@ B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
                 rankBy: parsedUrl.rankBy || 'relevance',
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
-            }, () => this.calculerNbDocs());
+            }, () => this.calculerNbDocs(parsedUrl.size));
 
                 // Pour recalculer la taille si elle n'est pas precisée
             /* if (parsedUrl.q) {
@@ -298,7 +300,7 @@ B26BE9965A30A15CD9C2A71BA8E68F4DD8B85AB9 OR
     handleSubmit(event) {
         const href = this.buildURLFromState();
         if (this.state.activeKey === '2') {
-            href.searchParams.set('q', this.transformID())
+            href.searchParams.set('q', this.transformID());
             href.searchParams.delete('withID');
         }
         this.setState({

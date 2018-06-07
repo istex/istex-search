@@ -433,7 +433,7 @@ export default class Form extends React.Component {
 
         const tryRequestTooltip = (
             <Tooltip data-html="true" id="tryRequestTooltip">
-                Essayez cette requête !
+                Essayez cette requête
             </Tooltip>
         );
 
@@ -941,6 +941,9 @@ export default class Form extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
+                        Voici quelques exemples dont vous pouvez vous inspirer pour votre requête.
+                        Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l’exemple
+                        choisi. Cet échantillon illustre différentes façons d'interroger l'API Istex en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger
@@ -952,7 +955,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des données bibliographiques
+                            Des données bibliographiques
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -965,7 +968,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des mots-clés et des données bibliographiques
+                            Des mots-clés et des données bibliographiques
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -978,7 +981,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des données bibliographiques et des indicateurs de qualité
+                            Des données bibliographiques et des indicateurs de qualité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -991,7 +994,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des mots-clés et des opérateurs booléens imbriqués
+                            Des mots-clés et des opérateurs booléens imbriqués
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1004,7 +1007,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des mots-clés et des expressions régulières
+                            Des mots-clés et des expressions régulières
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1017,7 +1020,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des mots-clés et des expressions régulières
+                            Des mots-clés et des expressions régulières
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1030,7 +1033,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des mots-clés et leurs variantes d’écriture,
+                            Des mots-clés et leurs variantes d’écriture,
                             ainsi que plusieurs modes de recherches
                         </div>
                         <div className="exempleRequestLine">
@@ -1044,7 +1047,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des identifiants ISTEX de type ID
+                            des identifiants ISTEX de type ID
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1057,7 +1060,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Équation utilisant des identifiants ISTEX de type ARK
+                            des identifiants ISTEX de type ARK
                         </div>
                     </Modal.Body>
 

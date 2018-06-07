@@ -801,7 +801,7 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
-                            <Modal bsSize="large" show={this.state.showHistory} onHide={this.close}>
+                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={this.close}>
                                 <Modal.Header>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>

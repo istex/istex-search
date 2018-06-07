@@ -681,7 +681,7 @@ export default class Form extends React.Component {
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
                                                         ? 'brain AND language:fre'
-                                                        : 'ark:/67375/0T8-JMF4G14B-2'
+                                                        : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
                                                     }
                                         name="q"
                                         id={`area-${this.state.activeKey}`}

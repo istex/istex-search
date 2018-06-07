@@ -408,17 +408,17 @@ export default class Form extends React.Component {
             </Popover>
         );
 
-
-        const popoverRequestExamples = (
-            <Popover
-                id="popover-request-examples"
-                title={<span> Exemples de requêtes {closingButton}</span>}
-            >
-                Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
-                Cliquez sur celle de votre choix et la zone de requête sera remplie par le contenu de l’exemple.
-            </Popover>
+        const examplesTooltip = (
+            <Tooltip data-html="true" id="resetTooltip">
+                Exemples de corpus à télécharger
+            </Tooltip>
         );
 
+        const shareTooltip = (
+            <Tooltip data-html="true" id="resetTooltip">
+                Partager la requête
+            </Tooltip>
+        );
 
         const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
@@ -524,33 +524,6 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-question-sign" />
                                 </OverlayTrigger>
                                     &nbsp;
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={resetTooltip}
-                                    onClick={() => this.erase()}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-erase" />
-                                </OverlayTrigger>
-                                    &nbsp;
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={reloadTooltip}
-                                    onClick={Form.handleReload}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-repeat" />
-                                </OverlayTrigger>
-                                &nbsp;
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={historyTooltip}
-                                    onClick={() => {
-                                        this.setState({
-                                            showHistory: true,
-                                        });
-                                    }}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-time" />
-                                </OverlayTrigger>
                             </h2>
                             <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
                             <div className="form-group">
@@ -673,26 +646,49 @@ export default class Form extends React.Component {
                                 </Radio>
                             </span>
                         </div>
-                        <div className="istex-dl-examples col-lg-3">
-                            <h4>
-                                Exemples de corpus à télécharger &nbsp;
-                                <OverlayTrigger
-                                    trigger="click"
-                                    rootClose
-                                    placement="left"
-                                    overlay={popoverRequestExamples}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-question-sign" />
-                                </OverlayTrigger>
-                            </h4>
-                            <button
-                                type="button"
-                                className="btn-exemple btn-sm"
+                        <span className="column-buttons">
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={resetTooltip}
+                                onClick={() => this.erase()}
+                            >
+                                <span role="button" className="glyphicon glyphicon-erase" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                rootClose
+                                placement="right"
+                                overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                Exemples
-                            </button>
-                        </div>
+                                <span role="button" className="glyphicon glyphicon-star" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={reloadTooltip}
+                                onClick={Form.handleReload}
+                            >
+                                <span role="button" className="glyphicon glyphicon-repeat" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={historyTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showHistory: true,
+                                    });
+                                }}
+                            >
+                                <span role="button" className="glyphicon glyphicon-time" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                rootClose
+                                placement="right"
+                                overlay={shareTooltip}
+                                onClick={() => { if (!downloadDisabled) { this.setState({ showModalShare: true }); } }}
+                            >
+                                <span role="button" className="glyphicon glyphicon-link" />
+                            </OverlayTrigger>
+                        </span>
                     </div>
 
                     {this.state.errorRequestSyntax &&
@@ -826,17 +822,6 @@ export default class Form extends React.Component {
 
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
-
-                            <button
-                                onClick={(e) => { e.preventDefault(); this.setState({ showModalShare: true }); }}
-                                className="btn btn-theme btn-lg"
-                                id="shareButton"
-                                disabled={downloadDisabled}
-                            >
-                                <span className="glyphicon glyphicon-link" aria-hidden="true" />
-                                    Partager
-                            </button>
-                            &nbsp;
                             <OverlayTrigger
                                 placement="top"
                                 overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}

@@ -152,12 +152,12 @@ export default class Form extends React.Component {
         if (this.state.querywithIDorARK) {
             if (this.state.querywithIDorARK.includes('ark')) {
                 const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
-                const prefix = this.state.querywithIDorARK.substring(1, prefixLength + 1);
+                const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
                 const res = prefix
-                            .concat('(')
+                            .concat('("')
                             .concat(this.state.querywithIDorARK.replace(new RegExp(prefix, 'g'), ''))
-                            .concat(')');
-                return res.replace(new RegExp('\n', 'g'), ' ');
+                            .concat('")');
+                return res.replace(new RegExp('\n', 'g'), '" "');
             }
             return this.state.querywithIDorARK
             .replace(new RegExp('id', 'g'), ' ')
@@ -426,6 +426,24 @@ export default class Form extends React.Component {
             </Popover>
         );
 
+        const popoverRequestClassic = (
+            <Popover
+                id="popover-request-classic"
+                title={<span> Recherche classique {closingButton}</span>}
+            >
+                Insérer texte
+            </Popover>
+        );
+
+        const popoverRequestARK = (
+            <Popover
+                id="popover-request-ark"
+                title={<span> Recherche par ARK {closingButton}</span>}
+            >
+                Insérer texte
+            </Popover>
+        );
+
         const popoverRequestExamples = (
             <Popover
                 id="popover-request-examples"
@@ -636,16 +654,34 @@ export default class Form extends React.Component {
                                     >
                                         <NavItem eventKey="1">
                                             Recherche classique
+                                            &nbsp;
+                                            <OverlayTrigger
+                                                trigger="click"
+                                                rootClose
+                                                placement="top"
+                                                overlay={popoverRequestClassic}
+                                            >
+                                                <span role="button" className="glyphicon glyphicon-question-sign" />
+                                            </OverlayTrigger>
                                         </NavItem>
                                         <NavItem eventKey="2">
-                                            Recherche par id ou ark
+                                            Recherche par ARK
+                                            &nbsp;
+                                            <OverlayTrigger
+                                                trigger="click"
+                                                rootClose
+                                                placement="top"
+                                                overlay={popoverRequestARK}
+                                            >
+                                                <span role="button" className="glyphicon glyphicon-question-sign" />
+                                            </OverlayTrigger>
                                         </NavItem>
                                     </Nav>
                                     <Textarea
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
                                                         ? 'brain AND language:fre'
-                                                        : 'AZDSQDGFDGH'
+                                                        : 'ark:/67375/0T8-JMF4G14B-2'
                                                     }
                                         name="q"
                                         id={`area-${this.state.activeKey}`}

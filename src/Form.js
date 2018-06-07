@@ -625,7 +625,7 @@ export default class Form extends React.Component {
                             <div className="rankBy">
                                 Choisir les documents :
                             </div>
-                            <span className="radioGroupRankBy">
+                            <div className="radioGroupRankBy">
                                 <Radio
                                     id="radioRelevance"
                                     inline
@@ -644,9 +644,9 @@ export default class Form extends React.Component {
                                 >
                                     Aléatoirement
                                 </Radio>
-                            </span>
+                            </div>
                         </div>
-                        <span className="column-buttons">
+                        <div className="column-buttons">
                             <OverlayTrigger
                                 placement="right"
                                 overlay={resetTooltip}
@@ -688,7 +688,7 @@ export default class Form extends React.Component {
                             >
                                 <span role="button" className="glyphicon glyphicon-link" />
                             </OverlayTrigger>
-                        </span>
+                        </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&

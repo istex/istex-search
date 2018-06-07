@@ -216,13 +216,20 @@
 margin-top: 20px;
 }
 
+.column-buttons  {
+    width: 33.3333%;
+    display: inline-block;
+    position: absolute;
+}
 .column-buttons span{
     margin-top: 30px;
+    margin-left: 150px;
     display: block;
-    margin-left: 1500px;
+    width: 35px;
 }
+
 .column-buttons .glyphicon{
-    font-size: 30px;
+    font-size: 35px;
 }
 
 #copyButton{
@@ -234,6 +241,18 @@ margin-top: 20px;
     height: auto;
     padding: 4px;
 
+}
+
+@media (max-width: 1200px){
+    .column-buttons  {
+        width: 100%;
+        position: relative;
+    }
+    .column-buttons span{
+        display: inline-block;
+        margin-left: 20px;
+        margin-top: 10px;
+    }
 }
 
     </style>

@@ -942,8 +942,9 @@ export default class Form extends React.Component {
 
                     <Modal.Body>
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre requête.
-                        Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l’exemple
-                        choisi. Cet échantillon illustre différentes façons d'interroger l'API Istex en utilisant :
+                        Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
+                        par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
+                       d&apos;interroger l&apos;API Istex en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger

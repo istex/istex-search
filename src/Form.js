@@ -159,9 +159,10 @@ export default class Form extends React.Component {
                             .concat('")');
                 return res.replace(new RegExp('\n', 'g'), '" "');
             }
-            return this.state.querywithIDorARK
-            .replace(new RegExp('id', 'g'), ' ')
-            .replace('  ', 'id:(').replace(new RegExp('\n', 'g'), '').concat(')');
+            return 'id('
+                    .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
+                    .concat(')')
+                    .replace(new RegExp(',', 'g'), '%20');
         }
         return '';
     }

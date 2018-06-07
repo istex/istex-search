@@ -10,10 +10,10 @@ export default class storageHistory extends React.Component {
 
     static cutQuery(query) {
         let res = query;
-        if (query.length <= 100) {
+        if (query.length <= 200) {
             return res;
         }
-        res = res.substring(0, 100);
+        res = res.substring(0, 200);
         if (res.substring(res.Length, 1) !== ' ') {
             const LastSpace = res.lastIndexOf(' ');
             if (LastSpace !== -1) {
@@ -104,7 +104,7 @@ export default class storageHistory extends React.Component {
                         <td>{new Date(this.localStorage[i].date).toUTCString()}</td>
                         <td>{storageHistory.cutQuery(this.localStorage[i].q)}</td>
                         <td>{this.correctformatLine[i]}</td>
-                        <td style={{ textAlign: 'right', paddingRight: '10px' }}>
+                        <td>
                             {commaNumber.bindWith('\xa0', '')(this.localStorage[i].size)}
                         </td>
                         <td>{this.localStorage[i].rankBy}</td>

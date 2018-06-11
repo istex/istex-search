@@ -941,7 +941,7 @@ export default class Form extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        Voici quelques exemples dont vous pouvez vous inspirer pour votre requête.
+                        Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
                        d&apos;interroger l&apos;API Istex en utilisant...
@@ -1021,7 +1021,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et des expressions régulières
+                            des mots-clés et des expressions régulières (exemple bis)
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

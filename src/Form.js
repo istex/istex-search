@@ -738,6 +738,7 @@ export default class Form extends React.Component {
                             </div>
                         </div>
                         <div className="column-buttons">
+                            <div className="vl" />
                             <OverlayTrigger
                                 rootClose
                                 placement="right"

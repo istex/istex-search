@@ -416,7 +416,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partager la requête
+                Partagez votre corpus par un lien
             </Tooltip>
         );
 
@@ -648,19 +648,19 @@ export default class Form extends React.Component {
                         </div>
                         <div className="column-buttons">
                             <OverlayTrigger
-                                placement="right"
-                                overlay={resetTooltip}
-                                onClick={() => this.erase()}
-                            >
-                                <span role="button" className="glyphicon glyphicon-erase" />
-                            </OverlayTrigger>
-                            <OverlayTrigger
                                 rootClose
                                 placement="right"
                                 overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                <span role="button" className="glyphicon glyphicon-star" />
+                                <span id="exampleButton" role="button" className="glyphicon glyphicon-star" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={resetTooltip}
+                                onClick={() => this.erase()}
+                            >
+                                <span role="button" className="glyphicon glyphicon-erase" />
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement="right"

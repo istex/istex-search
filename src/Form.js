@@ -1,3 +1,4 @@
+/* eslint no-control-regex: "off" */
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';

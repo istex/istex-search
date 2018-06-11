@@ -50,6 +50,7 @@ export default class Filetype extends React.Component {
                     disabled={props.disabled}
                     updateParent={this.updateCurrent}
                     verifyOtherFormats={this.verifyChildren}
+                    withPopover={this.props.withPopover}
                 />);
         }
 
@@ -266,6 +267,7 @@ Filetype.propTypes = {
     onChange: PropTypes.func.isRequired,
     onFormatChange: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    withPopover: PropTypes.bool,
 };
 
 Filetype.defaultProps = {
@@ -274,4 +276,5 @@ Filetype.defaultProps = {
     formats: '',
     labels: '',
     checkedFormats: '',
+    withPopover: false,
 };

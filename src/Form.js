@@ -901,12 +901,13 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[4] = instance; }}
                                     label="Enrichissements"
                                     filetype="enrichments"
-                                    formats="tei"
-                                    labels="TEI"
+                                    formats="nb,multicat,teeft,refbibs,unitex"
+                                    labels="nb|multicat|teeft|refBibs|unitex"
                                     value={this.state.extractEnrichments}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
                                     disabled
+                                    withPopover
                                     tooltip={enrichmentsDisabledTooltip}
                                 />
                             </span>

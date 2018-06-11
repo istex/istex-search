@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Checkbox, OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
 
@@ -73,6 +73,56 @@ export default class Format extends React.Component {
 
 
     render() {
+        let popOver = '';
+        if (this.props.withPopover) {
+            let popoverText = null;
+            switch (this.props.label) {
+            case 'nb': popoverText = (
+                <p>
+                    Catégories scientifiques Inist des bases Pascal et Francis,
+                    attribuées aux documents Istex par apprentissage automatique via l’approche
+                    statistique « Bayésien naïf » (Naive Bayesian ou nb).
+                </p>
+                );
+                break;
+            case 'multicat': popoverText = (
+                <p>
+                    Catégories scientifiques Science Metrix,
+                    Scopus et Web of Science, attribuées aux documents Istex par appariement via
+                    l’outil multicat.
+                </p>
+                );
+                break;
+            case 'teeft': popoverText = (
+                <p>
+                    Termes d’indexation, extraits des documents en texte intégral grâce à l’outil teeft.
+                </p>
+                );
+                break;
+            case 'refBibs': popoverText = (
+                <p>
+                    Références bibliographiques des documents, structurées à l’aide de l’outil Grobid.
+                </p>
+                );
+                break;
+            case 'unitex': popoverText = (
+                <p>
+                    Entités nommées Istex, extraites des documents à l&apos;aide du logiciel Unitex-CasSys.
+                </p>
+                );
+                break;
+            default: break;
+            }
+
+            popOver = (
+                <Popover
+                    id="popover-request-help"
+                    title={<span>{this.props.label}</span>}
+                >
+                    {popoverText}
+                </Popover>
+            );
+        }
         const tooltip = (
             <Tooltip data-html="true" id="tooltip{this.props.filetype}{this.props.format}">
                 {text(this.state.name, this.state.name)}
@@ -88,7 +138,11 @@ export default class Format extends React.Component {
                 disabled={this.props.disabled}
             >
                 <span />
-                {<OverlayTrigger placement="top" overlay={tooltip}>
+                {<OverlayTrigger
+                    placement="top"
+                    delayHide={this.props.withPopover ? 1000 : 100}
+                    overlay={this.props.withPopover ? popOver : tooltip}
+                >
                     <span className="labelFormat">{this.props.label} </span>
                 </OverlayTrigger>}
             </Checkbox>
@@ -105,9 +159,11 @@ Format.propTypes = {
     disabled: PropTypes.bool,
     updateParent: PropTypes.func.isRequired,
     verifyOtherFormats: PropTypes.func.isRequired,
+    withPopover: PropTypes.bool,
 };
 
 Format.defaultProps = {
     disabled: false,
     value: false,
+    withPopover: false,
 };

@@ -35,7 +35,11 @@ export default {
     extractCoversTiff: '"Tagged Image File Format" : format image d\'un texte',
     extractCoversHtml: '"HyperText Markup Language" : format de pages web',
 
-    extractEnrichmentsTei: '"Text Encoding Initiative" : format de codage de documents structurés',
+    extractEnrichmentsNb: '"Text Encoding Initiative" : format de codage de documents structurés <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">qsd</a>',
+    extractEnrichmentsMulticat: '"Text Encoding Initiative" : format de codage de documents structurés',
+    extractEnrichmentsTeeft: '"Text Encoding Initiative" : format de codage de documents structurés',
+    extractEnrichmentsRefbibs: '"Text Encoding Initiative" : format de codage de documents structurés',
+    extractEnrichmentsUnitex: '"Text Encoding Initiative" : format de codage de documents structurés',
 
 
 // Exemples de requête

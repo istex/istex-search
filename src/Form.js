@@ -1118,19 +1118,6 @@ export default class Form extends React.Component {
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.echinoderme)}
-                                >
-                                    <span role="button" className="glyphicon glyphicon-search" />
-                                </OverlayTrigger>
-                            </span>
-                            des identifiants ISTEX de type ID
-                        </div>
-                        <div className="exempleRequestLine">
-                            <span className="exampleRequest">
-                                <OverlayTrigger
-                                    rootClose
-                                    overlay={tryRequestTooltip}
-                                    placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.vieillissement)}
                                 >
                                     <span role="button" className="glyphicon glyphicon-search" />

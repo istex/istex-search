@@ -481,7 +481,7 @@ export default class Form extends React.Component {
         );
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Cliquez pour accéder à l&apos;historique de vos téléchargements
+                Accéder à l&apos;historique de vos téléchargements
             </Tooltip>
         );
 
@@ -493,7 +493,7 @@ export default class Form extends React.Component {
 
         const reloadTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Rechargez les derniers formulaires (avant téléchargement)
+                Récupérez les derniers formulaires (avant téléchargement)
             </Tooltip>
         );
 
@@ -745,21 +745,27 @@ export default class Form extends React.Component {
                                 overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                <span id="exampleButton" role="button" className="glyphicon glyphicon-star" />
+                                <span id="exampleButton" role="button" className="glyphicon glyphicon-star">
+                                    <p>Exemples</p>
+                                </span>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement="right"
                                 overlay={resetTooltip}
                                 onClick={() => this.erase()}
                             >
-                                <span role="button" className="glyphicon glyphicon-erase" />
+                                <span role="button" className="glyphicon glyphicon-erase" >
+                                    <p>Réinitialiser</p>
+                                </span>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement="right"
                                 overlay={reloadTooltip}
                                 onClick={Form.handleReload}
                             >
-                                <span role="button" className="glyphicon glyphicon-repeat" />
+                                <span role="button" className="glyphicon glyphicon-repeat">
+                                    <p>Récupérer</p>
+                                </span>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement="right"
@@ -770,7 +776,9 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <span role="button" className="glyphicon glyphicon-time" />
+                                <span role="button" className="glyphicon glyphicon-time">
+                                    <p>Historique</p>
+                                </span>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 rootClose
@@ -778,7 +786,9 @@ export default class Form extends React.Component {
                                 overlay={shareTooltip}
                                 onClick={() => { if (!downloadDisabled) { this.setState({ showModalShare: true }); } }}
                             >
-                                <span role="button" className="glyphicon glyphicon-link" />
+                                <span role="button" className="glyphicon glyphicon-link">
+                                    <p>Partager</p>
+                                </span>
                             </OverlayTrigger>
                         </div>
                     </div>

@@ -17,8 +17,9 @@ import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
-export const characterLimit = 6776;
-export const nbHistory = 50;
+// https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
+export const characterLimit = 67860;
+export const nbHistory = 30;
 
 export default class Form extends React.Component {
 
@@ -70,7 +71,6 @@ export default class Form extends React.Component {
         this.hideModalShare = this.hideModalShare.bind(this);
         this.hideModalExemple = this.hideModalExemple.bind(this);
         this.calculateNbDocs = this.calculateNbDocs.bind(this);
-
     }
 
     componentWillMount() {
@@ -457,6 +457,7 @@ export default class Form extends React.Component {
             <Tooltip data-html="true" id="resetTooltip">
                 Testez des exemples de requête
             </Tooltip>
+        );
 
         const popoverRequestARK = (
             <Popover
@@ -464,16 +465,6 @@ export default class Form extends React.Component {
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
                 Insérer texte
-            </Popover>
-        );
-
-        const popoverRequestExamples = (
-            <Popover
-                id="popover-request-examples"
-                title={<span> Exemples de requêtes {closingButton}</span>}
-            >
-                Voici quelques exemples de requêtes dont vous pouvez vous inspirer.
-                Cliquez sur celle de votre choix et la zone de requête sera remplie par le contenu de l’exemple.
             </Popover>
         );
 

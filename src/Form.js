@@ -410,7 +410,7 @@ export default class Form extends React.Component {
 
         const examplesTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Exemples de corpus à télécharger
+                Testez des exemples de requête
             </Tooltip>
         );
 

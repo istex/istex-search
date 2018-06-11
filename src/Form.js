@@ -55,6 +55,7 @@ export default class Form extends React.Component {
         };
         this.state = this.defaultState;
         this.child = [];
+        this.timer = 0;
 
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -211,23 +212,30 @@ export default class Form extends React.Component {
         }
     }
 
+    waitRequest() {
+        if (this.timer) {
+            window.clearTimeout(this.timer);
+        }
+        this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
+    }
+
     handleQueryChange(event) {
         if (event) {
             if (this.state.activeKey === '1') {
                 this.setState({
                     errorRequestSyntax: '',
                     q: event.query || event.target.value,
-                }, () => this.calculateNbDocs());
+                }, () => this.waitRequest());
             } else {
                 this.setState({
                     errorRequestSyntax: '',
                     querywithIDorARK: event.query || event.target.value,
-                }, () => this.calculateNbDocs());
+                }, () => this.waitRequest());
             }
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            }, () => this.calculateNbDocs());
+            }, () => this.waitRequest());
         }
     }
 

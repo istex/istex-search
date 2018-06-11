@@ -944,7 +944,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre requête.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                       d&apos;interroger l&apos;API Istex en utilisant :
+                       d&apos;interroger l&apos;API Istex en utilisant...
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger
@@ -956,7 +956,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des données bibliographiques
+                            des données bibliographiques
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -969,7 +969,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des mots-clés et des données bibliographiques
+                            des mots-clés et des données bibliographiques
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -982,7 +982,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des données bibliographiques et des indicateurs de qualité
+                            des données bibliographiques et des indicateurs de qualité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -995,7 +995,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des mots-clés et des opérateurs booléens imbriqués
+                            des mots-clés et des opérateurs booléens imbriqués
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1008,7 +1008,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des mots-clés et des expressions régulières
+                            des mots-clés et des expressions régulières
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1021,7 +1021,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des mots-clés et des expressions régulières
+                            des mots-clés et des expressions régulières
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1034,8 +1034,7 @@ export default class Form extends React.Component {
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>
                             </span>
-                            Des mots-clés et leurs variantes d’écriture,
-                            ainsi que plusieurs modes de recherches
+                            des mots-clés (avec variantes d’écriture) et plusieurs opérateurs de recherche
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

@@ -224,6 +224,7 @@ export default class Filetype extends React.Component {
             <FormGroup bsClass="istex-form-group">
                 <Checkbox
                     className={CssClass}
+                    bsClass="checkboxperso"
                     name={this.props.filetype}
                     checked={this.state[this.props.filetype]}
                     onChange={this.handleInputChange}
@@ -231,21 +232,22 @@ export default class Filetype extends React.Component {
                 >
                     <span />
                     {this.overlayedLabel}
+                    <OverlayTrigger
+                        rootClose
+                        trigger="click"
+                        placement="right"
+                        overlay={
+                            <Popover
+                                id={`popover-${this.props.filetype}`}
+                                title={<span>Description {this.props.label}{closingButton}</span>}
+                            >
+                                {this.popoverText}
+                            </Popover>}
+                        onClick={(e) => { e.preventDefault(); }}
+                    >
+                        <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
+                    </OverlayTrigger>
                 </Checkbox>
-                <OverlayTrigger
-                    rootClose
-                    trigger="click"
-                    placement="right"
-                    overlay={
-                        <Popover
-                            id={`popover-${this.props.filetype}`}
-                            title={<span>Description {this.props.label}{closingButton}</span>}
-                        >
-                            {this.popoverText}
-                        </Popover>}
-                >
-                    <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
-                </OverlayTrigger>
                 <FormGroup bsClass="indent">
                     {this.formats}
                 </FormGroup>

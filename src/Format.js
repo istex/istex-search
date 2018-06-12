@@ -95,7 +95,7 @@ export default class Format extends React.Component {
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-B6S81RHK-2"> teeft</a>.
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q"> teeft</a>.
                 </p>
                 );
                 break;
@@ -107,7 +107,7 @@ export default class Format extends React.Component {
                 break;
             case 'unitex': tooltipText = (
                 <p>
-                    <a href="https://named-entity.data.istex.fr">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-3VW5C617-L">Unitex-CasSys</a>.
+                    <a href="https://named-entity.data.istex.fr">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S">Unitex-CasSys</a>.
                 </p>
                 );
                 break;

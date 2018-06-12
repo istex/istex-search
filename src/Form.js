@@ -342,9 +342,15 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
 
-    updateUrl() {
-        const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
-        window.history.pushState('', '', newUrl);
+    updateUrl(defaultState = false) {
+        if (!defaultState) {
+            const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
+            window.history.pushState('', '', newUrl);
+        } else {
+            const url = window.location.href.split('/');
+            const domain = `${url[0]}//${url[2]}`;
+            window.history.pushState('', '', domain);
+        }
     }
 
     buildURLFromState(query = null, withHits = true) {
@@ -433,7 +439,7 @@ export default class Form extends React.Component {
                 this.updateUrl();
                 window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
             } else {
-                this.updateUrl();
+                this.updateUrl(true);
             }
         }
     }

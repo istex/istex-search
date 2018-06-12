@@ -223,7 +223,7 @@ export default class Form extends React.Component {
     }
 
     waitRequest() {
-        if (this.state.q.length > 0 || this.state.querywithIDorARK > 0) {
+        if (this.state.q.length > 0 || this.state.querywithIDorARK.length > 0) {
             if (this.timer) {
                 window.clearTimeout(this.timer);
             }

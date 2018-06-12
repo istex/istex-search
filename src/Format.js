@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, OverlayTrigger, Tooltip, Popover } from 'react-bootstrap';
+import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
 
@@ -73,59 +73,56 @@ export default class Format extends React.Component {
 
 
     render() {
-        let popOver = '';
+        let tooltipText = '';
         if (this.props.withPopover) {
-            let popoverText = null;
             switch (this.props.label) {
-            case 'nb': popoverText = (
+            case 'nb': tooltipText = (
                 <p>
-                    Catégories scientifiques Inist des bases Pascal et Francis,
+                    <a href="https://inist-category.data.istex.fr">Catégories scientifiques Inist</a> des bases Pascal et Francis,
                     attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique « Bayésien naïf » (Naive Bayesian ou nb).
+                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-Z3T1N6RK-M"> Bayésien naïf </a>» (Naive Bayesian ou nb).
                 </p>
                 );
                 break;
-            case 'multicat': popoverText = (
+            case 'multicat': tooltipText = (
                 <p>
-                    Catégories scientifiques Science Metrix,
-                    Scopus et Web of Science, attribuées aux documents Istex par appariement via
+                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr"> Science Metrix</a>,
+                    <a href="https://scopus-category.data.istex.fr/">Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
                     l’outil multicat.
                 </p>
                 );
                 break;
-            case 'teeft': popoverText = (
+            case 'teeft': tooltipText = (
                 <p>
-                    Termes d’indexation, extraits des documents en texte intégral grâce à l’outil teeft.
+                    Termes d’indexation, extraits des documents en texte intégral grâce à l’outil
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-B6S81RHK-2">teeft</a>.
                 </p>
                 );
                 break;
-            case 'refBibs': popoverText = (
+            case 'refBibs': tooltipText = (
                 <p>
                     Références bibliographiques des documents, structurées à l’aide de l’outil Grobid.
                 </p>
                 );
                 break;
-            case 'unitex': popoverText = (
+            case 'unitex': tooltipText = (
                 <p>
-                    Entités nommées Istex, extraites des documents à l&apos;aide du logiciel Unitex-CasSys.
+                    <a href="https://named-entity.data.istex.fr">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-3VW5C617-L">Unitex-CasSys</a>.
                 </p>
                 );
                 break;
             default: break;
             }
-
-            popOver = (
-                <Popover
-                    id="popover-request-help"
-                    title={<span>{this.props.label}</span>}
-                >
-                    {popoverText}
-                </Popover>
-            );
+        } else {
+            tooltipText = text(this.state.name, this.state.name);
         }
+
         const tooltip = (
-            <Tooltip data-html="true" id="tooltip{this.props.filetype}{this.props.format}">
-                {text(this.state.name, this.state.name)}
+            <Tooltip
+                data-html="true"
+                id="tooltip{this.props.filetype}{this.props.format}"
+            >
+                {tooltipText}
             </Tooltip>
     );
         return (
@@ -141,7 +138,7 @@ export default class Format extends React.Component {
                 {<OverlayTrigger
                     placement="top"
                     delayHide={this.props.withPopover ? 1000 : 100}
-                    overlay={this.props.withPopover ? popOver : tooltip}
+                    overlay={tooltip}
                 >
                     <span className="labelFormat">{this.props.label} </span>
                 </OverlayTrigger>}

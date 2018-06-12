@@ -928,8 +928,8 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[4] = instance; }}
                                     label="Enrichissements"
                                     filetype="enrichments"
-                                    formats="nb,multicat,teeft,refbibs,unitex"
-                                    labels="nb|multicat|teeft|refBibs|unitex"
+                                    formats="multicat,nb,refbibs,teeft,unitex"
+                                    labels="multicat|nb|refBibs|teeft|unitex"
                                     value={this.state.extractEnrichments}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}

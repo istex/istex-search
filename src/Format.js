@@ -80,14 +80,14 @@ export default class Format extends React.Component {
                 <p>
                     <a href="https://inist-category.data.istex.fr">Catégories scientifiques Inist</a> des bases Pascal et Francis,
                     attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-Z3T1N6RK-M"> Bayésien naïf </a>» (Naive Bayesian ou nb).
+                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-Z3T1N6RK-M">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
                 </p>
                 );
                 break;
             case 'multicat': tooltipText = (
                 <p>
                     Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr"> Science Metrix</a>,
-                    <a href="https://scopus-category.data.istex.fr/">Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
+                    <a href="https://scopus-category.data.istex.fr/"> Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
                     l’outil multicat.
                 </p>
                 );
@@ -95,13 +95,13 @@ export default class Format extends React.Component {
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-B6S81RHK-2">teeft</a>.
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-B6S81RHK-2"> teeft</a>.
                 </p>
                 );
                 break;
             case 'refBibs': tooltipText = (
                 <p>
-                    Références bibliographiques des documents, structurées à l’aide de l’outil Grobid.
+                    Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9">Grobid</a>
                 </p>
                 );
                 break;

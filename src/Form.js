@@ -716,7 +716,12 @@ export default class Form extends React.Component {
                                     placement="right"
                                     overlay={popoverRequestLimitHelp}
                                 >
-                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                    <i
+                                        id="requestLimitInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
                                 </OverlayTrigger>
                                 &nbsp;
                                 :

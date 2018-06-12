@@ -130,7 +130,9 @@ export default class Form extends React.Component {
         .done((json) => {
             const { total } = json;
             let size;
-            if (sizeParam <= this.state.limitNbDoc) {
+            if (!total || total === 0) {
+                size = 5000;
+            } else if (sizeParam <= this.state.limitNbDoc) {
                 if (sizeParam > total) {
                     size = total;
                 } else {
@@ -141,7 +143,7 @@ export default class Form extends React.Component {
             }
             return this.setState({
                 size,
-                total,
+                total: total || 0,
             });
         }).fail((err) => {
             if (err.status >= 500) {
@@ -221,10 +223,17 @@ export default class Form extends React.Component {
     }
 
     waitRequest() {
-        if (this.timer) {
-            window.clearTimeout(this.timer);
+        if (this.state.q.length > 0) {
+            if (this.timer) {
+                window.clearTimeout(this.timer);
+            }
+            this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
+        } else {
+            this.setState({
+                size: 5000,
+                total: 0,
+            });
         }
-        this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
     }
 
     handleQueryChange(event) {
@@ -392,11 +401,20 @@ export default class Form extends React.Component {
         this.setState(this.defaultState);
     }
 
-    tryExempleRequest(queryExample) {
-        this.setState({
-            q: queryExample,
-            showModalExemple: false,
-        });
+    tryExempleRequest(queryExample, withID = false) {
+        if (withID) {
+            this.setState({
+                activeKey: '2',
+                querywithIDorARK: queryExample,
+                showModalExemple: false,
+            });
+        } else {
+            this.setState({
+                activeKey: '1',
+                q: queryExample,
+                showModalExemple: false,
+            });
+        }
         this.handleQueryChange(null, queryExample);
         document.body.click();
     }
@@ -406,14 +424,18 @@ export default class Form extends React.Component {
             let isDefaultState = true;
             Object.keys(this.defaultState).forEach((attribute) => {
                 if (this.defaultState[attribute] !== this.state[attribute]) {
+                    console.log(attribute, this.state[attribute])
                     isDefaultState = false;
                 }
             });
             if (!isDefaultState) {
+            console.log("c'est pas l'état de base")
                 const { href } = this.buildURLFromState();
                 const url = href.slice(href.indexOf('?'));
                 this.updateUrl();
                 window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
+            }else{
+                this.updateUrl(true)
             }
         }
     }
@@ -634,7 +656,7 @@ export default class Form extends React.Component {
                                     />
 
                                     <HelpBlock>Nombre de caractères restants&nbsp;: {
-                                        characterLimit - this.state.q.length
+                                        commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
                                     }
                                         <FormControl.Feedback
                                             style={{
@@ -1125,7 +1147,7 @@ export default class Form extends React.Component {
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.vieillissement)}
+                                    onClick={() => this.tryExempleRequest(Labelize.vieillissement, true)}
                                 >
                                     <span role="button" className="glyphicon glyphicon-search" />
                                 </OverlayTrigger>

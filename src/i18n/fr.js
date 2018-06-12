@@ -38,7 +38,7 @@ export default {
 
 // Exemples de requête
 
-    vieillissement: 'ark:/67375/("HXZ-3PZ5S1MB-7" "HXZ-XH6SRM66-7" "6H6-K00Q3697-8" "6H6-52QRK0X3-F" "HXZ-H5NSV5QF-M" "HXZ-J1BLQKH4-3" "HXZ-QVSXSCHW-P")',
+    vieillissement: 'ark:/67375/HXZ-3PZ5S1MB-7\nark:/67375/HXZ-XH6SRM66-7\nark:/67375/6H6-K00Q3697-8\nark:/67375/6H6-52QRK0X3-F\nark:/67375/HXZ-H5NSV5QF-M\nark:/67375/HXZ-J1BLQKH4-3\nark:/67375/HXZ-QVSXSCHW-P\nark:/67375/HXZ-RVC4D13J-W\nark:/67375/6H6-19QHR7H2-6\nark:/67375/HXZ-0F8518D4-K\nark:/67375/6H6-9Q9HLC0X-7\nark:/67375/6H6-QTZPZZXD-H',
 
     astrophysique: '((host.issn:"0922-6435" AND publicationDate:1995) OR (host.issn:"1387-6473" AND (publicationDate:[1990 TO *] OR copyrightDate:[1990 TO *])) OR (host.title:"Journal of Geophysical Research: Space Physics" AND publicationDate:1980 AND host.issue.raw:A1))',
 

@@ -80,7 +80,7 @@ export default class Format extends React.Component {
                 <p>
                     <a href="https://inist-category.data.istex.fr">Catégories scientifiques Inist</a> des bases Pascal et Francis,
                     attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-Z3T1N6RK-M">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
+                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
                 </p>
                 );
                 break;

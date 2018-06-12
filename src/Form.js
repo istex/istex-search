@@ -223,7 +223,7 @@ export default class Form extends React.Component {
     }
 
     waitRequest() {
-        if (this.state.q.length > 0) {
+        if (this.state.q.length > 0 || this.state.querywithIDorARK > 0) {
             if (this.timer) {
                 window.clearTimeout(this.timer);
             }
@@ -424,18 +424,16 @@ export default class Form extends React.Component {
             let isDefaultState = true;
             Object.keys(this.defaultState).forEach((attribute) => {
                 if (this.defaultState[attribute] !== this.state[attribute]) {
-                    console.log(attribute, this.state[attribute])
                     isDefaultState = false;
                 }
             });
             if (!isDefaultState) {
-            console.log("c'est pas l'état de base")
                 const { href } = this.buildURLFromState();
                 const url = href.slice(href.indexOf('?'));
                 this.updateUrl();
                 window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
-            }else{
-                this.updateUrl(true)
+            } else {
+                this.updateUrl();
             }
         }
     }

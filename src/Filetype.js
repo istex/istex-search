@@ -246,7 +246,7 @@ export default class Filetype extends React.Component {
                             </Popover>}
                         onClick={(e) => { e.preventDefault(); }}
                     >
-                        <span role="button" id="glyphiconFiletype" className="glyphicon glyphicon-question-sign" />
+                        <i id="glyphiconFiletype" role="button" className="fa fa-info-circle" aria-hidden="true" />
                     </OverlayTrigger>
                 </Checkbox>
                 <FormGroup bsClass="indent">

@@ -595,7 +595,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     overlay={popoverRequestHelp}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                                     &nbsp;
                             </h2>
@@ -620,7 +620,7 @@ export default class Form extends React.Component {
                                                 placement="top"
                                                 overlay={popoverRequestClassic}
                                             >
-                                                <span role="button" className="glyphicon glyphicon-question-sign" />
+                                                <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
                                         <NavItem eventKey="2">
@@ -632,7 +632,7 @@ export default class Form extends React.Component {
                                                 placement="top"
                                                 overlay={popoverRequestARK}
                                             >
-                                                <span role="button" className="glyphicon glyphicon-question-sign" />
+                                                <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
                                     </Nav>
@@ -690,9 +690,10 @@ export default class Form extends React.Component {
                                         overlay={popoverRequestLimitWarning}
 
                                     >
-                                        <span
+                                        <i
                                             role="button"
-                                            className="glyphicon glyphicon-warning-sign"
+                                            className="fa fa-exclamation-triangle"
+                                            aria-hidden="true"
                                             style={{ color: 'red', marginLeft: '8px' }}
                                         />
                                     </OverlayTrigger>
@@ -709,7 +710,7 @@ export default class Form extends React.Component {
                                     placement="right"
                                     overlay={popoverRequestLimitHelp}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-question-sign" />
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                                 &nbsp;
                                 :
@@ -765,7 +766,7 @@ export default class Form extends React.Component {
                                 overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                <span id="exampleButton" role="button" className="glyphicon glyphicon-star" />
+                                <i id="exampleButton" role="button" className="fa fa-lightbulb-o" aria-hidden="true" />
                             </OverlayTrigger>
                             <p>Exemples</p>
                             <OverlayTrigger
@@ -773,7 +774,7 @@ export default class Form extends React.Component {
                                 overlay={resetTooltip}
                                 onClick={() => this.erase()}
                             >
-                                <span role="button" className="glyphicon glyphicon-erase" />
+                                <i role="button" className="fa fa-eraser" aria-hidden="true" />
                             </OverlayTrigger>
                             <p>Réinitialiser</p>
                             <OverlayTrigger
@@ -781,7 +782,7 @@ export default class Form extends React.Component {
                                 overlay={reloadTooltip}
                                 onClick={Form.handleReload}
                             >
-                                <span role="button" className="glyphicon glyphicon-repeat" />
+                                <i role="button" className="fa fa-repeat" aria-hidden="true" />
                             </OverlayTrigger>
                             <p>Récupérer</p>
                             <OverlayTrigger
@@ -793,7 +794,7 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <span role="button" className="glyphicon glyphicon-time" />
+                                <i role="button" className="fa fa-history" aria-hidden="true" />
                             </OverlayTrigger>
                             <p>Historique</p>
                             <OverlayTrigger
@@ -802,7 +803,7 @@ export default class Form extends React.Component {
                                 overlay={shareTooltip}
                                 onClick={() => { if (!downloadDisabled) { this.setState({ showModalShare: true }); } }}
                             >
-                                <span role="button" className="glyphicon glyphicon-link" />
+                                <i role="button" className="fa fa-link" aria-hidden="true" />
                             </OverlayTrigger>
                             <p>Partager</p>
                         </div>
@@ -820,7 +821,7 @@ export default class Form extends React.Component {
                                         placement="top"
                                         overlay={popoverRequestHelp}
                                     >
-                                        <span role="button" className="glyphicon glyphicon-question-sign" />
+                                        <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                     </OverlayTrigger>
                                     <br />
                                 </p>
@@ -945,7 +946,8 @@ export default class Form extends React.Component {
                                 overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}
                             >
                                 <button type="submit" className="btn btn-theme btn-lg" disabled={downloadDisabled}>
-                                    <span className="glyphicon glyphicon-download-alt" aria-hidden="true" />
+                                    <i role="button" className="fa fa-download" aria-hidden="true" />
+                                        &nbsp;
                                         Télécharger
                                 </button>
                             </OverlayTrigger>
@@ -959,9 +961,9 @@ export default class Form extends React.Component {
                             <div className="col-lg-1" />
                             <div className="col-lg-7">
                                 <p>
-                                    <span
+                                    <i
                                         role="button"
-                                        className="glyphicon glyphicon-warning-sign"
+                                        className="fa fa-exclamation-triangle"
                                         aria-hidden="true"
                                     />
                                     &nbsp;
@@ -1056,7 +1058,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des données bibliographiques
@@ -1069,7 +1071,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des mots-clés et des données bibliographiques
@@ -1082,7 +1084,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.ecologie)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des données bibliographiques et des indicateurs de qualité
@@ -1095,7 +1097,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.motClefsSystematiqueVegetale)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des mots-clés et des opérateurs booléens imbriqués
@@ -1108,7 +1110,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.regExpSystematiqueVegetale)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des mots-clés et des expressions régulières
@@ -1121,7 +1123,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.regExpArctic)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des mots-clés et des expressions régulières (exemple bis)
@@ -1134,7 +1136,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.opArctic)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des mots-clés (avec variantes d’écriture) et plusieurs opérateurs de recherche
@@ -1147,7 +1149,7 @@ export default class Form extends React.Component {
                                     placement="top"
                                     onClick={() => this.tryExempleRequest(Labelize.vieillissement, true)}
                                 >
-                                    <span role="button" className="glyphicon glyphicon-search" />
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
                             des identifiants ISTEX de type ARK

@@ -108,69 +108,72 @@ export default class storageHistory extends React.Component {
                             {commaNumber.bindWith('\xa0', '')(this.localStorage[i].size)}
                         </td>
                         <td>{this.localStorage[i].rankBy}</td>
-                        <td style={{ paddingLeft: '25px' }} className="transparent-td">
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={editTooltip}
-                                onClick={() => {
-                                    window.location = this.localStorage[i].url;
-                                }}
-                            >
-                                <span
-                                    role="button" className="glyphicon glyphicon-edit"
-                                />
-                            </OverlayTrigger>
-                        </td>
-                        <td className="transparent-td">
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={dlTooltip}
-                                onClick={() => {
-                                    window.location = `${this.localStorage[i].url}&download=true`;
-                                }}
-                            >
-                                <span
-                                    role="button" className="glyphicon glyphicon-download-alt"
-                                />
-                            </OverlayTrigger>
-                        </td>
-                        <td className="transparent-td">
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={shareTooltip}
-                                onClick={() => {
-                                    this.setState({
-                                        showLink: true,
-                                        numberLink: i,
-                                    });
-                                }}
-                            >
-                                <span
-                                    className="glyphicon glyphicon-link"
-                                    role="button"
-                                />
-                            </OverlayTrigger>
+                        <span className="buttonsHistory">
+                            <td style={{ paddingLeft: '25px' }} className="transparent-td">
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={editTooltip}
+                                    onClick={() => {
+                                        window.location = this.localStorage[i].url;
+                                    }}
+                                >
+                                    <i
+                                        role="button" className="fa fa-pencil-square-o"
+                                    />
 
-                        </td>
-                        <td className="transparent-td">
-                            <OverlayTrigger
-                                placement="top"
-                                overlay={removeTooltip}
-                                onClick={() => {
-                                    const updatedStorage = storageHistory.getHistory();
-                                    if (i === 0 && updatedStorage.length === 1) {
-                                        this.cleanHistory();
-                                    } else {
-                                        updatedStorage.splice(i, 1);
-                                        this.updateStorage(updatedStorage);
-                                    }
-                                }}
-                            >
-                                <span
-                                    role="button" className="glyphicon glyphicon-remove"
-                                />
-                            </OverlayTrigger>
-                        </td>
+                                </OverlayTrigger>
+                            </td>
+                            <td className="transparent-td">
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={dlTooltip}
+                                    onClick={() => {
+                                        window.location = `${this.localStorage[i].url}&download=true`;
+                                    }}
+                                >
+                                    <i
+                                        role="button" className="fa fa-download"
+                                    />
+                                </OverlayTrigger>
+                            </td>
+                            <td className="transparent-td">
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={shareTooltip}
+                                    onClick={() => {
+                                        this.setState({
+                                            showLink: true,
+                                            numberLink: i,
+                                        });
+                                    }}
+                                >
+                                    <i
+                                        className="fa fa-link"
+                                        role="button"
+                                    />
+                                </OverlayTrigger>
+
+                            </td>
+                            <td className="transparent-td">
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={removeTooltip}
+                                    onClick={() => {
+                                        const updatedStorage = storageHistory.getHistory();
+                                        if (i === 0 && updatedStorage.length === 1) {
+                                            this.cleanHistory();
+                                        } else {
+                                            updatedStorage.splice(i, 1);
+                                            this.updateStorage(updatedStorage);
+                                        }
+                                    }}
+                                >
+                                    <i
+                                        role="button" className="fa fa-remove"
+                                    />
+                                </OverlayTrigger>
+                            </td>
+                        </span>
                     </tr>);
             }
         }

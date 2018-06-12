@@ -192,7 +192,7 @@ export default class Form extends React.Component {
                 extractEnrichments: false,
                 extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
                 extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
-                downloading: parsedUrl.download || false,
+                downloading: !!parsedUrl.download,
                 URL2Download: '',
                 errorRequestSyntax: '',
                 errorDuringDownload: '',

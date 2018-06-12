@@ -86,16 +86,16 @@ export default class Format extends React.Component {
                 break;
             case 'multicat': tooltipText = (
                 <p>
-                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr"> Science Metrix</a>,
-                    <a href="https://scopus-category.data.istex.fr/"> Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
+                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr"> Science Metrix</a>,&nbsp;
+                    <a href="https://scopus-category.data.istex.fr/">Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
                     l’outil multicat.
                 </p>
                 );
                 break;
             case 'teeft': tooltipText = (
                 <p>
-                    Termes d’indexation, extraits des documents en texte intégral grâce à l’outil
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q"> teeft</a>.
+                    Termes d’indexation, extraits des documents en texte intégral grâce à l’outil&nbsp;
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q">teeft</a>.
                 </p>
                 );
                 break;

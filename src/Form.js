@@ -580,7 +580,7 @@ export default class Form extends React.Component {
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
         );
-        const downloadDisabled = this.isDownloadDisabled();
+
         this.updateUrlAndLocalStorage();
         const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
@@ -812,7 +812,11 @@ export default class Form extends React.Component {
                                 rootClose
                                 placement="right"
                                 overlay={shareTooltip}
-                                onClick={() => { if (!downloadDisabled) { this.setState({ showModalShare: true }); } }}
+                                onClick={() => {
+                                    if (!this.isDownloadDisabled()) {
+                                        this.setState({ showModalShare: true });
+                                    }
+                                }}
                             >
                                 <i role="button" className="fa fa-link" aria-hidden="true" />
                             </OverlayTrigger>
@@ -954,9 +958,13 @@ export default class Form extends React.Component {
                         <div className="col-lg-7 text-center">
                             <OverlayTrigger
                                 placement="top"
-                                overlay={downloadDisabled ? disabledDownloadTooltip : emptyTooltip}
+                                overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
                             >
-                                <button type="submit" className="btn btn-theme btn-lg" disabled={downloadDisabled}>
+                                <button
+                                    type="submit"
+                                    className="btn btn-theme btn-lg"
+                                    disabled={this.isDownloadDisabled()}
+                                >
                                     <i role="button" className="fa fa-download" aria-hidden="true" />
                                         &nbsp;
                                         Télécharger

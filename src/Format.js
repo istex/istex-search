@@ -78,16 +78,16 @@ export default class Format extends React.Component {
             switch (this.props.label) {
             case 'nb': tooltipText = (
                 <p>
-                    <a href="https://inist-category.data.istex.fr">Catégories scientifiques Inist</a> des bases Pascal et Francis,
+                    <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a> des bases Pascal et Francis,
                     attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
+                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
                 </p>
                 );
                 break;
             case 'multicat': tooltipText = (
                 <p>
-                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr"> Science Metrix</a>,&nbsp;
-                    <a href="https://scopus-category.data.istex.fr/">Scopus</a> et <a href="https://wos-category.data.istex.fr"> Web Science</a>, attribuées aux documents Istex par appariement via
+                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science Metrix</a>,&nbsp;
+                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web Science</a>, attribuées aux documents Istex par appariement via
                     l’outil multicat.
                 </p>
                 );
@@ -95,19 +95,19 @@ export default class Format extends React.Component {
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil&nbsp;
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q">teeft</a>.
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>.
                 </p>
                 );
                 break;
             case 'refBibs': tooltipText = (
                 <p>
-                    Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9">Grobid</a>
+                    Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
                 </p>
                 );
                 break;
             case 'unitex': tooltipText = (
                 <p>
-                    <a href="https://named-entity.data.istex.fr">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S">Unitex-CasSys</a>.
+                    <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>.
                 </p>
                 );
                 break;

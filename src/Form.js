@@ -6,7 +6,8 @@ import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-        Tooltip, HelpBlock, FormGroup, FormControl, Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
+        Tooltip, HelpBlock, FormGroup, FormControl,
+        Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -22,7 +23,6 @@ export const characterLimit = 67860;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
-
 
     static handleReload() {
         if (JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'))) {

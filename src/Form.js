@@ -464,10 +464,20 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
-                Aidez-vous du <a href="http://demo.istex.fr/" rel="noopener noreferrer" target="_blank">démonstrateur ISTEX</a> ou
-                de la <a href="https://api.istex.fr/documentation/search/" rel="noopener noreferrer" target="_blank">documentation ISTEX</a> pour construire votre requête.<br />
-                Des exemples vous sont également proposés sur la droite.<br />
-                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>.
+            Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
+            proposés sur la droite (icône ampoule).
+            Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+                <br />
+            </Popover>
+        );
+
+        const popoverFiletypeHelp = (
+            <Popover
+                id="popover-filetype-help"
+                title={<span> Insérer titre {closingButton}</span>}
+            >
+              Insérer texte
+                <br />
             </Popover>
         );
         const popoverRequestClassic = (
@@ -475,7 +485,9 @@ export default class Form extends React.Component {
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-                Insérer texte
+                Pour élaborer votre équation de recherche de mode classique, vous pouvez
+                vous aider du démonstrateur ISTEX, de la documentation ISTEX ou des exemples
+                mis à disposition via le bouton &quot;Exemples&quot;.
             </Popover>
         );
 
@@ -490,7 +502,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Insérer texte
+                Copier/coller une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
+                l&apos;interprétera automatiquement.
+                Un exemple est disponible dans la liste du bouton &quot;Exemples&quot;.
             </Popover>
         );
 
@@ -880,6 +894,15 @@ export default class Form extends React.Component {
                             </Modal>
                             <h2>
                                 Formats et types de fichiers
+                                  &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="top"
+                                    overlay={popoverFiletypeHelp}
+                                >
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                </OverlayTrigger>
                             </h2>
                             <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
 

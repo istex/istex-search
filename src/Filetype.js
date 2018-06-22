@@ -69,7 +69,8 @@ export default class Filetype extends React.Component {
             break;
         case 'covers': this.popoverText = 'Documents textuels, images, etc.';
             break;
-        case 'enrichments': this.popoverText = 'Insérer texte pour les Enrichissements';
+        case 'enrichments': this.popoverText =
+         'Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables';
             break;
         default: this.popoverText = 'Type de Fichier Non reconnu';
         }

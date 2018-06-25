@@ -474,29 +474,25 @@ export default class Form extends React.Component {
         const popoverFiletypeHelp = (
             <Popover
                 id="popover-filetype-help"
-                title={<span> Insérer titre {closingButton}</span>}
+                title={<span> Précision sur les fichiers et formats disponibles {closingButton}</span>}
             >
-              Insérer texte
+              Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
                 <br />
             </Popover>
         );
+
         const popoverRequestClassic = (
             <Popover
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-                Pour élaborer votre équation de recherche de mode classique, vous pouvez
-                vous aider du démonstrateur ISTEX, de la documentation ISTEX ou des exemples
-                mis à disposition via le bouton &quot;Exemples&quot;.
+                Pour élaborer votre équation de recherche de type classique, vous pouvez
+                vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>, de la <a href="https://doc.istex.fr/tdm/">documentation ISTEX</a> ou de l'échantillon de modèles
+                mis à votre disposition via le bouton &quot;Exemples&quot;.
             </Popover>
         );
 
-        const examplesTooltip = (
-            <Tooltip data-html="true" id="resetTooltip">
-                Testez des exemples de requête
-            </Tooltip>
-        );
-
+        
         const popoverRequestARK = (
             <Popover
                 id="popover-request-ark"
@@ -504,8 +500,14 @@ export default class Form extends React.Component {
             >
                 Copier/coller une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
                 l&apos;interprétera automatiquement.
-                Un exemple est disponible dans la liste du bouton &quot;Exemples&quot;.
+                Un modèle est disponible via le bouton &quot;Exemples&quot;.
             </Popover>
+        );
+
+       const examplesTooltip = (
+            <Tooltip data-html="true" id="resetTooltip">
+                Testez des exemples de requête
+            </Tooltip>
         );
 
         const shareTooltip = (
@@ -519,6 +521,7 @@ export default class Form extends React.Component {
                 Réinitialisez votre requête (les formulaires de cette page seront vidés)
             </Tooltip>
         );
+
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Accédez à l&apos;historique de vos téléchargements
@@ -549,6 +552,7 @@ export default class Form extends React.Component {
                 au moins un document et cochez au moins un format de fichier
             </Tooltip>
         );
+
         const popoverRequestLimitWarning = (
             <Popover
                 id="popover-request-limit-warning"
@@ -573,6 +577,7 @@ export default class Form extends React.Component {
                 L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
             </Popover>
         );
+
         const enrichmentsDisabledTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
                 Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables

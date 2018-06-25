@@ -595,6 +595,12 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+    const nouveauTooltip = (
+            <Tooltip data-html="true" id="appendicesTooltip">
+                Documents textuels, images, vidéos, etc.
+            </Tooltip>
+        );
+
         this.updateUrlAndLocalStorage();
         const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (

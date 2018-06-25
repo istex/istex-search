@@ -75,20 +75,7 @@ export default class Filetype extends React.Component {
         default: this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
-/*
-    componentDidMount() {
-        if (this.child.length !== 0) {
-            this.verifyChildren(this.props.filetype);
-        } else if (window.localStorage && JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))) {
-            const name = 'extract'
-            .concat(this.props.filetype.charAt(0).toUpperCase())
-            .concat(this.props.filetype.slice(1));
-            if (JSON.parse(window.localStorage.getItem('dlISTEXstateForm'))[name]) {
-                this.checkCurrent(this.props.filetype);
-            }
-        }
-    }
-*/
+
     checkChildren() {
         this.child.forEach((c) => {
             c.check(this);

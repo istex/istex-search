@@ -248,7 +248,7 @@ la revue dans laquelle est publié le document. Ils peuvent être de plusieurs t
                         overlay={
                             <Popover
                                 id={`popover-${this.props.filetype}`}
-                                title={<span>Description {this.props.label}{closingButton}</span>}
+                                title={<span>{this.props.label}{closingButton}</span>}
                             >
                                 {this.popoverText}
                             </Popover>}

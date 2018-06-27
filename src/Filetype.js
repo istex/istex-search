@@ -60,17 +60,16 @@ export default class Filetype extends React.Component {
 
         this.popoverText = '';
         switch (this.props.filetype) {
-        case 'metadata': this.popoverText = 'Les métadonnées sont les informations bibliographiques permettant de présenter
-un document (nom de l\'auteur, affiliation, revue, éditeur, etc.). Deux formats sont proposés au téléchargement (XML et MODS).
+        case 'metadata': this.popoverText = 'Les métadonnées sont les informations bibliographiques permettant de présenter un document (nom de l'auteur, affiliation, revue, éditeur, etc.). Deux formats sont proposés au téléchargement (XML et MODS).
 Un fichier supplémentaire en JSON est téléchargé par défaut.';
             break;
-        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction de l\'origine
+        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction de l'origine
 des documents, des transformations réalisées par ISTEX sur ces documents et de l\'utilisation souhaitée pour le corpus.';
             break;
-        case 'annexes': this.popoverText = 'Fichiers originaux parfois fournis par l\'éditeur pour accompagner et compléter
+        case 'annexes': this.popoverText = 'Fichiers originaux parfois fournis par l'éditeur pour accompagner et compléter
 le texte intégral. Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.';
             break;
-        case 'covers': this.popoverText = 'Fichiers originaux parfois fournis par l\'éditeur pour présenter la couverture de
+        case 'covers': this.popoverText = 'Fichiers originaux parfois fournis par l'éditeur pour présenter la couverture de
 la revue dans laquelle est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.';
             break;
         case 'enrichments': this.popoverText =

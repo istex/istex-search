@@ -563,20 +563,19 @@ export default class Form extends React.Component {
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
-                documents,classés par ordre de pertinence, (sur les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels)
+                documents sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
             </Popover>
         );
 
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                title={<span> Limite temporaire {closingButton}</span>}
+                title={<span> Limite {closingButton}</span>}
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de&nbsp;
+                Actuellement, il n’est pas possible de télécharger plus de&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
-                L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
-            </Popover>
+                </Popover>
         );
 
         const enrichmentsDisabledTooltip = (
@@ -625,7 +624,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                     &nbsp;
                             </h2>
-                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
+                            <p>Formulez ci-dessous l’équation ou la liste d'identifiants qui décrit le corpus souhaité :</p>
                             <div className="form-group">
                                 <FormGroup
                                     controlId="formBasicText"
@@ -766,7 +765,7 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents :
+                                Choisir les documents triés :
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio

@@ -64,7 +64,7 @@ export default class Filetype extends React.Component {
         'Les métadonnées sont les informations bibliographiques permettant de présenter un document (nom de l&apos;auteur, affiliation, revue, éditeur, etc.). Deux formats sont proposés au téléchargement (XML et MODS). Un fichier supplémentaire en JSON est téléchargé par défaut.';
             break;
         case 'fulltext': this.popoverText = 
-        'Le choix du format de texte intégral est à faire en fonction de l'origine
+        'Le choix du format de texte intégral est à faire en fonction de l&apos;origine
 des documents, des transformations réalisées par ISTEX sur ces documents et de l&apos;utilisation souhaitée pour le corpus.';
             break;
         case 'annexes': this.popoverText = 

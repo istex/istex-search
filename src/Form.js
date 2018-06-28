@@ -624,7 +624,7 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                     &nbsp;
                             </h2>
-                            <p>Formulez ci-dessous l’équation ou la liste d'identifiants qui décrit le corpus souhaité :</p>
+                            <p>Formulez ci-dessous l’équation ou la liste d’identifiants qui décrit le corpus souhaité :</p>
                             <div className="form-group">
                                 <FormGroup
                                     controlId="formBasicText"

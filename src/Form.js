@@ -760,22 +760,7 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents
-                                &nbsp;
-                                <OverlayTrigger
-                                    trigger="click"
-                                    rootClose
-                                    placement="right"
-                                    overlay={popoverRequestLimitHelp}
-                                >
-                                    <i
-                                        id="requestLimitInfo"
-                                        role="button"
-                                        className="fa fa-info-circle"
-                                        aria-hidden="true"
-                                    />
-                                </OverlayTrigger>
-                                &nbsp; :
+                                Choisir les documents :
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio

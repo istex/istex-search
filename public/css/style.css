@@ -1085,6 +1085,9 @@ a[data-lightbox]:hover img{
 		vertical-align: sub;
 		}
 
-    .btn-theme img{
-        padding: 0;
+    .tooltip-inner a {
+        color: #c4d733;
+    }
+    .tooltip-inner a:hover {
+        color: #c4d733;
     }

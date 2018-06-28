@@ -1002,7 +1002,6 @@ export default class Form extends React.Component {
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
                                 >
-                                    <img src="télécharger.png"/>
                                 </button>
                             </OverlayTrigger>
                         </div>

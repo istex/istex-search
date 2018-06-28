@@ -780,10 +780,10 @@ export default class Form extends React.Component {
                                     trigger="click"
                                     rootClose
                                     placement="right"
-                                    overlay={popoverRequestLimitHelp}
+                                    overlay={popoverChoiceHelp}
                                 >
                                     <i
-                                        id="requestLimitInfo"
+                                        id="choiceHelpInfo"
                                         role="button"
                                         className="fa fa-info-circle"
                                         aria-hidden="true"

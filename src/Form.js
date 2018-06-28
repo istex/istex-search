@@ -607,6 +607,7 @@ export default class Form extends React.Component {
                         <div className="col-lg-1" />
                         <div className="col-lg-7">
                             <h2>
+                                <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
                                 &nbsp;
                                 <OverlayTrigger
@@ -791,25 +792,24 @@ export default class Form extends React.Component {
                                 overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                <i id="exampleButton" role="button" className="fa fa-lightbulb-o" aria-hidden="true" />
+                                <div className="select-button" id="exampleButton"><div><i role="button" className="fa fa-lightbulb-o" aria-hidden="true"></i></div><p>Exemples</p></div>
                             </OverlayTrigger>
-                            <p>Exemples</p>
                             <OverlayTrigger
                                 placement="right"
                                 overlay={resetTooltip}
                                 onClick={() => this.erase()}
                             >
-                                <i role="button" className="fa fa-eraser" aria-hidden="true" />
+                                <div className="select-button"><div><i role="button" className="fa fa-eraser" aria-hidden="true"></i></div><p>Réinitialiser</p></div>
                             </OverlayTrigger>
-                            <p>Réinitialiser</p>
+                            
                             <OverlayTrigger
                                 placement="right"
                                 overlay={reloadTooltip}
                                 onClick={Form.handleReload}
                             >
-                                <i role="button" className="fa fa-repeat" aria-hidden="true" />
+                                <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
                             </OverlayTrigger>
-                            <p>Récupérer</p>
+                            
                             <OverlayTrigger
                                 placement="right"
                                 overlay={historyTooltip}
@@ -819,9 +819,9 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <i role="button" className="fa fa-history" aria-hidden="true" />
+                                <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
                             </OverlayTrigger>
-                            <p>Historique</p>
+                           
                             <OverlayTrigger
                                 rootClose
                                 placement="right"
@@ -832,9 +832,9 @@ export default class Form extends React.Component {
                                     }
                                 }}
                             >
-                                <i role="button" className="fa fa-link" aria-hidden="true" />
+                                <div className="select-button"><div><i role="button" className="fa fa-link" aria-hidden="true"></i></div><p>Partager</p></div>
                             </OverlayTrigger>
-                            <p>Partager</p>
+                            
                         </div>
                     </div>
 
@@ -877,22 +877,24 @@ export default class Form extends React.Component {
 
                                 <Modal.Body>
                                     <StorageHistory
-                                        columnNames="#,Date,Requête,Formats,Nb. docs,Tri"
+                                        columnNames="#,Date,Requête,Formats,Nb. docs,Tri,Actions"
                                     />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                    <Button
-                                        onClick={() => {
-                                            this.setState({
-                                                showHistory: false,
-                                            });
-                                        }}
-                                    >
-                                        Fermer
-                                    </Button>
+                                        <Button
+                                            onClick={() => {
+                                                this.setState({
+                                                    showHistory: false,
+                                                });
+                                            }}
+                                        >
+                                            Fermer
+                                        </Button>
                                 </Modal.Footer>
                             </Modal>
+                            <br/>
                             <h2>
+                            <span className="num-etape">&nbsp;2.&nbsp;</span>
                                 Formats et types de fichiers
                                   &nbsp;
                                 <OverlayTrigger
@@ -975,10 +977,22 @@ export default class Form extends React.Component {
                         <div className="col-lg-3" />
                     </div>
 
+                    
                     <div className="istex-dl-download row">
-
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
+                          <h2>
+                            <span className="num-etape">&nbsp;3.&nbsp;</span>
+                            Télécharger
+                            <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="top"
+                                    overlay={popoverFiletypeHelp}
+                                >
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                </OverlayTrigger>
+                          </h2>
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
@@ -988,9 +1002,7 @@ export default class Form extends React.Component {
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
                                 >
-                                    <i role="button" className="fa fa-download" aria-hidden="true" />
-                                        &nbsp;
-                                        Télécharger
+                                    <img src="téléchargement.png"/>
                                 </button>
                             </OverlayTrigger>
                         </div>

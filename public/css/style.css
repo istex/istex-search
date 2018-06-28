@@ -1084,3 +1084,7 @@ a[data-lightbox]:hover img{
 		font-size: 1.7em;
 		vertical-align: sub;
 		}
+
+    .btn-theme img{
+        padding: 0;
+    }

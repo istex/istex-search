@@ -408,3 +408,13 @@ disable-download
 .indeterminate{
 	padding-top:5px; 
 }
+
+.btn-theme img{
+    padding: 0;
+  }
+
+ .buttonsHistory img{
+ 	margin-left: 10px;
+ 	width: 24px;
+ 	vertical-align: baseline;
+ }

@@ -128,7 +128,7 @@ export default class storageHistory extends React.Component {
                                         window.location = `${this.localStorage[i].url}&download=true`;
                                     }}
                                 >
-                                    <img src="télécharger.png"/>
+                                    <img src="télécharger-noir.png"/>
                                 </OverlayTrigger>
                                 <OverlayTrigger
                                     placement="top"

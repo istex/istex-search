@@ -1,6 +1,6 @@
 /* eslint  max-len: "off" */
 export default {
-    extractMetadataXml: '<a href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible" target="_blank" rel="noopener noreferrer">Extensible Markup Language (langage de balisage extensible)</a>'
+    extractMetadataXml: '<a href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible" target="_blank" rel="noopener noreferrer"> Extensible Markup Language (langage de balisage extensible)</a>'
     + 'Fichier original fourni par l&apos;éditeur selon une DTD propre.',
     extractMetadataMods: '"Metadata Object Description Schema" :'
     + ' format de description des métadonnées (commun à tous les éditeurs)',

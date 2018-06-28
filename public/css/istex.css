@@ -415,6 +415,7 @@ disable-download
 
  .buttonsHistory img{
  	margin-left: 10px;
- 	width: 24px;
+ 	width: 20px;
  	vertical-align: baseline;
+ 	cursor: pointer;
  }

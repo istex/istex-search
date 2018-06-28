@@ -559,7 +559,9 @@ export default class Form extends React.Component {
                 id="popover-character-limit-help"
                 title={<span> Limitation du nombre de caractères {closingButton}</span>}
             >
-                Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre indiqué correspond à la limite sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, la limite est de 1 650 caractères.
+                Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre 
+                indiqué correspond à la limite sur les navigateurs Firefox et Chrome. Pour le navigateur 
+                Edge, la limite est de 1650 caractères.
                 </Popover>
         );
 

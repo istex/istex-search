@@ -578,6 +578,15 @@ export default class Form extends React.Component {
                 </Popover>
         );
 
+        const popoverChoiceHelp = (
+            <Popover
+                id="popover-choice-help"
+                title={<span> Choix du mode de tri {closingButton}</span>}
+            >
+                En fonction de votre sélection, les résultats de votre requête seront triés par ordre de pertinence ou de manière alétaoire. Par défaut, c'est l'ordre de pertinence qui est privilégié.        
+                </Popover>
+        );
+
         const enrichmentsDisabledTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
                 Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables

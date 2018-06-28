@@ -20,6 +20,7 @@ import Labelize from './i18n/fr';
 
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = 67860;
+export const characterLimitHelp = 1650;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
@@ -561,7 +562,8 @@ export default class Form extends React.Component {
             >
                 Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre 
                 indiqué correspond à la limite sur les navigateurs Firefox et Chrome. Pour le navigateur 
-                Edge, la limite est de 1650 caractères.
+                Edge, la limite est de&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.characterLimitHelp)} caractères.
                 </Popover>
         );
 

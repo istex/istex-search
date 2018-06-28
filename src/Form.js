@@ -465,7 +465,7 @@ export default class Form extends React.Component {
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
             Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-            proposés sur la droite (icône ampoule).
+            proposés sur la droite (icône "ampoule").
             Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -552,6 +552,15 @@ export default class Form extends React.Component {
                 Pour télécharger indiquez une requête qui renvoie
                 au moins un document et cochez au moins un format de fichier
             </Tooltip>
+        );
+
+        const popover = (characterLimitHelp
+            <Popover
+                id="popover-character-limit-help"
+                title={<span> Limitation du nombre de caractères {closingButton}</span>}
+            >
+                Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre indiqué correspond à la limite sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, la limite est de 1 650 caractères.
+                </Popover>
         );
 
         const popoverRequestLimitWarning = (
@@ -687,7 +696,23 @@ export default class Form extends React.Component {
                                         onChange={this.handleQueryChange}
                                     />
 
-                                    <HelpBlock>Nombre de caractères restants&nbsp;: {
+                                    <HelpBlock>Nombre de caractères restants&nbsp;
+                                &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="right"
+                                    overlay={popoverCharacterLimitHelp}
+                                >
+                                    <i
+                                        id="characterLimitHelpInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
+                                </OverlayTrigger>
+                                &nbsp;
+                                : {
                                         commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
                                     }
                                         <FormControl.Feedback

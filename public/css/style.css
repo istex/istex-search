@@ -1032,11 +1032,12 @@ a[data-lightbox]:hover img{
 
 
     .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
-    	border-bottom-color: #c4d733 !important;
+    	border:solid 3px #c4d733 !important;
+        border-bottom-color: #fff !important;
 	}
 	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     	color: #000 !important;
-    	background-color: #c4d733 !important;
+    	background-color: #fff !important;
 	}
 	.nav-tabs.nav-justified > li > a {
     	margin-bottom: 0 !important;

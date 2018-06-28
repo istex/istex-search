@@ -306,8 +306,8 @@ button:hover>div>svg, button:hover>svg {
     margin-right: 10px;
     margin-bottom: -3px;
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: #458ca5;
     border: 2px solid grey;
     border-radius: 4px;
@@ -336,12 +336,12 @@ button:hover>div>svg, button:hover>svg {
 }
 
 .determinate input[type="checkbox"] + span::after {
-    content: '';
+    content: '\00a0';
     margin-right: 10px;
     margin-bottom: -3px;
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     background: white;
     border: 2px solid grey;
     border-radius: 4px;

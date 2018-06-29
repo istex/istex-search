@@ -419,3 +419,46 @@ disable-download
  	vertical-align: baseline;
  	cursor: pointer;
  }
+
+ body > footer {
+    background-color: rgba(0,0,0,.1);
+    margin-top: auto;
+    text-align: center;
+    padding-top: 20px;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+}
+
+body > footer > ul {
+	margin-top: 10px;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    list-style-type: none;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+body > footer a {
+    padding: 0 .5em;
+}
+
+.menu-pied li + li::before {
+    content: "|";
+}
+
+#menu-partenaires li {
+    padding: 0 20px 20px 20px;
+}
+
+.anr img{
+	display: inline-block;
+	vertical-align: middle;
+}

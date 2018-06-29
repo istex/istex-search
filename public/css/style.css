@@ -746,24 +746,24 @@ a[data-lightbox]:hover img{
         /* Boutons */
 
         .btn-theme {
-        	-webkit-transition: all 0.25s ease-in-out;
-  			-moz-transition: all 0.25s ease-in-out;
-  			-ms-transition: all 0.25s ease-in-out;
-  			-o-transition: all 0.25s ease-in-out;
-			transition: all 0.25s ease-in-out;
             color: #458ca5;
             background-color: transparent;
             border:solid 1px #458ca5 !important;
             margin-bottom: 20px !important;
             width: 20%;
             height: 50px;
-            background: url("../télécharger-bleu.png") center no-repeat !important;
           }
-         
-        .btn-theme:hover {
-            background: url("../télécharger-noir.png") center no-repeat,#c4d733  !important;
+         .btn-theme::after {
+        	content: url("../télécharger-bleu.png");
+          }
+         .btn-theme:hover {
             color: black;
-            border:solid 1px black !important;
+            border: solid 1px black !important;
+            background-color: #c4d733;
+        }
+        .btn-theme:hover::after {
+           content: url("../télécharger-noir.png");
+            color: black;
         }
 
         .btn {

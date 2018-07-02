@@ -71,9 +71,9 @@ export default class Filetype extends React.Component {
         case 'metadata':
             this.popoverText =
                 <p>
-                Les métadonnées sont les informations bibliographiques permettant de présenter
-                un document (nom de l’auteur, affiliation, revue, éditeur, etc.). Outre les deux formats
-                proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
+                Informations bibliographiques permettant de présenter
+                un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
+                Outre les deux formats proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
                 </p>
             ;
             break;

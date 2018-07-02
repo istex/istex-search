@@ -75,7 +75,7 @@ export default class Format extends React.Component {
     render() {
         let tooltipText = '';
         if (this.props.withPopover) {
-            switch (this.props.label) {
+            switch (this.props.label.toLowerCase()) {
             case 'xml': tooltipText = (
                 <p>
                     <a
@@ -165,7 +165,6 @@ export default class Format extends React.Component {
                 {<OverlayTrigger
                     placement="top"
                     delayHide={this.props.withPopover ? 1000 : 100}
-                    show={true}
                     overlay={tooltip}
                 >
                     <span className="labelFormat">{this.props.label} </span>

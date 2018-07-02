@@ -573,7 +573,7 @@ export default class Form extends React.Component {
                 title={<span> Limite de la longueur des requêtes {closingButton}</span>}
             >
                 <p>
-                    Votre requête ne peut pas dépasser un certain nombre de caractères.
+                    Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
                     Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
                     Pour le navigateur Edge, la limite est de 1&nbsp;650 de caractères.
                 </p>
@@ -600,7 +600,9 @@ export default class Form extends React.Component {
                 title={<span> Limite {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
+                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.<br />
+                Cette limite a été déterminée empiriquement. Dans le cas de formats de fichiers volumineux (tels que des PDF),
+                cette limite pourrait s'avérer trop élevée...
             </Popover>
         );
 

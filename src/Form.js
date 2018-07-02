@@ -494,7 +494,6 @@ export default class Form extends React.Component {
             </Popover>
         );
 
-
         const popoverRequestARK = (
             <Popover
                 id="popover-request-ark"
@@ -550,8 +549,12 @@ export default class Form extends React.Component {
 
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
-                Pour que le téléchargement soit activé,  la fenêtre de requête doit contenir au moins 1 caractère;
-                l’équation saisie doit proposer au moins 1 document, au moins 1 format de fichier doit être coché
+                <p>
+                Pour que le téléchargement soit activé,<br />
+                la fenêtre de requête doit contenir au moins 1 caractère,<br />
+                l’équation saisie doit proposer au moins 1 document,<br />
+                au moins 1 format de fichier doit être coché.
+                </p>
             </Tooltip>
         );
 
@@ -598,7 +601,7 @@ export default class Form extends React.Component {
                 title={<span> Choix du mode de tri {closingButton}</span>}
             >
                 En fonction de votre sélection, les résultats de votre requête seront triés par
-                ordre de pertinence ou de manière alétaoire.
+                ordre de pertinence ou de manière aléatoire.
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );

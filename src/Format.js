@@ -79,7 +79,7 @@ export default class Format extends React.Component {
             case 'pdf': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---xml--extensible-markup-language-langage-de-balisage-extensible"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---pdf--portable-document-format-format-de-document-portable"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

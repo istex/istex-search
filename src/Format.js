@@ -215,7 +215,7 @@ export default class Format extends React.Component {
                 </p>
                 );
                 break;
-            case 'refBibs': tooltipText = (
+            case 'refbibs': tooltipText = (
                 <p>
                     Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
                 </p>

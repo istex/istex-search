@@ -73,7 +73,7 @@ export default class Filetype extends React.Component {
         'Fichiers originaux parfois fournis par l\'éditeur pour présenter la couverture de la revue dans laquelle est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.';
             break;
         case 'enrichments': this.popoverText =
-         'Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables';
+         'Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques, références bibliographiques, termes d&apos;indexation, entités nommées. Ils seront prochainement téléchargeables';
             break;
         default: this.popoverText = 'Type de Fichier Non reconnu';
         }

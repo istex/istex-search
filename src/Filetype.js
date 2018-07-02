@@ -62,14 +62,17 @@ export default class Filetype extends React.Component {
         switch (this.props.filetype.toLowerCase()) {
         case 'metadata':
             this.popoverText =
+                <p>
                 Les métadonnées sont les informations bibliographiques permettant de présenter
                 un document (nom de l’auteur, affiliation, revue, éditeur, etc.). Deux formats
-                sont proposés au téléchargement (XML et MODS). Un fichier supplémentaire en JSON est téléchargé par défaut.;
+                sont proposés au téléchargement (XML et MODS). Un fichier supplémentaire en JSON est téléchargé par défaut.
+                </p>
+            ;
             break;
         case 'fulltext':
             this.popoverText =
                 Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
-                des transformations réalisées par ISTEX sur ces documents et de l\'utilisation souhaitée pour le corpus.;
+                des transformations réalisées par ISTEX sur ces documents et de l’utilisation souhaitée pour le corpus.;
             break;
         case 'annexes':
             this.popoverText =

@@ -104,7 +104,7 @@ export default class Format extends React.Component {
                     Ces fichiers XML TEI sont produits à partir des XML originaux fournis par l’éditeur et peuvent
                     dans ce cas bénéficier d’une structuration fine du texte. Dans le cas où l’éditeur ne fournit
                     pas de XML, les fichiers XML TEI sont générés à partir du PDF via une transformation PDF to Text
-                    et une injection du texte brut non structuré dans la balise \<body\>.
+                    et une injection du texte brut non structuré dans la balise &quot;body&quot;.
                 </p>
                 );
                 break;

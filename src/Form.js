@@ -514,7 +514,7 @@ export default class Form extends React.Component {
 
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Accédez à l&apos;historique de vos téléchargements
+                Accédez à l&apos;historique de vos téléchargements (maximum 30)
             </Tooltip>
         );
 

@@ -598,7 +598,7 @@ export default class Form extends React.Component {
                 title={<span> Choix du mode de tri {closingButton}</span>}
             >
                 En fonction de votre sélection, les résultats de votre requête seront triés par
-                ordre de pertinence ou de manière alétaoire.
+                ordre de pertinence ou de manière aléatoire.
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );

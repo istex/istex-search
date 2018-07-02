@@ -68,8 +68,8 @@ export default class Filetype extends React.Component {
             break;
         case 'fulltext':
             this.popoverText =
-                'Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
-                des transformations réalisées par ISTEX sur ces documents et de l\'utilisation souhaitée pour le corpus.';
+                Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
+                des transformations réalisées par ISTEX sur ces documents et de l\'utilisation souhaitée pour le corpus.;
             break;
         case 'annexes':
             this.popoverText =

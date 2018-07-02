@@ -78,15 +78,28 @@ export default class Format extends React.Component {
             switch (this.props.label) {
             case 'xml': tooltipText = (
                 <p>
-                    <a href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible" target="_blank" rel="noopener noreferrer"> Extensible Markup Language (langage de balisage extensible) </a>
-                    + Fichier original fourni par l&apos;éditeur selon une DTD propre.
+                    <a
+                        href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Extensible Markup Language (langage de balisage extensible)
+                    </a>
+                    Fichier original fourni par l&apos;éditeur selon une DTD propre.
                 </p>
                 );
-                break;        
+                break;
             case 'mods': tooltipText = (
                 <p>
-                   <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---mods--metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es" target="_blank" rel="noopener noreferrer"> Metadata Object Description Schema (schéma de description objet de métadonnées) </a>
-                    + Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, afin de les homogénéiser dans le format standard de description de métadonnées MODS (version 3.6).
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---mods--metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Metadata Object Description Schema (schéma de description objet de métadonnées)
+                    </a>
+                    Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, <br />
+                    afin de les homogénéiser dans le format standard de description de métadonnées MODS (version 3.6).
                 </p>
                 );
                 break;
@@ -118,7 +131,7 @@ export default class Format extends React.Component {
                      <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>.
                 </p>
                 );
-                break;        
+                break;
             case 'unitex': tooltipText = (
                 <p>
                     <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>.
@@ -152,6 +165,7 @@ export default class Format extends React.Component {
                 {<OverlayTrigger
                     placement="top"
                     delayHide={this.props.withPopover ? 1000 : 100}
+                    show={true}
                     overlay={tooltip}
                 >
                     <span className="labelFormat">{this.props.label} </span>

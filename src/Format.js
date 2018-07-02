@@ -195,7 +195,7 @@ export default class Format extends React.Component {
                     </a>
                     <br />
                     Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, 
-                    afin de les homogénéiser dans le format standard de description de métadonnées MODS (version 3.6).
+                    afin de les homogénéiser dans le format standard de description de métadonnées MODS (version&nbsp;3.6).
                 </p>
                 );
                 break;

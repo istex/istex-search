@@ -465,7 +465,7 @@ export default class Form extends React.Component {
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (icône &quote;ampoule&quote;).
+                proposés sur la droite (icône &quot;ampoule&quot;).
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -551,7 +551,7 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                Si votre corpus dépasse 4 Go, vous ne pourrez
+                Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
                 gérer les grandes tailles.
@@ -575,7 +575,7 @@ export default class Form extends React.Component {
                 <p>
                     Votre requête ne peut pas dépasser un certain nombre de caractères.
                     Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
-                    Pour le navigateur Edge, la limite est 1&nbsp; 650 de caractères.
+                    Pour le navigateur Edge, la limite est de 1&nbsp;650 de caractères.
                 </p>
             </Popover>
         );

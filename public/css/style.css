@@ -16,9 +16,6 @@ a:hover{text-decoration: none; cursor:pointer;}
 a,button{outline: none!important;} /* Prevent ugly blue glow on chrome and safari */
 
 
-
-
-
 /* Globals type styling */
  h1, h2, h3, h4, h5, h6, label, .btn {
 	font-family:Montserrat;
@@ -721,4 +718,379 @@ a[data-lightbox]:hover img{
     .video-bg-contianer{
         display:none;
     }
+
 }
+        .header-resource-section {
+            margin-bottom: 2rem;
+            background-color: rgba(233, 236, 239, 0.52);
+            border-radius: .3rem;
+            padding: 1rem;
+        }
+
+        /*
+ * Author: istex dl
+ *
+ * Project Name: istex dl  - Bootstrap 3 Theme
+ * Version: 1.0
+ *
+ */
+
+        /* istex style sg */
+
+        /* général */
+
+        .centered {
+            text-align: center;
+        }
+
+        /* Boutons */
+
+        .btn-theme {
+            color: #458ca5;
+            background-color: transparent;
+            border:solid 1px #458ca5 !important;
+            margin-bottom: 20px !important;
+            width: 20%;
+            height: 50px;
+          }
+         .btn-theme::after {
+        	content: url("../télécharger-bleu.png");
+          }
+         .btn-theme:hover {
+            color: black;
+            border: solid 1px black !important;
+            background-color: #c4d733;
+        }
+        .btn-theme:hover::after {
+           content: url("../télécharger-noir.png");
+            color: black;
+        }
+
+        .btn {
+            padding: 10px 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 28px;
+            border: 5px solid transparent;
+            border-radius: 0px;
+        }
+
+        .btn-exemple {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 20px;
+            border: 2px solid transparent;
+        }
+
+        .istex-dl-error-api {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-api p {
+            color: white;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        /* zone requete*/
+
+        .istex-dl-request {
+            /* background-color: #f2f2f2; */
+        }
+
+        .istex-dl-request h2 span {
+            font-size: 80%;
+        }
+
+        .istex-dl-error-request {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-request p,blockquote {
+            color: #FF0000;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .istex-dl-apercu {
+            font-weight: 300;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .blockquote-Syntax-error{
+            border-left: 5px solid #000000;
+        }
+        /* zone format*/
+
+        .istex-dl-format {
+            /* background-color: #eaeade; */
+        }
+
+        .istex-form-group{
+        	margin-bottom: 13px;
+        }
+        /* zone Download */
+
+        .istex-dl-download {
+            /* background-color: #f2f2f2; */
+            font-weight: 300;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .istex-dl-error-download {
+            /* background-color: #c4d733; */
+            padding-top: 10px;
+            margin-bottom: 0px;
+        }
+
+        .istex-dl-error-download p {
+            color: white;
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
+        }
+        .indent {
+    padding-left: 52px;
+}
+.buttonSelect {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #70a6ff;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 15px;
+  padding: 8px;
+  width: 160px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  position: absolute;
+ left: 50%;
+
+}
+
+.buttonSelect span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.buttonSelect span:after {
+  content: '\002705';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -30px;
+  transition: 0.5s;
+}
+
+.buttonSelect:hover span {
+  padding-right: 25px;
+}
+
+.buttonSelect:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.buttonClose{
+    color:red;
+    border: none;
+    float:right;
+    margin-right: -13px;
+    background-color: inherit;
+    outline:none;
+}
+
+.buttonClose:hover{
+    text-shadow: 1px 1px 2px #000000;
+}
+
+.exampleRequest{
+    margin-right:20px;
+}
+.exempleRequestLine{
+    margin-top: 20px;
+}
+
+.column-buttons  {
+    width: 33.3333%;
+    display: inline-block;
+    position: absolute;
+}
+.column-buttons i {
+  width: 100%;
+  text-align: center;
+}
+.column-buttons .select-button{
+	-webkit-transition: all 0.25s ease-in-out;
+  	-moz-transition: all 0.25s ease-in-out;
+  	-ms-transition: all 0.25s ease-in-out;
+  	-o-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+	margin-top: 25px;
+    margin-left: 80px;
+    border: solid 1px #458ca5;
+    width: 200px;
+    color: #458ca5;
+    padding: 5px;
+	cursor: pointer;
+}
+.column-buttons .select-button:hover{
+    border-color: black;
+    color: black;
+    background-color: #c4d733;
+}
+.column-buttons .select-button div{
+	 display: inline-block;
+	 width: 33%;
+	 overflow: hidden;
+	 vertical-align: middle;
+}
+.column-buttons i::before {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.column-buttons .fa{
+    font-size: 35px;
+}
+
+
+.column-buttons p{
+    font-size: 20px;
+    display: inline;
+    vertical-align: middle;
+}
+
+#copyButton{
+    margin-top: 0px;
+    height: 30px;
+}
+
+#shareButton{
+    height: auto;
+    padding: 4px;
+}
+
+.history-modal{
+    width:60% !important;
+}
+
+#exampleButton{
+    margin-top: 260px;
+}
+
+.vl {
+    border-left: 3px solid black;
+    height: 355px;
+    margin-top: 250px;
+    margin-left: 60px;
+    position: absolute;
+    top: 0;
+}
+
+.buttonsHistory i{
+    font-size: 25px;
+    margin-left: 10px;
+}
+
+#requestLimitInfo{
+    font-size:16px;
+}
+
+@media (max-width: 1200px){
+    .column-buttons  {
+        width: 100%;
+        position: relative;
+    }
+    .column-buttons .select-button{
+        display: inline-block;
+        margin-left: 20px;
+        margin-top: 10px;
+        width: 75px;
+    }
+      .column-buttons .select-button div{
+        width: 100%;
+    }
+    #exampleButton{
+        margin-top: 10px;
+    }
+    .vl{
+        display: none;
+    }
+    .column-buttons p{
+        display: none;
+    }
+}
+
+
+    .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
+    	border-bottom-color: #c4d733 !important;
+	}
+	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    	color: #000 !important;
+    	background-color: #c4d733 !important;
+	}
+	.nav-tabs.nav-justified > li > a {
+    	margin-bottom: 0 !important;
+    	color: #458ca5 !important;
+	}
+	.nav-tabs.nav-justified > .active > a {
+    	color: black !important;
+	}
+	.nav-tabs.nav-justified > li {
+    	margin: 0 !important;
+    	padding: 0 !important;
+	}
+	.nav > li > a:hover, .nav > li > a:focus {
+    	background-color: transparent !important;
+	}
+	.has-warning .help-block, .has-warning .control-label, .has-warning .radio, .has-warning .checkbox, .has-warning .radio-inline, .has-warning .checkbox-inline, .has-warning.radio label, .has-warning.checkbox label, .has-warning.radio-inline label, .has-warning.checkbox-inline label {
+    	color: #FFA500 !important;
+	}
+
+	.has-warning .form-control {
+    	border-color: #ffa500 !important;
+	}
+	.has-warning .form-control:focus {
+    	border-color: #ffa500 !important;
+	}
+	.has-warning .form-control-feedback {
+    	color: #ffa500 !important;
+	}
+	.num-etape{
+		background-color: #c4d733;
+		border-radius: 50%;
+		font-size: 30px !important;
+		width: 50px;
+	}
+	h2, .h2 {
+    	border-bottom: solid 2px black;
+    	padding-bottom: 10px;
+    	color: rgb(51, 51, 51) !important;
+    	text-align: left;
+	}
+	h2 .fa, .h2 .fa {
+    	float: right;
+	}
+	.exempleRequestLine .fa.fa-search::before{
+		font-size: 1.7em;
+		vertical-align: sub;
+		}
+
+    .tooltip-inner a {
+        color: #c4d733;
+    }
+    .tooltip-inner a:hover {
+        color: #c4d733;
+    }

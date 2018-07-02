@@ -561,8 +561,8 @@ export default class Form extends React.Component {
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1 caractère, sélectionnez
-                au moins 1 document et cochez au moins 1 format de fichier.
+                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1&nbsp;caractère, sélectionnez
+                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier.
                 </p>
             </Tooltip>
         );
@@ -602,7 +602,7 @@ export default class Form extends React.Component {
                 Actuellement, il n’est pas possible de télécharger plus de&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.<br />
                 Cette limite a été déterminée empiriquement. Dans le cas de formats de fichiers volumineux (tels que des PDF),
-                cette limite pourrait s’avérer trop élevée...
+                elle pourrait s’avérer trop élevée...
             </Popover>
         );
 

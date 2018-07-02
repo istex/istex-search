@@ -602,7 +602,7 @@ export default class Form extends React.Component {
                 Actuellement, il n’est pas possible de télécharger plus de&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.<br />
                 Cette limite a été déterminée empiriquement. Dans le cas de formats de fichiers volumineux (tels que des PDF),
-                cette limite pourrait s'avérer trop élevée...
+                cette limite pourrait s’avérer trop élevée...
             </Popover>
         );
 

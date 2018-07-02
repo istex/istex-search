@@ -84,7 +84,8 @@ export default class Format extends React.Component {
                         rel="noopener noreferrer"
                     >
                         Extensible Markup Language (langage de balisage extensible)
-                    </a>
+                    </a> 
+                    <br />
                     Fichier original fourni par l&apos;éditeur selon une DTD propre.
                 </p>
                 );
@@ -98,7 +99,8 @@ export default class Format extends React.Component {
                     >
                         Metadata Object Description Schema (schéma de description objet de métadonnées)
                     </a>
-                    Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, <br />
+                    <br />
+                    Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, 
                     afin de les homogénéiser dans le format standard de description de métadonnées MODS (version 3.6).
                 </p>
                 );

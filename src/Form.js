@@ -595,9 +595,15 @@ export default class Form extends React.Component {
                 </Popover>
         );
 
-        const enrichmentsDisabledTooltip = (
+        const fulltextTooltip = (
+            <Tooltip data-html="true" id="fulltextTooltip">
+                Texte intégral
+            </Tooltip>
+        );
+
+        const metadatTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
-                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
+                Métadonnées
             </Tooltip>
         );
 
@@ -607,14 +613,20 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const emptyTooltip = (
-            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
-        );
-
         const appendicesTooltip = (
             <Tooltip data-html="true" id="appendicesTooltip">
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
+        );
+
+        const enrichmentsDisabledTooltip = (
+            <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
+                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
+            </Tooltip>
+        );
+
+        const emptyTooltip = (
+            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
         );
 
         this.updateUrlAndLocalStorage();

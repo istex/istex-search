@@ -79,7 +79,7 @@ export default class Format extends React.Component {
             case 'xml': tooltipText = (
                 <p>
                     <a href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible" target="_blank" rel="noopener noreferrer"> Extensible Markup Language (langage de balisage extensible) </a>
-                    + 'Fichier original fourni par l&apos;éditeur selon une DTD propre.
+                    + Fichier original fourni par l&apos;éditeur selon une DTD propre.
                 </p>
                 );
                 break;        

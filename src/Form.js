@@ -488,7 +488,7 @@ export default class Form extends React.Component {
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>, 
-                de la <a href="https://doc.istex.fr/tdm/">documentation ISTEX</a> ou de l&quot;échantillon de modèles
+                de la <a href="https://doc.istex.fr/tdm/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
                 mis à votre disposition via le bouton &quot;Exemples&quot;.
             </Popover>
         );
@@ -549,16 +549,16 @@ export default class Form extends React.Component {
 
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
-                Pour que le téléchargement soit activé,  la fenêtre de requête doit contenir au moins 1 caractère; l’équation saisie au moins 1 document, au moins 1 format de fichier doit être coché
+                Pour que le téléchargement soit activé,  la fenêtre de requête doit contenir au moins 1 caractère; l’équation saisie doit proposer au moins 1 document, au moins 1 format de fichier doit être coché
             </Tooltip>
         );
 
         const popoverCharacterLimitHelp = (
             <Popover
                 id="popover-character-limit-help"
-                title={<span> Limitation du nombre de caractères {closingButton}</span>}
+                title={<span> Limite de la longueur des requêtes {closingButton}</span>}
             >
-                Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, la limite est de caractères.
+                Votre requête ne peut pas dépasser un certain nombre de caractères. Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, la limite est 1 650 de caractères.
                 </Popover>
         );
 
@@ -597,7 +597,7 @@ export default class Form extends React.Component {
 
         const enrichmentsDisabledTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
-                Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques, références bibliographiques, termes d\'indexation, entités nommées. Ils seront prochainement téléchargeables
+                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
             </Tooltip>
         );
 

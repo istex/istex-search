@@ -597,7 +597,7 @@ export default class Form extends React.Component {
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                title={<span> Limite {closingButton}</span>}
+                title={<span> Limite du nombre de documents {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.<br />

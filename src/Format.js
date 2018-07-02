@@ -103,7 +103,7 @@ export default class Format extends React.Component {
                     Fichier XML produit par ISTEX selon les guidelines P5 du format TEI qui sert de format pivot.
                     Ces fichiers XML TEI sont produits à partir des XML originaux fournis par l’éditeur et peuvent
                     dans ce cas bénéficier d’une structuration fine du texte. Dans le cas où l’éditeur ne fournit
-                    pas de XML, les fichiers XML TEI sont générés à partir du PDF via une transformation PDF to Text
+                    pas de XML, les fichiers XML TEI sont générés à partir du PDF via une transformation PDF-to-Text
                     et une injection du texte brut non structuré dans la balise &quot;body&quot;.
                 </p>
                 );
@@ -119,7 +119,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide
-                    du logiciel PDF to Text.
+                    du logiciel PDF-to-Text.
                 </p>
                 );
                 break;
@@ -138,8 +138,6 @@ export default class Format extends React.Component {
                     la qualité des documents originaux dont le texte est absent (PDF image) ou non exploitable
                     (problèmes de reconnaissance de caractères). Lorsqu’il est disponible, ce fichier OCR doit
                     être utilisé à la place du fichier TXT. 
-                    <br />
-                    Pour plus de détails, voir le billet de blog https://blog.istex.fr/ocr-production-de-plein-texte/
                 </p>
                 );
                 break;
@@ -154,7 +152,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Répertoire compressé contenant, pour chaque document du corpus, les fichiers fournis
-                    par l’éditeur (PDF, XML structuré, images, couvertures, annexes) ainsi que le JSON produit par ISTEX.
+                    par l’éditeur (PDF, XML structuré, images, couvertures, annexes), ainsi que le JSON produit par ISTEX.
                 </p>
                 );
                 break;
@@ -168,7 +166,7 @@ export default class Format extends React.Component {
                         TIFF : Tagged Image File Format (format de fichier d’image étiqueté)
                     </a> 
                     <br />
-                    Fichier original fourni par l’éditeur sous format image, uniquement pour les ressources EBBO et ECCO.
+                    Fichier original fourni par l’éditeur sous format image (uniquement pour les ressources EBBO et ECCO).
                 </p>
                 );
                 break;

@@ -79,12 +79,13 @@ export default class Format extends React.Component {
             case 'xml': tooltipText = (
                 <p>
                     <a
-                        href="https://istex-doc.gitbook.io/documentation-istex/tdm/annexes/liste-des-formats#o-xml-extensible-markup-language-langage-de-balisage-extensible"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---xml--extensible-markup-language-langage-de-balisage-extensible"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        Extensible Markup Language (langage de balisage extensible)
+                        XML : Extensible Markup Language (langage de balisage extensible)
                     </a> 
+                    <br />
                     <br />
                     Fichier original fourni par l&apos;éditeur selon une DTD propre.
                 </p>
@@ -97,8 +98,9 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        Metadata Object Description Schema (schéma de description objet de métadonnées)
+                        MODS : Metadata Object Description Schema (schéma de description objet de métadonnées)
                     </a>
+                    <br />
                     <br />
                     Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, 
                     afin de les homogénéiser dans le format standard de description de métadonnées MODS (version 3.6).

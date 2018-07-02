@@ -108,8 +108,7 @@ export default class storageHistory extends React.Component {
                             {commaNumber.bindWith('\xa0', '')(this.localStorage[i].size)}
                         </td>
                         <td>{this.localStorage[i].rankBy}</td>
-                        <span className="buttonsHistory">
-                            <td style={{ paddingLeft: '25px' }} className="transparent-td">
+                        <td><span className="buttonsHistory">
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={editTooltip}
@@ -122,8 +121,6 @@ export default class storageHistory extends React.Component {
                                     />
 
                                 </OverlayTrigger>
-                            </td>
-                            <td className="transparent-td">
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={dlTooltip}
@@ -131,12 +128,8 @@ export default class storageHistory extends React.Component {
                                         window.location = `${this.localStorage[i].url}&download=true`;
                                     }}
                                 >
-                                    <i
-                                        role="button" className="fa fa-download"
-                                    />
+                                    <img src="télécharger-noir.png"/>
                                 </OverlayTrigger>
-                            </td>
-                            <td className="transparent-td">
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={shareTooltip}
@@ -153,8 +146,6 @@ export default class storageHistory extends React.Component {
                                     />
                                 </OverlayTrigger>
 
-                            </td>
-                            <td className="transparent-td">
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={removeTooltip}
@@ -172,25 +163,15 @@ export default class storageHistory extends React.Component {
                                         role="button" className="fa fa-remove"
                                     />
                                 </OverlayTrigger>
-                            </td>
-                        </span>
+                        
+                        </span></td>
                     </tr>);
             }
         }
 
         return (
             <div className="history">
-                <Table responsive condensed hover striped>
-                    <thead>
-                        <tr>
-                            {this.columnTab}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.historyTab}
-                    </tbody>
-                </Table>
-                <Button
+            <Button
                     bsStyle="danger"
                     disabled={!storageHistory.getHistory()
                             || storageHistory.getHistory().length === 0}
@@ -202,6 +183,17 @@ export default class storageHistory extends React.Component {
                 >
                 Supprimer l&apos;historique
             </Button>
+                <Table responsive condensed hover striped>
+                    <thead>
+                        <tr>
+                            {this.columnTab}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.historyTab}
+                    </tbody>
+                </Table>
+                
                 <Modal bsSize="small" show={this.state.showConfirm} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Confirmation</Modal.Title>

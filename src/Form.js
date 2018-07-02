@@ -550,8 +550,7 @@ export default class Form extends React.Component {
 
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
-                Pour télécharger indiquez une requête qui renvoie
-                au moins un document et cochez au moins un format de fichier
+                Pour que le téléchargement soit activé,  la fenêtre de requête doit contenir au moins 1 caractère; l’équation saisie au moins 1 document, au moins 1 format de fichier doit être coché
             </Tooltip>
         );
 
@@ -600,7 +599,7 @@ export default class Form extends React.Component {
 
         const enrichmentsDisabledTooltip = (
             <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
-                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
+                Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques, références bibliographiques, termes d\'indexation, entités nommées. Ils seront prochainement téléchargeables
             </Tooltip>
         );
 
@@ -975,6 +974,8 @@ export default class Form extends React.Component {
                                     checkedFormats={this.state.Fulltext}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
+                                    withPopover
+                                    tooltip={enrichmentsDisabledTooltip}
                                 />
                             </span>
                             <span className="otherfileGroup">
@@ -988,6 +989,8 @@ export default class Form extends React.Component {
                                     checkedFormats={this.state.Metadata}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
+                                    withPopover
+                                    tooltip={enrichmentsDisabledTooltip}
                                 />
                                 <Filetype
                                     ref={(instance) => { this.child[2] = instance; }}

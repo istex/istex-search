@@ -71,18 +71,27 @@ export default class Filetype extends React.Component {
             break;
         case 'fulltext':
             this.popoverText =
+                <p>
                 Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
                 des transformations réalisées par ISTEX sur ces documents et de l’utilisation souhaitée pour le corpus.;
+                </p>
+            ;
             break;
         case 'annexes':
             this.popoverText =
+                <p>
                 Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
                 Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.;
+                </p>
+            ;
             break;
         case 'covers':
             this.popoverText =
+                <p>
                 Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
                 est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.;
+                </p>
+            ;
             break;
         case 'enrichments':
             this.popoverText =

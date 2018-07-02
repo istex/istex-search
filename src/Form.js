@@ -543,7 +543,6 @@ export default class Form extends React.Component {
             >
                 Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
                 le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
-                <br />
             </Popover>
         );
 
@@ -552,8 +551,10 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                
-                <br />
+                Si votre corpus dépasse 4 Go, vous ne pourrez
+                ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
+                &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
+                gérer les grandes tailles.
             </Popover>
         );
 
@@ -1150,12 +1151,6 @@ export default class Form extends React.Component {
                             <br />
                             <img src="/img/loader.gif" alt="" />
                         </div>
-
-                        <br />
-                        Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez
-                        ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
-                        &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
-                        gérer les grandes tailles.
                     </Modal.Body>
 
                     <Modal.Footer>

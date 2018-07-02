@@ -471,17 +471,6 @@ export default class Form extends React.Component {
             </Popover>
         );
 
-        const popoverFiletypeHelp = (
-            <Popover
-                id="popover-filetype-help"
-                title={<span> Précision sur les fichiers et formats disponibles {closingButton}</span>}
-            >
-                Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
-                le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
-                <br />
-            </Popover>
-        );
-
         const popoverRequestClassic = (
             <Popover
                 id="popover-request-classic"
@@ -547,13 +536,32 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const popoverFiletypeHelp = (
+            <Popover
+                id="popover-filetype-help"
+                title={<span> Fichiers et types de formats {closingButton}</span>}
+            >
+                Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
+                le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
+                <br />
+            </Popover>
+        );
+
+        const popoverDownloadHelp = (
+            <Popover
+                id="popover-download-help"
+                title={<span> Téléchargement {closingButton}</span>}
+            >
+                
+                <br />
+            </Popover>
+        );
+
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour que le téléchargement soit activé,<br />
-                la fenêtre de requête doit contenir au moins 1 caractère,<br />
-                l’équation saisie doit proposer au moins 1 document,<br />
-                au moins 1 format de fichier doit être coché.
+                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1 caractère, sélectionnez
+                au moins 1 document et cochez au moins 1 format de fichier.
                 </p>
             </Tooltip>
         );
@@ -960,7 +968,6 @@ export default class Form extends React.Component {
                             </div>
                     }
 
-
                     <div className="istex-dl-format row" >
 
                         <div className="col-lg-1" />
@@ -1087,7 +1094,7 @@ export default class Form extends React.Component {
                                     trigger="click"
                                     rootClose
                                     placement="top"
-                                    overlay={popoverFiletypeHelp}
+                                    overlay={popoverDownloadHelp}
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>

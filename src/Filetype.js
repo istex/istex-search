@@ -73,13 +73,13 @@ export default class Filetype extends React.Component {
             break;
         case 'annexes':
             this.popoverText =
-                'Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
-                Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.';
+                Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
+                Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.;
             break;
         case 'covers':
             this.popoverText =
-                'Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
-                est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.';
+                Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
+                est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.;
             break;
         case 'enrichments':
             this.popoverText =

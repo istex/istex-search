@@ -599,10 +599,15 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Limite du nombre de documents {closingButton}</span>}
             >
-                Actuellement, il n’est pas possible de télécharger plus de
+                Actuellement, il n’est pas possible de télécharger plus de<br />
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.<br />
-                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux (notamment pour les formats PDF ou ZIP),
-                elle pourrait s’avérer trop élevée. Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.
+                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux 
+                (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
+                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
+                <br />
+                Si vous réduisez le nombre de documents à extraire, la sélection du mode de tri aléatoire
+                (rubrique suivante) peut vous intéresser.
+                
             </Popover>
         );
 

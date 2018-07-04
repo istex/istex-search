@@ -59,23 +59,55 @@ export default class Filetype extends React.Component {
         );
 
         this.popoverText = '';
-        switch (this.props.filetype) {
-        case 'metadata': this.popoverText = 'Le format JSON est téléchargé par défaut';
+        switch (this.props.filetype.toLowerCase()) {
+        case 'fulltext':
+            this.popoverText =
+                <p>
+                Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
+                des transformations réalisées par ISTEX sur ces documents et de l’utilisation souhaitée pour le corpus.
+                </p>
+            ;
             break;
-        case 'fulltext': this.popoverText = 'Le choix du format de texte intégral est à faire en fonction ' +
-                                            'de l\'utilisation souhaitée du corpus';
+        case 'metadata':
+            this.popoverText =
+                <p>
+                Informations bibliographiques permettant de présenter
+                un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
+                Outre les deux formats proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
+                </p>
+            ;
             break;
-        case 'annexes': this.popoverText = 'Documents textuels, images, vidéos, etc.';
+        case 'annexes':
+            this.popoverText =
+                <p>
+                Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
+                Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.
+                </p>
+            ;
             break;
-        case 'covers': this.popoverText = 'Documents textuels, images, etc.';
+        case 'covers':
+            this.popoverText =
+                <p>
+                Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
+                est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.
+                </p>
+            ;
             break;
-        case 'enrichments': this.popoverText =
-         'Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables';
+        case 'enrichments':
+            this.popoverText =
+                <p>
+                Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques,
+                références bibliographiques, termes d’indexation, entités nommées...
+                <br />
+                Ils seront prochainement téléchargeables.
+                </p>  
+            ;
             break;
-        default: this.popoverText = 'Type de Fichier Non reconnu';
+        default:
+            this.popoverText = 'Type de Fichier Non reconnu';
         }
     }
-/*
+    /*
     componentDidMount() {
         if (this.child.length !== 0) {
             this.verifyChildren(this.props.filetype);
@@ -88,7 +120,7 @@ export default class Filetype extends React.Component {
             }
         }
     }
-*/
+    */
     checkChildren() {
         this.child.forEach((c) => {
             c.check(this);
@@ -241,7 +273,7 @@ export default class Filetype extends React.Component {
                         overlay={
                             <Popover
                                 id={`popover-${this.props.filetype}`}
-                                title={<span>Description {this.props.label}{closingButton}</span>}
+                                title={<span>{this.props.label}{closingButton}</span>}
                             >
                                 {this.popoverText}
                             </Popover>}
@@ -256,7 +288,7 @@ export default class Filetype extends React.Component {
             </FormGroup>
         );
     }
-    }
+}
 
 Filetype.propTypes = {
     label: PropTypes.string.isRequired,

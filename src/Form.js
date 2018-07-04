@@ -6,8 +6,8 @@ import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-        Tooltip, HelpBlock, FormGroup, FormControl,
-        Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
+    Tooltip, HelpBlock, FormGroup, FormControl,
+    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -127,37 +127,37 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         this.istexDlXhr = $.get(ISTEX.href)
-        .done((json) => {
-            const { total } = json;
-            let size;
-            if (!total || total === 0) {
-                size = 5000;
-            } else if (sizeParam <= this.state.limitNbDoc) {
-                if (sizeParam > total) {
-                    size = total;
+            .done((json) => {
+                const { total } = json;
+                let size;
+                if (!total || total === 0) {
+                    size = 5000;
+                } else if (sizeParam <= this.state.limitNbDoc) {
+                    if (sizeParam > total) {
+                        size = total;
+                    } else {
+                        size = sizeParam;
+                    }
                 } else {
-                    size = sizeParam;
+                    size = this.state.limitNbDoc;
                 }
-            } else {
-                size = this.state.limitNbDoc;
-            }
-            return this.setState({
-                size,
-                total: total || 0,
+                return this.setState({
+                    size,
+                    total: total || 0,
+                });
+            }).fail((err) => {
+                if (err.status >= 500) {
+                    return self.setState({ errorServer: 'Error server TODO ...' });
+                }
+                if (err.status >= 400 && err.status < 500) {
+                    return this.setState({ errorRequestSyntax: err.responseJSON._error });
+                }
+                return null;
+            },
+            )
+            .always(() => {
+                this.istexDlXhr = null;
             });
-        }).fail((err) => {
-            if (err.status >= 500) {
-                return self.setState({ errorServer: 'Error server TODO ...' });
-            }
-            if (err.status >= 400 && err.status < 500) {
-                return this.setState({ errorRequestSyntax: err.responseJSON._error });
-            }
-            return null;
-        },
-        )
-        .always(() => {
-            this.istexDlXhr = null;
-        });
     }
 
     transformIDorARK() {
@@ -166,15 +166,15 @@ export default class Form extends React.Component {
                 const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
                 const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
                 const res = prefix
-                            .concat('("')
-                            .concat(this.state.querywithIDorARK.replace(new RegExp(prefix, 'g'), ''))
-                            .concat('")');
+                    .concat('("')
+                    .concat(this.state.querywithIDorARK.replace(new RegExp(prefix, 'g'), ''))
+                    .concat('")');
                 return res.replace(new RegExp('\n', 'g'), '" "');
             }
             return 'id:('
-                    .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
-                    .concat(')')
-                    .replace(new RegExp(',', 'g'), ' ');
+                .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
+                .concat(')')
+                .replace(new RegExp(',', 'g'), ' ');
         }
         return '';
     }
@@ -285,8 +285,8 @@ export default class Form extends React.Component {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
         const name = 'extract'
-        .concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1))
-        .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
+            .concat(filetype.charAt(0).toUpperCase()).concat(filetype.slice(1))
+            .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
         this.setState({
             [name]: formatEvent.value,
         });
@@ -356,30 +356,30 @@ export default class Form extends React.Component {
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL('https://api.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
-        .filter(key => key.startsWith('extract'))
-        .filter(key => this.state[key])
-        .map(key => decamelize(key, '-'))
-        .map(key => key.split('-').slice(1))
-        .map(([filetype, format]) => ({ filetype, format }))
-        .reduce((prev, { filetype, format }) => {
-            if (!prev[filetype]) {
-                prev[filetype] = [format];
-            } else {
-                prev[filetype].push(format);
-            }
-            return prev;
-        }, {});
+            .filter(key => key.startsWith('extract'))
+            .filter(key => this.state[key])
+            .map(key => decamelize(key, '-'))
+            .map(key => key.split('-').slice(1))
+            .map(([filetype, format]) => ({ filetype, format }))
+            .reduce((prev, { filetype, format }) => {
+                if (!prev[filetype]) {
+                    prev[filetype] = [format];
+                } else {
+                    prev[filetype].push(format);
+                }
+                return prev;
+            }, {});
         const extract = Object.keys(filetypeFormats)
-        .reduce((prev, filetype) => {
-            const formats = filetypeFormats[filetype];
-            return prev
-            .concat(filetype)
-            .concat(formats[0] || formats.length > 1 ? '[' : '')
-            .concat(!formats[0] ? formats.slice(1) : formats)
-            .concat(formats[0] || formats.length > 1 ? '];' : ';');
-        }
-        , '')
-        .slice(0, -1);
+            .reduce((prev, filetype) => {
+                const formats = filetypeFormats[filetype];
+                return prev
+                    .concat(filetype)
+                    .concat(formats[0] || formats.length > 1 ? '[' : '')
+                    .concat(!formats[0] ? formats.slice(1) : formats)
+                    .concat(formats[0] || formats.length > 1 ? '];' : ';');
+            }
+                , '')
+            .slice(0, -1);
         if (this.state.activeKey === '1') {
             ISTEX.searchParams.set('q', query || this.state.q);
         } else {
@@ -399,8 +399,8 @@ export default class Form extends React.Component {
         this.child.forEach((c) => {
             if (!c.props.disabled) {
                 const name = 'extract'
-                .concat(c.props.filetype.charAt(0).toUpperCase())
-                .concat(c.props.filetype.slice(1));
+                    .concat(c.props.filetype.charAt(0).toUpperCase())
+                    .concat(c.props.filetype.slice(1));
                 c.uncheckCurrent(name);
             }
         });
@@ -446,8 +446,8 @@ export default class Form extends React.Component {
 
     isDownloadDisabled() {
         const filetypeFormats = Object.keys(this.state)
-        .filter(key => key.startsWith('extract'))
-        .filter(key => this.state[key]);
+            .filter(key => key.startsWith('extract'))
+            .filter(key => this.state[key]);
         return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
@@ -464,37 +464,23 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
-            Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-            proposés sur la droite (icône ampoule).
-            Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+                Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
+                proposés sur la droite (icône &quot;ampoule&quot;).
+                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
         );
 
-        const popoverFiletypeHelp = (
-            <Popover
-                id="popover-filetype-help"
-                title={<span> Insérer titre {closingButton}</span>}
-            >
-              Insérer texte
-                <br />
-            </Popover>
-        );
         const popoverRequestClassic = (
             <Popover
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-                Pour élaborer votre équation de recherche de mode classique, vous pouvez
-                vous aider du démonstrateur ISTEX, de la documentation ISTEX ou des exemples
-                mis à disposition via le bouton &quot;Exemples&quot;.
+                Pour élaborer votre équation de recherche de type classique, vous pouvez
+                vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
+                de la <a href="https://doc.istex.fr/tdm/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
+                mis à votre disposition via le bouton &quot;Exemples&quot;.
             </Popover>
-        );
-
-        const examplesTooltip = (
-            <Tooltip data-html="true" id="resetTooltip">
-                Testez des exemples de requête
-            </Tooltip>
         );
 
         const popoverRequestARK = (
@@ -504,8 +490,14 @@ export default class Form extends React.Component {
             >
                 Copier/coller une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
                 l&apos;interprétera automatiquement.
-                Un exemple est disponible dans la liste du bouton &quot;Exemples&quot;.
+                Un modèle est disponible via le bouton &quot;Exemples&quot;.
             </Popover>
+        );
+
+        const examplesTooltip = (
+            <Tooltip data-html="true" id="resetTooltip">
+                Testez des exemples de requête
+            </Tooltip>
         );
 
         const shareTooltip = (
@@ -519,9 +511,10 @@ export default class Form extends React.Component {
                 Réinitialisez votre requête (les formulaires de cette page seront vidés)
             </Tooltip>
         );
+
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Accédez à l&apos;historique de vos téléchargements
+                Accédez à l&apos;historique de vos téléchargements (maximum 30)
             </Tooltip>
         );
 
@@ -543,12 +536,50 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
+        const popoverFiletypeHelp = (
+            <Popover
+                id="popover-filetype-help"
+                title={<span> Fichiers et types de formats {closingButton}</span>}
+            >
+                Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
+                le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
+            </Popover>
+        );
+
+        const popoverDownloadHelp = (
+            <Popover
+                id="popover-download-help"
+                title={<span> Téléchargement {closingButton}</span>}
+            >
+                Si votre corpus dépasse 4 Go, vous ne pourrez pas
+                ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
+                &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
+                gérer les grandes tailles.
+            </Popover>
+        );
+
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
-                Pour télécharger indiquez une requête qui renvoie
-                au moins un document et cochez au moins un format de fichier
+                <p>
+                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1&nbsp;caractère, sélectionnez
+                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier.
+                </p>
             </Tooltip>
         );
+
+        const popoverCharacterLimitHelp = (
+            <Popover
+                id="popover-character-limit-help"
+                title={<span> Limite de la longueur des requêtes {closingButton}</span>}
+            >
+                <p>
+                    Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
+                    Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
+                    Pour le navigateur Edge, la limite est de 1&nbsp;650 de caractères.
+                </p>
+            </Popover>
+        );
+
         const popoverRequestLimitWarning = (
             <Popover
                 id="popover-request-limit-warning"
@@ -558,24 +589,48 @@ export default class Form extends React.Component {
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
-                documents,classés par ordre de pertinence, (sur les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels)
+                documents sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
             </Popover>
         );
 
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                title={<span> Limite temporaire {closingButton}</span>}
+                title={<span> Limite du nombre de documents {closingButton}</span>}
             >
-                Aujourd’hui, il n’est pas possible de télécharger plus de&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} documents.
-                L’<a href="mailto:contact@listes.istex.fr">équipe ISTEX</a> travaille à augmenter cette limite.
+                Actuellement, il n’est pas possible de télécharger plus de<br />
+                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.<br />
+                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux 
+                (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
+                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
+                <br />
+                Si vous réduisez le nombre de documents à extraire, la sélection du mode de tri aléatoire
+                (rubrique suivante) peut vous intéresser.
+                
             </Popover>
         );
-        const enrichmentsDisabledTooltip = (
-            <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
-                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
+
+        const popoverChoiceHelp = (
+            <Popover
+                id="popover-choice-help"
+                title={<span> Choix du mode de tri {closingButton}</span>}
+            >
+                En fonction de votre sélection, les résultats de votre requête seront triés par
+                ordre de pertinence ou de manière aléatoire.
+                Par défaut, c’est l’ordre de pertinence qui est privilégié.
+            </Popover>
+        );
+
+        const fulltextTooltip = (
+            <Tooltip data-html="true" id="fulltextTooltip">
+                Texte intégral
+            </Tooltip>
+        );
+
+        const metadataTooltip = (
+            <Tooltip data-html="true" id="metadataTooltip">
+                Métadonnées
             </Tooltip>
         );
 
@@ -585,14 +640,20 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const emptyTooltip = (
-            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
-        );
-
         const appendicesTooltip = (
             <Tooltip data-html="true" id="appendicesTooltip">
                 Documents textuels, images, vidéos, etc.
             </Tooltip>
+        );
+
+        const enrichmentsDisabledTooltip = (
+            <Tooltip data-html="true" id="enrichmentsDisabledTooltip">
+                Les différents enrichissements proposés dans ISTEX seront prochainement téléchargeables
+            </Tooltip>
+        );
+
+        const emptyTooltip = (
+            <Tooltip id="empty-tooltip" style={{ display: 'none' }} />
         );
 
         this.updateUrlAndLocalStorage();
@@ -618,9 +679,12 @@ export default class Form extends React.Component {
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                                    &nbsp;
+                                &nbsp;
                             </h2>
-                            <p>Formulez ci-dessous l’équation qui décrit le corpus souhaité :</p>
+                            <p>
+                                Explicitez ci-dessous l’équation ou la liste d’identifiants
+                                qui décrit le corpus souhaité :
+                            </p>
                             <div className="form-group">
                                 <FormGroup
                                     controlId="formBasicText"
@@ -660,23 +724,39 @@ export default class Form extends React.Component {
                                     <Textarea
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
-                                                        ? 'brain AND language:fre'
-                                                        : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
-                                                    }
+                                                ? 'brain AND language:fre'
+                                                : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
+                                        }
                                         name="q"
                                         id={`area-${this.state.activeKey}`}
                                         rows="3"
                                         autoFocus="true"
                                         value={this.state.activeKey === '1'
-                                                        ? this.state.q
-                                                        : this.state.querywithIDorARK
-                                                    }
+                                                ? this.state.q
+                                                : this.state.querywithIDorARK
+                                        }
                                         onChange={this.handleQueryChange}
                                     />
-
-                                    <HelpBlock>Nombre de caractères restants&nbsp;: {
-                                        commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
-                                    }
+                                    <HelpBlock>
+                                        Nombre de caractères restants&nbsp;
+                                        &nbsp;
+                                        <OverlayTrigger
+                                            trigger="click"
+                                            rootClose
+                                            placement="right"
+                                            overlay={popoverCharacterLimitHelp}
+                                        >
+                                            <i
+                                                id="characterLimitHelpInfo"
+                                                role="button"
+                                                className="fa fa-info-circle"
+                                                aria-hidden="true"
+                                            />
+                                        </OverlayTrigger>
+                                        &nbsp;
+                                        : {
+                                            commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
+                                        }
                                         <FormControl.Feedback
                                             style={{
                                                 position: 'relative',
@@ -686,30 +766,27 @@ export default class Form extends React.Component {
                                             }}
                                         />
                                     </HelpBlock>
-
                                 </FormGroup>
                             </div>
-
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                                <p>
-                                    L’équation saisie correspond à
-                                    &nbsp;
-                                    <OverlayTrigger placement="bottom" overlay={previewTooltip}>
-                                        <a>
-                                            {this.state.total ?
-                                             commaNumber.bindWith('\xa0', '')(this.state.total)
-                                            .concat(' documents')
-                                            : ''}
-                                        </a>
-                                    </OverlayTrigger>
-                                    &nbsp;
-                                    {this.state.total > this.state.limitNbDoc &&
+                            <p>
+                                L’équation saisie correspond à
+                                &nbsp;
+                                <OverlayTrigger placement="bottom" overlay={previewTooltip}>
+                                    <a>
+                                        {this.state.total ?
+                                                commaNumber.bindWith('\xa0', '')(this.state.total)
+                                                .concat(' documents')
+                                                : ''}
+                                    </a>
+                                </OverlayTrigger>
+                                &nbsp;
+                                {this.state.total > this.state.limitNbDoc &&
                                     <OverlayTrigger
                                         trigger="click"
                                         rootClose
                                         placement="right"
                                         overlay={popoverRequestLimitWarning}
-
                                     >
                                         <i
                                             role="button"
@@ -718,8 +795,8 @@ export default class Form extends React.Component {
                                             style={{ color: 'red', marginLeft: '8px' }}
                                         />
                                     </OverlayTrigger>
-                                    }
-                                </p>
+                                }
+                            </p>
                             }
 
                             <div className="form-group">
@@ -761,7 +838,23 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents :
+                                Choisir les documents triés
+                                &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="right"
+                                    overlay={popoverChoiceHelp}
+                                >
+                                    <i
+                                        id="choiceHelpInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
+                                </OverlayTrigger>
+                                &nbsp;
+                                :
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio
@@ -792,16 +885,34 @@ export default class Form extends React.Component {
                                 overlay={examplesTooltip}
                                 onClick={() => this.setState({ showModalExemple: true })}
                             >
-                                <div className="select-button" id="exampleButton"><div><i role="button" className="fa fa-lightbulb-o" aria-hidden="true"></i></div><p>Exemples</p></div>
+                                <div className="select-button" id="exampleButton">
+                                    <div>
+                                        <i
+                                            role="button"
+                                            className="fa fa-lightbulb-o"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                    <p>
+                                        Exemples
+                                    </p>
+                                </div>
                             </OverlayTrigger>
                             <OverlayTrigger
                                 placement="right"
                                 overlay={resetTooltip}
                                 onClick={() => this.erase()}
                             >
-                                <div className="select-button"><div><i role="button" className="fa fa-eraser" aria-hidden="true"></i></div><p>Réinitialiser</p></div>
+                                <div className="select-button">
+                                    <div>
+                                        <i role="button" className="fa fa-eraser" aria-hidden="true" />
+                                    </div>
+                                    <p>
+                                        Réinitialiser
+                                    </p>
+                                </div>
                             </OverlayTrigger>
-                            
+
                             <OverlayTrigger
                                 placement="right"
                                 overlay={reloadTooltip}
@@ -809,7 +920,7 @@ export default class Form extends React.Component {
                             >
                                 <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
                             </OverlayTrigger>
-                            
+
                             <OverlayTrigger
                                 placement="right"
                                 overlay={historyTooltip}
@@ -821,7 +932,7 @@ export default class Form extends React.Component {
                             >
                                 <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
                             </OverlayTrigger>
-                           
+
                             <OverlayTrigger
                                 rootClose
                                 placement="right"
@@ -834,37 +945,36 @@ export default class Form extends React.Component {
                             >
                                 <div className="select-button"><div><i role="button" className="fa fa-link" aria-hidden="true"></i></div><p>Partager</p></div>
                             </OverlayTrigger>
-                            
+
                         </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&
-                        <div className="istex-dl-error-request row">
-                            <div className="col-lg-1" />
-                            <div className="col-lg-7">
-                                <p>
-                                    Erreur de syntaxe dans votre requête &nbsp;
-                                    <OverlayTrigger
-                                        trigger="click"
-                                        rootClose
-                                        placement="top"
-                                        overlay={popoverRequestHelp}
+                            <div className="istex-dl-error-request row">
+                                <div className="col-lg-1" />
+                                <div className="col-lg-7">
+                                    <p>
+                                        Erreur de syntaxe dans votre requête &nbsp;
+                                        <OverlayTrigger
+                                            trigger="click"
+                                            rootClose
+                                            placement="top"
+                                            overlay={popoverRequestHelp}
+                                        >
+                                            <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                        </OverlayTrigger>
+                                        <br />
+                                    </p>
+                                    <blockquote
+                                        className="blockquote-Syntax-error"
                                     >
-                                        <i role="button" className="fa fa-info-circle" aria-hidden="true" />
-                                    </OverlayTrigger>
-                                    <br />
-                                </p>
-                                <blockquote
-                                    className="blockquote-Syntax-error"
-                                >
-                                    {this.state.errorRequestSyntax}
-                                </blockquote>
+                                        {this.state.errorRequestSyntax}
+                                    </blockquote>
+                                </div>
+
+                                <div className="col-lg-3" />
                             </div>
-
-                            <div className="col-lg-3" />
-                        </div>
                     }
-
 
                     <div className="istex-dl-format row" >
 
@@ -881,22 +991,22 @@ export default class Form extends React.Component {
                                     />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                        <Button
-                                            onClick={() => {
-                                                this.setState({
-                                                    showHistory: false,
-                                                });
-                                            }}
-                                        >
-                                            Fermer
-                                        </Button>
+                                    <Button
+                                        onClick={() => {
+                                            this.setState({
+                                                showHistory: false,
+                                            });
+                                        }}
+                                    >
+                                        Fermer
+                                    </Button>
                                 </Modal.Footer>
                             </Modal>
-                            <br/>
+                            <br />
                             <h2>
-                            <span className="num-etape">&nbsp;2.&nbsp;</span>
+                                <span className="num-etape">&nbsp;2.&nbsp;</span>
                                 Formats et types de fichiers
-                                  &nbsp;
+                                &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -920,6 +1030,8 @@ export default class Form extends React.Component {
                                     checkedFormats={this.state.Fulltext}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
+                                    withPopover
+                                    tooltip={fulltextTooltip}
                                 />
                             </span>
                             <span className="otherfileGroup">
@@ -933,6 +1045,8 @@ export default class Form extends React.Component {
                                     checkedFormats={this.state.Metadata}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
+                                    withPopover
+                                    tooltip={metadataTooltip}
                                 />
                                 <Filetype
                                     ref={(instance) => { this.child[2] = instance; }}
@@ -977,22 +1091,22 @@ export default class Form extends React.Component {
                         <div className="col-lg-3" />
                     </div>
 
-                    
+
                     <div className="istex-dl-download row">
                         <div className="col-lg-1" />
                         <div className="col-lg-7 text-center">
-                          <h2>
-                            <span className="num-etape">&nbsp;3.&nbsp;</span>
-                            Télécharger
-                            <OverlayTrigger
+                            <h2>
+                                <span className="num-etape">&nbsp;3.&nbsp;</span>
+                                Télécharger
+                                <OverlayTrigger
                                     trigger="click"
                                     rootClose
                                     placement="top"
-                                    overlay={popoverFiletypeHelp}
+                                    overlay={popoverDownloadHelp}
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                          </h2>
+                            </h2>
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
@@ -1001,8 +1115,7 @@ export default class Form extends React.Component {
                                     type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
-                                >
-                                </button>
+                                />
                             </OverlayTrigger>
                         </div>
                         <div className="col-lg-3" />
@@ -1041,16 +1154,10 @@ export default class Form extends React.Component {
                     <Modal.Body>
                         <div className="text-center">
                             La génération de votre corpus est en cours.<br />
-                        Veuillez patienter. L’archive sera bientôt téléchargée...
-                        <br />
+                            Veuillez patienter. L’archive sera bientôt téléchargée...
+                            <br />
                             <img src="/img/loader.gif" alt="" />
                         </div>
-
-                        <br />
-                        Info utilisateurs : Si votre corpus dépasse 4 Go, vous ne pourrez
-                        ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
-                        &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
-                        gérer les grandes tailles.
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -1102,7 +1209,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                       d&apos;interroger l&apos;API Istex en utilisant...
+                        d&apos;interroger l&apos;API Istex en utilisant...
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger
@@ -1179,7 +1286,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et des expressions régulières (exemple bis)
+                             des mots-clés et des expressions régulières (exemple bis)
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

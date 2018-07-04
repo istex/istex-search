@@ -75,7 +75,130 @@ export default class Format extends React.Component {
     render() {
         let tooltipText = '';
         if (this.props.withPopover) {
-            switch (this.props.label) {
+            switch (this.props.label.toLowerCase()) {
+            case 'pdf': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---pdf--portable-document-format-format-de-document-portable"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        PDF : Portable Document Format (format de document portable)
+                    </a> 
+                    <br />
+                    Fichier original fourni par l&apos;éditeur.
+                </p>
+                );
+                break;
+            case 'tei': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---tei--text-encoding-initiative-initiative-pour-lencodage-du-texte"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        TEI : Text Encoding Initiative (initiative pour l’encodage du texte)
+                    </a> 
+                    <br />
+                    Fichier XML produit par ISTEX selon les guidelines P5 du format TEI qui sert de format pivot.
+                    Ces fichiers XML TEI sont produits à partir des XML originaux fournis par l’éditeur et peuvent
+                    dans ce cas bénéficier d’une structuration fine du texte. Dans le cas où l’éditeur ne fournit
+                    pas de XML, les fichiers XML TEI sont générés à partir du PDF via une transformation PDF-to-Text
+                    et une injection du texte brut non structuré dans la balise &quot;body&quot;.
+                </p>
+                );
+                break;
+            case 'txt': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---txt--text"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        TXT : Text
+                    </a> 
+                    <br />
+                    Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide
+                    du logiciel PDF-to-Text.
+                </p>
+                );
+                break;
+            case 'ocr': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---ocr--optical-character-recognition-reconnaissance-optique-de-caract%C3%A8res"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        OCR : Optical Character Recognition (reconnaissance optique de caractères)
+                    </a> 
+                    <br />
+                    Fichier produit par ISTEX grâce à une chaîne de réocérisation basée sur l’outil Tesseract
+                    qui fonctionne par reconnaissance optique de caractères. Cette chaîne permet d’améliorer
+                    la qualité des documents originaux dont le texte est absent (PDF image) ou non exploitable
+                    (problèmes de reconnaissance de caractères). Lorsqu’il est disponible, ce fichier OCR doit
+                    être utilisé à la place du fichier TXT. 
+                </p>
+                );
+                break;
+            case 'zip': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---zip"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ZIP
+                    </a> 
+                    <br />
+                    Répertoire compressé contenant, pour chaque document du corpus, les fichiers fournis
+                    par l’éditeur (PDF, XML structuré, images, couvertures, annexes), ainsi que le JSON produit par ISTEX.
+                </p>
+                );
+                break;
+            case 'tiff': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---tiff--tagged-image-file-format-format-de-fichier-dimage-%C3%A9tiquet%C3%A9"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        TIFF : Tagged Image File Format (format de fichier d’image étiqueté)
+                    </a> 
+                    <br />
+                    Fichier original fourni par l’éditeur sous format image (uniquement pour les ressources EBBO et ECCO).
+                </p>
+                );
+                break;
+            case 'xml': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---xml--extensible-markup-language-langage-de-balisage-extensible"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        XML : Extensible Markup Language (langage de balisage extensible)
+                    </a> 
+                    <br />
+                    Fichier original fourni par l&apos;éditeur selon une DTD propre.
+                </p>
+                );
+                break;
+            case 'mods': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---mods--metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        MODS : Metadata Object Description Schema (schéma de description objet de métadonnées)
+                    </a>
+                    <br />
+                    Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, 
+                    afin de les homogénéiser dans le format standard de description de métadonnées MODS (version&nbsp;3.6).
+                </p>
+                );
+                break;
             case 'nb': tooltipText = (
                 <p>
                     <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a> des bases Pascal et Francis,
@@ -92,16 +215,16 @@ export default class Format extends React.Component {
                 </p>
                 );
                 break;
+            case 'refbibs': tooltipText = (
+                <p>
+                    Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
+                </p>
+                );
+                break;
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil&nbsp;
                      <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>.
-                </p>
-                );
-                break;
-            case 'refBibs': tooltipText = (
-                <p>
-                    Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
                 </p>
                 );
                 break;

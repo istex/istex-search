@@ -65,6 +65,14 @@ export default class Filetype extends React.Component {
                 <p>
                 Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
                 des transformations réalisées par ISTEX sur ces documents et de l’utilisation souhaitée pour le corpus.
+                <br />
+                Voir 
+                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-intégral"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        documentation ISTEX
+                    </a>
                 </p>
             ;
             break;
@@ -74,6 +82,14 @@ export default class Filetype extends React.Component {
                 Informations bibliographiques permettant de présenter
                 un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
                 Outre les deux formats proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
+                <br />
+                Voir 
+                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#métadonnées"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        documentation ISTEX
+                    </a>
                 </p>
             ;
             break;
@@ -82,6 +98,14 @@ export default class Filetype extends React.Component {
                 <p>
                 Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
                 Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.
+                <br />
+                Voir 
+                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        documentation ISTEX
+                    </a>
                 </p>
             ;
             break;
@@ -90,6 +114,14 @@ export default class Filetype extends React.Component {
                 <p>
                 Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
                 est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.
+                <br />
+                Voir 
+                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        documentation ISTEX
+                    </a>
                 </p>
             ;
             break;
@@ -100,6 +132,14 @@ export default class Filetype extends React.Component {
                 références bibliographiques, termes d’indexation, entités nommées...
                 <br />
                 Ils seront prochainement téléchargeables.
+                <br />
+                Voir 
+                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        documentation ISTEX
+                    </a>
                 </p>  
             ;
             break;

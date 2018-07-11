@@ -83,7 +83,7 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        PDF : Portable Document Format (format de document portable)
+                        PDF : Portable Document Format
                     </a> 
                     <br />
                     Fichier original fourni par l&apos;éditeur.
@@ -97,14 +97,11 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        TEI : Text Encoding Initiative (initiative pour l’encodage du texte)
+                        TEI : Text Encoding Initiative
                     </a> 
                     <br />
-                    Fichier XML produit par ISTEX selon les guidelines P5 du format TEI qui sert de format pivot.
-                    Ces fichiers XML TEI sont produits à partir des XML originaux fournis par l’éditeur et peuvent
-                    dans ce cas bénéficier d’une structuration fine du texte. Dans le cas où l’éditeur ne fournit
-                    pas de XML, les fichiers XML TEI sont générés à partir du PDF via une transformation PDF-to-Text
-                    et une injection du texte brut non structuré dans la balise &quot;body&quot;.
+                    Fichier XML produit par ISTEX selon les guidelines P5 du format TEI, soit à partir des XML originaux
+                    fournis par l’éditeur, soit à partir du PDF via une transformation PDF to Text.
                 </p>
                 );
                 break;
@@ -119,7 +116,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide
-                    du logiciel PDF-to-Text.
+                    du logiciel PDF to Text.
                 </p>
                 );
                 break;
@@ -130,14 +127,12 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        OCR : Optical Character Recognition (reconnaissance optique de caractères)
+                        OCR : Optical Character Recognition
                     </a> 
                     <br />
-                    Fichier produit par ISTEX grâce à une chaîne de réocérisation basée sur l’outil Tesseract
-                    qui fonctionne par reconnaissance optique de caractères. Cette chaîne permet d’améliorer
-                    la qualité des documents originaux dont le texte est absent (PDF image) ou non exploitable
-                    (problèmes de reconnaissance de caractères). Lorsqu’il est disponible, ce fichier OCR doit
-                    être utilisé à la place du fichier TXT. 
+                    Fichier produit par ISTEX grâce à une chaîne de réocérisation qui fonctionne par reconnaissance
+                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser à la place
+                    du fichier TXT lorsqu’il est disponible.
                 </p>
                 );
                 break;
@@ -163,7 +158,7 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        TIFF : Tagged Image File Format (format de fichier d’image étiqueté)
+                        TIFF : Tagged Image File Format
                     </a> 
                     <br />
                     Fichier original fourni par l’éditeur sous format image (uniquement pour les ressources EBBO et ECCO).
@@ -177,7 +172,7 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        XML : Extensible Markup Language (langage de balisage extensible)
+                        XML : Extensible Markup Language
                     </a> 
                     <br />
                     Fichier original fourni par l&apos;éditeur selon une DTD propre.
@@ -191,11 +186,10 @@ export default class Format extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        MODS : Metadata Object Description Schema (schéma de description objet de métadonnées)
+                        MODS : Metadata Object Description Schema
                     </a>
                     <br />
-                    Fichier XML produit par ISTEX à partir d’une transformation des XML originaux, 
-                    afin de les homogénéiser dans le format standard de description de métadonnées MODS (version&nbsp;3.6).
+                    Fichier XML standardisé produit par ISTEX à partir d’une transformation des XML originaux. 
                 </p>
                 );
                 break;

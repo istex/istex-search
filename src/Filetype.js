@@ -129,9 +129,9 @@ export default class Filetype extends React.Component {
             this.popoverText =
                 <p>
                 Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques,
-                références bibliographiques, termes d’indexation, entités nommées...
+                références bibliographiques structurées, termes d’indexation, entités nommées...
                 <br />
-                Ils seront prochainement téléchargeables.
+                Le téléchargement différencié de chaque type n'est pas encore disponible.
                 <br />
                 Voir 
                     <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"

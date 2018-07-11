@@ -83,11 +83,11 @@ export default class Filetype extends React.Component {
                 un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
                 Outre les deux formats proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
                 <br />
-                Voir 
-                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#métadonnées"
+                Voir <a 
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#métadonnées"
                         target="_blank"
                         rel="noopener noreferrer"
-                    >
+                        >
                         documentation ISTEX
                     </a>
                 </p>
@@ -131,13 +131,12 @@ export default class Filetype extends React.Component {
                 Les différents enrichissements proposés dans ISTEX sont de plusieurs types : catégories scientifiques,
                 références bibliographiques structurées, termes d’indexation, entités nommées...
                 <br />
-                Le téléchargement différencié de chaque type n'est pas encore disponible.
+                Le téléchargement différencié de chaque type d'enrichissement n'est pas encore disponible.
                 <br />
-                Voir 
-                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
+                Voir <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
                         target="_blank"
                         rel="noopener noreferrer"
-                    >
+                        >
                         documentation ISTEX
                     </a>
                 </p>  

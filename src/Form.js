@@ -601,13 +601,13 @@ export default class Form extends React.Component {
             >
                 Actuellement, il n’est pas possible de télécharger plus de<br />
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.<br />
-                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux 
+                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
                 (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
                 Si vous réduisez le nombre de documents à extraire, la sélection du mode de tri aléatoire
                 (rubrique suivante) peut vous intéresser.
-                
+
             </Popover>
         );
 
@@ -796,6 +796,11 @@ export default class Form extends React.Component {
                                         />
                                     </OverlayTrigger>
                                 }
+                            </p>
+                            }
+                            {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
+                            <p>
+                                L’équation saisie correspond à 0 document
                             </p>
                             }
 
@@ -1081,7 +1086,6 @@ export default class Form extends React.Component {
                                     value={this.state.extractEnrichments}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
-                                    disabled
                                     withPopover
                                     tooltip={enrichmentsDisabledTooltip}
                                 />

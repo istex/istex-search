@@ -66,11 +66,11 @@ export default class Filetype extends React.Component {
                 Le choix du format de texte intégral est à faire en fonction de l’origine des documents,
                 des transformations réalisées par ISTEX sur ces documents et de l’utilisation souhaitée pour le corpus.
                 <br />
-                Voir 
-                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-intégral"
+                Voir <a 
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-intégral"
                         target="_blank"
                         rel="noopener noreferrer"
-                    >
+                       >
                         documentation ISTEX
                     </a>
                 </p>
@@ -99,11 +99,11 @@ export default class Filetype extends React.Component {
                 Fichiers originaux parfois fournis par l’éditeur pour accompagner et compléter le texte intégral.
                 Ils peuvent être de plusieurs types : textes, tableurs, diaporamas, images, vidéos, multimédias, etc.
                 <br />
-                Voir 
-                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes"
+                Voir <a 
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes"
                         target="_blank"
                         rel="noopener noreferrer"
-                    >
+                       >
                         documentation ISTEX
                     </a>
                 </p>
@@ -115,11 +115,11 @@ export default class Filetype extends React.Component {
                 Fichiers originaux parfois fournis par l’éditeur pour présenter la couverture de la revue dans laquelle
                 est publié le document. Ils peuvent être de plusieurs types : documents textuels, images, pages web, etc.
                 <br />
-                Voir 
-                    <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures"
+                Voir <a 
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures"
                         target="_blank"
                         rel="noopener noreferrer"
-                    >
+                       >
                         documentation ISTEX
                     </a>
                 </p>

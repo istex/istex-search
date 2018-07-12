@@ -131,8 +131,8 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier produit par ISTEX grâce à une chaîne de réocérisation qui fonctionne par reconnaissance
-                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser à la place
-                    du fichier TXT lorsqu’il est disponible.
+                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser s'il est disponible à la place
+                    du fichier TXT.
                 </p>
                 );
                 break;

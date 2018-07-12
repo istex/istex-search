@@ -948,7 +948,19 @@ export default class Form extends React.Component {
                                     }
                                 }}
                             >
-                                <div className="select-button"><div><i role="button" className="fa fa-link" aria-hidden="true"></i></div><p>Partager</p></div>
+                                <div
+                                    className="btn select-button"
+                                    disabled={this.isDownloadDisabled()}
+                                >
+                                    <div>
+                                        <i
+                                            role="button"
+                                            className="fa fa-link"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                    <p>Partager</p>
+                                </div>
                             </OverlayTrigger>
 
                         </div>

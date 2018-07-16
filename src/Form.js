@@ -550,7 +550,6 @@ export default class Form extends React.Component {
                         documentation ISTEX.
                     </a>
                 <br />
-                <br />
                 Attention : certains formats ou types de fichiers peuvent ne pas être disponibles pour
                 le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
             </Popover>

@@ -541,11 +541,11 @@ export default class Form extends React.Component {
                 id="popover-filetype-help"
                 title={<span> Fichiers et types de formats {closingButton}</span>}
             >
-                Les formats et types de fichiers sont décrits dans la 
-                    <a 
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                Les formats et types de fichiers sont décrits dans 
+                la <a 
+                    href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
                        >
                         documentation ISTEX.
                     </a>

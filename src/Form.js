@@ -547,7 +547,7 @@ export default class Form extends React.Component {
                         target="_blank"
                         rel="noopener noreferrer"
                        >
-                        documentation ISTEX
+                        documentation ISTEX.
                     </a>
                 <br />
                 Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour

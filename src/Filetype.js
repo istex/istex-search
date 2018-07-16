@@ -132,7 +132,7 @@ export default class Filetype extends React.Component {
                 références bibliographiques structurées, termes d’indexation, entités nommées.
                 <br />
                 Actuellement, tous les enrichissements sont téléchargés quelle que soit la sélection opérée.
-                Le téléchargement différencié de chaque type d'enrichissement n’est pas encore disponible.
+                Le téléchargement différencié de chaque type d’enrichissement n’est pas encore disponible.
                 <br />
                 Voir <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
                         target="_blank"

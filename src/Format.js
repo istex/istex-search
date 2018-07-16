@@ -204,7 +204,7 @@ export default class Format extends React.Component {
             case 'multicat': tooltipText = (
                 <p>
                     Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science Metrix</a>,&nbsp;
-                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web Science</a>, attribuées aux documents Istex par appariement via
+                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a>, attribuées aux documents Istex par appariement via
                     l’outil multicat.
                 </p>
                 );

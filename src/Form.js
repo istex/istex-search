@@ -539,9 +539,9 @@ export default class Form extends React.Component {
         const popoverFiletypeHelp = (
             <Popover
                 id="popover-filetype-help"
-                title={<span> Fichiers et types de formats {closingButton}</span>}
+                title={<span> Formats et types de fichiers {closingButton}</span>}
             >
-                Les formats et types de fichiers sont décrits dans 
+                Les différents formats et types de fichiers sont décrits dans 
                 la <a 
                     href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
                     target="_blank"
@@ -550,7 +550,8 @@ export default class Form extends React.Component {
                         documentation ISTEX.
                     </a>
                 <br />
-                Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
+                <br />
+                Attention : certains formats ou types de fichiers peuvent ne pas être disponibles pour
                 le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
             </Popover>
         );

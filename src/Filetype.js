@@ -128,11 +128,8 @@ export default class Filetype extends React.Component {
         case 'enrichments':
             this.popoverText =
                 <p>
-                Informations complémentaires produites par ISTEX de plusieurs types : catégories scientifiques,
+                Informations complémentaires, produites par ISTEX, de plusieurs types : catégories scientifiques,
                 références bibliographiques structurées, termes d’indexation, entités nommées.
-                <br />
-                Actuellement, tous les enrichissements sont téléchargés quelle que soit la sélection opérée.
-                Le téléchargement différencié de chaque type d’enrichissement n’est pas encore disponible.
                 <br />
                 Voir <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
                         target="_blank"
@@ -140,6 +137,10 @@ export default class Filetype extends React.Component {
                         >
                         documentation ISTEX
                     </a>
+                <br />
+                <br />
+                Actuellement, tous les enrichissements sont téléchargés quelle que soit la sélection opérée.
+                Le téléchargement différencié de chaque type d’enrichissement n’est pas encore disponible.
                 </p>  
             ;
             break;

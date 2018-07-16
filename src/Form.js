@@ -502,7 +502,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partagez votre corpus par un lien
+                Partagez votre corpus par un lien (avant téléchargement)
             </Tooltip>
         );
 

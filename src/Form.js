@@ -478,7 +478,7 @@ export default class Form extends React.Component {
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
+                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
                 mis à votre disposition via le bouton &quot;Exemples&quot;.
             </Popover>
         );
@@ -502,7 +502,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partagez votre corpus par un lien
+                Partagez votre corpus par un lien (avant téléchargement)
             </Tooltip>
         );
 
@@ -539,10 +539,19 @@ export default class Form extends React.Component {
         const popoverFiletypeHelp = (
             <Popover
                 id="popover-filetype-help"
-                title={<span> Fichiers et types de formats {closingButton}</span>}
+                title={<span> Formats et types de fichiers {closingButton}</span>}
             >
-                Attention, certains formats ou types de fichiers peuvent ne pas être disponibles pour
-                le corpus demandé (notamment : OCR, TIFF, annexes ou couvertures).
+                Les différents formats et types de fichiers sont décrits dans 
+                la <a 
+                    href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                       >
+                        documentation ISTEX.
+                    </a>
+                <br />
+                Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du
+                corpus constitué (notamment : OCR, TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
 

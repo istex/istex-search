@@ -746,23 +746,23 @@ a[data-lightbox]:hover img{
         /* Boutons */
 
         .btn-theme {
-            color: #458ca5;
-            background-color: transparent;
-            border:solid 1px #458ca5 !important;
+            color: #000;
+            border:solid 1px #000 !important;
             margin-bottom: 20px !important;
             width: 20%;
+            background-color: #c4d733;
             height: 50px;
           }
          .btn-theme::after {
-        	content: url("../télécharger-bleu.png");
+        	content: url("../telecharger-noir.png");
           }
          .btn-theme:hover {
-            color: black;
-            border: solid 1px black !important;
-            background-color: #c4d733;
+            color: white;
+            border: solid 1px white !important;
+            background-color: #458ca5;
         }
         .btn-theme:hover::after {
-           content: url("../télécharger-noir.png");
+           content: url("../telecharger-blanc.png");
             color: black;
         }
 
@@ -1040,11 +1040,13 @@ a[data-lightbox]:hover img{
 	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     	color: #000 !important;
     	background-color: #c4d733 !important;
+        border: 1px solid #c4d733;
 	}
 	.nav-tabs.nav-justified > li > a {
     	margin-bottom: 0 !important;
     	color: #458ca5 !important;
-	}
+        border: 1px solid #458ca5;
+    }
 	.nav-tabs.nav-justified > .active > a {
     	color: black !important;
 	}
@@ -1094,3 +1096,14 @@ a[data-lightbox]:hover img{
     .tooltip-inner a:hover {
         color: #c4d733;
     }
+    /*modif patrick */
+.input-range__track--active {
+    background: #c4d733!important;
+}
+.input-range__slider {
+    background: #c4d733!important;
+    border: 1px solid #c4d733!important;
+}
+.form-group {
+    width: 80%;
+}

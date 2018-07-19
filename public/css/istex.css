@@ -462,3 +462,6 @@ body > footer a {
 	display: inline-block;
 	vertical-align: middle;
 }
+.popover .fa-lightbulb-o {
+	font-size: 20px;
+}

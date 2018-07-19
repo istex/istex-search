@@ -465,7 +465,7 @@ export default class Form extends React.Component {
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (icône &quot;ampoule&quot;).
+                proposés sur la droite <i className="fa fa-lightbulb-o" aria-hidden="true"></i>.<br/>
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -666,7 +666,7 @@ export default class Form extends React.Component {
                     <div className="istex-dl-request row">
 
                         <div className="col-lg-1" />
-                        <div className="col-lg-7">
+                        <div className="col-lg-8">
                             <h2>
                                 <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
@@ -957,7 +957,7 @@ export default class Form extends React.Component {
                     {this.state.errorRequestSyntax &&
                             <div className="istex-dl-error-request row">
                                 <div className="col-lg-1" />
-                                <div className="col-lg-7">
+                                <div className="col-lg-8">
                                     <p>
                                         Erreur de syntaxe dans votre requête &nbsp;
                                         <OverlayTrigger
@@ -984,7 +984,7 @@ export default class Form extends React.Component {
                     <div className="istex-dl-format row" >
 
                         <div className="col-lg-1" />
-                        <div className="col-lg-7">
+                        <div className="col-lg-8">
                             <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={this.close}>
                                 <Modal.Header>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
@@ -1098,7 +1098,7 @@ export default class Form extends React.Component {
 
                     <div className="istex-dl-download row">
                         <div className="col-lg-1" />
-                        <div className="col-lg-7 text-center">
+                        <div className="col-lg-8 text-center">
                             <h2>
                                 <span className="num-etape">&nbsp;3.&nbsp;</span>
                                 Télécharger
@@ -1129,7 +1129,7 @@ export default class Form extends React.Component {
                     {this.state.errorDuringDownload &&
                         <div className="istex-dl-error-download row">
                             <div className="col-lg-1" />
-                            <div className="col-lg-7">
+                            <div className="col-lg-8">
                                 <p>
                                     <i
                                         role="button"

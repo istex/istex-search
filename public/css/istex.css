@@ -372,7 +372,7 @@ button:hover>div>svg, button:hover>svg {
 
 #glyphiconFiletype {
 	padding-left: 15px;
-	font-size: 18px;
+	font-size: 30px;
 }
 
 disable-download
@@ -464,4 +464,7 @@ body > footer a {
 }
 .popover .fa-lightbulb-o {
 	font-size: 20px;
+}
+.popover {
+	font-family: 'Open sans', sans-serif!important;	
 }

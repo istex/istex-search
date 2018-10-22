@@ -13,7 +13,7 @@ body{
 }
 a:hover{text-decoration: none; cursor:pointer;}
 
-a,button{outline: none!important;} /* Prevent ugly blue glow on chrome and safari */
+a,button{outline: none!important; color:#458ca5!important;} /* Prevent ugly blue glow on chrome and safari */
 
 
 /* Globals type styling */
@@ -746,23 +746,24 @@ a[data-lightbox]:hover img{
         /* Boutons */
 
         .btn-theme {
-            color: #c4d733;
-            border:solid 1px #000 !important;
+            color: #458ca5;
+            border:solid 1px #458ca5!important;
+            background-color: transparent!important;
             margin-bottom: 20px !important;
             width: 20%;
-            background-color: #000;
             height: 50px;
+            opacity: 1!important;
           }
          .btn-theme::after {
-        	content: url("../telecharger-jaune.png");
+        	content: url("../telecharger-bleu.png");
           }
          .btn-theme:hover {
-            color: white;
-            border: solid 1px white !important;
-            background-color: #458ca5;
+            color: #000;
+            border: solid 1px #c4d733!important;
+            background-color: #c4d733!important;
         }
         .btn-theme:hover::after {
-           content: url("../telecharger-blanc.png");
+           content: url("../telecharger-noir.png");
             color: black;
         }
 
@@ -927,7 +928,6 @@ a[data-lightbox]:hover img{
     width: 33.3333%;
     display: inline-block;
     position: absolute;
-    bottom: 30px;
 }
 .column-buttons i {
   width: 100%;
@@ -941,17 +941,16 @@ a[data-lightbox]:hover img{
 	transition: all 0.25s ease-in-out;
 	margin-top: 25px;
     margin-left: 80px;
-    border: solid 1px #000;
-    background-color: #000;
+    border: solid 1px #458ca5;
     width: 200px;
-    color: #c4d733;
+    color: #458ca5;
     padding: 5px;
 	cursor: pointer;
 }
 .column-buttons .select-button:hover{
-    border-color: #458ca5;
-    color: #fff;
-    background-color: #458ca5;
+    border-color: #c4d733;
+    color: #000;
+    background-color: #c4d733;
 }
 .column-buttons .select-button div{
 	 display: inline-block;
@@ -1013,8 +1012,8 @@ a[data-lightbox]:hover img{
     margin-left: 10px;
 }
 
-#requestLimitInfo{
-    font-size:14px;
+#requestLimitInfo, #choiceHelpInfo {
+    font-size:20px;
 }
 
 @media (max-width: 1200px){
@@ -1043,33 +1042,33 @@ a[data-lightbox]:hover img{
 }
 
     .nav-tabs > li > a {
-        background-color: #000;
     }
     .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
     	border: 1px solid #458ca5;
 	}
 	.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
     	color: #fff !important;
-    	background-color: #458ca5!important;
-        border: 1px solid #458ca5;
+    	background-color: #c4d733!important;
+        border: 1px solid #c4d733!important;
 	}
 	.nav-tabs.nav-justified > li > a {
     	margin-bottom: 0 !important;
-    	color: #c4d733 !important;
-        border: 1px solid #000;
+    	color: #458ca5 !important;
+        border: 1px solid #458ca5;
     }
     .nav-tabs.nav-justified > li > a:hover, .nav-tabs.nav-justified > li > a:focus {
-        color: #fff !important;
-        border: 1px solid #458ca5;
-        background-color: #458ca5 !important;
+        color: #000 !important;
+        border: 1px solid #c4d733!important;
+        background-color: #c4d733 !important;
     }
 
 	.nav-tabs.nav-justified > .active > a {
-    	color: #fff !important;
+    	color: #000 !important;
 	}
 	.nav-tabs.nav-justified > li {
     	margin: 0 !important;
     	padding: 0 !important;
+        background-color: transparent!important;
 	}
 	.nav > li > a:hover, .nav > li > a:focus {
     	background-color: transparent !important;
@@ -1092,7 +1091,7 @@ a[data-lightbox]:hover img{
 		border-radius: 50%;
 		font-size: 30px !important;
 		width: 50px;
-        margin-right: 20px;
+        margin-right: 10px;
 	}
 	h2, .h2 {
     	border-bottom: solid 2px black;
@@ -1131,5 +1130,14 @@ a[data-lightbox]:hover img{
     border: 1px solid #c4d733!important;
 }
 .form-group {
-    width: 80%;
+    width: 90%;
+}
+.nav-tabs.nav-justified {
+    width: 80%!important;
+}
+.help-block, .has-success .form-control-feedback {
+    color:  red!important;
+}
+.has-success .form-control {
+    border-color: #c4d733!important;
 }

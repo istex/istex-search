@@ -128,7 +128,7 @@ export default class storageHistory extends React.Component {
                                         window.location = `${this.localStorage[i].url}&download=true`;
                                     }}
                                 >
-                                    <img src="télécharger-noir.png"/>
+                                    <img src="telecharger-noir.png"/>
                                 </OverlayTrigger>
                                 <OverlayTrigger
                                     placement="top"
@@ -171,6 +171,16 @@ export default class storageHistory extends React.Component {
 
         return (
             <div className="history">
+                <Table responsive condensed hover striped>
+                    <thead>
+                        <tr>
+                            {this.columnTab}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.historyTab}
+                    </tbody>
+                </Table>
             <Button
                     bsStyle="danger"
                     disabled={!storageHistory.getHistory()
@@ -183,16 +193,6 @@ export default class storageHistory extends React.Component {
                 >
                 Supprimer l&apos;historique
             </Button>
-                <Table responsive condensed hover striped>
-                    <thead>
-                        <tr>
-                            {this.columnTab}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.historyTab}
-                    </tbody>
-                </Table>
                 
                 <Modal bsSize="small" show={this.state.showConfirm} onHide={this.close}>
                     <Modal.Header>

@@ -372,7 +372,7 @@ button:hover>div>svg, button:hover>svg {
 
 #glyphiconFiletype {
 	padding-left: 15px;
-	font-size: 18px;
+	font-size: 20px;
 }
 
 disable-download
@@ -461,4 +461,10 @@ body > footer a {
 .anr img{
 	display: inline-block;
 	vertical-align: middle;
+}
+.popover .fa-lightbulb-o {
+	font-size: 20px;
+}
+.popover {
+	font-family: 'Open sans', sans-serif!important;	
 }

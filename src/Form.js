@@ -785,7 +785,7 @@ export default class Form extends React.Component {
                                     <a>
                                         {this.state.total ?
                                                 commaNumber.bindWith('\xa0', '')(this.state.total)
-                                                .concat(' documents')
+                                                .concat(' document(s)')
                                                 : ''}
                                     </a>
                                 </OverlayTrigger>

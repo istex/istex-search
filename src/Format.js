@@ -86,7 +86,7 @@ export default class Format extends React.Component {
                         PDF : Portable Document Format
                     </a> 
                     <br />
-                    Fichier original fourni par l&apos;éditeur.
+                    Fichier original fourni par l&apos;éditeur
                 </p>
                 );
                 break;
@@ -101,7 +101,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier XML produit par ISTEX selon les guidelines P5 du format TEI, soit à partir des XML originaux
-                    fournis par l’éditeur, soit à partir du PDF via une transformation PDF to Text.
+                    fournis par l’éditeur, soit à partir du PDF via une transformation PDF to Text
                 </p>
                 );
                 break;
@@ -116,7 +116,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide
-                    du logiciel PDF to Text.
+                    du logiciel PDF to Text
                 </p>
                 );
                 break;
@@ -131,8 +131,8 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Fichier produit par ISTEX grâce à une chaîne de réocérisation qui fonctionne par reconnaissance
-                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser s’il est présent à la place
-                    du fichier TXT.
+                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser, s’il est présent, à la place
+                    du fichier TXT
                 </p>
                 );
                 break;
@@ -147,7 +147,7 @@ export default class Format extends React.Component {
                     </a> 
                     <br />
                     Répertoire compressé contenant, pour chaque document du corpus, les fichiers fournis
-                    par l’éditeur (PDF, XML structuré, images, couvertures, annexes), ainsi que le JSON produit par ISTEX.
+                    par l’éditeur (PDF, XML structuré, images, couvertures, annexes), ainsi que le JSON produit par ISTEX
                 </p>
                 );
                 break;
@@ -161,7 +161,7 @@ export default class Format extends React.Component {
                         TIFF : Tagged Image File Format
                     </a> 
                     <br />
-                    Fichier original fourni par l’éditeur sous format image (uniquement pour les ressources EBBO et ECCO).
+                    Fichier original fourni par l’éditeur sous format image (uniquement pour les éditeurs EBBO et ECCO)
                 </p>
                 );
                 break;
@@ -175,7 +175,7 @@ export default class Format extends React.Component {
                         XML : Extensible Markup Language
                     </a> 
                     <br />
-                    Fichier original fourni par l&apos;éditeur selon une DTD propre.
+                    Fichier original fourni par l&apos;éditeur selon une DTD propre
                 </p>
                 );
                 break;
@@ -189,7 +189,7 @@ export default class Format extends React.Component {
                         MODS : Metadata Object Description Schema
                     </a>
                     <br />
-                    Fichier XML standardisé produit par ISTEX à partir d’une transformation des XML originaux. 
+                    Fichier XML standardisé produit par ISTEX à partir d’une transformation des XML originaux 
                 </p>
                 );
                 break;
@@ -197,7 +197,7 @@ export default class Format extends React.Component {
                 <p>
                     <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a> des bases Pascal et Francis,
                     attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb).
+                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb)
                 </p>
                 );
                 break;
@@ -205,7 +205,7 @@ export default class Format extends React.Component {
                 <p>
                     Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science Metrix</a>,&nbsp;
                     <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a>, attribuées aux documents Istex par appariement via
-                    l’outil multicat.
+                    l’outil multicat
                 </p>
                 );
                 break;
@@ -218,13 +218,13 @@ export default class Format extends React.Component {
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil&nbsp;
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>.
+                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>
                 </p>
                 );
                 break;
             case 'unitex': tooltipText = (
                 <p>
-                    <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>.
+                    <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>
                 </p>
                 );
                 break;

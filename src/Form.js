@@ -478,8 +478,8 @@ export default class Form extends React.Component {
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
-                mis à votre disposition via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
+                accessibles via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
             </Popover>
         );
 
@@ -488,9 +488,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Copiez/collez une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
-                l&apos;interprétera automatiquement. Un clic sur la loupe du dernier item de la liste
-                disponible via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot; et vous aurez un aperçu.
+                Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
+                l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
+                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
             </Popover>
         );
 
@@ -500,33 +500,33 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const shareTooltip = (
+        const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partagez votre corpus par un lien (avant téléchargement)
+                Effacez requête et sélections et redémarrez avec un formulaire vide
             </Tooltip>
         );
 
-        const resetTooltip = (
+        const reloadTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Retrouvez le dernier état de votre formulaire avant téléchargement
+            </Tooltip>
+        );
+
+        const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Réinitialisez votre requête (les formulaires de cette page seront vidés)
+                Partagez votre corpus par un lien avant de télécharger
             </Tooltip>
         );
 
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Accédez à l&apos;historique de vos téléchargements (maximum 30)
+                Accédez à l&apos;historique de vos 30 derniers téléchargements
             </Tooltip>
         );
 
         const tryRequestTooltip = (
             <Tooltip data-html="true" id="tryRequestTooltip">
                 Essayez cette requête
-            </Tooltip>
-        );
-
-        const reloadTooltip = (
-            <Tooltip data-html="true" id="previewTooltip">
-                Récupérez les derniers formulaires (avant téléchargement)
             </Tooltip>
         );
 
@@ -608,14 +608,13 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Limite du nombre de documents {closingButton}</span>}
             >
-                Actuellement, il n’est pas possible de télécharger plus de<br />
-                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.<br />
+                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
                 Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
                 (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, la sélection du mode de tri aléatoire
-                (rubrique suivante) peut vous intéresser.
+                Si vous réduisez le nombre de documents à extraire, la sélection d'un tri aléatoire des documents
+                peut vous intéresser (rubrique suivante).
 
             </Popover>
         );
@@ -626,7 +625,7 @@ export default class Form extends React.Component {
                 title={<span> Choix du mode de tri {closingButton}</span>}
             >
                 En fonction de votre sélection, les résultats de votre requête seront triés par
-                ordre de pertinence ou de manière aléatoire.
+                ordre de pertinence ou de manière aléatoire.<br />
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );
@@ -1234,7 +1233,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                        d&apos;interroger l&apos;API Istex en utilisant...
+                        d&apos;interroger l&apos;API Istex en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger

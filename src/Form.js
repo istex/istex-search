@@ -613,7 +613,7 @@ export default class Form extends React.Component {
                 (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, la sélection d'un tri aléatoire des documents
+                Si vous réduisez le nombre de documents à extraire, la sélection d’un tri aléatoire des documents
                 peut vous intéresser (rubrique suivante).
 
             </Popover>

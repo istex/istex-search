@@ -465,7 +465,7 @@ export default class Form extends React.Component {
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>Exemples&quot;).<br/>
+                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -479,7 +479,7 @@ export default class Form extends React.Component {
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
                 de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
-                mis à votre disposition via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>Exemples&quot;.
+                mis à votre disposition via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
             </Popover>
         );
 
@@ -488,9 +488,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Copier/coller une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
-                l&apos;interprétera automatiquement.
-                Un modèle est disponible via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>Exemples&quot;.
+                Copiez/collez une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
+                l&apos;interprétera automatiquement. Un clic sur la loupe du dernier item de la liste
+                disponible via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot; et vous aurez un aperçu.
             </Popover>
         );
 
@@ -584,7 +584,7 @@ export default class Form extends React.Component {
                 <p>
                     Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
                     Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
-                    Pour le navigateur Edge, la limite est de 1&nbsp;650 de caractères.
+                    Pour le navigateur Edge, la limite est de 1&nbsp;650 caractères.
                 </p>
             </Popover>
         );

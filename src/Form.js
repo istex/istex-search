@@ -479,7 +479,7 @@ export default class Form extends React.Component {
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
                 de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
-                accessibles via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+                accessibles via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&#160;Exemples&quot;.
             </Popover>
         );
 
@@ -490,7 +490,7 @@ export default class Form extends React.Component {
             >
                 Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
                 l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
-                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&#160;Exemples&quot;.
+                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
             </Popover>
         );
 

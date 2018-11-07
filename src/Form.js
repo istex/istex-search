@@ -490,7 +490,7 @@ export default class Form extends React.Component {
             >
                 Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
                 l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
-                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&#160;Exemples&quot;.
             </Popover>
         );
 

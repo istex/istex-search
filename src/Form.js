@@ -508,7 +508,7 @@ export default class Form extends React.Component {
 
         const reloadTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Retrouvez le dernier état de votre formulaire avant téléchargement
+                Récupérez l&apos;état en cours de votre formulaire
             </Tooltip>
         );
 
@@ -570,8 +570,8 @@ export default class Form extends React.Component {
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1&nbsp;caractère, sélectionnez
-                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier.
+                Pour activer le téléchargement, remplissez la fenêtre de requêtage par au moins 1&nbsp;caractère, sélectionnez
+                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier
                 </p>
             </Tooltip>
         );

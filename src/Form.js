@@ -702,8 +702,8 @@ export default class Form extends React.Component {
                                     validationState={this.characterNumberValidation()}
                                 >
                                     <Nav
-                                        justified
-                                        bsStyle="tabs"
+                                        
+                                        bsStyle="pills"
                                         activeKey={this.state.activeKey}
                                         onSelect={k => this.handleSelectNav(k)}
                                     >

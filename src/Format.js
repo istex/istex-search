@@ -195,16 +195,19 @@ export default class Format extends React.Component {
                 break;
             case 'nb': tooltipText = (
                 <p>
-                    <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a> des bases Pascal et Francis,
-                    attribuées aux documents Istex par apprentissage automatique via l’approche
-                    statistique «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>» (Naive Bayesian ou nb)
+                    <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a>
+                    attribuées aux documents Istex par apprentissage automatique via l’approche statistique
+                    «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>»
+                    (Naive Bayesian ou nb). Elles sont issues des classifications des bases Pascal et Francis
                 </p>
                 );
                 break;
             case 'multicat': tooltipText = (
                 <p>
                     Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science Metrix</a>,&nbsp;
-                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a>, attribuées aux documents Istex par appariement via
+                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> 
+                    et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a>.
+                    Elles ont été attribuées aux documents Istex, à partir des classifications correspondantes, par appariement via
                     l’outil multicat
                 </p>
                 );

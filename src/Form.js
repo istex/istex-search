@@ -936,18 +936,6 @@ export default class Form extends React.Component {
                             </OverlayTrigger>
 
                             <OverlayTrigger
-                                placement="right"
-                                overlay={historyTooltip}
-                                onClick={() => {
-                                    this.setState({
-                                        showHistory: true,
-                                    });
-                                }}
-                            >
-                                <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
                                 rootClose
                                 placement="right"
                                 overlay={shareTooltip}
@@ -970,6 +958,18 @@ export default class Form extends React.Component {
                                     </div>
                                     <p>Partager</p>
                                 </div>
+                            </OverlayTrigger>
+
+                            <OverlayTrigger
+                                placement="right"
+                                overlay={historyTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showHistory: true,
+                                    });
+                                }}
+                            >
+                                <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
                             </OverlayTrigger>
 
                         </div>

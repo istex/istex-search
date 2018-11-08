@@ -465,7 +465,7 @@ export default class Form extends React.Component {
                 title={<span> Aide à la construction de requêtes {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite <i className="fa fa-lightbulb-o" aria-hidden="true"></i>.<br/>
+                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -478,8 +478,11 @@ export default class Form extends React.Component {
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de modèles
-                mis à votre disposition via le bouton &quot;Exemples&quot;.
+                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
+                accessibles via le bouton
+                <span style={{ display : 'inline-block' }}>
+                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
+                </span>.
             </Popover>
         );
 
@@ -488,9 +491,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Copier/coller une liste d&apos;identifiants de type ARK dans cet onglet et le formulaire
-                l&apos;interprétera automatiquement.
-                Un modèle est disponible via le bouton &quot;Exemples&quot;.
+                Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
+                l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
+                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
             </Popover>
         );
 
@@ -500,33 +503,33 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const shareTooltip = (
+        const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partagez votre corpus par un lien (avant téléchargement)
+                Effacez votre requête et vos sélections et redémarrez avec un formulaire vide
             </Tooltip>
         );
 
-        const resetTooltip = (
+        const reloadTooltip = (
+            <Tooltip data-html="true" id="previewTooltip">
+                Récupérez l&apos;état en cours de votre formulaire
+            </Tooltip>
+        );
+
+        const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Réinitialisez votre requête (les formulaires de cette page seront vidés)
+                Partagez votre corpus par un lien avant de télécharger
             </Tooltip>
         );
 
         const historyTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
-                Accédez à l&apos;historique de vos téléchargements (maximum 30)
+                Accédez à l&apos;historique de vos 30 derniers téléchargements
             </Tooltip>
         );
 
         const tryRequestTooltip = (
             <Tooltip data-html="true" id="tryRequestTooltip">
                 Essayez cette requête
-            </Tooltip>
-        );
-
-        const reloadTooltip = (
-            <Tooltip data-html="true" id="previewTooltip">
-                Récupérez les derniers formulaires (avant téléchargement)
             </Tooltip>
         );
 
@@ -541,7 +544,7 @@ export default class Form extends React.Component {
                 id="popover-filetype-help"
                 title={<span> Formats et types de fichiers {closingButton}</span>}
             >
-                Les différents formats et types de fichiers sont décrits dans 
+                Les différents formats et types de fichiers disponibles sont décrits dans 
                 la <a 
                     href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
                     target="_blank"
@@ -570,8 +573,8 @@ export default class Form extends React.Component {
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, remplissez le champ de requêtage par au moins 1&nbsp;caractère, sélectionnez
-                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier.
+                Pour activer le téléchargement, remplissez la fenêtre de requêtage par au moins 1&nbsp;caractère, sélectionnez
+                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier
                 </p>
             </Tooltip>
         );
@@ -584,7 +587,7 @@ export default class Form extends React.Component {
                 <p>
                     Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
                     Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
-                    Pour le navigateur Edge, la limite est de 1&nbsp;650 de caractères.
+                    Pour le navigateur Edge, la limite est de 1&nbsp;650 caractères.
                 </p>
             </Popover>
         );
@@ -608,14 +611,13 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Limite du nombre de documents {closingButton}</span>}
             >
-                Actuellement, il n’est pas possible de télécharger plus de<br />
-                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.<br />
+                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
                 Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
                 (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, la sélection du mode de tri aléatoire
-                (rubrique suivante) peut vous intéresser.
+                Si vous réduisez le nombre de documents à extraire, la sélection d’un tri aléatoire des documents
+                peut vous intéresser (rubrique suivante).
 
             </Popover>
         );
@@ -626,7 +628,7 @@ export default class Form extends React.Component {
                 title={<span> Choix du mode de tri {closingButton}</span>}
             >
                 En fonction de votre sélection, les résultats de votre requête seront triés par
-                ordre de pertinence ou de manière aléatoire.
+                ordre de pertinence ou de manière aléatoire.<br />
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );
@@ -785,7 +787,7 @@ export default class Form extends React.Component {
                                     <a>
                                         {this.state.total ?
                                                 commaNumber.bindWith('\xa0', '')(this.state.total)
-                                                .concat(' documents')
+                                                .concat(' document(s)')
                                                 : ''}
                                     </a>
                                 </OverlayTrigger>
@@ -1234,7 +1236,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                        d&apos;interroger l&apos;API Istex en utilisant...
+                        d&apos;interroger l&apos;API Istex en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger

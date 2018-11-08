@@ -479,7 +479,10 @@ export default class Form extends React.Component {
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
                 vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
                 de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
-                accessibles via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+                accessibles via le bouton
+                <span style={{ display : 'inline-block' }}>
+                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
+                </span>.
             </Popover>
         );
 

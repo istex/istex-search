@@ -224,7 +224,7 @@ export default class Format extends React.Component {
                 break;
             case 'unitex': tooltipText = (
                 <p>
-                    <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées Istex</a>, extraites des documents à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>
+                    <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées</a>, extraites des documents Istex à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>
                 </p>
                 );
                 break;

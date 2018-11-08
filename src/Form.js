@@ -502,7 +502,7 @@ export default class Form extends React.Component {
 
         const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Effacez requête et sélections et redémarrez avec un formulaire vide
+                Effacez votre requête et vos sélections et redémarrez avec un formulaire vide
             </Tooltip>
         );
 
@@ -541,7 +541,7 @@ export default class Form extends React.Component {
                 id="popover-filetype-help"
                 title={<span> Formats et types de fichiers {closingButton}</span>}
             >
-                Les différents formats et types de fichiers sont décrits dans 
+                Les différents formats et types de fichiers disponibles sont décrits dans 
                 la <a 
                     href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
                     target="_blank"

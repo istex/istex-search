@@ -196,19 +196,18 @@ export default class Format extends React.Component {
             case 'nb': tooltipText = (
                 <p>
                     <a href="https://inist-category.data.istex.fr" target="_blank" rel="noopener noreferrer">Catégories scientifiques Inist</a>
-                    attribuées aux documents Istex par apprentissage automatique via l’approche statistique
+                    issues des classifications des bases Pascal et Francis. Elles ont été attribuées aux documents Istex par apprentissage automatique via l’approche statistique
                     «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>»
-                    (Naive Bayesian ou nb). Elles sont issues des classifications des bases Pascal et Francis
+                    (Naive Bayesian ou nb)
                 </p>
                 );
                 break;
             case 'multicat': tooltipText = (
                 <p>
-                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science Metrix</a>,&nbsp;
-                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> 
-                    et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a>.
-                    Elles ont été attribuées aux documents Istex, à partir des classifications correspondantes, par appariement via
-                    l’outil multicat
+                    Catégories scientifiques <a href="https://sciencemetrix-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Science-Metrix</a>,&nbsp;
+                    <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a>  
+                    et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a> rattachées aux documents Istex.
+                    Issues des classifications homonymes, elles ont été attribuées aux documents par appariement grâce à l’outil multicat   l’outil multicat
                 </p>
                 );
                 break;

@@ -783,7 +783,7 @@ export default class Form extends React.Component {
                             <p>
                                 L’équation saisie correspond à
                                 &nbsp;
-                                <OverlayTrigger placement="bottom" overlay={previewTooltip}>
+                                <OverlayTrigger>
                                     <a>
                                         {this.state.total ?
                                                 commaNumber.bindWith('\xa0', '')(this.state.total)

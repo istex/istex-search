@@ -784,12 +784,10 @@ export default class Form extends React.Component {
                                 L’équation saisie correspond à
                                 &nbsp;
                                 <OverlayTrigger>
-                                    <a>
                                         {this.state.total ?
-                                                commaNumber.bindWith('\xa0', '')(this.state.total)
-                                                .concat(' document(s)')
-                                                : ''}
-                                    </a>
+                                        commaNumber.bindWith('\xa0', '')(this.state.total)
+                                        .concat(' document(s)')
+                                        : ''}
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&

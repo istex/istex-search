@@ -533,11 +533,11 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const previewTooltip = (
-            <Tooltip data-html="true" id="previewTooltip">
-                Cliquez pour pré-visualiser les documents correspondant à votre requête
-            </Tooltip>
-        );
+       // const previewTooltip = (
+       //    <Tooltip data-html="true" id="previewTooltip">
+       //    Cliquez pour pré-visualiser les documents correspondant à votre requête
+       //     </Tooltip>
+       // );
 
         const popoverFiletypeHelp = (
             <Popover
@@ -783,13 +783,13 @@ export default class Form extends React.Component {
                             <p>
                                 L’équation saisie correspond à
                                 &nbsp;
-                                <OverlayTrigger placement="bottom" overlay={previewTooltip}>
-                                    <a>
-                                        {this.state.total ?
-                                                commaNumber.bindWith('\xa0', '')(this.state.total)
-                                                .concat(' document(s)')
-                                                : ''}
-                                    </a>
+                                <OverlayTrigger>
+                                        <span>
+                                            {this.state.total ?
+                                            commaNumber.bindWith('\xa0', '')(this.state.total)
+                                            .concat(' document(s)')
+                                            : ''}
+                                        </span>
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&

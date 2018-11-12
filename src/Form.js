@@ -533,7 +533,7 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-        const previewTooltip = (
+       // const previewTooltip = (
             <Tooltip data-html="true" id="previewTooltip">
                 Cliquez pour pré-visualiser les documents correspondant à votre requête
             </Tooltip>

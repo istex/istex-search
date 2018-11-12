@@ -781,14 +781,15 @@ export default class Form extends React.Component {
                             </div>
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                             <p>
-                                L’équation saisie correspond à&nbsp;
+                                L’équation saisie correspond à
+                                &nbsp;
                                 <OverlayTrigger>
-                                        <div>
+                                        <span>
                                             {this.state.total ?
                                             commaNumber.bindWith('\xa0', '')(this.state.total)
                                             .concat(' document(s)')
                                             : ''}
-                                        </div>
+                                        </span>
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&

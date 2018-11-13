@@ -582,12 +582,14 @@ export default class Form extends React.Component {
         const popoverCharacterLimitHelp = (
             <Popover
                 id="popover-character-limit-help"
-                title={<span> Limite de la longueur des requêtes {closingButton}</span>}
+                title={<span> Limitation de la longueur des requêtes {closingButton}</span>}
             >
                 <p>
-                    Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
-                    Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
-                    Pour le navigateur Edge, la limite est de 1&nbsp;650 caractères.
+                    Votre requête ne peut pas dépasser un certain nombre de caractères. Ce nombre correspond
+                    à la limite, déterminée empiriquement, actuellement rencontrée
+                    sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, il est de 1&nbsp;650 caractères.
+                    <br />
+                    Une indication colorée s’ajoute à la valeur indiquée pour vous alerter sur la proximité ou le dépassement de la limite. 
                 </p>
             </Popover>
         );
@@ -609,14 +611,14 @@ export default class Form extends React.Component {
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                title={<span> Limite du nombre de documents {closingButton}</span>}
+                title={<span> Limitation du nombre de documents {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
                 Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
                 (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, la sélection d’un tri aléatoire des documents
+                Si vous réduisez le nombre de documents à extraire, la sélection d’un tirage aléatoire des documents
                 peut vous intéresser (rubrique suivante).
 
             </Popover>

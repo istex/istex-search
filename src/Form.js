@@ -934,7 +934,7 @@ export default class Form extends React.Component {
                                 overlay={reloadTooltip}
                                 onClick={Form.handleReload}
                             >
-                                <div className="btn select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
+                                <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
                             </OverlayTrigger>
 
                             <OverlayTrigger
@@ -948,8 +948,8 @@ export default class Form extends React.Component {
                                 }}
                             >
                                 <div
-                                    className="btn select-button"
-                                    disabled={this.isDownloadDisabled()}
+                                    className="select-button"
+                                    disabled
                                 >
                                     <div>
                                         <i
@@ -958,7 +958,9 @@ export default class Form extends React.Component {
                                             aria-hidden="true"
                                         />
                                     </div>
-                                    <p>Partager</p>
+                                    <p>
+                                        Partager
+                                    </p>
                                 </div>
                             </OverlayTrigger>
 
@@ -971,7 +973,18 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
+                                <div 
+                                    className="select-button"
+                                >
+                                    <div>
+                                        <i 
+                                            role="button" 
+                                            className="fa fa-history" 
+                                            aria-hidden="true">
+                                        </i>
+                                    </div>
+                                    <p>Historique</p>
+                                </div>
                             </OverlayTrigger>
 
                         </div>

@@ -854,7 +854,7 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents triés
+                                Choisir les documents classés
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"

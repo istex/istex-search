@@ -477,8 +477,8 @@ export default class Form extends React.Component {
                 title={<span> Recherche classique {closingButton}</span>}
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
-                vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
+                vous aider du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>,
+                de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
                 accessibles via le bouton
                 <span style={{ display : 'inline-block' }}>
                     &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
@@ -590,7 +590,7 @@ export default class Form extends React.Component {
                     sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, il est de 1&nbsp;650 caractères.
                     <br />
                     Une indication colorée s’ajoute à la valeur du nombre de caractères restants pour vous alerter 
-                    sur la proximité ou le dépassement de la limite. 
+                    sur la proximité ou le dépassement de cette limite. 
                 </p>
             </Popover>
         );
@@ -619,7 +619,7 @@ export default class Form extends React.Component {
                 (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des documents
+                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
                 peut vous intéresser (rubrique suivante).
 
             </Popover>

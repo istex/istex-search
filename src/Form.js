@@ -573,8 +573,9 @@ export default class Form extends React.Component {
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, remplissez la fenêtre de requêtage par au moins 1&nbsp;caractère, sélectionnez
-                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier
+                Pour activer le téléchargement, complétez le formulaire en remplissant la fenêtre de requêtage par 
+                au moins 1&nbsp;caractère, en sélectionnant au moins 1&nbsp;document et en cochant au moins 1&nbsp;format 
+                de fichier
                 </p>
             </Tooltip>
         );

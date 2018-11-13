@@ -948,7 +948,7 @@ export default class Form extends React.Component {
                                 }}
                             >
                                 <div
-                                    className="select-button"
+                                    className="btn select-button"
                                     disabled={this.isDownloadDisabled()}
                                 >
                                     <div>

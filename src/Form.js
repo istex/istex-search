@@ -462,7 +462,7 @@ export default class Form extends React.Component {
         const popoverRequestHelp = (
             <Popover
                 id="popover-request-help"
-                title={<span> Aide à la construction de requêtes {closingButton}</span>}
+                title={<span> Requête {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
                 proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>

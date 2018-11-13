@@ -934,7 +934,7 @@ export default class Form extends React.Component {
                                 overlay={reloadTooltip}
                                 onClick={Form.handleReload}
                             >
-                                <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
+                                <div className="btn select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
                             </OverlayTrigger>
 
                             <OverlayTrigger
@@ -948,7 +948,7 @@ export default class Form extends React.Component {
                                 }}
                             >
                                 <div
-                                    className="select-button"
+                                    className="btn select-button"
                                     disabled={this.isDownloadDisabled()}
                                 >
                                     <div>

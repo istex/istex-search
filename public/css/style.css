@@ -1181,3 +1181,9 @@ a[data-lightbox]:hover img{
     background-color: #c4d733!important;
     border-color: #c4d733!important;;
 }
+.column-buttons .btn {
+    text-align: left!important;
+}
+.nav-pills > li + li {
+    margin-left: 8px!important;
+}

@@ -462,7 +462,7 @@ export default class Form extends React.Component {
         const popoverRequestHelp = (
             <Popover
                 id="popover-request-help"
-                title={<span> Aide à la construction de requêtes {closingButton}</span>}
+                title={<span> Requête {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
                 proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>
@@ -477,8 +477,8 @@ export default class Form extends React.Component {
                 title={<span> Recherche classique {closingButton}</span>}
             >
                 Pour élaborer votre équation de recherche de type classique, vous pouvez
-                vous aider du <a href="http://demo.istex.fr/">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
+                vous aider du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>,
+                de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
                 accessibles via le bouton
                 <span style={{ display : 'inline-block' }}>
                     &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
@@ -517,7 +517,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Partagez votre corpus par un lien avant de télécharger
+                Activez ce bouton en complétant le formulaire et partagez votre corpus via son URL avant de télécharger
             </Tooltip>
         );
 
@@ -573,8 +573,9 @@ export default class Form extends React.Component {
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, remplissez la fenêtre de requêtage par au moins 1&nbsp;caractère, sélectionnez
-                au moins 1&nbsp;document et cochez au moins 1&nbsp;format de fichier
+                Pour activer le téléchargement, complétez le formulaire en remplissant la fenêtre de requêtage par 
+                au moins 1&nbsp;caractère, en sélectionnant au moins 1&nbsp;document et en cochant au moins 1&nbsp;format 
+                de fichier
                 </p>
             </Tooltip>
         );
@@ -582,12 +583,15 @@ export default class Form extends React.Component {
         const popoverCharacterLimitHelp = (
             <Popover
                 id="popover-character-limit-help"
-                title={<span> Limite de la longueur des requêtes {closingButton}</span>}
+                title={<span> Longueur des requêtes {closingButton}</span>}
             >
                 <p>
-                    Votre requête ne peut pas dépasser un certain nombre de caractères.<br />
-                    Le nombre indiqué correspond à la limite rencontrée sur les navigateurs Firefox et Chrome. <br />
-                    Pour le navigateur Edge, la limite est de 1&nbsp;650 caractères.
+                    Votre requête ne peut pas dépasser un certain nombre de caractères. Ce nombre correspond
+                    à la limite, déterminée empiriquement, actuellement rencontrée
+                    sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, il est de 1&nbsp;650 caractères.
+                    <br />
+                    Une indication colorée s’ajoute à la valeur du nombre de caractères restants pour vous alerter 
+                    sur la proximité ou le dépassement de cette limite. 
                 </p>
             </Popover>
         );
@@ -609,14 +613,14 @@ export default class Form extends React.Component {
         const popoverRequestLimitHelp = (
             <Popover
                 id="popover-request-limit-help"
-                title={<span> Limite du nombre de documents {closingButton}</span>}
+                title={<span> Nombre de documents {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
                 Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
-                (notamment pour les formats PDF ou ZIP), elle pourrait s’avérer trop élevée.
+                (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
                 Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, la sélection d’un tri aléatoire des documents
+                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
                 peut vous intéresser (rubrique suivante).
 
             </Popover>
@@ -625,9 +629,9 @@ export default class Form extends React.Component {
         const popoverChoiceHelp = (
             <Popover
                 id="popover-choice-help"
-                title={<span> Choix du mode de tri {closingButton}</span>}
+                title={<span> Mode de classement {closingButton}</span>}
             >
-                En fonction de votre sélection, les résultats de votre requête seront triés par
+                En fonction de votre sélection, les résultats de votre requête seront classés par
                 ordre de pertinence ou de manière aléatoire.<br />
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
@@ -854,7 +858,7 @@ export default class Form extends React.Component {
                                 </div>
                             </div>
                             <div className="rankBy">
-                                Choisir les documents triés
+                                Choisir les documents classés
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -958,7 +962,9 @@ export default class Form extends React.Component {
                                             aria-hidden="true"
                                         />
                                     </div>
-                                    <p>Partager</p>
+                                    <p>
+                                        Partager
+                                    </p>
                                 </div>
                             </OverlayTrigger>
 
@@ -971,7 +977,18 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <div className="select-button"><div><i role="button" className="fa fa-history" aria-hidden="true"></i></div><p>Historique</p></div>
+                                <div 
+                                    className="select-button"
+                                >
+                                    <div>
+                                        <i 
+                                            role="button" 
+                                            className="fa fa-history" 
+                                            aria-hidden="true">
+                                        </i>
+                                    </div>
+                                    <p>Historique</p>
+                                </div>
                             </OverlayTrigger>
 
                         </div>

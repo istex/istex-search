@@ -517,7 +517,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Activez ce bouton en complétant le formulaire et partagez votre corpus via son URL avant de le télécharger
+                Activez ce bouton en complétant le formulaire et partagez votre corpus via son URL avant de télécharger
             </Tooltip>
         );
 

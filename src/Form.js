@@ -1273,12 +1273,12 @@ export default class Form extends React.Component {
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.zoologie)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et des données bibliographiques
+                            des données bibliographiques et des indicateurs de qualité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1286,12 +1286,12 @@ export default class Form extends React.Component {
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.ecologie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des indicateurs de qualité
+                            des données bibliographiques et des mots-clés (avec variantes d’écriture)
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1343,7 +1343,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés (avec variantes d’écriture) et plusieurs opérateurs de recherche
+                            des mots-clés et plusieurs opérateurs de recherche
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

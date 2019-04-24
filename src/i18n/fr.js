@@ -48,7 +48,7 @@ export default {
 
     regExpSystematiqueVegetale: '(plantae /gymnosperm(s?|ae)/) NOT (/bacteri(a|um)/ /viruse?s?/ /fung(i|use?s?)/)',
 
-    regExpArctic: 'inuit inuits /yupii?[tk]/ "yup'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
+    regExpArctic: 'inuit inuits /yupii?[tk]/ "yup\'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
 
     opArctic: 'title:(sub?arctic + subarctic~1 + "norwegian seas"~2) OR abstract:(sub?arctic + subarctic~1 + "norwegian seas"~2)',
     

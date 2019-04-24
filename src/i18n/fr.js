@@ -38,7 +38,7 @@ export default {
 
 // Exemples de requête
 
-    astrophysique: '(host.issn:"0922-6435" AND publicationDate:[1980 TO 2010}) OR (host.title:"Journal of Geophysical Research: Space Physics" AND host.issue.raw:A1)',
+    astrophysique: '(host.issn:"0922-6435" AND publicationDate:[1980 TO 2010]) OR (host.title:"Journal of Geophysical Research: Space Physics" AND host.issue.raw:A1)',
 
     zoologie: 'host.title.raw:("Marine Biology") AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.5 TO *]',
     
@@ -46,7 +46,7 @@ export default {
 
     motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
 
-    regExpSystematiqueVegetale: '(plantae /gymnosperm(s?|ae)/) NOT (/bacteri(a|um)/ /viruse?s?/ /fung(i|use?s?)/)',
+    regExpSystematiqueVegetale: '(plantae /(angi|gymn)osperm(s?|ae)/) NOT (/bacteri(a|um)/ /virus(es)?/ /fung(i|us(es)?)/)',
 
     regExpArctic: 'inuit inuits /yupii?[tk]/ "yup\'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
 

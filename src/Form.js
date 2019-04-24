@@ -19,7 +19,7 @@ import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
-export const characterLimit = 67860;
+export const characterLimit = 67000;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
@@ -39,8 +39,8 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
-            size: 5000,
-            limitNbDoc: 10000,
+            size: 3000,
+            limitNbDoc: 6000,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -131,7 +131,7 @@ export default class Form extends React.Component {
                 const { total } = json;
                 let size;
                 if (!total || total === 0) {
-                    size = 5000;
+                    size = 3000;
                 } else if (sizeParam <= this.state.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
@@ -185,8 +185,8 @@ export default class Form extends React.Component {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || 5000,
-                limitNbDoc: 10000,
+                size: parsedUrl.size || 3000,
+                limitNbDoc: 6000,
                 extractMetadata: false,
                 extractFulltext: false,
                 extractEnrichments: false,
@@ -230,7 +230,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: 5000,
+                size: 3000,
                 total: 0,
             });
         }
@@ -588,9 +588,9 @@ export default class Form extends React.Component {
                 <p>
                     Votre requête ne peut pas dépasser un certain nombre de caractères. Ce nombre correspond
                     à la limite, déterminée empiriquement, actuellement rencontrée
-                    sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, il est de 1&nbsp;650 caractères.
+                    sur les navigateurs Firefox et Chrome. Pour le navigateur Edge, il est de 1&nbsp;600 caractères.
                     <br />
-                    Une indication colorée s’ajoute à la valeur du nombre de caractères restants pour vous alerter 
+                    À la valeur du nombre de caractères restants, s’ajoute une indication colorée pour vous alerter 
                     sur la proximité ou le dépassement de cette limite. 
                 </p>
             </Popover>

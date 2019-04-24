@@ -38,21 +38,21 @@ export default {
 
 // Exemples de requête
 
+    astrophysique: '(host.issn:"0922-6435" AND publicationDate:[1980 TO 2010}) OR (host.title:"Journal of Geophysical Research: Space Physics" AND host.issue.raw:A1)',
+
+    zoologie: 'host.title.raw:("Marine Biology") AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.5 TO *]',
+    
+    orthophonie: 'subject.value:(orthophon* OR logothérap* OR logotherap* OR logopéd*OR  logopèd* OR logoped*OR logopaed*) AND language:fre AND genre:("research-article" "brief communication")',
+
+    motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
+
+    regExpSystematiqueVegetale: '(plantae /gymnosperm(s?|ae)/) NOT (/bacteri(a|um)/ /viruse?s?/ /fung(i|use?s?)/)',
+
+    regExpArctic: 'inuit inuits /yupii?[tk]/ "yup'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
+
+    opArctic: 'title:(sub?arctic + subarctic~1 + "norwegian seas"~2) OR abstract:(sub?arctic + subarctic~1 + "norwegian seas"~2)',
+    
     vieillissement: 'ark:/67375/HXZ-3PZ5S1MB-7\nark:/67375/HXZ-XH6SRM66-7\nark:/67375/6H6-K00Q3697-8\nark:/67375/6H6-52QRK0X3-F\nark:/67375/HXZ-H5NSV5QF-M\nark:/67375/HXZ-J1BLQKH4-3\nark:/67375/HXZ-QVSXSCHW-P\nark:/67375/HXZ-RVC4D13J-W\nark:/67375/6H6-19QHR7H2-6\nark:/67375/HXZ-0F8518D4-K\nark:/67375/6H6-9Q9HLC0X-7\nark:/67375/6H6-QTZPZZXD-H',
-
-    astrophysique: '((host.issn:"0922-6435" AND publicationDate:1995) OR (host.issn:"1387-6473" AND (publicationDate:[1990 TO *] OR copyrightDate:[1990 TO *])) OR (host.title:"Journal of Geophysical Research: Space Physics" AND publicationDate:1980 AND host.issue.raw:A1))',
-
-    orthophonie: 'subject.value:( orthophon* OR logotherapie OR "speech therapy") AND language:fre AND genre:("research-article" OR "article" OR "brief-communication")',
-
-    ecologie: 'host.title :("Journal of Fish Biology" OR "Marine Ecology") AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.0 TO *]',
-
-    motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" palynology* phytogeograph*)) NOT (/fung(i|use?s?)/ NOT (mycorrhiz* ectomycorrhiz* endomycorrhiz*))',
-
-    regExpSystematiqueVegetale: 'abstract:((plantae viridiplantae /gymnosperm(s?|ae)/) NOT (/bacteri(a|um)/ NOT (actinorhiz* rhizobia azorhizob* bradyrhizob* sinorhizob*) /viruse?s?/ protozoa* protist*))',
-
-    regExpArctic: '/ale?o?ut[ei]?i?[tq]?/ OR /sugpia[tq]/ OR Tchouktches OR Inuit OR Inuk OR Inuvialuit OR /i[nñ]upia?[tqk]/ OR /naukan(ski)?/ OR /nenee?[nt]s(es)?/ OR Samoyeds OR /sag?[dl]l[ei]u?rmiut/ OR Sámi OR Saami OR Lapps OR Laplanders OR Lapons OR /sireniki?/ OR /es[kq]u?im[oa]u?[sx]?/ OR /yupii?[tk]/ OR "Yup\'ik"',
-
-    opArctic: 'title:(Arctic + Subarctic~1 + Sub?arctic + Greenland + Groënland + Groenland + Grönland + Grünland + Grønland + Iceland + Svalbard + /spit[sz]berg(en)?/ + "Norwegian seas"~2)',
 
     echinoderme: 'id:( 733524962094471CDF009136D2986E2750742881 OR 6D092CC49B1BE5EF78DC7FBC3CBCF0C2B700BEBF OR 6A174B72611EEBBDCF634ACB8780A8CC1B868EA8 OR 4FCAF1CAD0B088B59B041C009BA43C104516BAEF OR 801B862B8C3673672B946F3E8051E4F2225AC279)',
 };

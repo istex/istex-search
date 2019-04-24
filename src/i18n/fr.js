@@ -46,7 +46,7 @@ export default {
 
     motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
 
-    regExpSystematiqueVegetale: '(plantae /(angi|gymn)osperm(s?|ae)/) NOT (/bacteri(a|um)/ /virus(es)?/ /fung(i|us(es)?)/)',
+    regExpSystematiqueVegetale: '/(angi|gymn)osperm(s?|ae)/ NOT (/bacteri(a|um)/ /virus(es)?/ /fung(i|us(es)?)/)',
 
     regExpArctic: 'inuit inuits /yupii?[tk]/ "yup\'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
 

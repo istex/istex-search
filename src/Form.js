@@ -1291,7 +1291,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des mots-clés (avec variantes d’écriture)
+                            des données bibliographiques et des troncatures sur des mots-clés
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1304,7 +1304,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et des opérateurs booléens imbriqués
+                            des troncatures sur des mots-clés et des opérateurs booléens imbriqués
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1317,7 +1317,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et des expressions régulières
+                            des expressions régulières sur des mots-clés (I)
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1330,7 +1330,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                             des mots-clés et des expressions régulières (exemple bis)
+                             des expressions régulières sur des mots-clés (II)
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1343,7 +1343,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des mots-clés et plusieurs opérateurs de recherche
+                            des troncatures, de la recherche floue et des opérateurs de proximité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

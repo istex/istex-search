@@ -44,7 +44,7 @@ export default {
     
     orthophonie: 'subject.value:(orthophon* OR logothérap* OR logotherap* OR logopéd*OR  logopèd* OR logoped*OR logopaed*) AND language:fre AND genre:("research-article" "brief communication")',
 
-    motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
+    motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus funguses) NOT mycorrhiz*)',
 
     regExpSystematiqueVegetale: '/(angi|gymn)osperm(s?|ae)/ NOT (/bacteri(a|um)/ /virus(es)?/ /fung(i|us(es)?)/)',
 

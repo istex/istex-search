@@ -39,8 +39,7 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
-            size: 3000,
-            limitNbDoc: 6000,
+            size: 0,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -53,6 +52,7 @@ export default class Form extends React.Component {
             rankBy: 'relevance',
             total: 0,
             activeKey: '1',
+            compressionLevel: 0
         };
         this.state = this.defaultState;
         this.child = [];
@@ -65,6 +65,7 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
+        this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -116,7 +117,9 @@ export default class Form extends React.Component {
         });
     }
 
-    calculateNbDocs(sizeParam = this.state.limitNbDoc) {
+    calculateNbDocs(
+        //sizeParam = this.state.limitNbDoc
+        ) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -130,17 +133,21 @@ export default class Form extends React.Component {
             .done((json) => {
                 const { total } = json;
                 let size;
-                if (!total || total === 0) {
-                    size = 3000;
-                } else if (sizeParam <= this.state.limitNbDoc) {
-                    if (sizeParam > total) {
-                        size = total;
-                    } else {
-                        size = sizeParam;
-                    }
-                } else {
-                    size = this.state.limitNbDoc;
+                //MBO Comment
+                let defaultSize = 3000;
+                if (!total || total === 0)
+                {
+                    size = 0
                 }
+                else if (defaultSize < total)
+                {
+                    size = defaultSize;
+                }
+                else if (defaultSize >= total)
+                {
+                    size = total;
+                }
+
                 return this.setState({
                     size,
                     total: total || 0,
@@ -150,7 +157,8 @@ export default class Form extends React.Component {
                     return self.setState({ errorServer: 'Error server TODO ...' });
                 }
                 if (err.status >= 400 && err.status < 500) {
-                    return this.setState({ errorRequestSyntax: err.responseJSON._error });
+                    console.log(err.responseJSON._error)
+                    return this.setState({ errorRequestSyntax: err.responseJSON._error});
                 }
                 return null;
             },
@@ -186,7 +194,7 @@ export default class Form extends React.Component {
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
                 size: parsedUrl.size || 3000,
-                limitNbDoc: 6000,
+               // limitNbDoc: 6000,
                 extractMetadata: false,
                 extractFulltext: false,
                 extractEnrichments: false,
@@ -197,6 +205,7 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
+                compressionLevel : parsedUrl.compressionLevel || 0,
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
             }, () => this.calculateNbDocs(parsedUrl.size));
@@ -230,7 +239,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: 3000,
+                size: 0,
                 total: 0,
             });
         }
@@ -281,6 +290,14 @@ export default class Form extends React.Component {
         });
     }
 
+    handlecompressionLevelChange(compressionLevelEvent) {
+        const target = compressionLevelEvent.target;
+        const value = target.value;
+        this.setState({
+            compressionLevel: value,
+        });
+    }
+
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -326,6 +343,7 @@ export default class Form extends React.Component {
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 rankBy: this.state.rankBy,
+                compressionLevel : this.state.compressionLevel
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -354,7 +372,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api.istex.fr/document/');
+        const ISTEX = new URL('https://api-dev.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -391,6 +409,7 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
+        ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
         return ISTEX;
     }
@@ -595,37 +614,6 @@ export default class Form extends React.Component {
                 </p>
             </Popover>
         );
-
-        const popoverRequestLimitWarning = (
-            <Popover
-                id="popover-request-limit-warning"
-                html="true"
-                title={<span>Attention{closingButton}</span>}
-                trigger="click"
-            >
-                Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
-                documents sur les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
-            </Popover>
-        );
-
-        const popoverRequestLimitHelp = (
-            <Popover
-                id="popover-request-limit-help"
-                title={<span> Nombre de documents {closingButton}</span>}
-            >
-                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
-                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
-                (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
-                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
-                <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
-                peut vous intéresser (rubrique suivante).
-
-            </Popover>
-        );
-
         const popoverChoiceHelp = (
             <Popover
                 id="popover-choice-help"
@@ -634,6 +622,20 @@ export default class Form extends React.Component {
                 En fonction de votre sélection, les résultats de votre requête seront classés par
                 ordre de pertinence ou de manière aléatoire.<br />
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
+            </Popover>
+        );
+
+        const popoverCompressionHelp = (
+            <Popover
+                id="popover-compression-help"
+                title={<span> Mode de compression {closingButton}</span>}
+            >
+                Le niveau de compression doit être entre 0 et 9 : <br />
+                <ul>
+                    <li>0 ne donne aucune compression.</li>
+                    <li>1 donne la meilleure vitesse.</li>
+                    <li>9 donne la meilleure compression.</li>
+                </ul>
             </Popover>
         );
 
@@ -795,22 +797,6 @@ export default class Form extends React.Component {
                                             : ''}
                                         </span>
                                 </OverlayTrigger>
-                                &nbsp;
-                                {this.state.total > this.state.limitNbDoc &&
-                                    <OverlayTrigger
-                                        trigger="click"
-                                        rootClose
-                                        placement="right"
-                                        overlay={popoverRequestLimitWarning}
-                                    >
-                                        <i
-                                            role="button"
-                                            className="fa fa-exclamation-triangle"
-                                            aria-hidden="true"
-                                            style={{ color: 'red', marginLeft: '8px' }}
-                                        />
-                                    </OverlayTrigger>
-                                }
                             </p>
                             }
                             {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
@@ -822,26 +808,12 @@ export default class Form extends React.Component {
                             <div className="form-group">
                                 Limite du nombre de documents souhaités
                                 &nbsp;
-                                <OverlayTrigger
-                                    trigger="click"
-                                    rootClose
-                                    placement="right"
-                                    overlay={popoverRequestLimitHelp}
-                                >
-                                    <i
-                                        id="requestLimitInfo"
-                                        role="button"
-                                        className="fa fa-info-circle"
-                                        aria-hidden="true"
-                                    />
-                                </OverlayTrigger>
-                                &nbsp;
                                 :
                                 &nbsp;&nbsp;
                                 <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
                                         className="form-control"
-                                        min={0} max={this.state.limitNbDoc} value={this.state.size}
+                                        min={0} max={this.state.total} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                                         onChange={size => this.setState({ size })}
                                     />
@@ -850,13 +822,14 @@ export default class Form extends React.Component {
                                 <div style={{ width: '200px', display: 'inline-block' }}>
                                     <InputRange
                                         id="nb-doc-to-download"
-                                        maxValue={this.state.limitNbDoc}
+                                        maxValue={this.state.total}
                                         minValue={0}
                                         value={Number(this.state.size)}
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
                             </div>
+                            
                             <div className="rankBy">
                                 Choisir les documents classés
                                 &nbsp;
@@ -896,7 +869,42 @@ export default class Form extends React.Component {
                                     Aléatoirement
                                 </Radio>
                             </div>
+
+                            <div className="form-group" style={{ marginTop : '20px' }}>
+                                Niveau de compression ZIP &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="right"
+                                    overlay={popoverCompressionHelp}
+                                >
+                                    <i
+                                        id="compressionHelpInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
+                                </OverlayTrigger>
+                                &nbsp;
+                                
+                                :
+                                &nbsp;&nbsp;
+                                
+                                <div style={{ width: '60px', display: 'inline-block' }}>
+                                    <NumericInput
+                                        className="form-control"
+                                        min={1} max={9} value={Number(this.state.compressionLevel)}
+                                        onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+                                        onChange={compressionLevel => this.setState({ compressionLevel })}
+                                        >
+                                        </NumericInput>
+                                        
+                                    
+                                </div>
+                               
+                            </div>
                         </div>
+                        
                         <div className="column-buttons">
                             <div className="vl" />
                             <OverlayTrigger
@@ -1084,8 +1092,8 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[0] = instance; }}
                                     label="Métadonnées"
                                     filetype="metadata"
-                                    formats="xml,mods"
-                                    labels="XML|MODS"
+                                    formats="json,xml,mods"
+                                    labels="JSON|XML|MODS"
                                     value={this.state.extractMetadata}
                                     checkedFormats={this.state.Metadata}
                                     onChange={this.handleFiletypeChange}
@@ -1130,6 +1138,7 @@ export default class Form extends React.Component {
                                     tooltip={enrichmentsDisabledTooltip}
                                 />
                             </span>
+                            
 
                         </div>
                         <div className="col-lg-3" />

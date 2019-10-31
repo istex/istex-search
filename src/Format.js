@@ -120,19 +120,17 @@ export default class Format extends React.Component {
                 </p>
                 );
                 break;
-            case 'ocr': tooltipText = (
+            case 'json': tooltipText = (
                 <p>
                     <a
                         href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---ocr--optical-character-recognition-reconnaissance-optique-de-caract%C3%A8res"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        OCR : Optical Character Recognition
+                        JSON : JavaScript Object Notation
                     </a> 
                     <br />
-                    Fichier produit par ISTEX grâce à une chaîne de réocérisation qui fonctionne par reconnaissance
-                    optique de caractères pour améliorer la qualité des documents originaux. À utiliser, s’il est présent, à la place
-                    du fichier TXT
+                    Fichier produit par ISTEX [TODO: Description]
                 </p>
                 );
                 break;

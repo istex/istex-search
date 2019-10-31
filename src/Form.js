@@ -372,7 +372,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api-dev.istex.fr/document/');
+        const ISTEX = new URL('http://localhost:53332/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -1077,8 +1077,8 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[1] = instance; }}
                                     label="Texte intégral"
                                     filetype="fulltext"
-                                    formats="pdf,tei,txt,ocr,zip,tiff"
-                                    labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                    formats="pdf,tei,txt,zip,tiff"
+                                    labels="PDF|TEI|TXT|ZIP|TIFF"
                                     value={this.state.extractFulltext}
                                     checkedFormats={this.state.Fulltext}
                                     onChange={this.handleFiletypeChange}

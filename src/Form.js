@@ -372,7 +372,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('http://localhost:53332/document/');
+        const ISTEX = new URL('https://api-dev.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])

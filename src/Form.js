@@ -372,7 +372,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api-dev.istex.fr/document/');
+        const ISTEX = new URL('http://localhost:53332/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -1034,7 +1034,7 @@ export default class Form extends React.Component {
                         <div className="col-lg-1" />
                         <div className="col-lg-8">
                             <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={this.close}>
-                                <Modal.Header>
+                                <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
 
@@ -1132,6 +1132,7 @@ export default class Form extends React.Component {
                                     formats="multicat,nb,refbibs,teeft,unitex"
                                     labels="multicat|nb|refBibs|teeft|unitex"
                                     value={this.state.extractEnrichments}
+                                    checkedFormats={this.state.Enrichments}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
                                     withPopover
@@ -1163,11 +1164,12 @@ export default class Form extends React.Component {
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
-                            >
-                                <button
+                            >   
+                                <div
                                     type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
+                                    onClick={this.handleSubmit}
                                 />
                             </OverlayTrigger>
                         </div>
@@ -1200,7 +1202,7 @@ export default class Form extends React.Component {
 
                 </form>
                 <Modal show={this.state.downloading} onHide={this.close}>
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title>Téléchargement en cours</Modal.Title>
                     </Modal.Header>
 
@@ -1214,9 +1216,7 @@ export default class Form extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Modal.Footer>
                             <Button onClick={this.handleCancel}>Fermer</Button>
-                        </Modal.Footer>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.showModalShare} onHide={this.close}>

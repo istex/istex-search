@@ -1169,7 +1169,7 @@ export default class Form extends React.Component {
                                     type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
-                                    onClick={this.handleSubmit}
+                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}
                                 />
                             </OverlayTrigger>
                         </div>

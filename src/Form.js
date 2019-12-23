@@ -7,7 +7,7 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem,  ProgressBar} from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -17,10 +17,13 @@ import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
+import openSocket from 'socket.io-client';
 
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = 67000;
 export const nbHistory = 30;
+
+let socket;
 
 export default class Form extends React.Component {
 
@@ -33,6 +36,7 @@ export default class Form extends React.Component {
     static handleCopy() {
         NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
     }
+
 
     constructor(props) {
         super(props);
@@ -52,7 +56,9 @@ export default class Form extends React.Component {
             rankBy: 'relevance',
             total: 0,
             activeKey: '1',
-            compressionLevel: 0
+            compressionLevel: 0,
+            downloadProgress: 0,
+            downloadTime: '',
         };
         this.state = this.defaultState;
         this.child = [];
@@ -118,7 +124,6 @@ export default class Form extends React.Component {
     }
 
     calculateNbDocs(
-        //sizeParam = this.state.limitNbDoc
         ) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
@@ -133,18 +138,12 @@ export default class Form extends React.Component {
             .done((json) => {
                 const { total } = json;
                 let size;
-                //MBO Comment
-                let defaultSize = 3000;
-                if (!total || total === 0)
-                {
-                    size = 0
-                }
-                else if (defaultSize < total)
-                {
+                const defaultSize = 3000;
+                if (!total || total === 0) {
+                    size = 0;
+                } else if (defaultSize < total) {
                     size = defaultSize;
-                }
-                else if (defaultSize >= total)
-                {
+                } else if (defaultSize >= total) {
                     size = total;
                 }
 
@@ -157,8 +156,7 @@ export default class Form extends React.Component {
                     return self.setState({ errorServer: 'Error server TODO ...' });
                 }
                 if (err.status >= 400 && err.status < 500) {
-                    console.log(err.responseJSON._error)
-                    return this.setState({ errorRequestSyntax: err.responseJSON._error});
+                    return this.setState({ errorRequestSyntax: err.responseJSON._error });
                 }
                 return null;
             },
@@ -205,7 +203,7 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
-                compressionLevel : parsedUrl.compressionLevel || 0,
+                compressionLevel: parsedUrl.compressionLevel || 0,
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
             }, () => this.calculateNbDocs(parsedUrl.size));
@@ -319,6 +317,18 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
+
+        socket = openSocket('https://api-dev.istex.fr:8000');
+
+        function subscribeToDownloadProgress(cb) {
+            socket.emit('showDownloadProgress', 1000);
+            socket.on('progressing', downloadProgress => cb(null, downloadProgress));
+        }
+
+        subscribeToDownloadProgress((err, downloadProgress) => this.setState({
+            downloadProgress,
+        }));
+
         window.setTimeout(() => {
             window.location = href;
         }, 1000);
@@ -332,6 +342,7 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
+        socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -343,7 +354,7 @@ export default class Form extends React.Component {
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 rankBy: this.state.rankBy,
-                compressionLevel : this.state.compressionLevel
+                compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -356,8 +367,14 @@ export default class Form extends React.Component {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
+
         this.erase();
+        if (event != undefined)
         event.preventDefault();
+        // TODO: socket.IO
+        // this.state.downloadProgress = 0;
+
+
     }
 
     updateUrl(defaultState = false) {
@@ -470,6 +487,8 @@ export default class Form extends React.Component {
         return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
+        // TODO: socket.IO
+        const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
         const closingButton = (
             <Button
                 bsClass="buttonClose"
@@ -870,7 +889,7 @@ export default class Form extends React.Component {
                                 </Radio>
                             </div>
 
-                            <div className="form-group" style={{ marginTop : '20px' }}>
+                            <div className="form-group" style={{ marginTop: '20px' }}>
                                 Niveau de compression ZIP &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -1030,10 +1049,13 @@ export default class Form extends React.Component {
                     }
 
                     <div className="istex-dl-format row" >
-
                         <div className="col-lg-1" />
                         <div className="col-lg-8">
-                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={this.close}>
+                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
+                                            this.setState({
+                                                showHistory: false,
+                                            });
+                                        }}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
@@ -1201,17 +1223,21 @@ export default class Form extends React.Component {
                     }
 
                 </form>
-                <Modal show={this.state.downloading} onHide={this.close}>
+                <Modal show={this.state.downloading} onHide={this.handleCancel} className="downloadModal">
                     <Modal.Header closeButton>
                         <Modal.Title>Téléchargement en cours</Modal.Title>
                     </Modal.Header>
-
                     <Modal.Body>
                         <div className="text-center">
                             La génération de votre corpus est en cours.<br />
                             Veuillez patienter. L’archive sera bientôt téléchargée...
                             <br />
-                            <img src="/img/loader.gif" alt="" />
+                            <br />
+                            {// <img src="/img/loader.gif" alt="" />
+                            }
+                            {this.state.downloadTime}
+                            {progressInstance}
+                            
                         </div>
                     </Modal.Body>
 
@@ -1219,8 +1245,8 @@ export default class Form extends React.Component {
                             <Button onClick={this.handleCancel}>Fermer</Button>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.showModalShare} onHide={this.close}>
-                    <Modal.Header>
+                <Modal show={this.state.showModalShare} onHide={this.hideModalShare}>
+                    <Modal.Header closeButton>
                         <Modal.Title>Partager</Modal.Title>
                     </Modal.Header>
 
@@ -1254,7 +1280,7 @@ export default class Form extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.showModalExemple} onHide={this.hideModalExemple} backdrop >
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title>Exemples de requêtes</Modal.Title>
                     </Modal.Header>
 

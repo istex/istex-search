@@ -1,4 +1,3 @@
-/* eslint no-control-regex: "off" */
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -13,11 +12,13 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
+import openSocket from 'socket.io-client';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
-import openSocket from 'socket.io-client';
+import config from './config';
+
 
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = 67000;
@@ -44,6 +45,7 @@ export default class Form extends React.Component {
             q: '',
             querywithIDorARK: '',
             size: 0,
+            limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -123,8 +125,7 @@ export default class Form extends React.Component {
         });
     }
 
-    calculateNbDocs(
-        ) {
+    calculateNbDocs(sizeParam = this.state.limitNbDoc) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -138,15 +139,17 @@ export default class Form extends React.Component {
             .done((json) => {
                 const { total } = json;
                 let size;
-                const defaultSize = 3000;
                 if (!total || total === 0) {
-                    size = 0;
-                } else if (defaultSize < total) {
-                    size = defaultSize;
-                } else if (defaultSize >= total) {
-                    size = total;
+                    size = 3000;
+                } else if (sizeParam <= this.state.limitNbDoc) {
+                    if (sizeParam > total) {
+                        size = total;
+                    } else {
+                        size = sizeParam;
+                    }
+                } else {
+                    size = this.state.limitNbDoc;
                 }
-
                 return this.setState({
                     size,
                     total: total || 0,
@@ -187,12 +190,13 @@ export default class Form extends React.Component {
 
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
+        console.log(process.env)
         if (Object.keys(parsedUrl).length >= 1) {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
                 size: parsedUrl.size || 3000,
-               // limitNbDoc: 6000,
+                limitNbDoc: config.limitNbDoc,
                 extractMetadata: false,
                 extractFulltext: false,
                 extractEnrichments: false,
@@ -633,6 +637,37 @@ export default class Form extends React.Component {
                 </p>
             </Popover>
         );
+
+        const popoverRequestLimitWarning = (
+            <Popover
+                id="popover-request-limit-warning"
+                html="true"
+                title={<span>Attention{closingButton}</span>}
+                trigger="click"
+            >
+                Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                documents sur les&nbsp;
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
+            </Popover>
+        );
+
+        const popoverRequestLimitHelp = (
+            <Popover
+                id="popover-request-limit-help"
+                title={<span> Nombre de documents {closingButton}</span>}
+            >
+                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
+                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
+                (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
+                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
+                <br />
+                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
+                peut vous intéresser (rubrique suivante).
+
+            </Popover>
+        );
+
         const popoverChoiceHelp = (
             <Popover
                 id="popover-choice-help"
@@ -816,6 +851,22 @@ export default class Form extends React.Component {
                                             : ''}
                                         </span>
                                 </OverlayTrigger>
+                                &nbsp;
+                                {this.state.total > this.state.limitNbDoc &&
+                                    <OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="right"
+                                        overlay={popoverRequestLimitWarning}
+                                    >
+                                        <i
+                                            role="button"
+                                            className="fa fa-exclamation-triangle"
+                                            aria-hidden="true"
+                                            style={{ color: 'red', marginLeft: '8px' }}
+                                        />
+                                    </OverlayTrigger>
+                                }
                             </p>
                             }
                             {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
@@ -832,7 +883,7 @@ export default class Form extends React.Component {
                                 <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
                                         className="form-control"
-                                        min={0} max={this.state.total} value={this.state.size}
+                                        min={0} max={this.state.limitNbDoc} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                                         onChange={size => this.setState({ size })}
                                     />
@@ -841,7 +892,7 @@ export default class Form extends React.Component {
                                 <div style={{ width: '200px', display: 'inline-block' }}>
                                     <InputRange
                                         id="nb-doc-to-download"
-                                        maxValue={this.state.total}
+                                        maxValue={this.state.limitNbDoc}
                                         minValue={0}
                                         value={Number(this.state.size)}
                                         onChange={size => this.setState({ size })}

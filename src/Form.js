@@ -6,7 +6,7 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem,  ProgressBar} from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem,  ProgressBar } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -322,7 +322,7 @@ export default class Form extends React.Component {
             URL2Download: href,
         });
 
-        socket = openSocket('https://api-dev.istex.fr:8000');
+        socket = openSocket(config.apiUrl+':8000');
 
         function subscribeToDownloadProgress(cb) {
             socket.emit('showDownloadProgress', 1000);
@@ -393,7 +393,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api-dev.istex.fr/document/');
+        const ISTEX = new URL(config.apiUrl+'/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])

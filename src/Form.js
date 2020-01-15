@@ -131,7 +131,7 @@ export default class Form extends React.Component {
                 const { total } = json;
                 let size;
                 if (!total || total === 0) {
-                    size = 3000;
+                    size = 50000;
                 } else if (sizeParam <= this.state.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;

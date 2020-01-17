@@ -6,25 +6,20 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem,  ProgressBar } from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem,  ProgressBar} from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
-import openSocket from 'socket.io-client';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 import config from './config';
-
-
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = 67000;
 export const nbHistory = 30;
-
-let socket;
 
 export default class Form extends React.Component {
 
@@ -140,7 +135,7 @@ export default class Form extends React.Component {
                 const { total } = json;
                 let size;
                 if (!total || total === 0) {
-                    size = 3000;
+                    size = 50000;
                 } else if (sizeParam <= this.state.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
@@ -190,12 +185,12 @@ export default class Form extends React.Component {
 
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
-        console.log(process.env)
+
         if (Object.keys(parsedUrl).length >= 1) {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || 3000,
+                size: parsedUrl.size || 50000,
                 limitNbDoc: config.limitNbDoc,
                 extractMetadata: false,
                 extractFulltext: false,
@@ -321,8 +316,8 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
-
-        socket = openSocket(config.apiUrl+':8000');
+        /*
+        socket = openSocket('http://localhost:8000');
 
         function subscribeToDownloadProgress(cb) {
             socket.emit('showDownloadProgress', 1000);
@@ -331,8 +326,7 @@ export default class Form extends React.Component {
 
         subscribeToDownloadProgress((err, downloadProgress) => this.setState({
             downloadProgress,
-        }));
-
+        }));*/
         window.setTimeout(() => {
             window.location = href;
         }, 1000);
@@ -346,7 +340,7 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
-        socket.disconnect();
+        //socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -393,7 +387,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL(config.apiUrl+'/document/');
+        const ISTEX = new URL('https://api-dev.istex.fr/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -492,7 +486,7 @@ export default class Form extends React.Component {
     }
     render() {
         // TODO: socket.IO
-        const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
+        // const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
         const closingButton = (
             <Button
                 bsClass="buttonClose"
@@ -1283,12 +1277,7 @@ export default class Form extends React.Component {
                             La génération de votre corpus est en cours.<br />
                             Veuillez patienter. L’archive sera bientôt téléchargée...
                             <br />
-                            <br />
-                            {// <img src="/img/loader.gif" alt="" />
-                            }
-                            {this.state.downloadTime}
-                            {progressInstance}
-                            
+                            <img src="/img/loader.gif" alt="" />
                         </div>
                     </Modal.Body>
 

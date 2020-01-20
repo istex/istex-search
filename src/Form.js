@@ -317,7 +317,7 @@ export default class Form extends React.Component {
             URL2Download: href,
         });
         /*
-        socket = openSocket('http://localhost:8000');
+        socket = openSocket(config.apiUrl + ':8000');
 
         function subscribeToDownloadProgress(cb) {
             socket.emit('showDownloadProgress', 1000);
@@ -387,7 +387,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api-dev.istex.fr/document/');
+        const ISTEX = new URL(config.apiUrl+'/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])

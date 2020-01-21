@@ -39,7 +39,7 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
-            size: 0,
+            size: 50000,
             limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
             extractFulltext: false,
@@ -54,8 +54,6 @@ export default class Form extends React.Component {
             total: 0,
             activeKey: '1',
             compressionLevel: 0,
-            downloadProgress: 0,
-            downloadTime: '',
         };
         this.state = this.defaultState;
         this.child = [];
@@ -185,7 +183,6 @@ export default class Form extends React.Component {
 
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
-
         if (Object.keys(parsedUrl).length >= 1) {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
@@ -236,7 +233,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: 0,
+                size: 50000,
                 total: 0,
             });
         }
@@ -317,7 +314,7 @@ export default class Form extends React.Component {
             URL2Download: href,
         });
         /*
-        socket = openSocket(config.apiUrl + ':8000');
+        socket = openSocket('http://localhost:8000');
 
         function subscribeToDownloadProgress(cb) {
             socket.emit('showDownloadProgress', 1000);
@@ -387,7 +384,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL(config.apiUrl+'/document/');
+        const ISTEX = new URL(config.apiUrl + '/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -892,8 +889,7 @@ export default class Form extends React.Component {
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
-                            </div>
-                            
+                            </div>                          
                             <div className="rankBy">
                                 Choisir les documents classés
                                 &nbsp;
@@ -1206,7 +1202,6 @@ export default class Form extends React.Component {
                                     tooltip={enrichmentsDisabledTooltip}
                                 />
                             </span>
-                            
 
                         </div>
                         <div className="col-lg-3" />

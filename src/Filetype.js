@@ -137,9 +137,6 @@ export default class Filetype extends React.Component {
                         documentation ISTEX
                     </a>
                 <br />
-                <br />
-                Actuellement, tous les enrichissements sont téléchargés quelle que soit la sélection opérée.
-                Le téléchargement différencié de chaque type d’enrichissement n’est pas encore disponible.
                 </p>  
             ;
             break;

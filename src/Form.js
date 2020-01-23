@@ -6,7 +6,7 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem,  ProgressBar} from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem} from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -39,7 +39,7 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
-            size: 50000,
+            size: config.defaultSize,
             limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
             extractFulltext: false,
@@ -53,7 +53,7 @@ export default class Form extends React.Component {
             rankBy: 'relevance',
             total: 0,
             activeKey: '1',
-            compressionLevel: 0,
+            //compressionLevel: 0,
         };
         this.state = this.defaultState;
         this.child = [];
@@ -66,7 +66,7 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
-        this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
+        //this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -118,7 +118,7 @@ export default class Form extends React.Component {
         });
     }
 
-    calculateNbDocs(sizeParam = this.state.limitNbDoc) {
+    calculateNbDocs(sizeParam = config.defaultSize) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -131,21 +131,27 @@ export default class Form extends React.Component {
         this.istexDlXhr = $.get(ISTEX.href)
             .done((json) => {
                 const { total } = json;
-                let size;
+                let size,limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
-                    size = 50000;
-                } else if (sizeParam <= this.state.limitNbDoc) {
+                    size = config.defaultSize;
+                } else if (sizeParam <= config.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
                     } else {
                         size = sizeParam;
                     }
                 } else {
-                    size = this.state.limitNbDoc;
+                    size = config.limitNbDoc;
                 }
+                if (total < sizeParam) {
+                    size = total;
+                    limitNbDoc = total;
+                }
+
                 return this.setState({
                     size,
                     total: total || 0,
+                    limitNbDoc : limitNbDoc
                 });
             }).fail((err) => {
                 if (err.status >= 500) {
@@ -187,7 +193,7 @@ export default class Form extends React.Component {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || 50000,
+                size: parsedUrl.size || config.defaultSize,
                 limitNbDoc: config.limitNbDoc,
                 extractMetadata: false,
                 extractFulltext: false,
@@ -199,7 +205,7 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
-                compressionLevel: parsedUrl.compressionLevel || 0,
+                //compressionLevel: parsedUrl.compressionLevel || 0,
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
             }, () => this.calculateNbDocs(parsedUrl.size));
@@ -233,7 +239,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: 50000,
+                size: config.limitNbDoc,
                 total: 0,
             });
         }
@@ -283,7 +289,7 @@ export default class Form extends React.Component {
             rankBy: name,
         });
     }
-
+    /*
     handlecompressionLevelChange(compressionLevelEvent) {
         const target = compressionLevelEvent.target;
         const value = target.value;
@@ -291,7 +297,7 @@ export default class Form extends React.Component {
             compressionLevel: value,
         });
     }
-
+    */
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -349,7 +355,7 @@ export default class Form extends React.Component {
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 rankBy: this.state.rankBy,
-                compressionLevel: this.state.compressionLevel,
+                //compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -364,7 +370,7 @@ export default class Form extends React.Component {
         }
 
         this.erase();
-        if (event != undefined)
+        if (event !== undefined)
         event.preventDefault();
         // TODO: socket.IO
         // this.state.downloadProgress = 0;
@@ -421,7 +427,7 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
-        ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
+        //ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
         return ISTEX;
     }
@@ -637,7 +643,7 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} premiers
                 documents sur les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
             </Popover>
@@ -669,7 +675,7 @@ export default class Form extends React.Component {
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );
-
+        /*
         const popoverCompressionHelp = (
             <Popover
                 id="popover-compression-help"
@@ -682,7 +688,7 @@ export default class Form extends React.Component {
                     <li>9 donne la meilleure compression.</li>
                 </ul>
             </Popover>
-        );
+        );*/
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -867,7 +873,21 @@ export default class Form extends React.Component {
                             }
 
                             <div className="form-group">
-                                Limite du nombre de documents souhaités
+                                Choisir le nombre de documents souhaités
+                                &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="right"
+                                    overlay={popoverRequestLimitHelp}
+                                >
+                                    <i
+                                        id="requestLimitInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
+                                </OverlayTrigger>
                                 &nbsp;
                                 :
                                 &nbsp;&nbsp;
@@ -889,7 +909,7 @@ export default class Form extends React.Component {
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
-                            </div>                          
+                            </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés
                                 &nbsp;
@@ -929,8 +949,8 @@ export default class Form extends React.Component {
                                     Aléatoirement
                                 </Radio>
                             </div>
-
-                            <div className="form-group" style={{ marginTop: '20px' }}>
+                            
+                            {/* <div className="form-group" style={{ marginTop: '20px' }}>
                                 Niveau de compression ZIP &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -962,7 +982,7 @@ export default class Form extends React.Component {
                                     
                                 </div>
                                
-                            </div>
+                            </div>*/}
                         </div>
                         
                         <div className="column-buttons">

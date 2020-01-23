@@ -115,22 +115,21 @@ export default class Format extends React.Component {
                         TXT : Text
                     </a> 
                     <br />
-                    Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide
-                    du logiciel PDF to Text
+                    Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide du logiciel PDF to Text ou via une chaîne de réocérisation permettant d’améliorer la qualité du texte
                 </p>
                 );
                 break;
             case 'json': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---ocr--optical-character-recognition-reconnaissance-optique-de-caract%C3%A8res"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---json--javascript-object-notation"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         JSON : JavaScript Object Notation
                     </a> 
                     <br />
-                    Fichier produit par ISTEX [TODO: Description]
+                    Fichier produit par ISTEX rassemblant toutes les métadonnées et les enrichissements
                 </p>
                 );
                 break;

@@ -1,4 +1,3 @@
-/* eslint no-control-regex: "off" */
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -7,7 +6,7 @@ import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem} from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -17,7 +16,7 @@ import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
-
+import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = 67000;
 export const nbHistory = 30;
@@ -34,13 +33,14 @@ export default class Form extends React.Component {
         NotificationManager.info('Le lien a été copié dans le presse-papier', '', 2000);
     }
 
+
     constructor(props) {
         super(props);
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
-            size: 3000,
-            limitNbDoc: 6000,
+            size: config.defaultSize,
+            limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
             extractFulltext: false,
             extractEnrichments: false,
@@ -53,6 +53,7 @@ export default class Form extends React.Component {
             rankBy: 'relevance',
             total: 0,
             activeKey: '1',
+            //compressionLevel: 0,
         };
         this.state = this.defaultState;
         this.child = [];
@@ -65,6 +66,7 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
+        //this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -116,7 +118,7 @@ export default class Form extends React.Component {
         });
     }
 
-    calculateNbDocs(sizeParam = this.state.limitNbDoc) {
+    calculateNbDocs(sizeParam = config.defaultSize) {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -129,21 +131,27 @@ export default class Form extends React.Component {
         this.istexDlXhr = $.get(ISTEX.href)
             .done((json) => {
                 const { total } = json;
-                let size;
+                let size,limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
-                    size = 3000;
-                } else if (sizeParam <= this.state.limitNbDoc) {
+                    size = config.defaultSize;
+                } else if (sizeParam <= config.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
                     } else {
                         size = sizeParam;
                     }
                 } else {
-                    size = this.state.limitNbDoc;
+                    size = config.limitNbDoc;
                 }
+                if (total < sizeParam) {
+                    size = total;
+                    limitNbDoc = total;
+                }
+
                 return this.setState({
                     size,
                     total: total || 0,
+                    limitNbDoc : limitNbDoc
                 });
             }).fail((err) => {
                 if (err.status >= 500) {
@@ -185,8 +193,8 @@ export default class Form extends React.Component {
             this.setState({
                 q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
                 querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || 3000,
-                limitNbDoc: 6000,
+                size: parsedUrl.size || config.defaultSize,
+                limitNbDoc: config.limitNbDoc,
                 extractMetadata: false,
                 extractFulltext: false,
                 extractEnrichments: false,
@@ -197,6 +205,7 @@ export default class Form extends React.Component {
                 errorRequestSyntax: '',
                 errorDuringDownload: '',
                 rankBy: parsedUrl.rankBy || 'relevance',
+                //compressionLevel: parsedUrl.compressionLevel || 0,
                 activeKey: parsedUrl.withID ? '2' : '1',
                 total: 0,
             }, () => this.calculateNbDocs(parsedUrl.size));
@@ -230,7 +239,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: 3000,
+                size: config.limitNbDoc,
                 total: 0,
             });
         }
@@ -280,7 +289,15 @@ export default class Form extends React.Component {
             rankBy: name,
         });
     }
-
+    /*
+    handlecompressionLevelChange(compressionLevelEvent) {
+        const target = compressionLevelEvent.target;
+        const value = target.value;
+        this.setState({
+            compressionLevel: value,
+        });
+    }
+    */
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -302,6 +319,17 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
+        /*
+        socket = openSocket('http://localhost:8000');
+
+        function subscribeToDownloadProgress(cb) {
+            socket.emit('showDownloadProgress', 1000);
+            socket.on('progressing', downloadProgress => cb(null, downloadProgress));
+        }
+
+        subscribeToDownloadProgress((err, downloadProgress) => this.setState({
+            downloadProgress,
+        }));*/
         window.setTimeout(() => {
             window.location = href;
         }, 1000);
@@ -315,6 +343,7 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
+        //socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -326,6 +355,7 @@ export default class Form extends React.Component {
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 rankBy: this.state.rankBy,
+                //compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -338,8 +368,14 @@ export default class Form extends React.Component {
                 window.localStorage.setItem('dlISTEX', JSON.stringify([dlStorage]));
             }
         }
+
         this.erase();
+        if (event !== undefined)
         event.preventDefault();
+        // TODO: socket.IO
+        // this.state.downloadProgress = 0;
+
+
     }
 
     updateUrl(defaultState = false) {
@@ -354,7 +390,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL('https://api.istex.fr/document/');
+        const ISTEX = new URL(config.apiUrl + '/document/');
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -391,6 +427,7 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
+        //ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
         return ISTEX;
     }
@@ -451,6 +488,8 @@ export default class Form extends React.Component {
         return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
     render() {
+        // TODO: socket.IO
+        // const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
         const closingButton = (
             <Button
                 bsClass="buttonClose"
@@ -604,7 +643,7 @@ export default class Form extends React.Component {
                 trigger="click"
             >
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.size)} premiers
+                {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} premiers
                 documents sur les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
             </Popover>
@@ -636,6 +675,20 @@ export default class Form extends React.Component {
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
         );
+        /*
+        const popoverCompressionHelp = (
+            <Popover
+                id="popover-compression-help"
+                title={<span> Mode de compression {closingButton}</span>}
+            >
+                Le niveau de compression doit être entre 0 et 9 : <br />
+                <ul>
+                    <li>0 ne donne aucune compression.</li>
+                    <li>1 donne la meilleure vitesse.</li>
+                    <li>9 donne la meilleure compression.</li>
+                </ul>
+            </Popover>
+        );*/
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -820,7 +873,7 @@ export default class Form extends React.Component {
                             }
 
                             <div className="form-group">
-                                Limite du nombre de documents souhaités
+                                Choisir le nombre de documents souhaités
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -856,7 +909,7 @@ export default class Form extends React.Component {
                                         onChange={size => this.setState({ size })}
                                     />
                                 </div>
-                            </div>
+                            </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés
                                 &nbsp;
@@ -896,7 +949,42 @@ export default class Form extends React.Component {
                                     Aléatoirement
                                 </Radio>
                             </div>
+                            
+                            {/* <div className="form-group" style={{ marginTop: '20px' }}>
+                                Niveau de compression ZIP &nbsp;
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="right"
+                                    overlay={popoverCompressionHelp}
+                                >
+                                    <i
+                                        id="compressionHelpInfo"
+                                        role="button"
+                                        className="fa fa-info-circle"
+                                        aria-hidden="true"
+                                    />
+                                </OverlayTrigger>
+                                &nbsp;
+                                
+                                :
+                                &nbsp;&nbsp;
+                                
+                                <div style={{ width: '60px', display: 'inline-block' }}>
+                                    <NumericInput
+                                        className="form-control"
+                                        min={1} max={9} value={Number(this.state.compressionLevel)}
+                                        onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+                                        onChange={compressionLevel => this.setState({ compressionLevel })}
+                                        >
+                                        </NumericInput>
+                                        
+                                    
+                                </div>
+                               
+                            </div>*/}
                         </div>
+                        
                         <div className="column-buttons">
                             <div className="vl" />
                             <OverlayTrigger
@@ -1022,11 +1110,14 @@ export default class Form extends React.Component {
                     }
 
                     <div className="istex-dl-format row" >
-
                         <div className="col-lg-1" />
                         <div className="col-lg-8">
-                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={this.close}>
-                                <Modal.Header>
+                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
+                                            this.setState({
+                                                showHistory: false,
+                                            });
+                                        }}>
+                                <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
 
@@ -1069,8 +1160,8 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[1] = instance; }}
                                     label="Texte intégral"
                                     filetype="fulltext"
-                                    formats="pdf,tei,txt,ocr,zip,tiff"
-                                    labels="PDF|TEI|TXT|OCR|ZIP|TIFF"
+                                    formats="pdf,tei,txt,zip,tiff"
+                                    labels="PDF|TEI|TXT|ZIP|TIFF"
                                     value={this.state.extractFulltext}
                                     checkedFormats={this.state.Fulltext}
                                     onChange={this.handleFiletypeChange}
@@ -1084,8 +1175,8 @@ export default class Form extends React.Component {
                                     ref={(instance) => { this.child[0] = instance; }}
                                     label="Métadonnées"
                                     filetype="metadata"
-                                    formats="xml,mods"
-                                    labels="XML|MODS"
+                                    formats="json,xml,mods"
+                                    labels="JSON|XML|MODS"
                                     value={this.state.extractMetadata}
                                     checkedFormats={this.state.Metadata}
                                     onChange={this.handleFiletypeChange}
@@ -1124,6 +1215,7 @@ export default class Form extends React.Component {
                                     formats="multicat,nb,refbibs,teeft,unitex"
                                     labels="multicat|nb|refBibs|teeft|unitex"
                                     value={this.state.extractEnrichments}
+                                    checkedFormats={this.state.Enrichments}
                                     onChange={this.handleFiletypeChange}
                                     onFormatChange={this.handleFormatChange}
                                     withPopover
@@ -1154,11 +1246,12 @@ export default class Form extends React.Component {
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
-                            >
-                                <button
+                            >   
+                                <div
                                     type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
+                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}
                                 />
                             </OverlayTrigger>
                         </div>
@@ -1190,11 +1283,10 @@ export default class Form extends React.Component {
                     }
 
                 </form>
-                <Modal show={this.state.downloading} onHide={this.close}>
-                    <Modal.Header>
+                <Modal show={this.state.downloading} onHide={this.handleCancel} className="downloadModal">
+                    <Modal.Header closeButton>
                         <Modal.Title>Téléchargement en cours</Modal.Title>
                     </Modal.Header>
-
                     <Modal.Body>
                         <div className="text-center">
                             La génération de votre corpus est en cours.<br />
@@ -1205,13 +1297,11 @@ export default class Form extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Modal.Footer>
                             <Button onClick={this.handleCancel}>Fermer</Button>
-                        </Modal.Footer>
                     </Modal.Footer>
                 </Modal>
-                <Modal show={this.state.showModalShare} onHide={this.close}>
-                    <Modal.Header>
+                <Modal show={this.state.showModalShare} onHide={this.hideModalShare}>
+                    <Modal.Header closeButton>
                         <Modal.Title>Partager</Modal.Title>
                     </Modal.Header>
 
@@ -1245,7 +1335,7 @@ export default class Form extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.showModalExemple} onHide={this.hideModalExemple} backdrop >
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title>Exemples de requêtes</Modal.Title>
                     </Modal.Header>
 

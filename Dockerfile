@@ -21,12 +21,13 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
   "httpPort": 80, \
-  "configPath": "/app/config.json" \
+  "configPath": "/app/src/config.js" \
 }' > /etc/ezmaster.json
 
 # build www/dist/bundle.js and www/dist/bundle.css for production
 COPY ./src /app/src/
 COPY ./public /app/public/
+COPY .env /app/.env
 RUN npm run build
 
 # remove service-worker stuff

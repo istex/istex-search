@@ -81,7 +81,6 @@ export default class Filetype extends React.Component {
                 <p>
                 Informations bibliographiques permettant de présenter
                 un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
-                Outre les deux formats proposés, il existe un format JSON qui, lui, est téléchargé par défaut.
                 <br />
                 Voir <a 
                         href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#métadonnées"
@@ -138,9 +137,6 @@ export default class Filetype extends React.Component {
                         documentation ISTEX
                     </a>
                 <br />
-                <br />
-                Actuellement, tous les enrichissements sont téléchargés quelle que soit la sélection opérée.
-                Le téléchargement différencié de chaque type d’enrichissement n’est pas encore disponible.
                 </p>  
             ;
             break;

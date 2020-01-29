@@ -593,7 +593,7 @@ export default class Form extends React.Component {
                     </a>
                 <br />
                 Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du
-                corpus constitué (notamment : OCR, TIFF, annexes, couvertures ou enrichissements).
+                corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
 
@@ -645,7 +645,7 @@ export default class Form extends React.Component {
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} premiers
                 documents sur les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} de résultats potentiels.
             </Popover>
         );
 
@@ -655,11 +655,9 @@ export default class Form extends React.Component {
                 title={<span> Nombre de documents {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
-                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
-                (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
-                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
+                Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
+                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire représentatif des résultats
                 peut vous intéresser (rubrique suivante).
 
             </Popover>

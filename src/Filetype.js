@@ -80,7 +80,7 @@ export default class Filetype extends React.Component {
             this.popoverText =
                 <p>
                 Informations bibliographiques permettant de présenter
-                un document (nom de l’auteur, affiliation, revue, éditeur, etc.). <br />
+                un document (nom de l’auteur, affiliation, revue, éditeur, etc.). 
                 <br />
                 Voir <a 
                         href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#métadonnées"

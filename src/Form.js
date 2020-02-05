@@ -658,7 +658,7 @@ export default class Form extends React.Component {
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
                 <br />
                 Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire représentatif des résultats
-                peut vous intéresser (rubrique suivante).
+                peut vous intéresser (voir rubrique suivante).
 
             </Popover>
         );

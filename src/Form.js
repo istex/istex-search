@@ -151,7 +151,7 @@ export default class Form extends React.Component {
                 return this.setState({
                     size,
                     total: total || 0,
-                    limitNbDoc : limitNbDoc
+                    limitNbDoc,
                 });
             }).fail((err) => {
                 if (err.status >= 500) {

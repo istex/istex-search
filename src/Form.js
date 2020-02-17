@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
@@ -12,13 +13,15 @@ import { NotificationContainer, NotificationManager } from 'react-notifications'
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
+import { WritableStream } from 'web-streams-polyfill/ponyfill';
+import streamSaver from 'streamsaver';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
-export const characterLimit = 67000;
+export const characterLimit = config.characterLimit;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
@@ -86,10 +89,11 @@ export default class Form extends React.Component {
     }
 
     characterNumberValidation() {
-        const length = this.state.q.length;
+        return 'success';
+        /*const length = this.state.q.length;
         if (length < characterLimit - 1000) return 'success';
         else if (length <= characterLimit) return 'warning';
-        else if (length > characterLimit) return 'error';
+        else if (length > characterLimit) return 'error';*/
         return null;
     }
 
@@ -128,7 +132,7 @@ export default class Form extends React.Component {
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
-        this.istexDlXhr = $.get(ISTEX.href)
+        this.istexDlXhr = $.post(ISTEX.href, { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
                 const { total } = json;
                 let size,limitNbDoc = config.limitNbDoc;
@@ -329,10 +333,52 @@ export default class Form extends React.Component {
 
         subscribeToDownloadProgress((err, downloadProgress) => this.setState({
             downloadProgress,
-        }));*/
-        window.setTimeout(() => {
-            window.location = href;
-        }, 1000);
+        })); */
+
+  
+        if (this.state.q.length > characterLimit) {
+            fetch(href, {
+                method: 'POST',
+                body: JSON.stringify({
+                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            }).then((response) => {   
+                const contentDisposition = response.headers.get('Content-disposition');
+                const fileName = contentDisposition.substring(contentDisposition.lastIndexOf('=') + 1);
+            
+                // These code section is adapted from an example of the StreamSaver.js
+                // https://jimmywarting.github.io/StreamSaver.js/examples/fetch.html
+        
+                // If the WritableStream is not available (Firefox, Safari), take it from the ponyfill
+                if (!window.WritableStream) {
+                    streamSaver.WritableStream = WritableStream;
+                    window.WritableStream = WritableStream;
+                }
+                //streamSaver.mitm = href;
+                const fileStream = streamSaver.createWriteStream(fileName);
+                const readableStream = response.body;
+        
+                // More optimized
+                if (readableStream.pipeTo) {
+                    return readableStream.pipeTo(fileStream);
+                }
+        
+                const writer = fileStream.getWriter();
+        
+                const reader = response.body.getReader();
+                const pump = () => reader.read().then(
+                    res => (res.done ? writer.close() 
+                        : writer.write(res.value).then(pump)));
+                pump();
+            }).catch((error) => {
+                console.log(error);
+            });
+        } else {
+            window.setTimeout(() => {
+                window.location = href;
+            }, 1000);
+        }
         event.preventDefault();
     }
 
@@ -370,8 +416,9 @@ export default class Form extends React.Component {
         }
 
         this.erase();
-        if (event !== undefined)
-        event.preventDefault();
+        if (event !== undefined) { 
+            event.preventDefault(); 
+        }
         // TODO: socket.IO
         // this.state.downloadProgress = 0;
 
@@ -414,14 +461,23 @@ export default class Form extends React.Component {
                     .concat(!formats[0] ? formats.slice(1) : formats)
                     .concat(formats[0] || formats.length > 1 ? '];' : ';');
             }
-                , '')
+            , '')
             .slice(0, -1);
+        let uniqueId = Math.random().toString(36).substring(2) + Date.now().toString(36);
         if (this.state.activeKey === '1') {
-            ISTEX.searchParams.set('q', query || this.state.q);
-        } else {
+            if (this.state.q.length < characterLimit) {
+                ISTEX.searchParams.set('q', query || this.state.q);
+            } else {
+                ISTEX.searchParams.set('q_uid', uniqueId);
+            }
+        } else if (this.state.querywithIDorARK.length < characterLimit) {
             ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
             ISTEX.searchParams.set('withID', true);
-        }
+        } else {
+            ISTEX.searchParams.set('q_uid', uniqueId);
+            ISTEX.searchParams.set('withID', true);
+        } 
+        
         ISTEX.searchParams.set('extract', extract);
         if (withHits) {
             ISTEX.searchParams.set('size', this.state.size);
@@ -572,11 +628,11 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-       // const previewTooltip = (
-       //    <Tooltip data-html="true" id="previewTooltip">
-       //    Cliquez pour pré-visualiser les documents correspondant à votre requête
-       //     </Tooltip>
-       // );
+        // const previewTooltip = (
+        //    <Tooltip data-html="true" id="previewTooltip">
+        //    Cliquez pour pré-visualiser les documents correspondant à votre requête
+        //     </Tooltip>
+        // );
 
         const popoverFiletypeHelp = (
             <Popover
@@ -588,12 +644,12 @@ export default class Form extends React.Component {
                     href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
                     target="_blank"
                     rel="noopener noreferrer"
-                       >
+                >
                         documentation ISTEX.
-                    </a>
+                </a>
                 <br />
                 Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du
-                corpus constitué (notamment : OCR, TIFF, annexes, couvertures ou enrichissements).
+                corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
 
@@ -645,7 +701,7 @@ export default class Form extends React.Component {
                 Reformulez votre requête ou vous ne pourrez télécharger que les&nbsp;
                 {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)} premiers
                 documents sur les&nbsp;
-                {commaNumber.bindWith('\xa0', '')(this.state.total)} résultats potentiels.
+                {commaNumber.bindWith('\xa0', '')(this.state.total)} de résultats potentiels.
             </Popover>
         );
 
@@ -655,12 +711,10 @@ export default class Form extends React.Component {
                 title={<span> Nombre de documents {closingButton}</span>}
             >
                 Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
-                Cette limite a été déterminée empiriquement. Dans le cas de fichiers volumineux
-                (formats PDF ou ZIP notamment), elle pourrait s’avérer trop élevée.
-                Dans ce cas, sélectionnez moins de documents ou reformulez votre équation.<br />
+                Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire des résultats
-                peut vous intéresser (rubrique suivante).
+                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire représentatif des résultats
+                peut vous intéresser (voir rubrique suivante).
 
             </Popover>
         );
@@ -792,19 +846,20 @@ export default class Form extends React.Component {
                                     <Textarea
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
-                                                ? 'brain AND language:fre'
-                                                : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
+                                            ? 'brain AND language:fre'
+                                            : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
                                         }
                                         name="q"
                                         id={`area-${this.state.activeKey}`}
                                         rows="3"
                                         autoFocus="true"
                                         value={this.state.activeKey === '1'
-                                                ? this.state.q
-                                                : this.state.querywithIDorARK
+                                            ? this.state.q
+                                            : this.state.querywithIDorARK
                                         }
                                         onChange={this.handleQueryChange}
                                     />
+                                    {/*
                                     <HelpBlock>
                                         Nombre de caractères restants&nbsp;
                                         &nbsp;
@@ -833,7 +888,7 @@ export default class Form extends React.Component {
                                                 marginLeft: '8px',
                                             }}
                                         />
-                                    </HelpBlock>
+                                        </HelpBlock> */}
                                 </FormGroup>
                             </div>
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
@@ -841,12 +896,12 @@ export default class Form extends React.Component {
                                 L’équation saisie correspond à
                                 &nbsp;
                                 <OverlayTrigger>
-                                        <span>
-                                            {this.state.total ?
+                                    <span>
+                                        {this.state.total ?
                                             commaNumber.bindWith('\xa0', '')(this.state.total)
-                                            .concat(' document(s)')
+                                                .concat(' document(s)')
                                             : ''}
-                                        </span>
+                                    </span>
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
@@ -1113,10 +1168,10 @@ export default class Form extends React.Component {
                         <div className="col-lg-1" />
                         <div className="col-lg-8">
                             <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
-                                            this.setState({
-                                                showHistory: false,
-                                            });
-                                        }}>
+                                this.setState({
+                                    showHistory: false,
+                                });
+                            }}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
@@ -1297,7 +1352,7 @@ export default class Form extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                            <Button onClick={this.handleCancel}>Fermer</Button>
+                        <Button onClick={this.handleCancel}>Fermer</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.showModalShare} onHide={this.hideModalShare}>

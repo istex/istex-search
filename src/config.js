@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 const config = {
-    apiUrl: 'http://localhost:53332',
+    apiUrl: 'https://api.istex.fr',
     limitNbDoc: 100000,
     defaultSize: 50000,
     characterLimit: 67000,

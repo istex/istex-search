@@ -57,8 +57,9 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: 'relevance',
-            total: 0,
+            total: -1,
             activeKey: '1',
+            nbDocsCalculating: false,
             //compressionLevel: 0,
         };
         this.state = this.defaultState;
@@ -126,6 +127,11 @@ export default class Form extends React.Component {
     }
 
     calculateNbDocs(sizeParam = config.defaultSize) {
+        this.setState({
+            nbDocsCalculating: true,
+            total: -1,
+            size: 0,
+        });
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -135,6 +141,7 @@ export default class Form extends React.Component {
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
+        // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href, { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
                 const { total } = json;
@@ -159,6 +166,7 @@ export default class Form extends React.Component {
                     size,
                     total: total || 0,
                     limitNbDoc,
+                    nbDocsCalculating: false,
                 });
             }).fail((err) => {
                 if (err.status >= 500) {
@@ -792,6 +800,7 @@ export default class Form extends React.Component {
                 ordre de pertinence ou de manière aléatoire.<br />
                 Par défaut, c’est l’ordre de pertinence qui est privilégié.
             </Popover>
+
         );
         /*
         const popoverCompressionHelp = (
@@ -955,6 +964,13 @@ export default class Form extends React.Component {
                                         </HelpBlock> */}
                                 </FormGroup>
                             </div>
+                            {this.state.nbDocsCalculating &&
+                            <p>
+                                Calcul en cours de nombre des résultats
+                                &nbsp;
+                                <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
+                            </p>
+                            }
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                             <p>
                                 L’équation saisie correspond à
@@ -966,6 +982,7 @@ export default class Form extends React.Component {
                                                 .concat(' document(s)')
                                             : ''}
                                     </span>
+                               
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
@@ -1012,10 +1029,12 @@ export default class Form extends React.Component {
                                 &nbsp;&nbsp;
                                 <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
+                                        disabled={this.state.nbDocsCalculating} 
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                        onChange={size => this.setState({ size })}
+                                        onChange={size => this.setState({ size })
+                                        }
                                     />
                                 </div>
                                 &nbsp;&nbsp;&nbsp;

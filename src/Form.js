@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-trailing-spaces */
 import React from 'react';
 import $ from 'jquery';
@@ -14,18 +15,19 @@ import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
 import { WritableStream } from 'web-streams-polyfill/ponyfill';
+import md5 from 'md5';
 import streamSaver from 'streamsaver';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
+
 import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = config.characterLimit;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
-
     static handleReload() {
         if (JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'))) {
             window.location = JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'));
@@ -42,6 +44,7 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
+            qId: '',
             size: config.defaultSize,
             limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
@@ -61,7 +64,7 @@ export default class Form extends React.Component {
         this.state = this.defaultState;
         this.child = [];
         this.timer = 0;
-
+        this.lastqId = '';
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
@@ -191,47 +194,73 @@ export default class Form extends React.Component {
         return '';
     }
 
+    setQIDFromURL(parsedUrl) {
+        this.lastqId = parsedUrl.q_id;
+        this.setState({
+            q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
+            querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
+        }, () => this.calculateNbDocs(parsedUrl.size));
+    }
+    setStateFromURL(parsedUrl) {
+        this.lastqId = parsedUrl.q_id;
+        this.setState({
+            q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
+            querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
+            size: parsedUrl.size || config.defaultSize,
+            limitNbDoc: config.limitNbDoc,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            qId: parsedUrl.q_id,
+            extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
+            extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
+            downloading: !!parsedUrl.download,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+            rankBy: parsedUrl.rankBy || 'relevance',
+            //compressionLevel: parsedUrl.compressionLevel || 0,
+            activeKey: parsedUrl.withID ? '2' : '1',
+            total: 0,
+        }, () => this.calculateNbDocs(parsedUrl.size));
+        if (parsedUrl.extract) {
+            parsedUrl.extract.split(';').forEach((filetype) => {
+                const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                let res = '';
+                formats.forEach((format) => {
+                    res += `${format},`;
+                });
+                res = res.slice(0, res.length - 1);
+                this.setState({
+                    [type]: res,
+                }, () => {
+                    if (parsedUrl.download) {
+                        this.handleSubmit(new Event('submit'));
+                    }
+                });
+            });
+        }
+    }
+
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
-        if (Object.keys(parsedUrl).length >= 1) {
-            this.setState({
-                q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
-                querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || config.defaultSize,
-                limitNbDoc: config.limitNbDoc,
-                extractMetadata: false,
-                extractFulltext: false,
-                extractEnrichments: false,
-                extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
-                extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
-                downloading: !!parsedUrl.download,
-                URL2Download: '',
-                errorRequestSyntax: '',
-                errorDuringDownload: '',
-                rankBy: parsedUrl.rankBy || 'relevance',
-                //compressionLevel: parsedUrl.compressionLevel || 0,
-                activeKey: parsedUrl.withID ? '2' : '1',
-                total: 0,
-            }, () => this.calculateNbDocs(parsedUrl.size));
-
-            if (parsedUrl.extract) {
-                parsedUrl.extract.split(';').forEach((filetype) => {
-                    const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-                    const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
-                    let res = '';
-                    formats.forEach((format) => {
-                        res += `${format},`;
+        if (parsedUrl.q_id !== undefined) {
+            // check session
+            let qSessionStorage = sessionStorage.getItem(parsedUrl.q_id);
+            if (qSessionStorage !== null) {
+                parsedUrl.q = qSessionStorage;
+                this.setStateFromURL(parsedUrl);
+            } else {
+                fetch(new URL(`${config.apiUrl}/q_id/${parsedUrl.q_id}`))
+                    .then(response => response.json()).then((data) => {
+                        parsedUrl.q = data.req;
+                        this.setQIDFromURL(parsedUrl);
                     });
-                    res = res.slice(0, res.length - 1);
-                    this.setState({
-                        [type]: res,
-                    }, () => {
-                        if (parsedUrl.download) {
-                            this.handleSubmit(new Event('submit'));
-                        }
-                    });
-                });
-            }
+                this.setStateFromURL(parsedUrl);
+            }  
+        } else if (Object.keys(parsedUrl).length >= 1) {
+            this.setStateFromURL(parsedUrl);
         }
     }
 
@@ -310,6 +339,21 @@ export default class Form extends React.Component {
             .concat(format.charAt(0).toUpperCase()).concat(format.slice(1));
         this.setState({
             [name]: formatEvent.value,
+        });
+    }
+
+    setQidReq() {
+        let href = `${config.apiUrl}/q_id/${this.lastqId}`;
+        fetch(href, {
+            method: 'POST',
+            body: JSON.stringify({
+                qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        }).then(() => {  
+            console.log('OK setting new q_id');
+        }).catch(function (error) {
+            console.log(error);
         });
     }
 
@@ -400,6 +444,7 @@ export default class Form extends React.Component {
                 formats,
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
+                qId: this.state.qId,
                 rankBy: this.state.rankBy,
                 //compressionLevel: this.state.compressionLevel,
             };
@@ -421,8 +466,6 @@ export default class Form extends React.Component {
         }
         // TODO: socket.IO
         // this.state.downloadProgress = 0;
-
-
     }
 
     updateUrl(defaultState = false) {
@@ -441,6 +484,7 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
+            
             .map(key => decamelize(key, '-'))
             .map(key => key.split('-').slice(1))
             .map(([filetype, format]) => ({ filetype, format }))
@@ -463,21 +507,28 @@ export default class Form extends React.Component {
             }
             , '')
             .slice(0, -1);
-        let uniqueId = Math.random().toString(36).substring(2) + Date.now().toString(36);
+        if (this.state.qId !== undefined) {
+            ISTEX.searchParams.set('q_id', this.state.qId);
+        } 
         if (this.state.activeKey === '1') {
             if (this.state.q.length < characterLimit) {
+                ISTEX.searchParams.delete('q_id');
                 ISTEX.searchParams.set('q', query || this.state.q);
             } else {
-                ISTEX.searchParams.set('q_uid', uniqueId);
+                ISTEX.searchParams.set('q_id', this.convertMD5(1));
             }
-        } else if (this.state.querywithIDorARK.length < characterLimit) {
-            ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
-            ISTEX.searchParams.set('withID', true);
-        } else {
-            ISTEX.searchParams.set('q_uid', uniqueId);
-            ISTEX.searchParams.set('withID', true);
+        } else { 
+            if (this.state.querywithIDorARK.length < characterLimit) {
+                ISTEX.searchParams.delete('q_id');
+                ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
+                ISTEX.searchParams.set('withID', true);
+            } else {
+                ISTEX.searchParams.set('q_id', this.convertMD5(2));
+                ISTEX.searchParams.set('withID', true);
+            }
         } 
         
+        //ISTEX.searchParams.set('hello', this.state.qId);
         ISTEX.searchParams.set('extract', extract);
         if (withHits) {
             ISTEX.searchParams.set('size', this.state.size);
@@ -486,6 +537,19 @@ export default class Form extends React.Component {
         //ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
         return ISTEX;
+    }
+
+    convertMD5(activeKey) {
+        let key;
+        if (activeKey === 1) {
+            key = md5(this.state.q.trim());
+            sessionStorage.setItem(key, this.state.q.trim());
+        } else {
+            key = md5(this.state.querywithIDorARK);
+            sessionStorage.setItem(key, this.state.querywithIDorARK);
+        }
+        this.lastqId = key;
+        return key;
     }
 
     erase() {
@@ -779,7 +843,7 @@ export default class Form extends React.Component {
         );
 
         this.updateUrlAndLocalStorage();
-        const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
+        const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
             <div className={`container-fluid ${this.props.className}`}>
                 <NotificationContainer />
@@ -1092,6 +1156,7 @@ export default class Form extends React.Component {
                                     if (!this.isDownloadDisabled()) {
                                         this.setState({ showModalShare: true });
                                     }
+                                    this.setQidReq();
                                 }}
                             >
                                 <div

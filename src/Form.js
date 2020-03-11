@@ -1,3 +1,9 @@
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable consistent-return */
+/* eslint-disable no-lonely-if */
+/* eslint-disable max-len */
 /* eslint-disable prefer-const */
 /* eslint-disable no-trailing-spaces */
 import React from 'react';
@@ -227,7 +233,7 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: parsedUrl.rankBy || 'relevance',
-            //compressionLevel: parsedUrl.compressionLevel || 0,
+            // compressionLevel: parsedUrl.compressionLevel || 0,
             activeKey: parsedUrl.withID ? '2' : '1',
             total: 0,
         }, () => this.calculateNbDocs(parsedUrl.size));
@@ -375,6 +381,8 @@ export default class Form extends React.Component {
             downloading: true,
             URL2Download: href,
         });
+
+
         /*
         socket = openSocket('http://localhost:8000');
 
@@ -386,9 +394,24 @@ export default class Form extends React.Component {
         subscribeToDownloadProgress((err, downloadProgress) => this.setState({
             downloadProgress,
         })); */
-
+        
   
-        if (this.state.q.length > characterLimit) {
+        if (this.state.q.length >= characterLimit) {
+            let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
+            fetch(hrefSet, {
+                method: 'POST',
+                body: JSON.stringify({
+                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(() => {  
+                window.setTimeout(() => {
+                    window.location = href;
+                }, 10);
+            }).catch(function (error) {
+                console.log(error);
+            });
+            /*
             fetch(href, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -407,7 +430,7 @@ export default class Form extends React.Component {
                     streamSaver.WritableStream = WritableStream;
                     window.WritableStream = WritableStream;
                 }
-                //streamSaver.mitm = href;
+                // streamSaver.mitm = href;
                 const fileStream = streamSaver.createWriteStream(fileName);
                 const readableStream = response.body;
         
@@ -425,7 +448,7 @@ export default class Form extends React.Component {
                 pump();
             }).catch((error) => {
                 console.log(error);
-            });
+            }); */
         } else {
             window.setTimeout(() => {
                 window.location = href;
@@ -441,7 +464,7 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
-        //socket.disconnect();
+        // socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -454,7 +477,7 @@ export default class Form extends React.Component {
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 qId: this.state.qId,
                 rankBy: this.state.rankBy,
-                //compressionLevel: this.state.compressionLevel,
+                // compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -488,7 +511,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL(config.apiUrl + '/document/');
+        const ISTEX = new URL(`${config.apiUrl}/document/`);
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
@@ -632,7 +655,7 @@ export default class Form extends React.Component {
                 title={<span> Requête {closingButton}</span>}
             >
                 Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>
+                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;).<br/>
                 Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -647,8 +670,8 @@ export default class Form extends React.Component {
                 vous aider du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>,
                 de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
                 accessibles via le bouton
-                <span style={{ display : 'inline-block' }}>
-                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
+                <span style={{ display: 'inline-block' }}>
+                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;
                 </span>.
             </Popover>
         );
@@ -660,7 +683,7 @@ export default class Form extends React.Component {
             >
                 Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
                 l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
-                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;.
             </Popover>
         );
 
@@ -815,7 +838,7 @@ export default class Form extends React.Component {
                     <li>9 donne la meilleure compression.</li>
                 </ul>
             </Popover>
-        );*/
+        ); */
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -860,12 +883,21 @@ export default class Form extends React.Component {
 
                     <div className="istex-dl-request row">
 
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8">
-                            <h2>
+                        <div className="col-lg-2 col-sm-1" />
+                        <div className="col-lg-8 col-sm-10">
+                            <h2 className="exempleH2">
                                 <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
                                 &nbsp;
+                                <OverlayTrigger
+                                    rootClose
+                                    placement="top"
+                                    overlay={examplesTooltip}
+                                    onClick={() => this.setState({ showModalExemple: true })}
+                                >   
+                                    <div className="exempleBtn"><i role="button" className="fa fa-lightbulb-o" aria-hidden="true" /> Exemples</div>
+                                </OverlayTrigger>
+                                &nbsp;{/*
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -874,8 +906,11 @@ export default class Form extends React.Component {
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                                &nbsp;
+                                &nbsp;*/
+                                }
+
                             </h2>
+
                             <p>
                                 Explicitez ci-dessous l’équation ou la liste d’identifiants
                                 qui décrit le corpus souhaité :
@@ -1037,7 +1072,8 @@ export default class Form extends React.Component {
                                         }
                                     />
                                 </div>
-                                &nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp; <span className="limitNbDocTxt">/ {this.state.limitNbDoc}</span>
+                                { /*
                                 <div style={{ width: '200px', display: 'inline-block' }}>
                                     <InputRange
                                         id="nb-doc-to-download"
@@ -1046,7 +1082,7 @@ export default class Form extends React.Component {
                                         value={Number(this.state.size)}
                                         onChange={size => this.setState({ size })}
                                     />
-                                </div>
+                                </div> */}
                             </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés
@@ -1120,142 +1156,47 @@ export default class Form extends React.Component {
                                     
                                 </div>
                                
-                            </div>*/}
-                        </div>
-                        
-                        <div className="column-buttons">
-                            <div className="vl" />
-                            <OverlayTrigger
-                                rootClose
-                                placement="right"
-                                overlay={examplesTooltip}
-                                onClick={() => this.setState({ showModalExemple: true })}
-                            >
-                                <div className="select-button" id="exampleButton">
-                                    <div>
-                                        <i
-                                            role="button"
-                                            className="fa fa-lightbulb-o"
-                                            aria-hidden="true"
-                                        />
-                                    </div>
-                                    <p>
-                                        Exemples
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={resetTooltip}
-                                onClick={() => this.erase()}
-                            >
-                                <div className="select-button">
-                                    <div>
-                                        <i role="button" className="fa fa-eraser" aria-hidden="true" />
-                                    </div>
-                                    <p>
-                                        Réinitialiser
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={reloadTooltip}
-                                onClick={Form.handleReload}
-                            >
-                                <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
-                                rootClose
-                                placement="right"
-                                overlay={shareTooltip}
-                                onClick={() => {
-                                    if (!this.isDownloadDisabled()) {
-                                        this.setState({ showModalShare: true });
-                                    }
-                                    this.setQidReq();
-                                }}
-                            >
-                                <div
-                                    className="btn select-button"
-                                    disabled={this.isDownloadDisabled()}
-                                >
-                                    <div>
-                                        <i
-                                            role="button"
-                                            className="fa fa-link"
-                                            aria-hidden="true"
-                                        />
-                                    </div>
-                                    <p>
-                                        Partager
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={historyTooltip}
-                                onClick={() => {
-                                    this.setState({
-                                        showHistory: true,
-                                    });
-                                }}
-                            >
-                                <div 
-                                    className="select-button"
-                                >
-                                    <div>
-                                        <i 
-                                            role="button" 
-                                            className="fa fa-history" 
-                                            aria-hidden="true">
-                                        </i>
-                                    </div>
-                                    <p>Historique</p>
-                                </div>
-                            </OverlayTrigger>
-
+                            </div> */}
                         </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&
-                            <div className="istex-dl-error-request row">
-                                <div className="col-lg-1" />
-                                <div className="col-lg-8">
-                                    <p>
+                    <div className="istex-dl-error-request row">
+                        <div className="col-lg-2 col-sm-1" />
+                        <div className="col-lg-8 col-sm-10">
+                            <p>
                                         Erreur de syntaxe dans votre requête &nbsp;
-                                        <OverlayTrigger
-                                            trigger="click"
-                                            rootClose
-                                            placement="top"
-                                            overlay={popoverRequestHelp}
-                                        >
-                                            <i role="button" className="fa fa-info-circle" aria-hidden="true" />
-                                        </OverlayTrigger>
-                                        <br />
-                                    </p>
-                                    <blockquote
-                                        className="blockquote-Syntax-error"
-                                    >
-                                        {this.state.errorRequestSyntax}
-                                    </blockquote>
-                                </div>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="top"
+                                    overlay={popoverRequestHelp}
+                                >
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                </OverlayTrigger>
+                                <br />
+                            </p>
+                            <blockquote
+                                className="blockquote-Syntax-error"
+                            >
+                                {this.state.errorRequestSyntax}
+                            </blockquote>
+                        </div>
 
-                                <div className="col-lg-3" />
-                            </div>
+                        <div className="col-lg-2 col-sm-1" />
+                    </div>
                     }
 
                     <div className="istex-dl-format row" >
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8">
-                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
-                                this.setState({
-                                    showHistory: false,
-                                });
-                            }}>
+                        <div className="col-lg-2 col-sm-1" />
+                        <div className="col-lg-8 col-sm-10">
+                            <Modal
+                                dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
+                                    this.setState({
+                                        showHistory: false,
+                                    });
+                                }}
+                            >
                                 <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
@@ -1363,13 +1304,13 @@ export default class Form extends React.Component {
                             </span>
 
                         </div>
-                        <div className="col-lg-3" />
+                        <div className="col-lg-2 col-sm-1" />
                     </div>
 
 
                     <div className="istex-dl-download row">
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8 text-center">
+                        <div className="col-lg-2 col-sm-1" />
+                        <div className="col-lg-8 col-sm-10 text-center">
                             <h2>
                                 <span className="num-etape">&nbsp;3.&nbsp;</span>
                                 Télécharger
@@ -1394,14 +1335,58 @@ export default class Form extends React.Component {
                                 />
                             </OverlayTrigger>
                         </div>
-                        <div className="col-lg-3" />
+                        <div className="col-lg-2 col-sm-1" />
 
                     </div>
 
+                    <div className="istex-dl-menu">
+                        <div className="col-lg-12 col-xs-12 col-sm-12">
+                            <div className="col-lg-4 col-xs-0 col-sm-2" />
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={resetTooltip}
+                                onClick={() => this.erase()}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-eraser" aria-hidden="true" /><br /><span className="bottom-menu-txt">Réinitialiser</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={reloadTooltip}
+                                onClick={Form.handleReload}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-repeat" aria-hidden="true" /><br /><span className="bottom-menu-txt">Récupérer</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                rootClose
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+                                    if (!this.isDownloadDisabled()) {
+                                        this.setState({ showModalShare: true });
+                                    }
+                                    this.setQidReq();
+                                }}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico" disabled={this.isDownloadDisabled()}><i className="fa fa-link" aria-hidden="true" /><br /><span className="bottom-menu-txt">Partager</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={historyTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showHistory: true,
+                                    });
+                                }}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-2 bottom-menu-ico"><i className="fa fa-history" aria-hidden="true" /><br /><span className="bottom-menu-txt">Historique</span></div>
+                            </OverlayTrigger>
+
+                        </div>
+                    </div>
                     {this.state.errorDuringDownload &&
                         <div className="istex-dl-error-download row">
-                            <div className="col-lg-1" />
-                            <div className="col-lg-8">
+                            <div className="col-lg-2 col-sm-1" />
+                            <div className="col-lg-8 col-sm-10">
                                 <p>
                                     <i
                                         role="button"
@@ -1417,7 +1402,7 @@ export default class Form extends React.Component {
                                     <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                                 </p>
                             </div>
-                            <div className="col-lg-3" />
+                            <div className="col-lg-2 col-sm-1" />
                         </div>
                     }
 

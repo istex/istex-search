@@ -27,7 +27,10 @@ a,button{outline: none!important; } /* Prevent ugly blue glow on chrome and safa
 .container{
 	max-width:1170px;
 }
-
+.container-fluid{
+    padding-left:0px !important;
+    padding-right:0px  !important;
+}
 /* = Blocs
 -------------------------------------------------------------- */
 
@@ -711,8 +714,8 @@ a[data-lightbox]:hover img{
         display:inline-block;
     }
     .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-        margin-top: 30px;
-        margin-bottom: 30px;
+        /* margin-top: 30px; */
+        /* margin-bottom: 30px; */
     }
     .video-bg-contianer{
         display:none;
@@ -842,6 +845,51 @@ a[data-lightbox]:hover img{
             font-weight: 300;
             font-size: 16px;
             color: #555;
+        }
+
+        .istex-dl-menu {
+            border-width: 0px;
+            position: fixed !important;
+            width: 100%;
+            bottom: 0;
+            height: 80px;
+            -ms-overflow-x: hidden;
+            overflow-x: hidden;
+            -ms-overflow-y: hidden;
+            overflow-y: hidden;
+            background-color: rgba(36, 43, 50, 1);
+            background-image: none;
+        }
+        .bottom-menu-ico {
+            text-align: center;
+            vertical-align: bottom;
+            font-size: 42px;
+            color: #C4D933;
+            cursor: pointer;
+        }
+        .bottom-menu-ico.disabled, .bottom-menu-ico[disabled], fieldset[disabled] .bottom-menu-ico {
+            opacity: 50%;
+            border: none;
+            cursor: not-allowed;
+        }
+        .bottom-menu-ico.disabled:hover, .bottom-menu-ico[disabled]:hover, fieldset[disabled] .bottom-menu-ico:hover {
+            opacity: 50%;
+            border: none;
+            cursor: not-allowed;
+            color: #C4D933;
+        }
+        .bottom-menu-ico:hover {
+            color:white;
+            cursor: pointer;
+        }
+
+        
+        .bottom-menu-txt {
+            text-align: center;
+            font-size: 16px;
+            vertical-align: top;
+            position: relative;
+            top: -10px;
         }
 
         .istex-dl-error-download {
@@ -1184,6 +1232,63 @@ a[data-lightbox]:hover img{
 .column-buttons .btn {
     text-align: left!important;
 }
-.nav-pills > li + li {
-    margin-left: 8px!important;
+
+
+@media(min-width:768px){
+    .nav-pills > li + li {
+        margin-left: 8px !important;
+    }
+}
+@media(min-width:992px){
+    .nav-pills > li + li {
+        margin-left: 8px !important;
+    }
+}
+@media(min-width:1200px){
+    .nav-pills > li + li {
+        margin-left: 8px !important;
+    }
+}
+@media(max-width:767px){
+    .nav-pills > li {
+        width: 50%;
+        padding-left: 0px;
+    }
+    .nav-pills > li + li {
+        margin-left: 0px !important;
+    }
+}
+.exempleBtn{
+    border: 1px solid #458ca5;
+    color: #458ca5;
+    border-radius: 0!important;
+    display: inline-block;
+    float: right;
+    font-size: 18px;
+    line-height: 36px;
+    padding-left: 15px;
+    padding-right: 28px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.exempleBtn i{
+    font-size: 35px;
+    padding-right: 10px;
+    float: left;
+}
+.exempleH2 {
+    padding-bottom:15px;
+}
+
+
+.exempleBtn:hover{
+    border: 1px solid #458ca5;
+    color: #0d1518;
+    background:#c4d933;
+    cursor: pointer;
+    border-color:#0d1518;
+}
+.limitNbDocTxt{
+    color:#458CA5;
+    font-weight: 600;
 }

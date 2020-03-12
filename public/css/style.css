@@ -1283,12 +1283,15 @@ a[data-lightbox]:hover img{
 
 .exempleBtn:hover{
     border: 1px solid #458ca5;
-    color: #0d1518;
+    color: #333;
     background:#c4d933;
     cursor: pointer;
-    border-color:#0d1518;
+    border-color: #c4d933;
 }
 .limitNbDocTxt{
-    color:#458CA5;
-    font-weight: 600;
+    color: rgb(51, 51, 51);
+    /* font-weight: 600; */
+}
+.pTxt {
+    line-height: 40px;
 }

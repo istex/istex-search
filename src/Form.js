@@ -286,7 +286,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: config.limitNbDoc,
+                size: 0,
                 total: 0,
             });
         }
@@ -1000,14 +1000,14 @@ export default class Form extends React.Component {
                                 </FormGroup>
                             </div>
                             {this.state.nbDocsCalculating &&
-                            <p>
-                                Calcul en cours de nombre des résultats
+                            <p className="pTxt">
+                                Calcul en cours de nombre des résultats ... 
                                 &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                             </p>
                             }
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p>
+                            <p className="pTxt">
                                 L’équation saisie correspond à
                                 &nbsp;
                                 <OverlayTrigger>
@@ -1038,7 +1038,7 @@ export default class Form extends React.Component {
                             </p>
                             }
                             {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p>
+                            <p className="pTxt">
                                 L’équation saisie correspond à 0 document
                             </p>
                             }

@@ -9,20 +9,17 @@
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-    Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem} from 'react-bootstrap';
+    Tooltip, FormGroup, FormControl,
+    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
-import { WritableStream } from 'web-streams-polyfill/ponyfill';
 import md5 from 'md5';
-import streamSaver from 'streamsaver';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
@@ -63,10 +60,10 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: 'relevance',
-            total: -1,
+            total: 0,
             activeKey: '1',
             nbDocsCalculating: false,
-            //compressionLevel: 0,
+            // compressionLevel: 0,
         };
         this.state = this.defaultState;
         this.child = [];
@@ -79,13 +76,16 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
-        //this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
+        // this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
         this.hideModalShare = this.hideModalShare.bind(this);
         this.hideModalExemple = this.hideModalExemple.bind(this);
         this.calculateNbDocs = this.calculateNbDocs.bind(this);
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.usage = false;
     }
 
     componentWillMount() {
@@ -100,11 +100,11 @@ export default class Form extends React.Component {
 
     characterNumberValidation() {
         return 'success';
-        /*const length = this.state.q.length;
+        /* const length = this.state.q.length;
         if (length < characterLimit - 1000) return 'success';
         else if (length <= characterLimit) return 'warning';
-        else if (length > characterLimit) return 'error';*/
-        return null;
+        else if (length > characterLimit) return 'error';
+        return null; */
     }
 
     recoverFormatState() {
@@ -135,7 +135,7 @@ export default class Form extends React.Component {
     calculateNbDocs(sizeParam = config.defaultSize) {
         this.setState({
             nbDocsCalculating: true,
-            total: -1,
+            total: 0,
             size: 0,
         });
         const self = this;
@@ -153,7 +153,8 @@ export default class Form extends React.Component {
                 const { total } = json;
                 let size,limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
-                    size = config.defaultSize;
+                    size = 0;
+                    limitNbDoc = 0;
                 } else if (sizeParam <= config.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
@@ -259,6 +260,13 @@ export default class Form extends React.Component {
 
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
+        if (parsedUrl.usage === '1') {
+            this.usage = 1;
+            this.shouldHideUpersonnalise = ' ';
+            this.shouldHideU = 'hidden';
+        } else if (parsedUrl.usage === '2') {
+            this.usage = 2;
+        }
         if (parsedUrl.q_id !== undefined) {
             // check session
             let qSessionStorage = sessionStorage.getItem(parsedUrl.q_id);
@@ -458,6 +466,10 @@ export default class Form extends React.Component {
     }
 
     handleSelectNav(eventKey) {
+        if (eventKey === '3') {
+            this.setState({ showModalExemple: true });
+            return;
+        }
         this.setState({
             activeKey: eventKey,
         }, () => this.calculateNbDocs());
@@ -511,6 +523,7 @@ export default class Form extends React.Component {
     }
 
     buildURLFromState(query = null, withHits = true) {
+
         const ISTEX = new URL(`${config.apiUrl}/document/`);
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
@@ -558,15 +571,22 @@ export default class Form extends React.Component {
                 ISTEX.searchParams.set('withID', true);
             }
         } 
-        
-        //ISTEX.searchParams.set('hello', this.state.qId);
+        // ISTEX.searchParams.set('hello', this.state.qId);
         ISTEX.searchParams.set('extract', extract);
         if (withHits) {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
-        //ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
+        // ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
+
+        if (this.usage === 1) {
+            ISTEX.searchParams.set('usage', this.usage);
+        } else if (this.usage === 2) {
+            ISTEX.searchParams.set('usage', this.usage);
+            ISTEX.searchParams.set('extract', 'fulltext[pdf]');
+        }
+
         return ISTEX;
     }
 
@@ -638,6 +658,25 @@ export default class Form extends React.Component {
             .filter(key => this.state[key]);
         return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
     }
+
+    showUsagePersonnalise() {
+        this.shouldHideUpersonnalise = '';
+        this.shouldHideU = 'hidden';
+        this.usage = 1;
+        this.setState({});
+    }
+
+    showUsages() {
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.setState({});
+    }
+
+    showUsageLodex() {
+        this.usage = 2;
+        this.setState({});
+    }
+
     render() {
         // TODO: socket.IO
         // const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
@@ -769,7 +808,7 @@ export default class Form extends React.Component {
                 </p>
             </Tooltip>
         );
-
+        /*
         const popoverCharacterLimitHelp = (
             <Popover
                 id="popover-character-limit-help"
@@ -785,6 +824,7 @@ export default class Form extends React.Component {
                 </p>
             </Popover>
         );
+        */
 
         const popoverRequestLimitWarning = (
             <Popover
@@ -889,15 +929,7 @@ export default class Form extends React.Component {
                                 <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
                                 &nbsp;
-                                <OverlayTrigger
-                                    rootClose
-                                    placement="top"
-                                    overlay={examplesTooltip}
-                                    onClick={() => this.setState({ showModalExemple: true })}
-                                >   
-                                    <div className="exempleBtn"><i role="button" className="fa fa-lightbulb-o" aria-hidden="true" /> Exemples</div>
-                                </OverlayTrigger>
-                                &nbsp;{/*
+
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -906,9 +938,7 @@ export default class Form extends React.Component {
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                                &nbsp;*/
-                                }
-
+                                &nbsp;
                             </h2>
 
                             <p>
@@ -947,6 +977,17 @@ export default class Form extends React.Component {
                                                 placement="top"
                                                 overlay={popoverRequestARK}
                                             >
+                                                <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                            </OverlayTrigger>
+                                        </NavItem>
+                                        <NavItem eventKey="3" className="floatRight">
+                                            Exemples
+                                            &nbsp;
+                                            <OverlayTrigger
+                                                rootClose
+                                                placement="top"
+                                                overlay={examplesTooltip}
+                                            >   
                                                 <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
@@ -1232,76 +1273,121 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
-                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+                            <p>Le choix de l’outil induit un pré-remplissage des formats et types de fichiers.<br />
+                            Choisir un usage puis modifier les paramètres revient au cas "Usage personnalisé".</p>
+                            <div className={this.shouldHideU}>
 
-
-                            <span className="fulltextGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[1] = instance; }}
-                                    label="Texte intégral"
-                                    filetype="fulltext"
-                                    formats="pdf,tei,txt,zip,tiff"
-                                    labels="PDF|TEI|TXT|ZIP|TIFF"
-                                    value={this.state.extractFulltext}
-                                    checkedFormats={this.state.Fulltext}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={fulltextTooltip}
-                                />
-                            </span>
-                            <span className="otherfileGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[0] = instance; }}
-                                    label="Métadonnées"
-                                    filetype="metadata"
-                                    formats="json,xml,mods"
-                                    labels="JSON|XML|MODS"
-                                    value={this.state.extractMetadata}
-                                    checkedFormats={this.state.Metadata}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={metadataTooltip}
-                                />
-                                <Filetype
-                                    ref={(instance) => { this.child[2] = instance; }}
-                                    label="Annexes"
-                                    filetype="annexes"
-                                    formats=""
-                                    labels=""
-                                    value={this.state.extractAnnexes}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    tooltip={appendicesTooltip}
-                                />
-                                <Filetype
-                                    ref={(instance) => { this.child[3] = instance; }}
-                                    label="Couvertures"
-                                    filetype="covers"
-                                    formats=""
-                                    labels=""
-                                    value={this.state.extractCovers}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    tooltip={coversTooltip}
-                                />
-                            </span>
-                            <span className="enrichmentsGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[4] = instance; }}
-                                    label="Enrichissements"
-                                    filetype="enrichments"
-                                    formats="multicat,nb,refbibs,teeft,unitex"
-                                    labels="multicat|nb|refBibs|teeft|unitex"
-                                    value={this.state.extractEnrichments}
-                                    checkedFormats={this.state.Enrichments}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={enrichmentsDisabledTooltip}
-                                />
-                            </span>
+                                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-6 col-widget">
+                                    <table className="widget" onClick={() => this.showUsagePersonnalise()}>
+                                        <tbody>
+                                            <tr>
+                                                <td className="lv1"><span className="lv11">DOC</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv2"><span className="lv21">TDM</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv3">Usage personnalisé<br /><span className="txtU">&nbsp;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv5" > <i className="fa fa-check ico-usage" /> Choisir l'usage</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-6 col-widget">
+                                    <table className="widget" onClick={() => this.showUsageLodex()}>
+                                        <tbody>
+                                            <tr>
+                                                <td className="lv1"><span className="lv11">TDM</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv2">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv3">Lodex<br /><span className="txtU">Analyse graphique  / Exploration de corpus</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv5"><i className="fa fa-check ico-usage" />  Choisir l'usage</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className={this.shouldHideUpersonnalise}>
+                                <div className="up up-btn col-lg-12 col-sm-12">
+                                    <span className="back-btn" onClick={() => this.showUsages()} ><i className="fa fa-chevron-left ico-back" /> Usage personnalisé</span>
+                                </div>
+                                <div className="col-lg-12 col-sm-12">
+                                    <span className="fulltextGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[1] = instance; }}
+                                            label="Texte intégral"
+                                            filetype="fulltext"
+                                            formats="pdf,tei,txt,zip,tiff"
+                                            labels="PDF|TEI|TXT|ZIP|TIFF"
+                                            value={this.state.extractFulltext}
+                                            checkedFormats={this.state.Fulltext}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={fulltextTooltip}
+                                        />
+                                    </span>
+                                    <span className="otherfileGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[0] = instance; }}
+                                            label="Métadonnées"
+                                            filetype="metadata"
+                                            formats="json,xml,mods"
+                                            labels="JSON|XML|MODS"
+                                            value={this.state.extractMetadata}
+                                            checkedFormats={this.state.Metadata}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={metadataTooltip}
+                                        />
+                                        <Filetype
+                                            ref={(instance) => { this.child[2] = instance; }}
+                                            label="Annexes"
+                                            filetype="annexes"
+                                            formats=""
+                                            labels=""
+                                            value={this.state.extractAnnexes}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            tooltip={appendicesTooltip}
+                                        />
+                                        <Filetype
+                                            ref={(instance) => { this.child[3] = instance; }}
+                                            label="Couvertures"
+                                            filetype="covers"
+                                            formats=""
+                                            labels=""
+                                            value={this.state.extractCovers}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            tooltip={coversTooltip}
+                                        />
+                                    </span>
+                                    <span className="enrichmentsGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[4] = instance; }}
+                                            label="Enrichissements"
+                                            filetype="enrichments"
+                                            formats="multicat,nb,refbibs,teeft,unitex"
+                                            labels="multicat|nb|refBibs|teeft|unitex"
+                                            value={this.state.extractEnrichments}
+                                            checkedFormats={this.state.Enrichments}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={enrichmentsDisabledTooltip}
+                                        />
+                                    </span>
+                                </div>
+                            </div>
 
                         </div>
                         <div className="col-lg-2 col-sm-1" />

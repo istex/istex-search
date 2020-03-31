@@ -656,7 +656,11 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key]);
-        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
+        console.log(this.usage);
+        if (this.usage === 2 && this.state.total > 0) {
+            return false;
+        } 
+        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0); 
     }
 
     showUsagePersonnalise() {

@@ -584,7 +584,7 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('usage', this.usage);
         } else if (this.usage === 2) {
             ISTEX.searchParams.set('usage', this.usage);
-            ISTEX.searchParams.set('extract', 'fulltext[pdf]');
+            ISTEX.searchParams.set('extract', 'metadata[json]');
         }
 
         return ISTEX;

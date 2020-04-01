@@ -1120,7 +1120,10 @@ a[data-lightbox]:hover img{
     	padding: 0 !important;
         background-color: transparent!important;
 	}
-	.nav > li > a:hover, .nav > li > a:focus {
+	.nav > li > a:focus {
+    	background-color: #c4d733;
+    }
+    .nav > li > a:hover{
     	background-color: #c4d733!important;
 	}
     .nav-pills {
@@ -1294,4 +1297,103 @@ a[data-lightbox]:hover img{
 }
 .pTxt {
     line-height: 40px;
+}
+.widget {
+    border: 2px solid #458ca5;
+    color: #458ca5;
+    width: 95%;
+    cursor: pointer;
+    /* height: 280px; */
+    /* max-height: 280px; */
+}
+.lv1 {
+    text-align: right;
+    padding-top: 20px;
+}
+.lv11 {
+    text-align: right;
+    border: 1px solid #458ca5;
+    margin-right: 15px;
+    padding-left: 10px;
+    padding-right: 11px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.lv21 {
+    text-align: right;
+    border: 1px solid #458ca5;
+    margin-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 30px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    border-top: 0;
+}
+.lv2 {
+    text-align: right;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.lv3 {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 5px;
+    padding-bottom: 50px;
+}
+.lv4 {
+    text-align: center;
+    padding-bottom: 60px;
+}
+.lv5 {
+    text-align: center;
+    border-top: 2px solid #458ca5;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 20px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.up {
+    padding-left: 0px !important;
+    border-top: 1px solid black;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 40px;
+    border-bottom: 1px solid black;
+    margin-bottom: 15px;
+}
+.usages {
+    margin-bottom: 15px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-top: 10px;
+}
+.hidden { display:none; }
+
+.ico-usage {
+    font-size: 30px;
+}
+
+.col-widget {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.txtU {
+    font-size: 14px;
+}
+.lv5:hover {
+    background-color: #c4d733;
+    color:black;
+}
+.ico-back {
+}
+
+.back-btn{
+    color:#458ca5;
+    cursor: pointer;
+}
+.floatRight{
+    float: right !important;
 }

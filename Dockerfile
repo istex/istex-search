@@ -7,8 +7,11 @@ RUN apt-get -y update && apt-get -y install vim curl git-core gnupg2
 # nodejs installation used for build tools
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt-get install -y build-essential nodejs
-RUN npm config set unsafe-perm true \
-  && npm config set strict-ssl false
+  
+RUN npm config set proxy  ${http_proxy} \
+  && npm config set https-proxy ${https_proxy}
+
+RUN npm config get proxy && npm config get https-proxy
 
 # install tools for bundle.js
 WORKDIR /app/

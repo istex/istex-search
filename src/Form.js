@@ -382,7 +382,7 @@ export default class Form extends React.Component {
     handleSubmit(event) {
         const href = this.buildURLFromState();
         if (this.state.activeKey === '2') {
-            href.searchParams.set('q', this.transformIDorARK());
+           // href.searchParams.set('q', this.transformIDorARK());
             href.searchParams.delete('withID');
         }
         this.setState({
@@ -402,10 +402,10 @@ export default class Form extends React.Component {
         subscribeToDownloadProgress((err, downloadProgress) => this.setState({
             downloadProgress,
         })); */
-        
-  
-        if (this.state.q.length >= characterLimit) {
+
+        if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2')) {
             let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
+            console.log(this.state.activeKey === '1' ? this.state.q : this.transformIDorARK());
             fetch(hrefSet, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -458,6 +458,7 @@ export default class Form extends React.Component {
                 console.log(error);
             }); */
         } else {
+            console.log('hello')
             window.setTimeout(() => {
                 window.location = href;
             }, 1000);
@@ -1266,7 +1267,7 @@ export default class Form extends React.Component {
                             <br />
                             <h2>
                                 <span className="num-etape">&nbsp;2.&nbsp;</span>
-                                Formats et types de fichiers
+                                Usage
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"

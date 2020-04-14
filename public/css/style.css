@@ -588,6 +588,27 @@ a[data-lightbox]:hover img{
 }
 @media (max-width: 767px)
 {
+    body {
+        font-size: 12px !important;
+    }
+
+    .widget{
+        width: 100% !important;
+        margin-top: 10px;
+    }
+
+
+    .nav > li > a{
+        font-size: 14px !important;
+        padding: 10px 5px !important;
+    }
+
+    .bottom-menu-txt{
+        font-size: 14px !important;
+    }
+    .bottom-menu-ico{
+        font-size: 38px !important;
+    }
     .page-container{
         overflow-x: hidden;
         position:relative;
@@ -859,6 +880,7 @@ a[data-lightbox]:hover img{
             overflow-y: hidden;
             background-color: rgba(36, 43, 50, 1);
             background-image: none;
+            left: 0;
         }
         .bottom-menu-ico {
             text-align: center;
@@ -1030,14 +1052,23 @@ a[data-lightbox]:hover img{
 }
 
 .history-modal{
-    width:80% !important;
+    width: 80% !important;
+    margin-left: 10% !important;
+    margin-right: 10% !important;
 }
 .history tr td:nth-child(2) {
     max-width: 150px;
+    white-space: pre-wrap !important;
 }
 
 .history tr td:nth-child(3) {
     max-width: 430px;
+    white-space: pre-line !important;
+}
+
+.history tr td:nth-child(7) {
+    max-width: 150px;
+    white-space: nowrap !important;
 }
 
 #exampleButton{
@@ -1280,7 +1311,7 @@ a[data-lightbox]:hover img{
     float: left;
 }
 .exempleH2 {
-    padding-bottom:15px;
+    /* padding-bottom:15px; */
 }
 
 
@@ -1299,42 +1330,42 @@ a[data-lightbox]:hover img{
     line-height: 40px;
 }
 .widget {
-    border: 2px solid #458ca5;
-    color: #458ca5;
+    border: 1px solid #303030;
+    color: #303030;
     width: 95%;
     cursor: pointer;
     /* height: 280px; */
     /* max-height: 280px; */
+    max-width: 350px;
+    min-width: 280px;
+    border-top: 2px solid #303030;
 }
 .lv1 {
     text-align: right;
     padding-top: 20px;
 }
 .lv11 {
-    text-align: right;
-    border: 1px solid #458ca5;
+    text-align: center;
+    border: 1px solid #242b31;
     margin-right: 15px;
-    padding-left: 10px;
-    padding-right: 11px;
     padding-top: 4px;
     padding-bottom: 4px;
+    display: inline-block;
+    width: 50px;
 }
 .lv21 {
-    text-align: right;
-    border: 1px solid #458ca5;
+    text-align: center;
+    border: 1px solid #242b31;
     margin-right: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 30px;
     padding-top: 5px;
     padding-bottom: 4px;
     border-top: 0;
+    width: 50px;
+    display: inline-block;
 }
 .lv2 {
     text-align: right;
-    padding-top: 5px;
     padding-bottom: 10px;
-    padding-top: 10px;
 }
 .lv3 {
     text-align: center;
@@ -1347,13 +1378,15 @@ a[data-lightbox]:hover img{
     padding-bottom: 60px;
 }
 .lv5 {
-    text-align: center;
-    border-top: 2px solid #458ca5;
+    text-align: left;
+    border-top: 1px solid #303030;
     cursor: pointer;
     text-transform: uppercase;
     font-size: 20px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    background: #242b32;
+    color: #c4d733 !important;
+    height: 50px;
+    line-height: 50px;
 }
 .up {
     padding-left: 0px !important;
@@ -1374,6 +1407,8 @@ a[data-lightbox]:hover img{
 
 .ico-usage {
     font-size: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .col-widget {
@@ -1384,8 +1419,8 @@ a[data-lightbox]:hover img{
     font-size: 14px;
 }
 .lv5:hover {
-    background-color: #c4d733;
-    color:black;
+    background-color: #458ca5;
+    color: white !important;
 }
 .ico-back {
 }
@@ -1396,4 +1431,21 @@ a[data-lightbox]:hover img{
 }
 .floatRight{
     float: right !important;
+}
+
+.istex-dl-menu > .col-lg-12, .istex-dl-menu > .col-xs-12, .istex-dl-menu > .col-sm-12 {
+    padding: 0px !important;
+}
+
+.container{
+	max-width:1170px;
+}
+
+.lv2b{
+    text-align: right;
+    padding-bottom: 18px;
+}
+
+.istex-dl-menu > .col-xs-12 > .col-xs-3{
+    padding: 0 !important;
 }

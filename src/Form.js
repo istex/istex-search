@@ -922,14 +922,12 @@ export default class Form extends React.Component {
         this.updateUrlAndLocalStorage();
         const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
-            <div className={`container-fluid ${this.props.className}`}>
+            <div className={`container ${this.props.className}`}>
                 <NotificationContainer />
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="istex-dl-request row">
-
-                        <div className="col-lg-2 col-sm-1" />
-                        <div className="col-lg-8 col-sm-10">
+                        <div className="col-lg-12 col-sm-12">
                             <h2 className="exempleH2">
                                 <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
@@ -1089,7 +1087,7 @@ export default class Form extends React.Component {
                             </p>
                             }
 
-                            <div className="form-group">
+                            <div className="form-group col-xs-12">
                                 Choisir le nombre de documents souhaités
                                 &nbsp;
                                 <OverlayTrigger
@@ -1208,8 +1206,7 @@ export default class Form extends React.Component {
 
                     {this.state.errorRequestSyntax &&
                     <div className="istex-dl-error-request row">
-                        <div className="col-lg-2 col-sm-1" />
-                        <div className="col-lg-8 col-sm-10">
+                        <div className="col-lg-12 col-sm-12">
                             <p>
                                         Erreur de syntaxe dans votre requête &nbsp;
                                 <OverlayTrigger
@@ -1228,14 +1225,11 @@ export default class Form extends React.Component {
                                 {this.state.errorRequestSyntax}
                             </blockquote>
                         </div>
-
-                        <div className="col-lg-2 col-sm-1" />
                     </div>
                     }
 
                     <div className="istex-dl-format row" >
-                        <div className="col-lg-2 col-sm-1" />
-                        <div className="col-lg-8 col-sm-10">
+                        <div className="col-lg-12 col-sm-12">
                             <Modal
                                 dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
                                     this.setState({
@@ -1282,7 +1276,7 @@ export default class Form extends React.Component {
                             Choisir un usage puis modifier les paramètres revient au cas "Usage personnalisé".</p>
                             <div className={this.shouldHideU}>
 
-                                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-6 col-widget">
+                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
                                     <table className="widget" onClick={() => this.showUsagePersonnalise()}>
                                         <tbody>
                                             <tr>
@@ -1300,14 +1294,14 @@ export default class Form extends React.Component {
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="col-lg-3 col-md-4 col-sm-6 col-xs-6 col-widget">
+                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
                                     <table className="widget" onClick={() => this.showUsageLodex()}>
                                         <tbody>
                                             <tr>
                                                 <td className="lv1"><span className="lv11">TDM</span></td>
                                             </tr>
                                             <tr>
-                                                <td className="lv2">&nbsp;</td>
+                                                <td className="lv2b">&nbsp;</td>
                                             </tr>
                                             <tr>
                                                 <td className="lv3">Lodex<br /><span className="txtU">Analyse graphique  / Exploration de corpus</span></td>
@@ -1395,13 +1389,11 @@ export default class Form extends React.Component {
                             </div>
 
                         </div>
-                        <div className="col-lg-2 col-sm-1" />
                     </div>
 
 
                     <div className="istex-dl-download row">
-                        <div className="col-lg-2 col-sm-1" />
-                        <div className="col-lg-8 col-sm-10 text-center">
+                        <div className="col-lg-12 col-sm-12 text-center">
                             <h2>
                                 <span className="num-etape">&nbsp;3.&nbsp;</span>
                                 Télécharger
@@ -1426,7 +1418,6 @@ export default class Form extends React.Component {
                                 />
                             </OverlayTrigger>
                         </div>
-                        <div className="col-lg-2 col-sm-1" />
 
                     </div>
 
@@ -1469,15 +1460,14 @@ export default class Form extends React.Component {
                                     });
                                 }}
                             >
-                                <div className="col-lg-1 col-sm-2 col-xs-2 bottom-menu-ico"><i className="fa fa-history" aria-hidden="true" /><br /><span className="bottom-menu-txt">Historique</span></div>
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-history" aria-hidden="true" /><br /><span className="bottom-menu-txt">Historique</span></div>
                             </OverlayTrigger>
 
                         </div>
                     </div>
                     {this.state.errorDuringDownload &&
                         <div className="istex-dl-error-download row">
-                            <div className="col-lg-2 col-sm-1" />
-                            <div className="col-lg-8 col-sm-10">
+                            <div className="col-lg-12 col-sm-12">
                                 <p>
                                     <i
                                         role="button"
@@ -1493,7 +1483,6 @@ export default class Form extends React.Component {
                                     <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                                 </p>
                             </div>
-                            <div className="col-lg-2 col-sm-1" />
                         </div>
                     }
 

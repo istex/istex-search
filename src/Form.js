@@ -63,7 +63,8 @@ export default class Form extends React.Component {
             total: 0,
             activeKey: '1',
             nbDocsCalculating: false,
-            // compressionLevel: 0,
+            compressionLevel: 2,
+            archiveType: 'zip',
         };
         this.state = this.defaultState;
         this.child = [];
@@ -76,7 +77,8 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
-        // this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
+        this.handlecarchivetypeByChange = this.handlecarchivetypeByChange.bind(this);
+        this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -234,9 +236,10 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: parsedUrl.rankBy || 'relevance',
-            // compressionLevel: parsedUrl.compressionLevel || 0,
+            compressionLevel: parsedUrl.compressionLevel || 2,
             activeKey: parsedUrl.withID ? '2' : '1',
             total: 0,
+            archiveType: parsedUrl.archiveType || 'zip',
         }, () => this.calculateNbDocs(parsedUrl.size));
         if (parsedUrl.extract) {
             parsedUrl.extract.split(';').forEach((filetype) => {
@@ -344,7 +347,15 @@ export default class Form extends React.Component {
             rankBy: name,
         });
     }
-    /*
+
+    handlecarchivetypeByChange(archiveFormatEvent) {
+        const target = archiveFormatEvent.target;
+        const name = target.name;
+        this.setState({
+            archiveType: name,
+        });
+    }
+    
     handlecompressionLevelChange(compressionLevelEvent) {
         const target = compressionLevelEvent.target;
         const value = target.value;
@@ -352,7 +363,7 @@ export default class Form extends React.Component {
             compressionLevel: value,
         });
     }
-    */
+    
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -382,7 +393,7 @@ export default class Form extends React.Component {
     handleSubmit(event) {
         const href = this.buildURLFromState();
         if (this.state.activeKey === '2') {
-           // href.searchParams.set('q', this.transformIDorARK());
+            // href.searchParams.set('q', this.transformIDorARK());
             href.searchParams.delete('withID');
         }
         this.setState({
@@ -490,7 +501,8 @@ export default class Form extends React.Component {
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
                 qId: this.state.qId,
                 rankBy: this.state.rankBy,
-                // compressionLevel: this.state.compressionLevel,
+                archiveType: this.state.archiveType,
+                compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -578,7 +590,8 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('size', this.state.size);
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
-        // ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
+        ISTEX.searchParams.set('archiveType', this.state.archiveType);
+        ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
 
         if (this.usage === 1) {
@@ -870,7 +883,7 @@ export default class Form extends React.Component {
             </Popover>
 
         );
-        /*
+        
         const popoverCompressionHelp = (
             <Popover
                 id="popover-compression-help"
@@ -883,7 +896,7 @@ export default class Form extends React.Component {
                     <li>9 donne la meilleure compression.</li>
                 </ul>
             </Popover>
-        ); */
+        ); 
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -1406,6 +1419,60 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
+                            <div className="col-lg-12 col-sm-12">
+
+                                <div className="form-group" style={{ marginTop : '20px' }}>
+                                Niveau de compression ZIP  &nbsp;&nbsp;
+                                    <OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="right"
+                                        overlay={popoverCompressionHelp}
+                                    >
+                                        <i
+                                            id="compressionHelpInfo"
+                                            role="button"
+                                            className="fa fa-info-circle"
+                                            aria-hidden="true"
+                                        />
+                                    </OverlayTrigger>
+                                &nbsp;
+
+                                :
+                                &nbsp;&nbsp;
+
+                                    <div style={{ width: '60px', display: 'inline-block' }}>
+                                        <NumericInput
+                                            className="form-control"
+                                            min={1} max={9} value={Number(this.state.compressionLevel)}
+                                            onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+                                            onChange={compressionLevel => this.setState({ compressionLevel })}
+                                        />
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+                                    <Radio
+                                        id="radioZip"
+                                        inline
+                                        name="zip"
+                                        checked={this.state.archiveType === 'zip'}
+                                        onChange={this.handlecarchivetypeByChange}
+                                    >
+                                        Fichier ZIP
+                                    </Radio>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Radio
+                                        id="radioTar"
+                                        inline
+                                        name="tar"
+                                        checked={this.state.archiveType === 'tar'}
+                                        onChange={this.handlecarchivetypeByChange}
+                                    >
+                                        Fichier TAR.GZ
+                                    </Radio>
+
+                                </div>
+                            </div>
+
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}

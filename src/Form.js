@@ -1422,7 +1422,7 @@ export default class Form extends React.Component {
                             <div className="col-lg-12 col-sm-12">
 
                                 <div className="form-group" style={{ marginTop : '20px' }}>
-                                Niveau de compression ZIP  &nbsp;&nbsp;
+                                Niveau de compression  &nbsp;&nbsp;
                                     <OverlayTrigger
                                         trigger="click"
                                         rootClose

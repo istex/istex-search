@@ -1378,7 +1378,7 @@ a[data-lightbox]:hover img{
     padding-bottom: 60px;
 }
 .lv5 {
-    text-align: left;
+    text-align: center;
     border-top: 1px solid #303030;
     cursor: pointer;
     text-transform: uppercase;
@@ -1407,8 +1407,8 @@ a[data-lightbox]:hover img{
 
 .ico-usage {
     font-size: 30px;
-    margin-left: 40px;
-    margin-right: 40px;
+    /* margin-left: 40px; */
+    /* margin-right: 40px; */
 }
 
 .col-widget {
@@ -1448,4 +1448,64 @@ a[data-lightbox]:hover img{
 
 .istex-dl-menu > .col-xs-12 > .col-xs-3{
     padding: 0 !important;
+}
+
+.noPaddingLeftRight {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.res_widget {
+    width: 95%;
+    border: 1px solid #458ca5;
+    border-left: 10px solid #458ca5;
+    min-width: 280px;
+    max-width: 350px;
+    margin-top: 20px;
+    height: 110px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+}
+
+.res_title {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px;
+    color: #458ca5;
+}
+
+.res_author {
+    padding: 5px;
+    padding-top: 0px;
+    font-style: italic;
+}
+
+.res_hostTitle {
+    padding-left: 5px;
+    padding-bottom: 5px;
+    width:295px;
+}
+.res_pubDate {
+    padding-right: 5px;
+}
+
+.samplesDiv {
+    border-bottom: 1px solid #303030;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    padding-bottom: 5px;
+    color: #303030;
+}
+
+
+.res_widget:hover {
+    cursor: pointer;
+    background: #c4d934;
+    border-left: 10px solid black;
+}
+
+.res_widget:hover  .res_title{
+    color: black;
 }

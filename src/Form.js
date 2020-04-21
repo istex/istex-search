@@ -65,6 +65,7 @@ export default class Form extends React.Component {
             nbDocsCalculating: false,
             compressionLevel: 2,
             archiveType: 'zip',
+            samples: [],
         };
         this.state = this.defaultState;
         this.child = [];
@@ -150,8 +151,9 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         // disable all before getting total 
-        this.istexDlXhr = $.post(ISTEX.href, { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
+        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
+                this.state.samples = json.hits;
                 const { total } = json;
                 let size,limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
@@ -670,7 +672,6 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key]);
-        console.log(this.usage);
         if (this.usage === 2 && this.state.total > 0) {
             return false;
         } 
@@ -693,6 +694,54 @@ export default class Form extends React.Component {
     showUsageLodex() {
         this.usage = 2;
         this.setState({});
+    }
+
+
+    showSamples = () => {
+        let samples = [];
+
+
+        let samplesRes = this.state.samples;
+
+        
+        let authorStr = '';
+
+        if (samplesRes.length > 0) {
+            samples.push(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Echantillon de la requête </div>);
+        }
+        
+        // Outer loop to create parent
+        if (samplesRes.length === 0 || samplesRes === undefined ) {
+            return '';
+        }
+        for (let i = 0; i < samplesRes.length; i++) {
+            let authors = samplesRes[i].author;
+            if (authors !== undefined) {
+                for (let j = 0; j < authors.length; j++) {
+                    console.log(authors[j]);
+                    authorStr += authors[j].name;
+                    authorStr += ' ; ';
+                } 
+            }
+            // Create the parent and add the children
+            samples.push(
+                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight">
+                    <table className="res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf' , samplesRes[i].title); }}>
+                        <tbody>
+                            <tr>
+                                <td colSpan="2" className="res_title">{samplesRes[i].title}</td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2" className="res_author">{authorStr}</td>
+                            </tr>
+                            <tr className="res_tr_bottom">
+                                <td className="res_hostTitle">{samplesRes[i].host.title}</td><td className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>);
+        }
+        return samples;
     }
 
     render() {
@@ -933,6 +982,8 @@ export default class Form extends React.Component {
         );
 
         this.updateUrlAndLocalStorage();
+
+
         const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
             <div className={`container ${this.props.className}`}>
@@ -1100,7 +1151,7 @@ export default class Form extends React.Component {
                             </p>
                             }
 
-                            <div className="form-group col-xs-12">
+                            <div className="form-group col-xs-12 noPaddingLeftRight">
                                 Choisir le nombre de documents souhaités
                                 &nbsp;
                                 <OverlayTrigger
@@ -1130,16 +1181,7 @@ export default class Form extends React.Component {
                                     />
                                 </div>
                                 &nbsp;&nbsp; <span className="limitNbDocTxt">/ {this.state.limitNbDoc}</span>
-                                { /*
-                                <div style={{ width: '200px', display: 'inline-block' }}>
-                                    <InputRange
-                                        id="nb-doc-to-download"
-                                        maxValue={this.state.limitNbDoc}
-                                        minValue={0}
-                                        value={Number(this.state.size)}
-                                        onChange={size => this.setState({ size })}
-                                    />
-                                </div> */}
+                                {}
                             </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés
@@ -1240,6 +1282,10 @@ export default class Form extends React.Component {
                         </div>
                     </div>
                     }
+
+                    <div className="col-lg-12 col-sm-12 col-xs-12 noPaddingLeftRight">
+                        {this.showSamples()}
+                    </div>
 
                     <div className="istex-dl-format row" >
                         <div className="col-lg-12 col-sm-12">

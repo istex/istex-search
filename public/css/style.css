@@ -773,20 +773,41 @@ a[data-lightbox]:hover img{
             border:solid 1px #458ca5!important;
             background-color: transparent!important;
             margin-bottom: 20px !important;
-            width: 200px;
-            height: 50px;
+            margin-top: 20px !important;
           }
-         .btn-theme::after {
-        	content: url("../telecharger-bleu.png");
-          }
+  
          .btn-theme:hover {
             color: #000;
             border: solid 1px #c4d733!important;
             background-color: #c4d733!important;
         }
         .btn-theme:hover::after {
-           content: url("../telecharger-noir.png");
             color: black;
+        }
+
+        .btn-th1 {
+            font-size: 22px;
+            text-align:left;
+            padding: 3px;
+        }
+
+        .btn-th2 {
+            padding: 5px;
+            padding-left: 20px;
+        }
+
+        .btn-img {
+            width: 35px;
+            height: 35px;
+        }
+        .btn-td1 {
+            text-align: left;
+            font-size: 18px;
+            padding: 3px;
+        }
+
+        .btn-td1 span {
+            font-weight: bold;
         }
 
         .btn {
@@ -1463,7 +1484,7 @@ a[data-lightbox]:hover img{
     max-width: 350px;
     margin-top: 20px;
     height: 110px;
-    overflow-y: auto;
+    overflow-y: overlay;
     overflow-x: hidden;
     display: block;
 }
@@ -1508,4 +1529,17 @@ a[data-lightbox]:hover img{
 
 .res_widget:hover  .res_title{
     color: black;
+}
+
+.text-default {
+    color:#458ca5;
+}
+
+.hide {
+    display: hidden;
+}
+
+.selectedUsage .lv5{
+    background: #458ca5 !important;
+    color:white !important
 }

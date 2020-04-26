@@ -63,13 +63,16 @@ export default class Form extends React.Component {
             total: 0,
             activeKey: '1',
             nbDocsCalculating: false,
-            compressionLevel: 2,
+            compressionLevel: 0,
             archiveType: 'zip',
             samples: [],
+            archiveSize: '--',
+            downloadBtnClass: '',
         };
         this.state = this.defaultState;
         this.child = [];
         this.timer = 0;
+        this.selectedLodexClass = '';
         this.lastqId = '';
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -79,7 +82,6 @@ export default class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
         this.handlecarchivetypeByChange = this.handlecarchivetypeByChange.bind(this);
-        this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -89,6 +91,7 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.usage = false;
+        this.handleClChange = this.handleClChange.bind(this);
     }
 
     componentWillMount() {
@@ -267,10 +270,12 @@ export default class Form extends React.Component {
         const parsedUrl = qs.parse(url);
         if (parsedUrl.usage === '1') {
             this.usage = 1;
+            this.selectedLodexClass = '';
             this.shouldHideUpersonnalise = ' ';
             this.shouldHideU = 'hidden';
         } else if (parsedUrl.usage === '2') {
             this.usage = 2;
+            this.selectedLodexClass = 'selectedUsage';
         }
         if (parsedUrl.q_id !== undefined) {
             // check session
@@ -358,12 +363,8 @@ export default class Form extends React.Component {
         });
     }
     
-    handlecompressionLevelChange(compressionLevelEvent) {
-        const target = compressionLevelEvent.target;
-        const value = target.value;
-        this.setState({
-            compressionLevel: value,
-        });
+    handleClChange(event) {
+        this.setState({ compressionLevel: event.target.value });
     }
     
     handleFormatChange(formatEvent) {
@@ -418,7 +419,6 @@ export default class Form extends React.Component {
 
         if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2')) {
             let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
-            console.log(this.state.activeKey === '1' ? this.state.q : this.transformIDorARK());
             fetch(hrefSet, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -471,7 +471,6 @@ export default class Form extends React.Component {
                 console.log(error);
             }); */
         } else {
-            console.log('hello')
             window.setTimeout(() => {
                 window.location = href;
             }, 1000);
@@ -537,8 +536,9 @@ export default class Form extends React.Component {
         }
     }
 
+    formatBytes(a,b=2){if(0===a)return"0 Octets";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Octets","Ko","Mo","Go","To","Po","Eo","Zo","Yo"][d]}
+    
     buildURLFromState(query = null, withHits = true) {
-
         const ISTEX = new URL(`${config.apiUrl}/document/`);
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
@@ -588,8 +588,23 @@ export default class Form extends React.Component {
         } 
         // ISTEX.searchParams.set('hello', this.state.qId);
         ISTEX.searchParams.set('extract', extract);
+        if (this.state.total < this.state.limitNbDoc) {
+            this.state.limitNbDoc = this.state.total;
+        }
         if (withHits) {
-            ISTEX.searchParams.set('size', this.state.size);
+            if (this.state.size <= this.state.limitNbDoc) {
+                ISTEX.searchParams.set('size', this.state.size);
+            }
+
+            if (this.state.size <= 0) {
+                this.state.size = 0;
+                ISTEX.searchParams.set('size', this.state.size);
+            }
+
+            if (this.state.size > this.state.limitNbDoc) {
+                this.state.size = this.state.limitNbDoc;
+                ISTEX.searchParams.set('size', this.state.size);
+            }
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
         ISTEX.searchParams.set('archiveType', this.state.archiveType);
@@ -598,9 +613,75 @@ export default class Form extends React.Component {
 
         if (this.usage === 1) {
             ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = '';
         } else if (this.usage === 2) {
             ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = 'selectedUsage';
             ISTEX.searchParams.set('extract', 'metadata[json]');
+        }
+
+        if (this.state.total === 0) {
+            this.state.samples = [];
+        }
+
+        // eslint-disable-next-line global-require
+        let sizes = require('../src/formatSize.json').sizes;
+
+        let size = this.state.size;
+
+        let archiveSize = 0;
+        if (filetypeFormats.covers !== undefined) {
+            archiveSize += sizes.coversSize * size;
+        }
+
+        if (filetypeFormats.annexes !== undefined) {
+            archiveSize += sizes.annexesSize * size;
+        }
+
+        if (filetypeFormats.metadata !== undefined) {
+            filetypeFormats.metadata.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.metadataSize[format] * size;
+                }
+            });
+        }
+
+        if (filetypeFormats.fulltext !== undefined) {
+            filetypeFormats.fulltext.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.fulltextSize[format] * size;
+                }
+            });
+        }
+
+        if (filetypeFormats.enrichments !== undefined) {
+            filetypeFormats.enrichments.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.enrichmentsSize[format] * size;
+                }
+            });
+        }
+
+        // 5GB
+        if (archiveSize >= 5368709120) {
+            this.state.downloadBtnClass = 'text-danger';
+        }
+
+        // 1GB
+        if (archiveSize >= 1073741824 && archiveSize < 5368709120) {
+            this.state.downloadBtnClass = 'text-warning';
+        }
+
+        // < 1GB
+        if (archiveSize < 1073741824 && archiveSize > 0) {
+            this.state.downloadBtnClass = 'text-success';
+        }
+        
+        this.state.archiveSize = this.formatBytes(archiveSize);
+
+        if (archiveSize === 0) {
+            this.state.archiveSize = '--';
+            this.state.downloadBtnClass = 'text-default';
         }
 
         return ISTEX;
@@ -672,15 +753,16 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key]);
-        if (this.usage === 2 && this.state.total > 0) {
+        if (this.usage === 2 && this.state.total > 0 && this.state.size > 0) {
             return false;
         } 
-        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0); 
+        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0 || this.state.size <= 0); 
     }
 
     showUsagePersonnalise() {
         this.shouldHideUpersonnalise = '';
         this.shouldHideU = 'hidden';
+        this.selectedLodexClass = '';
         this.usage = 1;
         this.setState({});
     }
@@ -693,6 +775,7 @@ export default class Form extends React.Component {
 
     showUsageLodex() {
         this.usage = 2;
+        this.selectedLodexClass = 'selectedUsage';
         this.setState({});
     }
 
@@ -711,14 +794,13 @@ export default class Form extends React.Component {
         }
         
         // Outer loop to create parent
-        if (samplesRes.length === 0 || samplesRes === undefined ) {
+        if (samplesRes.length === 0 || samplesRes === undefined) {
             return '';
         }
         for (let i = 0; i < samplesRes.length; i++) {
             let authors = samplesRes[i].author;
             if (authors !== undefined) {
                 for (let j = 0; j < authors.length; j++) {
-                    console.log(authors[j]);
                     authorStr += authors[j].name;
                     authorStr += ' ; ';
                 } 
@@ -1257,6 +1339,9 @@ export default class Form extends React.Component {
                                
                             </div> */}
                         </div>
+                        <div className="col-lg-12 col-sm-12">
+                            {this.showSamples()} 
+                        </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&
@@ -1282,10 +1367,6 @@ export default class Form extends React.Component {
                         </div>
                     </div>
                     }
-
-                    <div className="col-lg-12 col-sm-12 col-xs-12 noPaddingLeftRight">
-                        {this.showSamples()}
-                    </div>
 
                     <div className="istex-dl-format row" >
                         <div className="col-lg-12 col-sm-12">
@@ -1354,7 +1435,7 @@ export default class Form extends React.Component {
                                     </table>
                                 </div>
                                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
-                                    <table className="widget" onClick={() => this.showUsageLodex()}>
+                                    <table className={"widget " + this.selectedLodexClass} onClick={() => this.showUsageLodex()}>
                                         <tbody>
                                             <tr>
                                                 <td className="lv1"><span className="lv11">TDM</span></td>
@@ -1467,7 +1548,7 @@ export default class Form extends React.Component {
                             </h2>
                             <div className="col-lg-12 col-sm-12">
 
-                                <div className="form-group" style={{ marginTop : '20px' }}>
+                                <div className="form-group" style={{ marginTop: '20px' }}>
                                 Niveau de compression  &nbsp;&nbsp;
                                     <OverlayTrigger
                                         trigger="click"
@@ -1486,14 +1567,12 @@ export default class Form extends React.Component {
 
                                 :
                                 &nbsp;&nbsp;
-
-                                    <div style={{ width: '60px', display: 'inline-block' }}>
-                                        <NumericInput
-                                            className="form-control"
-                                            min={1} max={9} value={Number(this.state.compressionLevel)}
-                                            onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                            onChange={compressionLevel => this.setState({ compressionLevel })}
-                                        />
+                                    <div style={{ display: 'inline-block' }}>
+                                        <select className="form-control" value={this.state.compressionLevel} onChange={this.handleClChange} >
+                                            <option value="0">Sans compression</option>
+                                            <option value="6">Compression moyenne</option>
+                                            <option value="9">Compression élevée</option>
+                                        </select>
                                     </div>
                                     &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
                                     <Radio
@@ -1523,12 +1602,18 @@ export default class Form extends React.Component {
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
                             >   
-                                <div
-                                    type="submit"
+                                <table type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
-                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}
-                                />
+                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}>
+                                    <tr>
+                                        <th className="btn-th1">Télécharger le fichier</th>
+                                        <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png"/></th>
+                                    </tr>
+                                    <tr>
+                                        <td className="btn-td1">Taille estimée : <span className={this.state.downloadBtnClass}>{this.state.archiveSize}</span></td>
+                                    </tr>
+                                </table>
                             </OverlayTrigger>
                         </div>
 

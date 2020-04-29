@@ -1,25 +1,160 @@
 {
-	"sizes": {
-		"coversSize": 600,
-		"annexesSize": 400,
-		"fulltextSize": {
-			"pdf": 561634,
-			"tei": 56155,
-			"txt": 27229,
-			"zip": 362138,
-			"tiff": 25000000
+	"zipCompression": {
+		"noCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14650,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
 		},
-		"metadataSize": {
-			"json": 14000,
-			"xml": 58000,
-			"mods": 1100000
+
+		"mediumCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14000,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
 		},
-		"enrichmentsSize": {
-			"multicat": 4200,
-			"nb": 2600,
-			"refbibs": 10000,
-			"teeft": 23300,
-			"unitex": 1000
+
+		"highCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14000,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
+		}
+    },
+    "tarCompression": {
+		"noCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14650,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
+		},
+
+		"mediumCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14000,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
+		},
+
+		"highCompression": {
+			"sizes": {
+				"coversSize": 600,
+				"annexesSize": 400,
+				"fulltextSize": {
+					"pdf": 561634,
+					"tei": 56155,
+					"txt": 27229,
+					"zip": 362138,
+					"tiff": 25000000
+				},
+				"metadataSize": {
+					"json": 14000,
+					"xml": 58000,
+					"mods": 1100000
+				},
+				"enrichmentsSize": {
+					"multicat": 4200,
+					"nb": 2600,
+					"refbibs": 10000,
+					"teeft": 23300,
+					"unitex": 1000
+				}
+			}
 		}
 	}
 }

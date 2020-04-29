@@ -1543,3 +1543,17 @@ a[data-lightbox]:hover img{
     background: #458ca5 !important;
     color:white !important
 }
+
+.res_tr_bottom{
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+}
+
+.widget i {
+    display: none;
+}
+
+.selectedUsage i {
+    display: inline-block !important;
+}

@@ -72,7 +72,6 @@ export default class Form extends React.Component {
         this.state = this.defaultState;
         this.child = [];
         this.timer = 0;
-        this.selectedLodexClass = '';
         this.lastqId = '';
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -91,6 +90,10 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.usage = false;
+        this.loadexUsageLabel = "Choisir l'usage";
+        this.persUsageLabel = "Choisir l'usage";
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
         this.handleClChange = this.handleClChange.bind(this);
     }
 
@@ -153,6 +156,7 @@ export default class Form extends React.Component {
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
+
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
@@ -241,7 +245,7 @@ export default class Form extends React.Component {
             errorRequestSyntax: '',
             errorDuringDownload: '',
             rankBy: parsedUrl.rankBy || 'relevance',
-            compressionLevel: parsedUrl.compressionLevel || 2,
+            compressionLevel: parsedUrl.compressionLevel || 0,
             activeKey: parsedUrl.withID ? '2' : '1',
             total: 0,
             archiveType: parsedUrl.archiveType || 'zip',
@@ -273,9 +277,15 @@ export default class Form extends React.Component {
             this.selectedLodexClass = '';
             this.shouldHideUpersonnalise = ' ';
             this.shouldHideU = 'hidden';
+            this.persUsageLabel = 'usage séléctionné';
+            this.loadexUsageLabel = "choisir l'usage";
+            this.selectedPersClass = 'selectedUsage';
         } else if (parsedUrl.usage === '2') {
             this.usage = 2;
+            this.selectedPersClass = '';
             this.selectedLodexClass = 'selectedUsage';
+            this.loadexUsageLabel = 'usage séléctionné';
+            this.persUsageLabel = "choisir l'usage";
         }
         if (parsedUrl.q_id !== undefined) {
             // check session
@@ -536,7 +546,7 @@ export default class Form extends React.Component {
         }
     }
 
-    formatBytes(a,b=2){if(0===a)return"0 Octets";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Octets","Ko","Mo","Go","To","Po","Eo","Zo","Yo"][d]}
+    formatBytes(a,b=0){if(0===a)return"0 Octets";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Octets","Ko","Mo","Go","To","Po","Eo","Zo","Yo"][d]}
     
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL(`${config.apiUrl}/document/`);
@@ -614,10 +624,16 @@ export default class Form extends React.Component {
         if (this.usage === 1) {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedLodexClass = '';
+            this.persUsageLabel = 'usage séléctionné';
+            this.loadexUsageLabel = "choisir l'usage";
+            this.selectedPersClass = 'selectedUsage';
         } else if (this.usage === 2) {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedLodexClass = 'selectedUsage';
             ISTEX.searchParams.set('extract', 'metadata[json]');
+            this.loadexUsageLabel = 'usage séléctionné';
+            this.persUsageLabel = "choisir l'usage";
+            this.selectedPersClass = '';
         }
 
         if (this.state.total === 0) {
@@ -625,7 +641,7 @@ export default class Form extends React.Component {
         }
 
         // eslint-disable-next-line global-require
-        let sizes = require('../src/formatSize.json').sizes;
+        let sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
 
         let size = this.state.size;
 
@@ -709,6 +725,13 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
+        this.loadexUsageLabel = "Choisir l'usage";
+        this.persUsageLabel = "Choisir l'usage";
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
+        this.usage = false;
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.setState(this.defaultState);
     }
 
@@ -764,6 +787,10 @@ export default class Form extends React.Component {
         this.shouldHideU = 'hidden';
         this.selectedLodexClass = '';
         this.usage = 1;
+        this.persUsageLabel = 'usage séléctionné';
+        this.loadexUsageLabel = "choisir l'usage";
+        this.selectedPersClass = 'selectedUsage';
+
         this.setState({});
     }
 
@@ -776,6 +803,10 @@ export default class Form extends React.Component {
     showUsageLodex() {
         this.usage = 2;
         this.selectedLodexClass = 'selectedUsage';
+        this.loadexUsageLabel = 'usage séléctionné';
+        this.persUsageLabel = "choisir l'usage";
+        this.selectedPersClass = '';
+
         this.setState({});
     }
 
@@ -786,8 +817,6 @@ export default class Form extends React.Component {
 
         let samplesRes = this.state.samples;
 
-        
-        let authorStr = '';
 
         if (samplesRes.length > 0) {
             samples.push(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Echantillon de la requête </div>);
@@ -797,7 +826,12 @@ export default class Form extends React.Component {
         if (samplesRes.length === 0 || samplesRes === undefined) {
             return '';
         }
+        function truncate(source, size) {
+            return source.length > size ? source.slice(0, size - 1) + "…" : source;
+        }
+
         for (let i = 0; i < samplesRes.length; i++) {
+            let authorStr = '';
             let authors = samplesRes[i].author;
             if (authors !== undefined) {
                 for (let j = 0; j < authors.length; j++) {
@@ -805,19 +839,26 @@ export default class Form extends React.Component {
                     authorStr += ' ; ';
                 } 
             }
+            let authorsStr = truncate(authorStr, 42);
+
+            let titleStr = truncate(samplesRes[i].title, 75); 
+
+            let hostTitleStr = truncate(samplesRes[i].host.title, 40);
+
             // Create the parent and add the children
             samples.push(
                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight">
                     <table className="res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf' , samplesRes[i].title); }}>
                         <tbody>
                             <tr>
-                                <td colSpan="2" className="res_title">{samplesRes[i].title}</td>
+                                <td colSpan="2" title={samplesRes[i].title} className="res_title">{titleStr}
+                                </td>
                             </tr>
                             <tr>
-                                <td colSpan="2" className="res_author">{authorStr}</td>
+                                <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
                             </tr>
-                            <tr className="res_tr_bottom">
-                                <td className="res_hostTitle">{samplesRes[i].host.title}</td><td className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                            <tr className="res_tr_bottom" valign="bottom">
+                                <td className="res_hostTitle">{hostTitleStr}</td><td className="res_pubDate">{samplesRes[i].publicationDate}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1417,7 +1458,7 @@ export default class Form extends React.Component {
                             <div className={this.shouldHideU}>
 
                                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
-                                    <table className="widget" onClick={() => this.showUsagePersonnalise()}>
+                                    <table className={"widget " + this.selectedPersClass}  onClick={() => this.showUsagePersonnalise()}>
                                         <tbody>
                                             <tr>
                                                 <td className="lv1"><span className="lv11">DOC</span></td>
@@ -1429,7 +1470,7 @@ export default class Form extends React.Component {
                                                 <td className="lv3">Usage personnalisé<br /><span className="txtU">&nbsp;</span></td>
                                             </tr>
                                             <tr>
-                                                <td className="lv5" > <i className="fa fa-check ico-usage" /> Choisir l'usage</td>
+                                                <td className="lv5" ><i className="fa fa-check ico-usage" /> {this.persUsageLabel}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1447,7 +1488,7 @@ export default class Form extends React.Component {
                                                 <td className="lv3">Lodex<br /><span className="txtU">Analyse graphique  / Exploration de corpus</span></td>
                                             </tr>
                                             <tr>
-                                                <td className="lv5"><i className="fa fa-check ico-usage" />  Choisir l'usage</td>
+                                                <td className="lv5"><i className="fa fa-check ico-usage" />  {this.loadexUsageLabel}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1549,22 +1590,7 @@ export default class Form extends React.Component {
                             <div className="col-lg-12 col-sm-12">
 
                                 <div className="form-group" style={{ marginTop: '20px' }}>
-                                Niveau de compression  &nbsp;&nbsp;
-                                    <OverlayTrigger
-                                        trigger="click"
-                                        rootClose
-                                        placement="right"
-                                        overlay={popoverCompressionHelp}
-                                    >
-                                        <i
-                                            id="compressionHelpInfo"
-                                            role="button"
-                                            className="fa fa-info-circle"
-                                            aria-hidden="true"
-                                        />
-                                    </OverlayTrigger>
-                                &nbsp;
-
+                                Niveau de compression  &nbsp;
                                 :
                                 &nbsp;&nbsp;
                                     <div style={{ display: 'inline-block' }}>

@@ -4,6 +4,6 @@ const config = {
     dlIstexUrl: 'https://dl.istex.fr/',
     limitNbDoc: 100000,
     defaultSize: 0,
-    characterLimit: 67000,
+    characterLimit: 7000
 };
 export default config;

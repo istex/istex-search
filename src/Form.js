@@ -59,7 +59,7 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-            rankBy: 'relevance',
+            rankBy: 'qualityOverRelevance',
             total: 0,
             activeKey: '1',
             nbDocsCalculating: false,
@@ -94,6 +94,7 @@ export default class Form extends React.Component {
         this.persUsageLabel = "Choisir l'usage";
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
+        this.limitNbDocClass = 'limitNbDocTxtHide';
         this.handleClChange = this.handleClChange.bind(this);
     }
 
@@ -160,6 +161,7 @@ export default class Form extends React.Component {
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
+                
                 this.state.samples = json.hits;
                 const { total } = json;
                 let size,limitNbDoc = config.limitNbDoc;
@@ -179,6 +181,10 @@ export default class Form extends React.Component {
                     size = total;
                     limitNbDoc = total;
                 }
+    
+                if (total > 0) {
+                    this.limitNbDocClass = 'limitNbDocTxt';
+                } 
 
                 return this.setState({
                     size,
@@ -244,7 +250,7 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-            rankBy: parsedUrl.rankBy || 'relevance',
+            rankBy: parsedUrl.rankBy || 'qualityOverRelevance',
             compressionLevel: parsedUrl.compressionLevel || 0,
             activeKey: parsedUrl.withID ? '2' : '1',
             total: 0,
@@ -277,14 +283,14 @@ export default class Form extends React.Component {
             this.selectedLodexClass = '';
             this.shouldHideUpersonnalise = ' ';
             this.shouldHideU = 'hidden';
-            this.persUsageLabel = 'usage séléctionné';
+            this.persUsageLabel = 'usage sélectionné';
             this.loadexUsageLabel = "choisir l'usage";
             this.selectedPersClass = 'selectedUsage';
         } else if (parsedUrl.usage === '2') {
             this.usage = 2;
             this.selectedPersClass = '';
             this.selectedLodexClass = 'selectedUsage';
-            this.loadexUsageLabel = 'usage séléctionné';
+            this.loadexUsageLabel = 'usage sélectionné';
             this.persUsageLabel = "choisir l'usage";
         }
         if (parsedUrl.q_id !== undefined) {
@@ -362,7 +368,7 @@ export default class Form extends React.Component {
         const name = target.name;
         this.setState({
             rankBy: name,
-        });
+        }, () => this.waitRequest());
     }
 
     handlecarchivetypeByChange(archiveFormatEvent) {
@@ -409,6 +415,18 @@ export default class Form extends React.Component {
             // href.searchParams.set('q', this.transformIDorARK());
             href.searchParams.delete('withID');
         }
+
+        if (this.state.downloadBtnClass === 'text-danger') {
+            if (window.confirm("La taille de l'archive est très grande, poursuivre le téléchargement ?")) {
+                this.setState({
+                    downloading: true,
+                    URL2Download: href,
+                });
+            } else {
+                return;
+            }
+        }
+
         this.setState({
             downloading: true,
             URL2Download: href,
@@ -621,31 +639,28 @@ export default class Form extends React.Component {
         ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
 
-        if (this.usage === 1) {
-            ISTEX.searchParams.set('usage', this.usage);
-            this.selectedLodexClass = '';
-            this.persUsageLabel = 'usage séléctionné';
-            this.loadexUsageLabel = "choisir l'usage";
-            this.selectedPersClass = 'selectedUsage';
-        } else if (this.usage === 2) {
-            ISTEX.searchParams.set('usage', this.usage);
-            this.selectedLodexClass = 'selectedUsage';
-            ISTEX.searchParams.set('extract', 'metadata[json]');
-            this.loadexUsageLabel = 'usage séléctionné';
-            this.persUsageLabel = "choisir l'usage";
-            this.selectedPersClass = '';
-        }
 
         if (this.state.total === 0) {
             this.state.samples = [];
         }
 
+        let sizes = {};
+
         // eslint-disable-next-line global-require
-        let sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
+        
+        if (this.state.compressionLevel == 0) {
+            sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
+        } else if (this.state.compressionLevel == 6) {
+            sizes = require('../src/formatSize.json').zipCompression.mediumCompression.sizes;
+        } else if (this.state.compressionLevel == 9) {
+            sizes = require('../src/formatSize.json').zipCompression.highCompression.sizes;
+        }
 
         let size = this.state.size;
 
         let archiveSize = 0;
+
+
         if (filetypeFormats.covers !== undefined) {
             archiveSize += sizes.coversSize * size;
         }
@@ -678,6 +693,23 @@ export default class Form extends React.Component {
             });
         }
 
+        if (this.usage === 1) {
+            ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = '';
+            this.persUsageLabel = 'usage sélectionné';
+            this.loadexUsageLabel = "choisir l'usage";
+            this.selectedPersClass = 'selectedUsage';
+        } else if (this.usage === 2) {
+            ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = 'selectedUsage';
+            ISTEX.searchParams.set('extract', 'metadata[json]');
+            this.loadexUsageLabel = 'usage sélectionné';
+            this.persUsageLabel = "choisir l'usage";
+            this.selectedPersClass = '';
+            archiveSize = sizes.metadataSize.json * size;
+        }
+
+
         // 5GB
         if (archiveSize >= 5368709120) {
             this.state.downloadBtnClass = 'text-danger';
@@ -691,6 +723,7 @@ export default class Form extends React.Component {
         // < 1GB
         if (archiveSize < 1073741824 && archiveSize > 0) {
             this.state.downloadBtnClass = 'text-success';
+
         }
         
         this.state.archiveSize = this.formatBytes(archiveSize);
@@ -783,11 +816,14 @@ export default class Form extends React.Component {
     }
 
     showUsagePersonnalise() {
+        if (this.usage === 2) {
+            console.log('todo');
+        }
         this.shouldHideUpersonnalise = '';
         this.shouldHideU = 'hidden';
         this.selectedLodexClass = '';
         this.usage = 1;
-        this.persUsageLabel = 'usage séléctionné';
+        this.persUsageLabel = 'usage sélectionné';
         this.loadexUsageLabel = "choisir l'usage";
         this.selectedPersClass = 'selectedUsage';
 
@@ -803,9 +839,10 @@ export default class Form extends React.Component {
     showUsageLodex() {
         this.usage = 2;
         this.selectedLodexClass = 'selectedUsage';
-        this.loadexUsageLabel = 'usage séléctionné';
+        this.loadexUsageLabel = 'usage sélectionné';
         this.persUsageLabel = "choisir l'usage";
         this.selectedPersClass = '';
+        console.log(this.state);
 
         this.setState({});
     }
@@ -847,22 +884,21 @@ export default class Form extends React.Component {
 
             // Create the parent and add the children
             samples.push(
-                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight">
-                    <table className="res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf' , samplesRes[i].title); }}>
-                        <tbody>
-                            <tr>
-                                <td colSpan="2" title={samplesRes[i].title} className="res_title">{titleStr}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
-                            </tr>
-                            <tr className="res_tr_bottom" valign="bottom">
-                                <td className="res_hostTitle">{hostTitleStr}</td><td className="res_pubDate">{samplesRes[i].publicationDate}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>);
+                <table className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf' , samplesRes[i].title); }}>
+                    <tbody>
+                        <tr>
+                            <td colSpan="2" title={samplesRes[i].title} className="res_title">{titleStr}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
+                        </tr>
+                        <tr className="res_tr_bottom" valign="bottom" style={{width: '100%'}}>
+                            <td className="" style={{width: '70%', display:'inline-block',paddingLeft:'5px'}}>{hostTitleStr}</td><td style={{width: '30%', display:'inline-block',textAlign:'right'}} className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                        </tr>
+                    </tbody>
+                </table>,
+            );
         }
         return samples;
     }
@@ -1303,7 +1339,7 @@ export default class Form extends React.Component {
                                         }
                                     />
                                 </div>
-                                &nbsp;&nbsp; <span className="limitNbDocTxt">/ {this.state.limitNbDoc}</span>
+                                &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>
                                 {}
                             </div>                        
                             <div className="rankBy">
@@ -1326,6 +1362,15 @@ export default class Form extends React.Component {
                                 :
                             </div>
                             <div className="radioGroupRankBy">
+                                <Radio
+                                    id="radioQualityOverRelevance"
+                                    inline
+                                    name="qualityOverRelevance"
+                                    checked={this.state.rankBy === 'qualityOverRelevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Relevé par qualité
+                                </Radio>
                                 <Radio
                                     id="radioRelevance"
                                     inline
@@ -1577,7 +1622,7 @@ export default class Form extends React.Component {
                         <div className="col-lg-12 col-sm-12 text-center">
                             <h2>
                                 <span className="num-etape">&nbsp;3.&nbsp;</span>
-                                Télécharger
+                                Téléchargement
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -1600,7 +1645,10 @@ export default class Form extends React.Component {
                                             <option value="9">Compression élevée</option>
                                         </select>
                                     </div>
-                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                Format de l'archive &nbsp;
+                                :
+                                &nbsp;&nbsp;
                                     <Radio
                                         id="radioZip"
                                         inline
@@ -1608,7 +1656,7 @@ export default class Form extends React.Component {
                                         checked={this.state.archiveType === 'zip'}
                                         onChange={this.handlecarchivetypeByChange}
                                     >
-                                        Fichier ZIP
+                                        ZIP
                                     </Radio>
                                     &nbsp;&nbsp;&nbsp;
                                     <Radio
@@ -1618,7 +1666,7 @@ export default class Form extends React.Component {
                                         checked={this.state.archiveType === 'tar'}
                                         onChange={this.handlecarchivetypeByChange}
                                     >
-                                        Fichier TAR.GZ
+                                        TAR.GZ
                                     </Radio>
 
                                 </div>
@@ -1631,9 +1679,10 @@ export default class Form extends React.Component {
                                 <table type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
-                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}>
+                                    onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}
+                                >
                                     <tr>
-                                        <th className="btn-th1">Télécharger le fichier</th>
+                                        <th className="btn-th1">Télécharger</th>
                                         <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png"/></th>
                                     </tr>
                                     <tr>

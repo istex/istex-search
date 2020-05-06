@@ -1477,7 +1477,7 @@ a[data-lightbox]:hover img{
 }
 
 .res_widget {
-    width: 95%;
+    width: 95% !important;
     border: 1px solid #458ca5;
     border-left: 10px solid #458ca5;
     min-width: 280px;
@@ -1487,6 +1487,7 @@ a[data-lightbox]:hover img{
     overflow-y: overlay;
     overflow-x: hidden;
     display: block;
+    margin-right: 20px;
 }
 
 .res_title {
@@ -1502,10 +1503,28 @@ a[data-lightbox]:hover img{
     font-style: italic;
 }
 
-.res_hostTitle {
-    padding-left: 5px;
-    padding-bottom: 5px;
-    width:295px;
+
+@media (min-width: 1200px) {
+    .res_hostTitle_lg {
+        padding-left: 5px;
+        padding-bottom: 5px;
+        width:295px;
+    }
+}
+@media (min-width: 992px) {
+    .res_hostTitle_md {
+        padding-left: 5px;
+        padding-bottom: 5px;
+        width:235px;
+    }
+}
+
+@media (min-width: 768px) {
+    .res_hostTitle_sm {
+        padding-left: 5px;
+        padding-bottom: 5px;
+        width:235px;
+    }
 }
 .res_pubDate {
     padding-right: 5px;
@@ -1556,4 +1575,8 @@ a[data-lightbox]:hover img{
 
 .selectedUsage i {
     display: inline-block !important;
+}
+
+.limitNbDocTxtHide {
+    display: none;
 }

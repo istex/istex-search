@@ -1,3 +1,13 @@
+/* eslint-disable no-restricted-properties */
+/* eslint-disable react/jsx-first-prop-new-line */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-plusplus */
+/* eslint-disable eqeqeq */
+/* eslint-disable global-require */
+/* eslint-disable react/sort-comp */
+/* eslint-disable one-var */
+/* eslint-disable prefer-template */
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 /* eslint-disable prefer-arrow-callback */
@@ -90,11 +100,12 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.usage = false;
-        this.loadexUsageLabel = "Choisir l'usage";
-        this.persUsageLabel = "Choisir l'usage";
+        this.loadexUsageLabel = 'Choisir cet usage';
+        this.persUsageLabel = 'Choisir cet usage';
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
         this.limitNbDocClass = 'limitNbDocTxtHide';
+        this.showSamplesDiv = false;
         this.handleClChange = this.handleClChange.bind(this);
     }
 
@@ -106,15 +117,6 @@ export default class Form extends React.Component {
 
     componentDidMount() {
         this.recoverFormatState();
-    }
-
-    characterNumberValidation() {
-        return 'success';
-        /* const length = this.state.q.length;
-        if (length < characterLimit - 1000) return 'success';
-        else if (length <= characterLimit) return 'warning';
-        else if (length > characterLimit) return 'error';
-        return null; */
     }
 
     recoverFormatState() {
@@ -161,10 +163,10 @@ export default class Form extends React.Component {
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
-                
                 this.state.samples = json.hits;
                 const { total } = json;
-                let size,limitNbDoc = config.limitNbDoc;
+                let size, 
+                    limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
                     size = 0;
                     limitNbDoc = 0;
@@ -233,6 +235,12 @@ export default class Form extends React.Component {
             querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
         }, () => this.calculateNbDocs(parsedUrl.size));
     }
+
+    // eslint-disable-next-line class-methods-use-this
+    characterNumberValidation() {
+        return 'success';
+    }
+    
     setStateFromURL(parsedUrl) {
         this.lastqId = parsedUrl.q_id;
         this.setState({
@@ -284,14 +292,14 @@ export default class Form extends React.Component {
             this.shouldHideUpersonnalise = ' ';
             this.shouldHideU = 'hidden';
             this.persUsageLabel = 'usage sélectionné';
-            this.loadexUsageLabel = "choisir l'usage";
+            this.loadexUsageLabel = 'choisir cet usage';
             this.selectedPersClass = 'selectedUsage';
         } else if (parsedUrl.usage === '2') {
             this.usage = 2;
             this.selectedPersClass = '';
             this.selectedLodexClass = 'selectedUsage';
             this.loadexUsageLabel = 'usage sélectionné';
-            this.persUsageLabel = "choisir l'usage";
+            this.persUsageLabel = 'choisir cet usage';
         }
         if (parsedUrl.q_id !== undefined) {
             // check session
@@ -417,7 +425,7 @@ export default class Form extends React.Component {
         }
 
         if (this.state.downloadBtnClass === 'text-danger') {
-            if (window.confirm("La taille de l'archive est très grande, poursuivre le téléchargement ?")) {
+            if (window.confirm("La taille de l'archive est très grande : poursuivre le téléchargement ?")) {
                 this.setState({
                     downloading: true,
                     URL2Download: href,
@@ -460,44 +468,6 @@ export default class Form extends React.Component {
             }).catch(function (error) {
                 console.log(error);
             });
-            /*
-            fetch(href, {
-                method: 'POST',
-                body: JSON.stringify({
-                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
-                }),
-                headers: { 'Content-Type': 'application/json' },
-            }).then((response) => {   
-                const contentDisposition = response.headers.get('Content-disposition');
-                const fileName = contentDisposition.substring(contentDisposition.lastIndexOf('=') + 1);
-            
-                // These code section is adapted from an example of the StreamSaver.js
-                // https://jimmywarting.github.io/StreamSaver.js/examples/fetch.html
-        
-                // If the WritableStream is not available (Firefox, Safari), take it from the ponyfill
-                if (!window.WritableStream) {
-                    streamSaver.WritableStream = WritableStream;
-                    window.WritableStream = WritableStream;
-                }
-                // streamSaver.mitm = href;
-                const fileStream = streamSaver.createWriteStream(fileName);
-                const readableStream = response.body;
-        
-                // More optimized
-                if (readableStream.pipeTo) {
-                    return readableStream.pipeTo(fileStream);
-                }
-        
-                const writer = fileStream.getWriter();
-        
-                const reader = response.body.getReader();
-                const pump = () => reader.read().then(
-                    res => (res.done ? writer.close() 
-                        : writer.write(res.value).then(pump)));
-                pump();
-            }).catch((error) => {
-                console.log(error);
-            }); */
         } else {
             window.setTimeout(() => {
                 window.location = href;
@@ -564,7 +534,13 @@ export default class Form extends React.Component {
         }
     }
 
-    formatBytes(a,b=0){if(0===a)return"0 Octets";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Octets","Ko","Mo","Go","To","Po","Eo","Zo","Yo"][d]}
+    // eslint-disable-next-line class-methods-use-this
+    formatBytes(a, b = 0) {
+        if (a === 0) return '0 Octets';
+        const c = b < 0 ? 0 : b,
+            d = Math.floor(Math.log(a) / Math.log(1024));
+        return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + ' ' + ['Octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'][d];
+    }
     
     buildURLFromState(query = null, withHits = true) {
         const ISTEX = new URL(`${config.apiUrl}/document/`);
@@ -645,8 +621,6 @@ export default class Form extends React.Component {
         }
 
         let sizes = {};
-
-        // eslint-disable-next-line global-require
         
         if (this.state.compressionLevel == 0) {
             sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
@@ -697,14 +671,14 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedLodexClass = '';
             this.persUsageLabel = 'usage sélectionné';
-            this.loadexUsageLabel = "choisir l'usage";
+            this.loadexUsageLabel = 'choisir cet usage';
             this.selectedPersClass = 'selectedUsage';
         } else if (this.usage === 2) {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedLodexClass = 'selectedUsage';
             ISTEX.searchParams.set('extract', 'metadata[json]');
             this.loadexUsageLabel = 'usage sélectionné';
-            this.persUsageLabel = "choisir l'usage";
+            this.persUsageLabel = 'choisir cet usage';
             this.selectedPersClass = '';
             archiveSize = sizes.metadataSize.json * size;
         }
@@ -723,7 +697,6 @@ export default class Form extends React.Component {
         // < 1GB
         if (archiveSize < 1073741824 && archiveSize > 0) {
             this.state.downloadBtnClass = 'text-success';
-
         }
         
         this.state.archiveSize = this.formatBytes(archiveSize);
@@ -758,13 +731,14 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        this.loadexUsageLabel = "Choisir l'usage";
-        this.persUsageLabel = "Choisir l'usage";
+        this.loadexUsageLabel = 'Choisir cet usage';
+        this.persUsageLabel = 'Choisir cet usage';
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
         this.usage = false;
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.showSamplesDiv = false;
         this.setState(this.defaultState);
     }
 
@@ -824,7 +798,7 @@ export default class Form extends React.Component {
         this.selectedLodexClass = '';
         this.usage = 1;
         this.persUsageLabel = 'usage sélectionné';
-        this.loadexUsageLabel = "choisir l'usage";
+        this.loadexUsageLabel = 'choisir cet usage';
         this.selectedPersClass = 'selectedUsage';
 
         this.setState({});
@@ -840,31 +814,34 @@ export default class Form extends React.Component {
         this.usage = 2;
         this.selectedLodexClass = 'selectedUsage';
         this.loadexUsageLabel = 'usage sélectionné';
-        this.persUsageLabel = "choisir l'usage";
+        this.persUsageLabel = 'choisir cet usage';
         this.selectedPersClass = '';
         console.log(this.state);
 
         this.setState({});
     }
 
+    checkSamples = () => {
+        let samplesRes = this.state.samples;
+
+        if (samplesRes.length > 0) {
+            this.showSamplesDiv = true;
+        } else {
+            this.showSamplesDiv = false;
+        }
+    }
 
     showSamples = () => {
         let samples = [];
 
-
         let samplesRes = this.state.samples;
-
-
-        if (samplesRes.length > 0) {
-            samples.push(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Echantillon de la requête </div>);
-        }
         
         // Outer loop to create parent
         if (samplesRes.length === 0 || samplesRes === undefined) {
             return '';
         }
         function truncate(source, size) {
-            return source.length > size ? source.slice(0, size - 1) + "…" : source;
+            return source.length > size ? source.slice(0, size - 1) + '…' : source;
         }
 
         for (let i = 0; i < samplesRes.length; i++) {
@@ -884,7 +861,7 @@ export default class Form extends React.Component {
 
             // Create the parent and add the children
             samples.push(
-                <table className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf' , samplesRes[i].title); }}>
+                <table className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf', samplesRes[i].title); }}>
                     <tbody>
                         <tr>
                             <td colSpan="2" title={samplesRes[i].title} className="res_title">{titleStr}
@@ -893,8 +870,8 @@ export default class Form extends React.Component {
                         <tr>
                             <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
                         </tr>
-                        <tr className="res_tr_bottom" valign="bottom" style={{width: '100%'}}>
-                            <td className="" style={{width: '70%', display:'inline-block',paddingLeft:'5px'}}>{hostTitleStr}</td><td style={{width: '30%', display:'inline-block',textAlign:'right'}} className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                        <tr className="res_tr_bottom" style={{ width: '100%' }}>
+                            <td className="" style={{ width: '70%', display: 'inline-block', paddingLeft: '5px' }}>{hostTitleStr}</td><td style={{ width: '30%', display: 'inline-block', textAlign: 'right' }} className="res_pubDate">{samplesRes[i].publicationDate}</td>
                         </tr>
                     </tbody>
                 </table>,
@@ -919,9 +896,18 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Requête {closingButton}</span>}
             >
-                Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;).<br/>
-                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+            Pour interroger ISTEX, vous avez le choix entre différentes modes de recherche : classique ou par liste d’identifiants ARK. Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
+            Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+                <br />
+            </Popover>
+        );
+
+        const popoverSampleList = (
+            <Popover
+                id="popover-sample-list"
+                title={<span> Échantillon de résultats {closingButton}</span>}
+            >
+            Cet échantillon de documents, classés par pertinence des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.  
                 <br />
             </Popover>
         );
@@ -931,13 +917,9 @@ export default class Form extends React.Component {
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-                Pour élaborer votre équation de recherche de type classique, vous pouvez
-                vous aider du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
-                accessibles via le bouton
-                <span style={{ display: 'inline-block' }}>
-                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;
-                </span>.
+Pour élaborer votre équation de recherche booléenne, vous pouvez 
+vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
+ de <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
 
@@ -946,9 +928,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
-                l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
-                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true" />&nbsp;Exemples&quot;.
+Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. 
+Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
+
             </Popover>
         );
 
@@ -960,7 +942,7 @@ export default class Form extends React.Component {
 
         const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Effacez votre requête et vos sélections et redémarrez avec un formulaire vide
+                Effacez tout pour redémarrer avec un formulaire vide
             </Tooltip>
         );
 
@@ -972,7 +954,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Activez ce bouton en complétant le formulaire et partagez votre corpus via son URL avant de télécharger
+                Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
             </Tooltip>
         );
 
@@ -994,22 +976,24 @@ export default class Form extends React.Component {
         //     </Tooltip>
         // );
 
-        const popoverFiletypeHelp = (
+        const popoverUsagePerso = (
             <Popover
                 id="popover-filetype-help"
                 title={<span> Formats et types de fichiers {closingButton}</span>}
             >
-                Les différents formats et types de fichiers disponibles sont décrits dans 
-                la <a 
-                    href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                        documentation ISTEX.
-                </a>
-                <br />
-                Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du
-                corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+Les différents formats et types de fichiers disponibles sont décrits dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+            </Popover>
+        );
+
+        const popoverFiletypeHelp = (
+            <Popover
+                id="popover-filetype-help"
+                title={<span> Usage {closingButton}</span>}
+            >
+Le choix d’un outil induit un remplissage des formats et types de fichiers qui seront extraits. 
+L’information sur les formats et types de fichiers sélectionnés est visible dans l’URL de partage, ainsi que dans l’historique, 
+une fois le corpus téléchargé. 
             </Popover>
         );
 
@@ -1018,6 +1002,8 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. L’estimation fournie est une indication mais peut varier selon les documents à extraire. La couleur rouge vous avertit lorsque la taille dépasse 5 Go. 
+                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur. 
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -1071,11 +1057,10 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Nombre de documents {closingButton}</span>}
             >
-                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
+                Actuellement, il n’est pas possible de télécharger plus de 100 000 documents.
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire représentatif des résultats
-                peut vous intéresser (voir rubrique suivante).
+                Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents peut vous intéresser (voir rubrique suivante).
 
             </Popover>
         );
@@ -1085,26 +1070,12 @@ export default class Form extends React.Component {
                 id="popover-choice-help"
                 title={<span> Mode de classement {closingButton}</span>}
             >
-                En fonction de votre sélection, les résultats de votre requête seront classés par
-                ordre de pertinence ou de manière aléatoire.<br />
-                Par défaut, c’est l’ordre de pertinence qui est privilégié.
+                Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête, 
+                les documents sélectionnés pour votre corpus seront extraits en fonction d’un ordre de pertinence relevé par la qualité (choix privilégié par défaut), par ordre de pertinence seulement ou tirés de manière aléatoire, 
+                ce mode de tri étant plus représentatif de la diversité des résultats.
             </Popover>
 
         );
-        
-        const popoverCompressionHelp = (
-            <Popover
-                id="popover-compression-help"
-                title={<span> Mode de compression {closingButton}</span>}
-            >
-                Le niveau de compression doit être entre 0 et 9 : <br />
-                <ul>
-                    <li>0 ne donne aucune compression.</li>
-                    <li>1 donne la meilleure vitesse.</li>
-                    <li>9 donne la meilleure compression.</li>
-                </ul>
-            </Popover>
-        ); 
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -1168,8 +1139,8 @@ export default class Form extends React.Component {
                             </h2>
 
                             <p>
-                                Explicitez ci-dessous l’équation ou la liste d’identifiants
-                                qui décrit le corpus souhaité :
+                                Sélectionnez l’un des onglets ci-dessous et explicitez ce qui décrit le corpus souhaité :
+
                             </p>
                             <div className="form-group">
                                 <FormGroup
@@ -1234,41 +1205,11 @@ export default class Form extends React.Component {
                                         }
                                         onChange={this.handleQueryChange}
                                     />
-                                    {/*
-                                    <HelpBlock>
-                                        Nombre de caractères restants&nbsp;
-                                        &nbsp;
-                                        <OverlayTrigger
-                                            trigger="click"
-                                            rootClose
-                                            placement="right"
-                                            overlay={popoverCharacterLimitHelp}
-                                        >
-                                            <i
-                                                id="characterLimitHelpInfo"
-                                                role="button"
-                                                className="fa fa-info-circle"
-                                                aria-hidden="true"
-                                            />
-                                        </OverlayTrigger>
-                                        &nbsp;
-                                        : {
-                                            commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
-                                        }
-                                        <FormControl.Feedback
-                                            style={{
-                                                position: 'relative',
-                                                display: 'inline-block',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                            }}
-                                        />
-                                        </HelpBlock> */}
                                 </FormGroup>
                             </div>
                             {this.state.nbDocsCalculating &&
                             <p className="pTxt">
-                                Calcul en cours de nombre des résultats ... 
+                                Calcul en cours du nombre des résultats ... 
                                 &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                             </p>
@@ -1390,43 +1331,25 @@ export default class Form extends React.Component {
                                     Aléatoirement
                                 </Radio>
                             </div>
-                            
-                            {/* <div className="form-group" style={{ marginTop: '20px' }}>
-                                Niveau de compression ZIP &nbsp;
+
+                        </div>
+                        <div className="col-lg-12 col-sm-12">
+                            {this.checkSamples()}
+                            {this.showSamplesDiv &&
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
-                                    placement="right"
-                                    overlay={popoverCompressionHelp}
+                                    placement="top"
+                                    overlay={popoverSampleList}
                                 >
-                                    <i
-                                        id="compressionHelpInfo"
-                                        role="button"
-                                        className="fa fa-info-circle"
-                                        aria-hidden="true"
-                                    />
+                                    <i role="button" className="iEchantillonRes fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                                &nbsp;
-                                
-                                :
-                                &nbsp;&nbsp;
-                                
-                                <div style={{ width: '60px', display: 'inline-block' }}>
-                                    <NumericInput
-                                        className="form-control"
-                                        min={1} max={9} value={Number(this.state.compressionLevel)}
-                                        onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                        onChange={compressionLevel => this.setState({ compressionLevel })}
-                                        >
-                                        </NumericInput>
-                                        
-                                    
-                                </div>
-                               
-                            </div> */}
-                        </div>
-                        <div className="col-lg-12 col-sm-12">
+                            </div>
+                            }
                             {this.showSamples()} 
+
+
                         </div>
                     </div>
 
@@ -1498,12 +1421,12 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
-                            <p>Le choix de l’outil induit un pré-remplissage des formats et types de fichiers.<br />
-                            Choisir un usage puis modifier les paramètres revient au cas "Usage personnalisé".</p>
+                            <p>Cliquez sur l’usage que vous souhaitez faire de votre corpus. <br />
+                            La sélection du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.</p>
                             <div className={this.shouldHideU}>
 
                                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
-                                    <table className={"widget " + this.selectedPersClass}  onClick={() => this.showUsagePersonnalise()}>
+                                    <table className={'widget ' + this.selectedPersClass} onClick={() => this.showUsagePersonnalise()}>
                                         <tbody>
                                             <tr>
                                                 <td className="lv1"><span className="lv11">DOC</span></td>
@@ -1521,7 +1444,7 @@ export default class Form extends React.Component {
                                     </table>
                                 </div>
                                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
-                                    <table className={"widget " + this.selectedLodexClass} onClick={() => this.showUsageLodex()}>
+                                    <table className={'widget ' + this.selectedLodexClass} onClick={() => this.showUsageLodex()}>
                                         <tbody>
                                             <tr>
                                                 <td className="lv1"><span className="lv11">TDM</span></td>
@@ -1542,6 +1465,15 @@ export default class Form extends React.Component {
                             <div className={this.shouldHideUpersonnalise}>
                                 <div className="up up-btn col-lg-12 col-sm-12">
                                     <span className="back-btn" onClick={() => this.showUsages()} ><i className="fa fa-chevron-left ico-back" /> Usage personnalisé</span>
+                                    &nbsp;&nbsp;<OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverUsagePerso}
+                                    >
+                                        <i role="button" className="UsagePerso fa fa-info-circle" aria-hidden="true" />
+                                    </OverlayTrigger>
+
                                 </div>
                                 <div className="col-lg-12 col-sm-12">
                                     <span className="fulltextGroup">
@@ -1683,7 +1615,7 @@ export default class Form extends React.Component {
                                 >
                                     <tr>
                                         <th className="btn-th1">Télécharger</th>
-                                        <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png"/></th>
+                                        <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png" alt="" /></th>
                                     </tr>
                                     <tr>
                                         <td className="btn-td1">Taille estimée : <span className={this.state.downloadBtnClass}>{this.state.archiveSize}</span></td>
@@ -1820,7 +1752,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                        d&apos;interroger l&apos;API Istex en utilisant :
+                        d&apos;interroger l&apos;API ISTEX en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger

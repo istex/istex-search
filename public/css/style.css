@@ -70,7 +70,7 @@ a,button{outline: none!important; } /* Prevent ugly blue glow on chrome and safa
 /* Dark theme */
 
 .d-bloc{
-	color:rgba(255,255,255,.7);70px
+	color:rgba(255,255,255,.7);
 }
 .d-bloc button:hover{
 	color:rgba(255,255,255,.9);
@@ -1579,4 +1579,13 @@ a[data-lightbox]:hover img{
 
 .limitNbDocTxtHide {
     display: none;
+}
+
+.iEchantillonRes {
+    float:right;
+    color:#458ca5!important;
+    font-size: 20px !important;
+}
+.UsagePerso {
+    color:#458ca5!important;
 }

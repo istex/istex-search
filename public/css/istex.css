@@ -45,6 +45,7 @@ padding-left: 12%;
 	font-weight: bold;
 	font-family: 'Montserrat', sans-serif;
 	padding: 15px 0 15px 0;
+	text-align: center;
 }
 #pageTitle a {
 	color: #303030;
@@ -427,6 +428,7 @@ disable-download
     padding-top: 20px;
     flex-shrink: 0;
     font-size: 1.2rem;
+    padding-bottom: 90px;
 }
 
 body > footer > ul {

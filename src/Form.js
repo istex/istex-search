@@ -1,28 +1,46 @@
+/* eslint-disable no-restricted-properties */
+/* eslint-disable react/jsx-first-prop-new-line */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable no-plusplus */
+/* eslint-disable eqeqeq */
+/* eslint-disable global-require */
+/* eslint-disable react/sort-comp */
+/* eslint-disable one-var */
+/* eslint-disable prefer-template */
+/* eslint-disable func-names */
+/* eslint-disable no-console */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable consistent-return */
+/* eslint-disable no-lonely-if */
+/* eslint-disable max-len */
+/* eslint-disable prefer-const */
+/* eslint-disable no-trailing-spaces */
 import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import InputRange from 'react-input-range';
 import NumericInput from 'react-numeric-input';
 import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
-    Tooltip, HelpBlock, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem} from 'react-bootstrap';
+    Tooltip, FormGroup, FormControl,
+    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
 import qs from 'qs';
 import commaNumber from 'comma-number';
+import md5 from 'md5';
 import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
+
 import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
-export const characterLimit = 67000;
+export const characterLimit = config.characterLimit;
 export const nbHistory = 30;
 
 export default class Form extends React.Component {
-
     static handleReload() {
         if (JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'))) {
             window.location = JSON.parse(window.localStorage.getItem('dlISTEXlastUrl'));
@@ -39,6 +57,7 @@ export default class Form extends React.Component {
         this.defaultState = {
             q: '',
             querywithIDorARK: '',
+            qId: '',
             size: config.defaultSize,
             limitNbDoc: config.limitNbDoc,
             extractMetadata: false,
@@ -50,15 +69,20 @@ export default class Form extends React.Component {
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
-            rankBy: 'relevance',
+            rankBy: 'qualityOverRelevance',
             total: 0,
             activeKey: '1',
-            //compressionLevel: 0,
+            nbDocsCalculating: false,
+            compressionLevel: 0,
+            archiveType: 'zip',
+            samples: [],
+            archiveSize: '--',
+            downloadBtnClass: '',
         };
         this.state = this.defaultState;
         this.child = [];
         this.timer = 0;
-
+        this.lastqId = '';
         this.handleQueryChange = this.handleQueryChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleFiletypeChange = this.handleFiletypeChange.bind(this);
@@ -66,13 +90,23 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
-        //this.handlecompressionLevelChange = this.handlecompressionLevelChange.bind(this);
+        this.handlecarchivetypeByChange = this.handlecarchivetypeByChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
         this.hideModalShare = this.hideModalShare.bind(this);
         this.hideModalExemple = this.hideModalExemple.bind(this);
         this.calculateNbDocs = this.calculateNbDocs.bind(this);
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.usage = false;
+        this.loadexUsageLabel = 'Choisir cet usage';
+        this.persUsageLabel = 'Choisir cet usage';
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
+        this.limitNbDocClass = 'limitNbDocTxtHide';
+        this.showSamplesDiv = false;
+        this.handleClChange = this.handleClChange.bind(this);
     }
 
     componentWillMount() {
@@ -83,14 +117,6 @@ export default class Form extends React.Component {
 
     componentDidMount() {
         this.recoverFormatState();
-    }
-
-    characterNumberValidation() {
-        const length = this.state.q.length;
-        if (length < characterLimit - 1000) return 'success';
-        else if (length <= characterLimit) return 'warning';
-        else if (length > characterLimit) return 'error';
-        return null;
     }
 
     recoverFormatState() {
@@ -119,6 +145,11 @@ export default class Form extends React.Component {
     }
 
     calculateNbDocs(sizeParam = config.defaultSize) {
+        this.setState({
+            nbDocsCalculating: true,
+            total: 0,
+            size: 0,
+        });
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false)
@@ -128,12 +159,17 @@ export default class Form extends React.Component {
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
-        this.istexDlXhr = $.get(ISTEX.href)
+
+        // disable all before getting total 
+        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
+                this.state.samples = json.hits;
                 const { total } = json;
-                let size,limitNbDoc = config.limitNbDoc;
+                let size, 
+                    limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
-                    size = config.defaultSize;
+                    size = 0;
+                    limitNbDoc = 0;
                 } else if (sizeParam <= config.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
@@ -147,11 +183,16 @@ export default class Form extends React.Component {
                     size = total;
                     limitNbDoc = total;
                 }
+    
+                if (total > 0) {
+                    this.limitNbDocClass = 'limitNbDocTxt';
+                } 
 
                 return this.setState({
                     size,
                     total: total || 0,
-                    limitNbDoc : limitNbDoc
+                    limitNbDoc,
+                    nbDocsCalculating: false,
                 });
             }).fail((err) => {
                 if (err.status >= 500) {
@@ -187,47 +228,95 @@ export default class Form extends React.Component {
         return '';
     }
 
+    setQIDFromURL(parsedUrl) {
+        this.lastqId = parsedUrl.q_id;
+        this.setState({
+            q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
+            querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
+        }, () => this.calculateNbDocs(parsedUrl.size));
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    characterNumberValidation() {
+        return 'success';
+    }
+    
+    setStateFromURL(parsedUrl) {
+        this.lastqId = parsedUrl.q_id;
+        this.setState({
+            q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
+            querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
+            size: parsedUrl.size || config.defaultSize,
+            limitNbDoc: config.limitNbDoc,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            qId: parsedUrl.q_id,
+            extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
+            extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
+            downloading: !!parsedUrl.download,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+            rankBy: parsedUrl.rankBy || 'qualityOverRelevance',
+            compressionLevel: parsedUrl.compressionLevel || 0,
+            activeKey: parsedUrl.withID ? '2' : '1',
+            total: 0,
+            archiveType: parsedUrl.archiveType || 'zip',
+        }, () => this.calculateNbDocs(parsedUrl.size));
+        if (parsedUrl.extract) {
+            parsedUrl.extract.split(';').forEach((filetype) => {
+                const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
+                const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
+                let res = '';
+                formats.forEach((format) => {
+                    res += `${format},`;
+                });
+                res = res.slice(0, res.length - 1);
+                this.setState({
+                    [type]: res,
+                }, () => {
+                    if (parsedUrl.download) {
+                        this.handleSubmit(new Event('submit'));
+                    }
+                });
+            });
+        }
+    }
+
     interpretURL(url) {
         const parsedUrl = qs.parse(url);
-        if (Object.keys(parsedUrl).length >= 1) {
-            this.setState({
-                q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
-                querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-                size: parsedUrl.size || config.defaultSize,
-                limitNbDoc: config.limitNbDoc,
-                extractMetadata: false,
-                extractFulltext: false,
-                extractEnrichments: false,
-                extractCovers: (parsedUrl.extract && parsedUrl.extract.includes('covers')) || false,
-                extractAnnexes: (parsedUrl.extract && parsedUrl.extract.includes('annexes')) || false,
-                downloading: !!parsedUrl.download,
-                URL2Download: '',
-                errorRequestSyntax: '',
-                errorDuringDownload: '',
-                rankBy: parsedUrl.rankBy || 'relevance',
-                //compressionLevel: parsedUrl.compressionLevel || 0,
-                activeKey: parsedUrl.withID ? '2' : '1',
-                total: 0,
-            }, () => this.calculateNbDocs(parsedUrl.size));
-
-            if (parsedUrl.extract) {
-                parsedUrl.extract.split(';').forEach((filetype) => {
-                    const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
-                    const formats = filetype.slice(filetype.indexOf('[') + 1, filetype.indexOf(']')).split(',');
-                    let res = '';
-                    formats.forEach((format) => {
-                        res += `${format},`;
+        if (parsedUrl.usage === '1') {
+            this.usage = 1;
+            this.selectedLodexClass = '';
+            this.shouldHideUpersonnalise = ' ';
+            this.shouldHideU = 'hidden';
+            this.persUsageLabel = 'usage sélectionné';
+            this.loadexUsageLabel = 'choisir cet usage';
+            this.selectedPersClass = 'selectedUsage';
+        } else if (parsedUrl.usage === '2') {
+            this.usage = 2;
+            this.selectedPersClass = '';
+            this.selectedLodexClass = 'selectedUsage';
+            this.loadexUsageLabel = 'usage sélectionné';
+            this.persUsageLabel = 'choisir cet usage';
+        }
+        if (parsedUrl.q_id !== undefined) {
+            // check session
+            let qSessionStorage = sessionStorage.getItem(parsedUrl.q_id);
+            if (qSessionStorage !== null) {
+                parsedUrl.q = qSessionStorage;
+                this.setStateFromURL(parsedUrl);
+            } else {
+                fetch(new URL(`${config.apiUrl}/q_id/${parsedUrl.q_id}`))
+                    .then(response => response.json()).then((data) => {
+                        parsedUrl.q = data.req;
+                        this.setQIDFromURL(parsedUrl);
                     });
-                    res = res.slice(0, res.length - 1);
-                    this.setState({
-                        [type]: res,
-                    }, () => {
-                        if (parsedUrl.download) {
-                            this.handleSubmit(new Event('submit'));
-                        }
-                    });
-                });
-            }
+                this.setStateFromURL(parsedUrl);
+            }  
+        } else if (Object.keys(parsedUrl).length >= 1) {
+            this.setStateFromURL(parsedUrl);
         }
     }
 
@@ -239,7 +328,7 @@ export default class Form extends React.Component {
             this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
         } else {
             this.setState({
-                size: config.limitNbDoc,
+                size: 0,
                 total: 0,
             });
         }
@@ -287,17 +376,21 @@ export default class Form extends React.Component {
         const name = target.name;
         this.setState({
             rankBy: name,
-        });
+        }, () => this.waitRequest());
     }
-    /*
-    handlecompressionLevelChange(compressionLevelEvent) {
-        const target = compressionLevelEvent.target;
-        const value = target.value;
+
+    handlecarchivetypeByChange(archiveFormatEvent) {
+        const target = archiveFormatEvent.target;
+        const name = target.name;
         this.setState({
-            compressionLevel: value,
+            archiveType: name,
         });
     }
-    */
+    
+    handleClChange(event) {
+        this.setState({ compressionLevel: event.target.value });
+    }
+    
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -309,16 +402,45 @@ export default class Form extends React.Component {
         });
     }
 
+    setQidReq() {
+        let href = `${config.apiUrl}/q_id/${this.lastqId}`;
+        fetch(href, {
+            method: 'POST',
+            body: JSON.stringify({
+                qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        }).then(() => {  
+            console.log('OK setting new q_id');
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
     handleSubmit(event) {
         const href = this.buildURLFromState();
         if (this.state.activeKey === '2') {
-            href.searchParams.set('q', this.transformIDorARK());
+            // href.searchParams.set('q', this.transformIDorARK());
             href.searchParams.delete('withID');
         }
+
+        if (this.state.downloadBtnClass === 'text-danger') {
+            if (window.confirm("La taille de l'archive est très grande : poursuivre le téléchargement ?")) {
+                this.setState({
+                    downloading: true,
+                    URL2Download: href,
+                });
+            } else {
+                return;
+            }
+        }
+
         this.setState({
             downloading: true,
             URL2Download: href,
         });
+
+
         /*
         socket = openSocket('http://localhost:8000');
 
@@ -329,21 +451,43 @@ export default class Form extends React.Component {
 
         subscribeToDownloadProgress((err, downloadProgress) => this.setState({
             downloadProgress,
-        }));*/
-        window.setTimeout(() => {
-            window.location = href;
-        }, 1000);
+        })); */
+
+        if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2')) {
+            let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
+            fetch(hrefSet, {
+                method: 'POST',
+                body: JSON.stringify({
+                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(() => {  
+                window.setTimeout(() => {
+                    window.location = href;
+                }, 10);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else {
+            window.setTimeout(() => {
+                window.location = href;
+            }, 1000);
+        }
         event.preventDefault();
     }
 
     handleSelectNav(eventKey) {
+        if (eventKey === '3') {
+            this.setState({ showModalExemple: true });
+            return;
+        }
         this.setState({
             activeKey: eventKey,
         }, () => this.calculateNbDocs());
     }
 
     handleCancel(event) {
-        //socket.disconnect();
+        // socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -354,8 +498,10 @@ export default class Form extends React.Component {
                 formats,
                 size: this.state.size,
                 q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
+                qId: this.state.qId,
                 rankBy: this.state.rankBy,
-                //compressionLevel: this.state.compressionLevel,
+                archiveType: this.state.archiveType,
+                compressionLevel: this.state.compressionLevel,
             };
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
@@ -370,12 +516,11 @@ export default class Form extends React.Component {
         }
 
         this.erase();
-        if (event !== undefined)
-        event.preventDefault();
+        if (event !== undefined) { 
+            event.preventDefault(); 
+        }
         // TODO: socket.IO
         // this.state.downloadProgress = 0;
-
-
     }
 
     updateUrl(defaultState = false) {
@@ -389,11 +534,20 @@ export default class Form extends React.Component {
         }
     }
 
+    // eslint-disable-next-line class-methods-use-this
+    formatBytes(a, b = 0) {
+        if (a === 0) return '0 Octets';
+        const c = b < 0 ? 0 : b,
+            d = Math.floor(Math.log(a) / Math.log(1024));
+        return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + ' ' + ['Octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'][d];
+    }
+    
     buildURLFromState(query = null, withHits = true) {
-        const ISTEX = new URL(config.apiUrl + '/document/');
+        const ISTEX = new URL(`${config.apiUrl}/document/`);
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
+            
             .map(key => decamelize(key, '-'))
             .map(key => key.split('-').slice(1))
             .map(([filetype, format]) => ({ filetype, format }))
@@ -414,22 +568,158 @@ export default class Form extends React.Component {
                     .concat(!formats[0] ? formats.slice(1) : formats)
                     .concat(formats[0] || formats.length > 1 ? '];' : ';');
             }
-                , '')
+            , '')
             .slice(0, -1);
+        if (this.state.qId !== undefined) {
+            ISTEX.searchParams.set('q_id', this.state.qId);
+        } 
         if (this.state.activeKey === '1') {
-            ISTEX.searchParams.set('q', query || this.state.q);
-        } else {
-            ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
-            ISTEX.searchParams.set('withID', true);
-        }
+            if (this.state.q.length < characterLimit) {
+                ISTEX.searchParams.delete('q_id');
+                ISTEX.searchParams.set('q', query || this.state.q);
+            } else {
+                ISTEX.searchParams.set('q_id', this.convertMD5(1));
+            }
+        } else { 
+            if (this.state.querywithIDorARK.length < characterLimit) {
+                ISTEX.searchParams.delete('q_id');
+                ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
+                ISTEX.searchParams.set('withID', true);
+            } else {
+                ISTEX.searchParams.set('q_id', this.convertMD5(2));
+                ISTEX.searchParams.set('withID', true);
+            }
+        } 
+        // ISTEX.searchParams.set('hello', this.state.qId);
         ISTEX.searchParams.set('extract', extract);
+        if (this.state.total < this.state.limitNbDoc) {
+            this.state.limitNbDoc = this.state.total;
+        }
         if (withHits) {
-            ISTEX.searchParams.set('size', this.state.size);
+            if (this.state.size <= this.state.limitNbDoc) {
+                ISTEX.searchParams.set('size', this.state.size);
+            }
+
+            if (this.state.size <= 0) {
+                this.state.size = 0;
+                ISTEX.searchParams.set('size', this.state.size);
+            }
+
+            if (this.state.size > this.state.limitNbDoc) {
+                this.state.size = this.state.limitNbDoc;
+                ISTEX.searchParams.set('size', this.state.size);
+            }
         }
         ISTEX.searchParams.set('rankBy', this.state.rankBy);
-        //ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
+        ISTEX.searchParams.set('archiveType', this.state.archiveType);
+        ISTEX.searchParams.set('compressionLevel', this.state.compressionLevel);
         ISTEX.searchParams.set('sid', 'istex-dl');
+
+
+        if (this.state.total === 0) {
+            this.state.samples = [];
+        }
+
+        let sizes = {};
+        
+        if (this.state.compressionLevel == 0) {
+            sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
+        } else if (this.state.compressionLevel == 6) {
+            sizes = require('../src/formatSize.json').zipCompression.mediumCompression.sizes;
+        } else if (this.state.compressionLevel == 9) {
+            sizes = require('../src/formatSize.json').zipCompression.highCompression.sizes;
+        }
+
+        let size = this.state.size;
+
+        let archiveSize = 0;
+
+
+        if (filetypeFormats.covers !== undefined) {
+            archiveSize += sizes.coversSize * size;
+        }
+
+        if (filetypeFormats.annexes !== undefined) {
+            archiveSize += sizes.annexesSize * size;
+        }
+
+        if (filetypeFormats.metadata !== undefined) {
+            filetypeFormats.metadata.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.metadataSize[format] * size;
+                }
+            });
+        }
+
+        if (filetypeFormats.fulltext !== undefined) {
+            filetypeFormats.fulltext.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.fulltextSize[format] * size;
+                }
+            });
+        }
+
+        if (filetypeFormats.enrichments !== undefined) {
+            filetypeFormats.enrichments.forEach((format) => {
+                if (format !== undefined) {
+                    archiveSize += sizes.enrichmentsSize[format] * size;
+                }
+            });
+        }
+
+        if (this.usage === 1) {
+            ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = '';
+            this.persUsageLabel = 'usage sélectionné';
+            this.loadexUsageLabel = 'choisir cet usage';
+            this.selectedPersClass = 'selectedUsage';
+        } else if (this.usage === 2) {
+            ISTEX.searchParams.set('usage', this.usage);
+            this.selectedLodexClass = 'selectedUsage';
+            ISTEX.searchParams.set('extract', 'metadata[json]');
+            this.loadexUsageLabel = 'usage sélectionné';
+            this.persUsageLabel = 'choisir cet usage';
+            this.selectedPersClass = '';
+            archiveSize = sizes.metadataSize.json * size;
+        }
+
+
+        // 5GB
+        if (archiveSize >= 5368709120) {
+            this.state.downloadBtnClass = 'text-danger';
+        }
+
+        // 1GB
+        if (archiveSize >= 1073741824 && archiveSize < 5368709120) {
+            this.state.downloadBtnClass = 'text-warning';
+        }
+
+        // < 1GB
+        if (archiveSize < 1073741824 && archiveSize > 0) {
+            this.state.downloadBtnClass = 'text-success';
+        }
+        
+        this.state.archiveSize = this.formatBytes(archiveSize);
+
+        if (archiveSize === 0) {
+            this.state.archiveSize = '--';
+            this.state.downloadBtnClass = 'text-default';
+        }
+
         return ISTEX;
+    }
+
+    convertMD5(activeKey) {
+        let key;
+        if (activeKey === 1) {
+            key = md5(this.state.q.trim());
+            sessionStorage.setItem(key, this.state.q.trim());
+        } else {
+            key = md5(this.state.querywithIDorARK);
+            sessionStorage.setItem(key, this.state.querywithIDorARK);
+        }
+        this.lastqId = key;
+        return key;
     }
 
     erase() {
@@ -441,6 +731,14 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
+        this.loadexUsageLabel = 'Choisir cet usage';
+        this.persUsageLabel = 'Choisir cet usage';
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
+        this.usage = false;
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.showSamplesDiv = false;
         this.setState(this.defaultState);
     }
 
@@ -485,8 +783,103 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key]);
-        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0);
+        if (this.usage === 2 && this.state.total > 0 && this.state.size > 0) {
+            return false;
+        } 
+        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0 || this.state.size <= 0); 
     }
+
+    showUsagePersonnalise() {
+        if (this.usage === 2) {
+            console.log('todo');
+        }
+        this.shouldHideUpersonnalise = '';
+        this.shouldHideU = 'hidden';
+        this.selectedLodexClass = '';
+        this.usage = 1;
+        this.persUsageLabel = 'usage sélectionné';
+        this.loadexUsageLabel = 'choisir cet usage';
+        this.selectedPersClass = 'selectedUsage';
+
+        this.setState({});
+    }
+
+    showUsages() {
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.setState({});
+    }
+
+    showUsageLodex() {
+        this.usage = 2;
+        this.selectedLodexClass = 'selectedUsage';
+        this.loadexUsageLabel = 'usage sélectionné';
+        this.persUsageLabel = 'choisir cet usage';
+        this.selectedPersClass = '';
+        console.log(this.state);
+
+        this.setState({});
+    }
+
+    checkSamples = () => {
+        let samplesRes = this.state.samples;
+
+        if (samplesRes.length > 0) {
+            this.showSamplesDiv = true;
+        } else {
+            this.showSamplesDiv = false;
+        }
+    }
+
+    showSamples = () => {
+        let samples = [];
+
+        let samplesRes = this.state.samples;
+        
+        // Outer loop to create parent
+        if (samplesRes.length === 0 || samplesRes === undefined) {
+            return '';
+        }
+        function truncate(source, size) {
+            return source.length > size ? source.slice(0, size - 1) + '…' : source;
+        }
+
+        for (let i = 0; i < samplesRes.length; i++) {
+            let authorStr = '';
+            let authors = samplesRes[i].author;
+            if (authors !== undefined) {
+                for (let j = 0; j < authors.length; j++) {
+                    authorStr += authors[j].name;
+                    authorStr += ' ; ';
+                } 
+            }
+            let authorsStr = truncate(authorStr, 42);
+
+            let titleStr = truncate(samplesRes[i].title, 75); 
+
+            let hostTitleStr = truncate(samplesRes[i].host.title, 40);
+
+            // Create the parent and add the children
+            samples.push(
+                <table className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPaddingLeftRight res_widget" onClick={() => { window.open(config.apiUrl + '/' + samplesRes[i].arkIstex + '/fulltext.pdf', samplesRes[i].title); }}>
+                    <tbody>
+                        <tr>
+                            <td colSpan="2" title={samplesRes[i].title} className="res_title">{titleStr}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
+                        </tr>
+                        <tr className="res_tr_bottom" style={{ width: '100%' }}>
+                            <td className="" style={{ width: '70%', display: 'inline-block', paddingLeft: '5px' }}>{hostTitleStr}</td><td style={{ width: '30%', display: 'inline-block', textAlign: 'right' }} className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                        </tr>
+                    </tbody>
+                </table>,
+            );
+        }
+        return samples;
+    }
+
     render() {
         // TODO: socket.IO
         // const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
@@ -503,9 +896,18 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Requête {closingButton}</span>}
             >
-                Pour vous aider à construire votre requête, des exemples pédagogiques vous sont
-                proposés sur la droite (bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;).<br/>
-                Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+            Pour interroger ISTEX, vous avez le choix entre différentes modes de recherche : classique ou par liste d’identifiants ARK. Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
+            Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+                <br />
+            </Popover>
+        );
+
+        const popoverSampleList = (
+            <Popover
+                id="popover-sample-list"
+                title={<span> Échantillon de résultats {closingButton}</span>}
+            >
+            Cet échantillon de documents, classés par pertinence des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.  
                 <br />
             </Popover>
         );
@@ -515,13 +917,9 @@ export default class Form extends React.Component {
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-                Pour élaborer votre équation de recherche de type classique, vous pouvez
-                vous aider du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>,
-                de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou de l&apos;échantillon de requêtes
-                accessibles via le bouton
-                <span style={{ display : 'inline-block' }}>
-                    &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;
-                </span>.
+Pour élaborer votre équation de recherche booléenne, vous pouvez 
+vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
+ de <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
 
@@ -530,9 +928,9 @@ export default class Form extends React.Component {
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-                Copiez/collez dans cet onglet une liste d&apos;identifiants de type ARK et le formulaire
-                l&apos;interprétera automatiquement. Visualisez le résultat de cette option en cliquant sur l’exemple disponible
-                via le bouton &quot;<i className="fa fa-lightbulb-o" aria-hidden="true"></i>&nbsp;Exemples&quot;.
+Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. 
+Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
+
             </Popover>
         );
 
@@ -544,7 +942,7 @@ export default class Form extends React.Component {
 
         const resetTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Effacez votre requête et vos sélections et redémarrez avec un formulaire vide
+                Effacez tout pour redémarrer avec un formulaire vide
             </Tooltip>
         );
 
@@ -556,7 +954,7 @@ export default class Form extends React.Component {
 
         const shareTooltip = (
             <Tooltip data-html="true" id="resetTooltip">
-                Activez ce bouton en complétant le formulaire et partagez votre corpus via son URL avant de télécharger
+                Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
             </Tooltip>
         );
 
@@ -572,28 +970,29 @@ export default class Form extends React.Component {
             </Tooltip>
         );
 
-       // const previewTooltip = (
-       //    <Tooltip data-html="true" id="previewTooltip">
-       //    Cliquez pour pré-visualiser les documents correspondant à votre requête
-       //     </Tooltip>
-       // );
+        // const previewTooltip = (
+        //    <Tooltip data-html="true" id="previewTooltip">
+        //    Cliquez pour pré-visualiser les documents correspondant à votre requête
+        //     </Tooltip>
+        // );
+        const popoverUsagePerso = (
+            <Popover
+                id="popover-    -help"
+                title={<span> Formats et types de fichiers {closingButton}</span>}
+            >
+Les différents formats et types de fichiers disponibles sont décrits dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+            </Popover>
+        );
 
         const popoverFiletypeHelp = (
             <Popover
                 id="popover-filetype-help"
-                title={<span> Formats et types de fichiers {closingButton}</span>}
+                title={<span> Usage {closingButton}</span>}
             >
-                Les différents formats et types de fichiers disponibles sont décrits dans 
-                la <a 
-                    href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                       >
-                        documentation ISTEX.
-                    </a>
-                <br />
-                Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du
-                corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+Le choix d’un outil induit un remplissage des formats et types de fichiers qui seront extraits. 
+L’information sur les formats et types de fichiers sélectionnés est visible dans l’URL de partage, ainsi que dans l’historique, 
+une fois le corpus téléchargé. 
             </Popover>
         );
 
@@ -602,6 +1001,8 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. L’estimation fournie est une indication mais peut varier selon les documents à extraire. La couleur rouge vous avertit lorsque la taille dépasse 5 Go. 
+                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur. 
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -618,7 +1019,7 @@ export default class Form extends React.Component {
                 </p>
             </Tooltip>
         );
-
+        /*
         const popoverCharacterLimitHelp = (
             <Popover
                 id="popover-character-limit-help"
@@ -634,6 +1035,7 @@ export default class Form extends React.Component {
                 </p>
             </Popover>
         );
+        */
 
         const popoverRequestLimitWarning = (
             <Popover
@@ -654,11 +1056,10 @@ export default class Form extends React.Component {
                 id="popover-request-limit-help"
                 title={<span> Nombre de documents {closingButton}</span>}
             >
-                Actuellement, il n’est pas possible de télécharger plus de {commaNumber.bindWith('\xa0', '')(this.state.limitNbDoc)}&nbsp;documents.
+                Actuellement, il n’est pas possible de télécharger plus de 100 000 documents.
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
                 <br />
-                Si vous réduisez le nombre de documents à extraire, le choix d’un tirage aléatoire représentatif des résultats
-                peut vous intéresser (voir rubrique suivante).
+                Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents peut vous intéresser (voir rubrique suivante).
 
             </Popover>
         );
@@ -668,25 +1069,12 @@ export default class Form extends React.Component {
                 id="popover-choice-help"
                 title={<span> Mode de classement {closingButton}</span>}
             >
-                En fonction de votre sélection, les résultats de votre requête seront classés par
-                ordre de pertinence ou de manière aléatoire.<br />
-                Par défaut, c’est l’ordre de pertinence qui est privilégié.
+                Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête, 
+                les documents sélectionnés pour votre corpus seront extraits en fonction d’un ordre de pertinence relevé par la qualité (choix privilégié par défaut), par ordre de pertinence seulement ou tirés de manière aléatoire, 
+                ce mode de tri étant plus représentatif de la diversité des résultats.
             </Popover>
+
         );
-        /*
-        const popoverCompressionHelp = (
-            <Popover
-                id="popover-compression-help"
-                title={<span> Mode de compression {closingButton}</span>}
-            >
-                Le niveau de compression doit être entre 0 et 9 : <br />
-                <ul>
-                    <li>0 ne donne aucune compression.</li>
-                    <li>1 donne la meilleure vitesse.</li>
-                    <li>9 donne la meilleure compression.</li>
-                </ul>
-            </Popover>
-        );*/
 
         const fulltextTooltip = (
             <Tooltip data-html="true" id="fulltextTooltip">
@@ -723,20 +1111,21 @@ export default class Form extends React.Component {
         );
 
         this.updateUrlAndLocalStorage();
-        const urlToShare = `https://dl.istex.fr/${document.location.href.slice(document.location.href.indexOf('?'))}`;
+
+
+        const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         return (
-            <div className={`container-fluid ${this.props.className}`}>
+            <div className={`container ${this.props.className}`}>
                 <NotificationContainer />
                 <form onSubmit={this.handleSubmit}>
 
                     <div className="istex-dl-request row">
-
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8">
-                            <h2>
+                        <div className="col-lg-12 col-sm-12">
+                            <h2 className="exempleH2">
                                 <span className="num-etape">&nbsp;1.&nbsp;</span>
                                 Requête
                                 &nbsp;
+
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -747,9 +1136,10 @@ export default class Form extends React.Component {
                                 </OverlayTrigger>
                                 &nbsp;
                             </h2>
+
                             <p>
-                                Explicitez ci-dessous l’équation ou la liste d’identifiants
-                                qui décrit le corpus souhaité :
+                                Sélectionnez l’un des onglets ci-dessous et explicitez ce qui décrit le corpus souhaité :
+
                             </p>
                             <div className="form-group">
                                 <FormGroup
@@ -786,65 +1176,55 @@ export default class Form extends React.Component {
                                                 <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
+                                        <NavItem eventKey="3" className="floatRight">
+                                            Exemples
+                                            &nbsp;
+                                            <OverlayTrigger
+                                                rootClose
+                                                placement="top"
+                                                overlay={examplesTooltip}
+                                            >   
+                                                <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                            </OverlayTrigger>
+                                        </NavItem>
                                     </Nav>
                                     <Textarea
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
-                                                ? 'brain AND language:fre'
-                                                : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
+                                            ? 'brain AND language:fre'
+                                            : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
                                         }
                                         name="q"
                                         id={`area-${this.state.activeKey}`}
                                         rows="3"
                                         autoFocus="true"
                                         value={this.state.activeKey === '1'
-                                                ? this.state.q
-                                                : this.state.querywithIDorARK
+                                            ? this.state.q
+                                            : this.state.querywithIDorARK
                                         }
                                         onChange={this.handleQueryChange}
                                     />
-                                    <HelpBlock>
-                                        Nombre de caractères restants&nbsp;
-                                        &nbsp;
-                                        <OverlayTrigger
-                                            trigger="click"
-                                            rootClose
-                                            placement="right"
-                                            overlay={popoverCharacterLimitHelp}
-                                        >
-                                            <i
-                                                id="characterLimitHelpInfo"
-                                                role="button"
-                                                className="fa fa-info-circle"
-                                                aria-hidden="true"
-                                            />
-                                        </OverlayTrigger>
-                                        &nbsp;
-                                        : {
-                                            commaNumber.bindWith('\xa0', '')(characterLimit - this.state.q.length)
-                                        }
-                                        <FormControl.Feedback
-                                            style={{
-                                                position: 'relative',
-                                                display: 'inline-block',
-                                                verticalAlign: 'middle',
-                                                marginLeft: '8px',
-                                            }}
-                                        />
-                                    </HelpBlock>
                                 </FormGroup>
                             </div>
+                            {this.state.nbDocsCalculating &&
+                            <p className="pTxt">
+                                Calcul en cours du nombre des résultats ... 
+                                &nbsp;
+                                <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
+                            </p>
+                            }
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p>
+                            <p className="pTxt">
                                 L’équation saisie correspond à
                                 &nbsp;
                                 <OverlayTrigger>
-                                        <span>
-                                            {this.state.total ?
+                                    <span>
+                                        {this.state.total ?
                                             commaNumber.bindWith('\xa0', '')(this.state.total)
-                                            .concat(' document(s)')
+                                                .concat(' document(s)')
                                             : ''}
-                                        </span>
+                                    </span>
+                               
                                 </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
@@ -865,12 +1245,12 @@ export default class Form extends React.Component {
                             </p>
                             }
                             {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p>
+                            <p className="pTxt">
                                 L’équation saisie correspond à 0 document
                             </p>
                             }
 
-                            <div className="form-group">
+                            <div className="form-group col-xs-12 noPaddingLeftRight">
                                 Choisir le nombre de documents souhaités
                                 &nbsp;
                                 <OverlayTrigger
@@ -891,22 +1271,16 @@ export default class Form extends React.Component {
                                 &nbsp;&nbsp;
                                 <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
+                                        disabled={this.state.nbDocsCalculating} 
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                        onChange={size => this.setState({ size })}
+                                        onChange={size => this.setState({ size })
+                                        }
                                     />
                                 </div>
-                                &nbsp;&nbsp;&nbsp;
-                                <div style={{ width: '200px', display: 'inline-block' }}>
-                                    <InputRange
-                                        id="nb-doc-to-download"
-                                        maxValue={this.state.limitNbDoc}
-                                        minValue={0}
-                                        value={Number(this.state.size)}
-                                        onChange={size => this.setState({ size })}
-                                    />
-                                </div>
+                                &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>
+                                {}
                             </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés
@@ -929,6 +1303,15 @@ export default class Form extends React.Component {
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio
+                                    id="radioQualityOverRelevance"
+                                    inline
+                                    name="qualityOverRelevance"
+                                    checked={this.state.rankBy === 'qualityOverRelevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Relevé par qualité
+                                </Radio>
+                                <Radio
                                     id="radioRelevance"
                                     inline
                                     name="relevance"
@@ -947,174 +1330,61 @@ export default class Form extends React.Component {
                                     Aléatoirement
                                 </Radio>
                             </div>
-                            
-                            {/* <div className="form-group" style={{ marginTop: '20px' }}>
-                                Niveau de compression ZIP &nbsp;
+
+                        </div>
+                        <div className="col-lg-12 col-sm-12">
+                            {this.checkSamples()}
+                            {this.showSamplesDiv &&
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
-                                    placement="right"
-                                    overlay={popoverCompressionHelp}
+                                    placement="top"
+                                    overlay={popoverSampleList}
                                 >
-                                    <i
-                                        id="compressionHelpInfo"
-                                        role="button"
-                                        className="fa fa-info-circle"
-                                        aria-hidden="true"
-                                    />
+                                    <i role="button" className="iEchantillonRes fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
-                                &nbsp;
-                                
-                                :
-                                &nbsp;&nbsp;
-                                
-                                <div style={{ width: '60px', display: 'inline-block' }}>
-                                    <NumericInput
-                                        className="form-control"
-                                        min={1} max={9} value={Number(this.state.compressionLevel)}
-                                        onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                        onChange={compressionLevel => this.setState({ compressionLevel })}
-                                        >
-                                        </NumericInput>
-                                        
-                                    
-                                </div>
-                               
-                            </div>*/}
-                        </div>
-                        
-                        <div className="column-buttons">
-                            <div className="vl" />
-                            <OverlayTrigger
-                                rootClose
-                                placement="right"
-                                overlay={examplesTooltip}
-                                onClick={() => this.setState({ showModalExemple: true })}
-                            >
-                                <div className="select-button" id="exampleButton">
-                                    <div>
-                                        <i
-                                            role="button"
-                                            className="fa fa-lightbulb-o"
-                                            aria-hidden="true"
-                                        />
-                                    </div>
-                                    <p>
-                                        Exemples
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={resetTooltip}
-                                onClick={() => this.erase()}
-                            >
-                                <div className="select-button">
-                                    <div>
-                                        <i role="button" className="fa fa-eraser" aria-hidden="true" />
-                                    </div>
-                                    <p>
-                                        Réinitialiser
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
+                            </div>
+                            }
+                            {this.showSamples()} 
 
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={reloadTooltip}
-                                onClick={Form.handleReload}
-                            >
-                                <div className="select-button"><div><i role="button" className="fa fa-repeat" aria-hidden="true"></i></div><p>Récupérer</p></div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
-                                rootClose
-                                placement="right"
-                                overlay={shareTooltip}
-                                onClick={() => {
-                                    if (!this.isDownloadDisabled()) {
-                                        this.setState({ showModalShare: true });
-                                    }
-                                }}
-                            >
-                                <div
-                                    className="btn select-button"
-                                    disabled={this.isDownloadDisabled()}
-                                >
-                                    <div>
-                                        <i
-                                            role="button"
-                                            className="fa fa-link"
-                                            aria-hidden="true"
-                                        />
-                                    </div>
-                                    <p>
-                                        Partager
-                                    </p>
-                                </div>
-                            </OverlayTrigger>
-
-                            <OverlayTrigger
-                                placement="right"
-                                overlay={historyTooltip}
-                                onClick={() => {
-                                    this.setState({
-                                        showHistory: true,
-                                    });
-                                }}
-                            >
-                                <div 
-                                    className="select-button"
-                                >
-                                    <div>
-                                        <i 
-                                            role="button" 
-                                            className="fa fa-history" 
-                                            aria-hidden="true">
-                                        </i>
-                                    </div>
-                                    <p>Historique</p>
-                                </div>
-                            </OverlayTrigger>
 
                         </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&
-                            <div className="istex-dl-error-request row">
-                                <div className="col-lg-1" />
-                                <div className="col-lg-8">
-                                    <p>
+                    <div className="istex-dl-error-request row">
+                        <div className="col-lg-12 col-sm-12">
+                            <p>
                                         Erreur de syntaxe dans votre requête &nbsp;
-                                        <OverlayTrigger
-                                            trigger="click"
-                                            rootClose
-                                            placement="top"
-                                            overlay={popoverRequestHelp}
-                                        >
-                                            <i role="button" className="fa fa-info-circle" aria-hidden="true" />
-                                        </OverlayTrigger>
-                                        <br />
-                                    </p>
-                                    <blockquote
-                                        className="blockquote-Syntax-error"
-                                    >
-                                        {this.state.errorRequestSyntax}
-                                    </blockquote>
-                                </div>
-
-                                <div className="col-lg-3" />
-                            </div>
+                                <OverlayTrigger
+                                    trigger="click"
+                                    rootClose
+                                    placement="top"
+                                    overlay={popoverRequestHelp}
+                                >
+                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                </OverlayTrigger>
+                                <br />
+                            </p>
+                            <blockquote
+                                className="blockquote-Syntax-error"
+                            >
+                                {this.state.errorRequestSyntax}
+                            </blockquote>
+                        </div>
+                    </div>
                     }
 
                     <div className="istex-dl-format row" >
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8">
-                            <Modal dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
-                                            this.setState({
-                                                showHistory: false,
-                                            });
-                                        }}>
+                        <div className="col-lg-12 col-sm-12">
+                            <Modal
+                                dialogClassName="history-modal" show={this.state.showHistory} onHide={() => {
+                                    this.setState({
+                                        showHistory: false,
+                                    });
+                                }}
+                            >
                                 <Modal.Header closeButton>
                                     <Modal.Title>Historique des requêtes</Modal.Title>
                                 </Modal.Header>
@@ -1139,7 +1409,7 @@ export default class Form extends React.Component {
                             <br />
                             <h2>
                                 <span className="num-etape">&nbsp;2.&nbsp;</span>
-                                Formats et types de fichiers
+                                Usage
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -1150,88 +1420,140 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
-                            <p>Créez votre sélection en cochant ou décochant les cases ci-dessous :</p>
+                            <p>Cliquez sur l’usage que vous souhaitez faire de votre corpus. <br />
+                            La sélection du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.</p>
+                            <div className={this.shouldHideU}>
 
+                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
+                                    <table className={'widget ' + this.selectedPersClass} onClick={() => this.showUsagePersonnalise()}>
+                                        <tbody>
+                                            <tr>
+                                                <td className="lv1"><span className="lv11">DOC</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv2"><span className="lv21">TDM</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv3">Usage personnalisé<br /><span className="txtU">&nbsp;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv5" ><i className="fa fa-check ico-usage" /> {this.persUsageLabel}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
+                                    <table className={'widget ' + this.selectedLodexClass} onClick={() => this.showUsageLodex()}>
+                                        <tbody>
+                                            <tr>
+                                                <td className="lv1"><span className="lv11">TDM</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv2b">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv3">Lodex<br /><span className="txtU">Analyse graphique  / Exploration de corpus</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv5"><i className="fa fa-check ico-usage" />  {this.loadexUsageLabel}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className={this.shouldHideUpersonnalise}>
+                                <div className="up up-btn col-lg-12 col-sm-12">
+                                    <span className="back-btn" onClick={() => this.showUsages()} ><i className="fa fa-chevron-left ico-back" /> Usage personnalisé</span>
+                                    &nbsp;&nbsp;<OverlayTrigger
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverUsagePerso}
+                                    >
+                                        <i role="button" className="UsagePerso fa fa-info-circle" aria-hidden="true" />
+                                    </OverlayTrigger>
 
-                            <span className="fulltextGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[1] = instance; }}
-                                    label="Texte intégral"
-                                    filetype="fulltext"
-                                    formats="pdf,tei,txt,zip,tiff"
-                                    labels="PDF|TEI|TXT|ZIP|TIFF"
-                                    value={this.state.extractFulltext}
-                                    checkedFormats={this.state.Fulltext}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={fulltextTooltip}
-                                />
-                            </span>
-                            <span className="otherfileGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[0] = instance; }}
-                                    label="Métadonnées"
-                                    filetype="metadata"
-                                    formats="json,xml,mods"
-                                    labels="JSON|XML|MODS"
-                                    value={this.state.extractMetadata}
-                                    checkedFormats={this.state.Metadata}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={metadataTooltip}
-                                />
-                                <Filetype
-                                    ref={(instance) => { this.child[2] = instance; }}
-                                    label="Annexes"
-                                    filetype="annexes"
-                                    formats=""
-                                    labels=""
-                                    value={this.state.extractAnnexes}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    tooltip={appendicesTooltip}
-                                />
-                                <Filetype
-                                    ref={(instance) => { this.child[3] = instance; }}
-                                    label="Couvertures"
-                                    filetype="covers"
-                                    formats=""
-                                    labels=""
-                                    value={this.state.extractCovers}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    tooltip={coversTooltip}
-                                />
-                            </span>
-                            <span className="enrichmentsGroup">
-                                <Filetype
-                                    ref={(instance) => { this.child[4] = instance; }}
-                                    label="Enrichissements"
-                                    filetype="enrichments"
-                                    formats="multicat,nb,refbibs,teeft,unitex"
-                                    labels="multicat|nb|refBibs|teeft|unitex"
-                                    value={this.state.extractEnrichments}
-                                    checkedFormats={this.state.Enrichments}
-                                    onChange={this.handleFiletypeChange}
-                                    onFormatChange={this.handleFormatChange}
-                                    withPopover
-                                    tooltip={enrichmentsDisabledTooltip}
-                                />
-                            </span>
+                                </div>
+                                <div className="col-lg-12 col-sm-12">
+                                    <span className="fulltextGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[1] = instance; }}
+                                            label="Texte intégral"
+                                            filetype="fulltext"
+                                            formats="pdf,tei,txt,zip,tiff"
+                                            labels="PDF|TEI|TXT|ZIP|TIFF"
+                                            value={this.state.extractFulltext}
+                                            checkedFormats={this.state.Fulltext}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={fulltextTooltip}
+                                        />
+                                    </span>
+                                    <span className="otherfileGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[0] = instance; }}
+                                            label="Métadonnées"
+                                            filetype="metadata"
+                                            formats="json,xml,mods"
+                                            labels="JSON|XML|MODS"
+                                            value={this.state.extractMetadata}
+                                            checkedFormats={this.state.Metadata}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={metadataTooltip}
+                                        />
+                                        <Filetype
+                                            ref={(instance) => { this.child[2] = instance; }}
+                                            label="Annexes"
+                                            filetype="annexes"
+                                            formats=""
+                                            labels=""
+                                            value={this.state.extractAnnexes}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            tooltip={appendicesTooltip}
+                                        />
+                                        <Filetype
+                                            ref={(instance) => { this.child[3] = instance; }}
+                                            label="Couvertures"
+                                            filetype="covers"
+                                            formats=""
+                                            labels=""
+                                            value={this.state.extractCovers}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            tooltip={coversTooltip}
+                                        />
+                                    </span>
+                                    <span className="enrichmentsGroup">
+                                        <Filetype
+                                            ref={(instance) => { this.child[4] = instance; }}
+                                            label="Enrichissements"
+                                            filetype="enrichments"
+                                            formats="multicat,nb,refbibs,teeft,unitex"
+                                            labels="multicat|nb|refBibs|teeft|unitex"
+                                            value={this.state.extractEnrichments}
+                                            checkedFormats={this.state.Enrichments}
+                                            onChange={this.handleFiletypeChange}
+                                            onFormatChange={this.handleFormatChange}
+                                            withPopover
+                                            tooltip={enrichmentsDisabledTooltip}
+                                        />
+                                    </span>
+                                </div>
+                            </div>
 
                         </div>
-                        <div className="col-lg-3" />
                     </div>
 
 
                     <div className="istex-dl-download row">
-                        <div className="col-lg-1" />
-                        <div className="col-lg-8 text-center">
+                        <div className="col-lg-12 col-sm-12 text-center">
                             <h2>
                                 <span className="num-etape">&nbsp;3.&nbsp;</span>
-                                Télécharger
+                                Téléchargement
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
@@ -1241,26 +1563,115 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
+                            <div className="col-lg-12 col-sm-12">
+
+                                <div className="form-group" style={{ marginTop: '20px' }}>
+                                Niveau de compression  &nbsp;
+                                :
+                                &nbsp;&nbsp;
+                                    <div style={{ display: 'inline-block' }}>
+                                        <select className="form-control" value={this.state.compressionLevel} onChange={this.handleClChange} >
+                                            <option value="0">Sans compression</option>
+                                            <option value="6">Compression moyenne</option>
+                                            <option value="9">Compression élevée</option>
+                                        </select>
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                Format de l'archive &nbsp;
+                                :
+                                &nbsp;&nbsp;
+                                    <Radio
+                                        id="radioZip"
+                                        inline
+                                        name="zip"
+                                        checked={this.state.archiveType === 'zip'}
+                                        onChange={this.handlecarchivetypeByChange}
+                                    >
+                                        ZIP
+                                    </Radio>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <Radio
+                                        id="radioTar"
+                                        inline
+                                        name="tar"
+                                        checked={this.state.archiveType === 'tar'}
+                                        onChange={this.handlecarchivetypeByChange}
+                                    >
+                                        TAR.GZ
+                                    </Radio>
+
+                                </div>
+                            </div>
+
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
                             >   
-                                <div
-                                    type="submit"
+                                <table type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}
                                     onClick={!this.isDownloadDisabled() ? this.handleSubmit : undefined}
-                                />
+                                >
+                                    <tr>
+                                        <th className="btn-th1">Télécharger</th>
+                                        <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png" alt="" /></th>
+                                    </tr>
+                                    <tr>
+                                        <td className="btn-td1">Taille estimée : <span className={this.state.downloadBtnClass}>{this.state.archiveSize}</span></td>
+                                    </tr>
+                                </table>
                             </OverlayTrigger>
                         </div>
-                        <div className="col-lg-3" />
 
                     </div>
 
+                    <div className="istex-dl-menu">
+                        <div className="col-lg-12 col-xs-12 col-sm-12">
+                            <div className="col-lg-4 col-xs-0 col-sm-2" />
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={resetTooltip}
+                                onClick={() => this.erase()}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-eraser" aria-hidden="true" /><br /><span className="bottom-menu-txt">Réinitialiser</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={reloadTooltip}
+                                onClick={Form.handleReload}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-repeat" aria-hidden="true" /><br /><span className="bottom-menu-txt">Récupérer</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                rootClose
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+                                    if (!this.isDownloadDisabled()) {
+                                        this.setState({ showModalShare: true });
+                                    }
+                                    this.setQidReq();
+                                }}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico" disabled={this.isDownloadDisabled()}><i className="fa fa-link" aria-hidden="true" /><br /><span className="bottom-menu-txt">Partager</span></div>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={historyTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showHistory: true,
+                                    });
+                                }}
+                            >
+                                <div className="col-lg-1 col-sm-2 col-xs-3 bottom-menu-ico"><i className="fa fa-history" aria-hidden="true" /><br /><span className="bottom-menu-txt">Historique</span></div>
+                            </OverlayTrigger>
+
+                        </div>
+                    </div>
                     {this.state.errorDuringDownload &&
                         <div className="istex-dl-error-download row">
-                            <div className="col-lg-1" />
-                            <div className="col-lg-8">
+                            <div className="col-lg-12 col-sm-12">
                                 <p>
                                     <i
                                         role="button"
@@ -1276,7 +1687,6 @@ export default class Form extends React.Component {
                                     <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                                 </p>
                             </div>
-                            <div className="col-lg-3" />
                         </div>
                     }
 
@@ -1295,7 +1705,7 @@ export default class Form extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                            <Button onClick={this.handleCancel}>Fermer</Button>
+                        <Button onClick={this.handleCancel}>Fermer</Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.showModalShare} onHide={this.hideModalShare}>
@@ -1341,7 +1751,7 @@ export default class Form extends React.Component {
                         Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche.
                         Cliquez sur l&apos;une des loupes et la zone de requête sera remplie automatiquement
                         par le contenu de l&apos;exemple choisi. Cet échantillon illustre différentes façons
-                        d&apos;interroger l&apos;API Istex en utilisant :
+                        d&apos;interroger l&apos;API ISTEX en utilisant :
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
                                 <OverlayTrigger

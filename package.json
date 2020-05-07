@@ -7,6 +7,7 @@
     "comma-number": "^2.0.0",
     "decamelize": "^1.2.0",
     "jquery": "^3.3.1",
+    "md5": "^2.2.1",
     "qs": "^6.5.2",
     "react": "^15.6.2",
     "react-bootstrap": "^0.31.5",
@@ -17,8 +18,10 @@
     "react-numeric-input": "^2.2.3",
     "react-scripts": "^2.0.0",
     "react-textarea-autosize": "^5.2.1",
+    "streamsaver": "^2.0.3",
     "universal-url": "^1.0.0",
-    "url-polyfill": "^1.0.13"
+    "url-polyfill": "^1.0.13",
+    "web-streams-polyfill": "^2.0.6"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

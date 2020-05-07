@@ -5,6 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationManager } from 'react-notifications';
 import commaNumber from 'comma-number';
 import 'react-notifications/lib/notifications.css';
+import config from './config';
 
 export default class storageHistory extends React.Component {
 
@@ -234,10 +235,10 @@ export default class storageHistory extends React.Component {
                     <Modal.Body>
                         <FormGroup>
                             <InputGroup>
-                                <FormControl bsSize="small" type="text" readOnly value={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''} />
+                                <FormControl bsSize="small" type="text" readOnly value={this.localStorage ? `${config.dlIstexUrl}/${this.localStorage[this.state.numberLink].url}` : ''} />
                                 <InputGroup.Button>
                                     <CopyToClipboard
-                                        text={this.localStorage ? `https://dl.istex.fr/${this.localStorage[this.state.numberLink].url}` : ''}
+                                        text={this.localStorage ? `${config.dlIstexUrl}/${this.localStorage[this.state.numberLink].url}` : ''}
                                         onCopy={storageHistory.handleCopy}
                                     >
                                         <Button

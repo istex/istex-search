@@ -1758,7 +1758,33 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
+                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                >
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
+                                </OverlayTrigger>
+                            </span>
+                            des troncatures sur des termes de recherche en français et en anglais
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.systematiqueVegetale)}
+                                >
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
+                                </OverlayTrigger>
+                            </span>
+                            des opérateurs booléens imbriqués
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.geophysique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
@@ -1771,12 +1797,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.zoologie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.intelligenceArtificielle)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des indicateurs de qualité
+                            des indicateurs de qualité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1784,12 +1810,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.arctique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des troncatures sur des mots-clés
+                            des expressions régulières sur des termes de recherche
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1797,12 +1823,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.motClefsSystematiqueVegetale)}
+                                    onClick={() => this.tryExempleRequest(Labelize.paleoclimatologie)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des troncatures sur des mots-clés et des opérateurs booléens imbriqués
+                             de la recherche floue et des opérateurs de proximité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1810,12 +1836,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.regExpSystematiqueVegetale)}
+                                    onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des expressions régulières sur des mots-clés (I)
+                            des enrichissements de type catégorie scientifique
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1823,12 +1849,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.regExpArctic)}
+                                    onClick={() => this.tryExempleRequest(Labelize.beethoven)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                             des expressions régulières sur des mots-clés (II)
+                            des enrichissements de type entité nommée
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1836,12 +1862,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.opArctic)}
+                                    onClick={() => this.tryExempleRequest(Labelize.coronavirus)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des troncatures, de la recherche floue et des opérateurs de proximité
+                            des enrichissements de type terme d’indexation
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

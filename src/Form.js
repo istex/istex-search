@@ -106,6 +106,7 @@ export default class Form extends React.Component {
         this.selectedLodexClass = '';
         this.limitNbDocClass = 'limitNbDocTxtHide';
         this.showSamplesDiv = false;
+        this.showEstimatedSizeTxtClass = 'hidden';
         this.handleClChange = this.handleClChange.bind(this);
     }
 
@@ -686,23 +687,27 @@ export default class Form extends React.Component {
 
         // 5GB
         if (archiveSize >= 5368709120) {
+            this.showEstimatedSizeTxtClass = 'btn-td1';
             this.state.downloadBtnClass = 'text-danger';
         }
 
         // 1GB
         if (archiveSize >= 1073741824 && archiveSize < 5368709120) {
+            this.showEstimatedSizeTxtClass = 'btn-td1';
             this.state.downloadBtnClass = 'text-warning';
         }
 
         // < 1GB
         if (archiveSize < 1073741824 && archiveSize > 0) {
+            this.showEstimatedSizeTxtClass = 'hidden';
             this.state.downloadBtnClass = 'text-success';
         }
         
-        this.state.archiveSize = this.formatBytes(archiveSize);
+        this.state.archiveSize = '> ' + this.formatBytes(archiveSize);
 
         if (archiveSize === 0) {
             this.state.archiveSize = '--';
+            this.showEstimatedSizeTxtClass = 'hidden';
             this.state.downloadBtnClass = 'text-default';
         }
 
@@ -1617,7 +1622,7 @@ une fois le corpus téléchargé.
                                         <th className="btn-th2" rowSpan="2"><img className="btn-img" src="../telecharger-bleu.png" alt="" /></th>
                                     </tr>
                                     <tr>
-                                        <td className="btn-td1">Taille estimée : <span className={this.state.downloadBtnClass}>{this.state.archiveSize}</span></td>
+                                        <td className={this.showEstimatedSizeTxtClass}>Taille estimée  <span className={this.state.downloadBtnClass}>{this.state.archiveSize}</span></td>
                                     </tr>
                                 </table>
                             </OverlayTrigger>

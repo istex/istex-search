@@ -912,7 +912,7 @@ export default class Form extends React.Component {
                 id="popover-sample-list"
                 title={<span> Échantillon de résultats {closingButton}</span>}
             >
-            Cet échantillon de documents, classés par pertinence des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.  
+            Cet échantillon de documents, classés par pertinence & qualité des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.  
                 <br />
             </Popover>
         );
@@ -924,7 +924,7 @@ export default class Form extends React.Component {
             >
 Pour élaborer votre équation de recherche booléenne, vous pouvez 
 vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
- de <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
+ de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
 
@@ -983,10 +983,10 @@ Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bout
         const popoverUsagePerso = (
             <Popover
                 id="popover-    -help"
-                title={<span> Formats et types de fichiers {closingButton}</span>}
+                title={<span> Usage personnalisé {closingButton}</span>}
             >
-Les différents formats et types de fichiers disponibles sont décrits dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
-Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+Les différents formats et types de fichiers disponibles sont décrits succunctement dans l’interface et complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+Attention : tous les formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
 
@@ -995,8 +995,8 @@ Attention : certains formats ou types de fichiers peuvent ne pas être présents
                 id="popover-filetype-help"
                 title={<span> Usage {closingButton}</span>}
             >
-Le choix d’un outil induit un remplissage des formats et types de fichiers qui seront extraits. 
-L’information sur les formats et types de fichiers sélectionnés est visible dans l’URL de partage, ainsi que dans l’historique, 
+Le choix d’un outil induit une sélection automatique des formats et types de fichiers qui seront extraits. 
+L’information sur cette sélection est visible dans l’URL de partage, ainsi que dans l’historique 
 une fois le corpus téléchargé. 
             </Popover>
         );
@@ -1006,8 +1006,8 @@ une fois le corpus téléchargé.
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. L’estimation fournie est une indication mais peut varier selon les documents à extraire. La couleur rouge vous avertit lorsque la taille dépasse 5 Go. 
-                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur. 
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. Au-delà de 1 Go, une estimation de la taille est fournie. L’indication de couleur orange passe au rouge en cas de dépassement de 5 Go.<br />  
+                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur.<br /> 
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -1063,7 +1063,6 @@ une fois le corpus téléchargé.
             >
                 Actuellement, il n’est pas possible de télécharger plus de 100 000 documents.
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
-                <br />
                 Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents peut vous intéresser (voir rubrique suivante).
 
             </Popover>
@@ -1075,8 +1074,8 @@ une fois le corpus téléchargé.
                 title={<span> Mode de classement {closingButton}</span>}
             >
                 Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête, 
-                les documents sélectionnés pour votre corpus seront extraits en fonction d’un ordre de pertinence relevé par la qualité (choix privilégié par défaut), par ordre de pertinence seulement ou tirés de manière aléatoire, 
-                ce mode de tri étant plus représentatif de la diversité des résultats.
+                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence seul, soit d’un ordre de pertinence relevé par un score de qualité (choix privilégié par défaut), soit tirés de manière aléatoire, 
+                ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
 
         );
@@ -1213,7 +1212,7 @@ une fois le corpus téléchargé.
                             </div>
                             {this.state.nbDocsCalculating &&
                             <p className="pTxt">
-                                Calcul en cours du nombre des résultats ... 
+                                Calcul en cours du nombre des résultats... 
                                 &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                             </p>
@@ -1308,15 +1307,6 @@ une fois le corpus téléchargé.
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio
-                                    id="radioQualityOverRelevance"
-                                    inline
-                                    name="qualityOverRelevance"
-                                    checked={this.state.rankBy === 'qualityOverRelevance'}
-                                    onChange={this.handlerankByChange}
-                                >
-                                    Relevé par qualité
-                                </Radio>
-                                <Radio
                                     id="radioRelevance"
                                     inline
                                     name="relevance"
@@ -1324,6 +1314,15 @@ une fois le corpus téléchargé.
                                     onChange={this.handlerankByChange}
                                 >
                                     Par pertinence
+                                </Radio>
+                                <Radio
+                                    id="radioQualityOverRelevance"
+                                    inline
+                                    name="qualityOverRelevance"
+                                    checked={this.state.rankBy === 'qualityOverRelevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Par pertinence & qualité
                                 </Radio>
                                 <Radio
                                     id="radioRandom"

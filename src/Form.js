@@ -985,7 +985,7 @@ Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bout
                 id="popover-    -help"
                 title={<span> Usage personnalisé {closingButton}</span>}
             >
-Les différents formats et types de fichiers disponibles sont décrits succunctement dans l’interface et complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
 Attention : tous les formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );

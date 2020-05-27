@@ -38,19 +38,23 @@ export default {
 
 // Exemples de requête
 
-    astrophysique: '(host.issn:"0922-6435" AND publicationDate:[1980 TO 2010]) OR (host.title:"Journal of Geophysical Research: Space Physics" AND host.issue.raw:A1)',
+    orthophonie: 'orthophon* OR logothérap* OR logotherap*',
 
-    zoologie: 'host.title.raw:("Marine Biology") AND qualityIndicators.pdfVersion:[1.2 TO *] AND qualityIndicators.score:[3.5 TO *]',
+    systematiqueVegetale: '(species AND ("plant taxonomy" OR  phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
     
-    orthophonie: 'subject.value:(orthophon* OR logothérap* OR logotherap* OR logopéd*OR  logopèd* OR logoped*OR logopaed*) AND language:fre AND genre:("research-article" "brief communication")',
+    geophysique: '(host.issn:"0922-6435" OR host.title:"Journal of Geophysical Research") AND publicationDate:2003 AND genre:("research-article" OR “review article”)',
 
-    motClefsSystematiqueVegetale: '((species genus genera) AND ("plant genetic*" "plant taxonomy" "plant communit*" phytogeograph*)) NOT ((fungi fungus funguses) NOT mycorrhiz*)',
+    intelligenceArtificielle: '"deep learning" AND qualityIndicators.pdfVersion:[1.3 TO 1.5] AND qualityIndicators.score:[3.5 TO *]',
 
-    regExpSystematiqueVegetale: '/(angi|gymn)osperm(s?|ae)/ NOT (/bacteri(a|um)/ /virus(es)?/ /fung(i|us(es)?)/)',
+    arctique: '/es(k|qu)im(o|au)[sx]?/ OR  /inuit(s)?/',
 
-    regExpArctic: 'inuit inuits /yupii?[tk]/ "yup\'ik" /nenee?[nt]s(es)?/ /ale?o?ut[ei]?i?[tq]?/',
+    paleoclimatologie: '(african~1 + arctic~1) AND "past climate"~2',
 
-    opArctic: 'title:(sub?arctic + subarctic~1 + "norwegian seas"~2) OR abstract:(sub?arctic + subarctic~1 + "norwegian seas"~2)',
+    astrophysique: 'categories.scienceMetrix:"astronomy & astrophysics" OR categories.scopus:"astronomy and astrophysics" OR categories.wos:"astronomy & astrophysics" OR categories.inist:"astronomy"',
+    
+    beethoven: 'namedEntities.unitex.persName:beethoven AND namedEntities.unitex.placeName:vienna AND namedEntities.unitex.date:"eighteenth century"',
+
+    coronavirus: 'keywords.teeft:coronavirus*',
     
     vieillissement: 'ark:/67375/HXZ-3PZ5S1MB-7\nark:/67375/HXZ-XH6SRM66-7\nark:/67375/6H6-K00Q3697-8\nark:/67375/6H6-52QRK0X3-F\nark:/67375/HXZ-H5NSV5QF-M\nark:/67375/HXZ-J1BLQKH4-3\nark:/67375/HXZ-QVSXSCHW-P\nark:/67375/HXZ-RVC4D13J-W\nark:/67375/6H6-19QHR7H2-6\nark:/67375/HXZ-0F8518D4-K\nark:/67375/6H6-9Q9HLC0X-7\nark:/67375/6H6-QTZPZZXD-H',
 

@@ -35,6 +35,7 @@ import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
 
+
 import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = config.characterLimit;
@@ -78,6 +79,7 @@ export default class Form extends React.Component {
             samples: [],
             archiveSize: '--',
             downloadBtnClass: '',
+            queryType: '',
         };
         this.state = this.defaultState;
         this.child = [];
@@ -108,6 +110,7 @@ export default class Form extends React.Component {
         this.showSamplesDiv = false;
         this.showEstimatedSizeTxtClass = 'hidden';
         this.handleClChange = this.handleClChange.bind(this);
+        this.showDownloadCorpusBtn = 'false';
     }
 
     componentWillMount() {
@@ -160,6 +163,7 @@ export default class Form extends React.Component {
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
+        ISTEX.searchParams.set('queryType', this.state.queryType);
 
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
@@ -213,6 +217,7 @@ export default class Form extends React.Component {
     transformIDorARK() {
         if (this.state.querywithIDorARK) {
             if (this.state.querywithIDorARK.includes('ark')) {
+                this.state.queryType = 'querywithARK';
                 const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
                 const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
                 const res = prefix
@@ -221,6 +226,7 @@ export default class Form extends React.Component {
                     .concat('")');
                 return res.replace(new RegExp('\n', 'g'), '" "');
             }
+            this.state.queryType = 'querywithID';
             return 'id:('
                 .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
                 .concat(')')
@@ -420,8 +426,11 @@ export default class Form extends React.Component {
 
     handleSubmit(event) {
         const href = this.buildURLFromState();
-        if (this.state.activeKey === '2') {
-            // href.searchParams.set('q', this.transformIDorARK());
+        if ((this.state.activeKey === '2') || (this.state.activeKey === '4')) {
+            if (href.searchParams.get('q')) {
+                href.searchParams.set('q', this.transformIDorARK());
+            }
+            href.searchParams.set('queryType', this.state.queryType);
             href.searchParams.delete('withID');
         }
 
@@ -454,7 +463,7 @@ export default class Form extends React.Component {
             downloadProgress,
         })); */
 
-        if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2')) {
+        if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '4')) {
             let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
             fetch(hrefSet, {
                 method: 'POST',
@@ -481,6 +490,13 @@ export default class Form extends React.Component {
         if (eventKey === '3') {
             this.setState({ showModalExemple: true });
             return;
+        }
+        if (eventKey === '4') {
+            this.setState({ activeKey: eventKey, showDownloadCorpusBtn: true });
+            return;
+        }
+        if (eventKey === '2' && this.state.activeKey === '4') {
+            this.setState({ activeKey: eventKey, showDownloadCorpusBtn: true, querywithIDorARK: '' });
         }
         this.setState({
             activeKey: eventKey,
@@ -541,6 +557,55 @@ export default class Form extends React.Component {
         const c = b < 0 ? 0 : b,
             d = Math.floor(Math.log(a) / Math.log(1024));
         return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + ' ' + ['Octets', 'Ko', 'Mo', 'Go', 'To', 'Po', 'Eo', 'Zo', 'Yo'][d];
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    corpusParser(content) {
+        let splitStr = content.split('[ISTEX]');
+        if (splitStr.length != 2) {
+            NotificationManager.error('Le fichier .corpus est erroné : la section [ISTEX] est introuvable ! ', '', 50000);
+            return;
+        }
+        let arrayOfLines = splitStr[1].match(/[^\r\n]+/g);
+        let ids = [];
+        let NoErrorFound = true;
+        arrayOfLines.forEach(function (item) {
+            let id = item.split(/\s+/);
+            if (id.length >= 2) {
+                if (id[0] == 'id') {
+                    if (id[1].length == 40) {
+                        ids.push(id[1]);
+                    } else {
+                        NotificationManager.error('Erreur dans le format d\'un Id !', 'Le fichier .corpus est erroné', 50000);
+                        NoErrorFound = false;
+                    }
+                } else if (id[0] == 'ark') {
+                    if (id[1].length == 25) {
+                        ids.push(id[1]);
+                    } else {
+                        NotificationManager.error('Erreur dans le format d\'un Ark !', 'Le fichier .corpus est erroné', 50000);
+                        NoErrorFound = false;
+                    }
+                } else {
+                    NotificationManager.error('Id ou Ark non trouvé !', 'Le fichier .corpus est erroné', 50000);
+                    NoErrorFound = false;
+                }
+            } else {
+                NotificationManager.error('Le fichier est mal formaté !', 'Le fichier .corpus est erroné', 50000);
+                NoErrorFound = false;
+            }
+        });
+        if (NoErrorFound) {
+            NotificationManager.success(ids.length + ' Id/Arks importés avec succèss', 'Import de fichier .corpus terminé', 50000);
+            this.setState({
+                querywithIDorARK: ids.join('\n'),
+            }, () => this.waitRequest());
+        }
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    parseCorpusToArksOrIds(textCorpus) {
+        textCorpus.then(t => this.corpusParser(t));
     }
     
     buildURLFromState(query = null, withHits = true) {
@@ -885,6 +950,15 @@ export default class Form extends React.Component {
         return samples;
     }
 
+    // eslint-disable-next-line class-methods-use-this
+    hover() {
+        document.getElementById('imgUpload').src = '/img/ico_upload_active.png';
+    }
+      
+    // eslint-disable-next-line class-methods-use-this
+    unhover() {
+        document.getElementById('imgUpload').src = '/img/ico_upload.png';
+    }
     render() {
         // TODO: socket.IO
         // const progressInstance = <ProgressBar bsStyle="success" active now={this.state.downloadProgress} label={`${this.state.downloadProgress}%`} />;
@@ -912,7 +986,7 @@ export default class Form extends React.Component {
                 id="popover-sample-list"
                 title={<span> Échantillon de résultats {closingButton}</span>}
             >
-            Cet échantillon de documents, classés par pertinence des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.  
+            Cet échantillon de documents, classés par pertinence & qualité des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.
                 <br />
             </Popover>
         );
@@ -924,7 +998,7 @@ export default class Form extends React.Component {
             >
 Pour élaborer votre équation de recherche booléenne, vous pouvez 
 vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
- de <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
+de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
 
@@ -984,10 +1058,10 @@ Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bout
         const popoverUsagePerso = (
             <Popover
                 id="popover-filetype-help"
-                title={<span> Formats et types de fichiers {closingButton}</span>}
+                title={<span> Usage personnalisé{closingButton}</span>}
             >
-Les différents formats et types de fichiers disponibles sont décrits dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
-Attention : certains formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+Attention : tous les formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
 
@@ -996,8 +1070,8 @@ Attention : certains formats ou types de fichiers peuvent ne pas être présents
                 id="popover-filetype-help"
                 title={<span> Usage {closingButton}</span>}
             >
-Le choix d’un outil induit un remplissage des formats et types de fichiers qui seront extraits. 
-L’information sur les formats et types de fichiers sélectionnés est visible dans l’URL de partage, ainsi que dans l’historique, 
+Le choix d’un outil induit une sélection automatique des formats et types de fichiers qui seront extraits. 
+L’information sur cette sélection est visible dans l’URL de partage, ainsi que dans l’historique
 une fois le corpus téléchargé. 
             </Popover>
         );
@@ -1007,8 +1081,8 @@ une fois le corpus téléchargé.
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. L’estimation fournie est une indication mais peut varier selon les documents à extraire. La couleur rouge vous avertit lorsque la taille dépasse 5 Go. 
-                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur. 
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. Au-delà de 1 Go, une estimation de la taille est fournie. L’indication de couleur orange passe au rouge en cas de dépassement de 5 Go.<br />  
+                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur.<br /> 
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -1064,7 +1138,6 @@ une fois le corpus téléchargé.
             >
                 Actuellement, il n’est pas possible de télécharger plus de 100 000 documents.
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
-                <br />
                 Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents peut vous intéresser (voir rubrique suivante).
 
             </Popover>
@@ -1076,8 +1149,8 @@ une fois le corpus téléchargé.
                 title={<span> Mode de classement {closingButton}</span>}
             >
                 Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête, 
-                les documents sélectionnés pour votre corpus seront extraits en fonction d’un ordre de pertinence relevé par la qualité (choix privilégié par défaut), par ordre de pertinence seulement ou tirés de manière aléatoire, 
-                ce mode de tri étant plus représentatif de la diversité des résultats.
+                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence seul, soit d’un ordre de pertinence relevé par un score de qualité (choix privilégié par défaut), soit tirés de manière aléatoire, 
+                ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
 
         );
@@ -1182,6 +1255,17 @@ une fois le corpus téléchargé.
                                                 <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
+                                        <NavItem eventKey="4">
+                                            Recherche par Upload
+                                            &nbsp;
+                                            <OverlayTrigger
+                                                trigger="click"
+                                                rootClose
+                                                placement="top"
+                                            >
+                                                <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                            </OverlayTrigger>
+                                        </NavItem>
                                         <NavItem eventKey="3" className="floatRight">
                                             Exemples
                                             &nbsp;
@@ -1194,6 +1278,7 @@ une fois le corpus téléchargé.
                                             </OverlayTrigger>
                                         </NavItem>
                                     </Nav>
+                                    { (this.state.activeKey != 4) &&
                                     <Textarea
                                         className="form-control"
                                         placeholder={this.state.activeKey === '1'
@@ -1210,11 +1295,29 @@ une fois le corpus téléchargé.
                                         }
                                         onChange={this.handleQueryChange}
                                     />
+                                    }
+                                    { (this.state.activeKey == 4) &&
+                                    // eslint-disable-next-line jsx-a11y/label-has-for
+                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt"><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target.files[0].text())} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
+                                    }
+
+                                    { (this.state.activeKey == 4) &&
+                                        <Textarea
+                                            className="form-control textarea-upload"
+                                            name="q"
+                                            id={`area-${this.state.activeKey}`}
+                                            rows="3"
+                                            autoFocus="true"
+                                            value={this.state.querywithIDorARK}
+                                            onChange={this.handleQueryChange}
+                                        />
+                                    }
+                                    
                                 </FormGroup>
                             </div>
                             {this.state.nbDocsCalculating &&
                             <p className="pTxt">
-                                Calcul en cours du nombre des résultats ... 
+                                Calcul en cours du nombre des résultats... 
                                 &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                             </p>
@@ -1309,15 +1412,6 @@ une fois le corpus téléchargé.
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio
-                                    id="radioQualityOverRelevance"
-                                    inline
-                                    name="qualityOverRelevance"
-                                    checked={this.state.rankBy === 'qualityOverRelevance'}
-                                    onChange={this.handlerankByChange}
-                                >
-                                    Relevé par qualité
-                                </Radio>
-                                <Radio
                                     id="radioRelevance"
                                     inline
                                     name="relevance"
@@ -1325,6 +1419,15 @@ une fois le corpus téléchargé.
                                     onChange={this.handlerankByChange}
                                 >
                                     Par pertinence
+                                </Radio>
+                                <Radio
+                                    id="radioQualityOverRelevance"
+                                    inline
+                                    name="qualityOverRelevance"
+                                    checked={this.state.rankBy === 'qualityOverRelevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Par pertinence & qualité
                                 </Radio>
                                 <Radio
                                     id="radioRandom"
@@ -1764,7 +1867,33 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
+                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                >
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
+                                </OverlayTrigger>
+                            </span>
+                            des troncatures sur des termes de recherche en français et en anglais
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.systematiqueVegetale)}
+                                >
+                                    <i role="button" className="fa fa-search" aria-hidden="true" />
+                                </OverlayTrigger>
+                            </span>
+                            des opérateurs booléens imbriqués
+                        </div>
+                        <div className="exempleRequestLine">
+                            <span className="exampleRequest">
+                                <OverlayTrigger
+                                    rootClose
+                                    overlay={tryRequestTooltip}
+                                    placement="top"
+                                    onClick={() => this.tryExempleRequest(Labelize.geophysique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
@@ -1777,12 +1906,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.zoologie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.intelligenceArtificielle)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des indicateurs de qualité
+                            des indicateurs de qualité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1790,12 +1919,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.orthophonie)}
+                                    onClick={() => this.tryExempleRequest(Labelize.arctique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des données bibliographiques et des troncatures sur des mots-clés
+                            des expressions régulières sur des termes de recherche
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1803,12 +1932,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.motClefsSystematiqueVegetale)}
+                                    onClick={() => this.tryExempleRequest(Labelize.paleoclimatologie)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des troncatures sur des mots-clés et des opérateurs booléens imbriqués
+                             de la recherche floue et des opérateurs de proximité
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1816,12 +1945,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.regExpSystematiqueVegetale)}
+                                    onClick={() => this.tryExempleRequest(Labelize.astrophysique)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des expressions régulières sur des mots-clés (I)
+                            des enrichissements de type catégorie scientifique
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1829,12 +1958,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.regExpArctic)}
+                                    onClick={() => this.tryExempleRequest(Labelize.beethoven)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                             des expressions régulières sur des mots-clés (II)
+                            des enrichissements de type entité nommée
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">
@@ -1842,12 +1971,12 @@ une fois le corpus téléchargé.
                                     rootClose
                                     overlay={tryRequestTooltip}
                                     placement="top"
-                                    onClick={() => this.tryExempleRequest(Labelize.opArctic)}
+                                    onClick={() => this.tryExempleRequest(Labelize.coronavirus)}
                                 >
                                     <i role="button" className="fa fa-search" aria-hidden="true" />
                                 </OverlayTrigger>
                             </span>
-                            des troncatures, de la recherche floue et des opérateurs de proximité
+                            des enrichissements de type terme d’indexation
                         </div>
                         <div className="exempleRequestLine">
                             <span className="exampleRequest">

@@ -1298,7 +1298,7 @@ une fois le corpus téléchargé.
                                     }
                                     { (this.state.activeKey == 4) &&
                                     // eslint-disable-next-line jsx-a11y/label-has-for
-                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt"><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target.files[0].text())} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
+                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target.files[0].text())} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
                                     }
 
                                     { (this.state.activeKey == 4) &&

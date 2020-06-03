@@ -164,7 +164,68 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         ISTEX.searchParams.set('queryType', this.state.queryType);
+        /*
+        let head = new Headers();
+        head.append('Connnection', 'keep-alive');
+        head.append('Keep-Alive', `timeout=${1 * 60 * 5}`); // in seconds, not milliseconds
 
+        this.istexDlXhr  = fetch(ISTEX.href, {
+            method: 'POST',
+            body: JSON.stringify({
+                qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+            }),
+            headers: { 'Content-Type': 'application/json' },
+        }).then(response => response.json()).then((json) => {
+            this.state.samples = json.hits;
+
+            let total = json.total;
+            let size, 
+                limitNbDoc = config.limitNbDoc;
+            if (!total || total === 0) {
+                size = 0;
+                limitNbDoc = 0;
+            } else if (sizeParam <= config.limitNbDoc) {
+                if (sizeParam > total) {
+                    size = total;
+                } else {
+                    size = sizeParam;
+                }
+            } else {
+                size = config.limitNbDoc;
+            }
+            if (total < sizeParam) {
+                size = total;
+                limitNbDoc = total;
+            }
+
+            if (total > 0) {
+                this.limitNbDocClass = 'limitNbDocTxt';
+            } 
+            console.log(total);
+            return this.setState({
+                size,
+                total: total || 0,
+                limitNbDoc,
+                nbDocsCalculating: false,
+            });
+        }).catch((err) => {
+            if (err.status >= 500) {
+                return self.setState({ errorServer: 'Error server TODO ...' });
+            }
+            if (err.status >= 400 && err.status < 500) {
+                return this.setState({ errorRequestSyntax: err.responseJSON._error });
+            }
+            return null;
+        },
+        );
+        */
+        $.ajaxSetup({
+            headers: {
+                'Connection': 'keep-alive',
+                // eslint-disable-next-line quote-props
+                'Keep-Alive': 'timeout=10',
+            },
+        });
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
@@ -450,19 +511,6 @@ export default class Form extends React.Component {
             URL2Download: href,
         });
 
-
-        /*
-        socket = openSocket('http://localhost:8000');
-
-        function subscribeToDownloadProgress(cb) {
-            socket.emit('showDownloadProgress', 1000);
-            socket.on('progressing', downloadProgress => cb(null, downloadProgress));
-        }
-
-        subscribeToDownloadProgress((err, downloadProgress) => this.setState({
-            downloadProgress,
-        })); */
-
         if ((this.state.q.length >= characterLimit && this.state.activeKey === '1') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '2') || (this.state.querywithIDorARK.length >= characterLimit && this.state.activeKey === '4')) {
             let hrefSet = `${config.apiUrl}/q_id/${this.lastqId}`;
             fetch(hrefSet, {
@@ -504,7 +552,6 @@ export default class Form extends React.Component {
     }
 
     handleCancel(event) {
-        // socket.disconnect();
         if (window.localStorage) {
             const { href } = this.buildURLFromState();
             const url = href.slice(href.indexOf('?'));
@@ -514,12 +561,15 @@ export default class Form extends React.Component {
                 date: new Date(),
                 formats,
                 size: this.state.size,
-                q: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
-                qId: this.state.qId,
                 rankBy: this.state.rankBy,
                 archiveType: this.state.archiveType,
                 compressionLevel: this.state.compressionLevel,
             };
+            if (this.state.qId) {
+                dlStorage.qId = this.state.qId;
+            } else {
+                dlStorage.q = this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK;
+            }
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
                 oldStorage.push(dlStorage);
@@ -561,6 +611,7 @@ export default class Form extends React.Component {
 
     // eslint-disable-next-line class-methods-use-this
     corpusParser(content) {
+        this.setState({ querywithIDorARK: '' });
         let splitStr = content.split('[ISTEX]');
         if (splitStr.length != 2) {
             NotificationManager.error('Le fichier .corpus est erroné : la section [ISTEX] est introuvable ! ', '', 50000);
@@ -604,7 +655,9 @@ export default class Form extends React.Component {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    parseCorpusToArksOrIds(textCorpus) {
+    parseCorpusToArksOrIds(target) {
+        let textCorpus = target.files[0].text();
+        if (textCorpus == undefined) return;
         textCorpus.then(t => this.corpusParser(t));
     }
     
@@ -780,13 +833,14 @@ export default class Form extends React.Component {
     }
 
     convertMD5(activeKey) {
+        console.log("ok");
         let key;
         if (activeKey === 1) {
             key = md5(this.state.q.trim());
             sessionStorage.setItem(key, this.state.q.trim());
         } else {
-            key = md5(this.state.querywithIDorARK);
-            sessionStorage.setItem(key, this.state.querywithIDorARK);
+            key = md5(this.state.querywithIDorARK.trim());
+            sessionStorage.setItem(key, this.state.querywithIDorARK.trim());
         }
         this.lastqId = key;
         return key;
@@ -1298,7 +1352,7 @@ une fois le corpus téléchargé.
                                     }
                                     { (this.state.activeKey == 4) &&
                                     // eslint-disable-next-line jsx-a11y/label-has-for
-                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target.files[0].text())} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
+                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
                                     }
 
                                     { (this.state.activeKey == 4) &&

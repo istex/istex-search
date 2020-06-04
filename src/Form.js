@@ -273,8 +273,8 @@ export default class Form extends React.Component {
         if (this.state.querywithIDorARK) {
             if (this.state.querywithIDorARK.includes('ark')) {
                 this.state.queryType = 'querywithARK';
-                const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
-                const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
+                // const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
+                // const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
                 const res = 'arkIstex.raw:'
                     .concat('("')
                     .concat(this.state.querywithIDorARK)

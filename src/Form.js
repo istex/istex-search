@@ -219,13 +219,7 @@ export default class Form extends React.Component {
         },
         );
         */
-        $.ajaxSetup({
-            headers: {
-                'Connection': 'keep-alive',
-                // eslint-disable-next-line quote-props
-                'Keep-Alive': 'timeout=10',
-            },
-        });
+
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
@@ -281,9 +275,9 @@ export default class Form extends React.Component {
                 this.state.queryType = 'querywithARK';
                 const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
                 const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
-                const res = prefix
+                const res = 'arkIstex.raw:'
                     .concat('("')
-                    .concat(this.state.querywithIDorARK.replace(new RegExp(prefix, 'g'), ''))
+                    .concat(this.state.querywithIDorARK)
                     .concat('")');
                 return res.replace(new RegExp('\n', 'g'), '" "');
             }
@@ -625,14 +619,18 @@ export default class Form extends React.Component {
             if (id.length >= 2) {
                 if (id[0] == 'id') {
                     if (id[1].length == 40) {
-                        ids.push(id[1]);
+                        if (ids.length < 100000) {
+                            ids.push(id[1]);
+                        }
                     } else {
                         NotificationManager.error('Erreur dans le format d\'un Id !', 'Le fichier .corpus est erroné', 50000);
                         NoErrorFound = false;
                     }
                 } else if (id[0] == 'ark') {
                     if (id[1].length == 25) {
-                        ids.push(id[1]);
+                        if (ids.length < 100000) {
+                            ids.push(id[1]);
+                        }
                     } else {
                         NotificationManager.error('Erreur dans le format d\'un Ark !', 'Le fichier .corpus est erroné', 50000);
                         NoErrorFound = false;
@@ -833,7 +831,6 @@ export default class Form extends React.Component {
     }
 
     convertMD5(activeKey) {
-        console.log("ok");
         let key;
         if (activeKey === 1) {
             key = md5(this.state.q.trim());

@@ -115,7 +115,7 @@ export default class Form extends React.Component {
         this.showDownloadCorpusBtn = 'false';
         this.handleQChange = false;
         this.showSamplesLoader = false;
-        this.textAreaRowsLength = '';   
+        this.textAreaRowsLength = 1;   
     }
 
     componentWillMount() {
@@ -341,7 +341,9 @@ export default class Form extends React.Component {
                 });
             });
         }
-        this.textAreaRowsLength = parsedUrl.q.split('\n').length;
+        if (parsedUrl.q) {
+            this.textAreaRowsLength = parsedUrl.q.split('\n').length;
+        }
     }
 
     interpretURL(url) {
@@ -620,7 +622,7 @@ export default class Form extends React.Component {
                 archiveType: this.state.archiveType,
                 compressionLevel: this.state.compressionLevel,
             };
-            console.log(url);
+            this.textAreaRowsLength = 1;
             if (this.state.qId) {
                 dlStorage.qId = this.state.qId;
             } else {
@@ -1306,7 +1308,6 @@ une fois le corpus téléchargé.
         const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
         const style = {
             maxHeight: '600px',
-            resize: 'none',
         };
         return (
             <div className={`container ${this.props.className}`}>

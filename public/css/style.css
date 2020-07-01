@@ -1614,7 +1614,22 @@ input[type="file"] {
     padding-top: 30px;
 }
 
-.custom-file-upload:hover {
+.custom-file-upload-upd {
+    display: inline-block;
+    padding: 6px 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #458ca5;
+    color: #458ca5;
+    font-family: 'Open sans', sans-serif !important;
+    font-weight: initial;
+    width: 140px;
+    height: 170px;
+    padding-top: 30px;
+}
+
+.custom-file-upload:hover, .custom-file-upload-upd:hover {
     background-color: #c4d733 !important;
     color: #000 !important;
     border-color:#c4d733 !important;
@@ -1632,4 +1647,20 @@ input[type="file"] {
     text-align: center !important;
     margin-top: 15px;
     margin-bottom: 20px;
+}
+
+.centerTxt {
+    text-align: center !important;
+    border: 1px solid green;
+    color: green;
+    padding: 10px;
+}
+
+
+.centerTxt label {
+    margin: 0;
+}
+
+textarea {
+    height: auto !important;
 }

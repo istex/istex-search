@@ -20,7 +20,7 @@ import React from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 import NumericInput from 'react-numeric-input';
-import Textarea from 'react-textarea-autosize';
+// import Textarea from 'react-textarea-autosize';
 import { Modal, Button, OverlayTrigger, Popover,
     Tooltip, FormGroup, FormControl,
     Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
@@ -34,6 +34,7 @@ import 'react-input-range/lib/css/index.css';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
+import autosize from 'autosize';
 
 
 import config from './config';
@@ -80,6 +81,7 @@ export default class Form extends React.Component {
             archiveSize: '--',
             downloadBtnClass: '',
             queryType: '',
+            uploadTxt: '',
         };
         this.state = this.defaultState;
         this.child = [];
@@ -92,7 +94,7 @@ export default class Form extends React.Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handlerankByChange = this.handlerankByChange.bind(this);
-        this.handlecarchivetypeByChange = this.handlecarchivetypeByChange.bind(this);
+        this.handleArchiveTypeChange = this.handleArchiveTypeChange.bind(this);
         this.isDownloadDisabled = this.isDownloadDisabled.bind(this);
         this.interpretURL = this.interpretURL.bind(this);
         this.recoverFormatState = this.recoverFormatState.bind(this);
@@ -111,6 +113,9 @@ export default class Form extends React.Component {
         this.showEstimatedSizeTxtClass = 'hidden';
         this.handleClChange = this.handleClChange.bind(this);
         this.showDownloadCorpusBtn = 'false';
+        this.handleQChange = false;
+        this.showSamplesLoader = false;
+        this.textAreaRowsLength = '';   
     }
 
     componentWillMount() {
@@ -121,6 +126,8 @@ export default class Form extends React.Component {
 
     componentDidMount() {
         this.recoverFormatState();
+        this.textarea.focus();
+        autosize(this.textarea);
     }
 
     recoverFormatState() {
@@ -148,7 +155,50 @@ export default class Form extends React.Component {
         });
     }
 
-    calculateNbDocs(sizeParam = config.defaultSize) {
+    getSamplesList() {
+        const self = this;
+        const ISTEX = this.state.activeKey === '1'
+            ? this.buildURLFromState(this.state.q, false, false)
+            : this.buildURLFromState(this.transformIDorARK(), false, false);
+        ISTEX.searchParams.delete('extract');
+        ISTEX.searchParams.delete('withID');
+        if (this.istexDlXhr) {
+            this.istexDlXhr.abort();
+        }
+        ISTEX.searchParams.set('queryType', this.state.queryType);
+        if (this.state.total > 0) {
+            this.showSamplesLoader = true;
+        }
+        
+        // disable all before getting total 
+        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
+            .done((json) => {
+                // this.state.samples = json.hits;
+                return this.setState({
+                    samples: json.hits,
+                });
+            }).fail((err) => {
+                if (err.status >= 500) {
+                    return self.setState({ errorServer: 'Error server TODO ...' });
+                }
+                if (err.status >= 400 && err.status < 500) {
+                    return this.setState({ errorRequestSyntax: err.responseJSON._error });
+                }
+                return null;
+            },
+            )
+            .always(() => {
+                this.istexDlXhr = null;
+            });
+    }
+
+    calculateNbDocs(defaultSize, queryChanged) {
+        let sizeParam;
+        if (defaultSize == null) {
+            sizeParam = config.defaultSize;
+        } else {
+            sizeParam = defaultSize;
+        }
         this.setState({
             nbDocsCalculating: true,
             total: 0,
@@ -156,70 +206,15 @@ export default class Form extends React.Component {
         });
         const self = this;
         const ISTEX = this.state.activeKey === '1'
-            ? this.buildURLFromState(this.state.q, false)
-            : this.buildURLFromState(this.transformIDorARK(), false);
+            ? this.buildURLFromState(this.state.q, false, queryChanged)
+            : this.buildURLFromState(this.transformIDorARK(), false, queryChanged);
         ISTEX.searchParams.delete('extract');
         ISTEX.searchParams.delete('withID');
         if (this.istexDlXhr) {
             this.istexDlXhr.abort();
         }
         ISTEX.searchParams.set('queryType', this.state.queryType);
-        /*
-        let head = new Headers();
-        head.append('Connnection', 'keep-alive');
-        head.append('Keep-Alive', `timeout=${1 * 60 * 5}`); // in seconds, not milliseconds
-
-        this.istexDlXhr  = fetch(ISTEX.href, {
-            method: 'POST',
-            body: JSON.stringify({
-                qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
-            }),
-            headers: { 'Content-Type': 'application/json' },
-        }).then(response => response.json()).then((json) => {
-            this.state.samples = json.hits;
-
-            let total = json.total;
-            let size, 
-                limitNbDoc = config.limitNbDoc;
-            if (!total || total === 0) {
-                size = 0;
-                limitNbDoc = 0;
-            } else if (sizeParam <= config.limitNbDoc) {
-                if (sizeParam > total) {
-                    size = total;
-                } else {
-                    size = sizeParam;
-                }
-            } else {
-                size = config.limitNbDoc;
-            }
-            if (total < sizeParam) {
-                size = total;
-                limitNbDoc = total;
-            }
-
-            if (total > 0) {
-                this.limitNbDocClass = 'limitNbDocTxt';
-            } 
-            console.log(total);
-            return this.setState({
-                size,
-                total: total || 0,
-                limitNbDoc,
-                nbDocsCalculating: false,
-            });
-        }).catch((err) => {
-            if (err.status >= 500) {
-                return self.setState({ errorServer: 'Error server TODO ...' });
-            }
-            if (err.status >= 400 && err.status < 500) {
-                return this.setState({ errorRequestSyntax: err.responseJSON._error });
-            }
-            return null;
-        },
-        );
-        */
-
+        
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
@@ -295,7 +290,7 @@ export default class Form extends React.Component {
         this.setState({
             q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
             querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
-        }, () => this.calculateNbDocs(parsedUrl.size));
+        }, () => this.calculateNbDocs(parsedUrl.size, true));
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -325,7 +320,9 @@ export default class Form extends React.Component {
             activeKey: parsedUrl.withID ? '2' : '1',
             total: 0,
             archiveType: parsedUrl.archiveType || 'zip',
-        }, () => this.calculateNbDocs(parsedUrl.size));
+            uploadTxt: '',
+
+        }, () => this.calculateNbDocs(parsedUrl.size, true));
         if (parsedUrl.extract) {
             parsedUrl.extract.split(';').forEach((filetype) => {
                 const type = filetype.charAt(0).toUpperCase().concat(filetype.slice(1, filetype.indexOf('[')));
@@ -344,6 +341,7 @@ export default class Form extends React.Component {
                 });
             });
         }
+        this.textAreaRowsLength = parsedUrl.q.split('\n').length;
     }
 
     interpretURL(url) {
@@ -374,20 +372,20 @@ export default class Form extends React.Component {
                     .then(response => response.json()).then((data) => {
                         parsedUrl.q = data.req;
                         this.setQIDFromURL(parsedUrl);
+                        this.setStateFromURL(parsedUrl);
                     });
-                this.setStateFromURL(parsedUrl);
             }  
         } else if (Object.keys(parsedUrl).length >= 1) {
             this.setStateFromURL(parsedUrl);
         }
     }
 
-    waitRequest() {
+    waitRequest(queryChanged) {
         if (this.state.q.length > 0 || this.state.querywithIDorARK.length > 0) {
             if (this.timer) {
                 window.clearTimeout(this.timer);
             }
-            this.timer = window.setTimeout(() => { this.calculateNbDocs(); }, 800);
+            this.timer = window.setTimeout(() => { this.calculateNbDocs(null, queryChanged); }, 800);
         } else {
             this.setState({
                 size: 0,
@@ -398,21 +396,22 @@ export default class Form extends React.Component {
 
     handleQueryChange(event) {
         if (event) {
+            this.handleQChange = true;
             if (this.state.activeKey === '1') {
                 this.setState({
                     errorRequestSyntax: '',
                     q: event.query || event.target.value,
-                }, () => this.waitRequest());
+                }, () => this.waitRequest(true));
             } else {
                 this.setState({
                     errorRequestSyntax: '',
                     querywithIDorARK: event.query || event.target.value,
-                }, () => this.waitRequest());
+                }, () => this.waitRequest(true));
             }
         } else {
             this.setState({
                 errorRequestSyntax: '',
-            }, () => this.waitRequest());
+            }, () => this.waitRequest(false));
         }
     }
 
@@ -438,10 +437,11 @@ export default class Form extends React.Component {
         const name = target.name;
         this.setState({
             rankBy: name,
-        }, () => this.waitRequest());
+            samples: '',
+        }, () => this.getSamplesList());
     }
 
-    handlecarchivetypeByChange(archiveFormatEvent) {
+    handleArchiveTypeChange(archiveFormatEvent) {
         const target = archiveFormatEvent.target;
         const name = target.name;
         this.setState({
@@ -469,7 +469,7 @@ export default class Form extends React.Component {
         fetch(href, {
             method: 'POST',
             body: JSON.stringify({
-                qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+                qString: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
             }),
             headers: { 'Content-Type': 'application/json' },
         }).then(() => {  
@@ -480,7 +480,7 @@ export default class Form extends React.Component {
     }
 
     handleSubmit(event) {
-        const href = this.buildURLFromState();
+        const href = this.buildURLFromState(null, true, false);
         if ((this.state.activeKey === '2') || (this.state.activeKey === '4')) {
             if (href.searchParams.get('q')) {
                 href.searchParams.set('q', this.transformIDorARK());
@@ -527,27 +527,88 @@ export default class Form extends React.Component {
         }
         event.preventDefault();
     }
+    resetState() {
+        this.setState({ 
+            q: '',
+            querywithIDorARK: '',
+            qId: '',
+            size: config.defaultSize,
+            limitNbDoc: config.limitNbDoc,
+            extractMetadata: false,
+            extractFulltext: false,
+            extractEnrichments: false,
+            extractCovers: false,
+            extractAnnexes: false,
+            downloading: false,
+            URL2Download: '',
+            errorRequestSyntax: '',
+            errorDuringDownload: '',
+            rankBy: 'qualityOverRelevance',
+            total: 0,
+            nbDocsCalculating: false,
+            compressionLevel: 0,
+            archiveType: 'zip',
+            samples: [],
+            archiveSize: '--',
+            downloadBtnClass: '',
+            queryType: '',
+            uploadTxt: '',
+        });
+        this.shouldHideUpersonnalise = 'hidden';
+        this.shouldHideU = 'col-lg-12 col-sm-12 usages';
+        this.usage = false;
+        this.loadexUsageLabel = 'Choisir cet usage';
+        this.persUsageLabel = 'Choisir cet usage';
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
+        this.limitNbDocClass = 'limitNbDocTxtHide';
+        this.showSamplesDiv = false;
+        this.showEstimatedSizeTxtClass = 'hidden';
+        this.showDownloadCorpusBtn = 'false';
+        this.handleQChange = false;
+        this.showSamplesLoader = false;  
+    }
 
     handleSelectNav(eventKey) {
+        // reset Recherche classique
+        console.log(eventKey);
+        if (eventKey === '1') {
+            this.setState({ activeKey: eventKey });
+            let textarea = document.getElementById('textarea');
+            if (textarea) {
+                textarea.setAttribute('style', 'height:100%');
+            }
+            this.textAreaRowsLength = 1;
+            this.resetState();
+        }
+
+        if (eventKey === '2') {
+            this.setState({ activeKey: eventKey });
+            let textarea = document.getElementById('textarea');
+            if (textarea) {
+                textarea.setAttribute('style', 'height:100%');
+            }
+            this.textAreaRowsLength = 2;
+            this.resetState();
+        }
+
         if (eventKey === '3') {
             this.setState({ showModalExemple: true });
-            return;
+            let textarea = document.getElementById('textarea');
+            if (textarea) {
+                textarea.setAttribute('style', 'height:100%');
+            }
         }
         if (eventKey === '4') {
-            this.setState({ activeKey: eventKey, showDownloadCorpusBtn: true });
-            return;
+            this.setState({ activeKey: eventKey });
+            this.resetState();
+            this.setState({ showDownloadCorpusBtn: true });
         }
-        if (eventKey === '2' && this.state.activeKey === '4') {
-            this.setState({ activeKey: eventKey, showDownloadCorpusBtn: true, querywithIDorARK: '' });
-        }
-        this.setState({
-            activeKey: eventKey,
-        }, () => this.calculateNbDocs());
     }
 
     handleCancel(event) {
         if (window.localStorage) {
-            const { href } = this.buildURLFromState();
+            const { href } = this.buildURLFromState(null, true, false);
             const url = href.slice(href.indexOf('?'));
             const formats = qs.parse(url).extract.split(';');
             const dlStorage = {
@@ -559,6 +620,7 @@ export default class Form extends React.Component {
                 archiveType: this.state.archiveType,
                 compressionLevel: this.state.compressionLevel,
             };
+            console.log(url);
             if (this.state.qId) {
                 dlStorage.qId = this.state.qId;
             } else {
@@ -586,7 +648,7 @@ export default class Form extends React.Component {
 
     updateUrl(defaultState = false) {
         if (!defaultState) {
-            const newUrl = this.buildURLFromState().href.slice(this.buildURLFromState().href.indexOf('?'));
+            const newUrl = this.buildURLFromState(null, true, false).href.slice(this.buildURLFromState(null, true, false).href.indexOf('?'));
             window.history.pushState('', '', newUrl);
         } else {
             const url = window.location.href.split('/');
@@ -604,7 +666,7 @@ export default class Form extends React.Component {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    corpusParser(content) {
+    corpusParser(content, fileName) {
         this.setState({ querywithIDorARK: '' });
         let splitStr = content.split('[ISTEX]');
         if (splitStr.length != 2) {
@@ -645,10 +707,13 @@ export default class Form extends React.Component {
             }
         });
         if (NoErrorFound) {
-            NotificationManager.success(ids.length + ' Id/Arks importés avec succèss', 'Import de fichier .corpus terminé', 50000);
+            this.setState({
+                uploadTxt: 'Fichier ' + fileName + 'analysé avec succés. ' + ids.length + ' documents correspondant ont été trouvés.',
+            });
+            NotificationManager.success('', 'Import de fichier .corpus  terminé avec succés', 50000);
             this.setState({
                 querywithIDorARK: ids.join('\n'),
-            }, () => this.waitRequest());
+            }, () => this.waitRequest(true));
         }
     }
 
@@ -656,10 +721,22 @@ export default class Form extends React.Component {
     parseCorpusToArksOrIds(target) {
         let textCorpus = target.files[0].text();
         if (textCorpus == undefined) return;
-        textCorpus.then(t => this.corpusParser(t));
+        textCorpus.then(t => this.corpusParser(t, target.files[0].name));
     }
-    
-    buildURLFromState(query = null, withHits = true) {
+    hashMD5(q, queryChanged) {
+        let key;
+        if (queryChanged || this.lastqId == undefined) {
+            key = md5(q);
+            this.lastqId = key;
+        } else {
+            key = this.lastqId;
+        }
+        sessionStorage.clear();
+        sessionStorage.setItem(key, q);
+        return key;
+    }
+    // buildURLFromState(query = null, withHits = true) {
+    buildURLFromState(query, withHits, queryChanged) {
         const ISTEX = new URL(`${config.apiUrl}/document/`);
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
@@ -687,27 +764,26 @@ export default class Form extends React.Component {
             }
             , '')
             .slice(0, -1);
-        if (this.state.qId !== undefined) {
-            ISTEX.searchParams.set('q_id', this.state.qId);
-        } 
+        
         if (this.state.activeKey === '1') {
             if (this.state.q.length < characterLimit) {
                 ISTEX.searchParams.delete('q_id');
                 ISTEX.searchParams.set('q', query || this.state.q);
             } else {
-                ISTEX.searchParams.set('q_id', this.convertMD5(1));
+                // eslint-disable-next-line no-undef
+                ISTEX.searchParams.set('q_id', this.hashMD5(this.state.q.trim(), queryChanged));
             }
-        } else { 
+        } else {
+            ISTEX.searchParams.set('withID', true);
             if (this.state.querywithIDorARK.length < characterLimit) {
                 ISTEX.searchParams.delete('q_id');
                 ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
-                ISTEX.searchParams.set('withID', true);
             } else {
-                ISTEX.searchParams.set('q_id', this.convertMD5(2));
-                ISTEX.searchParams.set('withID', true);
+                // eslint-disable-next-line no-undef
+                ISTEX.searchParams.set('q_id', this.hashMD5(this.state.querywithIDorARK.trim(), queryChanged));
             }
-        } 
-        // ISTEX.searchParams.set('hello', this.state.qId);
+        }
+
         ISTEX.searchParams.set('extract', extract);
         if (this.state.total < this.state.limitNbDoc) {
             this.state.limitNbDoc = this.state.total;
@@ -830,19 +906,6 @@ export default class Form extends React.Component {
         return ISTEX;
     }
 
-    convertMD5(activeKey) {
-        let key;
-        if (activeKey === 1) {
-            key = md5(this.state.q.trim());
-            sessionStorage.setItem(key, this.state.q.trim());
-        } else {
-            key = md5(this.state.querywithIDorARK.trim());
-            sessionStorage.setItem(key, this.state.querywithIDorARK.trim());
-        }
-        this.lastqId = key;
-        return key;
-    }
-
     erase() {
         this.child.forEach((c) => {
             if (!c.props.disabled) {
@@ -863,13 +926,14 @@ export default class Form extends React.Component {
         this.setState(this.defaultState);
     }
 
-    tryExempleRequest(queryExample, withID = false) {
+    tryExempleRequest(queryExample, withID = false) {      
         if (withID) {
             this.setState({
                 activeKey: '2',
                 querywithIDorARK: queryExample,
                 showModalExemple: false,
             });
+            this.textAreaRowsLength = queryExample.split('\n').length;
         } else {
             this.setState({
                 activeKey: '1',
@@ -890,7 +954,7 @@ export default class Form extends React.Component {
                 }
             });
             if (!isDefaultState) {
-                const { href } = this.buildURLFromState();
+                const { href } = this.buildURLFromState(null, true, false);
                 const url = href.slice(href.indexOf('?'));
                 this.updateUrl();
                 window.localStorage.setItem('dlISTEXlastUrl', JSON.stringify(url));
@@ -911,9 +975,6 @@ export default class Form extends React.Component {
     }
 
     showUsagePersonnalise() {
-        if (this.usage === 2) {
-            console.log('todo');
-        }
         this.shouldHideUpersonnalise = '';
         this.shouldHideU = 'hidden';
         this.selectedLodexClass = '';
@@ -937,8 +998,6 @@ export default class Form extends React.Component {
         this.loadexUsageLabel = 'usage sélectionné';
         this.persUsageLabel = 'choisir cet usage';
         this.selectedPersClass = '';
-        console.log(this.state);
-
         this.setState({});
     }
 
@@ -947,6 +1006,7 @@ export default class Form extends React.Component {
 
         if (samplesRes.length > 0) {
             this.showSamplesDiv = true;
+            this.showSamplesLoader = false;
         } else {
             this.showSamplesDiv = false;
         }
@@ -1244,6 +1304,10 @@ une fois le corpus téléchargé.
 
 
         const urlToShare = `${config.dlIstexUrl}/${document.location.href.slice(document.location.href.indexOf('?'))}`;
+        const style = {
+            maxHeight: '600px',
+            resize: 'none',
+        };
         return (
             <div className={`container ${this.props.className}`}>
                 <NotificationContainer />
@@ -1330,15 +1394,17 @@ une fois le corpus téléchargé.
                                         </NavItem>
                                     </Nav>
                                     { (this.state.activeKey != 4) &&
-                                    <Textarea
+                                    <textarea
                                         className="form-control"
+                                        ref={c => (this.textarea = c)}
                                         placeholder={this.state.activeKey === '1'
                                             ? 'brain AND language:fre'
                                             : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
                                         }
+                                        style={style}
                                         name="q"
-                                        id={`area-${this.state.activeKey}`}
-                                        rows="3"
+                                        id="textarea"
+                                        rows={this.textAreaRowsLength}
                                         autoFocus="true"
                                         value={this.state.activeKey === '1'
                                             ? this.state.q
@@ -1347,21 +1413,17 @@ une fois le corpus téléchargé.
                                         onChange={this.handleQueryChange}
                                     />
                                     }
-                                    { (this.state.activeKey == 4) &&
+                                    { (this.state.activeKey == 4 && !this.state.uploadTxt) &&
                                     // eslint-disable-next-line jsx-a11y/label-has-for
                                     <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
                                     }
-
-                                    { (this.state.activeKey == 4) &&
-                                        <Textarea
-                                            className="form-control textarea-upload"
-                                            name="q"
-                                            id={`area-${this.state.activeKey}`}
-                                            rows="3"
-                                            autoFocus="true"
-                                            value={this.state.querywithIDorARK}
-                                            onChange={this.handleQueryChange}
-                                        />
+                                    { (this.state.activeKey == 4 && this.state.uploadTxt) &&
+                                    // eslint-disable-next-line jsx-a11y/label-has-for
+                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload-upd"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Modifier en déposant un autre fichier</label></div>
+                                    }
+                                    { (this.state.activeKey == 4 && this.state.uploadTxt) &&
+                                    // eslint-disable-next-line jsx-a11y/label-has-for
+                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 centerTxt"><label>{this.state.uploadTxt}</label></div>
                                     }
                                     
                                 </FormGroup>
@@ -1404,7 +1466,7 @@ une fois le corpus téléchargé.
                                 }
                             </p>
                             }
-                            {this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
+                            {!this.state.nbDocsCalculating && this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                             <p className="pTxt">
                                 L’équation saisie correspond à 0 document
                             </p>
@@ -1463,15 +1525,6 @@ une fois le corpus téléchargé.
                             </div>
                             <div className="radioGroupRankBy">
                                 <Radio
-                                    id="radioRelevance"
-                                    inline
-                                    name="relevance"
-                                    checked={this.state.rankBy === 'relevance'}
-                                    onChange={this.handlerankByChange}
-                                >
-                                    Par pertinence
-                                </Radio>
-                                <Radio
                                     id="radioQualityOverRelevance"
                                     inline
                                     name="qualityOverRelevance"
@@ -1479,6 +1532,15 @@ une fois le corpus téléchargé.
                                     onChange={this.handlerankByChange}
                                 >
                                     Par pertinence & qualité
+                                </Radio>
+                                <Radio
+                                    id="radioRelevance"
+                                    inline
+                                    name="relevance"
+                                    checked={this.state.rankBy === 'relevance'}
+                                    onChange={this.handlerankByChange}
+                                >
+                                    Par pertinence
                                 </Radio>
                                 <Radio
                                     id="radioRandom"
@@ -1494,6 +1556,13 @@ une fois le corpus téléchargé.
                         </div>
                         <div className="col-lg-12 col-sm-12">
                             {this.checkSamples()}
+                            {this.showSamplesLoader &&
+                            <p className="pTxt">
+                                Recherche de l'échantillon de résultats... 
+                                &nbsp;
+                                <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
+                            </p>
+                            }
                             {this.showSamplesDiv &&
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
                                 <OverlayTrigger
@@ -1745,7 +1814,7 @@ une fois le corpus téléchargé.
                                         inline
                                         name="zip"
                                         checked={this.state.archiveType === 'zip'}
-                                        onChange={this.handlecarchivetypeByChange}
+                                        onChange={this.handleArchiveTypeChange}
                                     >
                                         ZIP
                                     </Radio>
@@ -1755,7 +1824,7 @@ une fois le corpus téléchargé.
                                         inline
                                         name="tar"
                                         checked={this.state.archiveType === 'tar'}
-                                        onChange={this.handlecarchivetypeByChange}
+                                        onChange={this.handleArchiveTypeChange}
                                     >
                                         TAR.GZ
                                     </Radio>

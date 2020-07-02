@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Checkbox, OverlayTrigger, Tooltip, Button, Popover } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
 
@@ -13,7 +13,7 @@ export default class Format extends React.Component {
     constructor(props) {
         super(props);
         const fullName = 'extract'.concat(ucfirst(this.props.filetype)).concat(ucfirst(this.props.format));
-    /*    if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
+        /*    if (window.localStorage && JSON.parse(localStorage.getItem('dlISTEXstateForm'))) {
             this.state = {
 
                 name: fullName,
@@ -74,6 +74,13 @@ export default class Format extends React.Component {
 
     render() {
         let tooltipText = '';
+        const closingButton = (
+            <Button
+                bsClass="buttonClose"
+                onClick={() => { document.body.click(); }}
+            >
+                &#x2716;
+            </Button>);
         if (this.props.withPopover) {
             switch (this.props.label.toLowerCase()) {
             case 'pdf': tooltipText = (
@@ -88,7 +95,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier original fourni par l&apos;éditeur
                 </p>
-                );
+            );
                 break;
             case 'tei': tooltipText = (
                 <p>
@@ -103,7 +110,7 @@ export default class Format extends React.Component {
                     Fichier XML produit par ISTEX selon les guidelines P5 du format TEI, soit à partir des XML originaux
                     fournis par l’éditeur, soit à partir du PDF via une transformation PDF to Text
                 </p>
-                );
+            );
                 break;
             case 'txt': tooltipText = (
                 <p>
@@ -117,7 +124,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier en texte brut produit par ISTEX à partir d’une transformation du PDF original à l’aide du logiciel PDF to Text ou via une chaîne de réocérisation permettant d’améliorer la qualité du texte
                 </p>
-                );
+            );
                 break;
             case 'json': tooltipText = (
                 <p>
@@ -131,7 +138,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier produit par ISTEX rassemblant toutes les métadonnées et les enrichissements
                 </p>
-                );
+            );
                 break;
             case 'zip': tooltipText = (
                 <p>
@@ -146,7 +153,7 @@ export default class Format extends React.Component {
                     Répertoire compressé contenant, pour chaque document du corpus, les fichiers fournis
                     par l’éditeur (PDF, XML structuré, images, couvertures, annexes), ainsi que le JSON produit par ISTEX
                 </p>
-                );
+            );
                 break;
             case 'tiff': tooltipText = (
                 <p>
@@ -160,7 +167,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier original fourni par l’éditeur sous format image (uniquement pour les éditeurs EBBO et ECCO)
                 </p>
-                );
+            );
                 break;
             case 'xml': tooltipText = (
                 <p>
@@ -174,7 +181,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier original fourni par l&apos;éditeur selon une DTD propre
                 </p>
-                );
+            );
                 break;
             case 'mods': tooltipText = (
                 <p>
@@ -188,7 +195,7 @@ export default class Format extends React.Component {
                     <br />
                     Fichier XML standardisé produit par ISTEX à partir d’une transformation des XML originaux 
                 </p>
-                );
+            );
                 break;
             case 'nb': tooltipText = (
                 <p>
@@ -196,7 +203,7 @@ export default class Format extends React.Component {
                     «<a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-DV0BN0B8-J" target="_blank" rel="noopener noreferrer">&nbsp;Bayésien&nbsp;naïf&nbsp;</a>»
                     (Naive Bayesian ou nb)
                 </p>
-                );
+            );
                 break;
             case 'multicat': tooltipText = (
                 <p>
@@ -204,26 +211,26 @@ export default class Format extends React.Component {
                     <a href="https://scopus-category.data.istex.fr/" target="_blank" rel="noopener noreferrer">Scopus</a> et <a href="https://wos-category.data.istex.fr" target="_blank" rel="noopener noreferrer"> Web of Science</a> rattachées aux documents Istex.
                     Issues des classifications homonymes, elles ont été attribuées aux documents par appariement grâce à l’outil multicat
                 </p>
-                );
+            );
                 break;
             case 'refbibs': tooltipText = (
                 <p>
                     Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
                 </p>
-                );
+            );
                 break;
             case 'teeft': tooltipText = (
                 <p>
                     Termes d’indexation, extraits des documents en texte intégral grâce à l’outil&nbsp;
-                     <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>
+                    <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q" target="_blank" rel="noopener noreferrer">teeft</a>
                 </p>
-                );
+            );
                 break;
             case 'unitex': tooltipText = (
                 <p>
                     <a href="https://named-entity.data.istex.fr" target="_blank" rel="noopener noreferrer">Entités nommées</a>, extraites des documents Istex à l&apos;aide du logiciel <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-KGDTPS40-S" target="_blank" rel="noopener noreferrer">Unitex-CasSys</a>
                 </p>
-                );
+            );
                 break;
             default: break;
             }
@@ -232,34 +239,38 @@ export default class Format extends React.Component {
         }
 
         const tooltip = (
-            <Tooltip
+            <Popover
                 data-html="true"
                 id="tooltip{this.props.filetype}{this.props.format}"
+                title={<span> {this.props.format.toUpperCase()} {closingButton} </span>}
             >
                 {tooltipText}
-            </Tooltip>
-    );
+            </Popover>
+        );
         return (
-            <Checkbox
-                bsClass="determinate"
-                id={`checkbox${this.props.filetype}${this.props.format}`}
-                name={this.props.format}
-                checked={this.state[this.props.format]}
-                onChange={this.handleInputChange}
-                disabled={this.props.disabled}
-            >
-                <span />
-                {<OverlayTrigger
-                    placement="top"
-                    delayHide={this.props.withPopover ? 1000 : 100}
-                    overlay={tooltip}
+            <div>
+                <Checkbox
+                    bsClass="determinate"
+                    id={`checkbox${this.props.filetype}${this.props.format}`}
+                    name={this.props.format}
+                    checked={this.state[this.props.format]}
+                    onChange={this.handleInputChange}
+                    disabled={this.props.disabled}
                 >
-                    <span className="labelFormat">{this.props.label} </span>
-                </OverlayTrigger>}
-            </Checkbox>
+                    <span />           
+
+                </Checkbox>
+                <OverlayTrigger
+                    trigger="click"
+                    rootClose
+                    placement="right"
+                    overlay={tooltip}
+                >   
+                    <span className="labelFormat">{this.props.label} <i role="button" className="UsagePerso fa fa-info-circle" aria-hidden="true" /></span>                  
+                </OverlayTrigger></div>
         );
     }
-  }
+}
 
 Format.propTypes = {
     label: PropTypes.string.isRequired,

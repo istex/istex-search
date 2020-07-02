@@ -79,7 +79,7 @@ export default class Form extends React.Component {
             archiveType: 'zip',
             samples: [],
             archiveSize: '--',
-            downloadBtnClass: '',
+            downloadBtnClass: 'text-default',
             queryType: '',
             uploadTxt: '',
         };
@@ -166,9 +166,6 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         ISTEX.searchParams.set('queryType', this.state.queryType);
-        if (this.state.total > 0) {
-            this.showSamplesLoader = true;
-        }
         
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
@@ -192,6 +189,11 @@ export default class Form extends React.Component {
             });
     }
 
+    setSelectAll() {
+        console.log('test');
+        // this.setState({ size: this.state.total });  
+    }
+    
     calculateNbDocs(defaultSize, queryChanged) {
         let sizeParam;
         if (defaultSize == null) {
@@ -300,6 +302,9 @@ export default class Form extends React.Component {
     
     setStateFromURL(parsedUrl) {
         this.lastqId = parsedUrl.q_id;
+        if (parsedUrl.q_id == undefined) {
+            parsedUrl.q_id = '';
+        }
         this.setState({
             q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
             querywithIDorARK: parsedUrl.withID ? parsedUrl.q : '',
@@ -437,6 +442,9 @@ export default class Form extends React.Component {
     handlerankByChange(rankByEvent) {
         const target = rankByEvent.target;
         const name = target.name;
+        if (this.state.total > 0) {
+            this.showSamplesLoader = true;
+        }
         this.setState({
             rankBy: name,
             samples: '',
@@ -552,7 +560,7 @@ export default class Form extends React.Component {
             archiveType: 'zip',
             samples: [],
             archiveSize: '--',
-            downloadBtnClass: '',
+            downloadBtnClass: 'text-default',
             queryType: '',
             uploadTxt: '',
         });
@@ -573,7 +581,6 @@ export default class Form extends React.Component {
 
     handleSelectNav(eventKey) {
         // reset Recherche classique
-        console.log(eventKey);
         if (eventKey === '1') {
             this.setState({ activeKey: eventKey });
             let textarea = document.getElementById('textarea');
@@ -625,9 +632,8 @@ export default class Form extends React.Component {
             this.textAreaRowsLength = 1;
             if (this.state.qId) {
                 dlStorage.qId = this.state.qId;
-            } else {
-                dlStorage.q = this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK;
             }
+            dlStorage.q = this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK;
             if (JSON.parse(window.localStorage.getItem('dlISTEX'))) {
                 const oldStorage = JSON.parse(window.localStorage.getItem('dlISTEX'));
                 oldStorage.push(dlStorage);
@@ -925,6 +931,11 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.showSamplesDiv = false;
+        let textarea = document.getElementById('textarea');
+        if (textarea) {
+            textarea.setAttribute('style', 'height:auto');
+        }
+        this.textAreaRowsLength = 1;
         this.setState(this.defaultState);
     }
 
@@ -952,7 +963,9 @@ export default class Form extends React.Component {
             let isDefaultState = true;
             Object.keys(this.defaultState).forEach((attribute) => {
                 if (this.defaultState[attribute] !== this.state[attribute]) {
-                    isDefaultState = false;
+                    if (attribute != 'limitNbDoc' && attribute != 'nbDocsCalculating' && attribute != 'samples') {
+                        isDefaultState = false;
+                    }
                 }
             });
             if (!isDefaultState) {
@@ -1010,6 +1023,9 @@ export default class Form extends React.Component {
             this.showSamplesDiv = true;
             this.showSamplesLoader = false;
         } else {
+            if (this.state.total > 0) {
+                this.showSamplesLoader = true;
+            }
             this.showSamplesDiv = false;
         }
     }
@@ -1054,7 +1070,7 @@ export default class Form extends React.Component {
                             <td colSpan="2" title={authorStr} className="res_author">{authorsStr}</td>
                         </tr>
                         <tr className="res_tr_bottom" style={{ width: '100%' }}>
-                            <td className="" style={{ width: '70%', display: 'inline-block', paddingLeft: '5px' }}>{hostTitleStr}</td><td style={{ width: '30%', display: 'inline-block', textAlign: 'right' }} className="res_pubDate">{samplesRes[i].publicationDate}</td>
+                            <td className="" title={samplesRes[i].host.title} style={{ width: '70%', display: 'inline-block', paddingLeft: '5px' }}>{hostTitleStr}</td><td style={{ width: '30%', display: 'inline-block', textAlign: 'right' }} className="res_pubDate">{samplesRes[i].publicationDate}</td>
                         </tr>
                     </tbody>
                 </table>,
@@ -1503,7 +1519,8 @@ une fois le corpus téléchargé.
                                     />
                                 </div>
                                 &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>
-                                {}
+                                <a onClick={this.setSelectAll()} style={{ marginTop: 0 }} type="button" className="btn btn-selectAll">Sélectionner tout</a>
+                                
                             </div>                        
                             <div className="rankBy">
                                 Choisir les documents classés

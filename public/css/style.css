@@ -1664,3 +1664,14 @@ input[type="file"] {
 textarea {
     resize: both !important;
 }
+
+.btn-selectAll {
+    color: #458ca5;
+    border-color: #458ca5 !important;
+}
+
+.btn-selectAll:hover {
+    color:black;
+    border-color: #c4d733 !important;
+    background-color: #c4d733!important;
+}

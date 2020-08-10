@@ -189,9 +189,12 @@ export default class Form extends React.Component {
             });
     }
 
-    setSelectAll() {
-        console.log('test');
-        // this.setState({ size: this.state.total });  
+    selectAllDocs() {
+        this.setState({ size: this.state.limitNbDoc });
+    }
+
+    selectAllActiveClass() {
+        return (this.state.size === this.state.limitNbDoc && this.state.size !== 0) ? 'active' : '';
     }
     
     calculateNbDocs(defaultSize, queryChanged) {
@@ -1514,12 +1517,15 @@ une fois le corpus téléchargé.
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
-                                        onChange={size => this.setState({ size })
+                                        onChange={(size) => { this.setState({ size }); }
                                         }
                                     />
                                 </div>
-                                &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>
-                                <a onClick={this.setSelectAll()} style={{ marginTop: 0 }} type="button" className="btn btn-selectAll">Sélectionner tout</a>
+                                &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>&nbsp;
+                                <a id="selectAllLink" role="button" 
+                                    onClick={() => this.selectAllDocs()} style={{ marginTop: 0 }}
+                                    className={'btn btn-selectAll ' + this.selectAllActiveClass()}
+                                >Tout</a>
                                 
                             </div>                        
                             <div className="rankBy">

@@ -21,9 +21,11 @@ import $ from 'jquery';
 import PropTypes from 'prop-types';
 import NumericInput from 'react-numeric-input';
 // import Textarea from 'react-textarea-autosize';
-import { Modal, Button, OverlayTrigger, Popover,
+import {
+    Modal, Button, OverlayTrigger, Popover,
     Tooltip, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem } from 'react-bootstrap';
+    Radio, InputGroup, Nav, NavItem
+} from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import decamelize from 'decamelize';
@@ -31,10 +33,10 @@ import qs from 'qs';
 import commaNumber from 'comma-number';
 import md5 from 'md5';
 import 'react-input-range/lib/css/index.css';
+import autosize from 'autosize';
 import Filetype from './Filetype';
 import StorageHistory from './storageHistory';
 import Labelize from './i18n/fr';
-import autosize from 'autosize';
 
 
 import config from './config';
@@ -115,7 +117,7 @@ export default class Form extends React.Component {
         this.showDownloadCorpusBtn = 'false';
         this.handleQChange = false;
         this.showSamplesLoader = false;
-        this.textAreaRowsLength = 1;   
+        this.textAreaRowsLength = 1;
     }
 
     componentWillMount() {
@@ -166,7 +168,7 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         ISTEX.searchParams.set('queryType', this.state.queryType);
-        
+
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
@@ -196,7 +198,7 @@ export default class Form extends React.Component {
     selectAllActiveClass() {
         return (this.state.size === this.state.limitNbDoc && this.state.size !== 0) ? 'active' : '';
     }
-    
+
     calculateNbDocs(defaultSize, queryChanged) {
         let sizeParam;
         if (defaultSize == null) {
@@ -219,13 +221,13 @@ export default class Form extends React.Component {
             this.istexDlXhr.abort();
         }
         ISTEX.searchParams.set('queryType', this.state.queryType);
-        
+
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
             .done((json) => {
                 this.state.samples = json.hits;
                 const { total } = json;
-                let size, 
+                let size,
                     limitNbDoc = config.limitNbDoc;
                 if (!total || total === 0) {
                     size = 0;
@@ -243,10 +245,10 @@ export default class Form extends React.Component {
                     size = total;
                     limitNbDoc = total;
                 }
-    
+
                 if (total > 0) {
                     this.limitNbDocClass = 'limitNbDocTxt';
-                } 
+                }
 
                 return this.setState({
                     size,
@@ -270,25 +272,51 @@ export default class Form extends React.Component {
     }
 
     transformIDorARK() {
-        if (this.state.querywithIDorARK) {
-            if (this.state.querywithIDorARK.includes('ark')) {
-                this.state.queryType = 'querywithARK';
-                // const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
-                // const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
-                const res = 'arkIstex.raw:'
+        if (!this.state.querywithIDorARK) return '';
+
+        let res;
+        if (this.state.querywithIDorARK.includes('ark')) {
+            this.state.queryType = 'querywithARK';
+            if (this.state.querywithIDorARK.startsWith('arkIstex.raw:')) {
+                res = this.state.querywithIDorARK;
+            } else {
+                res = 'arkIstex.raw:'
                     .concat('("')
                     .concat(this.state.querywithIDorARK)
                     .concat('")');
-                return res.replace(new RegExp('\n', 'g'), '" "');
+                res = res.replace(new RegExp('\n', 'g'), '" "');
             }
+        } else {
             this.state.queryType = 'querywithID';
-            return 'id:('
+            res = 'id:('
                 .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
                 .concat(')')
                 .replace(new RegExp(',', 'g'), ' ');
         }
-        return '';
+        return res;
     }
+
+    // esQueryToListIdentifiers() {
+    //     if (this.state.querywithIDorARK) {
+    //         if (this.state.querywithIDorARK.includes('ark')) {
+    //             this.state.queryType = 'querywithARK';
+    //             // const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
+    //             // const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
+    //             const res = 'arkIstex.raw:'
+    //                 .concat('("')
+    //                 .concat(this.state.querywithIDorARK)
+    //                 .concat('")');
+    //             return res.replace(new RegExp('\n', 'g'), '" "');
+    //         }
+    //         this.state.queryType = 'querywithID';
+    //         return 'id:('
+    //             .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
+    //             .concat(')')
+    //             .replace(new RegExp(',', 'g'), ' ');
+    //     }
+    //     return '';
+    // }
+
 
     setQIDFromURL(parsedUrl) {
         this.lastqId = parsedUrl.q_id;
@@ -302,7 +330,7 @@ export default class Form extends React.Component {
     characterNumberValidation() {
         return 'success';
     }
-    
+
     setStateFromURL(parsedUrl) {
         this.lastqId = parsedUrl.q_id;
         if (parsedUrl.q_id == undefined) {
@@ -384,7 +412,7 @@ export default class Form extends React.Component {
                         this.setQIDFromURL(parsedUrl);
                         this.setStateFromURL(parsedUrl);
                     });
-            }  
+            }
         } else if (Object.keys(parsedUrl).length >= 1) {
             this.setStateFromURL(parsedUrl);
         }
@@ -461,11 +489,11 @@ export default class Form extends React.Component {
             archiveType: name,
         });
     }
-    
+
     handleClChange(event) {
         this.setState({ compressionLevel: event.target.value });
     }
-    
+
     handleFormatChange(formatEvent) {
         const filetype = formatEvent.filetype;
         const format = formatEvent.format;
@@ -478,17 +506,25 @@ export default class Form extends React.Component {
     }
 
     setQidReq() {
+        const qStringValue = (this.state.activeKey !== '1') ? this.state.q : this.transformIDorARK();
         let href = `${config.apiUrl}/q_id/${this.lastqId}`;
         fetch(href, {
             method: 'POST',
             body: JSON.stringify({
-                qString: this.state.activeKey === '1' ? this.state.q : this.state.querywithIDorARK,
+                qString: qStringValue,
             }),
             headers: { 'Content-Type': 'application/json' },
-        }).then(() => {  
-            console.log('OK setting new q_id');
+        }).then((res) => {
+            if (res.status === 200) {
+                console.log('OK. q_id "' + this.lastqId + '" successfully set');
+                if (this.state.querywithIDorARK !== qStringValue) this.setState({ querywithIDorARK: qStringValue });
+            } else {
+                console.error('q_id "' + this.lastqId + '" NOT set. API return code ' + res.status + '(' + res.message + ')');
+                throw new Error(res.message);
+            }
         }).catch(function (error) {
             console.log(error);
+            return error === undefined;
         });
     }
 
@@ -526,7 +562,7 @@ export default class Form extends React.Component {
                     qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
                 }),
                 headers: { 'Content-Type': 'application/json' },
-            }).then(() => {  
+            }).then(() => {
                 window.setTimeout(() => {
                     window.location = href;
                 }, 10);
@@ -541,7 +577,7 @@ export default class Form extends React.Component {
         event.preventDefault();
     }
     resetState() {
-        this.setState({ 
+        this.setState({
             q: '',
             querywithIDorARK: '',
             qId: '',
@@ -579,7 +615,7 @@ export default class Form extends React.Component {
         this.showEstimatedSizeTxtClass = 'hidden';
         this.showDownloadCorpusBtn = 'false';
         this.handleQChange = false;
-        this.showSamplesLoader = false;  
+        this.showSamplesLoader = false;
     }
 
     handleSelectNav(eventKey) {
@@ -650,8 +686,8 @@ export default class Form extends React.Component {
         }
 
         this.erase();
-        if (event !== undefined) { 
-            event.preventDefault(); 
+        if (event !== undefined) {
+            event.preventDefault();
         }
         // TODO: socket.IO
         // this.state.downloadProgress = 0;
@@ -752,7 +788,7 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
-            
+
             .map(key => decamelize(key, '-'))
             .map(key => key.split('-').slice(1))
             .map(([filetype, format]) => ({ filetype, format }))
@@ -773,9 +809,9 @@ export default class Form extends React.Component {
                     .concat(!formats[0] ? formats.slice(1) : formats)
                     .concat(formats[0] || formats.length > 1 ? '];' : ';');
             }
-            , '')
+                , '')
             .slice(0, -1);
-        
+
         if (this.state.activeKey === '1') {
             if (this.state.q.length < characterLimit) {
                 ISTEX.searchParams.delete('q_id');
@@ -788,10 +824,10 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('withID', true);
             if (this.state.querywithIDorARK.length < characterLimit) {
                 ISTEX.searchParams.delete('q_id');
-                ISTEX.searchParams.set('q', query || this.state.querywithIDorARK);
+                ISTEX.searchParams.set('q', query || this.transformIDorARK());
             } else {
                 // eslint-disable-next-line no-undef
-                ISTEX.searchParams.set('q_id', this.hashMD5(this.state.querywithIDorARK.trim(), queryChanged));
+                ISTEX.searchParams.set('q_id', this.hashMD5(this.transformIDorARK(), queryChanged));
             }
         }
 
@@ -825,7 +861,7 @@ export default class Form extends React.Component {
         }
 
         let sizes = {};
-        
+
         if (this.state.compressionLevel == 0) {
             sizes = require('../src/formatSize.json').zipCompression.noCompression.sizes;
         } else if (this.state.compressionLevel == 6) {
@@ -905,7 +941,7 @@ export default class Form extends React.Component {
             this.showEstimatedSizeTxtClass = 'hidden';
             this.state.downloadBtnClass = 'text-success';
         }
-        
+
         this.state.archiveSize = '> ' + this.formatBytes(archiveSize);
 
         if (archiveSize === 0) {
@@ -942,7 +978,7 @@ export default class Form extends React.Component {
         this.setState(this.defaultState);
     }
 
-    tryExempleRequest(queryExample, withID = false) {      
+    tryExempleRequest(queryExample, withID = false) {
         if (withID) {
             this.setState({
                 activeKey: '2',
@@ -988,8 +1024,8 @@ export default class Form extends React.Component {
             .filter(key => this.state[key]);
         if (this.usage === 2 && this.state.total > 0 && this.state.size > 0) {
             return false;
-        } 
-        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0 || this.state.size <= 0); 
+        }
+        return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0 || this.state.size <= 0);
     }
 
     showUsagePersonnalise() {
@@ -1037,7 +1073,7 @@ export default class Form extends React.Component {
         let samples = [];
 
         let samplesRes = this.state.samples;
-        
+
         // Outer loop to create parent
         if (samplesRes.length === 0 || samplesRes === undefined) {
             return '';
@@ -1053,11 +1089,11 @@ export default class Form extends React.Component {
                 for (let j = 0; j < authors.length; j++) {
                     authorStr += authors[j].name;
                     authorStr += ' ; ';
-                } 
+                }
             }
             let authorsStr = truncate(authorStr, 42);
 
-            let titleStr = truncate(samplesRes[i].title, 75); 
+            let titleStr = truncate(samplesRes[i].title, 75);
 
             let hostTitleStr = truncate(samplesRes[i].host.title, 40);
 
@@ -1086,7 +1122,7 @@ export default class Form extends React.Component {
     hover() {
         document.getElementById('imgUpload').src = '/img/ico_upload_active.png';
     }
-      
+
     // eslint-disable-next-line class-methods-use-this
     unhover() {
         document.getElementById('imgUpload').src = '/img/ico_upload.png';
@@ -1107,7 +1143,7 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Requête {closingButton}</span>}
             >
-            Pour interroger ISTEX, vous avez le choix entre différentes modes de recherche : classique ou par liste d’identifiants ARK. Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
+                Pour interroger ISTEX, vous avez le choix entre différentes modes de recherche : classique ou par liste d’identifiants ARK. Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
             Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -1118,7 +1154,7 @@ export default class Form extends React.Component {
                 id="popover-sample-list"
                 title={<span> Échantillon de résultats {closingButton}</span>}
             >
-            Cet échantillon de documents, classés par pertinence & qualité des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.
+                Cet échantillon de documents, classés par pertinence & qualité des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.
                 <br />
             </Popover>
         );
@@ -1128,8 +1164,8 @@ export default class Form extends React.Component {
                 id="popover-request-classic"
                 title={<span> Recherche classique {closingButton}</span>}
             >
-Pour élaborer votre équation de recherche booléenne, vous pouvez 
-vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
+                Pour élaborer votre équation de recherche booléenne, vous pouvez
+                vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
 de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
@@ -1139,8 +1175,8 @@ de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopene
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
-Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. 
-Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
+                Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
+                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
 
             </Popover>
         );
@@ -1192,7 +1228,7 @@ Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bout
                 id="popover-filetype-help"
                 title={<span> Usage personnalisé{closingButton}</span>}
             >
-Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+                Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
 Attention : tous les formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
             </Popover>
         );
@@ -1202,9 +1238,9 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                 id="popover-filetype-help"
                 title={<span> Usage {closingButton}</span>}
             >
-Le choix d’un outil induit une sélection automatique des formats et types de fichiers qui seront extraits. 
-L’information sur cette sélection est visible dans l’URL de partage, ainsi que dans l’historique
-une fois le corpus téléchargé. 
+                Le choix d’un outil induit une sélection automatique des formats et types de fichiers qui seront extraits.
+                L’information sur cette sélection est visible dans l’URL de partage, ainsi que dans l’historique
+                une fois le corpus téléchargé.
             </Popover>
         );
 
@@ -1213,8 +1249,8 @@ une fois le corpus téléchargé.
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. Au-delà de 1 Go, une estimation de la taille est fournie. L’indication de couleur orange passe au rouge en cas de dépassement de 5 Go.<br />  
-                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur.<br /> 
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. Au-delà de 1 Go, une estimation de la taille est fournie. L’indication de couleur orange passe au rouge en cas de dépassement de 5 Go.<br />
+                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur.<br />
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -1225,9 +1261,9 @@ une fois le corpus téléchargé.
         const disabledDownloadTooltip = (
             <Tooltip data-html="true" id="disabledDownloadTooltip">
                 <p>
-                Pour activer le téléchargement, complétez le formulaire en remplissant la fenêtre de requêtage par 
-                au moins 1&nbsp;caractère, en sélectionnant au moins 1&nbsp;document et en cochant au moins 1&nbsp;format 
-                de fichier
+                    Pour activer le téléchargement, complétez le formulaire en remplissant la fenêtre de requêtage par
+                    au moins 1&nbsp;caractère, en sélectionnant au moins 1&nbsp;document et en cochant au moins 1&nbsp;format
+                    de fichier
                 </p>
             </Tooltip>
         );
@@ -1280,8 +1316,8 @@ une fois le corpus téléchargé.
                 id="popover-choice-help"
                 title={<span> Mode de classement {closingButton}</span>}
             >
-                Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête, 
-                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence seul, soit d’un ordre de pertinence relevé par un score de qualité (choix privilégié par défaut), soit tirés de manière aléatoire, 
+                Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête,
+                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence seul, soit d’un ordre de pertinence relevé par un score de qualité (choix privilégié par défaut), soit tirés de manière aléatoire,
                 ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
 
@@ -1361,7 +1397,7 @@ une fois le corpus téléchargé.
                                     validationState={this.characterNumberValidation()}
                                 >
                                     <Nav
-                                        
+
                                         bsStyle="pills"
                                         activeKey={this.state.activeKey}
                                         onSelect={k => this.handleSelectNav(k)}
@@ -1408,87 +1444,87 @@ une fois le corpus téléchargé.
                                                 rootClose
                                                 placement="top"
                                                 overlay={examplesTooltip}
-                                            >   
+                                            >
                                                 <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                             </OverlayTrigger>
                                         </NavItem>
                                     </Nav>
-                                    { (this.state.activeKey != 4) &&
-                                    <textarea
-                                        className="form-control"
-                                        ref={c => (this.textarea = c)}
-                                        placeholder={this.state.activeKey === '1'
-                                            ? 'brain AND language:fre'
-                                            : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
-                                        }
-                                        style={style}
-                                        name="q"
-                                        id="textarea"
-                                        rows={this.textAreaRowsLength}
-                                        autoFocus="true"
-                                        value={this.state.activeKey === '1'
-                                            ? this.state.q
-                                            : this.state.querywithIDorARK
-                                        }
-                                        onChange={this.handleQueryChange}
-                                    />
+                                    {(this.state.activeKey != 4) &&
+                                        <textarea
+                                            className="form-control"
+                                            ref={c => (this.textarea = c)}
+                                            placeholder={this.state.activeKey === '1'
+                                                ? 'brain AND language:fre'
+                                                : 'ark:/67375/0T8-JMF4G14B-2\nark:/67375/0T8-RNCBH0VZ-8'
+                                            }
+                                            style={style}
+                                            name="q"
+                                            id="textarea"
+                                            rows={this.textAreaRowsLength}
+                                            autoFocus="true"
+                                            value={this.state.activeKey === '1'
+                                                ? this.state.q
+                                                : this.state.querywithIDorARK
+                                            }
+                                            onChange={this.handleQueryChange}
+                                        />
                                     }
-                                    { (this.state.activeKey == 4 && !this.state.uploadTxt) &&
-                                    // eslint-disable-next-line jsx-a11y/label-has-for
-                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
+                                    {(this.state.activeKey == 4 && !this.state.uploadTxt) &&
+                                        // eslint-disable-next-line jsx-a11y/label-has-for
+                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
                                     }
-                                    { (this.state.activeKey == 4 && this.state.uploadTxt) &&
-                                    // eslint-disable-next-line jsx-a11y/label-has-for
-                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload-upd"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Modifier en déposant un autre fichier</label></div>
+                                    {(this.state.activeKey == 4 && this.state.uploadTxt) &&
+                                        // eslint-disable-next-line jsx-a11y/label-has-for
+                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload-upd"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Modifier en déposant un autre fichier</label></div>
                                     }
-                                    { (this.state.activeKey == 4 && this.state.uploadTxt) &&
-                                    // eslint-disable-next-line jsx-a11y/label-has-for
-                                    <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 centerTxt"><label>{this.state.uploadTxt}</label></div>
+                                    {(this.state.activeKey == 4 && this.state.uploadTxt) &&
+                                        // eslint-disable-next-line jsx-a11y/label-has-for
+                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 centerTxt"><label>{this.state.uploadTxt}</label></div>
                                     }
-                                    
+
                                 </FormGroup>
                             </div>
                             {this.state.nbDocsCalculating &&
-                            <p className="pTxt">
-                                Calcul en cours du nombre des résultats... 
-                                &nbsp;
+                                <p className="pTxt">
+                                    Calcul en cours du nombre des résultats...
+                                    &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
-                            </p>
+                                </p>
                             }
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p className="pTxt">
-                                L’équation saisie correspond à
-                                &nbsp;
+                                <p className="pTxt">
+                                    L’équation saisie correspond à
+                                    &nbsp;
                                 <OverlayTrigger>
-                                    <span>
-                                        {this.state.total ?
-                                            commaNumber.bindWith('\xa0', '')(this.state.total)
-                                                .concat(' document(s)')
-                                            : ''}
-                                    </span>
-                               
-                                </OverlayTrigger>
+                                        <span>
+                                            {this.state.total ?
+                                                commaNumber.bindWith('\xa0', '')(this.state.total)
+                                                    .concat(' document(s)')
+                                                : ''}
+                                        </span>
+
+                                    </OverlayTrigger>
                                 &nbsp;
                                 {this.state.total > this.state.limitNbDoc &&
-                                    <OverlayTrigger
-                                        trigger="click"
-                                        rootClose
-                                        placement="right"
-                                        overlay={popoverRequestLimitWarning}
-                                    >
-                                        <i
-                                            role="button"
-                                            className="fa fa-exclamation-triangle"
-                                            aria-hidden="true"
-                                            style={{ color: 'red', marginLeft: '8px' }}
-                                        />
-                                    </OverlayTrigger>
-                                }
-                            </p>
+                                        <OverlayTrigger
+                                            trigger="click"
+                                            rootClose
+                                            placement="right"
+                                            overlay={popoverRequestLimitWarning}
+                                        >
+                                            <i
+                                                role="button"
+                                                className="fa fa-exclamation-triangle"
+                                                aria-hidden="true"
+                                                style={{ color: 'red', marginLeft: '8px' }}
+                                            />
+                                        </OverlayTrigger>
+                                    }
+                                </p>
                             }
                             {!this.state.nbDocsCalculating && this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
-                            <p className="pTxt">
-                                L’équation saisie correspond à 0 document
+                                <p className="pTxt">
+                                    L’équation saisie correspond à 0 document
                             </p>
                             }
 
@@ -1513,7 +1549,7 @@ une fois le corpus téléchargé.
                                 &nbsp;&nbsp;
                                 <div style={{ width: '100px', display: 'inline-block' }}>
                                     <NumericInput
-                                        disabled={this.state.nbDocsCalculating} 
+                                        disabled={this.state.nbDocsCalculating}
                                         className="form-control"
                                         min={0} max={this.state.limitNbDoc} value={this.state.size}
                                         onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
@@ -1522,12 +1558,12 @@ une fois le corpus téléchargé.
                                     />
                                 </div>
                                 &nbsp;&nbsp; <span className={this.limitNbDocClass}>/ {this.state.limitNbDoc}</span>&nbsp;
-                                <a id="selectAllLink" role="button" 
+                                <a id="selectAllLink" role="button"
                                     onClick={() => this.selectAllDocs()} style={{ marginTop: 0 }}
                                     className={'btn btn-selectAll ' + this.selectAllActiveClass()}
                                 >Tout</a>
-                                
-                            </div>                        
+
+                            </div>
                             <div className="rankBy">
                                 Choisir les documents classés
                                 &nbsp;
@@ -1581,52 +1617,52 @@ une fois le corpus téléchargé.
                         <div className="col-lg-12 col-sm-12">
                             {this.checkSamples()}
                             {this.showSamplesLoader &&
-                            <p className="pTxt">
-                                Recherche de l'échantillon de résultats... 
-                                &nbsp;
+                                <p className="pTxt">
+                                    Recherche de l'échantillon de résultats...
+                                    &nbsp;
                                 <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
-                            </p>
+                                </p>
                             }
                             {this.showSamplesDiv &&
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
                                 <OverlayTrigger
-                                    trigger="click"
-                                    rootClose
-                                    placement="top"
-                                    overlay={popoverSampleList}
-                                >
-                                    <i role="button" className="iEchantillonRes fa fa-info-circle" aria-hidden="true" />
-                                </OverlayTrigger>
-                            </div>
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverSampleList}
+                                    >
+                                        <i role="button" className="iEchantillonRes fa fa-info-circle" aria-hidden="true" />
+                                    </OverlayTrigger>
+                                </div>
                             }
-                            {this.showSamples()} 
+                            {this.showSamples()}
 
 
                         </div>
                     </div>
 
                     {this.state.errorRequestSyntax &&
-                    <div className="istex-dl-error-request row">
-                        <div className="col-lg-12 col-sm-12">
-                            <p>
-                                        Erreur de syntaxe dans votre requête &nbsp;
+                        <div className="istex-dl-error-request row">
+                            <div className="col-lg-12 col-sm-12">
+                                <p>
+                                    Erreur de syntaxe dans votre requête &nbsp;
                                 <OverlayTrigger
-                                    trigger="click"
-                                    rootClose
-                                    placement="top"
-                                    overlay={popoverRequestHelp}
+                                        trigger="click"
+                                        rootClose
+                                        placement="top"
+                                        overlay={popoverRequestHelp}
+                                    >
+                                        <i role="button" className="fa fa-info-circle" aria-hidden="true" />
+                                    </OverlayTrigger>
+                                    <br />
+                                </p>
+                                <blockquote
+                                    className="blockquote-Syntax-error"
                                 >
-                                    <i role="button" className="fa fa-info-circle" aria-hidden="true" />
-                                </OverlayTrigger>
-                                <br />
-                            </p>
-                            <blockquote
-                                className="blockquote-Syntax-error"
-                            >
-                                {this.state.errorRequestSyntax}
-                            </blockquote>
+                                    {this.state.errorRequestSyntax}
+                                </blockquote>
+                            </div>
                         </div>
-                    </div>
                     }
 
                     <div className="istex-dl-format row" >
@@ -1819,9 +1855,9 @@ une fois le corpus téléchargé.
                             <div className="col-lg-12 col-sm-12">
 
                                 <div className="form-group" style={{ marginTop: '20px' }}>
-                                Niveau de compression  &nbsp;
-                                :
-                                &nbsp;&nbsp;
+                                    Niveau de compression  &nbsp;
+                                    :
+                                    &nbsp;&nbsp;
                                     <div style={{ display: 'inline-block' }}>
                                         <select className="form-control" value={this.state.compressionLevel} onChange={this.handleClChange} >
                                             <option value="0">Sans compression</option>
@@ -1859,7 +1895,7 @@ une fois le corpus téléchargé.
                             <OverlayTrigger
                                 placement="top"
                                 overlay={this.isDownloadDisabled() ? disabledDownloadTooltip : emptyTooltip}
-                            >   
+                            >
                                 <table type="submit"
                                     className="btn btn-theme btn-lg"
                                     disabled={this.isDownloadDisabled()}

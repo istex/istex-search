@@ -24,7 +24,7 @@ import NumericInput from 'react-numeric-input';
 import {
     Modal, Button, OverlayTrigger, Popover,
     Tooltip, FormGroup, FormControl,
-    Radio, InputGroup, Nav, NavItem
+    Radio, InputGroup, Nav, NavItem,
 } from 'react-bootstrap';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
@@ -161,7 +161,7 @@ export default class Form extends React.Component {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false, false)
-            : this.buildURLFromState(this.transformIDorARK(), false, false);
+            : this.buildURLFromState(this.transformIdListToQuery(), false, false);
         ISTEX.searchParams.delete('extract');
         ISTEX.searchParams.delete('withID');
         if (this.istexDlXhr) {
@@ -170,7 +170,7 @@ export default class Form extends React.Component {
         ISTEX.searchParams.set('queryType', this.state.queryType);
 
         // disable all before getting total 
-        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
+        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery() })
             .done((json) => {
                 // this.state.samples = json.hits;
                 return this.setState({
@@ -214,7 +214,7 @@ export default class Form extends React.Component {
         const self = this;
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false, queryChanged)
-            : this.buildURLFromState(this.transformIDorARK(), false, queryChanged);
+            : this.buildURLFromState(this.transformIdListToQuery(), false, queryChanged);
         ISTEX.searchParams.delete('extract');
         ISTEX.searchParams.delete('withID');
         if (this.istexDlXhr) {
@@ -223,7 +223,7 @@ export default class Form extends React.Component {
         ISTEX.searchParams.set('queryType', this.state.queryType);
 
         // disable all before getting total 
-        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK() })
+        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery() })
             .done((json) => {
                 this.state.samples = json.hits;
                 const { total } = json;
@@ -271,7 +271,7 @@ export default class Form extends React.Component {
             });
     }
 
-    transformIDorARK() {
+    transformIdListToQuery() {
         if (!this.state.querywithIDorARK) return '';
 
         let res;
@@ -296,26 +296,15 @@ export default class Form extends React.Component {
         return res;
     }
 
-    // esQueryToListIdentifiers() {
-    //     if (this.state.querywithIDorARK) {
-    //         if (this.state.querywithIDorARK.includes('ark')) {
-    //             this.state.queryType = 'querywithARK';
-    //             // const prefixLength = this.state.querywithIDorARK.split('/', 2).join('/').length;
-    //             // const prefix = this.state.querywithIDorARK.substring(0, prefixLength + 1);
-    //             const res = 'arkIstex.raw:'
-    //                 .concat('("')
-    //                 .concat(this.state.querywithIDorARK)
-    //                 .concat('")');
-    //             return res.replace(new RegExp('\n', 'g'), '" "');
-    //         }
-    //         this.state.queryType = 'querywithID';
-    //         return 'id:('
-    //             .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
-    //             .concat(')')
-    //             .replace(new RegExp(',', 'g'), ' ');
-    //     }
-    //     return '';
-    // }
+    static getIdListFromQuery(booleanQuery) {
+        let idArray;
+        if (booleanQuery.startsWith('arkIstex.raw:')) {
+            idArray = booleanQuery.match(/ark:\/[0-9]{5}\/\w{3}-\w{8}-\w/g);
+        } else {
+            idArray = booleanQuery.match(/[0-9A-F]{40}/gi);
+        }
+        return (idArray === null || idArray.length <= 0) ? '' : idArray.join('\n');
+    }
 
 
     setQIDFromURL(parsedUrl) {
@@ -335,6 +324,9 @@ export default class Form extends React.Component {
         this.lastqId = parsedUrl.q_id;
         if (parsedUrl.q_id == undefined) {
             parsedUrl.q_id = '';
+        }
+        if (parsedUrl.withID == ('true') && parsedUrl.q.indexOf(':(') > 0) {
+            parsedUrl.q = Form.getIdListFromQuery(parsedUrl.q);
         }
         this.setState({
             q: parsedUrl.withID ? '' : (parsedUrl.q || ''),
@@ -506,7 +498,7 @@ export default class Form extends React.Component {
     }
 
     setQidReq() {
-        const qStringValue = (this.state.activeKey !== '1') ? this.state.q : this.transformIDorARK();
+        const qStringValue = (this.state.activeKey !== '1') ? this.state.q : this.transformIdListToQuery();
         let href = `${config.apiUrl}/q_id/${this.lastqId}`;
         fetch(href, {
             method: 'POST',
@@ -532,7 +524,7 @@ export default class Form extends React.Component {
         const href = this.buildURLFromState(null, true, false);
         if ((this.state.activeKey === '2') || (this.state.activeKey === '4')) {
             if (href.searchParams.get('q')) {
-                href.searchParams.set('q', this.transformIDorARK());
+                href.searchParams.set('q', this.transformIdListToQuery());
             }
             href.searchParams.set('queryType', this.state.queryType);
             href.searchParams.delete('withID');
@@ -559,7 +551,7 @@ export default class Form extends React.Component {
             fetch(hrefSet, {
                 method: 'POST',
                 body: JSON.stringify({
-                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIDorARK(),
+                    qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery(),
                 }),
                 headers: { 'Content-Type': 'application/json' },
             }).then(() => {
@@ -809,7 +801,7 @@ export default class Form extends React.Component {
                     .concat(!formats[0] ? formats.slice(1) : formats)
                     .concat(formats[0] || formats.length > 1 ? '];' : ';');
             }
-                , '')
+            , '')
             .slice(0, -1);
 
         if (this.state.activeKey === '1') {
@@ -824,10 +816,10 @@ export default class Form extends React.Component {
             ISTEX.searchParams.set('withID', true);
             if (this.state.querywithIDorARK.length < characterLimit) {
                 ISTEX.searchParams.delete('q_id');
-                ISTEX.searchParams.set('q', query || this.transformIDorARK());
+                ISTEX.searchParams.set('q', query || this.transformIdListToQuery());
             } else {
                 // eslint-disable-next-line no-undef
-                ISTEX.searchParams.set('q_id', this.hashMD5(this.transformIDorARK(), queryChanged));
+                ISTEX.searchParams.set('q_id', this.hashMD5(this.transformIdListToQuery(), queryChanged));
             }
         }
 
@@ -1488,14 +1480,14 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                                 <p className="pTxt">
                                     Calcul en cours du nombre des résultats...
                                     &nbsp;
-                                <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
+                                    <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                                 </p>
                             }
                             {this.state.total > 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                                 <p className="pTxt">
                                     L’équation saisie correspond à
                                     &nbsp;
-                                <OverlayTrigger>
+                                    <OverlayTrigger>
                                         <span>
                                             {this.state.total ?
                                                 commaNumber.bindWith('\xa0', '')(this.state.total)
@@ -1505,7 +1497,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
 
                                     </OverlayTrigger>
                                 &nbsp;
-                                {this.state.total > this.state.limitNbDoc &&
+                                    {this.state.total > this.state.limitNbDoc &&
                                         <OverlayTrigger
                                             trigger="click"
                                             rootClose
@@ -1525,7 +1517,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                             {!this.state.nbDocsCalculating && this.state.total === 0 && (this.state.q !== '' || this.state.querywithIDorARK !== '') &&
                                 <p className="pTxt">
                                     L’équation saisie correspond à 0 document
-                            </p>
+                                </p>
                             }
 
                             <div className="form-group col-xs-12 noPaddingLeftRight">
@@ -1620,12 +1612,12 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                                 <p className="pTxt">
                                     Recherche de l'échantillon de résultats...
                                     &nbsp;
-                                <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
+                                    <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                                 </p>
                             }
                             {this.showSamplesDiv &&
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPaddingLeftRight samplesDiv"> Échantillon de résultats
-                                <OverlayTrigger
+                                    <OverlayTrigger
                                         trigger="click"
                                         rootClose
                                         placement="top"
@@ -1646,7 +1638,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                             <div className="col-lg-12 col-sm-12">
                                 <p>
                                     Erreur de syntaxe dans votre requête &nbsp;
-                                <OverlayTrigger
+                                    <OverlayTrigger
                                         trigger="click"
                                         rootClose
                                         placement="top"

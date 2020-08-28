@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, OverlayTrigger, Tooltip, Button, Popover } from 'react-bootstrap';
+import { Checkbox, OverlayTrigger, Button, Popover } from 'react-bootstrap';
 
 import Labelize from './i18n/fr';
 

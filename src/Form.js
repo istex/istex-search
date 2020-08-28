@@ -225,7 +225,6 @@ export default class Form extends React.Component {
         // disable all before getting total 
         this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery() })
             .done((json) => {
-                this.state.samples = json.hits;
                 const { total } = json;
                 let size,
                     limitNbDoc = config.limitNbDoc;
@@ -251,6 +250,7 @@ export default class Form extends React.Component {
                 }
 
                 return this.setState({
+                    samples: json.hits,
                     size,
                     total: total || 0,
                     limitNbDoc,
@@ -288,10 +288,14 @@ export default class Form extends React.Component {
             }
         } else {
             this.state.queryType = 'querywithID';
-            res = 'id:('
-                .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
-                .concat(')')
-                .replace(new RegExp(',', 'g'), ' ');
+            if (this.state.querywithIDorARK.startsWith('id:')) {
+                res = this.state.querywithIDorARK;
+            } else {
+                res = 'id:('
+                    .concat(this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g')))
+                    .concat(')')
+                    .replace(new RegExp(',', 'g'), ' ');
+            }
         }
         return res;
     }
@@ -325,7 +329,7 @@ export default class Form extends React.Component {
         if (parsedUrl.q_id == undefined) {
             parsedUrl.q_id = '';
         }
-        if (parsedUrl.withID == ('true') && parsedUrl.q.indexOf(':(') > 0) {
+        if (parsedUrl.withID == ('true') && parsedUrl.q && parsedUrl.q.indexOf(':(') > 0) {
             parsedUrl.q = Form.getIdListFromQuery(parsedUrl.q);
         }
         this.setState({
@@ -498,7 +502,7 @@ export default class Form extends React.Component {
     }
 
     setQidReq() {
-        const qStringValue = (this.state.activeKey !== '1') ? this.state.q : this.transformIdListToQuery();
+        const qStringValue = (this.state.activeKey === '1') ? this.state.q : this.transformIdListToQuery();
         let href = `${config.apiUrl}/q_id/${this.lastqId}`;
         fetch(href, {
             method: 'POST',

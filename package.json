@@ -1,6 +1,6 @@
 {
   "name": "istex-dl",
-  "version": "4.21.0-beta.6",
+  "version": "4.21.0-beta.7",
   "private": true,
   "dependencies": {
     "autosize": "^4.0.2",

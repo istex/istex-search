@@ -1152,7 +1152,12 @@ a[data-lightbox]:hover img{
     	color: #fff !important;
     	background-color: #c4d733!important;
         border: 1px solid #c4d733!important;
-	}
+    }
+    a.btn.active {
+        color: #000 !important;
+    	background-color: #c4d733!important;
+        border: 1px solid #c4d733!important;
+    }
 	.nav-tabs.nav-justified > li > a {
     	margin-bottom: 0 !important;
     	color: #458ca5 !important;
@@ -1588,4 +1593,90 @@ a[data-lightbox]:hover img{
 }
 .UsagePerso {
     color:#458ca5!important;
+}
+.textarea-upload {
+    margin-top:20px;
+}
+.input-upload {
+    margin-top:20px;   
+}
+
+input[type="file"] {
+    display: none !important;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #458ca5;
+    color: #458ca5;
+    font-family: 'Open sans', sans-serif !important;
+    font-weight: initial;
+    width: 140px;
+    height: 170px;
+    padding-top: 30px;
+}
+
+.custom-file-upload-upd {
+    display: inline-block;
+    padding: 6px 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #458ca5;
+    color: #458ca5;
+    font-family: 'Open sans', sans-serif !important;
+    font-weight: initial;
+    width: 140px;
+    height: 170px;
+    padding-top: 30px;
+}
+
+.custom-file-upload:hover, .custom-file-upload-upd:hover {
+    background-color: #c4d733 !important;
+    color: #000 !important;
+    border-color:#c4d733 !important;
+}
+
+.file-preview {
+  margin: 0 10px;
+}
+
+.uploadIcon{
+    padding-bottom:10px;
+}
+
+.alignTxt {
+    text-align: center !important;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.centerTxt {
+    text-align: center !important;
+    border: 1px solid green;
+    color: green;
+    padding: 10px;
+}
+
+
+.centerTxt label {
+    margin: 0;
+}
+
+textarea {
+    resize: both !important;
+}
+
+.btn-selectAll {
+    color: #458ca5;
+    border-color: #458ca5 !important;
+}
+
+.btn-selectAll:hover {
+    color:black;
+    border-color: #c4d733 !important;
+    background-color: #c4d733!important;
 }

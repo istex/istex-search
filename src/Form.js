@@ -1147,7 +1147,9 @@ export default class Form extends React.Component {
                 id="popover-request-help"
                 title={<span> Requête {closingButton}</span>}
             >
-                Pour interroger ISTEX, vous avez le choix entre différentes modes de recherche : classique ou par liste d’identifiants ARK. Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
+                Pour interroger ISTEX, vous avez le choix entre différents modes : un mode de recherche classique par équation booléenne, un mode de requêtage utilisant 
+            une liste d’identifiants pérennes de type ARK ou bien encore l’import d’un fichier spécifiant un corpus de documents au moyen d’identifiants uniques. 
+            Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
             Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -1158,7 +1160,9 @@ export default class Form extends React.Component {
                 id="popover-sample-list"
                 title={<span> Échantillon de résultats {closingButton}</span>}
             >
-                Cet échantillon de documents, classés par pertinence & qualité des résultats par rapport à votre requête,  peut vous aider à ajuster votre équation à votre besoin.
+                Cet échantillon peut vous aider à ajuster votre équation à votre besoin en vous offrant l’accès au texte intégral de chacun des documents proposés. Par défaut 
+            sont affichées les 6 premières réponses, classées par pertinence & qualité des résultats par rapport à votre requête. Le choix d’un autre mode de tri ajustera 
+            l’échantillon.
                 <br />
             </Popover>
         );
@@ -1166,21 +1170,21 @@ export default class Form extends React.Component {
         const popoverRequestClassic = (
             <Popover
                 id="popover-request-classic"
-                title={<span> Recherche classique {closingButton}</span>}
+                title={<span> Équation booléenne {closingButton}</span>}
             >
-                Pour élaborer votre équation de recherche booléenne, vous pouvez
-                vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
-de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
+                Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
+            de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée 
+            du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
         
         const popoverRequestARK = (
             <Popover
                 id="popover-request-ark"
-                title={<span> Recherche par ARK {closingButton}</span>}
+                title={<span> Identifiants ARK {closingButton}</span>}
             >
-                Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” spécifiant les identifiants uniques, tels que des identifiants ARK, des documents qui composent votre corpus.
-                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>
+            Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
+                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
 
             </Popover>
         );
@@ -1190,8 +1194,10 @@ de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopene
                 id="popover-request-dotcorpus"
                 title={<span> Recherche par Upload {closingButton}</span>}
             >
-                Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
-                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
+                  Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents 
+            qui composent votre corpus.
+                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+
 
             </Popover>
         );
@@ -1242,8 +1248,10 @@ de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopene
                 id="popover-filetype-help"
                 title={<span> Usage personnalisé{closingButton}</span>}
             >
-                Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
-Attention : tous les formats ou types de fichiers peuvent ne pas être présents pour certains documents du corpus constitué (notamment : TIFF, annexes, couvertures ou enrichissements).
+                Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans 
+            la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+            Attention : toutes les publications ISTEX ne possèdent pas l’ensemble des types de fichiers et de formats possibles (notamment annexes, 
+            couvertures ou enrichissements).
             </Popover>
         );
 
@@ -1252,9 +1260,9 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                 id="popover-filetype-help"
                 title={<span> Usage {closingButton}</span>}
             >
-                Le choix d’un outil induit une sélection automatique des formats et types de fichiers qui seront extraits.
-                L’information sur cette sélection est visible dans l’URL de partage, ainsi que dans l’historique
-                une fois le corpus téléchargé.
+                A la différence de la sélection d’un “Usage personnalisé”, le choix d’une plateforme ou d’un outil particuliers induit une sélection 
+                automatique des formats et types de fichiers qui seront extraits. L’information concernant cette sélection est visible dans l’URL de 
+                partage, ainsi que dans l’historique une fois le corpus téléchargé.
             </Popover>
         );
 
@@ -1263,8 +1271,11 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats. Au-delà de 1 Go, une estimation de la taille est fournie. L’indication de couleur orange passe au rouge en cas de dépassement de 5 Go.<br />
-                Sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur votre disque dur.<br />
+                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats associés.<br /> 
+                Au-delà de 1 Go, une estimation de la taille du corpus est fournie. L’indication de couleur, orange entre 1 et 5 Go, passera au rouge en cas de 
+                dépassement de 5 Go.<br />
+                Dans le cas d’un corpus volumineux, sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur 
+                votre disque dur.<br />
                 Si votre corpus dépasse 4 Go, vous ne pourrez pas
                 ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
                 &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
@@ -1320,7 +1331,8 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
             >
                 Actuellement, il n’est pas possible de télécharger plus de 100 000 documents.
                 Cette valeur a été fixée arbitrairement, pour limiter le volume et la durée du téléchargement à des dimensions raisonnables.<br />
-                Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents peut vous intéresser (voir rubrique suivante).
+                Si le nombre de documents à extraire est inférieur au nombre total des résultats correspondant à votre requête, le choix d’un mode de tri des documents 
+            peut vous intéresser (voir rubrique suivante).
 
             </Popover>
         );
@@ -1331,8 +1343,10 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                 title={<span> Mode de classement {closingButton}</span>}
             >
                 Dans le cas où vous ne téléchargez qu’un sous-ensemble de documents par rapport aux résultats de votre requête,
-                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence seul, soit d’un ordre de pertinence relevé par un score de qualité (choix privilégié par défaut), soit tirés de manière aléatoire,
-                ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                les documents sélectionnés pour votre corpus seront extraits en fonction, soit d’un ordre de pertinence relevé par un score de qualité (choix 
+                privilégié par défaut), soit d’un ordre de pertinence seul, soit tirés de manière aléatoire,
+                ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir 
+                la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
 
         );
@@ -1402,7 +1416,8 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                             </h2>
 
                             <p>
-                                Sélectionnez l’un des onglets ci-dessous et explicitez ce qui décrit le corpus souhaité :
+                                Sélectionnez l’un des onglets ci-dessous et explicitez le corpus souhaité selon votre choix parmi les modes de recherche suivants :
+ :
 
                             </p>
                             <div className="form-group">
@@ -1417,7 +1432,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                                         onSelect={k => this.handleSelectNav(k)}
                                     >
                                         <NavItem eventKey="1">
-                                            Recherche classique
+                                            Équation booléenne
                                             &nbsp;
                                             <OverlayTrigger
                                                 trigger="click"
@@ -1429,7 +1444,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                                             </OverlayTrigger>
                                         </NavItem>
                                         <NavItem eventKey="2">
-                                            Recherche par ARK
+                                            Identifiants ARK
                                             &nbsp;
                                             <OverlayTrigger
                                                 trigger="click"
@@ -1441,7 +1456,7 @@ Attention : tous les formats ou types de fichiers peuvent ne pas être présents
                                             </OverlayTrigger>
                                         </NavItem>
                                         <NavItem eventKey="4">
-                                            Recherche par Upload
+                                            Import de fichier
                                             &nbsp;
                                             <OverlayTrigger
                                                 trigger="click"

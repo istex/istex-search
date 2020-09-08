@@ -1407,7 +1407,7 @@ export default class Form extends React.Component {
                                 <OverlayTrigger
                                     trigger="click"
                                     rootClose
-                                    placement="top"
+                                    placement="left"
                                     overlay={popoverRequestHelp}
                                 >
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
@@ -1417,8 +1417,6 @@ export default class Form extends React.Component {
 
                             <p>
                                 Sélectionnez l’un des onglets ci-dessous et explicitez le corpus souhaité selon votre choix parmi les modes de recherche suivants :
- :
-
                             </p>
                             <div className="form-group">
                                 <FormGroup

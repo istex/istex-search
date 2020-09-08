@@ -84,6 +84,7 @@ export default class Form extends React.Component {
             downloadBtnClass: 'text-default',
             queryType: '',
             uploadTxt: '',
+            dotCorpusidCount: 0,
         };
         this.state = this.defaultState;
         this.child = [];
@@ -184,8 +185,7 @@ export default class Form extends React.Component {
                     return this.setState({ errorRequestSyntax: err.responseJSON._error });
                 }
                 return null;
-            },
-            )
+            })
             .always(() => {
                 this.istexDlXhr = null;
             });
@@ -437,11 +437,17 @@ export default class Form extends React.Component {
                     q: event.query || event.target.value,
                 }, () => this.waitRequest(true));
             } else {
+                // let userQuery = (event.query || event.target.value);
+                // let idsArray = userQuery.match(/^ark:\/67375\/[0-9A-Z]{3}-[0-9A-Z]{8}-[0-9A-Z]$/gm);
+                // if (!idsArray) idsArray = userQuery.match(/^[0-9A-F]{40}$/gm);                
+                // const goodQuery = (idsArray && idsArray.length > 0) ? idsArray.join('\n') : '';
+                const goodQuery = (event.query || event.target.value);
+
                 this.setState({
                     errorRequestSyntax: '',
-                    querywithIDorARK: event.query || event.target.value,
+                    querywithIDorARK: goodQuery,
                 }, () => this.waitRequest(true));
-            }
+            }     
         } else {
             this.setState({
                 errorRequestSyntax: '',
@@ -531,6 +537,7 @@ export default class Form extends React.Component {
                 href.searchParams.set('q', this.transformIdListToQuery());
             }
             href.searchParams.set('queryType', this.state.queryType);
+            if (this.state.dotCorpusidCount > 0) href.searchParams.set('size', this.state.dotCorpusidCount);
             href.searchParams.delete('withID');
         }
 
@@ -751,7 +758,8 @@ export default class Form extends React.Component {
         });
         if (NoErrorFound) {
             this.setState({
-                uploadTxt: 'Fichier ' + fileName + 'analysé avec succés. ' + ids.length + ' documents correspondant ont été trouvés.',
+                uploadTxt: 'Fichier ' + fileName + ' analysé. ' + ids.length + ' identifiants ont été parcourus. (Attention, le nombre de documents réellement trouvés peut être inférieur si un ou plusieurs identifiants ne sont pas trouvés par le moteur de recherche)',
+                dotCorpusidCount: ids.length,
             });
             NotificationManager.success('', 'Import du fichier .corpus terminé', 50000);
             this.setState({
@@ -1165,25 +1173,25 @@ export default class Form extends React.Component {
 de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
         );
-
+        
         const popoverRequestARK = (
-            <Popover
-                id="popover-request-dotcorpus"
-                title={<span> Recherche par Upload {closingButton}</span>}
-            >
-                Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
-                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
-
-            </Popover>
-        );
-
-        const popoverRequestDotCorpus = (
             <Popover
                 id="popover-request-ark"
                 title={<span> Recherche par ARK {closingButton}</span>}
             >
                 Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” spécifiant les identifiants uniques, tels que des identifiants ARK, des documents qui composent votre corpus.
                 Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>
+
+            </Popover>
+        );
+        
+        const popoverRequestDotCorpus = (
+            <Popover
+                id="popover-request-dotcorpus"
+                title={<span> Recherche par Upload {closingButton}</span>}
+            >
+                Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
+                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
 
             </Popover>
         );

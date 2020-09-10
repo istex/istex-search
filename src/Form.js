@@ -1499,11 +1499,11 @@ export default class Form extends React.Component {
                                     }
                                     {(this.state.activeKey == 4 && !this.state.uploadTxt) &&
                                         // eslint-disable-next-line jsx-a11y/label-has-for
-                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Déposer votre fichier</label></div>
+                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Sélectionnez votre fichier</label></div>
                                     }
                                     {(this.state.activeKey == 4 && this.state.uploadTxt) &&
                                         // eslint-disable-next-line jsx-a11y/label-has-for
-                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload-upd"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Modifier en déposant un autre fichier</label></div>
+                                        <div className="col-sm-12 col-lg-12 col-md-12 col-xs-12 alignTxt "><label onMouseOver={() => this.hover()} onMouseOut={() => this.unhover()} className="custom-file-upload-upd"><input id="uploaderBtn" className="input-upload" accept=".corpus" type="file" onChange={e => this.parseCorpusToArksOrIds(e.target)} />  <img id="imgUpload" className="uploadIcon" src="/img/ico_upload.png" alt="" /><br /> Modifiez en sélectionnant un autre fichier</label></div>
                                     }
                                     {(this.state.activeKey == 4 && this.state.uploadTxt) &&
                                         // eslint-disable-next-line jsx-a11y/label-has-for
@@ -1514,7 +1514,7 @@ export default class Form extends React.Component {
                             </div>
                             {this.state.nbDocsCalculating &&
                                 <p className="pTxt">
-                                    Calcul en cours du nombre des résultats...
+                                    Calcul en cours du nombre de résultats...
                                     &nbsp;
                                     <img src="/img/loader_2.gif" alt="" width="40px" height="40px" />
                                 </p>

@@ -758,7 +758,7 @@ export default class Form extends React.Component {
         });
         if (NoErrorFound) {
             this.setState({
-                uploadTxt: 'Fichier ' + fileName + ' analysé. ' + ids.length + ' identifiants ont été parcourus. (Attention, le nombre de documents réellement trouvés peut être inférieur si un ou plusieurs identifiants ne sont pas trouvés par le moteur de recherche)',
+                uploadTxt: 'Fichier ' + fileName + ' analysé. ' + ids.length + ' identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si certains identifiants ne sont pas trouvés par le moteur de recherche)',
                 dotCorpusidCount: ids.length,
             });
             NotificationManager.success('', 'Import du fichier .corpus terminé', 50000);
@@ -1149,7 +1149,7 @@ export default class Form extends React.Component {
             >
                 Pour interroger ISTEX, vous avez le choix entre différents modes : un mode de recherche classique par équation booléenne, un mode de requêtage utilisant 
             une liste d’identifiants pérennes de type ARK ou bien encore l’import d’un fichier spécifiant un corpus de documents au moyen d’identifiants uniques. 
-            Pour vous aider à construire une requête par équation booléenne ou par ARK, des exemples pédagogiques vous sont proposés via le bouton "Exemples". <br />
+            <br />
             Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
@@ -1161,8 +1161,8 @@ export default class Form extends React.Component {
                 title={<span> Échantillon de résultats {closingButton}</span>}
             >
                 Cet échantillon peut vous aider à ajuster votre équation à votre besoin en vous offrant l’accès au texte intégral de chacun des documents proposés. Par défaut 
-            sont affichées les 6 premières réponses, classées par pertinence & qualité des résultats par rapport à votre requête. Le choix d’un autre mode de tri ajustera 
-            l’échantillon.
+            sont affichées les 6 premières réponses, classées par pertinence & qualité des résultats par rapport à votre requête. Le choix d’un autre mode de tri modifiera 
+            l’échantillon en conséquence.
                 <br />
             </Popover>
         );
@@ -1172,7 +1172,7 @@ export default class Form extends React.Component {
                 id="popover-request-classic"
                 title={<span> Équation booléenne {closingButton}</span>}
             >
-                Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes accessibles via le bouton "Exemples",
+                Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples",
             de la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien du mode de recherche avancée 
             du <a href="http://demo.istex.fr/" target="_blank" rel="noopener noreferrer">démonstrateur ISTEX</a>.
             </Popover>
@@ -1184,19 +1184,19 @@ export default class Form extends React.Component {
                 title={<span> Identifiants ARK {closingButton}</span>}
             >
             Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement.
-                Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".
-
+            Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".  <br />
+            Pour en savoir plus sur les identifiants ARK, reportez vous à la <a href="https://doc.istex.fr/api/ark/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. 
             </Popover>
         );
         
         const popoverRequestDotCorpus = (
             <Popover
                 id="popover-request-dotcorpus"
-                title={<span> Recherche par Upload {closingButton}</span>}
+                title={<span> Import de fichier {closingButton}</span>}
             >
                   Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents 
-            qui composent votre corpus.
-                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+            qui composent votre corpus. <br />
+                Pour disposer d’un fichier .corpus, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
 
 
             </Popover>
@@ -1347,6 +1347,7 @@ export default class Form extends React.Component {
                 privilégié par défaut), soit d’un ordre de pertinence seul, soit tirés de manière aléatoire,
                 ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir 
                 la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                <br />NB : les classements impliquant un critère de pertinence ne s’appliquent qu’aux résultats d’une recherche par équation booléenne.
             </Popover>
 
         );

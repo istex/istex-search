@@ -1347,7 +1347,6 @@ export default class Form extends React.Component {
                 privilégié par défaut), soit d’un ordre de pertinence seul, soit tirés de manière aléatoire,
                 ce mode de tri étant plus représentatif de la diversité des résultats.<br />Voir 
                 la <a href="https://doc.istex.fr/api/results/scoring.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
-                <br />NB : les classements impliquant un critère de pertinence ne s’appliquent qu’aux résultats d’une recherche par équation booléenne.
             </Popover>
 
         );

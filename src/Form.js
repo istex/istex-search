@@ -1416,7 +1416,7 @@ export default class Form extends React.Component {
                             </h2>
 
                             <p>
-                                Sélectionnez l’un des onglets ci-dessous et explicitez le corpus souhaité selon votre choix parmi les modes de recherche suivants :
+                                Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
                             </p>
                             <div className="form-group">
                                 <FormGroup
@@ -1557,7 +1557,7 @@ export default class Form extends React.Component {
                             }
 
                             <div className="form-group col-xs-12 noPaddingLeftRight">
-                                Choisir le nombre de documents souhaités
+                                Choisir le nombre de documents
                                 &nbsp;
                                 <OverlayTrigger
                                     trigger="click"
@@ -1737,7 +1737,7 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
-                            <p>Cliquez sur l’usage que vous souhaitez faire de votre corpus. <br />
+                            <p>Cliquez sur l’usage visé pour votre corpus. <br />
                             La sélection du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.</p>
                             <div className={this.shouldHideU}>
 

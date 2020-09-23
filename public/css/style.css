@@ -1077,6 +1077,10 @@ a[data-lightbox]:hover img{
     margin-left: 10% !important;
     margin-right: 10% !important;
 }
+.warning-modal .modal-content {
+    background-color: blanchedalmond;
+
+}
 .history tr td:nth-child(2) {
     max-width: 150px;
     white-space: pre-wrap !important;

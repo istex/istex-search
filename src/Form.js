@@ -547,8 +547,9 @@ export default class Form extends React.Component {
             }
             href.searchParams.set('queryType', this.state.queryType);
             if (this.state.dotCorpusidCount > 0) href.searchParams.set('size', this.state.dotCorpusidCount);
-            if (!this.warningBadDocCountAlreadyDisplayed && this.state.dotCorpusidCount > this.nbDocsFound) {
-                // if (!window.confirm("Le nombre de documents de votre liste d'identifiants est supérieur au nombre de documents réellement trouvés. De ce fait, le nombre de documents téléchargés pourra être inférieur au nombre de documents demandés.\nTélécharger quand-même ?")) return;
+            if (!this.warningBadDocCountAlreadyDisplayed && 
+                    (this.state.dotCorpusidCount > this.nbDocsFound
+                    || this.state.querywithIDorARK.split("\n").length > this.nbDocsFound) ) {
                 this.warningBadDocCountAlreadyDisplayed = true;
                 this.setState({
                         showWarningMissingDocs: true,

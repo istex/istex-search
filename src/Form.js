@@ -70,6 +70,7 @@ export default class Form extends React.Component {
             extractCovers: false,
             extractAnnexes: false,
             downloading: false,
+            showWarningMissingDocs:false,
             URL2Download: '',
             errorRequestSyntax: '',
             errorDuringDownload: '',
@@ -119,6 +120,9 @@ export default class Form extends React.Component {
         this.handleQChange = false;
         this.showSamplesLoader = false;
         this.textAreaRowsLength = 1;
+        this.nbDocsFound = 0;
+        this.queryNbLines = 0;
+        this.warningBadDocCountAlreadyDisplayed = false;
     }
 
     componentWillMount() {
@@ -223,14 +227,18 @@ export default class Form extends React.Component {
         ISTEX.searchParams.set('queryType', this.state.queryType);
 
         // disable all before getting total 
-        this.istexDlXhr = $.post(ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6', { qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery() })
-            .done((json) => {
+        this.istexDlXhr = $.post(
+            ISTEX.href + '&output=title,host.title,publicationDate,author,arkIstex&size=6',
+            { qString: this.state.activeKey === '1' ? this.state.q : this.transformIdListToQuery() }
+        ).done((json) => {
                 const { total } = json;
                 let size,
                     limitNbDoc = config.limitNbDoc;
+                this.warningBadDocCountAlreadyDisplayed = false;
                 if (!total || total === 0) {
                     size = 0;
                     limitNbDoc = 0;
+                    this.nbDocsFound = 0;
                 } else if (sizeParam <= config.limitNbDoc) {
                     if (sizeParam > total) {
                         size = total;
@@ -247,6 +255,7 @@ export default class Form extends React.Component {
 
                 if (total > 0) {
                     this.limitNbDocClass = 'limitNbDocTxt';
+                    this.nbDocsFound = total;
                 }
 
                 return this.setState({
@@ -538,6 +547,14 @@ export default class Form extends React.Component {
             }
             href.searchParams.set('queryType', this.state.queryType);
             if (this.state.dotCorpusidCount > 0) href.searchParams.set('size', this.state.dotCorpusidCount);
+            if (!this.warningBadDocCountAlreadyDisplayed && this.state.dotCorpusidCount > this.nbDocsFound) {
+                // if (!window.confirm("Le nombre de documents de votre liste d'identifiants est supérieur au nombre de documents réellement trouvés. De ce fait, le nombre de documents téléchargés pourra être inférieur au nombre de documents demandés.\nTélécharger quand-même ?")) return;
+                this.warningBadDocCountAlreadyDisplayed = true;
+                this.setState({
+                        showWarningMissingDocs: true,
+                    });
+                return;
+            }
             href.searchParams.delete('withID');
         }
 
@@ -2008,6 +2025,34 @@ export default class Form extends React.Component {
                     }
 
                 </form>
+
+                <Modal
+                    dialogClassName="warning-modal" 
+                    show={this.state.showWarningMissingDocs} 
+                    onHide={this.handleCancel}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Attention, problème potentiel détecté</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <p>Nous avons constaté que le nombre de documents de votre liste d'identifiants était supérieur au nombre de documents réellement trouvés par l'API ISTEX. De ce fait, le nombre de documents de l'archive téléchargée peut-être inférieur au nombre de documents que vous avez demandé.</p>
+                        <p>Êtes-vous sûr de vouloir continuer ?</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => this.handleSubmit()}
+                        >
+                            Télécharger quand-même
+                        </Button>
+                        <Button
+                         onClick={() => {this.warningBadDocCountAlreadyDisplayed = false;this.setState({'showWarningMissingDocs':false});}}
+                         >
+                            Annuler
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <Modal show={this.state.downloading} onHide={this.handleCancel} className="downloadModal">
                     <Modal.Header closeButton>
                         <Modal.Title>Téléchargement en cours</Modal.Title>
@@ -2025,6 +2070,7 @@ export default class Form extends React.Component {
                         <Button onClick={this.handleCancel}>Fermer</Button>
                     </Modal.Footer>
                 </Modal>
+
                 <Modal show={this.state.showModalShare} onHide={this.hideModalShare}>
                     <Modal.Header closeButton>
                         <Modal.Title>Partager</Modal.Title>

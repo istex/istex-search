@@ -293,7 +293,7 @@ export default class Form extends React.Component {
                     .concat('("')
                     .concat(this.state.querywithIDorARK)
                     .concat('")');
-                res = res.replace(new RegExp('\n', 'g'), '" "');
+                res = res.replace(new RegExp(/\s+/, 'g'), '" "');
             }
         } else {
             this.state.queryType = 'querywithID';

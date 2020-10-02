@@ -86,7 +86,7 @@ export default class Format extends React.Component {
             case 'pdf': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---pdf--portable-document-format-format-de-document-portable"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-pdf-portable-document-format-format-de-document-portable"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -100,7 +100,7 @@ export default class Format extends React.Component {
             case 'tei': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---tei--text-encoding-initiative-initiative-pour-lencodage-du-texte"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-tei-text-encoding-initiative-initiative-pour-lencodage-du-texte"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -115,7 +115,7 @@ export default class Format extends React.Component {
             case 'txt': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---txt--text"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-txt-text"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -129,7 +129,7 @@ export default class Format extends React.Component {
             case 'json': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---json--javascript-object-notation"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-json-javascript-object-notation"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -143,7 +143,7 @@ export default class Format extends React.Component {
             case 'zip': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---zip"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-zip"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -158,7 +158,7 @@ export default class Format extends React.Component {
             case 'tiff': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---tiff--tagged-image-file-format-format-de-fichier-dimage-%C3%A9tiquet%C3%A9"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-tiff-tagged-image-file-format-format-de-fichier-dimage-%C3%A9tiquet%C3%A9"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -172,7 +172,7 @@ export default class Format extends React.Component {
             case 'xml': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---xml--extensible-markup-language-langage-de-balisage-extensible"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-xml-extensible-markup-language-langage-de-balisage-extensible"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -186,7 +186,7 @@ export default class Format extends React.Component {
             case 'mods': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o---mods--metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-mods-metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

@@ -1168,8 +1168,7 @@ export default class Form extends React.Component {
                 Pour interroger ISTEX, vous avez le choix entre différents modes : un mode de recherche classique par équation booléenne, un mode de requêtage utilisant 
             une liste d’identifiants pérennes de type ARK ou bien encore l’import d’un fichier spécifiant un corpus de documents au moyen d’identifiants uniques. 
             <br />
-            Si vous avez besoin d'aide, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>  
-            ou bien contactez <a href="mailto:contact@listes.istex.fr">l’équipe ISTEX</a>.
+            Si vous avez besoin d'aide, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien contactez <a href="mailto:contact@listes.istex.fr">l’équipe ISTEX</a>.
                 <br />
             </Popover>
         );

@@ -1168,8 +1168,8 @@ export default class Form extends React.Component {
                 Pour interroger ISTEX, vous avez le choix entre différents modes : un mode de recherche classique par équation booléenne, un mode de requêtage utilisant 
             une liste d’identifiants pérennes de type ARK ou bien encore l’import d’un fichier spécifiant un corpus de documents au moyen d’identifiants uniques. 
             <br />
-            Si vous avez besoin d'aide, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> 
-            ou bien contactez<a href="mailto:contact@listes.istex.fr">l’équipe ISTEX</a>
+            Si vous avez besoin d'aide, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>  
+            ou bien contactez <a href="mailto:contact@listes.istex.fr">l’équipe ISTEX</a>.
                 <br />
             </Popover>
         );
@@ -1215,7 +1215,7 @@ export default class Form extends React.Component {
             >
                   Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents 
             qui composent votre corpus. <br />
-                Pour disposer d’un fichier .corpus, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                Pour disposer d’un fichier .corpus, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
 
 
             </Popover>
@@ -1281,7 +1281,7 @@ export default class Form extends React.Component {
             >
                 Le choix du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.
                 En revanche, le choix d’une plateforme ou d’un outil particuliers induit une sélection automatique des formats et types de fichiers qui seront extraits. <br />
-                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-astuces" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
         );
 
@@ -1290,11 +1290,12 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                Une estimation de la taille du corpus s’affiche dans le bouton "télécharger" lorsqu’elle excède 1 Go.Dans le cas d’un corpus volumineux, sélectionnez le niveau de compression approprié à votre bande passante et à l’espace de stockage disponible 
+                Une estimation de la taille du corpus s’affiche dans le bouton "télécharger" lorsqu’elle excède 1 Go. <br />
+                Dans le cas d’un corpus volumineux, sélectionnez le niveau de compression approprié à votre bande passante et à l’espace de stockage disponible 
                 sur votre disque dur.<br />
                 En cas de difficultés lors de l’ouverture de l’archive zip avec les outils Windows natifs, utilisez par exemple le logiciel 
                 libre <a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7-zip</a>. <br />
-                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                Voir la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
                                
             </Popover>
         );

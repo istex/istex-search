@@ -1168,7 +1168,7 @@ export default class Form extends React.Component {
                 Pour interroger ISTEX, vous avez le choix entre différents modes : un mode de recherche classique par équation booléenne, un mode de requêtage utilisant 
             une liste d’identifiants pérennes de type ARK ou bien encore l’import d’un fichier spécifiant un corpus de documents au moyen d’identifiants uniques. 
             <br />
-            Si vous avez besoin de conseils, <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
+            Si vous avez besoin d'aide, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a> ou bien <a href="mailto:contact@listes.istex.fr">contactez l’équipe ISTEX</a>
                 <br />
             </Popover>
         );
@@ -1214,7 +1214,7 @@ export default class Form extends React.Component {
             >
                   Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents 
             qui composent votre corpus. <br />
-                Pour disposer d’un fichier .corpus, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                Pour disposer d’un fichier .corpus, consultez la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
 
 
             </Popover>
@@ -1267,7 +1267,7 @@ export default class Form extends React.Component {
                 title={<span> Usage personnalisé{closingButton}</span>}
             >
                 Les différents formats et types de fichiers disponibles sont décrits succinctement dans cette interface et plus complètement dans 
-            la <a href="https://doc.istex.fr/tdm/requetage/" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
+            la <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>. <br />
             Attention : toutes les publications ISTEX ne possèdent pas l’ensemble des types de fichiers et de formats possibles (notamment annexes, 
             couvertures ou enrichissements).
             </Popover>
@@ -1278,9 +1278,9 @@ export default class Form extends React.Component {
                 id="popover-filetype-help"
                 title={<span> Usage {closingButton}</span>}
             >
-                A la différence de la sélection d’un “Usage personnalisé”, le choix d’une plateforme ou d’un outil particuliers induit une sélection 
-                automatique des formats et types de fichiers qui seront extraits. L’information concernant cette sélection est visible dans l’URL de 
-                partage, ainsi que dans l’historique une fois le corpus téléchargé.
+                Le choix du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.<br />
+                En revanche, le choix d’une plateforme ou d’un outil particuliers induit une sélection automatique des formats et types de fichiers qui seront extraits. 
+                En savoir plus avec la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-astuces" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
             </Popover>
         );
 
@@ -1289,15 +1289,13 @@ export default class Form extends React.Component {
                 id="popover-download-help"
                 title={<span> Téléchargement {closingButton}</span>}
             >
-                La taille du corpus à télécharger dépend du nombre de documents à extraire, ainsi que des choix des types de fichiers et de formats associés.<br /> 
-                Au-delà de 1 Go, une estimation de la taille du corpus est fournie. L’indication de couleur, orange entre 1 et 5 Go, passera au rouge en cas de 
-                dépassement de 5 Go.<br />
-                Dans le cas d’un corpus volumineux, sélectionnez le niveau de compression adapté à votre bande passante et à l’espace de stockage disponible sur 
-                votre disque dur.<br />
-                Si votre corpus dépasse 4 Go, vous ne pourrez pas
-                ouvrir l’archive zip sous Windows. Veuillez utiliser par exemple
-                &nbsp;<a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7zip</a> qui sait
-                gérer les grandes tailles.
+                Une estimation de la taille du corpus s’affiche dans le bouton "télécharger" lorsqu’elle excède 1 Go.<br />
+                Dans le cas d’un corpus volumineux, sélectionnez le niveau de compression approprié à votre bande passante et à l’espace de stockage disponible 
+                sur votre disque dur.<br />
+                En cas de difficultés lors de l’ouverture de l’archive zip avec les outils Windows natifs, utilisez par exemple le logiciel 
+                libre <a href="http://www.7-zip.org/" target="_blank" rel="noopener noreferrer">7-zip</a>.
+                En savoir plus avec la <a href="https://doc.istex.fr/tdm/extraction/istex-dl.html#o-mode-demploi" target="_blank" rel="noopener noreferrer">documentation ISTEX</a>.
+                               
             </Popover>
         );
 
@@ -1755,8 +1753,8 @@ export default class Form extends React.Component {
                                     <i role="button" className="fa fa-info-circle" aria-hidden="true" />
                                 </OverlayTrigger>
                             </h2>
-                            <p>Cliquez sur l’usage visé pour votre corpus. <br />
-                            La sélection du mode "Usage personnalisé" donne accès à tous les types de fichiers et de formats existants dans ISTEX.</p>
+                            <p>Cliquez sur l’usage visé pour votre corpus :
+                           </p>
                             <div className={this.shouldHideU}>
 
                                 <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">

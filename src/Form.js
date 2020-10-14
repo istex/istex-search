@@ -546,7 +546,9 @@ export default class Form extends React.Component {
                 href.searchParams.set('q', this.transformIdListToQuery());
             }
             href.searchParams.set('queryType', this.state.queryType);
-            if (this.state.dotCorpusidCount > 0) href.searchParams.set('size', this.state.dotCorpusidCount);
+            if (this.state.dotCorpusidCount > 0) {
+                href.searchParams.set('size', Math.min(this.state.size,this.state.dotCorpusidCount) );
+            }
             if (!this.warningBadDocCountAlreadyDisplayed && 
                     (this.state.dotCorpusidCount > this.nbDocsFound
                     || this.state.querywithIDorARK.split("\n").length > this.nbDocsFound) ) {

@@ -217,10 +217,6 @@ export default class Form extends React.Component {
         });
         const self = this;
 
-        let err = this.checkIdList();
-        if (err) {
-            return this.setState({ errorRequestSyntax: err });
-        }
         const ISTEX = this.state.activeKey === '1'
             ? this.buildURLFromState(this.state.q, false, queryChanged)
             : this.buildURLFromState(this.transformIdListToQuery(), false, queryChanged);

@@ -1,6 +1,6 @@
 /* eslint-disable comma-dangle */
 const config = {
-    apiUrl: 'http://vd-istex2-api.intra.inist.fr:63332',
+    apiUrl: 'https://api.istex.fr',
     dlIstexUrl: 'https://dl.istex.fr/',
     limitNbDoc: 100000,
     defaultSize: 0,

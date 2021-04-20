@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Table, Tooltip, OverlayTrigger, Button, Modal, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
@@ -110,61 +111,61 @@ export default class storageHistory extends React.Component {
                         </td>
                         <td>{this.localStorage[i].rankBy}</td>
                         <td><span className="buttonsHistory">
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={editTooltip}
-                                    onClick={() => {
-                                        window.location = this.localStorage[i].url;
-                                    }}
-                                >
-                                    <i
-                                        role="button" className="fa fa-pencil-square-o"
-                                    />
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={editTooltip}
+                                onClick={() => {
+                                    window.location = this.localStorage[i].url;
+                                }}
+                            >
+                                <i
+                                    role="button" className="fa fa-pencil-square-o"
+                                />
 
-                                </OverlayTrigger>
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={dlTooltip}
-                                    onClick={() => {
-                                        window.location = `${this.localStorage[i].url}&download=true`;
-                                    }}
-                                >
-                                    <img src="telecharger-noir.png"/>
-                                </OverlayTrigger>
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={shareTooltip}
-                                    onClick={() => {
-                                        this.setState({
-                                            showLink: true,
-                                            numberLink: i,
-                                        });
-                                    }}
-                                >
-                                    <i
-                                        className="fa fa-link"
-                                        role="button"
-                                    />
-                                </OverlayTrigger>
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={dlTooltip}
+                                onClick={() => {
+                                    window.location = `${this.localStorage[i].url}&download=true`;
+                                }}
+                            >
+                                <img alt="Télécharger" src="telecharger-noir.png" />
+                            </OverlayTrigger>
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={shareTooltip}
+                                onClick={() => {
+                                    this.setState({
+                                        showLink: true,
+                                        numberLink: i,
+                                    });
+                                }}
+                            >
+                                <i
+                                    className="fa fa-link"
+                                    role="button"
+                                />
+                            </OverlayTrigger>
 
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={removeTooltip}
-                                    onClick={() => {
-                                        const updatedStorage = storageHistory.getHistory();
-                                        if (i === 0 && updatedStorage.length === 1) {
-                                            this.cleanHistory();
-                                        } else {
-                                            updatedStorage.splice(i, 1);
-                                            this.updateStorage(updatedStorage);
-                                        }
-                                    }}
-                                >
-                                    <i
-                                        role="button" className="fa fa-remove"
-                                    />
-                                </OverlayTrigger>
-                        
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={removeTooltip}
+                                onClick={() => {
+                                    const updatedStorage = storageHistory.getHistory();
+                                    if (i === 0 && updatedStorage.length === 1) {
+                                        this.cleanHistory();
+                                    } else {
+                                        updatedStorage.splice(i, 1);
+                                        this.updateStorage(updatedStorage);
+                                    }
+                                }}
+                            >
+                                <i
+                                    role="button" className="fa fa-remove"
+                                />
+                            </OverlayTrigger>
+
                         </span></td>
                     </tr>);
             }
@@ -182,19 +183,19 @@ export default class storageHistory extends React.Component {
                         {this.historyTab}
                     </tbody>
                 </Table>
-            <Button
+                <Button
                     bsStyle="danger"
                     disabled={!storageHistory.getHistory()
-                            || storageHistory.getHistory().length === 0}
+                        || storageHistory.getHistory().length === 0}
                     onClick={() => {
                         this.setState({
                             showConfirm: true,
                         });
                     }}
                 >
-                Supprimer l&apos;historique
-            </Button>
-                
+                    Supprimer l&apos;historique
+                </Button>
+
                 <Modal bsSize="small" show={this.state.showConfirm} onHide={this.close}>
                     <Modal.Header>
                         <Modal.Title>Confirmation</Modal.Title>

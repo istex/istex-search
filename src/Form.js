@@ -123,8 +123,6 @@ export default class Form extends React.Component {
         this.nbDocsFound = 0;
         this.queryNbLines = 0;
         this.warningBadDocCountAlreadyDisplayed = false;
-
-
     }
 
     componentWillMount() {
@@ -287,66 +285,6 @@ export default class Form extends React.Component {
             });
     }
 
-    checkIdList() {
-        if (!this.state.querywithIDorARK) return '';
-
-
-        let res_to_valid;
-
-        let arkRegExp = new RegExp(`ark:/67375/[A-Z0-9]{3}-[A-Z0-9]{8}-[A-Z0-9]`);
-        let idIstexRegExp = new RegExp(`[0-9A-Z]{40}`);
-        
-        let errLst = [];
-
-        if (this.state.querywithIDorARK.includes('ark')) {
-            this.state.queryType = 'querywithARK';
-            if (this.state.querywithIDorARK.startsWith('arkIstex.raw:')) {
-                //ARKS VALIDATION
-                let testStr = this.state.querywithIDorARK.replace('arkIstex.raw:(','').replace(')','').split(' ');
-                var ark;
-                for (let i = 0; i < testStr.length; i++) {
-                    ark = testStr[i];
-                    if (!arkRegExp.test(ark) && ark.trim() != '') {
-                        errLst.push("L" + (i+1) +' : Erreur syntaxe ARK');
-                    }
-                }
-            } else {              
-                res_to_valid = this.state.querywithIDorARK;
-                let testStr = res_to_valid.replace(new RegExp(/\s+/, 'g'), '" "').split(' ');
-
-                for (let i = 0; i < testStr.length; i++) {
-                    ark = testStr[i];
-                    if (!arkRegExp.test(ark) && ark.trim() != '') {
-                        errLst.push("L" + (i+1) +' : Erreur syntaxe ARK');
-                    }
-                }
-            }
-        } else {
-            this.state.queryType = 'querywithID';
-            if (this.state.querywithIDorARK.startsWith('id:')) {
-                let testStr = this.state.querywithIDorARK.replace('id:(','').replace(')','').split(' ');
-                for (let i = 0; i < testStr.length; i++) {
-                    let id = testStr[i];
-                    if (!idIstexRegExp.test(id)) {
-                        errLst.push("L" + (i+1) +' : Erreur syntaxe IdIstex');
-                    }
-                }
-            } else {
-                let testStr =  this.state.querywithIDorARK.match(new RegExp(`.{1,${40}}`, 'g'));
-                for (let i = 0; i < testStr.length; i++) {
-                    let id = testStr[i];
-                    if (!idIstexRegExp.test(id)) {
-                        errLst.push("L" + (i+1) +' : Erreur syntaxe IdIstex');
-                    }
-                }
-
-            }
-        }
-        if (errLst.length > 0) {
-            return errLst;
-        } else return null;
-    }
-
     transformIdListToQuery() {
         if (!this.state.querywithIDorARK) return '';
 
@@ -356,12 +294,10 @@ export default class Form extends React.Component {
             if (this.state.querywithIDorARK.startsWith('arkIstex.raw:')) {
                 res = this.state.querywithIDorARK;
             } else {
-
                 res = 'arkIstex.raw:'
                     .concat('("')
                     .concat(this.state.querywithIDorARK)
                     .concat('")');
-                
                 res = res.replace(new RegExp(/\s+/, 'g'), '" "');
             }
         } else {
@@ -375,7 +311,6 @@ export default class Form extends React.Component {
                     .replace(new RegExp(',', 'g'), ' ');
             }
         }
-
         return res;
     }
 
@@ -1573,7 +1508,7 @@ export default class Form extends React.Component {
                                     </Nav>
                                     {(this.state.activeKey != 4) &&
                                         <textarea
-                                            className="form-control" rows="10" cols="40"
+                                            className="form-control"
                                             ref={c => (this.textarea = c)}
                                             placeholder={this.state.activeKey === '1'
                                                 ? 'brain AND language:fre'
@@ -1781,9 +1716,7 @@ export default class Form extends React.Component {
                                 <blockquote
                                     className="blockquote-Syntax-error"
                                 >
-                                    {this.state.errorRequestSyntax.map((err, i) => {                     
-           return (<div>{err}</div>) 
-        })}                        
+                                    {this.state.errorRequestSyntax}
                                 </blockquote>
                             </div>
                         </div>

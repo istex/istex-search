@@ -1152,7 +1152,12 @@ a[data-lightbox]:hover img{
     	color: #fff !important;
     	background-color: #c4d733!important;
         border: 1px solid #c4d733!important;
-	}
+    }
+    a.btn.active {
+        color: #000 !important;
+    	background-color: #c4d733!important;
+        border: 1px solid #c4d733!important;
+    }
 	.nav-tabs.nav-justified > li > a {
     	margin-bottom: 0 !important;
     	color: #458ca5 !important;

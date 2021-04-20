@@ -129,7 +129,7 @@ export default class Format extends React.Component {
             case 'json': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-json-javascript-object-notation"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-json-javascript-object-notation-notation-des-objets-du-langage-javascript"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -186,7 +186,7 @@ export default class Format extends React.Component {
             case 'mods': tooltipText = (
                 <p>
                     <a
-                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-mods-metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es"
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-mods-metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es-"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

@@ -1,121 +1,42 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
 
-<head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="istex, semantic web, linked data">
-    <meta name="description" content="Site on semantic web approch to ISTEX data">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-    <meta name="referrer" content="no-referrer" />
-    <link rel="shortcut icon" type="image/png" href="/favicon.png">
-    <link rel="alternate" type="application/atom+xml" title="Atom" href="/api/export/atom">
-
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
-        crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-    <!--  <script src="//content-delivery.istex.fr/web-header/main.js"></script> -->
-
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat&amp;subset=latin,latin-ext" type="text/css">
-
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
     <title>Téléchargez un corpus ISTEX</title>
-    <link rel="stylesheet" href="/css/style.css?version=4201">
-    <link rel="stylesheet" href="/css/istex.css?version=4201">
-</head>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
 
-<body>
-    <div id="pageHead">
-        <a href="https://dl.istex.fr/">
-            <img src="/img/ic_telecharger_corpus.svg" class="dataLogo" alt="">
-        </a>
-        <div id="pageTitle">
-            <a href="https://dl.istex.fr/"> Téléchargez un corpus ISTEX </a>
-        </div>
-        <p class="text-center">
-            Vous êtes membre de l’Enseignement supérieur et de la Recherche et vous souhaitez extraire un corpus de documents ISTEX&nbsp;?
-            <br /> 3 étapes suffisent pour récupérer une archive compressée de votre corpus sur votre disque dur.
-        </p>
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
 
-    </div>
-
-    <div class="container-fuild">
-        <div id="root"></div>
-    </div>
-
-        <div class="bloc bgc-carmine-pink d-bloc" id="quote">
-            <div class="container bloc-md">
-
-            </div>
-        </div>
-        <!-- Footer - quote END -->
-
-
-        <!-- Footer - bloc-8 -->
-        <footer role="contentinfo">
-      <div class="anr"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/investissement_avenir.png" alt="investissement d'avenir" width="70" height="70"><p>Financement : ANR-10-IDEX-0004-02</p></div>
-      <ul id="menu-liens-sociaux">
-                  <li class="menu-item  menu-item menu-item-type-custom menu-item-object-custom menu-item-67"><a href="https://twitter.com/ISTEX_Platform">@ISTEX_Platform</a></li>
-              </ul>
-      <ul class="menu-pied">
-                  <li class="menu-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-73"><a href="https://www.istex.fr/mentions-legales/">Mentions légales</a></li>
-                  <li class="menu-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-83"><a href="https://www.istex.fr/cookies-et-statistiques/">Politique de confidentialité</a></li>
-                  <li class="menu-item  menu-item menu-item-type-post_type menu-item-object-page menu-item-81"><a href="https://www.istex.fr/contact/">Contacter ISTEX</a></li>
-                  <li class="menu-item  menu-item menu-item-type-custom menu-item-object-custom menu-item-84"><a href="https://doc.istex.fr/tdm/extraction/istex-dl.html" target="_blank">Documentation ISTEX-DL</a></li>
-              </ul>
-      <ul id="menu-partenaires" class="page">
-          <li><a href="http://www.enseignementsup-recherche.gouv.fr/"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/MESRI_logo.jpg" alt="ministère de l'enseignement supérieur et de la recherche"></a></li>
-          <li><a href="http://www.cnrs.fr/"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/logo-cnrs-simple.svg" alt="cnrs" width="60" height="60"></a></li>
-          <li><a href="http://www.abes.fr/"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/ABES-logo.png" alt="abes, agence bibliographique de l'enseignement supérieur" width="85" height="55"></a></li>
-          <li><a href="http://www.couperin.org/"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/couperin.png" alt="couperin.org" width="124" height="40"></a></li>
-          <li><a href="http://www.cpu.fr/"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/CPU-Logo.png" alt="CPU conférence de sprésidents d'université" width="104" height="48"></a></li>
-          <li><a href="http://www.univ-lorraine.fr"><img src="https://www.istex.fr/wp-content/themes/istex/images/footer/ul_logo_blanc_rvb.png" alt="UL - université de Lorraine" width="120" height="42"></a></li>
-
-      </ul>
-
-                            <span id='version'></span>
-                            <a class="social-lg" href="https://github.com/istex/istex-dl" target="_blank">
-                                <span class="fa fa-github icon-md icon-carmine-pink" title="GitHub de Istex dl"></span>
-                            </a>
-</footer>
-                     
-    <!-- Footer - bloc-8 END -->
-    
-<!-- Piwik -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-    
-    _paq.push([function() {
-var self = this;
-function getOriginalVisitorCookieTimeout() {
-var now = new Date(),
-nowTs = Math.round(now.getTime() / 1000),
-visitorInfo = self.getVisitorInfo();
-var createTs = parseInt(visitorInfo[2]);
-var cookieTimeout = 33696000; 
- var originalTimeout = createTs + cookieTimeout - nowTs;
-return originalTimeout;
-}
-this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );
-}]);
-
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-     var u="https://piwik2.inist.fr/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '42']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="//piwik2.inist.fr/piwik.php?idsite=53" style="border:0;" alt="" /></p></noscript>
-<!-- End Piwik Code -->
-
-    
-<script id="iwh_script" src="//web-header.delivery.istex.fr/bundle.js" ></script>
-</body>
-
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
 </html>

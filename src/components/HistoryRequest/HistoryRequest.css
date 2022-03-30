@@ -1,0 +1,37 @@
+.history-request {
+  display: flex;
+}
+
+.history-request-item {
+  margin: auto;
+  border: 1px solid black;
+  padding: 0.2em;
+}
+
+.history-request-item.number {
+  flex: 1;
+}
+
+.history-request-item.date {
+  flex: 2;
+}
+
+.history-request-item.request {
+  flex: 3;
+}
+
+.history-request-item.formats {
+  flex: 2;
+}
+
+.history-request-item.nb-docs {
+  flex: 1;
+}
+
+.history-request-item.rank {
+  flex: 2;
+}
+
+.history-request-item.actions {
+  flex: 2;
+}

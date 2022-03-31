@@ -68,7 +68,7 @@ export function buildExtractParamsFromFormats (selectedFormats) {
 
     // Cases of covers and annexes which are not in a category
     if (Number.isInteger(formats[formatCategory])) {
-      if (selectedFormats & formats[formatCategory]) {
+      if (isFormatSelected(selectedFormats, formats[formatCategory])) {
         extractParams.push(formatCategory);
       }
       continue;
@@ -76,7 +76,7 @@ export function buildExtractParamsFromFormats (selectedFormats) {
 
     // Build every format of the current category (e.g. pdf, txt for the fulltext category)
     for (const currentCategoryFormat in formats[formatCategory]) {
-      if (selectedFormats & formats[formatCategory][currentCategoryFormat]) {
+      if (isFormatSelected(selectedFormats, formats[formatCategory][currentCategoryFormat])) {
         currentCategoryParams.push(currentCategoryFormat);
       }
     }
@@ -116,7 +116,7 @@ export function parseExtractParams (extractParamsAsString) {
     // If formatCategory does not contain '[' and ']', it means it's 'covers' or 'annexes'
     if (indexOfOpeningBracket === -1 || indexOfClosingBracket === -1) {
       if (Number.isInteger(formats[formatCategory])) {
-        selectedFormats |= formats[formatCategory];
+        selectedFormats = selectFormat(selectedFormats, formats[formatCategory]);
       }
       continue;
     }
@@ -130,7 +130,7 @@ export function parseExtractParams (extractParamsAsString) {
       .filter(categoryFormat => Object.keys(formats[formatCategoryName]).includes(categoryFormat));
 
     for (const currentCategoryFormat of currentCategoryFormats) {
-      selectedFormats |= formats[formatCategoryName][currentCategoryFormat];
+      selectedFormats = selectFormat(selectedFormats, formats[formatCategoryName][currentCategoryFormat]);
     }
   }
 

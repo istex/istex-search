@@ -6,110 +6,13 @@ import ResultPreview from '../ResultPreview';
 import eventEmitter from '../../lib/eventEmitter';
 import { istexApiConfig, queryModes } from '../../config';
 
-const fakeResults = [
-  {
-    id: 'B279BEE490EAF1799E37CD8BFEB7DB6E29F89903',
-    author: [
-      {
-        name: 'Charles',
-      },
-      {
-        name: 'Attant',
-      },
-    ],
-    host: {
-      title: 'Very interesting journal',
-    },
-    title: 'Very interesting article',
-    publicationDate: '2015',
-  },
-  {
-    id: '05C73F0EB3270639D898FE14C295B1075B99AB8C',
-    author: [
-      {
-        name: 'Claude',
-      },
-      {
-        name: 'JJ',
-      },
-    ],
-    host: {
-      title: 'Super interesting journal',
-    },
-    title: 'Super interesting article',
-    publicationDate: '2018',
-  },
-  {
-    id: '75AD1025C38CBDDEEA8509BA2CDAF88560DF243A',
-    author: [
-      {
-        name: 'Stéphanie',
-      },
-      {
-        name: 'Enza',
-      },
-    ],
-    host: {
-      title: 'Mega interesting journal',
-    },
-    title: 'Mega interesting article',
-    publicationDate: '2020',
-  },
-  {
-    id: '1476B2316AF104E48FD5C6B7A3AD5EC9DBB11BC9',
-    author: [
-      {
-        name: 'Charles',
-      },
-      {
-        name: 'Attant',
-      },
-    ],
-    host: {
-      title: 'Very interesting journal',
-    },
-    title: 'Very interesting article',
-    publicationDate: '2015',
-  },
-  {
-    id: '968386F6DF5D9B1083E43A61B5D1F64112728970',
-    author: [
-      {
-        name: 'Claude',
-      },
-      {
-        name: 'JJ',
-      },
-    ],
-    host: {
-      title: 'Super interesting journal',
-    },
-    title: 'Super interesting article',
-    publicationDate: '2018',
-  },
-  {
-    id: '2A39B54AA26D223BC0A03F4C41A02BA0611BF4A6',
-    author: [
-      {
-        name: 'Stéphanie',
-      },
-      {
-        name: 'Enza',
-      },
-    ],
-    host: {
-      title: 'Mega interesting journal',
-    },
-    title: 'Mega interesting article',
-    publicationDate: '2020',
-  },
-];
-
 export default function QuerySection () {
   const dispatch = useDispatch();
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes[0]);
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes[0]);
+  const [resultPreviewResults, setResultPreviewResults] = useState([]);
+  const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
 
   const queryModeChangedHandler = value => {
     setCurrentQueryMode(value);
@@ -117,6 +20,9 @@ export default function QuerySection () {
 
   const numberOfDocumentsChangedHandler = value => {
     if (!isNaN(value)) {
+      // Prevent the number of documents to be greater than istexApiConfig.maxAmountOfDocuments
+      value = Math.min(value, istexApiConfig.maxAmountOfDocuments);
+
       dispatch(setNumberOfDocuments(value));
 
       eventEmitter.emit('updateNumberOfDocumentsParam', value);
@@ -130,10 +36,24 @@ export default function QuerySection () {
     eventEmitter.emit('updateRankingModeParam', value);
   };
 
+  const resultPreviewResponseReceivedHandler = response => {
+    const { data } = response;
+
+    setResultPreviewResults(data.hits);
+    setTotalAmountOfDocuments(data.total);
+  };
+
+  const resetResultPreviewHandler = () => {
+    setResultPreviewResults([]);
+    setTotalAmountOfDocuments(0);
+  };
+
   useEffect(() => {
     eventEmitter.addListener('queryModeChanged', queryModeChangedHandler);
     eventEmitter.addListener('numberOfDocumentsChanged', numberOfDocumentsChangedHandler);
     eventEmitter.addListener('rankingModeChanged', rankingModeChangedHandler);
+    eventEmitter.addListener('resultPreviewResponseReceived', resultPreviewResponseReceivedHandler);
+    eventEmitter.addListener('resetResultPreview', resetResultPreviewHandler);
   }, []);
 
   return (
@@ -157,17 +77,34 @@ export default function QuerySection () {
       <div>
         <QueryInput currentQueryMode={currentQueryMode} />
       </div>
+      {!!totalAmountOfDocuments && (
+        <div>
+          <span>The request returned {totalAmountOfDocuments.toLocaleString()} document(s)</span>
+          {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
+            <span style={{ marginLeft: '1.5rem' }}>
+              WARNING! (number of results greater than {istexApiConfig.maxAmountOfDocuments})
+            </span>
+          )}
+        </div>
+      )}
       <div>
         <span>Number of documents: </span>
         <input
           type='number'
           value={numberOfDocuments}
           min='0'
+          max={istexApiConfig.maxAmountOfDocuments}
           onChange={event => {
             const value = parseInt(event.target.value);
             numberOfDocumentsChangedHandler(value);
           }}
         />
+        {!!totalAmountOfDocuments && (
+          <>
+            <span> / {Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</span>
+            <button onClick={() => numberOfDocumentsChangedHandler(totalAmountOfDocuments)}>All</button>
+          </>
+        )}
       </div>
       <div>
         <span>Results ranking mode: </span>
@@ -187,9 +124,9 @@ export default function QuerySection () {
           </span>
         ))}
       </div>
-      {fakeResults.length > 0 && (
+      {resultPreviewResults.length > 0 && (
         <div>
-          <ResultPreview results={fakeResults} />
+          <ResultPreview results={resultPreviewResults} />
         </div>
       )}
     </>

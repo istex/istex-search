@@ -2,6 +2,7 @@ export const istexApiConfig = {
   baseUrl: 'https://api.istex.fr',
   rankingModes: ['qualityOverRelevance', 'relevance', 'random'],
   archiveTypes: ['zip', 'tar'],
+  maxAmountOfDocuments: 100000,
 };
 
 export const queryModes = ['query string', 'ark', 'file import'];

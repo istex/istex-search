@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { istexApiConfig, formats } from '../config';
 
 /**
@@ -215,4 +216,20 @@ export function resetFormat () {
  */
 export function isFormatSelected (baseFormat, formatToCheck) {
   return (baseFormat & formatToCheck) === formatToCheck;
+}
+
+/**
+ * Send a request to the ISTEX API to preview the results that will be in the archive.
+ * @param {string} queryString The query string URL search parameter.
+ * @param {string} rankingMode The ranking mode URL search parameter.
+ * @returns A `Promise`.
+ */
+export function sendResultPreviewApiRequest (queryString, rankingMode) {
+  const url = new URL('document', istexApiConfig.baseUrl);
+  url.searchParams.append('q', queryString);
+  url.searchParams.append('rankBy', rankingMode);
+  url.searchParams.append('size', 6);
+  url.searchParams.append('output', 'author,title,host.title,publicationDate');
+
+  return axios.get(url.toString());
 }

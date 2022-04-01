@@ -78,6 +78,7 @@ export default function QueryInput ({ currentQueryMode }) {
         <input
           ref={inputElement}
           type='text'
+          name='queryInput'
           placeholder='brain AND language:fre'
           onChange={event => queryInputChangedHandler(event.target.value)}
         />
@@ -89,6 +90,7 @@ export default function QueryInput ({ currentQueryMode }) {
           ref={inputElement}
           rows='2'
           cols='30'
+          name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2
           ark:/67375/0T8-RNCBH0VZ-8'
           onChange={event => {
@@ -104,6 +106,7 @@ export default function QueryInput ({ currentQueryMode }) {
         <input
           ref={inputElement}
           type='file'
+          name='queryInput'
           accept='.corpus'
           onChange={event => corpusFileHandler(event.target.files[0])}
         />
@@ -112,7 +115,7 @@ export default function QueryInput ({ currentQueryMode }) {
 
   return (
     <>
-      <span>{currentQueryMode}: </span>
+      <label htmlFor='queryInput'>{currentQueryMode}: </label>
       {queryInputUi}
     </>
   );

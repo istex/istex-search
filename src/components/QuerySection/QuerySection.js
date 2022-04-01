@@ -88,12 +88,13 @@ export default function QuerySection () {
         </div>
       )}
       <div>
-        <span>Number of documents: </span>
+        <label htmlFor='numberOfDocumentsInput'>Number of documents: </label>
         <input
           type='number'
           value={numberOfDocuments}
           min='0'
           max={istexApiConfig.maxAmountOfDocuments}
+          name='numberOfDocumentsInput'
           onChange={event => {
             const value = parseInt(event.target.value);
             numberOfDocumentsChangedHandler(value);

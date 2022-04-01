@@ -4,8 +4,8 @@ import React from 'react';
 import { customRender as render, screen } from '../../testUtils';
 import DownloadSection from './DownloadSection';
 
-test('Renders the Download title', () => {
+test('Renders the Download button', () => {
   render(<DownloadSection />);
-  const downloadTitle = screen.getByText(/Download/i);
-  expect(downloadTitle).toBeInTheDocument();
+  const downloadButton = screen.getAllByText(/Download/i).find(element => element.tagName === 'BUTTON');
+  expect(downloadButton).toBeInTheDocument();
 });

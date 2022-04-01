@@ -14,7 +14,6 @@ export default function DownloadSection () {
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
-  const [fullUrl, setFullUrl] = useState('');
 
   // currentArchiveType is a local state variable linked to the UI while archiveType is in the Redux store
   // currentArchiveType is used to be able to reset the UI from the reset button
@@ -33,17 +32,12 @@ export default function DownloadSection () {
     eventEmitter.emit('updateArchiveTypeParam', value);
   };
 
-  const fullUrlChangedHandler = value => {
-    setFullUrl(value);
-  };
-
   useEffect(() => {
     eventEmitter.addListener('compressionLevelChanged', compressionLevelChangedHandler);
     eventEmitter.addListener('archiveTypeChanged', archiveTypeChangedHandler);
-    eventEmitter.addListener('fullUrlChanged', fullUrlChangedHandler);
   }, []);
 
-  const onBuildUrl = () => {
+  const onDownload = () => {
     const options = {
       queryString,
       selectedFormats,
@@ -52,7 +46,17 @@ export default function DownloadSection () {
       compressionLevel,
       archiveType,
     };
-    fullUrlChangedHandler(buildFullUrl(options).toString());
+    const url = buildFullUrl(options).toString();
+
+    // Hack to download the archive and see the progression in the download bar built in browsers
+    // We create a fake 'a' tag that points to the URL we just built and simulate a click on it
+    const link = document.createElement('a');
+    link.href = url;
+
+    // This attribute is set to open the URL in another tab, this is useful when the user is redirected
+    // to the identity federation page so that they don't lose the current ISTEX-DL page
+    link.setAttribute('target', '_blank');
+    link.click();
 
     localStorage.add({
       ...options,
@@ -101,8 +105,7 @@ export default function DownloadSection () {
           </span>
         ))}
       </div>
-      <button onClick={onBuildUrl} disabled={isFormIncomplete}>Build URL</button>
-      <p>final URL: {decodeURIComponent(fullUrl)}</p>
+      <button onClick={onDownload} disabled={isFormIncomplete}>Download</button>
     </>
   );
 }

@@ -12,7 +12,6 @@ export default function ResetButton () {
     eventEmitter.emit('formatsChanged', resetFormat());
     eventEmitter.emit('compressionLevelChanged', compressionLevels[0].value);
     eventEmitter.emit('archiveTypeChanged', istexApiConfig.archiveTypes[0]);
-    eventEmitter.emit('fullUrlChanged', '');
     eventEmitter.emit('resetResultPreview');
 
     eventEmitter.emit('resetSearchParams');

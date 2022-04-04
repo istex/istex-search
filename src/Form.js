@@ -880,7 +880,15 @@ export default class Form extends React.Component {
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key])
 
-            .map(key => decamelize(key, '-'))
+            .map(key => {
+                let decamelized = decamelize(key, '-');
+                // Horrible workaround to allow the grobidFulltext type to be in camel case without
+                // being seen as 2 separate formats
+                if (decamelized.endsWith('grobid-fulltext')) {
+                    decamelized = decamelized.replace('grobid-fulltext', 'grobidFulltext');
+                }
+                return decamelized;
+            })
             .map(key => key.split('-').slice(1))
             .map(([filetype, format]) => ({ filetype, format }))
             .reduce((prev, { filetype, format }) => {
@@ -1887,8 +1895,8 @@ export default class Form extends React.Component {
                                             ref={(instance) => { this.child[1] = instance; }}
                                             label="Texte intégral"
                                             filetype="fulltext"
-                                            formats="pdf,tei,txt,zip,tiff"
-                                            labels="PDF|TEI|TXT|ZIP|TIFF"
+                                            formats="pdf,tei,txt,cleaned,zip,tiff"
+                                            labels="PDF|TEI|TXT|CLEANED|ZIP|TIFF"
                                             value={this.state.extractFulltext}
                                             checkedFormats={this.state.Fulltext}
                                             onChange={this.handleFiletypeChange}
@@ -1939,8 +1947,8 @@ export default class Form extends React.Component {
                                             ref={(instance) => { this.child[4] = instance; }}
                                             label="Enrichissements"
                                             filetype="enrichments"
-                                            formats="multicat,nb,refbibs,teeft,unitex"
-                                            labels="multicat|nb|refBibs|teeft|unitex"
+                                            formats="multicat,nb,refbibs,grobidFulltext,teeft,unitex"
+                                            labels="multicat|nb|refBibs|grobidFulltext|teeft|unitex"
                                             value={this.state.extractEnrichments}
                                             checkedFormats={this.state.Enrichments}
                                             onChange={this.handleFiletypeChange}

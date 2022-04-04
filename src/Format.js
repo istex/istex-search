@@ -126,6 +126,20 @@ export default class Format extends React.Component {
                 </p>
             );
                 break;
+            case 'cleaned': tooltipText = (
+                <p>
+                    <a
+                        href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-cleaned-nettoy%C3%A9"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        CLEANED : Nettoyé
+                    </a>
+                    <br />
+                    Un fichier texte contenant le texte intégral sans mise en forme, sans image, sans tableau et sans formule. Uniquement le contenu textuel des paragraphes a été conservé.
+                </p>
+            );
+                break;
             case 'json': tooltipText = (
                 <p>
                     <a
@@ -216,6 +230,12 @@ export default class Format extends React.Component {
             case 'refbibs': tooltipText = (
                 <p>
                     Références bibliographiques des documents, structurées à l’aide de l’outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>
+                </p>
+            );
+                break;
+            case 'grobidfulltext': tooltipText = (
+                <p>
+                    Intégralité du document structurée au format TEI à l'aide de l'outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>.
                 </p>
             );
                 break;

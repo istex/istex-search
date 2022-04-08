@@ -1,18 +1,10 @@
 /**
- * Create a debounced function that delays the call of `callback` until after `delay` milliseconds have elapsed
- * since the debounced function was last called.
- * @param {Function} callback The callback to call.
- * @param {number} delay The delay to wait before calling `callback`.
+ * Checks if `hash` is a valid md5 hash.
+ * @param {string} hash The hash to check.
+ * @returns `true` if `hash` is a valid md5 hash, `false` otherwise.
  */
-export function debounce (callback, delay = 1000) {
-  let timeoutId;
+export function isValidMd5 (hash) {
+  if (typeof hash !== 'string') return false;
 
-  return (...args) => {
-    clearTimeout(timeoutId);
-
-    timeoutId = setTimeout(() => {
-      // eslint-disable-next-line node/no-callback-literal
-      callback(...args);
-    }, delay);
-  };
+  return (/^[a-f0-9]{32}$/g).test(hash);
 }

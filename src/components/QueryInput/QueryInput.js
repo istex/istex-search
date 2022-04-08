@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import { setQueryString } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
@@ -8,23 +9,15 @@ import {
   isEmptyArkQueryString,
   sendResultPreviewApiRequest
 } from '../../lib/istexApi';
-import { debounce } from '../../lib/utils';
 import eventEmitter from '../../lib/eventEmitter';
-import { queryModes } from '../../config';
+import { queryModes, istexApiConfig } from '../../config';
+
+let timeoutId;
 
 export default function QueryInput ({ currentQueryMode }) {
   const dispatch = useDispatch();
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const inputElement = useRef();
-
-  const debouncedRequest = debounce(queryString => {
-    sendResultPreviewApiRequest(queryString, rankingMode)
-      .then(response => {
-        eventEmitter.emit('resultPreviewResponseReceived', response);
-      })
-      // TODO: print the error in a modal or something else
-      .catch(console.error);
-  });
 
   const queryInputChangedHandler = value => {
     // Only necessary when the handler is triggered from an event from another component
@@ -38,6 +31,8 @@ export default function QueryInput ({ currentQueryMode }) {
 
     dispatch(setQueryString(value));
 
+    if (timeoutId) clearTimeout(timeoutId);
+
     eventEmitter.emit('updateQueryStringParam', value);
 
     if (!value) {
@@ -45,9 +40,46 @@ export default function QueryInput ({ currentQueryMode }) {
       return;
     }
 
+    // If the query string is too long to be set in a URL search parameter, we replace it with a q_id instead
+    if (value.length > istexApiConfig.queryStringMaxLength) {
+      // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
+      // route of the API and might (hopefully) change in the future
+      const hashedValue = md5(value).toString();
+      qIdChangedHandler(hashedValue, value);
+      return;
+    }
+
     // We don't want to send an API request everytime the input changes so we make sure the user
     // stopped typing for at least one second before sending a request
-    debouncedRequest(value);
+    timeoutId = setTimeout(() => {
+      sendResultPreviewApiRequest(value, rankingMode)
+        .then(response => {
+          eventEmitter.emit('resultPreviewResponseReceived', response);
+        })
+        // TODO: print the error in a modal or something else
+        .catch(console.error);
+    }, 1000);
+  };
+
+  const qIdChangedHandler = (value, originalQueryString) => {
+    // If originalQueryString was not passed we need to fetch it from the API using the qId
+    if (!originalQueryString) {
+      // TODO: send a GET request to /q_id/<value> to get the originalQueryString, if 404 stop here
+    }
+
+    // TODO: send a POST request to /q_id/<value> with { qString: value } body to save the query string
+    // in the redis base
+
+    eventEmitter.emit('updateQIdParam', value);
+
+    timeoutId = setTimeout(() => {
+      sendResultPreviewApiRequest(originalQueryString, rankingMode)
+        .then(response => {
+          eventEmitter.emit('resultPreviewResponseReceived', response);
+        })
+        // TODO: print the error in a modal or something else
+        .catch(console.error);
+    }, 1000);
   };
 
   const corpusFileHandler = file => {
@@ -66,6 +98,7 @@ export default function QueryInput ({ currentQueryMode }) {
 
   useEffect(() => {
     eventEmitter.addListener('queryInputChanged', queryInputChangedHandler);
+    eventEmitter.addListener('qIdChanged', qIdChangedHandler);
   }, []);
 
   let queryInputUi;

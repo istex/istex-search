@@ -2,12 +2,14 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import eventEmitter from '../../lib/eventEmitter';
 import { parseExtractParams } from '../../lib/istexApi';
+import { isValidMd5 } from '../../lib/utils';
 import { istexApiConfig, compressionLevels } from '../../config';
 
 export default function UrlSearchParamsManager () {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const queryString = searchParams.get('q');
+  const qId = searchParams.get('q_id');
   const extractParamsAsString = searchParams.get('extract');
   const numberOfDocumentsAsString = searchParams.get('size');
   const rankingMode = searchParams.get('rankBy');
@@ -19,8 +21,18 @@ export default function UrlSearchParamsManager () {
     // We need to make sure it's defined to avoid force setting an URL parameter when it was not defined
     // in the first place. We just want to correct them when they're defined but have an invalid value.
 
-    if (queryString) {
+    if (queryString && qId) {
+      // The 'q' and 'q_id' URL search parameters cannot be set at the same time so, if it's the case,
+      // we removed them from the URL and an error message is displayed in UI
+      searchParams.delete('q');
+      searchParams.delete('q_id');
+
+      // TODO: display an error modal or something else that says that 'q' and 'q_id' cannot be set at
+      // the same time
+    } else if (queryString) {
       eventEmitter.emit('queryInputChanged', queryString);
+    } else if (isValidMd5(qId)) {
+      eventEmitter.emit('qIdChanged', qId);
     }
 
     if (extractParamsAsString != null) {
@@ -79,6 +91,18 @@ export default function UrlSearchParamsManager () {
     setSearchParams(searchParams);
   };
 
+  const setQueryStringParam = value => {
+    if (searchParams.has('q_id')) searchParams.delete('q_id');
+
+    setUrlSearchParam('q', value);
+  };
+
+  const setQIdParam = value => {
+    if (searchParams.has('q')) searchParams.delete('q');
+
+    setUrlSearchParam('q_id', value);
+  };
+
   const resetSearchParams = () => {
     setSearchParams({});
   };
@@ -86,7 +110,8 @@ export default function UrlSearchParamsManager () {
   useEffect(() => {
     fillFormFromUrlSearchParams();
 
-    eventEmitter.addListener('updateQueryStringParam', value => setUrlSearchParam('q', value));
+    eventEmitter.addListener('updateQueryStringParam', setQueryStringParam);
+    eventEmitter.addListener('updateQIdParam', setQIdParam);
     eventEmitter.addListener('updateNumberOfDocumentsParam', value => setUrlSearchParam('size', value));
     eventEmitter.addListener('updateRankingModeParam', value => setUrlSearchParam('rankBy', value));
     eventEmitter.addListener('updateExtractParam', value => setUrlSearchParam('extract', value));

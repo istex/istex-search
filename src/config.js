@@ -3,6 +3,7 @@ export const istexApiConfig = {
   rankingModes: ['qualityOverRelevance', 'relevance', 'random'],
   archiveTypes: ['zip', 'tar'],
   maxAmountOfDocuments: 100000,
+  queryStringMaxLength: 2000,
 };
 
 export const queryModes = ['query string', 'ark', 'file import'];

@@ -226,10 +226,19 @@ export function isFormatSelected (baseFormat, formatToCheck) {
  */
 export function sendResultPreviewApiRequest (queryString, rankingMode) {
   const url = new URL('document', istexApiConfig.baseUrl);
-  url.searchParams.append('q', queryString);
   url.searchParams.append('rankBy', rankingMode);
   url.searchParams.append('size', 6);
   url.searchParams.append('output', 'author,title,host.title,publicationDate');
+
+  // If the query string is too long some browsers won't accept to send a GET request so we send a POST request
+  // instead and pass the query string in the body
+  if (queryString.length > istexApiConfig.queryStringMaxLength) {
+    return axios.post(url.toString(), {
+      qString: queryString,
+    });
+  }
+
+  url.searchParams.append('q', queryString);
 
   return axios.get(url.toString());
 }

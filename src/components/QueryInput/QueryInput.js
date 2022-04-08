@@ -8,17 +8,23 @@ import {
   isEmptyArkQueryString,
   sendResultPreviewApiRequest
 } from '../../lib/istexApi';
+import { debounce } from '../../lib/utils';
 import eventEmitter from '../../lib/eventEmitter';
 import { queryModes } from '../../config';
-
-// The timeout ID is stored globally not to get recreated when the component re-renders.
-// There could be problems if the component re-renders while a timeout is still going.
-let timeoutId;
 
 export default function QueryInput ({ currentQueryMode }) {
   const dispatch = useDispatch();
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const inputElement = useRef();
+
+  const debouncedRequest = debounce(queryString => {
+    sendResultPreviewApiRequest(queryString, rankingMode)
+      .then(response => {
+        eventEmitter.emit('resultPreviewResponseReceived', response);
+      })
+      // TODO: print the error in a modal or something else
+      .catch(console.error);
+  });
 
   const queryInputChangedHandler = value => {
     // Only necessary when the handler is triggered from an event from another component
@@ -34,8 +40,6 @@ export default function QueryInput ({ currentQueryMode }) {
 
     eventEmitter.emit('updateQueryStringParam', value);
 
-    if (timeoutId) clearTimeout(timeoutId);
-
     if (!value) {
       eventEmitter.emit('resetResultPreview');
       return;
@@ -43,14 +47,7 @@ export default function QueryInput ({ currentQueryMode }) {
 
     // We don't want to send an API request everytime the input changes so we make sure the user
     // stopped typing for at least one second before sending a request
-    timeoutId = setTimeout(() => {
-      sendResultPreviewApiRequest(value, rankingMode)
-        .then(response => {
-          eventEmitter.emit('resultPreviewResponseReceived', response);
-        })
-        // TODO: print the error in a modal or something else
-        .catch(console.error);
-    }, 1000);
+    debouncedRequest(value);
   };
 
   const corpusFileHandler = file => {

@@ -140,7 +140,8 @@ export function parseExtractParams (extractParamsAsString) {
 
 /**
  * Build the URL to be used when sending a request to the ISTEX API.
- * @param {string} queryString The query string.
+ * @param {string} queryString The query string (not needed if `qId` is present).
+ * @param {string} qId The q_id (not needed if `queryString` is present).
  * @param {number} selectedFormats The selected formats as an integer (bit field).
  * @param {string} rankingMode The ranking mode.
  * @param {number} numberOfDocuments The maximum number of documents.
@@ -148,7 +149,7 @@ export function parseExtractParams (extractParamsAsString) {
  * @param {'zip'|'tar'} archiveType The type of archive.
  * @returns The full URL as an `URL` object.
  */
-export function buildFullUrl ({ queryString, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType }) {
+export function buildFullUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType }) {
   // If no format is selected, return early and don't add the extract parameter
   if (!selectedFormats) return null;
 
@@ -156,7 +157,13 @@ export function buildFullUrl ({ queryString, selectedFormats, rankingMode, numbe
 
   // Build the final URL object
   const url = new URL('document', istexApiConfig.baseUrl);
-  url.searchParams.append('q', queryString);
+
+  if (qId) {
+    url.searchParams.append('q_id', qId);
+  } else {
+    url.searchParams.append('q', queryString);
+  }
+
   url.searchParams.append('extract', extractParams);
   url.searchParams.append('size', numberOfDocuments);
   url.searchParams.append('rankBy', rankingMode);

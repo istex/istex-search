@@ -37,7 +37,7 @@ export default function HistoryButton () {
             <header className='history-header'>
               <div className='history-header-item index'>#</div>
               <div className='history-header-item date'>Date</div>
-              <div className='history-header-item request'>Request</div>
+              <div className='history-header-item request'>Request / q_id</div>
               <div className='history-header-item formats'>Formats</div>
               <div className='history-header-item nb-docs'>Nb. docs</div>
               <div className='history-header-item rank'>Rank mode</div>

@@ -6,6 +6,12 @@ export default function FetchButton () {
   const updateFormFromLastRequestInLocalStorage = () => {
     const mostRecentRequest = localStorage.get(0);
 
+    if (mostRecentRequest.qId) {
+      eventEmitter.emit('qIdChanged', mostRecentRequest.qId);
+    } else {
+      eventEmitter.emit('queryInputChanged', mostRecentRequest.queryString);
+    }
+
     eventEmitter.emit('queryInputChanged', mostRecentRequest.queryString);
     eventEmitter.emit('formatsChanged', mostRecentRequest.selectedFormats);
     eventEmitter.emit('numberOfDocumentsChanged', mostRecentRequest.numberOfDocuments);

@@ -7,7 +7,12 @@ import localStorage from '../../lib/localStorage';
 
 export default function HistoryRequest ({ requestInfo }) {
   const editHandler = () => {
-    eventEmitter.emit('queryInputChanged', requestInfo.queryString);
+    if (requestInfo.qId) {
+      eventEmitter.emit('qIdChanged', requestInfo.qId);
+    } else {
+      eventEmitter.emit('queryInputChanged', requestInfo.queryString);
+    }
+
     eventEmitter.emit('formatsChanged', requestInfo.selectedFormats);
     eventEmitter.emit('numberOfDocumentsChanged', requestInfo.numberOfDocuments);
     eventEmitter.emit('rankingModeChanged', requestInfo.rankingMode);
@@ -41,9 +46,9 @@ export default function HistoryRequest ({ requestInfo }) {
     <div className='history-request'>
       <div className='history-request-item index'>{requestInfo.index + 1}</div>
       <div className='history-request-item date'>{requestInfo.date}</div>
-      <div className='history-request-item request'>{requestInfo.queryString}</div>
+      <div className='history-request-item request'>{requestInfo.qId ? requestInfo.qId : requestInfo.queryString}</div>
       <div className='history-request-item formats'>{buildExtractParamsFromFormats(requestInfo.selectedFormats)}</div>
-      <div className='history-request-item nb'>{requestInfo.numberOfDocuments}</div>
+      <div className='history-request-item nb-docs'>{requestInfo.numberOfDocuments}</div>
       <div className='history-request-item rank'>{requestInfo.rankingMode}</div>
       <div className='history-request-item actions'>
         <button onClick={editHandler}>Edit</button>

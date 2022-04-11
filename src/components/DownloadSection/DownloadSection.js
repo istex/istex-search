@@ -9,6 +9,7 @@ import localStorage from '../../lib/localStorage';
 export default function DownloadSection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
+  const qId = useSelector(state => state.istexApi.qId);
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
@@ -39,13 +40,19 @@ export default function DownloadSection () {
 
   const onDownload = () => {
     const options = {
-      queryString,
       selectedFormats,
       rankingMode,
       numberOfDocuments,
       compressionLevel,
       archiveType,
     };
+
+    if (qId) {
+      options.qId = qId;
+    } else {
+      options.queryString = queryString;
+    }
+
     const url = buildFullUrl(options).toString();
 
     // Hack to download the archive and see the progression in the download bar built in browsers

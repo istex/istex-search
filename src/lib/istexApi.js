@@ -236,6 +236,7 @@ export function sendResultPreviewApiRequest (queryString, rankingMode) {
   url.searchParams.append('rankBy', rankingMode);
   url.searchParams.append('size', 6);
   url.searchParams.append('output', 'author,title,host.title,publicationDate');
+  url.searchParams.append('sid', 'istex-dl');
 
   // If the query string is too long some browsers won't accept to send a GET request so we send a POST request
   // instead and pass the query string in the body

@@ -242,3 +242,14 @@ export function sendResultPreviewApiRequest (queryString, rankingMode) {
 
   return axios.get(url.toString());
 }
+
+/**
+ * Send a request to the ISTEX API to get the query string corresponding to `qId`.
+ * @param {string} qId The qId (md5 hash of a query string).
+ * @returns A `Promise`.
+ */
+export function getQueryStringFromQId (qId) {
+  const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+
+  return axios.get(url.toString());
+}

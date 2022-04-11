@@ -2,12 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { setQueryString } from '../../store/istexApiSlice';
+import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
   buildQueryStringFromCorpusFile,
   isEmptyArkQueryString,
-  sendResultPreviewApiRequest
+  sendResultPreviewApiRequest,
+  getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
@@ -19,7 +20,8 @@ export default function QueryInput ({ currentQueryMode }) {
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const inputElement = useRef();
 
-  const queryInputChangedHandler = value => {
+  // Set the text input value to what was passed and return it just in case it was modified
+  const updateQueryInputValue = value => {
     // Only necessary when the handler is triggered from an event from another component
     if (currentQueryMode === queryModes[0]) {
       inputElement.current.value = value;
@@ -30,6 +32,25 @@ export default function QueryInput ({ currentQueryMode }) {
     if (isEmptyArkQueryString(value)) value = '';
 
     dispatch(setQueryString(value));
+
+    return value;
+  };
+
+  const sendDelayedResultPreviewApiRequest = queryString => {
+    timeoutId = setTimeout(async () => {
+      try {
+        const response = await sendResultPreviewApiRequest(queryString, rankingMode);
+        eventEmitter.emit('resultPreviewResponseReceived', response);
+      } catch (err) {
+        // TODO: print the error in a modal or something else
+        console.error(err);
+      }
+    }, 1000);
+  };
+
+  const queryInputChangedHandler = value => {
+    // `value` may be modified, that's why updateQueryInputValue returns a value
+    value = updateQueryInputValue(value);
 
     if (timeoutId) clearTimeout(timeoutId);
 
@@ -51,35 +72,32 @@ export default function QueryInput ({ currentQueryMode }) {
 
     // We don't want to send an API request everytime the input changes so we make sure the user
     // stopped typing for at least one second before sending a request
-    timeoutId = setTimeout(() => {
-      sendResultPreviewApiRequest(value, rankingMode)
-        .then(response => {
-          eventEmitter.emit('resultPreviewResponseReceived', response);
-        })
-        // TODO: print the error in a modal or something else
-        .catch(console.error);
-    }, 1000);
+    sendDelayedResultPreviewApiRequest(value);
   };
 
-  const qIdChangedHandler = (value, originalQueryString) => {
+  const qIdChangedHandler = async (value, originalQueryString) => {
     // If originalQueryString was not passed we need to fetch it from the API using the qId
     if (!originalQueryString) {
-      // TODO: send a GET request to /q_id/<value> to get the originalQueryString, if 404 stop here
+      try {
+        const response = await getQueryStringFromQId(value);
+        originalQueryString = response.data.req;
+        updateQueryInputValue(originalQueryString);
+      } catch (err) {
+        // TODO: print the error in a modal or something else
+        console.error(err);
+
+        return;
+      }
     }
 
     // TODO: send a POST request to /q_id/<value> with { qString: value } body to save the query string
     // in the redis base
 
+    dispatch(setQId(value));
+
     eventEmitter.emit('updateQIdParam', value);
 
-    timeoutId = setTimeout(() => {
-      sendResultPreviewApiRequest(originalQueryString, rankingMode)
-        .then(response => {
-          eventEmitter.emit('resultPreviewResponseReceived', response);
-        })
-        // TODO: print the error in a modal or something else
-        .catch(console.error);
-    }, 1000);
+    sendDelayedResultPreviewApiRequest(originalQueryString);
   };
 
   const corpusFileHandler = file => {

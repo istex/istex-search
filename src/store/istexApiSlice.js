@@ -5,6 +5,7 @@ export const istexApiSlice = createSlice({
   name: 'istexApi',
   initialState: {
     queryString: '',
+    qId: '',
     selectedFormats: 0,
     numberOfDocuments: 0,
     rankingMode: istexApiConfig.rankingModes[0],
@@ -14,6 +15,9 @@ export const istexApiSlice = createSlice({
   reducers: {
     setQueryString: (state, action) => {
       state.queryString = action.payload;
+    },
+    setQId: (state, action) => {
+      state.qId = action.payload;
     },
     setSelectedFormats: (state, action) => {
       state.selectedFormats = action.payload;
@@ -35,6 +39,7 @@ export const istexApiSlice = createSlice({
 
 export const {
   setQueryString,
+  setQId,
   setSelectedFormats,
   setNumberOfDocuments,
   setRankingMode,

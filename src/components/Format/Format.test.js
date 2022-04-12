@@ -7,8 +7,8 @@ import { formats } from '../../config';
 
 test('Renders the PDF label', () => {
   const pdfFormatName = 'PDF';
-  const pdfFormatValue = formats.fulltext.PDF;
+  const pdfFormatValue = formats.fulltext.pdf;
   render(<Format name={pdfFormatName} value={pdfFormatValue} />);
-  const pdfLabel = screen.getByText(/PDF/i);
+  const pdfLabel = screen.getByText(/pdf/i);
   expect(pdfLabel).toBeInTheDocument();
 });

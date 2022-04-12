@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
-import { buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
+import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import { istexApiConfig, compressionLevels } from '../../config';
 import eventEmitter from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
@@ -38,7 +38,7 @@ export default function DownloadSection () {
     eventEmitter.addListener('archiveTypeChanged', archiveTypeChangedHandler);
   }, []);
 
-  const onDownload = () => {
+  const onDownload = async () => {
     const options = {
       selectedFormats,
       rankingMode,
@@ -48,6 +48,17 @@ export default function DownloadSection () {
     };
 
     if (qId) {
+      try {
+        await sendSaveQIdApiRequest(qId, queryString);
+      } catch (err) {
+        // 409 errors are expected because, in some scenarios, the q_id will already be saved in the redis base
+        if (err.response.status !== 409) {
+          // TODO: print the error in a modal or something else
+          console.error(err);
+          return;
+        }
+      }
+
       options.qId = qId;
     } else {
       options.queryString = queryString;

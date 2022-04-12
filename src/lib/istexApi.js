@@ -268,6 +268,19 @@ export function sendDownloadApiRequest (url) {
 }
 
 /**
+ * Send a request to the ISTEX API to save `qId` and `queryString` in the redis base.
+ * @param {string} qId The q_id to save in the redis base.
+ * @param {string} queryString The query string associated with `qId`.
+ */
+export function sendSaveQIdApiRequest (qId, queryString) {
+  const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+
+  return axios.post(url.toString(), {
+    qString: queryString,
+  });
+}
+
+/**
  * Send a request to the ISTEX API to get the query string corresponding to `qId`.
  * @param {string} qId The qId (md5 hash of a query string).
  * @returns A `Promise`.

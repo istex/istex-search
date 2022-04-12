@@ -90,9 +90,6 @@ export default function QueryInput ({ currentQueryMode }) {
       }
     }
 
-    // TODO: send a POST request to /q_id/<value> with { qString: value } body to save the query string
-    // in the redis base
-
     dispatch(setQId(value));
 
     eventEmitter.emit('updateQIdParam', value);

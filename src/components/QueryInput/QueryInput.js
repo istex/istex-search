@@ -21,19 +21,19 @@ export default function QueryInput ({ currentQueryMode }) {
   const inputElement = useRef();
 
   // Set the text input value to what was passed and return it just in case it was modified
-  const updateQueryInputValue = value => {
+  const updateQueryInputValue = newQueryInputValue => {
     // Only necessary when the handler is triggered from an event from another component
     if (currentQueryMode === queryModes[0]) {
-      inputElement.current.value = value;
+      inputElement.current.value = newQueryInputValue;
     }
 
     // If the query string is an ark query with an empty list of ark identifiers,
     // reset the query string to its default value (empty string)
-    if (isEmptyArkQueryString(value)) value = '';
+    if (isEmptyArkQueryString(newQueryInputValue)) newQueryInputValue = '';
 
-    dispatch(setQueryString(value));
+    dispatch(setQueryString(newQueryInputValue));
 
-    return value;
+    return newQueryInputValue;
   };
 
   const sendDelayedResultPreviewApiRequest = queryString => {
@@ -48,38 +48,38 @@ export default function QueryInput ({ currentQueryMode }) {
     }, 1000);
   };
 
-  const queryInputChangedHandler = value => {
-    // `value` may be modified, that's why updateQueryInputValue returns a value
-    value = updateQueryInputValue(value);
+  const queryInputChangedHandler = newQueryInputValue => {
+    // `newQueryInputValue` may be modified, that's why updateQueryInputValue returns a value
+    newQueryInputValue = updateQueryInputValue(newQueryInputValue);
 
     if (timeoutId) clearTimeout(timeoutId);
 
-    eventEmitter.emit('updateQueryStringParam', value);
+    eventEmitter.emit('updateQueryStringParam', newQueryInputValue);
 
-    if (!value) {
+    if (!newQueryInputValue) {
       eventEmitter.emit('resetResultPreview');
       return;
     }
 
     // If the query string is too long to be set in a URL search parameter, we replace it with a q_id instead
-    if (value.length > istexApiConfig.queryStringMaxLength) {
+    if (newQueryInputValue.length > istexApiConfig.queryStringMaxLength) {
       // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
       // route of the API and might (hopefully) change in the future
-      const hashedValue = md5(value).toString();
-      qIdChangedHandler(hashedValue, value);
+      const hashedValue = md5(newQueryInputValue).toString();
+      qIdChangedHandler(hashedValue, newQueryInputValue);
       return;
     }
 
     // We don't want to send an API request everytime the input changes so we make sure the user
     // stopped typing for at least one second before sending a request
-    sendDelayedResultPreviewApiRequest(value);
+    sendDelayedResultPreviewApiRequest(newQueryInputValue);
   };
 
-  const qIdChangedHandler = async (value, originalQueryString) => {
+  const qIdChangedHandler = async (newQId, originalQueryString) => {
     // If originalQueryString was not passed we need to fetch it from the API using the qId
     if (!originalQueryString) {
       try {
-        const response = await getQueryStringFromQId(value);
+        const response = await getQueryStringFromQId(newQId);
         originalQueryString = response.data.req;
         updateQueryInputValue(originalQueryString);
       } catch (err) {
@@ -90,9 +90,9 @@ export default function QueryInput ({ currentQueryMode }) {
       }
     }
 
-    dispatch(setQId(value));
+    dispatch(setQId(newQId));
 
-    eventEmitter.emit('updateQIdParam', value);
+    eventEmitter.emit('updateQIdParam', newQId);
 
     sendDelayedResultPreviewApiRequest(originalQueryString);
   };

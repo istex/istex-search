@@ -20,17 +20,17 @@ export default function DownloadSection () {
   // currentArchiveType is used to be able to reset the UI from the reset button
   const [currentArchiveType, setCurrentArchiveType] = useState(istexApiConfig.archiveTypes[0]);
 
-  const compressionLevelChangedHandler = value => {
-    dispatch(setCompressionLevel(value));
+  const compressionLevelChangedHandler = newCompressionLevel => {
+    dispatch(setCompressionLevel(newCompressionLevel));
 
-    eventEmitter.emit('updateCompressionLevelParam', value);
+    eventEmitter.emit('updateCompressionLevelParam', newCompressionLevel);
   };
 
-  const archiveTypeChangedHandler = value => {
-    setCurrentArchiveType(value);
-    dispatch(setArchiveType(value));
+  const archiveTypeChangedHandler = newArchiveType => {
+    setCurrentArchiveType(newArchiveType);
+    dispatch(setArchiveType(newArchiveType));
 
-    eventEmitter.emit('updateArchiveTypeParam', value);
+    eventEmitter.emit('updateArchiveTypeParam', newArchiveType);
   };
 
   useEffect(() => {

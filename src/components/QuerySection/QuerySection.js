@@ -14,26 +14,26 @@ export default function QuerySection () {
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
 
-  const queryModeChangedHandler = value => {
-    setCurrentQueryMode(value);
+  const queryModeChangedHandler = newQueryMode => {
+    setCurrentQueryMode(newQueryMode);
   };
 
-  const numberOfDocumentsChangedHandler = value => {
-    if (!isNaN(value)) {
+  const numberOfDocumentsChangedHandler = newNumberOfDocuments => {
+    if (!isNaN(newNumberOfDocuments)) {
       // Prevent the number of documents to be greater than istexApiConfig.maxAmountOfDocuments
-      value = Math.min(value, istexApiConfig.maxAmountOfDocuments);
+      newNumberOfDocuments = Math.min(newNumberOfDocuments, istexApiConfig.maxAmountOfDocuments);
 
-      dispatch(setNumberOfDocuments(value));
+      dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
-      eventEmitter.emit('updateNumberOfDocumentsParam', value);
+      eventEmitter.emit('updateNumberOfDocumentsParam', newNumberOfDocuments);
     }
   };
 
-  const rankingModeChangedHandler = value => {
-    setCurrentRankingMode(value);
-    dispatch(setRankingMode(value));
+  const rankingModeChangedHandler = newRankingMode => {
+    setCurrentRankingMode(newRankingMode);
+    dispatch(setRankingMode(newRankingMode));
 
-    eventEmitter.emit('updateRankingModeParam', value);
+    eventEmitter.emit('updateRankingModeParam', newRankingMode);
   };
 
   const resultPreviewResponseReceivedHandler = response => {

@@ -44,10 +44,10 @@ export default function UsageSection () {
     return isFormatSelected(selectedFormats, wholeCategoryFormat);
   };
 
-  const formatsChangedHandler = value => {
-    dispatch(setSelectedFormats(value));
+  const formatsChangedHandler = newSelectedFormats => {
+    dispatch(setSelectedFormats(newSelectedFormats));
 
-    const extractParams = buildExtractParamsFromFormats(value);
+    const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
     eventEmitter.emit('updateExtractParam', extractParams);
   };
 

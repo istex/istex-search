@@ -91,16 +91,16 @@ export default function UrlSearchParamsManager () {
     setSearchParams(searchParams);
   };
 
-  const setQueryStringParam = value => {
+  const setQueryStringParam = queryStringParam => {
     if (searchParams.has('q_id')) searchParams.delete('q_id');
 
-    setUrlSearchParam('q', value);
+    setUrlSearchParam('q', queryStringParam);
   };
 
-  const setQIdParam = value => {
+  const setQIdParam = qIdParam => {
     if (searchParams.has('q')) searchParams.delete('q');
 
-    setUrlSearchParam('q_id', value);
+    setUrlSearchParam('q_id', qIdParam);
   };
 
   const resetSearchParams = () => {
@@ -112,11 +112,11 @@ export default function UrlSearchParamsManager () {
 
     eventEmitter.addListener('updateQueryStringParam', setQueryStringParam);
     eventEmitter.addListener('updateQIdParam', setQIdParam);
-    eventEmitter.addListener('updateNumberOfDocumentsParam', value => setUrlSearchParam('size', value));
-    eventEmitter.addListener('updateRankingModeParam', value => setUrlSearchParam('rankBy', value));
-    eventEmitter.addListener('updateExtractParam', value => setUrlSearchParam('extract', value));
-    eventEmitter.addListener('updateCompressionLevelParam', value => setUrlSearchParam('compressionLevel', value));
-    eventEmitter.addListener('updateArchiveTypeParam', value => setUrlSearchParam('archiveType', value));
+    eventEmitter.addListener('updateNumberOfDocumentsParam', newSize => setUrlSearchParam('size', newSize));
+    eventEmitter.addListener('updateRankingModeParam', newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
+    eventEmitter.addListener('updateExtractParam', newExtractParam => setUrlSearchParam('extract', newExtractParam));
+    eventEmitter.addListener('updateCompressionLevelParam', newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
+    eventEmitter.addListener('updateArchiveTypeParam', newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
     eventEmitter.addListener('resetSearchParams', resetSearchParams);
   }, []);
 

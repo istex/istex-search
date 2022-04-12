@@ -1,13 +1,16 @@
 {
   "name": "istex-dl",
-  "version": "0.1.0",
+  "version": "4.22.0",
+  "description": "Web application dedicated to ISTEX sub-corpus extraction.",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "npm run lint && npm test -- --watchAll=false",
     "eject": "react-scripts eject",
-    "create-component": "node scripts/createComponent.js"
+    "create-component": "node scripts/createComponent.js",
+    "lint": "eslint ./src/ ./scripts/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import { istexApiConfig, compressionLevels } from '../../config';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
 export default function DownloadSection () {
@@ -23,19 +23,19 @@ export default function DownloadSection () {
   const compressionLevelChangedHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
 
-    eventEmitter.emit('updateCompressionLevelParam', newCompressionLevel);
+    eventEmitter.emit(events.updateCompressionLevelParam, newCompressionLevel);
   };
 
   const archiveTypeChangedHandler = newArchiveType => {
     setCurrentArchiveType(newArchiveType);
     dispatch(setArchiveType(newArchiveType));
 
-    eventEmitter.emit('updateArchiveTypeParam', newArchiveType);
+    eventEmitter.emit(events.updateArchiveTypeParam, newArchiveType);
   };
 
   useEffect(() => {
-    eventEmitter.addListener('compressionLevelChanged', compressionLevelChangedHandler);
-    eventEmitter.addListener('archiveTypeChanged', archiveTypeChangedHandler);
+    eventEmitter.addListener(events.compressionLevelChanged, compressionLevelChangedHandler);
+    eventEmitter.addListener(events.archiveTypeChanged, archiveTypeChangedHandler);
   }, []);
 
   const onDownload = async () => {

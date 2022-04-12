@@ -1,4 +1,4 @@
-import eventEmitter from './eventEmitter';
+import eventEmitter, { events } from './eventEmitter';
 
 const LOCAL_STORAGE_KEY = 'istex-dl';
 const LOCAL_STORAGE_LIMIT = 30;
@@ -53,7 +53,7 @@ class LocalStorage {
 
   _update () {
     window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this._elements));
-    eventEmitter.emit('localStorageUpdated');
+    eventEmitter.emit(events.localStorageUpdated);
   }
 }
 

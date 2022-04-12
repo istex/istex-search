@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { toggleFormat, isFormatSelected } from '../../lib/istexApi';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function Format ({ name, value, style }) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
 
   const checkHandler = () => {
-    eventEmitter.emit('formatsChanged', toggleFormat(selectedFormats, value));
+    eventEmitter.emit(events.formatsChanged, toggleFormat(selectedFormats, value));
   };
 
   return (

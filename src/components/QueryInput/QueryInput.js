@@ -10,7 +10,7 @@ import {
   sendResultPreviewApiRequest,
   getQueryStringFromQId,
 } from '../../lib/istexApi';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 
 let timeoutId;
@@ -40,7 +40,7 @@ export default function QueryInput ({ currentQueryMode }) {
     timeoutId = setTimeout(async () => {
       try {
         const response = await sendResultPreviewApiRequest(queryString, rankingMode);
-        eventEmitter.emit('resultPreviewResponseReceived', response);
+        eventEmitter.emit(events.resultPreviewResponseReceived, response);
       } catch (err) {
         // TODO: print the error in a modal or something else
         console.error(err);
@@ -54,10 +54,10 @@ export default function QueryInput ({ currentQueryMode }) {
 
     if (timeoutId) clearTimeout(timeoutId);
 
-    eventEmitter.emit('updateQueryStringParam', newQueryInputValue);
+    eventEmitter.emit(events.updateQueryStringParam, newQueryInputValue);
 
     if (!newQueryInputValue) {
-      eventEmitter.emit('resetResultPreview');
+      eventEmitter.emit(events.resetResultPreview);
       return;
     }
 
@@ -92,7 +92,7 @@ export default function QueryInput ({ currentQueryMode }) {
 
     dispatch(setQId(newQId));
 
-    eventEmitter.emit('updateQIdParam', newQId);
+    eventEmitter.emit(events.updateQIdParam, newQId);
 
     sendDelayedResultPreviewApiRequest(originalQueryString);
   };
@@ -112,8 +112,8 @@ export default function QueryInput ({ currentQueryMode }) {
   };
 
   useEffect(() => {
-    eventEmitter.addListener('queryInputChanged', queryInputChangedHandler);
-    eventEmitter.addListener('qIdChanged', qIdChangedHandler);
+    eventEmitter.addListener(events.queryInputChanged, queryInputChangedHandler);
+    eventEmitter.addListener(events.qIdChanged, qIdChangedHandler);
   }, []);
 
   let queryInputUi;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
 export default function FetchButton () {
@@ -13,17 +13,17 @@ export default function FetchButton () {
     }
 
     if (mostRecentRequest.qId) {
-      eventEmitter.emit('qIdChanged', mostRecentRequest.qId);
+      eventEmitter.emit(events.qIdChanged, mostRecentRequest.qId);
     } else {
-      eventEmitter.emit('queryInputChanged', mostRecentRequest.queryString);
+      eventEmitter.emit(events.queryInputChanged, mostRecentRequest.queryString);
     }
 
-    eventEmitter.emit('queryInputChanged', mostRecentRequest.queryString);
-    eventEmitter.emit('formatsChanged', mostRecentRequest.selectedFormats);
-    eventEmitter.emit('numberOfDocumentsChanged', mostRecentRequest.numberOfDocuments);
-    eventEmitter.emit('rankingModeChanged', mostRecentRequest.rankingMode);
-    eventEmitter.emit('compressionLevelChanged', mostRecentRequest.compressionLevel);
-    eventEmitter.emit('archiveTypeChanged', mostRecentRequest.archiveType);
+    eventEmitter.emit(events.queryInputChanged, mostRecentRequest.queryString);
+    eventEmitter.emit(events.formatsChanged, mostRecentRequest.selectedFormats);
+    eventEmitter.emit(events.numberOfDocumentsChanged, mostRecentRequest.numberOfDocuments);
+    eventEmitter.emit(events.rankingModeChanged, mostRecentRequest.rankingMode);
+    eventEmitter.emit(events.compressionLevelChanged, mostRecentRequest.compressionLevel);
+    eventEmitter.emit(events.archiveTypeChanged, mostRecentRequest.archiveType);
   };
 
   const localStorageUpdatedHandler = () => {
@@ -31,7 +31,7 @@ export default function FetchButton () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener('localStorageUpdated', localStorageUpdatedHandler);
+    eventEmitter.addListener(events.localStorageUpdated, localStorageUpdatedHandler);
   }, []);
 
   return (

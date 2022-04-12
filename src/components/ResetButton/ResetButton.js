@@ -1,20 +1,20 @@
 import React from 'react';
 import { resetFormat } from '../../lib/istexApi';
 import { istexApiConfig, queryModes, compressionLevels } from '../../config';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function ResetButton () {
   const resetForm = () => {
-    eventEmitter.emit('queryModeChanged', queryModes[0]);
-    eventEmitter.emit('queryInputChanged', null);
-    eventEmitter.emit('numberOfDocumentsChanged', 0);
-    eventEmitter.emit('rankingModeChanged', istexApiConfig.rankingModes[0]);
-    eventEmitter.emit('formatsChanged', resetFormat());
-    eventEmitter.emit('compressionLevelChanged', compressionLevels[0].value);
-    eventEmitter.emit('archiveTypeChanged', istexApiConfig.archiveTypes[0]);
-    eventEmitter.emit('resetResultPreview');
+    eventEmitter.emit(events.queryModeChanged, queryModes[0]);
+    eventEmitter.emit(events.queryInputChanged, null);
+    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+    eventEmitter.emit(events.rankingModeChanged, istexApiConfig.rankingModes[0]);
+    eventEmitter.emit(events.formatsChanged, resetFormat());
+    eventEmitter.emit(events.compressionLevelChanged, compressionLevels[0].value);
+    eventEmitter.emit(events.archiveTypeChanged, istexApiConfig.archiveTypes[0]);
+    eventEmitter.emit(events.resetResultPreview);
 
-    eventEmitter.emit('resetSearchParams');
+    eventEmitter.emit(events.resetSearchParams);
   };
 
   return (

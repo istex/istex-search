@@ -4,7 +4,7 @@ import Format from '../Format';
 import PredefinedUsage from '../PredefinedUsage';
 import { setSelectedFormats } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, predefinedUsages } from '../../config';
 
 export default function UsageSection () {
@@ -36,7 +36,7 @@ export default function UsageSection () {
       newSelectedFormats = deselectFormat(newSelectedFormats, wholeCategoryFormat);
     }
 
-    eventEmitter.emit('formatsChanged', newSelectedFormats);
+    eventEmitter.emit(events.formatsChanged, newSelectedFormats);
   };
 
   const isWholeCategorySelected = formatCategory => {
@@ -48,11 +48,11 @@ export default function UsageSection () {
     dispatch(setSelectedFormats(newSelectedFormats));
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
-    eventEmitter.emit('updateExtractParam', extractParams);
+    eventEmitter.emit(events.updateExtractParam, extractParams);
   };
 
   useEffect(() => {
-    eventEmitter.addListener('formatsChanged', formatsChangedHandler);
+    eventEmitter.addListener(events.formatsChanged, formatsChangedHandler);
   }, []);
 
   return (

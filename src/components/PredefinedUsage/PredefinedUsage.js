@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function PredefinedUsage ({ name, formats }) {
   const checkHandler = event => {
     const formatsToSend = event.target.checked ? formats : 0;
-    eventEmitter.emit('formatsChanged', formatsToSend);
+    eventEmitter.emit(events.formatsChanged, formatsToSend);
   };
 
   return (

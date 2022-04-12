@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import eventEmitter from '../../lib/eventEmitter';
 import { parseExtractParams } from '../../lib/istexApi';
 import { isValidMd5 } from '../../lib/utils';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig, compressionLevels } from '../../config';
 
 export default function UrlSearchParamsManager () {
@@ -30,14 +30,14 @@ export default function UrlSearchParamsManager () {
       // TODO: display an error modal or something else that says that 'q' and 'q_id' cannot be set at
       // the same time
     } else if (queryString) {
-      eventEmitter.emit('queryInputChanged', queryString);
+      eventEmitter.emit(events.queryInputChanged, queryString);
     } else if (isValidMd5(qId)) {
-      eventEmitter.emit('qIdChanged', qId);
+      eventEmitter.emit(events.qIdChanged, qId);
     }
 
     if (extractParamsAsString != null) {
       const selectedFormats = parseExtractParams(decodeURIComponent(extractParamsAsString));
-      eventEmitter.emit('formatsChanged', selectedFormats);
+      eventEmitter.emit(events.formatsChanged, selectedFormats);
     }
 
     if (numberOfDocumentsAsString != null) {
@@ -47,7 +47,7 @@ export default function UrlSearchParamsManager () {
         numberOfDocuments = 0;
       }
 
-      eventEmitter.emit('numberOfDocumentsChanged', numberOfDocuments);
+      eventEmitter.emit(events.numberOfDocumentsChanged, numberOfDocuments);
     }
 
     if (rankingMode != null) {
@@ -57,7 +57,7 @@ export default function UrlSearchParamsManager () {
         rankingModeToUse = istexApiConfig.rankingModes[0];
       }
 
-      eventEmitter.emit('rankingModeChanged', rankingModeToUse);
+      eventEmitter.emit(events.rankingModeChanged, rankingModeToUse);
     }
 
     if (compressionLevelAsString != null) {
@@ -67,7 +67,7 @@ export default function UrlSearchParamsManager () {
         compressionLevel = compressionLevels[0].value;
       }
 
-      eventEmitter.emit('compressionLevelChanged', compressionLevel);
+      eventEmitter.emit(events.compressionLevelChanged, compressionLevel);
     }
 
     if (archiveType != null) {
@@ -77,7 +77,7 @@ export default function UrlSearchParamsManager () {
         archiveTypeToUse = istexApiConfig.archiveTypes[0];
       }
 
-      eventEmitter.emit('archiveTypeChanged', archiveTypeToUse);
+      eventEmitter.emit(events.archiveTypeChanged, archiveTypeToUse);
     }
   };
 
@@ -110,14 +110,14 @@ export default function UrlSearchParamsManager () {
   useEffect(() => {
     fillFormFromUrlSearchParams();
 
-    eventEmitter.addListener('updateQueryStringParam', setQueryStringParam);
-    eventEmitter.addListener('updateQIdParam', setQIdParam);
-    eventEmitter.addListener('updateNumberOfDocumentsParam', newSize => setUrlSearchParam('size', newSize));
-    eventEmitter.addListener('updateRankingModeParam', newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
-    eventEmitter.addListener('updateExtractParam', newExtractParam => setUrlSearchParam('extract', newExtractParam));
-    eventEmitter.addListener('updateCompressionLevelParam', newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
-    eventEmitter.addListener('updateArchiveTypeParam', newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
-    eventEmitter.addListener('resetSearchParams', resetSearchParams);
+    eventEmitter.addListener(events.updateQueryStringParam, setQueryStringParam);
+    eventEmitter.addListener(events.updateQIdParam, setQIdParam);
+    eventEmitter.addListener(events.updateNumberOfDocumentsParam, newSize => setUrlSearchParam('size', newSize));
+    eventEmitter.addListener(events.updateRankingModeParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
+    eventEmitter.addListener(events.updateExtractParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
+    eventEmitter.addListener(events.updateCompressionLevelParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
+    eventEmitter.addListener(events.updateArchiveTypeParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
+    eventEmitter.addListener(events.resetSearchParams, resetSearchParams);
   }, []);
 
   return null;

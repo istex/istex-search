@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './HistoryButton.css';
 import HistoryRequest from '../HistoryRequest';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
 export default function HistoryButton () {
@@ -23,8 +23,8 @@ export default function HistoryButton () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener('localStorageUpdated', localStorageUpdatedHandler);
-    eventEmitter.addListener('modalCloseRequest', modalCloseRequestHandler);
+    eventEmitter.addListener(events.localStorageUpdated, localStorageUpdatedHandler);
+    eventEmitter.addListener(events.modalCloseRequest, modalCloseRequestHandler);
   }, []);
 
   return (

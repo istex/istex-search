@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
 import QueryInput from '../QueryInput';
 import ResultPreview from '../ResultPreview';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig, queryModes } from '../../config';
 
 export default function QuerySection () {
@@ -25,7 +25,7 @@ export default function QuerySection () {
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
-      eventEmitter.emit('updateNumberOfDocumentsParam', newNumberOfDocuments);
+      eventEmitter.emit(events.updateNumberOfDocumentsParam, newNumberOfDocuments);
     }
   };
 
@@ -33,7 +33,7 @@ export default function QuerySection () {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
-    eventEmitter.emit('updateRankingModeParam', newRankingMode);
+    eventEmitter.emit(events.updateRankingModeParam, newRankingMode);
   };
 
   const resultPreviewResponseReceivedHandler = response => {
@@ -49,11 +49,11 @@ export default function QuerySection () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener('queryModeChanged', queryModeChangedHandler);
-    eventEmitter.addListener('numberOfDocumentsChanged', numberOfDocumentsChangedHandler);
-    eventEmitter.addListener('rankingModeChanged', rankingModeChangedHandler);
-    eventEmitter.addListener('resultPreviewResponseReceived', resultPreviewResponseReceivedHandler);
-    eventEmitter.addListener('resetResultPreview', resetResultPreviewHandler);
+    eventEmitter.addListener(events.queryModeChanged, queryModeChangedHandler);
+    eventEmitter.addListener(events.numberOfDocumentsChanged, numberOfDocumentsChangedHandler);
+    eventEmitter.addListener(events.rankingModeChanged, rankingModeChangedHandler);
+    eventEmitter.addListener(events.resultPreviewResponseReceived, resultPreviewResponseReceivedHandler);
+    eventEmitter.addListener(events.resetResultPreview, resetResultPreviewHandler);
   }, []);
 
   return (

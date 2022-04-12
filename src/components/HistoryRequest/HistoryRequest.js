@@ -2,24 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './HistoryRequest.css';
 import { buildExtractParamsFromFormats, buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
-import eventEmitter from '../../lib/eventEmitter';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
 export default function HistoryRequest ({ requestInfo }) {
   const editHandler = () => {
     if (requestInfo.qId) {
-      eventEmitter.emit('qIdChanged', requestInfo.qId);
+      eventEmitter.emit(events.qIdChanged, requestInfo.qId);
     } else {
-      eventEmitter.emit('queryInputChanged', requestInfo.queryString);
+      eventEmitter.emit(events.queryInputChanged, requestInfo.queryString);
     }
 
-    eventEmitter.emit('formatsChanged', requestInfo.selectedFormats);
-    eventEmitter.emit('numberOfDocumentsChanged', requestInfo.numberOfDocuments);
-    eventEmitter.emit('rankingModeChanged', requestInfo.rankingMode);
-    eventEmitter.emit('compressionLevelChanged', requestInfo.compressionLevel);
-    eventEmitter.emit('archiveTypeChanged', requestInfo.archiveType);
+    eventEmitter.emit(events.formatsChanged, requestInfo.selectedFormats);
+    eventEmitter.emit(events.numberOfDocumentsChanged, requestInfo.numberOfDocuments);
+    eventEmitter.emit(events.rankingModeChanged, requestInfo.rankingMode);
+    eventEmitter.emit(events.compressionLevelChanged, requestInfo.compressionLevel);
+    eventEmitter.emit(events.archiveTypeChanged, requestInfo.archiveType);
 
-    eventEmitter.emit('modalCloseRequest');
+    eventEmitter.emit(events.modalCloseRequest);
   };
 
   const downloadHandler = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
-import { buildFullUrl } from '../../lib/istexApi';
+import { buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
 import { istexApiConfig, compressionLevels } from '../../config';
 import eventEmitter from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
@@ -55,15 +55,8 @@ export default function DownloadSection () {
 
     const url = buildFullUrl(options).toString();
 
-    // Hack to download the archive and see the progression in the download bar built in browsers
-    // We create a fake 'a' tag that points to the URL we just built and simulate a click on it
-    const link = document.createElement('a');
-    link.href = url;
-
-    // This attribute is set to open the URL in another tab, this is useful when the user is redirected
-    // to the identity federation page so that they don't lose the current ISTEX-DL page
-    link.setAttribute('target', '_blank');
-    link.click();
+    // This function is synchronous
+    sendDownloadApiRequest(url);
 
     localStorage.add({
       ...options,

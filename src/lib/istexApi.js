@@ -252,6 +252,22 @@ export function sendResultPreviewApiRequest (queryString, rankingMode) {
 }
 
 /**
+ * Send a request to the ISTEX API to download the archive (this function is synchronous).
+ * @param {string} url The URL to download the archive.
+ */
+export function sendDownloadApiRequest (url) {
+  // Hack to download the archive and see the progression in the download bar built in browsers
+  // We create a fake 'a' tag that points to the URL we just built and simulate a click on it
+  const link = document.createElement('a');
+  link.href = url;
+
+  // This attribute is set to open the URL in another tab, this is useful when the user is redirected
+  // to the identity federation page so that they don't lose the current ISTEX-DL page
+  link.setAttribute('target', '_blank');
+  link.click();
+}
+
+/**
  * Send a request to the ISTEX API to get the query string corresponding to `qId`.
  * @param {string} qId The qId (md5 hash of a query string).
  * @returns A `Promise`.

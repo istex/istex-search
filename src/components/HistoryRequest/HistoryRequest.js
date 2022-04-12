@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './HistoryRequest.css';
-import { buildExtractParamsFromFormats, buildFullUrl } from '../../lib/istexApi';
+import { buildExtractParamsFromFormats, buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
 import eventEmitter from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
@@ -23,7 +23,9 @@ export default function HistoryRequest ({ requestInfo }) {
   };
 
   const downloadHandler = () => {
-    console.info(buildFullUrl(requestInfo).toString());
+    const url = buildFullUrl(requestInfo).toString();
+
+    sendDownloadApiRequest(url);
   };
 
   const shareHandler = () => {

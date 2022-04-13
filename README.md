@@ -1,3 +1,5 @@
+[![tests](https://github.com/istex/istex-dl/actions/workflows/tests.yml/badge.svg)](https://github.com/istex/istex-dl/actions/workflows/tests.yml)
+
 # istex-dl
 
 [istex-dl](https://dl.istex.fr) is a web application dedicated to ISTEX sub-corpus extraction. It allows to download several [ISTEX](https://www.istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.

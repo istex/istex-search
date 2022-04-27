@@ -136,7 +136,7 @@ export default class Format extends React.Component {
                         CLEANED : Nettoyé
                     </a>
                     <br />
-                    Un fichier texte contenant le texte intégral sans mise en forme, sans image, sans tableau et sans formule. Uniquement le contenu textuel des paragraphes a été conservé.
+                    Un fichier texte contenant le texte intégral sans mise en forme, sans image, sans tableau et sans formule. Seul le contenu textuel du document, depuis l'introduction jusqu'à la conclusion, a été conservé.
                 </p>
             );
                 break;
@@ -235,7 +235,7 @@ export default class Format extends React.Component {
                 break;
             case 'grobidfulltext': tooltipText = (
                 <p>
-                    Intégralité du document structurée au format TEI à l'aide de l'outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>.
+                    Intégralité du document au format TEI, structuré à l'aide de l'outil <a href="https://enrichment-process.data.istex.fr/ark:/67375/R0H-2WXX0NK2-9" target="_blank" rel="noopener noreferrer">Grobid</a>.
                 </p>
             );
                 break;

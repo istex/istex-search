@@ -1,11 +1,6 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// It allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-import '@testing-library/jest-dom';
-
 import React from 'react';
 import { render } from '@testing-library/react';
-import myStore from './store/store';
+import myStore from '../store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';

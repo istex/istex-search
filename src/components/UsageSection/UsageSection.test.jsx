@@ -1,11 +1,12 @@
-/* eslint-env jest */
-
 import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import UsageSection from './UsageSection';
 
-test('Renders the Usage title', () => {
-  render(<UsageSection />);
-  const titleElement = screen.getByText(/Usage/i);
-  expect(titleElement).toBeInTheDocument();
+describe('Tests for the UsageSection component', () => {
+  it('Renders the Usage title', () => {
+    render(<UsageSection />);
+    const titleElement = screen.getByText(/Usage/i);
+    expect(titleElement).toBeInTheDocument();
+  });
 });

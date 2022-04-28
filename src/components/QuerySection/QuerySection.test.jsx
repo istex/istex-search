@@ -1,11 +1,12 @@
-/* eslint-env jest */
-
 import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import QuerySection from './QuerySection';
 
-test('Renders the query title', () => {
-  render(<QuerySection />);
-  const queryElements = screen.getAllByText(/Query/i);
-  queryElements.forEach(queryElement => expect(queryElement).toBeInTheDocument());
+describe('Tests for the QuerySection component', () => {
+  it('Renders the query title', () => {
+    render(<QuerySection />);
+    const queryElements = screen.getAllByText(/Query/i);
+    queryElements.forEach(queryElement => expect(queryElement).toBeInTheDocument());
+  });
 });

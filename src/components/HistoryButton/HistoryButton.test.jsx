@@ -1,11 +1,12 @@
-/* eslint-env jest */
-
 import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import HistoryButton from './HistoryButton';
 
-test('Renders the History button', () => {
-  render(<HistoryButton />);
-  const buttonElement = screen.getByText(/History/i);
-  expect(buttonElement).toBeInTheDocument();
+describe('Tests for the HistoryButton component', () => {
+  it('Renders the History button', () => {
+    render(<HistoryButton />);
+    const buttonElement = screen.getByText(/History/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 });

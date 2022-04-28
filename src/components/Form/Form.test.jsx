@@ -1,11 +1,12 @@
-/* eslint-env jest */
-
 import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import Form from './Form';
 
-test('Renders the Usage title', () => {
-  render(<Form />);
-  const usageTitle = screen.getByText(/Usage/i);
-  expect(usageTitle).toBeInTheDocument();
+describe('Tests for the Form component', () => {
+  it('Renders the Usage title', () => {
+    render(<Form />);
+    const usageTitle = screen.getByText(/Usage/i);
+    expect(usageTitle).toBeInTheDocument();
+  });
 });

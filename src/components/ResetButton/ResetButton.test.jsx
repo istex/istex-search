@@ -1,11 +1,12 @@
-/* eslint-env jest */
-
 import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import ResetButton from './ResetButton';
 
-test('Renders the reset button', () => {
-  render(<ResetButton />);
-  const buttonElement = screen.getByText(/Reset Form/i);
-  expect(buttonElement).toBeInTheDocument();
+describe('Tests for the ResetButton component', () => {
+  it('Renders the reset button', () => {
+    render(<ResetButton />);
+    const buttonElement = screen.getByText(/Reset Form/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
 });

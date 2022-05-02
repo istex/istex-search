@@ -11,8 +11,9 @@
     "test:ci": "npm run lint && vitest run",
     "create-component": "node scripts/createComponent.js",
     "lint": "eslint ./src/ ./scripts/ --ext .js,.jsx",
-    "docker:build": "npm run build && docker build -t istex/istex-dl:$npm_package_version --build-arg http_proxy --build-arg https_proxy .",
-    "docker:run": "docker-compose up -d"
+    "docker:build": "docker build -t istex/istex-dl:$npm_package_version --build-arg http_proxy --build-arg https_proxy . && docker image prune --filter label=stage=builder -f",
+    "docker:run": "docker-compose up -d",
+    "docker:stop": "docker-compose stop"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",

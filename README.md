@@ -15,7 +15,7 @@
 npm install
 npm start
 ```
-Then istex-dl is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)
+Then the development server is listening at this URL: [http://127.0.0.1:3000](http://127.0.0.1:3000)
 
 ## Production
 
@@ -23,6 +23,6 @@ istex-dl is ezmasterized so you just have to deploy the latest [istex-dl docker 
 
 If you don't use [ezmaster](https://github.com/inist-cnrs/ezmaster), you can deploy istex-dl with docker and docker-compose with the [docker-compose.yml file provided](./docker-compose.yml).
 ```
-curl https://raw.githubusercontent.com/istex/istex-dl/master/docker-compose.yml > docker-compose.istex-dl.yml
-docker-compose -f docker-compose.istex-dl.yml up -d
+npm run docker:run
 ```
+istex-dl listens at this URL by default: [http://127.0.0.1:45445](http://127.0.0.1:45445)

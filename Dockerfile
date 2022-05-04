@@ -23,3 +23,10 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy the /app/dist/ directory of the builder image containing the production build
 COPY --from=builder /app/dist/ /app/dist/
+
+# Create the ezmaster config and make the nginx config file editable through the web interface
+RUN echo '{\
+  "httpPort": 80,\
+  "configPath": "/etc/nginx/conf.d/default.conf",\
+  "configType": "text"\
+}' > /etc/ezmaster.json

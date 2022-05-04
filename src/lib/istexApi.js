@@ -33,11 +33,7 @@ export function buildQueryStringFromCorpusFile (corpusFileContent) {
  * @returns A properly formatted query string to request to arks in `arkString`.
  */
 export function buildQueryStringFromArks (arks) {
-  const formattedArks = [];
-
-  for (const ark of arks) {
-    formattedArks.push(`"${ark.trim()}"`);
-  }
+  const formattedArks = arks.map(ark => `"${ark.trim()}"`);
 
   return `arkIstex.raw(${formattedArks.join(' ')})`;
 }

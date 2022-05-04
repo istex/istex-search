@@ -20,16 +20,17 @@ export default function ${componentName} () {
 `;
 
   const testFileContent =
-`/* eslint-env jest */
-
-import React from 'react';
-import { customRender as render, screen } from '../../testUtils';
+`import React from 'react';
+import { describe, expect, it } from 'vitest';
+import { customRender as render, screen } from '../../test/utils';
 import ${componentName} from './${componentName}';
 
-test('Renders the ${componentName} title', () => {
-  render(<${componentName} />);
-  const titleElement = screen.getByText(/${componentName}/i);
-  expect(titleElement).toBeInTheDocument();
+describe('Tests for the ${componentName} component', () => {
+  it('Renders the ${componentName} title', () => {
+    render(<${componentName} />);
+    const titleElement = screen.getByText(/${componentName}/i);
+    expect(titleElement).toBeInTheDocument();
+  });
 });
 `;
 
@@ -42,8 +43,8 @@ test('Renders the ${componentName} title', () => {
   const componentDirPath = path.join(__dirname, '..', 'src', 'components', componentName);
 
   await fs.promises.mkdir(componentDirPath);
-  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.js`), jsFileContent, 'utf-8');
-  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.test.js`), testFileContent, 'utf-8');
+  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.jsx`), jsFileContent, 'utf-8');
+  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.test.jsx`), testFileContent, 'utf-8');
   await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.css`), cssFileContent, 'utf-8');
   await fs.promises.writeFile(path.join(componentDirPath, 'index.js'), indexFileContent, 'utf-8');
 

@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
 import QueryInput from '../QueryInput';
 import ResultPreview from '../ResultPreview';
+import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig, queryModes } from '../../config';
 
 export default function QuerySection () {
   const dispatch = useDispatch();
+  const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes[0]);
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes[0]);
@@ -29,9 +31,16 @@ export default function QuerySection () {
     }
   };
 
-  const rankingModeChangedHandler = newRankingMode => {
+  const rankingModeChangedHandler = async newRankingMode => {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
+
+    // If preview results have already been requested, send another request to update the preview results
+    // according to the new ranking mode
+    if (resultPreviewResults.length > 0) {
+      const response = await sendResultPreviewApiRequest(queryString, newRankingMode);
+      eventEmitter.emit(events.resultPreviewResponseReceived, response);
+    }
 
     eventEmitter.emit(events.updateRankingModeParam, newRankingMode);
   };

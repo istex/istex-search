@@ -5,12 +5,19 @@ import QueryInput from '../QueryInput';
 import ResultPreview from '../ResultPreview';
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
+import { debounce } from '../../lib/utils';
 import { istexApiConfig, queryModes } from '../../config';
+
+const sendDelayedResultPreviewApiRequest = debounce(async (newQueryString, newRankingMode) => {
+  const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
+  eventEmitter.emit(events.resultPreviewResponseReceived, response);
+});
 
 export default function QuerySection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
+  const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes[0]);
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes[0]);
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
@@ -35,13 +42,6 @@ export default function QuerySection () {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
-    // If preview results have already been requested, send another request to update the preview results
-    // according to the new ranking mode
-    if (resultPreviewResults.length > 0) {
-      const response = await sendResultPreviewApiRequest(queryString, newRankingMode);
-      eventEmitter.emit(events.resultPreviewResponseReceived, response);
-    }
-
     eventEmitter.emit(events.updateRankingModeParam, newRankingMode);
   };
 
@@ -56,6 +56,13 @@ export default function QuerySection () {
     setResultPreviewResults([]);
     setTotalAmountOfDocuments(0);
   };
+
+  // If queryString or rankingMode change, update the results preview
+  useEffect(async () => {
+    if (!queryString) return;
+
+    sendDelayedResultPreviewApiRequest(queryString, rankingMode);
+  }, [queryString, rankingMode]);
 
   useEffect(() => {
     eventEmitter.addListener(events.queryModeChanged, queryModeChangedHandler);

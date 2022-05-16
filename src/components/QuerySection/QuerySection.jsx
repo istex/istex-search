@@ -38,7 +38,7 @@ export default function QuerySection () {
     }
   };
 
-  const rankingModeChangedHandler = async newRankingMode => {
+  const rankingModeChangedHandler = newRankingMode => {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
@@ -58,7 +58,7 @@ export default function QuerySection () {
   };
 
   // If queryString or rankingMode change, update the results preview
-  useEffect(async () => {
+  useEffect(() => {
     if (!queryString) return;
 
     sendDelayedResultPreviewApiRequest(queryString, rankingMode);

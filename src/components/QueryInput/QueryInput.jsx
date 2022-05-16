@@ -1,23 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
   buildQueryStringFromCorpusFile,
   isEmptyArkQueryString,
-  sendResultPreviewApiRequest,
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 
-let timeoutId;
-
 export default function QueryInput ({ currentQueryMode }) {
   const dispatch = useDispatch();
-  const rankingMode = useSelector(state => state.istexApi.rankingMode);
   const inputElement = useRef();
 
   // Set the text input value to what was passed and return it just in case it was modified
@@ -36,23 +32,9 @@ export default function QueryInput ({ currentQueryMode }) {
     return newQueryInputValue;
   };
 
-  const sendDelayedResultPreviewApiRequest = queryString => {
-    timeoutId = setTimeout(async () => {
-      try {
-        const response = await sendResultPreviewApiRequest(queryString, rankingMode);
-        eventEmitter.emit(events.resultPreviewResponseReceived, response);
-      } catch (err) {
-        // TODO: print the error in a modal or something else
-        console.error(err);
-      }
-    }, 1000);
-  };
-
   const queryInputChangedHandler = newQueryInputValue => {
     // `newQueryInputValue` may be modified, that's why updateQueryInputValue returns a value
     newQueryInputValue = updateQueryInputValue(newQueryInputValue);
-
-    if (timeoutId) clearTimeout(timeoutId);
 
     eventEmitter.emit(events.updateQueryStringParam, newQueryInputValue);
 
@@ -67,12 +49,7 @@ export default function QueryInput ({ currentQueryMode }) {
       // route of the API and might (hopefully) change in the future
       const hashedValue = md5(newQueryInputValue).toString();
       qIdChangedHandler(hashedValue, newQueryInputValue);
-      return;
     }
-
-    // We don't want to send an API request everytime the input changes so we make sure the user
-    // stopped typing for at least one second before sending a request
-    sendDelayedResultPreviewApiRequest(newQueryInputValue);
   };
 
   const qIdChangedHandler = async (newQId, originalQueryString) => {
@@ -93,8 +70,6 @@ export default function QueryInput ({ currentQueryMode }) {
     dispatch(setQId(newQId));
 
     eventEmitter.emit(events.updateQIdParam, newQId);
-
-    sendDelayedResultPreviewApiRequest(originalQueryString);
   };
 
   const corpusFileHandler = file => {

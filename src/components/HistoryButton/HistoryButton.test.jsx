@@ -6,7 +6,8 @@ import HistoryButton from './HistoryButton';
 describe('Tests for the HistoryButton component', () => {
   it('Renders the History button', () => {
     render(<HistoryButton />);
-    const buttonElement = screen.getByText(/History/i);
+    const buttonElement = screen.getByRole('button', { name: 'History' });
+
     expect(buttonElement).toBeInTheDocument();
   });
 });

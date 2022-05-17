@@ -5,11 +5,13 @@ import Format from './Format';
 import { formats } from '../../config';
 
 describe('Tests for the Format component', () => {
-  it('Renders the PDF label', () => {
+  it('Renders the PDF checkbox', () => {
     const pdfFormatName = 'PDF';
     const pdfFormatValue = formats.fulltext.pdf;
     render(<Format name={pdfFormatName} value={pdfFormatValue} />);
-    const pdfLabel = screen.getByText(/pdf/i);
-    expect(pdfLabel).toBeInTheDocument();
+    const pdfCheckbox = screen.getByRole('checkbox');
+
+    expect(pdfCheckbox).toBeInTheDocument();
+    expect(pdfCheckbox.name).toBe(pdfFormatName);
   });
 });

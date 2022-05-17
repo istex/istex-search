@@ -5,9 +5,10 @@ import QueryInput from './QueryInput';
 import { queryModes } from '../../config';
 
 describe('Tests for the QueryInput component', () => {
-  it('Renders the query string text', () => {
+  it('Renders the query string text input', () => {
     render(<QueryInput currentQueryMode={queryModes[0]} />);
-    const titleElement = screen.getByText(new RegExp(queryModes[0], 'i'));
+    const titleElement = screen.getByRole('textbox');
+
     expect(titleElement).toBeInTheDocument();
   });
 });

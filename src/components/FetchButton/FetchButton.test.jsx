@@ -6,7 +6,8 @@ import FetchButton from './FetchButton';
 describe('Tests for the FetchButton component', () => {
   it('Renders the fetch button', () => {
     render(<FetchButton />);
-    const buttonElement = screen.getByText(/Fetch/i);
+    const buttonElement = screen.getByRole('button');
+
     expect(buttonElement).toBeInTheDocument();
   });
 });

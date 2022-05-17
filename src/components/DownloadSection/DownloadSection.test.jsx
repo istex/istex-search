@@ -6,7 +6,8 @@ import DownloadSection from './DownloadSection';
 describe('Tests for the DownloadSection component', () => {
   it('Renders the Download button', () => {
     render(<DownloadSection />);
-    const downloadButton = screen.getAllByText(/Download/i).find(element => element.tagName === 'BUTTON');
+    const downloadButton = screen.getByRole('button');
+
     expect(downloadButton).toBeInTheDocument();
   });
 });

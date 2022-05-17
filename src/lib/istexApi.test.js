@@ -16,7 +16,7 @@ ark ark:/67375/NVC-S58LP3M2-S
 ark ark:/67375/NVC-RBP335V7-7
 ark ark:/67375/NVC-8SNSRJ6Z-Z`;
 
-    expect(istexApi.buildQueryStringFromCorpusFile(corpusFileContent)).to.equal('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
+    expect(istexApi.buildQueryStringFromCorpusFile(corpusFileContent)).toBe('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
   });
 
   it('buildQueryStringFromArks', () => {
@@ -26,7 +26,7 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       'ark:/67375/NVC-S58LP3M2-S ',
     ];
 
-    expect(istexApi.buildQueryStringFromArks(arks)).to.equal('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
+    expect(istexApi.buildQueryStringFromArks(arks)).toBe('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
   });
 
   it('isEmptyArkQueryString', () => {
@@ -34,9 +34,9 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     const nonEmptyArkQueryString = 'arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z")';
     const garbageInput = 'some garbage data';
 
-    expect(istexApi.isEmptyArkQueryString(emptyArkQueryString)).to.equal(true);
-    expect(istexApi.isEmptyArkQueryString(nonEmptyArkQueryString)).to.equal(false);
-    expect(istexApi.isEmptyArkQueryString(garbageInput)).to.equal(false);
+    expect(istexApi.isEmptyArkQueryString(emptyArkQueryString)).toBe(true);
+    expect(istexApi.isEmptyArkQueryString(nonEmptyArkQueryString)).toBe(false);
+    expect(istexApi.isEmptyArkQueryString(garbageInput)).toBe(false);
   });
 
   it('buildExtractParamsFromFormats', () => {
@@ -48,8 +48,8 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       formats.covers;
     const noSelectedFormats = 0;
 
-    expect(istexApi.buildExtractParamsFromFormats(selectedFormats)).to.equal('fulltext[pdf,txt];metadata[json];enrichments[grobidFulltext];covers;annexes');
-    expect(istexApi.buildExtractParamsFromFormats(noSelectedFormats)).to.be.equal('');
+    expect(istexApi.buildExtractParamsFromFormats(selectedFormats)).toBe('fulltext[pdf,txt];metadata[json];enrichments[grobidFulltext];covers;annexes');
+    expect(istexApi.buildExtractParamsFromFormats(noSelectedFormats)).toBe('');
   });
 
   it('parseExtractParams', () => {
@@ -59,19 +59,19 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     const missingCommaExtractParams = 'fulltext[pdf,txt];metadata[jsonxml];enrichments[teeft,nb]';
     const missingSemiColonExtractParams = 'fulltext[pdf,txt]metadata[json]';
 
-    expect(istexApi.parseExtractParams(correctExtractParams)).to.equal(formats.fulltext.pdf |
+    expect(istexApi.parseExtractParams(correctExtractParams)).toBe(formats.fulltext.pdf |
       formats.fulltext.txt |
       formats.enrichments.grobidFulltext |
       formats.metadata.json |
       formats.annexes |
       formats.covers);
-    expect(istexApi.parseExtractParams(wrongFormatExtractParams)).to.equal(formats.metadata.json);
-    expect(istexApi.parseExtractParams(wrongCategoryExtractParams)).to.equal(formats.fulltext.pdf);
-    expect(istexApi.parseExtractParams(missingCommaExtractParams)).to.equal(formats.fulltext.pdf |
+    expect(istexApi.parseExtractParams(wrongFormatExtractParams)).toBe(formats.metadata.json);
+    expect(istexApi.parseExtractParams(wrongCategoryExtractParams)).toBe(formats.fulltext.pdf);
+    expect(istexApi.parseExtractParams(missingCommaExtractParams)).toBe(formats.fulltext.pdf |
       formats.fulltext.txt |
       formats.enrichments.teeft |
       formats.enrichments.nb);
-    expect(istexApi.parseExtractParams(missingSemiColonExtractParams)).to.equal(formats.fulltext.pdf | formats.fulltext.txt);
+    expect(istexApi.parseExtractParams(missingSemiColonExtractParams)).toBe(formats.fulltext.pdf | formats.fulltext.txt);
   });
 
   it('buildFullUrl', () => {
@@ -95,36 +95,36 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       selectedFormats: 0,
     };
 
-    expect(istexApi.buildFullUrl(queryStringRequest).toString()).to.equal('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
-    expect(istexApi.buildFullUrl(qIdRequest).toString()).to.equal('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
-    expect(istexApi.buildFullUrl(noSelectedFormatsRequest)).to.equal(null);
+    expect(istexApi.buildFullUrl(queryStringRequest).toString()).toBe('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullUrl(qIdRequest).toString()).toBe('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullUrl(noSelectedFormatsRequest)).toBe(null);
   });
 
   it('selectFormat', () => {
-    expect(istexApi.selectFormat(formats.fulltext.pdf, formats.fulltext.txt)).to.equal(formats.fulltext.pdf | formats.fulltext.txt);
+    expect(istexApi.selectFormat(formats.fulltext.pdf, formats.fulltext.txt)).toBe(formats.fulltext.pdf | formats.fulltext.txt);
   });
 
   it('deselectFormat', () => {
-    expect(istexApi.deselectFormat(formats.fulltext.pdf | formats.fulltext.txt, formats.fulltext.txt)).to.equal(formats.fulltext.pdf);
+    expect(istexApi.deselectFormat(formats.fulltext.pdf | formats.fulltext.txt, formats.fulltext.txt)).toBe(formats.fulltext.pdf);
   });
 
   it('toggleFormat', () => {
     const formatsWithTxt = formats.fulltext.pdf | formats.fulltext.txt;
     const formatsWithoutTxt = formats.fulltext.pdf;
 
-    expect(istexApi.toggleFormat(formatsWithoutTxt, formats.fulltext.txt)).to.equal(formatsWithTxt);
-    expect(istexApi.toggleFormat(formatsWithTxt, formats.fulltext.txt)).to.equal(formatsWithoutTxt);
+    expect(istexApi.toggleFormat(formatsWithoutTxt, formats.fulltext.txt)).toBe(formatsWithTxt);
+    expect(istexApi.toggleFormat(formatsWithTxt, formats.fulltext.txt)).toBe(formatsWithoutTxt);
   });
 
   it('resetFormat', () => {
-    expect(istexApi.resetFormat()).to.equal(0);
+    expect(istexApi.resetFormat()).toBe(0);
   });
 
   it('isFormatSelected', () => {
     const formatsWithTxt = formats.fulltext.pdf | formats.fulltext.txt;
     const formatsWithoutTxt = formats.fulltext.pdf;
 
-    expect(istexApi.isFormatSelected(formatsWithTxt, formats.fulltext.txt)).to.equal(true);
-    expect(istexApi.isFormatSelected(formatsWithoutTxt, formats.fulltext.txt)).to.equal(false);
+    expect(istexApi.isFormatSelected(formatsWithTxt, formats.fulltext.txt)).toBe(true);
+    expect(istexApi.isFormatSelected(formatsWithoutTxt, formats.fulltext.txt)).toBe(false);
   });
 });

@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 
 (async function () {
@@ -28,7 +28,8 @@ import ${componentName} from './${componentName}';
 describe('Tests for the ${componentName} component', () => {
   it('Renders the ${componentName} title', () => {
     render(<${componentName} />);
-    const titleElement = screen.getByText(/${componentName}/i);
+    const titleElement = screen.getByRole('heading', { level: 2, name: ${componentName} });
+
     expect(titleElement).toBeInTheDocument();
   });
 });
@@ -42,11 +43,11 @@ describe('Tests for the ${componentName} component', () => {
 
   const componentDirPath = path.join(__dirname, '..', 'src', 'components', componentName);
 
-  await fs.promises.mkdir(componentDirPath);
-  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.jsx`), jsFileContent, 'utf-8');
-  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.test.jsx`), testFileContent, 'utf-8');
-  await fs.promises.writeFile(path.join(componentDirPath, `${componentName}.css`), cssFileContent, 'utf-8');
-  await fs.promises.writeFile(path.join(componentDirPath, 'index.js'), indexFileContent, 'utf-8');
+  await fs.mkdir(componentDirPath);
+  await fs.writeFile(path.join(componentDirPath, `${componentName}.jsx`), jsFileContent, 'utf-8');
+  await fs.writeFile(path.join(componentDirPath, `${componentName}.test.jsx`), testFileContent, 'utf-8');
+  await fs.writeFile(path.join(componentDirPath, `${componentName}.css`), cssFileContent, 'utf-8');
+  await fs.writeFile(path.join(componentDirPath, 'index.js'), indexFileContent, 'utf-8');
 
   console.info(`${componentName} component successfully created in ${componentDirPath}`);
 })();

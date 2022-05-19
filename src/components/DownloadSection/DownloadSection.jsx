@@ -94,7 +94,7 @@ export default function DownloadSection () {
           compressionLevelChangedHandler(value);
         }}
       >
-        {compressionLevels.map(level => (
+        {compressionLevels.levels.map(level => (
           <option key={level.label} value={level.value}>{level.label}</option>
         ))}
       </select>

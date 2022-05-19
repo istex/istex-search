@@ -8,11 +8,14 @@ export const istexApiConfig = {
 
 export const queryModes = ['query string', 'ark', 'file import'];
 
-export const compressionLevels = [
-  { value: 0, label: 'No compression' },
-  { value: 6, label: 'Medium compression' },
-  { value: 9, label: 'High compression' },
-];
+export const compressionLevels = {
+  levels: [
+    { value: 0, label: 'No compression' },
+    { value: 6, label: 'Medium compression' },
+    { value: 9, label: 'High compression' },
+  ],
+  getDefault: () => compressionLevels.levels[0],
+};
 
 // The selected formats are stored in an integer divided in five sections,
 // the first three represent format categories and are 10 bits long. The last

@@ -63,8 +63,8 @@ export default function UrlSearchParamsManager () {
     if (compressionLevelAsString != null) {
       let compressionLevel = parseInt(compressionLevelAsString);
 
-      if (isNaN(compressionLevel) || !compressionLevels.find(({ value }) => compressionLevel === value)) {
-        compressionLevel = compressionLevels[0].value;
+      if (isNaN(compressionLevel) || !compressionLevels.levels.find(({ value }) => compressionLevel === value)) {
+        compressionLevel = compressionLevels.getDefault().value;
       }
 
       eventEmitter.emit(events.compressionLevelChanged, compressionLevel);

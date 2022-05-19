@@ -10,7 +10,7 @@ export default function ResetButton () {
     eventEmitter.emit(events.numberOfDocumentsChanged, 0);
     eventEmitter.emit(events.rankingModeChanged, istexApiConfig.rankingModes[0]);
     eventEmitter.emit(events.formatsChanged, resetFormat());
-    eventEmitter.emit(events.compressionLevelChanged, compressionLevels[0].value);
+    eventEmitter.emit(events.compressionLevelChanged, compressionLevels.getDefault().value);
     eventEmitter.emit(events.archiveTypeChanged, istexApiConfig.archiveTypes[0]);
     eventEmitter.emit(events.resetResultPreview);
 

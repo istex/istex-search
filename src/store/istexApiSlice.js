@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { istexApiConfig } from '../config';
+import { istexApiConfig, compressionLevels } from '../config';
 
 export const istexApiSlice = createSlice({
   name: 'istexApi',
@@ -9,7 +9,7 @@ export const istexApiSlice = createSlice({
     selectedFormats: 0,
     numberOfDocuments: 0,
     rankingMode: istexApiConfig.rankingModes[0],
-    compressionLevel: 0,
+    compressionLevel: compressionLevels.getDefault().value,
     archiveType: istexApiConfig.archiveTypes[0],
   },
   reducers: {

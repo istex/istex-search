@@ -80,7 +80,7 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       selectedFormats: formats.fulltext.pdf,
       rankingMode: istexApiConfig.rankingModes[0],
       numberOfDocuments: 1,
-      compressionLevel: compressionLevels[0].value,
+      compressionLevel: compressionLevels.getDefault().value,
       archiveType: istexApiConfig.archiveTypes[0],
     };
     const qIdRequest = {
@@ -88,7 +88,7 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       selectedFormats: formats.fulltext.pdf,
       rankingMode: istexApiConfig.rankingModes[0],
       numberOfDocuments: 1,
-      compressionLevel: compressionLevels[0].value,
+      compressionLevel: compressionLevels.getDefault().value,
       archiveType: istexApiConfig.archiveTypes[0],
     };
     const noSelectedFormatsRequest = {

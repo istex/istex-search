@@ -14,7 +14,7 @@ export const compressionLevels = {
     { value: 6, label: 'Medium compression' },
     { value: 9, label: 'High compression' },
   ],
-  getDefault: () => compressionLevels.levels[0],
+  getDefault: () => compressionLevels.levels[1],
 };
 
 // The selected formats are stored in an integer divided in five sections,

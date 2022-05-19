@@ -95,8 +95,8 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       selectedFormats: 0,
     };
 
-    expect(istexApi.buildFullUrl(queryStringRequest).toString()).toBe('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
-    expect(istexApi.buildFullUrl(qIdRequest).toString()).toBe('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=0&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullUrl(queryStringRequest).toString()).toBe('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullUrl(qIdRequest).toString()).toBe('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
     expect(istexApi.buildFullUrl(noSelectedFormatsRequest)).toBe(null);
   });
 

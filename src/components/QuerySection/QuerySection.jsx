@@ -5,10 +5,10 @@ import QueryInput from '../QueryInput';
 import ResultPreview from '../ResultPreview';
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { debounce } from '../../lib/utils';
+import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig, queryModes } from '../../config';
 
-const sendDelayedResultPreviewApiRequest = debounce(async (newQueryString, newRankingMode) => {
+const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode) => {
   const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
@@ -58,10 +58,13 @@ export default function QuerySection () {
   };
 
   // If queryString or rankingMode change, update the results preview
-  useEffect(() => {
+  useEffect(async () => {
     if (!queryString) return;
 
-    sendDelayedResultPreviewApiRequest(queryString, rankingMode);
+    await sendDelayedResultPreviewApiRequest(queryString, rankingMode);
+
+    // Reset the number of documents selected
+    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
   }, [queryString, rankingMode]);
 
   useEffect(() => {

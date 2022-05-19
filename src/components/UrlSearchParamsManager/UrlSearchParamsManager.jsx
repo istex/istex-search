@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { parseExtractParams } from '../../lib/istexApi';
 import { isValidMd5 } from '../../lib/utils';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { istexApiConfig, compressionLevels } from '../../config';
+import { istexApiConfig } from '../../config';
 
 export default function UrlSearchParamsManager () {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -53,8 +53,8 @@ export default function UrlSearchParamsManager () {
     if (rankingMode != null) {
       let rankingModeToUse = rankingMode;
 
-      if (!istexApiConfig.rankingModes.includes(rankingModeToUse)) {
-        rankingModeToUse = istexApiConfig.rankingModes[0];
+      if (!istexApiConfig.rankingModes.modes.includes(rankingModeToUse)) {
+        rankingModeToUse = istexApiConfig.rankingModes.getDefault();
       }
 
       eventEmitter.emit(events.rankingModeChanged, rankingModeToUse);
@@ -63,8 +63,8 @@ export default function UrlSearchParamsManager () {
     if (compressionLevelAsString != null) {
       let compressionLevel = parseInt(compressionLevelAsString);
 
-      if (isNaN(compressionLevel) || !compressionLevels.levels.find(({ value }) => compressionLevel === value)) {
-        compressionLevel = compressionLevels.getDefault().value;
+      if (isNaN(compressionLevel) || !istexApiConfig.compressionLevels.levels.find(({ value }) => compressionLevel === value)) {
+        compressionLevel = istexApiConfig.compressionLevels.getDefault().value;
       }
 
       eventEmitter.emit(events.compressionLevelChanged, compressionLevel);
@@ -73,8 +73,8 @@ export default function UrlSearchParamsManager () {
     if (archiveType != null) {
       let archiveTypeToUse = archiveType;
 
-      if (!istexApiConfig.archiveTypes.includes(archiveType)) {
-        archiveTypeToUse = istexApiConfig.archiveTypes[0];
+      if (!istexApiConfig.archiveTypes.types.includes(archiveType)) {
+        archiveTypeToUse = istexApiConfig.archiveTypes.getDefault();
       }
 
       eventEmitter.emit(events.archiveTypeChanged, archiveTypeToUse);

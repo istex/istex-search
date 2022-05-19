@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as istexApi from './istexApi';
-import { istexApiConfig, compressionLevels, formats } from '../config';
+import { istexApiConfig, formats } from '../config';
 
 describe('Tests for the ISTEX API related functions', () => {
   it('buildQueryStringFromCorpusFile', () => {
@@ -78,18 +78,18 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     const queryStringRequest = {
       queryString: 'fulltext:fish',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes[0],
+      rankingMode: istexApiConfig.rankingModes.getDefault(),
       numberOfDocuments: 1,
-      compressionLevel: compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes[0],
+      compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
+      archiveType: istexApiConfig.archiveTypes.getDefault(),
     };
     const qIdRequest = {
       qId: 'fakeQId',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes[0],
+      rankingMode: istexApiConfig.rankingModes.getDefault(),
       numberOfDocuments: 1,
-      compressionLevel: compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes[0],
+      compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
+      archiveType: istexApiConfig.archiveTypes.getDefault(),
     };
     const noSelectedFormatsRequest = {
       selectedFormats: 0,

@@ -1,20 +1,31 @@
-export const istexApiConfig = {
-  baseUrl: 'https://api.istex.fr',
-  rankingModes: ['qualityOverRelevance', 'relevance', 'random'],
-  archiveTypes: ['zip', 'tar'],
-  maxAmountOfDocuments: 100000,
-  queryStringMaxLength: 2000,
-};
-
 export const queryModes = ['query string', 'ark', 'file import'];
 
-export const compressionLevels = {
+const rankingModes = {
+  modes: ['qualityOverRelevance', 'relevance', 'random'],
+  getDefault: () => rankingModes.modes[0],
+};
+
+const archiveTypes = {
+  types: ['zip', 'tar'],
+  getDefault: () => archiveTypes.types[0],
+};
+
+const compressionLevels = {
   levels: [
     { value: 0, label: 'No compression' },
     { value: 6, label: 'Medium compression' },
     { value: 9, label: 'High compression' },
   ],
   getDefault: () => compressionLevels.levels[1],
+};
+
+export const istexApiConfig = {
+  baseUrl: 'https://api.istex.fr',
+  rankingModes,
+  archiveTypes,
+  compressionLevels,
+  maxAmountOfDocuments: 100000,
+  queryStringMaxLength: 2000,
 };
 
 // The selected formats are stored in an integer divided in five sections,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
-import { istexApiConfig, compressionLevels } from '../../config';
+import { istexApiConfig } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
@@ -18,7 +18,7 @@ export default function DownloadSection () {
 
   // currentArchiveType is a local state variable linked to the UI while archiveType is in the Redux store
   // currentArchiveType is used to be able to reset the UI from the reset button
-  const [currentArchiveType, setCurrentArchiveType] = useState(istexApiConfig.archiveTypes[0]);
+  const [currentArchiveType, setCurrentArchiveType] = useState(istexApiConfig.archiveTypes.getDefault());
 
   const compressionLevelChangedHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
@@ -94,13 +94,13 @@ export default function DownloadSection () {
           compressionLevelChangedHandler(value);
         }}
       >
-        {compressionLevels.levels.map(level => (
+        {istexApiConfig.compressionLevels.levels.map(level => (
           <option key={level.label} value={level.value}>{level.label}</option>
         ))}
       </select>
       <div>
         <span>Archive type: </span>
-        {istexApiConfig.archiveTypes.map(type => (
+        {istexApiConfig.archiveTypes.types.map(type => (
           <span key={type}>
             <input
               type='radio'

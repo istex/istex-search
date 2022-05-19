@@ -36,6 +36,7 @@ export const formats = {
   metadata: {
     json: 1 << 10,
     xml: 1 << 11,
+    mods: 1 << 12,
   },
   enrichments: {
     multicat: 1 << 20,

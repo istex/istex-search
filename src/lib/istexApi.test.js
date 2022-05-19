@@ -16,7 +16,7 @@ ark ark:/67375/NVC-S58LP3M2-S
 ark ark:/67375/NVC-RBP335V7-7
 ark ark:/67375/NVC-8SNSRJ6Z-Z`;
 
-    expect(istexApi.buildQueryStringFromCorpusFile(corpusFileContent)).toBe('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
+    expect(istexApi.buildQueryStringFromCorpusFile(corpusFileContent)).toBe('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
   });
 
   it('buildQueryStringFromArks', () => {
@@ -26,12 +26,12 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       'ark:/67375/NVC-S58LP3M2-S ',
     ];
 
-    expect(istexApi.buildQueryStringFromArks(arks)).toBe('arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
+    expect(istexApi.buildQueryStringFromArks(arks)).toBe('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
   });
 
   it('isEmptyArkQueryString', () => {
-    const emptyArkQueryString = 'arkIstex.raw("")';
-    const nonEmptyArkQueryString = 'arkIstex.raw("ark:/67375/NVC-8SNSRJ6Z-Z")';
+    const emptyArkQueryString = 'arkIstex.raw:("")';
+    const nonEmptyArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z")';
     const garbageInput = 'some garbage data';
 
     expect(istexApi.isEmptyArkQueryString(emptyArkQueryString)).toBe(true);

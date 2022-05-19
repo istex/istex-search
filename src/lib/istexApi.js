@@ -35,13 +35,13 @@ export function buildQueryStringFromCorpusFile (corpusFileContent) {
 export function buildQueryStringFromArks (arks) {
   const formattedArks = arks.map(ark => `"${ark.trim()}"`);
 
-  return `arkIstex.raw(${formattedArks.join(' ')})`;
+  return `arkIstex.raw:(${formattedArks.join(' ')})`;
 }
 
 /**
  * Test whether `queryString` is a query string to request ark identifiers but with no identifier.
  * @param {string} queryString The query string to test.
- * @returns `true` if `queryString` is equal to `arkIstex.raw("")`, `false` otherwise.
+ * @returns `true` if `queryString` is equal to `arkIstex.raw:("")`, `false` otherwise.
  */
 export function isEmptyArkQueryString (queryString) {
   // When the ark text input is empty, an array with an empty string is passed to

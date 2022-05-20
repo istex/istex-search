@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
 
 export default function FetchButton () {
-  const [isButtonEnabled, enableButton] = useState(!!localStorage.get(0));
-
   const updateFormFromLastRequestInLocalStorage = () => {
-    const mostRecentRequest = localStorage.get(0);
+    const mostRecentRequest = localStorage.getLastRequest();
 
     if (!mostRecentRequest) {
       return;
@@ -26,20 +24,22 @@ export default function FetchButton () {
     eventEmitter.emit(events.archiveTypeChanged, mostRecentRequest.archiveType);
   };
 
-  const localStorageUpdatedHandler = () => {
-    enableButton(!!localStorage.get(0));
+  const populateLastRequest = (fieldName, fieldValue) => {
+    localStorage.populateLastRequest(fieldName, fieldValue);
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.localStorageUpdated, localStorageUpdatedHandler);
+    eventEmitter.addListener(events.setQueryStringInLastRequestOfHistory, queryString => populateLastRequest('queryString', queryString));
+    eventEmitter.addListener(events.setNumberOfDocumentsInLastRequestOfHistory, numberOfDocuments => populateLastRequest('numberOfDocuments', numberOfDocuments));
+    eventEmitter.addListener(events.setRankingModeInLastRequestOfHistory, rankingMode => populateLastRequest('rankingMode', rankingMode));
+    eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, compressionLevel => populateLastRequest('compressionLevel', compressionLevel));
+    eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, archiveType => populateLastRequest('archiveType', archiveType));
+    eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, selectedFormats => populateLastRequest('selectedFormats', selectedFormats));
   }, []);
 
   return (
     <div>
-      <button
-        onClick={updateFormFromLastRequestInLocalStorage}
-        disabled={!isButtonEnabled}
-      >
+      <button onClick={updateFormFromLastRequestInLocalStorage}>
         Fetch
       </button>
     </div>

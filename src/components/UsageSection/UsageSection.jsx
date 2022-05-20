@@ -46,6 +46,7 @@ export default function UsageSection () {
 
   const formatsChangedHandler = newSelectedFormats => {
     dispatch(setSelectedFormats(newSelectedFormats));
+    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
     eventEmitter.emit(events.updateExtractParam, extractParams);

@@ -25,6 +25,7 @@ export default function DownloadSection () {
     dispatch(setCompressionLevel(newCompressionLevel));
 
     eventEmitter.emit(events.updateCompressionLevelParam, newCompressionLevel);
+    eventEmitter.emit(events.setCompressionLevelInLastRequestOfHistory, newCompressionLevel);
   };
 
   const archiveTypeChangedHandler = newArchiveType => {
@@ -32,6 +33,7 @@ export default function DownloadSection () {
     dispatch(setArchiveType(newArchiveType));
 
     eventEmitter.emit(events.updateArchiveTypeParam, newArchiveType);
+    eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 
   useEffect(() => {

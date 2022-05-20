@@ -37,6 +37,7 @@ export default function QueryInput ({ currentQueryMode }) {
     newQueryInputValue = updateQueryInputValue(newQueryInputValue);
 
     eventEmitter.emit(events.updateQueryStringParam, newQueryInputValue);
+    eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryInputValue);
 
     if (!newQueryInputValue) {
       eventEmitter.emit(events.resetResultPreview);

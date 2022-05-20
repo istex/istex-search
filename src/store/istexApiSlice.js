@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { istexApiConfig } from '../config';
 
-export const istexApiSlice = createSlice({
-  name: 'istexApi',
-  initialState: {
+export function getDefaultState () {
+  return {
     queryString: '',
     qId: '',
     selectedFormats: 0,
@@ -11,7 +10,12 @@ export const istexApiSlice = createSlice({
     rankingMode: istexApiConfig.rankingModes.getDefault(),
     compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
     archiveType: istexApiConfig.archiveTypes.getDefault(),
-  },
+  };
+}
+
+export const istexApiSlice = createSlice({
+  name: 'istexApi',
+  initialState: getDefaultState(),
   reducers: {
     setQueryString: (state, action) => {
       state.queryString = action.payload;

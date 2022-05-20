@@ -21,6 +21,12 @@ export const events = {
   updateArchiveTypeParam: 'updateArchiveTypeParam',
   resetSearchParams: 'resetSearchParams',
   formatsChanged: 'formatsChanged',
+  setQueryStringInLastRequestOfHistory: 'setQueryStringInLastRequestOfHistory',
+  setNumberOfDocumentsInLastRequestOfHistory: 'setNumberOfDocumentsInLastRequestOfHistory',
+  setRankingModeInLastRequestOfHistory: 'setRankingModeInLastRequestOfHistory',
+  setCompressionLevelInLastRequestOfHistory: 'setCompressionLevelInLastRequestOfHistory',
+  setArchiveTypeInLastRequestOfHistory: 'setArchiveTypeInLastRequestOfHistory',
+  setSelectedFormatsInLastRequestOfHistory: 'setSelectedFormatsInLastRequestOfHistory',
 };
 
 export default new EventEmitter();

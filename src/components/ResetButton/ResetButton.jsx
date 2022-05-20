@@ -5,7 +5,7 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export function resetForm () {
   eventEmitter.emit(events.queryModeChanged, queryModes.getDefault());
-  eventEmitter.emit(events.queryInputChanged, null);
+  eventEmitter.emit(events.queryInputChanged, '');
   eventEmitter.emit(events.numberOfDocumentsChanged, 0);
   eventEmitter.emit(events.rankingModeChanged, istexApiConfig.rankingModes.getDefault());
   eventEmitter.emit(events.formatsChanged, resetFormat());

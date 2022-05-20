@@ -38,10 +38,29 @@ describe('Tests for the LocalStorage class', () => {
     localStorage.remove(0);
   });
 
+  const defaultLastRequest = localStorage._getDefaultLastRequest();
+
+  it('populateLastRequest', () => {
+    expect(localStorage.getLastRequest()).toEqual(defaultLastRequest);
+    localStorage.populateLastRequest('numberOfDocuments', 3);
+    expect(localStorage.getLastRequest()).toEqual({ ...defaultLastRequest, numberOfDocuments: 3 });
+    localStorage.populateLastRequest('numberOfDocuments', defaultLastRequest.numberOfDocuments);
+  });
+
   it('_update', () => {
-    localStorage._elements.push({ foo: 'bar' });
-    expect(window.localStorage.getItem('istex-dl')).toBe('[]');
+    localStorage._storage.elements.push({ foo: 'bar' });
+    localStorage._storage.lastRequest.numberOfDocuments = 3;
+    expect(JSON.parse(window.localStorage.getItem('istex-dl'))).toEqual({
+      elements: [],
+      lastRequest: defaultLastRequest,
+    });
     localStorage._update();
-    expect(window.localStorage.getItem('istex-dl')).toBe('[{"foo":"bar"}]');
+    expect(JSON.parse(window.localStorage.getItem('istex-dl'))).toEqual({
+      elements: [{ foo: 'bar' }],
+      lastRequest: {
+        ...defaultLastRequest,
+        numberOfDocuments: 3,
+      },
+    });
   });
 });

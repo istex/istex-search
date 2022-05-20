@@ -35,6 +35,7 @@ export default function QuerySection () {
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
       eventEmitter.emit(events.updateNumberOfDocumentsParam, newNumberOfDocuments);
+      eventEmitter.emit(events.setNumberOfDocumentsInLastRequestOfHistory, newNumberOfDocuments);
     }
   };
 
@@ -43,6 +44,7 @@ export default function QuerySection () {
     dispatch(setRankingMode(newRankingMode));
 
     eventEmitter.emit(events.updateRankingModeParam, newRankingMode);
+    eventEmitter.emit(events.setRankingModeInLastRequestOfHistory, newRankingMode);
   };
 
   const resultPreviewResponseReceivedHandler = response => {

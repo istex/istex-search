@@ -5,7 +5,7 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function ResetButton () {
   const resetForm = () => {
-    eventEmitter.emit(events.queryModeChanged, queryModes[0]);
+    eventEmitter.emit(events.queryModeChanged, queryModes.getDefault());
     eventEmitter.emit(events.queryInputChanged, null);
     eventEmitter.emit(events.numberOfDocumentsChanged, 0);
     eventEmitter.emit(events.rankingModeChanged, istexApiConfig.rankingModes.getDefault());

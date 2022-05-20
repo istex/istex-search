@@ -1,4 +1,7 @@
-export const queryModes = ['query string', 'ark', 'file import'];
+export const queryModes = {
+  modes: ['query string', 'ark', 'file import'],
+  getDefault: () => queryModes.modes[0],
+};
 
 const rankingModes = {
   modes: ['qualityOverRelevance', 'relevance', 'random'],

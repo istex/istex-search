@@ -18,7 +18,7 @@ export default function QuerySection () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
-  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes[0]);
+  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault());
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
@@ -80,7 +80,7 @@ export default function QuerySection () {
       <h2>Query</h2>
       <div>
         <span>Query mode: </span>
-        {queryModes.map(queryMode => (
+        {queryModes.modes.map(queryMode => (
           <span key={queryMode}>
             <input
               type='radio'

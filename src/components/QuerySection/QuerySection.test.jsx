@@ -15,7 +15,7 @@ describe('Tests for the QuerySection component', () => {
   it('Renders a radio button for each query mode', () => {
     render(<QuerySection />);
 
-    queryModes.forEach(queryMode => {
+    queryModes.modes.forEach(queryMode => {
       const queryModeRadioButton = screen.getByText(queryMode);
       expect(queryModeRadioButton).toBeInTheDocument();
       expect(queryModeRadioButton.textContent).toBe(queryMode);

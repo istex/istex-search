@@ -6,7 +6,7 @@ import { queryModes } from '../../config';
 
 describe('Tests for the QueryInput component', () => {
   it('Renders the query string text input', () => {
-    render(<QueryInput currentQueryMode={queryModes[0]} />);
+    render(<QueryInput currentQueryMode={queryModes.getDefault()} />);
     const titleElement = screen.getByRole('textbox');
 
     expect(titleElement).toBeInTheDocument();

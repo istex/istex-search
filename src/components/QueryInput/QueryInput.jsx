@@ -19,7 +19,7 @@ export default function QueryInput ({ currentQueryMode }) {
   // Set the text input value to what was passed and return it just in case it was modified
   const updateQueryInputValue = newQueryInputValue => {
     // Only necessary when the handler is triggered from an event from another component
-    if (currentQueryMode === queryModes[0]) {
+    if (currentQueryMode === queryModes.modes[0]) {
       inputElement.current.value = newQueryInputValue;
     }
 
@@ -93,7 +93,7 @@ export default function QueryInput ({ currentQueryMode }) {
 
   let queryInputUi;
   switch (currentQueryMode) {
-    case queryModes[0]:
+    case queryModes.modes[0]:
       queryInputUi = (
         <input
           ref={inputElement}
@@ -104,7 +104,7 @@ export default function QueryInput ({ currentQueryMode }) {
         />
       );
       break;
-    case queryModes[1]:
+    case queryModes.modes[1]:
       queryInputUi = (
         <textarea
           ref={inputElement}
@@ -121,7 +121,7 @@ export default function QueryInput ({ currentQueryMode }) {
         />
       );
       break;
-    case queryModes[2]:
+    case queryModes.modes[2]:
       queryInputUi = (
         <input
           ref={inputElement}

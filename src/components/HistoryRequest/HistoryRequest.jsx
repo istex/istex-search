@@ -25,7 +25,13 @@ export default function HistoryRequest ({ requestInfo }) {
   const downloadHandler = () => {
     const url = buildFullUrl(requestInfo).toString();
 
+    // This function is synchronous
     sendDownloadApiRequest(url);
+
+    localStorage.add({
+      ...requestInfo,
+      date: Date.now(),
+    });
   };
 
   const shareHandler = () => {

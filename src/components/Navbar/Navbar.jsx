@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetButton from '../ResetButton';
+import { ResetButton } from '../ResetButton';
 import FetchButton from '../FetchButton';
 import ShareButton from '../ShareButton';
 import HistoryButton from '../HistoryButton';

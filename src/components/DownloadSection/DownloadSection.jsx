@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
+import { resetForm } from '../ResetButton';
 import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
-import { istexApiConfig } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import localStorage from '../../lib/localStorage';
+import { istexApiConfig } from '../../config';
 
 export default function DownloadSection () {
   const dispatch = useDispatch();
@@ -73,6 +74,9 @@ export default function DownloadSection () {
       ...options,
       date: Date.now(),
     });
+
+    // Reset the whole form once the download is complete
+    resetForm();
   };
 
   const isFormIncomplete = queryString === '' ||

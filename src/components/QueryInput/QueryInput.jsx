@@ -54,6 +54,14 @@ export default function QueryInput ({ currentQueryMode }) {
   };
 
   const qIdChangedHandler = async (newQId, originalQueryString) => {
+    dispatch(setQId(newQId));
+
+    eventEmitter.emit(events.updateQIdParam, newQId);
+
+    // newQId can be an empty string when the qId is reset, if that's the case, we don't want to send a request
+    // to get the corresponding queryString so we just stop here
+    if (!newQId) return;
+
     // If originalQueryString was not passed we need to fetch it from the API using the qId
     if (!originalQueryString) {
       try {
@@ -63,14 +71,8 @@ export default function QueryInput ({ currentQueryMode }) {
       } catch (err) {
         // TODO: print the error in a modal or something else
         console.error(err);
-
-        return;
       }
     }
-
-    dispatch(setQId(newQId));
-
-    eventEmitter.emit(events.updateQIdParam, newQId);
   };
 
   const corpusFileHandler = file => {

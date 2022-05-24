@@ -1,12 +1,12 @@
 import React from 'react';
 import { describe, expect, it } from 'vitest';
 import { customRender as render, screen } from '../../test/utils';
-import PredefinedUsage from './PredefinedUsage';
+import Usage from './Usage';
 
 describe('Tests for the PredefinedUsage component', () => {
   it('Renders the radio button', () => {
-    render(<PredefinedUsage name='myPredefinedUsage' />);
-    const radioButton = screen.getByText(/myPredefinedUsage/i);
+    render(<Usage name='myUsage' />);
+    const radioButton = screen.getByText(/myUsage/i);
 
     expect(radioButton).toBeInTheDocument();
   });

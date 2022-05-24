@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Format from '../Format';
-import PredefinedUsage from '../PredefinedUsage';
-import { setSelectedFormats } from '../../store/istexApiSlice';
+import Usage from '../Usage';
+import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { formats, predefinedUsages } from '../../config';
+import { formats, usages } from '../../config';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
+  const usage = useSelector(state => state.istexApi.usage);
 
   const getWholeCategoryFormat = categoryName => {
     if (!formats[categoryName]) return 0;
@@ -41,6 +42,7 @@ export default function UsageSection () {
 
   const isWholeCategorySelected = formatCategory => {
     const wholeCategoryFormat = getWholeCategoryFormat(formatCategory);
+
     return isFormatSelected(selectedFormats, wholeCategoryFormat);
   };
 
@@ -52,47 +54,60 @@ export default function UsageSection () {
     eventEmitter.emit(events.updateExtractParam, extractParams);
   };
 
+  const usageChangedHandler = newUsage => {
+    dispatch(setUsage(newUsage));
+
+    eventEmitter.emit(events.updateUsageParam, newUsage);
+    eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.formatsChanged, formatsChangedHandler);
+    eventEmitter.addListener(events.usageChanged, usageChangedHandler);
   }, []);
 
   return (
     <>
       <h2>Usage</h2>
       <div style={{ display: 'flex' }}>
-        <div style={{ border: 'solid black 1px' }}>
-          {Object.keys(formats).map(formatCategory => {
-            // Cases of covers and annexes which are not in a category
-            if (Number.isInteger(formats[formatCategory])) {
-              return (
-                <div key={formatCategory}>
-                  <Format name={formatCategory} value={formats[formatCategory]} />
-                </div>
-              );
-            }
+        {Object.keys(usages).map(usageName => (
+          <div key={usageName} style={{ border: 'solid black 1px' }}>
+            <Usage
+              name={usageName}
+              formats={usages[usageName].selectedFormats}
+            />
+            {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)
+            are both the custom usage */}
+            {(usageName === 'customUsage' && usage === 'customUsage') && (
+              <div>
+                {Object.keys(formats).map(formatCategory => {
+                  // Cases of covers and annexes which are not in a category
+                  if (Number.isInteger(formats[formatCategory])) {
+                    return (
+                      <div key={formatCategory}>
+                        <Format name={formatCategory} value={formats[formatCategory]} />
+                      </div>
+                    );
+                  }
 
-            return (
-              <div key={formatCategory}>
-                <input
-                  type='checkbox'
-                  name={formatCategory}
-                  onChange={toggleWholeCategory}
-                  checked={isWholeCategorySelected(formatCategory)}
-                />
-                <label htmlFor={formatCategory}>{formatCategory}</label>
-                {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
-                  <Format key={formatName} name={formatName} value={formatValue} style={{ paddingLeft: '1em' }} />
-                ))}
+                  return (
+                    <div key={formatCategory}>
+                      <input
+                        type='checkbox'
+                        name={formatCategory}
+                        onChange={toggleWholeCategory}
+                        checked={isWholeCategorySelected(formatCategory)}
+                      />
+                      <label htmlFor={formatCategory}>{formatCategory}</label>
+                      {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
+                        <Format key={formatName} name={formatName} value={formatValue} style={{ paddingLeft: '1em' }} />
+                      ))}
+                    </div>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-        {Object.keys(predefinedUsages).map(predefinedUsageName => (
-          <PredefinedUsage
-            key={predefinedUsageName}
-            name={predefinedUsageName}
-            formats={predefinedUsages[predefinedUsageName].selectedFormats}
-          />
+            )}
+          </div>
         ))}
       </div>
     </>

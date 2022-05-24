@@ -10,6 +10,7 @@ export const events = {
   queryModeChanged: 'queryModeChanged',
   numberOfDocumentsChanged: 'numberOfDocumentsChanged',
   rankingModeChanged: 'rankingModeChanged',
+  usageChanged: 'usageChanged',
   resultPreviewResponseReceived: 'resultPreviewResponseReceived',
   resetResultPreview: 'resetResultPreview',
   updateQueryStringParam: 'updateQueryStringParam',
@@ -19,6 +20,7 @@ export const events = {
   updateExtractParam: 'updateExtractParam',
   updateCompressionLevelParam: 'updateCompressionLevelParam',
   updateArchiveTypeParam: 'updateArchiveTypeParam',
+  updateUsageParam: 'updateUsageParam',
   resetSearchParams: 'resetSearchParams',
   formatsChanged: 'formatsChanged',
   setQueryStringInLastRequestOfHistory: 'setQueryStringInLastRequestOfHistory',
@@ -27,6 +29,7 @@ export const events = {
   setCompressionLevelInLastRequestOfHistory: 'setCompressionLevelInLastRequestOfHistory',
   setArchiveTypeInLastRequestOfHistory: 'setArchiveTypeInLastRequestOfHistory',
   setSelectedFormatsInLastRequestOfHistory: 'setSelectedFormatsInLastRequestOfHistory',
+  setUsageInLastRequestOfHistory: 'setUsageInLastRequestOfHistory',
 };
 
 export default new EventEmitter();

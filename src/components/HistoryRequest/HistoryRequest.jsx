@@ -18,6 +18,7 @@ export default function HistoryRequest ({ requestInfo }) {
     eventEmitter.emit(events.rankingModeChanged, requestInfo.rankingMode);
     eventEmitter.emit(events.compressionLevelChanged, requestInfo.compressionLevel);
     eventEmitter.emit(events.archiveTypeChanged, requestInfo.archiveType);
+    eventEmitter.emit(events.usageChanged, requestInfo.usage);
 
     eventEmitter.emit(events.modalCloseRequest);
   };

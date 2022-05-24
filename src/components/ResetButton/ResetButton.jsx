@@ -12,6 +12,7 @@ export function resetForm () {
   eventEmitter.emit(events.formatsChanged, resetFormat());
   eventEmitter.emit(events.compressionLevelChanged, istexApiConfig.compressionLevels.getDefault().value);
   eventEmitter.emit(events.archiveTypeChanged, istexApiConfig.archiveTypes.getDefault());
+  eventEmitter.emit(events.usageChanged, '');
   eventEmitter.emit(events.resetResultPreview);
 
   eventEmitter.emit(events.resetSearchParams);

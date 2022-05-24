@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { parseExtractParams } from '../../lib/istexApi';
 import { isValidMd5 } from '../../lib/utils';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { istexApiConfig } from '../../config';
+import { istexApiConfig, usages } from '../../config';
 
 export default function UrlSearchParamsManager () {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -15,6 +15,7 @@ export default function UrlSearchParamsManager () {
   const rankingMode = searchParams.get('rankBy');
   const compressionLevelAsString = searchParams.get('compressionLevel');
   const archiveType = searchParams.get('archiveType');
+  const usage = searchParams.get('usage');
 
   const fillFormFromUrlSearchParams = () => {
     // For each URL search parameter, we check if it's defined (it might still be an empty string).
@@ -79,6 +80,16 @@ export default function UrlSearchParamsManager () {
 
       eventEmitter.emit(events.archiveTypeChanged, archiveTypeToUse);
     }
+
+    if (usage != null) {
+      if (Object.keys(usages).includes(usage)) {
+        eventEmitter.emit(events.usageChanged, usage);
+      } else {
+        searchParams.delete('usage');
+      }
+    }
+
+    setSearchParams(searchParams);
   };
 
   const setUrlSearchParam = (name, value) => {
@@ -117,6 +128,7 @@ export default function UrlSearchParamsManager () {
     eventEmitter.addListener(events.updateExtractParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
     eventEmitter.addListener(events.updateCompressionLevelParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
     eventEmitter.addListener(events.updateArchiveTypeParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
+    eventEmitter.addListener(events.updateUsageParam, newUsage => setUrlSearchParam('usage', newUsage));
     eventEmitter.addListener(events.resetSearchParams, resetSearchParams);
   }, []);
 

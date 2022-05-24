@@ -67,7 +67,10 @@ export const formats = {
   annexes: 1 << 31,
 };
 
-export const predefinedUsages = {
+export const usages = {
+  customUsage: {
+    selectedFormats: 0,
+  },
   lodex: {
     selectedFormats: formats.metadata.json,
   },

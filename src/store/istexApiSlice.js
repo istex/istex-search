@@ -10,6 +10,7 @@ export function getDefaultState () {
     rankingMode: istexApiConfig.rankingModes.getDefault(),
     compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
     archiveType: istexApiConfig.archiveTypes.getDefault(),
+    usage: '',
   };
 }
 
@@ -38,6 +39,9 @@ export const istexApiSlice = createSlice({
     setArchiveType: (state, action) => {
       state.archiveType = action.payload;
     },
+    setUsage: (state, action) => {
+      state.usage = action.payload;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   setRankingMode,
   setCompressionLevel,
   setArchiveType,
+  setUsage,
 } = istexApiSlice.actions;
 
 export default istexApiSlice.reducer;

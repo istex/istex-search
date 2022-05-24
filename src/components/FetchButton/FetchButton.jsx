@@ -22,6 +22,7 @@ export default function FetchButton () {
     eventEmitter.emit(events.rankingModeChanged, mostRecentRequest.rankingMode);
     eventEmitter.emit(events.compressionLevelChanged, mostRecentRequest.compressionLevel);
     eventEmitter.emit(events.archiveTypeChanged, mostRecentRequest.archiveType);
+    eventEmitter.emit(events.usageChanged, mostRecentRequest.usage);
   };
 
   const populateLastRequest = (fieldName, fieldValue) => {
@@ -35,6 +36,7 @@ export default function FetchButton () {
     eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, compressionLevel => populateLastRequest('compressionLevel', compressionLevel));
     eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, archiveType => populateLastRequest('archiveType', archiveType));
     eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, selectedFormats => populateLastRequest('selectedFormats', selectedFormats));
+    eventEmitter.addListener(events.setUsageInLastRequestOfHistory, usage => populateLastRequest('usage', usage));
   }, []);
 
   return (

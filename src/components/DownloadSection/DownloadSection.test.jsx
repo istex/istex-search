@@ -4,10 +4,10 @@ import { customRender as render, screen } from '../../test/utils';
 import DownloadSection from './DownloadSection';
 
 describe('Tests for the DownloadSection component', () => {
-  it('Renders the Download button', () => {
+  it('Renders the archive type radio buttons\' label', () => {
     render(<DownloadSection />);
-    const downloadButton = screen.getByRole('button');
+    const archiveTypeLabel = screen.getByText(/Archive type/);
 
-    expect(downloadButton).toBeInTheDocument();
+    expect(archiveTypeLabel).toBeInTheDocument();
   });
 });

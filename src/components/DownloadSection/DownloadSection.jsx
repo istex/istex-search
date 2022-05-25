@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import { resetForm } from '../ResetButton';
-import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
+import { buildFullUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
-import { istexApiConfig } from '../../config';
+import { istexApiConfig, formats, formatSizes } from '../../config';
 
 export default function DownloadSection () {
   const dispatch = useDispatch();
@@ -17,6 +17,8 @@ export default function DownloadSection () {
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
   const usage = useSelector(state => state.istexApi.usage);
+
+  const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
 
   const compressionLevelChangedHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
@@ -31,11 +33,6 @@ export default function DownloadSection () {
     eventEmitter.emit(events.updateArchiveTypeParam, newArchiveType);
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
-
-  useEffect(() => {
-    eventEmitter.addListener(events.compressionLevelChanged, compressionLevelChangedHandler);
-    eventEmitter.addListener(events.archiveTypeChanged, archiveTypeChangedHandler);
-  }, []);
 
   const onDownload = async () => {
     const options = {
@@ -85,6 +82,56 @@ export default function DownloadSection () {
     compressionLevel == null || // We can't just do !compressionLevel because 0 is a valid value
     !archiveType;
 
+  const estimateArchiveSize = () => {
+    let size = 0;
+
+    for (const formatCategory in formats) {
+      let format;
+
+      // Cases of covers and annexes which are not in a category
+      if (Number.isInteger(formats[formatCategory])) {
+        format = formats[formatCategory];
+
+        if (!isFormatSelected(selectedFormats, format)) continue;
+
+        const formatSize = formatSizes.baseSizes[formatCategory];
+        const multiplier = formatSizes.multipliers[compressionLevel][formatCategory];
+
+        size += formatSize * multiplier * numberOfDocuments;
+
+        continue;
+      }
+
+      for (const formatName in formats[formatCategory]) {
+        format = formats[formatCategory][formatName];
+
+        if (!isFormatSelected(selectedFormats, format)) continue;
+
+        const formatSize = formatSizes.baseSizes[formatCategory][formatName];
+        const multiplier = formatSizes.multipliers[compressionLevel][formatCategory][formatName];
+
+        size += formatSize * multiplier * numberOfDocuments;
+      }
+    }
+
+    return size;
+  };
+
+  const updateArchiveSizeText = () => {
+    const size = estimateArchiveSize();
+    const oneGigabyte = 1 * 1024 * 1024 * 1024;
+    const sizeRoundedToLowerGigabyte = Math.floor(size / oneGigabyte);
+
+    setArchiveSizeInGigabytes(sizeRoundedToLowerGigabyte);
+  };
+
+  useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
+
+  useEffect(() => {
+    eventEmitter.addListener(events.compressionLevelChanged, compressionLevelChangedHandler);
+    eventEmitter.addListener(events.archiveTypeChanged, archiveTypeChangedHandler);
+  }, []);
+
   return (
     <>
       <h2>Download</h2>
@@ -120,6 +167,9 @@ export default function DownloadSection () {
         ))}
       </div>
       <button onClick={onDownload} disabled={isFormIncomplete}>Download</button>
+      {archiveSizeInGigabytes >= 1 && (
+        <span>{archiveSizeInGigabytes >= 5 ? 'Danger' : archiveSizeInGigabytes >= 1 ? 'Warning' : ''}: &gt;{archiveSizeInGigabytes} GB</span>
+      )}
     </>
   );
 }

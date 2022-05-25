@@ -75,3 +75,109 @@ export const usages = {
     selectedFormats: formats.metadata.json,
   },
 };
+
+// TODO: get more accurate numbers (or find a better way to estimate the archive size...)
+export const formatSizes = {
+  baseSizes: {
+    fulltext: {
+      pdf: 2 * 1024 * 1024, // 2 MB
+      tei: 12 * 1024, // 12 KB
+      txt: 11 * 1024, // 11 KB
+      cleaned: 11 * 1024, // 11 KB
+      zip: 6 * 1024 * 1024, // 6 MB
+      tiff: 24 * 1024 * 1024, // 24 MB
+    },
+    metadata: {
+      json: 7 * 1024, // 7 KB
+      xml: 3 * 1024, // 3 KB
+      mods: 3 * 1024, // 3 KB
+    },
+    enrichments: {
+      multicat: 2 * 1024, // 2 KB
+      nb: 2 * 1024, // 2 KB
+      grobidFulltext: 12 * 1024, // 12 KB
+      refBibs: 1 * 1024, // 1 KB
+      teeft: 2 * 1024, // 2 KB
+      unitex: 1 * 1024, // 1 KB
+    },
+    covers: 1 * 1024, // 1 KB
+    annexes: 6 * 1024 * 1024, // 6 MB
+  },
+  multipliers: {
+    [compressionLevels.levels[0].value]: {
+      fulltext: {
+        pdf: 1,
+        tei: 1,
+        txt: 1,
+        cleaned: 1,
+        zip: 1,
+        tiff: 1,
+      },
+      metadata: {
+        json: 1,
+        xml: 1,
+        mods: 1,
+      },
+      enrichments: {
+        multicat: 1,
+        nb: 1,
+        grobidFulltext: 1,
+        refBibs: 1,
+        teeft: 1,
+        unitex: 1,
+      },
+      covers: 1,
+      annexes: 1,
+    },
+    [compressionLevels.levels[1].value]: {
+      fulltext: {
+        pdf: 0.6,
+        tei: 0.6,
+        txt: 0.6,
+        cleaned: 0.6,
+        zip: 0.6,
+        tiff: 0.6,
+      },
+      metadata: {
+        json: 0.6,
+        xml: 0.6,
+        mods: 0.6,
+      },
+      enrichments: {
+        multicat: 0.6,
+        nb: 0.6,
+        grobidFulltext: 0.6,
+        refBibs: 0.6,
+        teeft: 0.6,
+        unitex: 0.6,
+      },
+      covers: 0.6,
+      annexes: 0.6,
+    },
+    [compressionLevels.levels[2].value]: {
+      fulltext: {
+        pdf: 0.3,
+        tei: 0.3,
+        txt: 0.3,
+        cleaned: 0.3,
+        zip: 0.3,
+        tiff: 0.3,
+      },
+      metadata: {
+        json: 0.3,
+        xml: 0.3,
+        mods: 0.3,
+      },
+      enrichments: {
+        multicat: 0.3,
+        nb: 0.3,
+        grobidFulltext: 0.3,
+        refBibs: 0.3,
+        teeft: 0.3,
+        unitex: 0.3,
+      },
+      covers: 0.3,
+      annexes: 0.3,
+    },
+  },
+};

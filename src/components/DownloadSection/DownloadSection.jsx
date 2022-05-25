@@ -4,7 +4,7 @@ import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import { resetForm } from '../ResetButton';
 import { buildFullUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import localStorage from '../../lib/localStorage';
+import historyManager from '../../lib/HistoryManager';
 import { istexApiConfig } from '../../config';
 
 export default function DownloadSection () {
@@ -69,7 +69,7 @@ export default function DownloadSection () {
     // This function is synchronous
     sendDownloadApiRequest(url);
 
-    localStorage.add({
+    historyManager.add({
       ...options,
       date: Date.now(),
     });

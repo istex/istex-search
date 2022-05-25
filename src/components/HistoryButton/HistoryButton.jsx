@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import './HistoryButton.css';
 import HistoryRequest from '../HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import localStorage from '../../lib/localStorage';
+import historyManager from '../../lib/HistoryManager';
 
 export default function HistoryButton () {
   const modalWindow = useRef();
-  const [requests, setRequests] = useState(localStorage.getAll());
+  const [requests, setRequests] = useState(historyManager.getAll());
 
   const setModalVisibility = visible => {
     const display = visible ? 'block' : 'none';
     modalWindow.current.style.display = display;
   };
 
-  const localStorageUpdatedHandler = () => {
+  const historyUpdatedHandler = () => {
     // Yes, the array has to be cloned every time to trigger a re-render (cf. https://stackoverflow.com/a/67354136)
-    setRequests([...localStorage.getAll()]);
+    setRequests([...historyManager.getAll()]);
   };
 
   const modalCloseRequestHandler = () => {
@@ -23,7 +23,7 @@ export default function HistoryButton () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.localStorageUpdated, localStorageUpdatedHandler);
+    eventEmitter.addListener(events.historyUpdated, historyUpdatedHandler);
     eventEmitter.addListener(events.modalCloseRequest, modalCloseRequestHandler);
   }, []);
 

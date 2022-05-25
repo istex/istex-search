@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './HistoryRequest.css';
 import { buildExtractParamsFromFormats, buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import localStorage from '../../lib/localStorage';
+import historyManager from '../../lib/HistoryManager';
 
 export default function HistoryRequest ({ requestInfo }) {
   const editHandler = () => {
@@ -29,7 +29,7 @@ export default function HistoryRequest ({ requestInfo }) {
     // This function is synchronous
     sendDownloadApiRequest(url);
 
-    localStorage.add({
+    historyManager.add({
       ...requestInfo,
       date: Date.now(),
     });
@@ -48,7 +48,7 @@ export default function HistoryRequest ({ requestInfo }) {
   };
 
   const deleteHandler = () => {
-    localStorage.remove(requestInfo.index);
+    historyManager.remove(requestInfo.index);
   };
 
   return (

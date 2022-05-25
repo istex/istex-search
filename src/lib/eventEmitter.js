@@ -3,7 +3,7 @@ import { EventEmitter } from 'eventemitter3';
 export const events = {
   compressionLevelChanged: 'compressionLevelChanged',
   archiveTypeChanged: 'archiveTypeChanged',
-  localStorageUpdated: 'localStorageUpdated',
+  historyUpdated: 'historyUpdated',
   modalCloseRequest: 'modalCloseRequest',
   queryInputChanged: 'queryInputChanged',
   qIdChanged: 'qIdChanged',

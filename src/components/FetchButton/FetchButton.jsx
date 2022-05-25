@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import localStorage from '../../lib/localStorage';
+import historyManager from '../../lib/HistoryManager';
 
 export default function FetchButton () {
-  const updateFormFromLastRequestInLocalStorage = () => {
-    const mostRecentRequest = localStorage.getLastRequest();
+  const updateFormFromLastRequest = () => {
+    const mostRecentRequest = historyManager.getLastRequest();
 
     if (!mostRecentRequest) {
       return;
@@ -26,7 +26,7 @@ export default function FetchButton () {
   };
 
   const populateLastRequest = (fieldName, fieldValue) => {
-    localStorage.populateLastRequest(fieldName, fieldValue);
+    historyManager.populateLastRequest(fieldName, fieldValue);
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function FetchButton () {
 
   return (
     <div>
-      <button onClick={updateFormFromLastRequestInLocalStorage}>
+      <button onClick={updateFormFromLastRequest}>
         Fetch
       </button>
     </div>

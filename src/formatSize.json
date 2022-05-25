@@ -8,6 +8,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -20,6 +21,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}
@@ -34,6 +36,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -46,6 +49,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}
@@ -60,6 +64,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -72,6 +77,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}
@@ -87,6 +93,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -99,6 +106,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}
@@ -113,6 +121,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -125,6 +134,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}
@@ -139,6 +149,7 @@
 					"pdf": 1258291,
 					"tei": 11980,
 					"txt": 11059,
+					"cleaned": 11059,
 					"zip": 6606028,
 					"tiff": 25000000
 				},
@@ -151,6 +162,7 @@
 					"multicat": 2150,
 					"nb": 1945,
 					"refbibs": 850,
+					"grobidFulltext": 11980,
 					"teeft": 2457,
 					"unitex": 1000
 				}

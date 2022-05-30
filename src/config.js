@@ -76,32 +76,32 @@ export const usages = {
   },
 };
 
-// TODO: get more accurate numbers (or find a better way to estimate the archive size...)
+// TODO: get more accurate multipliers (or find a better way to estimate the archive size...)
 export const formatSizes = {
   baseSizes: {
     fulltext: {
-      pdf: 2 * 1024 * 1024, // 2 MB
-      tei: 12 * 1024, // 12 KB
-      txt: 11 * 1024, // 11 KB
-      cleaned: 11 * 1024, // 11 KB
-      zip: 6 * 1024 * 1024, // 6 MB
-      tiff: 24 * 1024 * 1024, // 24 MB
+      pdf: 1834832, // ~1.75 MB
+      tei: 126311, // ~123.3 KB
+      txt: 80585, // ~78.7 KB
+      cleaned: 53569, // ~52.3 KB
+      zip: 2123192, // ~2.02 MB
+      tiff: 6685424, // ~6.38 MB
     },
     metadata: {
-      json: 7 * 1024, // 7 KB
-      xml: 3 * 1024, // 3 KB
-      mods: 3 * 1024, // 3 KB
+      json: 14812, // ~14.5 KB
+      xml: 159401, // ~155.7 KB
+      mods: 22108, // ~21.6 KB
     },
     enrichments: {
-      multicat: 2 * 1024, // 2 KB
-      nb: 2 * 1024, // 2 KB
-      grobidFulltext: 12 * 1024, // 12 KB
-      refBibs: 1 * 1024, // 1 KB
-      teeft: 2 * 1024, // 2 KB
-      unitex: 1 * 1024, // 1 KB
+      multicat: 8644, // ~8.4 KB
+      nb: 6949, // ~6.8 KB
+      grobidFulltext: 61730, // ~60.3 KB
+      refBibs: 28699, // ~28 KB
+      teeft: 40890, // ~39.9 KB
+      unitex: 32609, // ~31.8 KB
     },
-    covers: 1 * 1024, // 1 KB
-    annexes: 6 * 1024 * 1024, // 6 MB
+    covers: 1585080, // ~1.51 MB
+    annexes: 7268606, // ~6.93 MB
   },
   multipliers: {
     [compressionLevels.levels[0].value]: {

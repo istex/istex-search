@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './HistoryRequest.css';
-import { buildExtractParamsFromFormats, buildFullUrl, sendDownloadApiRequest } from '../../lib/istexApi';
+import { buildExtractParamsFromFormats, buildFullApiUrl, sendDownloadApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
+import { buildFullIstexDlUrl } from '../../lib/utils';
 
 export default function HistoryRequest ({ requestInfo }) {
   const editHandler = () => {
@@ -24,7 +25,7 @@ export default function HistoryRequest ({ requestInfo }) {
   };
 
   const downloadHandler = () => {
-    const url = buildFullUrl(requestInfo).toString();
+    const url = buildFullApiUrl(requestInfo).toString();
 
     // This function is synchronous
     sendDownloadApiRequest(url);
@@ -36,15 +37,11 @@ export default function HistoryRequest ({ requestInfo }) {
   };
 
   const shareHandler = () => {
-    // The ISTEX-DL URL and ISTEX API have the same search parameters so we build the full ISTEX API URL
-    // and copy its search parameters to the ISTEX-DL URL to get the URL to share
-    const istexApiFullUrl = buildFullUrl(requestInfo);
-    const istexDlFullUrl = new URL(window.location.href);
-    istexDlFullUrl.search = istexApiFullUrl.search;
+    const istexDlFullUrl = buildFullIstexDlUrl(requestInfo);
 
-    navigator.clipboard.writeText(istexApiFullUrl.href)
-      .then(() => window.alert(`${istexApiFullUrl.href} copied to clipboard!`))
-      .catch(() => window.alert(`${istexApiFullUrl.href} failed to copy to clipboard!`));
+    navigator.clipboard.writeText(istexDlFullUrl.href)
+      .then(() => window.alert(`${istexDlFullUrl.href} copied to clipboard!`))
+      .catch(() => window.alert(`${istexDlFullUrl.href} failed to copy to clipboard!`));
   };
 
   const deleteHandler = () => {

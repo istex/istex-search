@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { resetForm } from '../ResetButton';
-import { buildFullUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
+import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
 
@@ -44,7 +44,7 @@ export default function DownloadButton () {
       options.queryString = queryString;
     }
 
-    const url = buildFullUrl(options).toString();
+    const url = buildFullApiUrl(options).toString();
 
     // This function is synchronous
     sendDownloadApiRequest(url);

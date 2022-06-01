@@ -145,7 +145,7 @@ export function parseExtractParams (extractParamsAsString) {
  * @param {'zip'|'tar'} archiveType The type of archive.
  * @returns The full URL as an `URL` object.
  */
-export function buildFullUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType }) {
+export function buildFullApiUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType }) {
   // If no format is selected, return early and don't add the extract parameter
   if (!selectedFormats) return null;
 

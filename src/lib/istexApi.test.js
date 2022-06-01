@@ -74,7 +74,7 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.parseExtractParams(missingSemiColonExtractParams)).toBe(formats.fulltext.pdf | formats.fulltext.txt);
   });
 
-  it('buildFullUrl', () => {
+  it('buildFullApiUrl', () => {
     const queryStringRequest = {
       queryString: 'fulltext:fish',
       selectedFormats: formats.fulltext.pdf,
@@ -95,9 +95,9 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       selectedFormats: 0,
     };
 
-    expect(istexApi.buildFullUrl(queryStringRequest).toString()).toBe('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
-    expect(istexApi.buildFullUrl(qIdRequest).toString()).toBe('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
-    expect(istexApi.buildFullUrl(noSelectedFormatsRequest)).toBe(null);
+    expect(istexApi.buildFullApiUrl(queryStringRequest).toString()).toBe('https://api.istex.fr/document?q=fulltext%3Afish&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullApiUrl(qIdRequest).toString()).toBe('https://api.istex.fr/document?q_id=fakeQId&extract=fulltext%5Bpdf%5D&size=1&rankBy=qualityOverRelevance&compressionLevel=6&archiveType=zip&sid=istex-dl');
+    expect(istexApi.buildFullApiUrl(noSelectedFormatsRequest)).toBe(null);
   });
 
   it('selectFormat', () => {

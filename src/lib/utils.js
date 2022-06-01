@@ -1,3 +1,5 @@
+import { buildExtractParamsFromFormats } from './istexApi';
+
 /**
  * Checks if `hash` is a valid md5 hash.
  * @param {string} hash The hash to check.
@@ -51,4 +53,29 @@ export function asyncDebounce (callback, delay = 1000) {
       debounced(resolve, reject, args);
     });
   };
+}
+
+export function buildFullIstexDlUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType, usage }) {
+  // If no format is selected, return early and don't add the extract parameter
+  if (!selectedFormats) return null;
+
+  const extractParams = buildExtractParamsFromFormats(selectedFormats);
+
+  // Build the final URL object
+  const url = new URL(window.location.href);
+
+  if (qId) {
+    url.searchParams.append('q_id', qId);
+  } else {
+    url.searchParams.append('q', queryString);
+  }
+
+  url.searchParams.append('extract', extractParams);
+  url.searchParams.append('size', numberOfDocuments);
+  url.searchParams.append('rankBy', rankingMode);
+  url.searchParams.append('compressionLevel', compressionLevel);
+  url.searchParams.append('archiveType', archiveType);
+  url.searchParams.append('usage', usage);
+
+  return url;
 }

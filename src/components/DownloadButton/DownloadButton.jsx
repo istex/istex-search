@@ -78,7 +78,7 @@ export default function DownloadButton () {
         if (!isFormatSelected(selectedFormats, format)) continue;
 
         const formatSize = formatSizes.baseSizes[formatCategory];
-        const multiplier = formatSizes.multipliers[compressionLevel][formatCategory];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory];
 
         size += formatSize * multiplier * numberOfDocuments;
 
@@ -91,7 +91,7 @@ export default function DownloadButton () {
         if (!isFormatSelected(selectedFormats, format)) continue;
 
         const formatSize = formatSizes.baseSizes[formatCategory][formatName];
-        const multiplier = formatSizes.multipliers[compressionLevel][formatCategory][formatName];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory][formatName];
 
         size += formatSize * multiplier * numberOfDocuments;
       }

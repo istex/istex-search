@@ -76,7 +76,7 @@ export const usages = {
   },
 };
 
-// TODO: get more accurate multipliers (or find a better way to estimate the archive size...)
+// Maybe find a better way to estimate the archive size one day...
 export const formatSizes = {
   baseSizes: {
     fulltext: {
@@ -103,81 +103,162 @@ export const formatSizes = {
     covers: 1585080, // ~1.51 MB
     annexes: 7268606, // ~6.93 MB
   },
-  multipliers: {
-    [compressionLevels.levels[0].value]: {
-      fulltext: {
-        pdf: 1,
-        tei: 1,
-        txt: 1,
-        cleaned: 1,
-        zip: 1,
-        tiff: 1,
+  [archiveTypes.types[0]]: {
+    multipliers: {
+      [compressionLevels.levels[0].value]: {
+        fulltext: {
+          pdf: 0.99,
+          tei: 0.93,
+          txt: 0.89,
+          cleaned: 0.87,
+          zip: 1,
+          tiff: 1,
+        },
+        metadata: {
+          json: 0.63,
+          xml: 0.74,
+          mods: 0.66,
+        },
+        enrichments: {
+          multicat: 0.53,
+          nb: 0.43,
+          grobidFulltext: 0.93,
+          refBibs: 0.77,
+          teeft: 0.87,
+          unitex: 0.8,
+        },
+        covers: 0.94,
+        annexes: 0.98,
       },
-      metadata: {
-        json: 1,
-        xml: 1,
-        mods: 1,
+      [compressionLevels.levels[1].value]: {
+        fulltext: {
+          pdf: 0.88,
+          tei: 0.3,
+          txt: 0.38,
+          cleaned: 0.34,
+          zip: 0.85,
+          tiff: 0.96,
+        },
+        metadata: {
+          json: 0.25,
+          xml: 0.23,
+          mods: 0.21,
+        },
+        enrichments: {
+          multicat: 0.22,
+          nb: 0.22,
+          grobidFulltext: 0.29,
+          refBibs: 0.17,
+          teeft: 0.09,
+          unitex: 0.09,
+        },
+        covers: 0.87,
+        annexes: 0.7,
       },
-      enrichments: {
-        multicat: 1,
-        nb: 1,
-        grobidFulltext: 1,
-        refBibs: 1,
-        teeft: 1,
-        unitex: 1,
+      [compressionLevels.levels[2].value]: {
+        fulltext: {
+          pdf: 0.88,
+          tei: 0.3,
+          txt: 0.38,
+          cleaned: 0.34,
+          zip: 0.84,
+          tiff: 0.98,
+        },
+        metadata: {
+          json: 0.25,
+          xml: 0.24,
+          mods: 0.21,
+        },
+        enrichments: {
+          multicat: 0.22,
+          nb: 0.22,
+          grobidFulltext: 0.3,
+          refBibs: 0.17,
+          teeft: 0.09,
+          unitex: 0.09,
+        },
+        covers: 0.87,
+        annexes: 0.7,
       },
-      covers: 1,
-      annexes: 1,
     },
-    [compressionLevels.levels[1].value]: {
-      fulltext: {
-        pdf: 0.6,
-        tei: 0.6,
-        txt: 0.6,
-        cleaned: 0.6,
-        zip: 0.6,
-        tiff: 0.6,
+  },
+  [archiveTypes.types[1]]: {
+    multipliers: {
+      [compressionLevels.levels[0].value]: {
+        fulltext: {
+          pdf: 0.97,
+          tei: 0.94,
+          txt: 0.91,
+          cleaned: 0.89,
+          zip: 1.01,
+          tiff: 1.07,
+        },
+        metadata: {
+          json: 0.69,
+          xml: 0.82,
+          mods: 0.73,
+        },
+        enrichments: {
+          multicat: 0.6,
+          nb: 0.52,
+          grobidFulltext: 1,
+          refBibs: 0.8,
+          teeft: 0.89,
+          unitex: 0.83,
+        },
+        covers: 0.97,
+        annexes: 0.99,
       },
-      metadata: {
-        json: 0.6,
-        xml: 0.6,
-        mods: 0.6,
+      [compressionLevels.levels[1].value]: {
+        fulltext: {
+          pdf: 0.9,
+          tei: 0.29,
+          txt: 0.37,
+          cleaned: 0.33,
+          zip: 0.85,
+          tiff: 0.98,
+        },
+        metadata: {
+          json: 0.19,
+          xml: 0.19,
+          mods: 0.12,
+        },
+        enrichments: {
+          multicat: 0.04,
+          nb: 0.04,
+          grobidFulltext: 0.27,
+          refBibs: 0.14,
+          teeft: 0.05,
+          unitex: 0.05,
+        },
+        covers: 0.86,
+        annexes: 0.7,
       },
-      enrichments: {
-        multicat: 0.6,
-        nb: 0.6,
-        grobidFulltext: 0.6,
-        refBibs: 0.6,
-        teeft: 0.6,
-        unitex: 0.6,
+      [compressionLevels.levels[2].value]: {
+        fulltext: {
+          pdf: 0.88,
+          tei: 0.28,
+          txt: 0.37,
+          cleaned: 0.33,
+          zip: 0.88,
+          tiff: 0.96,
+        },
+        metadata: {
+          json: 0.19,
+          xml: 0.19,
+          mods: 0.12,
+        },
+        enrichments: {
+          multicat: 0.04,
+          nb: 0.04,
+          grobidFulltext: 0.27,
+          refBibs: 0.14,
+          teeft: 0.05,
+          unitex: 0.05,
+        },
+        covers: 0.86,
+        annexes: 0.7,
       },
-      covers: 0.6,
-      annexes: 0.6,
-    },
-    [compressionLevels.levels[2].value]: {
-      fulltext: {
-        pdf: 0.3,
-        tei: 0.3,
-        txt: 0.3,
-        cleaned: 0.3,
-        zip: 0.3,
-        tiff: 0.3,
-      },
-      metadata: {
-        json: 0.3,
-        xml: 0.3,
-        mods: 0.3,
-      },
-      enrichments: {
-        multicat: 0.3,
-        nb: 0.3,
-        grobidFulltext: 0.3,
-        refBibs: 0.3,
-        teeft: 0.3,
-        unitex: 0.3,
-      },
-      covers: 0.3,
-      annexes: 0.3,
     },
   },
 };

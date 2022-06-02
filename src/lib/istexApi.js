@@ -39,6 +39,15 @@ export function buildQueryStringFromArks (arks) {
 }
 
 /**
+ * Check if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`.
+ * @param {string} queryString The query string to check.
+ * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
+ */
+export function isArkQueryString (queryString) {
+  return queryString.match(/arkIstex.raw:\(("(ark:\/67375\/[a-z0-9]{3}-[a-z0-9]{8}-[a-z0-9]{1})?" ?)*\)/i) !== null;
+}
+
+/**
  * Test whether `queryString` is a query string to request ark identifiers but with no identifier.
  * @param {string} queryString The query string to test.
  * @returns `true` if `queryString` is equal to `arkIstex.raw:("")`, `false` otherwise.
@@ -48,6 +57,26 @@ export function isEmptyArkQueryString (queryString) {
   // buildQueryStringFromArks so we test if queryString is equal to the value returned
   // by buildQueryStringFromArks when passed an array with an empty string
   return queryString === buildQueryStringFromArks(['']);
+}
+
+/**
+ * Extract ark identifiers from an ark query string.
+ * @param {string} queryString The query string the extract the ark identifiers from.
+ * @returns An array of ark identifiers, `null` if `queryString` is not an ark query string.
+ */
+export function getArksFromArkQueryString (queryString) {
+  if (!isArkQueryString(queryString)) return null;
+
+  // Get rid of 'arkIstex.raw:(' at the beginning of queryString
+  queryString = queryString.substring('arkIstex.raw:('.length);
+
+  // Get rid of the last parenthesis at the end of queryString
+  queryString = queryString.substring(0, queryString.length - 1);
+
+  // Get rid of the double-quotes (") surrounding each ark identifier
+  queryString = queryString.replace(/"/g, '');
+
+  return queryString.split(' ');
 }
 
 /**

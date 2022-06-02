@@ -29,6 +29,16 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.buildQueryStringFromArks(arks)).toBe('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
   });
 
+  it('isArkQueryString', () => {
+    const correctArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
+    const badArkQueryString = 'arkIstex.raw:("ark1" "ark2")';
+    const garbageString = 'foo:bar';
+
+    expect(istexApi.isArkQueryString(correctArkQueryString)).toBe(true);
+    expect(istexApi.isArkQueryString(badArkQueryString)).toBe(false);
+    expect(istexApi.isArkQueryString(garbageString)).toBe(false);
+  });
+
   it('isEmptyArkQueryString', () => {
     const emptyArkQueryString = 'arkIstex.raw:("")';
     const nonEmptyArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z")';
@@ -37,6 +47,16 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.isEmptyArkQueryString(emptyArkQueryString)).toBe(true);
     expect(istexApi.isEmptyArkQueryString(nonEmptyArkQueryString)).toBe(false);
     expect(istexApi.isEmptyArkQueryString(garbageInput)).toBe(false);
+  });
+
+  it('getArksFromArkQueryString', () => {
+    const singleArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F")';
+    const multipleArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
+    const garbageString = 'foo:bar';
+
+    expect(istexApi.getArksFromArkQueryString(singleArkQueryString)).toEqual(['ark:/67375/NVC-15SZV86B-F']);
+    expect(istexApi.getArksFromArkQueryString(multipleArkQueryString)).toEqual(['ark:/67375/NVC-15SZV86B-F', 'ark:/67375/NVC-XMM4B8LD-H']);
+    expect(istexApi.getArksFromArkQueryString(garbageString)).toBe(null);
   });
 
   it('buildExtractParamsFromFormats', () => {

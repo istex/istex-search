@@ -114,7 +114,7 @@ export default function QuerySection () {
           type='number'
           value={numberOfDocuments}
           min='0'
-          max={istexApiConfig.maxAmountOfDocuments}
+          max={Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}
           name='numberOfDocumentsInput'
           onChange={event => {
             const value = parseInt(event.target.value);

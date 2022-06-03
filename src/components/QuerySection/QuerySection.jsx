@@ -61,7 +61,10 @@ export default function QuerySection () {
 
   // If queryString or rankingMode change, update the results preview
   useEffect(async () => {
-    if (!queryString) return;
+    if (!queryString) {
+      sendDelayedResultPreviewApiRequest.cancel();
+      return;
+    }
 
     await sendDelayedResultPreviewApiRequest(queryString, rankingMode);
 

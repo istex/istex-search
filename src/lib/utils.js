@@ -20,7 +20,7 @@ export function isValidMd5 (hash) {
 export function debounce (callback, delay = 1000) {
   let timeoutId;
 
-  return (...args) => {
+  const debounced = (...args) => {
     clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
@@ -28,6 +28,12 @@ export function debounce (callback, delay = 1000) {
       callback(...args);
     }, delay);
   };
+
+  debounced.cancel = () => {
+    if (timeoutId !== undefined) clearTimeout(timeoutId);
+  };
+
+  return debounced;
 }
 
 /**
@@ -48,11 +54,15 @@ export function asyncDebounce (callback, delay = 1000) {
     }
   }, delay);
 
-  return (...args) => {
+  const asyncDebounced = (...args) => {
     return new Promise((resolve, reject) => {
       debounced(resolve, reject, args);
     });
   };
+
+  asyncDebounced.cancel = debounced.cancel;
+
+  return asyncDebounced;
 }
 
 export function buildFullIstexDlUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType, usage }) {

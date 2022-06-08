@@ -62,9 +62,6 @@ export default function QuerySection () {
     }
 
     await sendDelayedResultPreviewApiRequest(queryString, rankingMode);
-
-    // Reset the number of documents selected
-    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
   }, [queryString, rankingMode]);
 
   useEffect(() => {

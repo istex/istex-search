@@ -82,11 +82,15 @@ export default function QueryInput () {
   };
 
   const queryInputHandler = newQueryStringInput => {
+    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+
     setQueryStringInputValue(newQueryStringInput);
     updateQueryString(newQueryStringInput);
   };
 
   const arkListHandler = arkList => {
+    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+
     setArkInputValue(arkList);
 
     // If the ark list is empty, just pass it to updateQueryString and let this function handle the case
@@ -101,6 +105,8 @@ export default function QueryInput () {
   };
 
   const corpusFileHandler = file => {
+    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+
     if (!file) return;
 
     const reader = new window.FileReader();

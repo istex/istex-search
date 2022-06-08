@@ -58,28 +58,30 @@ export default function HistoryRequest ({ requestInfo }) {
   };
 
   const getRequestStringToDisplay = async () => {
+    let requestStringToDisplay;
+
     if (requestInfo.qId) {
       try {
         const response = await getQueryStringFromQId(requestInfo.qId);
 
-        return response.data.req;
+        requestStringToDisplay = response.data.req;
       } catch (err) {
         // TODO: print an error message in a modal or delete the request from the history maybe
         console.error(err);
 
-        return requestInfo.qId;
+        requestStringToDisplay = requestInfo.qId;
       }
     }
 
     if (requestInfo.queryString) {
-      if (isArkQueryString(requestInfo.queryString)) {
-        return getArksFromArkQueryString(requestInfo.queryString).join('\n');
-      }
-
-      return requestInfo.queryString;
+      requestStringToDisplay = requestInfo.queryString;
     }
 
-    return null;
+    if (isArkQueryString(requestStringToDisplay)) {
+      requestStringToDisplay = getArksFromArkQueryString(requestStringToDisplay).join('\n');
+    }
+
+    return requestStringToDisplay;
   };
 
   useEffect(async () => {

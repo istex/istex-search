@@ -15,6 +15,8 @@ export function buildQueryStringFromCorpusFile (corpusFileContent) {
   for (let i = lines.length - 1; i >= 0; i--) {
     const line = lines[i];
 
+    if (!line) continue;
+
     // The line containing '[ISTEX]' indicates that we reached the header of the file
     // so we can break out of the loop
     if (line === '[ISTEX]') break;

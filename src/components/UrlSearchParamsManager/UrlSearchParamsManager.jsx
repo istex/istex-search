@@ -31,7 +31,7 @@ export default function UrlSearchParamsManager () {
       // TODO: display an error modal or something else that says that 'q' and 'q_id' cannot be set at
       // the same time
     } else if (queryString) {
-      eventEmitter.emit(events.queryInputChanged, queryString);
+      eventEmitter.emit(events.queryStringChanged, queryString);
     } else if (isValidMd5(qId)) {
       eventEmitter.emit(events.qIdChanged, qId);
     }

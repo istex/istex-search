@@ -5,7 +5,7 @@ export const events = {
   archiveTypeChanged: 'archiveTypeChanged',
   historyUpdated: 'historyUpdated',
   modalCloseRequest: 'modalCloseRequest',
-  queryInputChanged: 'queryInputChanged',
+  queryStringChanged: 'queryStringChanged',
   qIdChanged: 'qIdChanged',
   queryModeChanged: 'queryModeChanged',
   numberOfDocumentsChanged: 'numberOfDocumentsChanged',

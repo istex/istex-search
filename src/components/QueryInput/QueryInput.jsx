@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
@@ -6,7 +6,6 @@ import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
   buildQueryStringFromCorpusFile,
-  isEmptyArkQueryString,
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
@@ -14,42 +13,26 @@ import { queryModes, istexApiConfig } from '../../config';
 
 export default function QueryInput ({ currentQueryMode }) {
   const dispatch = useDispatch();
-  const inputElement = useRef();
+  const [queryInputValue, setQueryInputValue] = useState('');
 
-  // Set the text input value to what was passed and return it just in case it was modified
-  const updateQueryInputValue = newQueryInputValue => {
-    // Only necessary when the handler is triggered from an event from another component
-    if (currentQueryMode === queryModes.modes[0]) {
-      inputElement.current.value = newQueryInputValue;
-    }
+  const queryStringChangedHandler = newQueryStringValue => {
+    dispatch(setQueryString(newQueryStringValue));
+    setQueryInputValue(newQueryStringValue);
 
-    // If the query string is an ark query with an empty list of ark identifiers,
-    // reset the query string to its default value (empty string)
-    if (isEmptyArkQueryString(newQueryInputValue)) newQueryInputValue = '';
+    eventEmitter.emit(events.updateQueryStringParam, newQueryStringValue);
+    eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryStringValue);
 
-    dispatch(setQueryString(newQueryInputValue));
-
-    return newQueryInputValue;
-  };
-
-  const queryInputChangedHandler = newQueryInputValue => {
-    // `newQueryInputValue` may be modified, that's why updateQueryInputValue returns a value
-    newQueryInputValue = updateQueryInputValue(newQueryInputValue);
-
-    eventEmitter.emit(events.updateQueryStringParam, newQueryInputValue);
-    eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryInputValue);
-
-    if (!newQueryInputValue) {
+    if (!newQueryStringValue) {
       eventEmitter.emit(events.resetResultPreview);
       return;
     }
 
     // If the query string is too long to be set in a URL search parameter, we replace it with a q_id instead
-    if (newQueryInputValue.length > istexApiConfig.queryStringMaxLength) {
+    if (newQueryStringValue.length > istexApiConfig.queryStringMaxLength) {
       // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
       // route of the API and might (hopefully) change in the future
-      const hashedValue = md5(newQueryInputValue).toString();
-      qIdChangedHandler(hashedValue, newQueryInputValue);
+      const hashedValue = md5(newQueryStringValue).toString();
+      qIdChangedHandler(hashedValue, newQueryStringValue);
     }
   };
 
@@ -67,12 +50,24 @@ export default function QueryInput ({ currentQueryMode }) {
       try {
         const response = await getQueryStringFromQId(newQId);
         originalQueryString = response.data.req;
-        updateQueryInputValue(originalQueryString);
+        dispatch(setQueryString(originalQueryString));
       } catch (err) {
         // TODO: print the error in a modal or something else
         console.error(err);
       }
     }
+  };
+
+  const arkListHandler = arkList => {
+    // If the ark list is empty, just pass it to queryStringChangedHandler and let this function handle the case
+    if (!arkList) {
+      queryStringChangedHandler(arkList);
+      return;
+    }
+
+    const arks = arkList.split('\n');
+    const queryString = buildQueryStringFromArks(arks);
+    queryStringChangedHandler(queryString);
   };
 
   const corpusFileHandler = file => {
@@ -82,7 +77,7 @@ export default function QueryInput ({ currentQueryMode }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const queryString = buildQueryStringFromCorpusFile(event.target.result);
-      queryInputChangedHandler(queryString);
+      queryStringChangedHandler(queryString);
     };
 
     // TODO: print the error in a modal or something else
@@ -90,7 +85,7 @@ export default function QueryInput ({ currentQueryMode }) {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.queryInputChanged, queryInputChangedHandler);
+    eventEmitter.addListener(events.queryStringChanged, queryStringChangedHandler);
     eventEmitter.addListener(events.qIdChanged, qIdChangedHandler);
   }, []);
 
@@ -99,38 +94,34 @@ export default function QueryInput ({ currentQueryMode }) {
     case queryModes.modes[0]:
       queryInputUi = (
         <input
-          ref={inputElement}
           type='text'
           name='queryInput'
           placeholder='brain AND language:fre'
-          onChange={event => queryInputChangedHandler(event.target.value)}
+          value={queryInputValue}
+          onChange={event => queryStringChangedHandler(event.target.value)}
         />
       );
       break;
     case queryModes.modes[1]:
       queryInputUi = (
         <textarea
-          ref={inputElement}
           rows='2'
           cols='30'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2
           ark:/67375/0T8-RNCBH0VZ-8'
-          onChange={event => {
-            const arks = event.target.value.split('\n');
-            const queryString = buildQueryStringFromArks(arks);
-            queryInputChangedHandler(queryString);
-          }}
+          value={queryInputValue}
+          onChange={event => arkListHandler(event.target.value)}
         />
       );
       break;
     case queryModes.modes[2]:
       queryInputUi = (
         <input
-          ref={inputElement}
           type='file'
           name='queryInput'
           accept='.corpus'
+          value={queryInputValue}
           onChange={event => corpusFileHandler(event.target.files[0])}
         />
       );

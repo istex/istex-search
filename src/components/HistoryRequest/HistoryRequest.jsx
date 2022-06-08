@@ -20,7 +20,7 @@ export default function HistoryRequest ({ requestInfo }) {
     if (requestInfo.qId) {
       eventEmitter.emit(events.qIdChanged, requestInfo.qId);
     } else {
-      eventEmitter.emit(events.queryInputChanged, requestInfo.queryString);
+      eventEmitter.emit(events.queryStringChanged, requestInfo.queryString);
     }
 
     eventEmitter.emit(events.formatsChanged, requestInfo.selectedFormats);

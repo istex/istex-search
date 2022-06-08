@@ -6,7 +6,7 @@ import ResultPreview from '../ResultPreview';
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
-import { istexApiConfig, queryModes } from '../../config';
+import { istexApiConfig } from '../../config';
 
 const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode) => {
   const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
@@ -18,14 +18,9 @@ export default function QuerySection () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
-  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault());
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
-
-  const queryModeChangedHandler = newQueryMode => {
-    setCurrentQueryMode(newQueryMode);
-  };
 
   const numberOfDocumentsChangedHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -73,7 +68,6 @@ export default function QuerySection () {
   }, [queryString, rankingMode]);
 
   useEffect(() => {
-    eventEmitter.addListener(events.queryModeChanged, queryModeChangedHandler);
     eventEmitter.addListener(events.numberOfDocumentsChanged, numberOfDocumentsChangedHandler);
     eventEmitter.addListener(events.rankingModeChanged, rankingModeChangedHandler);
     eventEmitter.addListener(events.resultPreviewResponseReceived, resultPreviewResponseReceivedHandler);
@@ -83,24 +77,7 @@ export default function QuerySection () {
   return (
     <>
       <h2>Query</h2>
-      <div>
-        <span>Query mode: </span>
-        {queryModes.modes.map(queryMode => (
-          <span key={queryMode}>
-            <input
-              type='radio'
-              checked={currentQueryMode === queryMode}
-              value={queryMode}
-              name='queryMode'
-              onChange={event => queryModeChangedHandler(event.target.value)}
-            />
-            <label htmlFor={queryMode}>{queryMode}</label>
-          </span>
-        ))}
-      </div>
-      <div>
-        <QueryInput currentQueryMode={currentQueryMode} />
-      </div>
+      <QueryInput />
       {!!totalAmountOfDocuments && (
         <div>
           <span>The request returned {totalAmountOfDocuments.toLocaleString()} document(s)</span>

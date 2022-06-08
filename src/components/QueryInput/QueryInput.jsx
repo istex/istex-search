@@ -1,38 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
+  isArkQueryString,
+  getArksFromArkQueryString,
   buildQueryStringFromCorpusFile,
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 
-export default function QueryInput ({ currentQueryMode }) {
+export default function QueryInput () {
   const dispatch = useDispatch();
-  const [queryInputValue, setQueryInputValue] = useState('');
+  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
+  const [queryStringInputValue, setQueryStringInputValue] = useState('');
+  const [arkInputValue, setArkInputValue] = useState('');
 
-  const queryStringChangedHandler = newQueryStringValue => {
-    dispatch(setQueryString(newQueryStringValue));
-    setQueryInputValue(newQueryStringValue);
+  const changeQueryStringHandler = newQueryString => {
+    if (!newQueryString) {
+      setArkInputValue('');
+    }
 
-    eventEmitter.emit(events.updateQueryStringParam, newQueryStringValue);
-    eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryStringValue);
+    if (isArkQueryString(newQueryString)) {
+      const arkList = getArksFromArkQueryString(newQueryString).join('\n');
+      setArkInputValue(arkList);
+      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode === 'ark'));
+    } else {
+      setCurrentQueryMode(queryModes.getDefault());
+      setQueryStringInputValue(newQueryString);
+    }
 
-    if (!newQueryStringValue) {
+    updateQueryString(newQueryString);
+  };
+
+  const updateQueryString = newQueryString => {
+    dispatch(setQueryString(newQueryString));
+
+    eventEmitter.emit(events.updateQueryStringParam, newQueryString);
+    eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryString);
+
+    if (!newQueryString) {
       eventEmitter.emit(events.resetResultPreview);
       return;
     }
 
     // If the query string is too long to be set in a URL search parameter, we replace it with a q_id instead
-    if (newQueryStringValue.length > istexApiConfig.queryStringMaxLength) {
+    if (newQueryString.length > istexApiConfig.queryStringMaxLength) {
       // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
       // route of the API and might (hopefully) change in the future
-      const hashedValue = md5(newQueryStringValue).toString();
-      qIdChangedHandler(hashedValue, newQueryStringValue);
+      const hashedValue = md5(newQueryString).toString();
+      qIdChangedHandler(hashedValue, newQueryString);
     }
   };
 
@@ -58,16 +77,27 @@ export default function QueryInput ({ currentQueryMode }) {
     }
   };
 
+  const queryModeChangedHandler = newQueryMode => {
+    setCurrentQueryMode(newQueryMode);
+  };
+
+  const queryInputHandler = newQueryStringInput => {
+    setQueryStringInputValue(newQueryStringInput);
+    updateQueryString(newQueryStringInput);
+  };
+
   const arkListHandler = arkList => {
-    // If the ark list is empty, just pass it to queryStringChangedHandler and let this function handle the case
+    setArkInputValue(arkList);
+
+    // If the ark list is empty, just pass it to updateQueryString and let this function handle the case
     if (!arkList) {
-      queryStringChangedHandler(arkList);
+      updateQueryString(arkList);
       return;
     }
 
     const arks = arkList.split('\n');
     const queryString = buildQueryStringFromArks(arks);
-    queryStringChangedHandler(queryString);
+    updateQueryString(queryString);
   };
 
   const corpusFileHandler = file => {
@@ -77,7 +107,7 @@ export default function QueryInput ({ currentQueryMode }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const queryString = buildQueryStringFromCorpusFile(event.target.result);
-      queryStringChangedHandler(queryString);
+      updateQueryString(queryString);
     };
 
     // TODO: print the error in a modal or something else
@@ -85,7 +115,8 @@ export default function QueryInput ({ currentQueryMode }) {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.queryStringChanged, queryStringChangedHandler);
+    eventEmitter.addListener(events.queryModeChanged, queryModeChangedHandler);
+    eventEmitter.addListener(events.changeQueryString, changeQueryStringHandler);
     eventEmitter.addListener(events.qIdChanged, qIdChangedHandler);
   }, []);
 
@@ -97,8 +128,8 @@ export default function QueryInput ({ currentQueryMode }) {
           type='text'
           name='queryInput'
           placeholder='brain AND language:fre'
-          value={queryInputValue}
-          onChange={event => queryStringChangedHandler(event.target.value)}
+          value={queryStringInputValue}
+          onChange={event => queryInputHandler(event.target.value)}
         />
       );
       break;
@@ -110,18 +141,20 @@ export default function QueryInput ({ currentQueryMode }) {
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2
           ark:/67375/0T8-RNCBH0VZ-8'
-          value={queryInputValue}
+          value={arkInputValue}
           onChange={event => arkListHandler(event.target.value)}
         />
       );
       break;
     case queryModes.modes[2]:
+      // The value attribute is harcoded to '' so that React stop crying about this input being uncontrolled.
+      // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
         <input
           type='file'
           name='queryInput'
           accept='.corpus'
-          value={queryInputValue}
+          value=''
           onChange={event => corpusFileHandler(event.target.files[0])}
         />
       );
@@ -129,12 +162,25 @@ export default function QueryInput ({ currentQueryMode }) {
 
   return (
     <>
-      <label htmlFor='queryInput'>{currentQueryMode}: </label>
-      {queryInputUi}
+      <div>
+        <span>Query mode: </span>
+        {queryModes.modes.map(queryMode => (
+          <span key={queryMode}>
+            <input
+              type='radio'
+              checked={currentQueryMode === queryMode}
+              value={queryMode}
+              name='queryMode'
+              onChange={event => queryModeChangedHandler(event.target.value)}
+            />
+            <label htmlFor={queryMode}>{queryMode}</label>
+          </span>
+        ))}
+      </div>
+      <div>
+        <label htmlFor='queryInput'>{currentQueryMode}: </label>
+        {queryInputUi}
+      </div>
     </>
   );
 }
-
-QueryInput.propTypes = {
-  currentQueryMode: PropTypes.string,
-};

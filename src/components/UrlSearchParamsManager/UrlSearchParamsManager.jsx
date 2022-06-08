@@ -31,7 +31,7 @@ export default function UrlSearchParamsManager () {
       // TODO: display an error modal or something else that says that 'q' and 'q_id' cannot be set at
       // the same time
     } else if (queryString) {
-      eventEmitter.emit(events.queryStringChanged, queryString);
+      eventEmitter.emit(events.changeQueryString, queryString);
     } else if (isValidMd5(qId)) {
       eventEmitter.emit(events.qIdChanged, qId);
     }
@@ -93,7 +93,9 @@ export default function UrlSearchParamsManager () {
   };
 
   const setUrlSearchParam = (name, value) => {
-    if (!value) {
+    // We only want to delete the URL search parameter when the value is falsy but not 0 because 0 is a valid
+    // value for some parameters
+    if (!value && value !== 0) {
       searchParams.delete(name);
     } else {
       searchParams.set(name, value);

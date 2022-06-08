@@ -13,10 +13,10 @@ export default function FetchButton () {
     if (mostRecentRequest.qId) {
       eventEmitter.emit(events.qIdChanged, mostRecentRequest.qId);
     } else {
-      eventEmitter.emit(events.queryStringChanged, mostRecentRequest.queryString);
+      eventEmitter.emit(events.changeQueryString, mostRecentRequest.queryString);
     }
 
-    eventEmitter.emit(events.queryStringChanged, mostRecentRequest.queryString);
+    eventEmitter.emit(events.changeQueryString, mostRecentRequest.queryString);
     eventEmitter.emit(events.formatsChanged, mostRecentRequest.selectedFormats);
     eventEmitter.emit(events.numberOfDocumentsChanged, mostRecentRequest.numberOfDocuments);
     eventEmitter.emit(events.rankingModeChanged, mostRecentRequest.rankingMode);

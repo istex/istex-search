@@ -8,7 +8,7 @@ export default function Format ({ name, value, style }) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
 
   const checkHandler = () => {
-    eventEmitter.emit(events.formatsChanged, toggleFormat(selectedFormats, value));
+    eventEmitter.emit(events.setSelectedFormats, toggleFormat(selectedFormats, value));
   };
 
   return (

@@ -11,18 +11,18 @@ export default function FetchButton () {
     }
 
     if (mostRecentRequest.qId) {
-      eventEmitter.emit(events.qIdChanged, mostRecentRequest.qId);
+      eventEmitter.emit(events.setQId, mostRecentRequest.qId);
     } else {
-      eventEmitter.emit(events.changeQueryString, mostRecentRequest.queryString);
+      eventEmitter.emit(events.setQueryString, mostRecentRequest.queryString);
     }
 
-    eventEmitter.emit(events.changeQueryString, mostRecentRequest.queryString);
-    eventEmitter.emit(events.formatsChanged, mostRecentRequest.selectedFormats);
-    eventEmitter.emit(events.numberOfDocumentsChanged, mostRecentRequest.numberOfDocuments);
-    eventEmitter.emit(events.rankingModeChanged, mostRecentRequest.rankingMode);
-    eventEmitter.emit(events.compressionLevelChanged, mostRecentRequest.compressionLevel);
-    eventEmitter.emit(events.archiveTypeChanged, mostRecentRequest.archiveType);
-    eventEmitter.emit(events.usageChanged, mostRecentRequest.usage);
+    eventEmitter.emit(events.setQueryString, mostRecentRequest.queryString);
+    eventEmitter.emit(events.setSelectedFormats, mostRecentRequest.selectedFormats);
+    eventEmitter.emit(events.setNumberOfDocuments, mostRecentRequest.numberOfDocuments);
+    eventEmitter.emit(events.setRankingMode, mostRecentRequest.rankingMode);
+    eventEmitter.emit(events.setCompressionLevel, mostRecentRequest.compressionLevel);
+    eventEmitter.emit(events.setArchiveType, mostRecentRequest.archiveType);
+    eventEmitter.emit(events.setUsage, mostRecentRequest.usage);
   };
 
   const populateLastRequest = (fieldName, fieldValue) => {

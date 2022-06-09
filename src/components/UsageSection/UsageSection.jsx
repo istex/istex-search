@@ -37,7 +37,7 @@ export default function UsageSection () {
       newSelectedFormats = deselectFormat(newSelectedFormats, wholeCategoryFormat);
     }
 
-    eventEmitter.emit(events.formatsChanged, newSelectedFormats);
+    eventEmitter.emit(events.setSelectedFormats, newSelectedFormats);
   };
 
   const isWholeCategorySelected = formatCategory => {
@@ -46,24 +46,24 @@ export default function UsageSection () {
     return isFormatSelected(selectedFormats, wholeCategoryFormat);
   };
 
-  const formatsChangedHandler = newSelectedFormats => {
+  const selectedFormatsHandler = newSelectedFormats => {
     dispatch(setSelectedFormats(newSelectedFormats));
     eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
-    eventEmitter.emit(events.updateExtractParam, extractParams);
+    eventEmitter.emit(events.setExtractUrlParam, extractParams);
   };
 
-  const usageChangedHandler = newUsage => {
+  const usageHandler = newUsage => {
     dispatch(setUsage(newUsage));
 
-    eventEmitter.emit(events.updateUsageParam, newUsage);
+    eventEmitter.emit(events.setUsageUrlParam, newUsage);
     eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.formatsChanged, formatsChangedHandler);
-    eventEmitter.addListener(events.usageChanged, usageChangedHandler);
+    eventEmitter.addListener(events.setSelectedFormats, selectedFormatsHandler);
+    eventEmitter.addListener(events.setUsage, usageHandler);
   }, []);
 
   return (

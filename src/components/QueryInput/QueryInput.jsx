@@ -18,7 +18,7 @@ export default function QueryInput () {
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [arkInputValue, setArkInputValue] = useState('');
 
-  const changeQueryStringHandler = newQueryString => {
+  const queryStringHandler = newQueryString => {
     if (!newQueryString) {
       setArkInputValue('');
     }
@@ -38,7 +38,7 @@ export default function QueryInput () {
   const updateQueryString = newQueryString => {
     dispatch(setQueryString(newQueryString));
 
-    eventEmitter.emit(events.updateQueryStringParam, newQueryString);
+    eventEmitter.emit(events.setQueryStringUrlParam, newQueryString);
     eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryString);
 
     if (!newQueryString) {
@@ -51,14 +51,14 @@ export default function QueryInput () {
       // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
       // route of the API and might (hopefully) change in the future
       const hashedValue = md5(newQueryString).toString();
-      qIdChangedHandler(hashedValue, newQueryString);
+      qIdHandler(hashedValue, newQueryString);
     }
   };
 
-  const qIdChangedHandler = async (newQId, originalQueryString) => {
+  const qIdHandler = async (newQId, originalQueryString) => {
     dispatch(setQId(newQId));
 
-    eventEmitter.emit(events.updateQIdParam, newQId);
+    eventEmitter.emit(events.setQIdUrlParam, newQId);
 
     // newQId can be an empty string when the qId is reset, if that's the case, we don't want to send a request
     // to get the corresponding queryString so we just stop here
@@ -77,19 +77,19 @@ export default function QueryInput () {
     }
   };
 
-  const queryModeChangedHandler = newQueryMode => {
+  const queryModeHandler = newQueryMode => {
     setCurrentQueryMode(newQueryMode);
   };
 
   const queryInputHandler = newQueryStringInput => {
-    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+    eventEmitter.emit(events.setNumberOfDocuments, 0);
 
     setQueryStringInputValue(newQueryStringInput);
     updateQueryString(newQueryStringInput);
   };
 
   const arkListHandler = arkList => {
-    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+    eventEmitter.emit(events.setNumberOfDocuments, 0);
 
     setArkInputValue(arkList);
 
@@ -105,7 +105,7 @@ export default function QueryInput () {
   };
 
   const corpusFileHandler = file => {
-    eventEmitter.emit(events.numberOfDocumentsChanged, 0);
+    eventEmitter.emit(events.setNumberOfDocuments, 0);
 
     if (!file) return;
 
@@ -121,9 +121,9 @@ export default function QueryInput () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.queryModeChanged, queryModeChangedHandler);
-    eventEmitter.addListener(events.changeQueryString, changeQueryStringHandler);
-    eventEmitter.addListener(events.qIdChanged, qIdChangedHandler);
+    eventEmitter.addListener(events.setQueryMode, queryModeHandler);
+    eventEmitter.addListener(events.setQueryString, queryStringHandler);
+    eventEmitter.addListener(events.setQId, qIdHandler);
   }, []);
 
   let queryInputUi;
@@ -177,7 +177,7 @@ export default function QueryInput () {
               checked={currentQueryMode === queryMode}
               value={queryMode}
               name='queryMode'
-              onChange={event => queryModeChangedHandler(event.target.value)}
+              onChange={event => queryModeHandler(event.target.value)}
             />
             <label htmlFor={queryMode}>{queryMode}</label>
           </span>

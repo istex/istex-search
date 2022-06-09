@@ -18,19 +18,19 @@ export default function HistoryRequest ({ requestInfo }) {
 
   const editHandler = () => {
     if (requestInfo.qId) {
-      eventEmitter.emit(events.qIdChanged, requestInfo.qId);
+      eventEmitter.emit(events.setQId, requestInfo.qId);
     } else {
-      eventEmitter.emit(events.changeQueryString, requestInfo.queryString);
+      eventEmitter.emit(events.setQueryString, requestInfo.queryString);
     }
 
-    eventEmitter.emit(events.formatsChanged, requestInfo.selectedFormats);
-    eventEmitter.emit(events.numberOfDocumentsChanged, requestInfo.numberOfDocuments);
-    eventEmitter.emit(events.rankingModeChanged, requestInfo.rankingMode);
-    eventEmitter.emit(events.compressionLevelChanged, requestInfo.compressionLevel);
-    eventEmitter.emit(events.archiveTypeChanged, requestInfo.archiveType);
-    eventEmitter.emit(events.usageChanged, requestInfo.usage);
+    eventEmitter.emit(events.setSelectedFormats, requestInfo.selectedFormats);
+    eventEmitter.emit(events.setNumberOfDocuments, requestInfo.numberOfDocuments);
+    eventEmitter.emit(events.setRankingMode, requestInfo.rankingMode);
+    eventEmitter.emit(events.setCompressionLevel, requestInfo.compressionLevel);
+    eventEmitter.emit(events.setArchiveType, requestInfo.archiveType);
+    eventEmitter.emit(events.setUsage, requestInfo.usage);
 
-    eventEmitter.emit(events.modalCloseRequest);
+    eventEmitter.emit(events.closeHistoryModal);
   };
 
   const downloadHandler = () => {

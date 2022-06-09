@@ -10,23 +10,23 @@ export default function DownloadSection () {
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
 
-  const compressionLevelChangedHandler = newCompressionLevel => {
+  const compressionLevelHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
 
-    eventEmitter.emit(events.updateCompressionLevelParam, newCompressionLevel);
+    eventEmitter.emit(events.setCompressionLevelUrlParam, newCompressionLevel);
     eventEmitter.emit(events.setCompressionLevelInLastRequestOfHistory, newCompressionLevel);
   };
 
-  const archiveTypeChangedHandler = newArchiveType => {
+  const archiveTypeHandler = newArchiveType => {
     dispatch(setArchiveType(newArchiveType));
 
-    eventEmitter.emit(events.updateArchiveTypeParam, newArchiveType);
+    eventEmitter.emit(events.setArchiveTypeUrlParam, newArchiveType);
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.compressionLevelChanged, compressionLevelChangedHandler);
-    eventEmitter.addListener(events.archiveTypeChanged, archiveTypeChangedHandler);
+    eventEmitter.addListener(events.setCompressionLevel, compressionLevelHandler);
+    eventEmitter.addListener(events.setArchiveType, archiveTypeHandler);
   }, []);
 
   return (
@@ -38,7 +38,7 @@ export default function DownloadSection () {
         onChange={event => {
           let { value } = event.target;
           value = parseInt(value);
-          compressionLevelChangedHandler(value);
+          compressionLevelHandler(value);
         }}
       >
         {istexApiConfig.compressionLevels.levels.map(level => (
@@ -56,7 +56,7 @@ export default function DownloadSection () {
               name='archiveType'
               onChange={event => {
                 const { value } = event.target;
-                archiveTypeChangedHandler(value);
+                archiveTypeHandler(value);
               }}
             />
             <label htmlFor={type}>{type}</label>

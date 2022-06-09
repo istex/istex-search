@@ -18,13 +18,13 @@ export default function HistoryButton () {
     setRequests([...historyManager.getAll()]);
   };
 
-  const modalCloseRequestHandler = () => {
+  const closeHistoryModal = () => {
     setModalVisibility(false);
   };
 
   useEffect(() => {
     eventEmitter.addListener(events.historyUpdated, historyUpdatedHandler);
-    eventEmitter.addListener(events.modalCloseRequest, modalCloseRequestHandler);
+    eventEmitter.addListener(events.closeHistoryModal, closeHistoryModal);
   }, []);
 
   return (

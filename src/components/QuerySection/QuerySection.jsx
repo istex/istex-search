@@ -22,23 +22,23 @@ export default function QuerySection () {
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
 
-  const numberOfDocumentsChangedHandler = newNumberOfDocuments => {
+  const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
       // Prevent the number of documents to be greater than istexApiConfig.maxAmountOfDocuments
       newNumberOfDocuments = Math.min(newNumberOfDocuments, istexApiConfig.maxAmountOfDocuments);
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
-      eventEmitter.emit(events.updateNumberOfDocumentsParam, newNumberOfDocuments);
+      eventEmitter.emit(events.setNumberOfDocumentsUrlParam, newNumberOfDocuments);
       eventEmitter.emit(events.setNumberOfDocumentsInLastRequestOfHistory, newNumberOfDocuments);
     }
   };
 
-  const rankingModeChangedHandler = newRankingMode => {
+  const rankingModeHandler = newRankingMode => {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
-    eventEmitter.emit(events.updateRankingModeParam, newRankingMode);
+    eventEmitter.emit(events.setRankingModeUrlParam, newRankingMode);
     eventEmitter.emit(events.setRankingModeInLastRequestOfHistory, newRankingMode);
   };
 
@@ -65,8 +65,8 @@ export default function QuerySection () {
   }, [queryString, rankingMode]);
 
   useEffect(() => {
-    eventEmitter.addListener(events.numberOfDocumentsChanged, numberOfDocumentsChangedHandler);
-    eventEmitter.addListener(events.rankingModeChanged, rankingModeChangedHandler);
+    eventEmitter.addListener(events.setNumberOfDocuments, numberOfDocumentsHandler);
+    eventEmitter.addListener(events.setRankingMode, rankingModeHandler);
     eventEmitter.addListener(events.resultPreviewResponseReceived, resultPreviewResponseReceivedHandler);
     eventEmitter.addListener(events.resetResultPreview, resetResultPreviewHandler);
   }, []);
@@ -95,13 +95,13 @@ export default function QuerySection () {
           name='numberOfDocumentsInput'
           onChange={event => {
             const value = parseInt(event.target.value);
-            numberOfDocumentsChangedHandler(value);
+            numberOfDocumentsHandler(value);
           }}
         />
         {!!totalAmountOfDocuments && (
           <>
             <span> / {Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</span>
-            <button onClick={() => numberOfDocumentsChangedHandler(totalAmountOfDocuments)}>All</button>
+            <button onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}>All</button>
           </>
         )}
       </div>
@@ -116,7 +116,7 @@ export default function QuerySection () {
               name='rankingMode'
               onChange={event => {
                 const { value } = event.target;
-                rankingModeChangedHandler(value);
+                rankingModeHandler(value);
               }}
             />
             <label htmlFor={rankingMode}>{rankingMode}</label>

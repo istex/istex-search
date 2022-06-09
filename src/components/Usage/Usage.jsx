@@ -9,8 +9,8 @@ export default function PredefinedUsage ({ name, formats }) {
   const usageChangedHandler = event => {
     const newUsage = event.target.value;
 
-    eventEmitter.emit(events.formatsChanged, formats);
-    eventEmitter.emit(events.usageChanged, newUsage);
+    eventEmitter.emit(events.setSelectedFormats, formats);
+    eventEmitter.emit(events.setUsage, newUsage);
   };
 
   return (

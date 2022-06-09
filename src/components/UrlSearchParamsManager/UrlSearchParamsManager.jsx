@@ -31,14 +31,14 @@ export default function UrlSearchParamsManager () {
       // TODO: display an error modal or something else that says that 'q' and 'q_id' cannot be set at
       // the same time
     } else if (queryString) {
-      eventEmitter.emit(events.changeQueryString, queryString);
+      eventEmitter.emit(events.setQueryString, queryString);
     } else if (isValidMd5(qId)) {
-      eventEmitter.emit(events.qIdChanged, qId);
+      eventEmitter.emit(events.setQId, qId);
     }
 
     if (extractParamsAsString != null) {
       const selectedFormats = parseExtractParams(decodeURIComponent(extractParamsAsString));
-      eventEmitter.emit(events.formatsChanged, selectedFormats);
+      eventEmitter.emit(events.setSelectedFormats, selectedFormats);
     }
 
     if (numberOfDocumentsAsString != null) {
@@ -48,7 +48,7 @@ export default function UrlSearchParamsManager () {
         numberOfDocuments = 0;
       }
 
-      eventEmitter.emit(events.numberOfDocumentsChanged, numberOfDocuments);
+      eventEmitter.emit(events.setNumberOfDocuments, numberOfDocuments);
     }
 
     if (rankingMode != null) {
@@ -58,7 +58,7 @@ export default function UrlSearchParamsManager () {
         rankingModeToUse = istexApiConfig.rankingModes.getDefault();
       }
 
-      eventEmitter.emit(events.rankingModeChanged, rankingModeToUse);
+      eventEmitter.emit(events.setRankingMode, rankingModeToUse);
     }
 
     if (compressionLevelAsString != null) {
@@ -68,7 +68,7 @@ export default function UrlSearchParamsManager () {
         compressionLevel = istexApiConfig.compressionLevels.getDefault().value;
       }
 
-      eventEmitter.emit(events.compressionLevelChanged, compressionLevel);
+      eventEmitter.emit(events.setCompressionLevel, compressionLevel);
     }
 
     if (archiveType != null) {
@@ -78,12 +78,12 @@ export default function UrlSearchParamsManager () {
         archiveTypeToUse = istexApiConfig.archiveTypes.getDefault();
       }
 
-      eventEmitter.emit(events.archiveTypeChanged, archiveTypeToUse);
+      eventEmitter.emit(events.setArchiveType, archiveTypeToUse);
     }
 
     if (usage != null) {
       if (Object.keys(usages).includes(usage)) {
-        eventEmitter.emit(events.usageChanged, usage);
+        eventEmitter.emit(events.setUsage, usage);
       } else {
         searchParams.delete('usage');
       }
@@ -104,34 +104,34 @@ export default function UrlSearchParamsManager () {
     setSearchParams(searchParams);
   };
 
-  const setQueryStringParam = queryStringParam => {
+  const setQueryStringUrlParam = queryStringParam => {
     if (searchParams.has('q_id')) searchParams.delete('q_id');
 
     setUrlSearchParam('q', queryStringParam);
   };
 
-  const setQIdParam = qIdParam => {
+  const setQIdUrlParam = qIdParam => {
     if (searchParams.has('q')) searchParams.delete('q');
 
     setUrlSearchParam('q_id', qIdParam);
   };
 
-  const resetSearchParams = () => {
+  const resetUrlParams = () => {
     setSearchParams({});
   };
 
   useEffect(() => {
     fillFormFromUrlSearchParams();
 
-    eventEmitter.addListener(events.updateQueryStringParam, setQueryStringParam);
-    eventEmitter.addListener(events.updateQIdParam, setQIdParam);
-    eventEmitter.addListener(events.updateNumberOfDocumentsParam, newSize => setUrlSearchParam('size', newSize));
-    eventEmitter.addListener(events.updateRankingModeParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
-    eventEmitter.addListener(events.updateExtractParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
-    eventEmitter.addListener(events.updateCompressionLevelParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
-    eventEmitter.addListener(events.updateArchiveTypeParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
-    eventEmitter.addListener(events.updateUsageParam, newUsage => setUrlSearchParam('usage', newUsage));
-    eventEmitter.addListener(events.resetSearchParams, resetSearchParams);
+    eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
+    eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
+    eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
+    eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
+    eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
+    eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
+    eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
+    eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
+    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
   return null;

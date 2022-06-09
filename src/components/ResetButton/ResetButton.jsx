@@ -4,18 +4,18 @@ import { istexApiConfig, queryModes } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export function resetForm () {
-  eventEmitter.emit(events.queryModeChanged, queryModes.getDefault());
-  eventEmitter.emit(events.changeQueryString, '');
-  eventEmitter.emit(events.qIdChanged, '');
-  eventEmitter.emit(events.numberOfDocumentsChanged, 0);
-  eventEmitter.emit(events.rankingModeChanged, istexApiConfig.rankingModes.getDefault());
-  eventEmitter.emit(events.formatsChanged, resetFormat());
-  eventEmitter.emit(events.compressionLevelChanged, istexApiConfig.compressionLevels.getDefault().value);
-  eventEmitter.emit(events.archiveTypeChanged, istexApiConfig.archiveTypes.getDefault());
-  eventEmitter.emit(events.usageChanged, '');
+  eventEmitter.emit(events.setQueryMode, queryModes.getDefault());
+  eventEmitter.emit(events.setQueryString, '');
+  eventEmitter.emit(events.setQId, '');
+  eventEmitter.emit(events.setNumberOfDocuments, 0);
+  eventEmitter.emit(events.setRankingMode, istexApiConfig.rankingModes.getDefault());
+  eventEmitter.emit(events.setSelectedFormats, resetFormat());
+  eventEmitter.emit(events.setCompressionLevel, istexApiConfig.compressionLevels.getDefault().value);
+  eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault());
+  eventEmitter.emit(events.setUsage, '');
   eventEmitter.emit(events.resetResultPreview);
 
-  eventEmitter.emit(events.resetSearchParams);
+  eventEmitter.emit(events.resetUrlParams);
 }
 
 export function ResetButton () {

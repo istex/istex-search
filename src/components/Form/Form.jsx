@@ -1,8 +1,8 @@
 import React from 'react';
-import QuerySection from '../QuerySection';
-import UsageSection from '../UsageSection';
-import DownloadSection from '../DownloadSection';
-import Navbar from '../Navbar';
+import QuerySection from '../QuerySection/QuerySection';
+import UsageSection from '../UsageSection/UsageSection';
+import DownloadSection from '../DownloadSection/DownloadSection';
+import Navbar from '../Navbar/Navbar';
 
 export default function Form () {
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Format from '../Format';
-import Usage from '../Usage';
+import Format from '../Format/Format';
+import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';

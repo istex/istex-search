@@ -1,8 +1,8 @@
 import React from 'react';
-import { ResetButton } from '../ResetButton';
-import FetchButton from '../FetchButton';
-import ShareButton from '../ShareButton';
-import HistoryButton from '../HistoryButton';
+import ResetButton from '../ResetButton/ResetButton';
+import FetchButton from '../FetchButton/FetchButton';
+import ShareButton from '../ShareButton/ShareButton';
+import HistoryButton from '../HistoryButton/HistoryButton';
 
 export default function Navbar () {
   return (

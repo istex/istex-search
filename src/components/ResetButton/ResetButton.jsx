@@ -18,7 +18,7 @@ export function resetForm () {
   eventEmitter.emit(events.resetUrlParams);
 }
 
-export function ResetButton () {
+export default function ResetButton () {
   return (
     <div>
       <button onClick={resetForm}>Reset Form</button>

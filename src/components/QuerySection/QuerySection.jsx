@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
-import QueryInput from '../QueryInput';
-import ResultPreview from '../ResultPreview';
+import QueryInput from '../QueryInput/QueryInput';
+import ResultPreview from '../ResultPreview/ResultPreview';
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
-import DownloadButton from '../DownloadButton';
+import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig } from '../../config';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './HistoryButton.css';
-import HistoryRequest from '../HistoryRequest';
+import HistoryRequest from '../HistoryRequest/HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 

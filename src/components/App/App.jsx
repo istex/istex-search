@@ -1,6 +1,6 @@
 import React from 'react';
-import Form from '../Form';
-import UrlSearchParamsManager from '../UrlSearchParamsManager';
+import Form from '../Form/Form';
+import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
 export default function App () {
   return (

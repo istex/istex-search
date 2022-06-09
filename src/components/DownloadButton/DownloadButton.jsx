@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { resetForm } from '../ResetButton';
+import { resetForm } from '../ResetButton/ResetButton';
 import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';

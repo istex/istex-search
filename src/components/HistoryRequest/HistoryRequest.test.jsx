@@ -5,7 +5,7 @@ import HistoryRequest from './HistoryRequest';
 
 describe('Tests for the App component', () => {
   it('Renders the request date', () => {
-    render(<HistoryRequest requestInfo={{ index: 0, date: 123 }} />);
+    render(<HistoryRequest requestInfo={{ index: 0, date: 123, queryString: 'fulltext:fish' }} />);
     const dateElement = screen.getByText(/123/i);
 
     expect(dateElement).toBeInTheDocument();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { resetFormat } from '../../lib/istexApi';
+import { noFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, queryModes } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
@@ -9,7 +9,7 @@ export function resetForm () {
   eventEmitter.emit(events.setQId, '');
   eventEmitter.emit(events.setNumberOfDocuments, 0);
   eventEmitter.emit(events.setRankingMode, istexApiConfig.rankingModes.getDefault());
-  eventEmitter.emit(events.setSelectedFormats, resetFormat());
+  eventEmitter.emit(events.setSelectedFormats, noFormatSelected());
   eventEmitter.emit(events.setCompressionLevel, istexApiConfig.compressionLevels.getDefault().value);
   eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault());
   eventEmitter.emit(events.setUsage, '');

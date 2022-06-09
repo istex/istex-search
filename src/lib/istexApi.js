@@ -238,7 +238,7 @@ export function toggleFormat (baseFormat, formatToToggle) {
  * Returns a format with nothing selected (0).
  * @returns A format with nothing selected (0).
  */
-export function resetFormat () {
+export function noFormatSelected () {
   return 0;
 }
 

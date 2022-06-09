@@ -136,8 +136,8 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.toggleFormat(formatsWithTxt, formats.fulltext.txt)).toBe(formatsWithoutTxt);
   });
 
-  it('resetFormat', () => {
-    expect(istexApi.resetFormat()).toBe(0);
+  it('noFormatSelected', () => {
+    expect(istexApi.noFormatSelected()).toBe(0);
   });
 
   it('isFormatSelected', () => {

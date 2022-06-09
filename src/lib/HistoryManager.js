@@ -83,7 +83,7 @@ class HistoryManager {
     // qId is not saved in the last request because, when the form is being filled, the request
     // to save this qId in the Redis base has yet to be sent. Fetching it later to get the corresponding
     // queryString will just throw a 404 error.
-    // Saving a very long queryString in the local storage is acceptable because only be one lastRequest can be saved at a time.
+    // Saving a very long queryString in the local storage is acceptable because only one lastRequest can be saved at a time.
     delete defaultState.qId;
 
     return defaultState;

@@ -75,17 +75,17 @@ export function buildFullIstexDlUrl ({ queryString, qId, selectedFormats, rankin
   const url = new URL(window.location.href);
 
   if (qId) {
-    url.searchParams.append('q_id', qId);
+    url.searchParams.set('q_id', qId);
   } else {
-    url.searchParams.append('q', queryString);
+    url.searchParams.set('q', queryString);
   }
 
-  url.searchParams.append('extract', extractParams);
-  url.searchParams.append('size', numberOfDocuments);
-  url.searchParams.append('rankBy', rankingMode);
-  url.searchParams.append('compressionLevel', compressionLevel);
-  url.searchParams.append('archiveType', archiveType);
-  url.searchParams.append('usage', usage);
+  url.searchParams.set('extract', extractParams);
+  url.searchParams.set('size', numberOfDocuments);
+  url.searchParams.set('rankBy', rankingMode);
+  url.searchParams.set('compressionLevel', compressionLevel);
+  url.searchParams.set('archiveType', archiveType);
+  url.searchParams.set('usage', usage);
 
   return url;
 }

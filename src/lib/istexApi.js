@@ -186,17 +186,17 @@ export function buildFullApiUrl ({ queryString, qId, selectedFormats, rankingMod
   const url = new URL('document', istexApiConfig.baseUrl);
 
   if (qId) {
-    url.searchParams.append('q_id', qId);
+    url.searchParams.set('q_id', qId);
   } else {
-    url.searchParams.append('q', queryString);
+    url.searchParams.set('q', queryString);
   }
 
-  url.searchParams.append('extract', extractParams);
-  url.searchParams.append('size', numberOfDocuments);
-  url.searchParams.append('rankBy', rankingMode);
-  url.searchParams.append('compressionLevel', compressionLevel);
-  url.searchParams.append('archiveType', archiveType);
-  url.searchParams.append('sid', 'istex-dl');
+  url.searchParams.set('extract', extractParams);
+  url.searchParams.set('size', numberOfDocuments);
+  url.searchParams.set('rankBy', rankingMode);
+  url.searchParams.set('compressionLevel', compressionLevel);
+  url.searchParams.set('archiveType', archiveType);
+  url.searchParams.set('sid', 'istex-dl');
 
   return url;
 }
@@ -260,10 +260,10 @@ export function isFormatSelected (baseFormat, formatToCheck) {
  */
 export function sendResultPreviewApiRequest (queryString, rankingMode) {
   const url = new URL('document', istexApiConfig.baseUrl);
-  url.searchParams.append('rankBy', rankingMode);
-  url.searchParams.append('size', 6);
-  url.searchParams.append('output', 'author,title,host.title,publicationDate');
-  url.searchParams.append('sid', 'istex-dl');
+  url.searchParams.set('rankBy', rankingMode);
+  url.searchParams.set('size', 6);
+  url.searchParams.set('output', 'author,title,host.title,publicationDate');
+  url.searchParams.set('sid', 'istex-dl');
 
   // If the query string is too long some browsers won't accept to send a GET request so we send a POST request
   // instead and pass the query string in the body
@@ -273,7 +273,7 @@ export function sendResultPreviewApiRequest (queryString, rankingMode) {
     });
   }
 
-  url.searchParams.append('q', queryString);
+  url.searchParams.set('q', queryString);
 
   return axios.get(url.toString());
 }

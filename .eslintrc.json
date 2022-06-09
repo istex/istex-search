@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "semistandard",
+    "standard",
     "standard-jsx",
     "standard-react"
   ],
@@ -12,6 +12,8 @@
     "ecmaVersion": "latest"
   },
   "rules": {
+    "semi": ["error", "always"],
+    "no-extra-semi": "error",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",

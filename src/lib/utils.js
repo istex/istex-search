@@ -24,7 +24,7 @@ export function debounce (callback, delay = 1000) {
     clearTimeout(timeoutId);
 
     timeoutId = setTimeout(() => {
-      // eslint-disable-next-line node/no-callback-literal
+      // eslint-disable-next-line n/no-callback-literal
       callback(...args);
     }, delay);
   };
@@ -46,7 +46,7 @@ export function debounce (callback, delay = 1000) {
 export function asyncDebounce (callback, delay = 1000) {
   const debounced = debounce(async (resolve, reject, args) => {
     try {
-      // eslint-disable-next-line node/no-callback-literal
+      // eslint-disable-next-line n/no-callback-literal
       const result = await callback(...args);
       resolve(result);
     } catch (error) {

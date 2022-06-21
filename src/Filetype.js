@@ -127,8 +127,7 @@ export default class Filetype extends React.Component {
         case 'enrichments':
             this.popoverText =
                 <p>
-                Informations complémentaires produites par ISTEX : catégories scientifiques (multicat et nb),
-                références bibliographiques structurées (refBibs), termes d’indexation (teeft), entités nommées (unitex).
+                Informations complémentaires, au format TEI, produites par ISTEX : catégories scientifiques (multicat et nb), références bibliographiques structurées (refBibs), version structurée du texte intégral issue de Grobid (grobidFulltext), termes d’indexation (teeft), entités nommées (unitex).
                 <br />
                 Voir <a href="https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements"
                         target="_blank"

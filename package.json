@@ -13,7 +13,9 @@
     "lint": "eslint ./src/ ./scripts/ --ext .js,.mjs,.jsx",
     "docker:build": "docker build -t istex/istex-dl:$npm_package_version --build-arg http_proxy --build-arg https_proxy . && docker image prune --filter label=stage=builder -f",
     "docker:run": "docker-compose up -d",
-    "docker:stop": "docker-compose stop"
+    "docker:stop": "docker-compose stop",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
@@ -26,10 +28,19 @@
     "react-router-dom": "^6.2.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-vite": "^0.1.36",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
     "@testing-library/user-event": "^13.5.0",
     "@vitejs/plugin-react": "^1.3.1",
+    "babel-loader": "^8.2.5",
     "eslint": "^8.17.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-config-standard-jsx": "^11.0.0",
@@ -38,6 +49,7 @@
     "eslint-plugin-n": "^15.2.2",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-storybook": "^0.5.12",
     "jsdom": "^19.0.0",
     "prop-types": "^15.8.1",
     "sass": "^1.52.3",

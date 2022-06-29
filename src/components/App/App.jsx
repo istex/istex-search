@@ -1,11 +1,13 @@
 import React from 'react';
+
 import Form from '../Form/Form';
+import Header from '../Header/Header2';
 import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
-export default function App () {
+export default function App() {
   return (
     <>
-      <h1>ISTEX-DL</h1>
+      <Header />
       <Form />
       <UrlSearchParamsManager />
     </>

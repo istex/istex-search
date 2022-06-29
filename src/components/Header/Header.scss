@@ -1,0 +1,14 @@
+.istex-header {
+  color: $m-black;
+
+  #menu-toggle:checked+#menu {
+    display: block;
+  }
+
+  &__submenu {
+    &:hover {
+      color: $m-light-black;
+      border-bottom: $m-light-green 2px solid;
+    }
+  }
+}

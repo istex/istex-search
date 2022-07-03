@@ -36,23 +36,23 @@ export default function Header() {
               </svg>
             </button>
           </div>
-          <div className='flex sm:items-stretch sm:justify-start'>
+          <div className='flex w-full sm:items-stretch justify-between'>
             <div className='flex-shrink-0 flex items-center'>
               <img className='block w-auto' src='/images/logo-istex.svg' alt='logo istex' />
             </div>
-            <div className='hidden sm:block sm:ml-6'>
+            <div className='flex flex-col justify-between sm:ml-6'>
               <div className='istex-social-network'>
-                <ul className='flex'>
-                  <li>
+                <ul className='flex justify-end'>
+                  <li className='pl-1O cursor-pointer'>
                     <img className='block w-auto' src='/images/head-ico-twitter.svg' alt='logo istex' />
                   </li>
-                  <li>
+                  <li className='pl-10 cursor-pointer'>
                     <img className='block w-auto' src='/images/head-ico-github.svg' alt='logo istex' />
                   </li>
-                  <li>
+                  <li className='pl-10 cursor-pointer'>
                     <img className='block w-auto' src='/images/head-ico-youtube.svg' alt='logo istex' />
                   </li>
-                  <li>
+                  <li className='pl-10 cursor-pointer'>
                     <img className='block w-auto' src='/images/head-ico-contact.svg' alt='logo istex' />
                   </li>
                 </ul>

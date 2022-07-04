@@ -1,0 +1,16 @@
+.text-header-istex-dl {
+  background-color: rgba(69, 140, 165, 0.1);
+
+  &__title {
+    color: $m-black-title;
+    font-family: 'Montserrat-Bold', sans-serif;
+    padding: 15px 0 15px 0;
+    text-align: center;
+  }
+
+  &__icon {
+    width: 10em;
+    height: 10em;
+    padding-top: 30px;
+  }
+}

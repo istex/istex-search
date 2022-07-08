@@ -145,8 +145,7 @@ export default function QueryInput () {
           rows='2'
           cols='30'
           name='queryInput'
-          placeholder='ark:/67375/0T8-JMF4G14B-2
-          ark:/67375/0T8-RNCBH0VZ-8'
+          placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
           value={arkInputValue}
           onChange={event => arkListHandler(event.target.value)}
         />

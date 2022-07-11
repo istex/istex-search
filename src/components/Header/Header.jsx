@@ -1,5 +1,5 @@
 import React from 'react';
-import SubMenu from '../SubMenu/SUbMenu';
+import SubMenu from '../SubMenu/SubMenu';
 
 import './Header.scss';
 

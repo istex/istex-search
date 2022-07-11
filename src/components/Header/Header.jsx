@@ -44,16 +44,24 @@ export default function Header() {
               <div className='istex-social-network'>
                 <ul className='flex justify-end'>
                   <li className='pl-1O cursor-pointer'>
-                    <img className='block w-auto' src='/images/head-ico-twitter.svg' alt='logo istex' />
+                    <a href='https://twitter.com/ISTEX_Platform'>
+                      <img className='block w-auto' src='/images/head-ico-twitter.svg' alt='logo twitter' />
+                    </a>
                   </li>
                   <li className='pl-10 cursor-pointer'>
-                    <img className='block w-auto' src='/images/head-ico-github.svg' alt='logo istex' />
+                    <a href='https://github.com/istex'>
+                      <img className='block w-auto' src='/images/head-ico-github.svg' alt='logo github' />
+                    </a>
                   </li>
                   <li className='pl-10 cursor-pointer'>
-                    <img className='block w-auto' src='/images/head-ico-youtube.svg' alt='logo istex' />
+                    <a href='https://www.youtube.com/channel/UCyow0tVlCRcjwRfk9p7q8Uw'>
+                      <img className='block w-auto' src='/images/head-ico-youtube.svg' alt='logo youtube' />
+                    </a>
                   </li>
                   <li className='pl-10 cursor-pointer'>
-                    <img className='block w-auto' src='/images/head-ico-contact.svg' alt='logo istex' />
+                    <a href='https://www.istex.fr/contactez-nous/'>
+                      <img className='block w-auto' src='/images/head-ico-contact.svg' alt='logo contact' />
+                    </a>
                   </li>
                 </ul>
               </div>

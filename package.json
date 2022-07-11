@@ -10,7 +10,7 @@
     "test": "vitest",
     "test:ci": "npm run lint && vitest run",
     "create-component": "node scripts/createComponent.mjs",
-    "lint": "eslint ./src/ ./scripts/ --ext .js,.mjs,.jsx",
+    "lint": "eslint --ignore-path .gitignore . --ext .js,.mjs,.jsx",
     "docker:build": "docker build -t istex/istex-dl:$npm_package_version --build-arg http_proxy --build-arg https_proxy . && docker image prune --filter label=stage=builder -f",
     "docker:run": "docker-compose up -d",
     "docker:stop": "docker-compose stop",

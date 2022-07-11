@@ -1,8 +1,9 @@
+import { RefreshIcon } from '@heroicons/react/solid';
 import React, { useEffect } from 'react';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
-export default function FetchButton () {
+export default function FetchButton() {
   const updateFormFromLastRequest = () => {
     const mostRecentRequest = historyManager.getLastRequest();
 
@@ -40,9 +41,12 @@ export default function FetchButton () {
   }, []);
 
   return (
-    <div>
-      <button onClick={updateFormFromLastRequest}>
-        Fetch
+    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+      <div className=''>
+        <RefreshIcon className='h-12 w-12' />
+      </div>
+      <button className='istex-footer__text' onClick={updateFormFromLastRequest}>
+        Récupérer
       </button>
     </div>
   );

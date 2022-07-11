@@ -57,7 +57,7 @@ export default function Header() {
                   </li>
                 </ul>
               </div>
-              <div className='flex space-x-4 justify-end items-end'>
+              <div className='flex space-x-4 items-center w-full'>
                 {/* Current: 'bg-gray-900 text-white', Default: 'text-gray-300 hover:bg-gray-700 hover:text-white' */}
                 <SubMenu />
               </div>

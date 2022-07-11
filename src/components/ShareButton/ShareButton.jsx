@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { LinkIcon } from '@heroicons/react/solid';
 
-export default function ShareButton () {
+export default function ShareButton() {
   const queryString = useSelector(state => state.istexApi.queryString);
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
@@ -23,8 +24,11 @@ export default function ShareButton () {
   };
 
   return (
-    <div>
-      <button onClick={copyLinkToClipboard} disabled={isFormIncomplete}>Share</button>
+    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+      <div className=''>
+        <LinkIcon className='h-12 w-12' />
+      </div>
+      <button className='istex-footer__text' onClick={copyLinkToClipboard} disabled={isFormIncomplete}>Partager</button>
     </div>
   );
 }

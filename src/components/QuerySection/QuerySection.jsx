@@ -7,13 +7,14 @@ import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
+import TitleSection from '../TitleSection/TitleSection';
 
 const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode) => {
   const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
 
-export default function QuerySection () {
+export default function QuerySection() {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
@@ -73,7 +74,12 @@ export default function QuerySection () {
 
   return (
     <>
-      <h2>Query</h2>
+      <TitleSection
+        title='Query'
+        num='1'
+        infoTextTitle=''
+        infoTextContent=''
+      />
       <QueryInput />
       {!!totalAmountOfDocuments && (
         <div>

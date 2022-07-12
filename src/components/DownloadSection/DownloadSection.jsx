@@ -4,8 +4,9 @@ import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig } from '../../config';
+import TitleSection from '../TitleSection/TitleSection';
 
-export default function DownloadSection () {
+export default function DownloadSection() {
   const dispatch = useDispatch();
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
@@ -31,7 +32,12 @@ export default function DownloadSection () {
 
   return (
     <>
-      <h2>Download</h2>
+      <TitleSection
+        title='Download'
+        num='3'
+        infoTextTitle=''
+        infoTextContent=''
+      />
       <span>Compression level: </span>
       <select
         value={compressionLevel}

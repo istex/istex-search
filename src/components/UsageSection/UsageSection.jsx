@@ -6,8 +6,9 @@ import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
+import TitleSection from '../TitleSection/TitleSection';
 
-export default function UsageSection () {
+export default function UsageSection() {
   const dispatch = useDispatch();
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
@@ -68,7 +69,12 @@ export default function UsageSection () {
 
   return (
     <>
-      <h2>Usage</h2>
+      <TitleSection
+        title='Usage'
+        num='1'
+        infoTextTitle=''
+        infoTextContent=''
+      />
       <div style={{ display: 'flex' }}>
         {Object.keys(usages).map(usageName => (
           <div key={usageName} style={{ border: 'solid black 1px' }}>

@@ -6,7 +6,7 @@ export default function TextHeaderIstexDL() {
   return (
     <header className='flex flex-col justify-between items-center text-header-istex-dl'>
       <div>
-        <img className='text-header-istex-dl__icon' src='/images/ic_telecharger_corpus.svg' alt='image download' />
+        <img className='text-header-istex-dl__icon h-32 w-32' src='/images/ic_telecharger_corpus_white.svg' alt='image download' />
       </div>
 
       <div className='py-4'>

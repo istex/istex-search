@@ -31,45 +31,50 @@ export default function DownloadSection() {
   }, []);
 
   return (
-    <>
+    <div className='text-center'>
       <TitleSection
         title='Download'
         num='3'
         infoTextTitle=''
         infoTextContent=''
       />
-      <span>Compression level: </span>
-      <select
-        value={compressionLevel}
-        onChange={event => {
-          let { value } = event.target;
-          value = parseInt(value);
-          compressionLevelHandler(value);
-        }}
-      >
-        {istexApiConfig.compressionLevels.levels.map(level => (
-          <option key={level.label} value={level.value}>{level.label}</option>
-        ))}
-      </select>
-      <div>
-        <span>Archive type: </span>
-        {istexApiConfig.archiveTypes.types.map(type => (
-          <span key={type}>
-            <input
-              type='radio'
-              checked={archiveType === type}
-              value={type}
-              name='archiveType'
-              onChange={event => {
-                const { value } = event.target;
-                archiveTypeHandler(value);
-              }}
-            />
-            <label htmlFor={type}>{type}</label>
-          </span>
-        ))}
+      <div className='flex items-center justify-center mt-4 text-base'>
+        <div className='mr-8'>
+          <span className='pr-2'>Niveau de compression : </span>
+          <select
+            value={compressionLevel}
+            onChange={event => {
+              let { value } = event.target;
+              value = parseInt(value);
+              compressionLevelHandler(value);
+            }}
+            className='bg-white p-2'
+          >
+            {istexApiConfig.compressionLevels.levels.map(level => (
+              <option key={level.label} value={level.value}>{level.label}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <span className='pr-2'>Format de l'archive: </span>
+          {istexApiConfig.archiveTypes.types.map(type => (
+            <span key={type} className='pr-4'>
+              <input
+                type='radio'
+                checked={archiveType === type}
+                value={type}
+                name='archiveType'
+                onChange={event => {
+                  const { value } = event.target;
+                  archiveTypeHandler(value);
+                }}
+              />
+              <label htmlFor={type}>{type.toUpperCase()}</label>
+            </span>
+          ))}
+        </div>
       </div>
       <DownloadButton />
-    </>
+    </div>
   );
 }

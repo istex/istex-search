@@ -5,7 +5,7 @@ import DownloadSection from '../DownloadSection/DownloadSection';
 
 export default function Form() {
   return (
-    <main className='container mx-auto'>
+    <main className='form-istex container mx-auto'>
       <QuerySection />
       <UsageSection />
       <DownloadSection />

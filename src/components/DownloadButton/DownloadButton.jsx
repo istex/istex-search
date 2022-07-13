@@ -111,11 +111,17 @@ export default function DownloadButton() {
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
   return (
-    <>
-      <button onClick={onDownload} disabled={isFormIncomplete}>Download</button>
+    <div className='mt-6'>
+      <button
+        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4'
+        onClick={onDownload}
+        disabled={isFormIncomplete}
+      >
+        Télécharger
+      </button>
       {archiveSizeInGigabytes >= 1 && (
         <span>{archiveSizeInGigabytes >= 5 ? 'Danger' : archiveSizeInGigabytes >= 1 ? 'Warning' : ''}: &gt;{archiveSizeInGigabytes} GB</span>
       )}
-    </>
+    </div>
   );
 }

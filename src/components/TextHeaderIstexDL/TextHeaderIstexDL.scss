@@ -1,0 +1,16 @@
+.text-header-istex-dl {
+  color: $white;
+  background: #000 url(https://www.istex.fr/wp-content/themes/istex/img/fond-banniere@2x.jpg) center center;
+  background-size: cover;
+
+  &__title {
+    font-family: 'Montserrat-Bold', sans-serif;
+    padding: 15px 0 15px 0;
+    text-align: center;
+  }
+
+  &__icon {
+    height: 10em;
+    padding-top: 30px;
+  }
+}

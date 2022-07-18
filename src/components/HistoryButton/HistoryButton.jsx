@@ -6,7 +6,7 @@ import HistoryRequest from '../HistoryRequest/HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
-export default function HistoryButton() {
+export default function HistoryButton () {
   const modalWindow = useRef();
   const [requests, setRequests] = useState(historyManager.getAll());
 

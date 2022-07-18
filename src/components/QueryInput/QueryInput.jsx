@@ -14,7 +14,7 @@ import { queryModes, istexApiConfig } from '../../config';
 import { RadioGroup } from '@headlessui/react';
 import { CloudUploadIcon } from '@heroicons/react/solid';
 
-export default function QueryInput() {
+export default function QueryInput () {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
   const [queryStringInputValue, setQueryStringInputValue] = useState('');

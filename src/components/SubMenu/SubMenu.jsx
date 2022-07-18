@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function SubMenu() {
+export default function SubMenu () {
   return (
     <>
       <a href='https://www.istex.fr/la-base/' className='istex-header__submenu text-brown-grey ml-10 text-sm font-bold' aria-current='page'>La base</a>
@@ -9,7 +9,7 @@ export default function SubMenu() {
 
       <a href='https://www.istex.fr/category/actualites/' className='istex-header__submenu text-brown-grey ml-10 text-sm font-bold'>Actualités</a>
 
-      <a href='https://www.istex.fr/a-propos/' className='istex-header__submenu text-brown-grey ml-10 text-sm font-bold'>A propos</a>
+      <a href='https://www.istex.fr/a-propos/' className='istex-header__submenu text-brown-grey ml-10 text-sm font-bold'>À propos</a>
 
       <a href='https://www.istex.fr/institutions-adherentes/' className='istex-header__submenu text-brown-grey ml-10 text-sm font-bold'>Institutions adhérentes</a>
     </>

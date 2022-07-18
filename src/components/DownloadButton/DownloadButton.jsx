@@ -5,7 +5,7 @@ import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdA
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
 
-export default function DownloadButton() {
+export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const qId = useSelector(state => state.istexApi.qId);
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);

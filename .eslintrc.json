@@ -17,10 +17,6 @@
       "always"
     ],
     "no-extra-semi": "error",
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "space-before-function-paren": "off"
+    "comma-dangle": ["error", "always-multiline"]
   }
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
-export default function FetchButton() {
+export default function FetchButton () {
   const updateFormFromLastRequest = () => {
     const mostRecentRequest = historyManager.getLastRequest();
 

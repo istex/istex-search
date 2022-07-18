@@ -1,8 +1,10 @@
 import React from 'react';
 
-export default function Footer() {
+import { version } from '../../../package.json';
+
+export default function Footer () {
   return (
-    <footer className='flex flex-col justify-between items-center bg-gray-200 mb-20 mt-5 py-5'>
+    <footer className='flex flex-col justify-between items-center bg-white mb-20 mt-5 py-5'>
       <img src='/images/investissement_avenir.png' alt='image download' />
       <p className='mb-2'>Financement : ANR-10-IDEX-0004-02</p>
       <p className='mb-2'><a className='text-blue-400' href='https://twitter.com/ISTEX_Platform'>@ISTEX_Platform</a></p>
@@ -50,7 +52,7 @@ export default function Footer() {
       <div>
         <span id='version'>
           <span data-reactroot=''>
-            ISTEX DL <a className='text-blue-400' href='//github.com/istex/istex-dl/releases/tag/4.22.1' target='_blank' rel='noopener noreferrer'>4.22.1</a>
+            Istex-DL <a className='text-blue-400' href='//github.com/istex/istex-dl/releases/tag/4.22.1' target='_blank' rel='noopener noreferrer'>{version}</a>
           </span>
         </span>
       </div>

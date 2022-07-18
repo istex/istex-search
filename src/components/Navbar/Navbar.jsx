@@ -6,7 +6,7 @@ import FetchButton from '../FetchButton/FetchButton';
 import ShareButton from '../ShareButton/ShareButton';
 import HistoryButton from '../HistoryButton/HistoryButton';
 
-export default function Navbar() {
+export default function Navbar () {
   return (
     <div className='istex-footer flex justify-center'>
       <ResetButton />

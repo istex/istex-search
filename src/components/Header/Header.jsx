@@ -3,7 +3,7 @@ import SubMenu from '../SubMenu/SubMenu';
 
 import './Header.scss';
 
-export default function Header() {
+export default function Header () {
   return (
     <nav className='istex-header bg-white p-8'>
       <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-8'>

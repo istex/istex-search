@@ -68,7 +68,7 @@ export default function UsageSection() {
   }, []);
 
   return (
-    <>
+    <div className='my-12'>
       <TitleSection
         title='Usage'
         num='1'
@@ -78,7 +78,9 @@ export default function UsageSection() {
       <p>Cliquez sur l’usage visé pour votre corpus :</p>
       <div className='flex mt-4'>
         {Object.keys(usages).map(usageName => (
-          <div key={usageName} style={{ border: 'solid black 1px' }}>
+          <div
+            key={usageName}
+          >
             <Usage
               name={usageName}
               formats={usages[usageName].selectedFormats}
@@ -117,6 +119,6 @@ export default function UsageSection() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

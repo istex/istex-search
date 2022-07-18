@@ -31,19 +31,19 @@ export default function PredefinedUsage({ name, formats }) {
   };
 
   return (
-    <>
+    <div>
       <RadioGroup
         value={usage}
         onChange={usageChangedHandler}
-        className='h-30 w-30'
+        className='h-30 w-30 mr-5'
         name='usages'
       >
         <RadioGroup.Option
           value={name}
-          className='flex relative flex-col text-xl justify-between items-center border-double cursor-pointer border-2 focus:outline-none h-64 w-72'
+          className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-64 w-72'
         >
           {({ active, checked }) => (
-            <div className='flex flex-col justify-between w-full h-full'>
+            <div className='flex flex-col justify-between w-full h-full bg-white border-double border-2 cursor-pointer '>
               <div className='flex flex-col items-center justify-between'>
                 <div className='flex flex-col items-center'>
                   <div className='flex flex-col justify-center items-center p-10'>
@@ -87,7 +87,7 @@ export default function PredefinedUsage({ name, formats }) {
           )}
         </RadioGroup.Option>
       </RadioGroup>
-    </>
+    </div>
   );
 }
 

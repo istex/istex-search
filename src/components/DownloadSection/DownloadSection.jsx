@@ -31,7 +31,7 @@ export default function DownloadSection() {
   }, []);
 
   return (
-    <div className='text-center'>
+    <div className='text-center my-12'>
       <TitleSection
         title='Download'
         num='3'

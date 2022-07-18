@@ -6,7 +6,7 @@ import { usePopper } from 'react-popper';
 
 import './TitleSection.scss';
 
-export default function TitleSection({ num, title, infoTextTitle, infoTextContent }) {
+export default function TitleSection ({ num, title, infoTextTitle, infoTextContent }) {
   const [referenceElement, setReferenceElement] = useState();
   const [popperElement, setPopperElement] = useState();
   const { styles, attributes } = usePopper(referenceElement, popperElement);

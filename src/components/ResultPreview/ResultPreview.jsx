@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ResultPreview({ results }) {
+export default function ResultPreview ({ results }) {
   return (
     <>
       <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Result preview</h4>

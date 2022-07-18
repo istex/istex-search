@@ -14,7 +14,7 @@ import { queryModes, istexApiConfig } from '../../config';
 import { RadioGroup } from '@headlessui/react';
 import { CloudUploadIcon } from '@heroicons/react/solid';
 
-export default function QueryInput() {
+export default function QueryInput () {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
@@ -183,6 +183,20 @@ export default function QueryInput() {
           </div>
         </>
       );
+      break;
+    case queryModes.modes[3]:
+      queryInputUi = (
+        <textarea
+          className='w-full border-[1px] border-[#c4d733] p-2'
+          rows='2'
+          cols='30'
+          name='queryInput'
+          placeholder='We help here when you type your query...'
+          value=''
+          onChange={event => arkListHandler(event.target.value)}
+        />
+      );
+      break;
   }
 
   return (

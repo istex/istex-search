@@ -14,7 +14,7 @@ const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, 
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
 
-export default function QuerySection() {
+export default function QuerySection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);

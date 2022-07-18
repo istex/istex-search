@@ -7,7 +7,7 @@ import Navbar from '../Navbar/Navbar';
 import TextHeaderIstexDL from '../TextHeaderIstexDL/TextHeaderIstexDL';
 import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
-export default function App() {
+export default function App () {
   return (
     <>
       <Header />

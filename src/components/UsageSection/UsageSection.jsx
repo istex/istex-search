@@ -8,7 +8,7 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
 
-export default function UsageSection() {
+export default function UsageSection () {
   const dispatch = useDispatch();
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);

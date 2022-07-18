@@ -2,7 +2,7 @@ import React from 'react';
 
 import './TextHeaderIstexDL.scss';
 
-export default function TextHeaderIstexDL() {
+export default function TextHeaderIstexDL () {
   return (
     <header className='flex flex-col justify-between items-center text-header-istex-dl'>
       <div>
@@ -10,7 +10,7 @@ export default function TextHeaderIstexDL() {
       </div>
 
       <div className='py-4'>
-        <h1 className='text-header-istex-dl__title font-bold text-xl'>Téléchargez un corpus ISTEX</h1>
+        <h1 className='text-header-istex-dl__title font-bold text-xl'>Téléchargez un corpus Istex</h1>
         <p className='text-center'>
           Vous êtes membre de l’Enseignement supérieur et de la Recherche et vous souhaitez extraire un corpus de documents ISTEX ?
         </p>

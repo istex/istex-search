@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { LinkIcon } from '@heroicons/react/solid';
 
-export default function ShareButton() {
+export default function ShareButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);

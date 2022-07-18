@@ -75,7 +75,8 @@ export default function UsageSection() {
         infoTextTitle=''
         infoTextContent=''
       />
-      <div style={{ display: 'flex' }}>
+      <p>Cliquez sur l’usage visé pour votre corpus :</p>
+      <div className='flex mt-4'>
         {Object.keys(usages).map(usageName => (
           <div key={usageName} style={{ border: 'solid black 1px' }}>
             <Usage

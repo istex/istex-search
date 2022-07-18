@@ -11,8 +11,10 @@ import {
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
+import { RadioGroup } from '@headlessui/react';
+import { CloudUploadIcon } from '@heroicons/react/solid';
 
-export default function QueryInput () {
+export default function QueryInput() {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
@@ -130,8 +132,9 @@ export default function QueryInput () {
   switch (currentQueryMode) {
     case queryModes.modes[0]:
       queryInputUi = (
-        <input
-          type='text'
+        <textarea
+          rows='1'
+          className='w-full border-[1px] border-[#c4d733] p-2'
           name='queryInput'
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
@@ -142,6 +145,7 @@ export default function QueryInput () {
     case queryModes.modes[1]:
       queryInputUi = (
         <textarea
+          className='w-full border-[1px] border-[#c4d733] p-2'
           rows='2'
           cols='30'
           name='queryInput'
@@ -156,37 +160,59 @@ export default function QueryInput () {
       // The value attribute is harcoded to '' so that React stop crying about this input being uncontrolled.
       // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
-        <input
-          type='file'
-          name='queryInput'
-          accept='.corpus'
-          value=''
-          onChange={event => corpusFileHandler(event.target.files[0])}
-        />
+        <>
+          <div className='flex justify-center items-center w-full mb-5'>
+            <label
+              forHtml='dropzone-file'
+              className='flex flex-col justify-center items-center rounded-lg border-2 text-[#458ca5] border-[#458ca5] border-dashed cursor-pointer hover:border-[#c4d733] hover:text-black'
+            >
+              <div className='flex flex-col justify-center items-center pt-5 pb-6'>
+                <CloudUploadIcon className='w-12 h-12 my-4' />
+                <p className='mx-2 mb-2 text-sm'>Sélectionnez votre fichier</p>
+              </div>
+              <input
+                id='dropzone-file'
+                type='file'
+                className='hidden'
+                name='queryInput'
+                accept='.corpus'
+                value=''
+                onChange={event => corpusFileHandler(event.target.files[0])}
+              />
+            </label>
+          </div>
+        </>
       );
   }
 
   return (
-    <>
+    <div>
       <div>
-        <span>Query mode: </span>
-        {queryModes.modes.map(queryMode => (
-          <span key={queryMode}>
-            <input
-              type='radio'
-              checked={currentQueryMode === queryMode}
-              value={queryMode}
-              name='queryMode'
-              onChange={event => queryModeHandler(event.target.value)}
-            />
-            <label htmlFor={queryMode}>{queryMode}</label>
-          </span>
-        ))}
+        <RadioGroup
+          className='flex'
+          value={currentQueryMode}
+          onChange={setCurrentQueryMode}
+          name='queryMode'
+        >
+          {queryModes.modes.map(queryMode => (
+            <div key={queryMode}>
+              <RadioGroup.Option
+                className='flex items-center font-medium mr-2 w-32'
+                value={queryMode}
+              >
+                {({ checked }) => (
+                  <span className={checked ? 'block w-full text-center border-gray-400 bg-[#c4d733] p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
+                    {queryMode}
+                  </span>
+                )}
+              </RadioGroup.Option>
+            </div>
+          ))}
+        </RadioGroup>
       </div>
-      <div>
-        <label htmlFor='queryInput'>{currentQueryMode}: </label>
+      <div className='my-2'>
         {queryInputUi}
       </div>
-    </>
+    </div>
   );
 }

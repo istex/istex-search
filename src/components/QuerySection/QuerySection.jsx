@@ -73,17 +73,20 @@ export default function QuerySection() {
   }, []);
 
   return (
-    <>
+    <div className='my-12'>
       <TitleSection
         title='Query'
         num='1'
         infoTextTitle=''
         infoTextContent=''
       />
+      <p className='mb-4'>
+        Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
+      </p>
       <QueryInput />
       {!!totalAmountOfDocuments && (
-        <div>
-          <span>The request returned {totalAmountOfDocuments.toLocaleString()} document(s)</span>
+        <div className='my-4'>
+          <span>The request returned <strong className='rounded-full p-2 bg-[#c4d733] text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
             <span style={{ marginLeft: '1.5rem' }}>
               WARNING! (number of results greater than {istexApiConfig.maxAmountOfDocuments})
@@ -91,8 +94,8 @@ export default function QuerySection() {
           )}
         </div>
       )}
-      <div>
-        <label htmlFor='numberOfDocumentsInput'>Number of documents: </label>
+      <div className='flex items-center mb-4'>
+        <label htmlFor='numberOfDocumentsInput pr-2'>Number of documents : </label>
         <input
           type='number'
           value={numberOfDocuments}
@@ -103,37 +106,51 @@ export default function QuerySection() {
             const value = parseInt(event.target.value);
             numberOfDocumentsHandler(value);
           }}
+          className='ml-5 border-[1px] border-[#c4d733] px-2 py-1 w-20'
         />
         {!!totalAmountOfDocuments && (
-          <>
-            <span> / {Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</span>
-            <button onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}>All</button>
-          </>
+          <div className='ml-2'>
+            <span> / <strong className='rounded-full p-2 bg-[#c4d733] text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</strong></span>
+            <button
+              onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
+              className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-[#c4d733] hover:text-black'
+            >
+              All
+            </button>
+          </div>
         )}
       </div>
       <div>
-        <span>Results ranking mode: </span>
-        {istexApiConfig.rankingModes.modes.map(rankingMode => (
-          <span key={rankingMode}>
-            <input
-              type='radio'
-              checked={currentRankingMode === rankingMode}
-              value={rankingMode}
-              name='rankingMode'
-              onChange={event => {
-                const { value } = event.target;
-                rankingModeHandler(value);
-              }}
-            />
-            <label htmlFor={rankingMode}>{rankingMode}</label>
-          </span>
-        ))}
-      </div>
-      {resultPreviewResults.length > 0 && (
-        <div>
-          <ResultPreview results={resultPreviewResults} />
+        <h4 className='mb-1'>Results ranking mode : </h4>
+        <div className='flex'>
+          {istexApiConfig.rankingModes.modes.map(rankingMode => (
+            <div
+              key={rankingMode}
+              className='mr-2'
+            >
+              <input
+                type='radio'
+                checked={currentRankingMode === rankingMode}
+                value={rankingMode}
+                name='rankingMode'
+                onChange={event => {
+                  const { value } = event.target;
+                  rankingModeHandler(value);
+                }}
+                className='mr-2'
+              />
+              <label htmlFor={rankingMode}>{rankingMode}</label>
+            </div>
+          ))}
         </div>
-      )}
-    </>
+      </div>
+      <div className='mt-4'>
+        {resultPreviewResults.length > 0 && (
+          <div>
+            <ResultPreview results={resultPreviewResults} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

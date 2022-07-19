@@ -5,7 +5,6 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { RadioGroup } from '@headlessui/react';
 
 export default function PredefinedUsage ({ name, formats }) {
-  console.log('PredefinedUsage', { name });
   const usage = useSelector(state => state.istexApi.usage);
 
   const usageChangedHandler = value => {

@@ -1,5 +1,5 @@
 export const queryModes = {
-  modes: ['query string', 'ark', 'file import'],
+  modes: ['query string', 'ark', 'file import', 'query assist'],
   getDefault: () => queryModes.modes[0],
 };
 

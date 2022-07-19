@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: "Montserrat-Regular", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: url(https://dl.istex.fr/img/BG_ISTEX_LIGHT_DESKTOP.jpg) center repeat;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.text-brown-grey {
+  color: $m-brown-grey;
+}
+
+.text-light-black {
+  color: $m-light-black;
+}

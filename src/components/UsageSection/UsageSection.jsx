@@ -6,6 +6,7 @@ import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
+import TitleSection from '../TitleSection/TitleSection';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
@@ -67,11 +68,19 @@ export default function UsageSection () {
   }, []);
 
   return (
-    <>
-      <h2>Usage</h2>
-      <div style={{ display: 'flex' }}>
+    <div className='my-12'>
+      <TitleSection
+        title='Usage'
+        num='1'
+        infoTextTitle=''
+        infoTextContent=''
+      />
+      <p>Cliquez sur l’usage visé pour votre corpus :</p>
+      <div className='flex mt-4'>
         {Object.keys(usages).map(usageName => (
-          <div key={usageName} style={{ border: 'solid black 1px' }}>
+          <div
+            key={usageName}
+          >
             <Usage
               name={usageName}
               formats={usages[usageName].selectedFormats}
@@ -110,6 +119,6 @@ export default function UsageSection () {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

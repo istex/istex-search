@@ -12,7 +12,10 @@
     "ecmaVersion": "latest"
   },
   "rules": {
-    "semi": ["error", "always"],
+    "semi": [
+      "error",
+      "always"
+    ],
     "no-extra-semi": "error",
     "comma-dangle": ["error", "always-multiline"]
   }

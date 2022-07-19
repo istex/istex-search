@@ -6,8 +6,6 @@ import Form from './Form';
 describe('Tests for the Form component', () => {
   it('Renders the Usage title', () => {
     render(<Form />);
-    const usageTitle = screen.getByRole('heading', { name: 'Usage' });
-
-    expect(usageTitle).toBeInTheDocument();
+    expect(screen.getByText(/Results ranking mode/i)).toBeDefined();
   });
 });

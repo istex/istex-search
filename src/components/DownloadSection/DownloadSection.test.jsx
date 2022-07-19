@@ -6,8 +6,7 @@ import DownloadSection from './DownloadSection';
 describe('Tests for the DownloadSection component', () => {
   it('Renders the archive type radio buttons\' label', () => {
     render(<DownloadSection />);
-    const archiveTypeLabel = screen.getByText(/Archive type/);
 
-    expect(archiveTypeLabel).toBeInTheDocument();
+    expect(screen.getByText(/Niveau de compression/i)).toBeDefined();
   });
 });

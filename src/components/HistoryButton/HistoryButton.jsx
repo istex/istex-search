@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { ClockIcon } from '@heroicons/react/solid';
+
 import './HistoryButton.css';
 import HistoryRequest from '../HistoryRequest/HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
@@ -28,8 +30,11 @@ export default function HistoryButton () {
   }, []);
 
   return (
-    <div>
-      <button onClick={() => setModalVisibility(true)}>History</button>
+    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+      <div className=''>
+        <ClockIcon className='h-12 w-12' />
+      </div>
+      <button className='istex-footer__text' onClick={() => setModalVisibility(true)}>Historique</button>
       <div ref={modalWindow} className='modal'>
         <div className='modal-content'>
           <button onClick={() => setModalVisibility(false)} className='close'>&times;</button>

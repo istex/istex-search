@@ -1,4 +1,6 @@
 import React from 'react';
+import { ReplyIcon } from '@heroicons/react/solid';
+
 import { noFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, queryModes } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
@@ -20,8 +22,11 @@ export function resetForm () {
 
 export default function ResetButton () {
   return (
-    <div>
-      <button onClick={resetForm}>Reset Form</button>
+    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+      <div className=''>
+        <ReplyIcon className='h-12 w-12' />
+      </div>
+      <button className='istex-footer__text' onClick={resetForm}>Réinitialiser</button>
     </div>
   );
 }

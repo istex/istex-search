@@ -8,4 +8,14 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/test/setup.js',
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "./src/assets/styles/_colors.scss";
+          @import "./src/assets/styles/_fonts.scss";
+        `,
+      },
+    },
+  },
 });

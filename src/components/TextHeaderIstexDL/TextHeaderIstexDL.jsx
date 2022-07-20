@@ -4,7 +4,7 @@ import './TextHeaderIstexDL.scss';
 
 export default function TextHeaderIstexDL () {
   return (
-    <header className='flex flex-col justify-between items-center text-header-istex-dl'>
+    <header className='flex flex-col justify-between items-center text-header-istex-dl pt-32'>
       <div>
         <img className='text-header-istex-dl__icon h-32 w-32' src='/images/ic_telecharger_corpus_white.svg' alt='image download' />
       </div>

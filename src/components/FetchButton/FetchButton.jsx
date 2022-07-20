@@ -41,11 +41,14 @@ export default function FetchButton () {
   }, []);
 
   return (
-    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+    <div
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      onClick={updateFormFromLastRequest}
+    >
       <div className=''>
         <RefreshIcon className='h-12 w-12' />
       </div>
-      <button className='istex-footer__text' onClick={updateFormFromLastRequest}>
+      <button className='istex-footer__text'>
         Récupérer
       </button>
     </div>

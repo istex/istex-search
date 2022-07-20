@@ -71,7 +71,7 @@ export default function UsageSection () {
     <div className='my-12'>
       <TitleSection
         title='Usage'
-        num='1'
+        num='2.'
         infoTextTitle=''
         infoTextContent=''
       />
@@ -88,7 +88,7 @@ export default function UsageSection () {
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)
             are both the custom usage */}
             {(usageName === 'customUsage' && usage === 'customUsage') && (
-              <div>
+              <div className='flex'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
                   if (Number.isInteger(formats[formatCategory])) {

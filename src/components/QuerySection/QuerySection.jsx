@@ -86,7 +86,7 @@ export default function QuerySection () {
       <QueryInput />
       {!!totalAmountOfDocuments && (
         <div className='my-4'>
-          <span>The request returned <strong className='rounded-full p-2 bg-[#c4d733] text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
+          <span>The request returned <strong className='rounded-full p-2 bg-[#a9bb1e] text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
             <span style={{ marginLeft: '1.5rem' }}>
               WARNING! (number of results greater than {istexApiConfig.maxAmountOfDocuments})
@@ -106,14 +106,14 @@ export default function QuerySection () {
             const value = parseInt(event.target.value);
             numberOfDocumentsHandler(value);
           }}
-          className='ml-5 border-[1px] border-[#c4d733] px-2 py-1 w-20'
+          className='ml-5 border-[1px] border-[#a9bb1e] px-2 py-1 w-20'
         />
         {!!totalAmountOfDocuments && (
           <div className='ml-2'>
-            <span> / <strong className='rounded-full p-2 bg-[#c4d733] text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</strong></span>
+            <span> / <strong className='rounded-full p-2 bg-[#a9bb1e] text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</strong></span>
             <button
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
-              className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-[#c4d733] hover:text-black'
+              className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-[#a9bb1e] hover:text-black'
             >
               All
             </button>

@@ -30,11 +30,14 @@ export default function HistoryButton () {
   }, []);
 
   return (
-    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+    <div
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      onClick={() => setModalVisibility(true)}
+    >
       <div className=''>
         <ClockIcon className='h-12 w-12' />
       </div>
-      <button className='istex-footer__text' onClick={() => setModalVisibility(true)}>Historique</button>
+      <button className='istex-footer__text'>Historique</button>
       <div ref={modalWindow} className='modal'>
         <div className='modal-content'>
           <button onClick={() => setModalVisibility(false)} className='close'>&times;</button>

@@ -24,11 +24,14 @@ export default function ShareButton () {
   };
 
   return (
-    <div className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'>
+    <div
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      onClick={copyLinkToClipboard}
+    >
       <div className=''>
         <LinkIcon className='h-12 w-12' />
       </div>
-      <button className='istex-footer__text' onClick={copyLinkToClipboard} disabled={isFormIncomplete}>Partager</button>
+      <button className='istex-footer__text' disabled={isFormIncomplete}>Partager</button>
     </div>
   );
 }

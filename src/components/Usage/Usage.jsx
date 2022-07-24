@@ -5,7 +5,6 @@ import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/solid';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
-
 export default function Usage ({ name, formats, label }) {
   const usage = useSelector(state => state.istexApi.usage);
 

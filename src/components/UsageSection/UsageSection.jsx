@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Format from '../Format/Format';
 import Usage from '../Usage/Usage';
@@ -7,11 +7,14 @@ import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, select
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
+import { ChevronLeftIcon } from '@heroicons/react/solid';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
+  const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
+  const [hasClickOnSubCategory, setHasClickOnSubCategory] = useState(false);
 
   const getWholeCategoryFormat = categoryName => {
     if (!formats[categoryName]) return 0;
@@ -76,7 +79,16 @@ export default function UsageSection () {
         infoTextContent=''
       />
       <p>Cliquez sur l’usage visé pour votre corpus :</p>
-      <div className='flex mt-4'>
+      {!shouldDisplayUsage && (
+        <h4
+          className='flex justify-start items-center cursor-pointer text-[#458ca5] text-xl font-semibold border-t-[1px] border-b-[1px] border-black mt-4 p-2'
+          onClick={() => { setShouldDisplayUsage(true); }}
+        >
+          <ChevronLeftIcon className='h-4 w-4' />{' '}
+          <span className=''>Usage personnalisé</span>
+        </h4>
+      )}
+      <div className='flex mt-4 justify-between w-full'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}
@@ -94,23 +106,35 @@ export default function UsageSection () {
                   // Cases of covers and annexes which are not in a category
                   if (Number.isInteger(formats[formatCategory])) {
                     return (
-                      <div key={formatCategory}>
-                        <Format name={formatCategory} value={formats[formatCategory]} />
+                      <div key={formatCategory} className='mx-10 font-semibold capitalize'>
+                        <Format className='font-bold capitalize' name={formatCategory} value={formats[formatCategory]} />
                       </div>
                     );
                   }
 
                   return (
-                    <div key={formatCategory}>
+                    <div key={formatCategory} className='mx-10'>
                       <input
                         type='checkbox'
                         name={formatCategory}
                         onChange={toggleWholeCategory}
                         checked={isWholeCategorySelected(formatCategory)}
+                        className={`mr-2 w-5 h-5 outline-none rounded border-gray-400 accent-[#a9bb1e] p-2 ${hasClickOnSubCategory ? 'bg-pink' : ''}`}
                       />
-                      <label htmlFor={formatCategory}>{formatCategory}</label>
+                      <label
+                        htmlFor={formatCategory}
+                        className='font-bold capitalize'
+                      >
+                        {formatCategory}
+                      </label>
                       {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
-                        <Format key={formatName} name={formatName} value={formatValue} style={{ paddingLeft: '1em' }} />
+                        <Format
+                          key={formatName}
+                          name={formatName}
+                          value={formatValue}
+                          className='pl-5'
+                          setHasClickOnSubCategory={setHasClickOnSubCategory}
+                        />
                       ))}
                     </div>
                   );

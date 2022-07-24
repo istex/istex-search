@@ -7,8 +7,6 @@ import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
 import { ExclamationIcon } from '@heroicons/react/solid';
 
-
-
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const qId = useSelector(state => state.istexApi.qId);
@@ -117,7 +115,7 @@ export default function DownloadButton () {
   return (
     <div className='mt-6'>
       <button
-        className={`bg-istcolor-blue text-white font-bold py-2 px-4 ${isFormIncomplete ? 'cursor-not-allowed hover:bg-istcolor-green-light hover:text-istcolor-black' : 'cursor-pointer'}`}
+        className={`bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-2 px-4 ${isFormIncomplete ? 'cursor-not-allowed' : 'cursor-pointer'}`}
         onClick={onDownload}
         disabled={isFormIncomplete}
       >

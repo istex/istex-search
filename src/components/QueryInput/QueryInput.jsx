@@ -134,7 +134,7 @@ export default function QueryInput () {
       queryInputUi = (
         <textarea
           rows='1'
-          className='w-full border-[1px] border-[#a9bb1e] p-2'
+          className='w-full border-[1px] border-istcolor-green-dark p-2'
           name='queryInput'
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
@@ -145,7 +145,7 @@ export default function QueryInput () {
     case queryModes.modes[1]:
       queryInputUi = (
         <textarea
-          className='w-full border-[1px] border-[#a9bb1e] p-2'
+          className='w-full border-[1px] border-istcolor-green-dark p-2'
           rows='2'
           cols='30'
           name='queryInput'
@@ -163,7 +163,7 @@ export default function QueryInput () {
           <div className='flex justify-center items-center w-full mb-5'>
             <label
               forHtml='dropzone-file'
-              className='flex flex-col justify-center items-center rounded-lg border-2 text-[#458ca5] border-[#458ca5] border-dashed cursor-pointer hover:border-[#a9bb1e] hover:text-black'
+              className='flex flex-col justify-center items-center rounded-lg border-2 text-[#458ca5] border-[#458ca5] border-dashed cursor-pointer hover:border-istcolor-green-light hover:text-black'
             >
               <div className='flex flex-col justify-center items-center pt-5 pb-6'>
                 <CloudUploadIcon className='w-12 h-12 my-4' />
@@ -186,7 +186,7 @@ export default function QueryInput () {
     case queryModes.modes[3]:
       queryInputUi = (
         <textarea
-          className='w-full border-[1px] border-[#a9bb1e] p-2'
+          className='w-full border-[1px] border-istcolor-green-dark p-2'
           rows='2'
           cols='30'
           name='queryInput'
@@ -214,7 +214,7 @@ export default function QueryInput () {
                 value={queryMode}
               >
                 {({ checked }) => (
-                  <span className={checked ? 'block w-full text-center border-gray-400 bg-[#a9bb1e] p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
+                  <span className={checked ? 'block w-full text-center border-gray-400 bg-istcolor-green-dark p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
                     {queryMode}
                   </span>
                 )}

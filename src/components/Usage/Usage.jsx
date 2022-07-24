@@ -28,7 +28,7 @@ export default function PredefinedUsage ({ name, formats }) {
         className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] w-[351px]'
       >
         {({ active, checked }) => (
-          <div className={`box-content flex flex-col justify-between w-full h-full bg-white border-4 cursor-pointer border-b-0${checked ? ' border-[#a9bb1e]' : ''}`}>
+          <div className={`box-content flex flex-col justify-between w-full h-full bg-white border-4 cursor-pointer border-b-0${checked ? ' border-istcolor-green-dark' : ''}`}>
             <div className='flex flex-col items-center justify-between'>
               <div className='flex flex-col items-center'>
                 <div className='flex flex-col justify-center items-center p-10'>
@@ -50,12 +50,12 @@ export default function PredefinedUsage ({ name, formats }) {
                 </div>
               </div>
             </div>
-            <div className={`flex justify-around text-white p-4 ${checked ? ' bg-[#a9bb1e]' : 'bg-[#458ca5]'} w-full`}>
+            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-[#458ca5]'} w-full`}>
               {checked && (
                 <CheckIcon className='h-6 w-6' />
               )}
               <p>
-                {checked ? 'Usage sélectioné' : 'Choisir cet usage'}
+                {checked ? <span className='pl-2'>Usage sélectioné</span> : <span className='pl-2'>Choisir cet usage</span>}
               </p>
             </div>
             <div className='absolute right-2 top-2 p-2 text-center text-[#4a4a4a] bg-[#f0f0f0]'>

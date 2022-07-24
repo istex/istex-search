@@ -14,7 +14,7 @@ export default function TitleSection ({ num, title, infoTextTitle, infoTextConte
   return (
     <div className='title-section flex justify-between items-center'>
       <h2 className='title-section__num-title flex'>
-        <span className='title-section__num-title__num'>
+        <span className='bg-istcolor-green-dark title-section__num-title__num'>
           {num}
         </span>
         <span className='title-section__num-title__title'>

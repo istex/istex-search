@@ -9,13 +9,13 @@ import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsMan
 
 export default function App () {
   return (
-    <>
+    <div className='text-istcolor-black'>
       <Header />
       <TextHeaderIstexDL />
       <Form />
       <UrlSearchParamsManager />
       <Footer />
       <Navbar />
-    </>
+    </div>
   );
 }

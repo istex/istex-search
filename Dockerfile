@@ -5,7 +5,10 @@ LABEL stage=builder
 # Copy the source code files needed the generate the production build
 WORKDIR /app/
 COPY ./src/ /app/src/
+COPY ./public/ /app/public/
 COPY ./index.html /app/index.html
+COPY ./postcss.config.js /app/postcss.config.js
+COPY ./tailwind.config.js /app/tailwind.config.js
 COPY ./vite.config.js /app/vite.config.js
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json

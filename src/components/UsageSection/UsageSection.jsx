@@ -71,7 +71,7 @@ export default function UsageSection () {
     <div className='my-12'>
       <TitleSection
         title='Usage'
-        num='2.'
+        num='2'
         infoTextTitle=''
         infoTextContent=''
       />

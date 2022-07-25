@@ -18,10 +18,12 @@ input[type=number]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
+/* @deprecated, use tailwind instead */
 .text-brown-grey {
   color: $m-brown-grey;
 }
 
+/* @deprecated, use tailwind instead */
 .text-light-black {
   color: $m-light-black;
 }

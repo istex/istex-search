@@ -9,7 +9,7 @@ export default function ResultPreview ({ results }) {
         {results.map(result => (
           <div
             key={result.id}
-            className='border-[1px] py-2 border-l-[10px] text-[#458ca5] border-[#458ca5] hover:border-black px-2 cursor-pointer hover:bg-[#c4d733] hover:text-black'
+            className='border-[1px] py-2 border-l-[10px] text-[#458ca5] border-[#458ca5] hover:border-black px-2 cursor-pointer hover:bg-istcolor-green-light hover:text-black'
           >
             <strong className='font-semibold text-sm'>{result.title ? result.title : 'Untitled Document'}</strong>
             {result.author && (

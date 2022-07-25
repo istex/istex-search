@@ -25,34 +25,39 @@ export default function Footer () {
       <ul id='menu-partenaires' className='flex items-center justify-center mt-5'>
         <li className='mr-8'>
           <a href='http://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/images/footer/MESRI_logo.jpg' alt='ministère enseignement supérieur et de la recherche' />
+            <img src='/images/mesr.svg' alt='ministère enseignement supérieur et de la recherche' />
           </a>
         </li>
         <li className='mr-8'>
-          <a href='http://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/images/footer/logo-cnrs-simple.svg' alt='ministère enseignement supérieur et de la recherche' />
+          <a href='https://www.cnrs.fr/'>
+            <img src='/images/cnrs.svg' alt='cnrs' />
           </a>
         </li>
         <li className='mr-8'>
-          <a href='http://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/images/footer/ABES-logo.png' alt='ministère enseignement supérieur et de la recherche' />
+          <a href='https://www.abes.fr/'>
+            <img src='/images/abes.png' alt={'abes : agence bibliographique de l\'enseignement supérieur'} />
           </a>
         </li>
         <li className='mr-8'>
-          <a href='http://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/images/footer/CPU-Logo.png' alt='ministère enseignement supérieur et de la recherche' />
+          <a href='https://www.couperin.org/'>
+            <img src='/images/couperin.png' alt='couperin.org' />
           </a>
         </li>
         <li className='mr-8'>
-          <a href='http://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/images/footer/ul_logo_blanc_rvb.png' alt='ministère enseignement supérieur et de la recherche' />
+          <a href='https://franceuniversites.fr/'>
+            <img src='/images/france_universites_logo.svg' alt='France universités' />
+          </a>
+        </li>
+        <li className='mr-8'>
+          <a href='http://www.univ-lorraine.fr/'>
+            <img src='/images/ul.svg' alt='université de lorraine' />
           </a>
         </li>
       </ul>
       <div>
         <span id='version'>
           <span data-reactroot=''>
-            Istex-DL <a className='text-blue-400' href='//github.com/istex/istex-dl/releases/tag/4.22.1' target='_blank' rel='noopener noreferrer'>{version}</a>
+            Istex-DL <a className='text-blue-400' href={`//github.com/istex/istex-dl/releases/tag/v${version}`} target='_blank' rel='noopener noreferrer'>{version}</a>
           </span>
         </span>
       </div>

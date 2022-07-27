@@ -34,9 +34,9 @@ export default function PredefinedUsage ({ name, formats }) {
                 <div className='flex flex-col justify-center items-center p-10'>
                   <RadioGroup.Label
                     as='p'
-                    className='text-2xl text-gray-900 mt-8 font-semibold'
+                    className='text-xl text-gray-900 mt-8 font-semibold'
                   >
-                    {name}
+                    {name === 'customUsage' ? 'Usage personnalisé' : name}
                   </RadioGroup.Label>
                   <RadioGroup.Description
                     as='span'

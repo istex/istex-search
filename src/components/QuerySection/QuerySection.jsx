@@ -8,6 +8,8 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
+import { ExclamationIcon } from '@heroicons/react/solid';
+import { Tooltip } from 'flowbite-react';
 
 const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode) => {
   const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
@@ -75,7 +77,7 @@ export default function QuerySection () {
   return (
     <div className='my-12'>
       <TitleSection
-        title='Query'
+        title='Requête'
         num='1'
         infoTextTitle=''
         infoTextContent=''
@@ -85,17 +87,30 @@ export default function QuerySection () {
       </p>
       <QueryInput />
       {!!totalAmountOfDocuments && (
-        <div className='my-4'>
-          <span>The request returned <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
+        <div className='my-4 flex items-center'>
+          <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
-            <span style={{ marginLeft: '1.5rem' }}>
-              WARNING! (number of results greater than {istexApiConfig.maxAmountOfDocuments})
-            </span>
+            <div className='pl-4 text-sm'>
+              <Tooltip
+                style='light'
+                placement='right'
+                content={
+                  <p className='text-sm'>
+                    Reformulez votre requête ou vous ne <br />
+                    pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
+                    premiers documents sur <br />
+                    les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
+                  </p>
+                }
+              >
+                <ExclamationIcon className='h-5 w-5 text-red-600' />
+              </Tooltip>
+            </div>
           )}
         </div>
       )}
       <div className='flex items-center mb-4'>
-        <label htmlFor='numberOfDocumentsInput pr-2'>Number of documents : </label>
+        <label htmlFor='numberOfDocumentsInput pr-2'>Choisir le nombre de documents : </label>
         <input
           type='number'
           value={numberOfDocuments}
@@ -121,7 +136,7 @@ export default function QuerySection () {
         )}
       </div>
       <div>
-        <h4 className='mb-1'>Results ranking mode : </h4>
+        <h4 className='mb-1'>Choisir les documents classés : </h4>
         <div className='flex'>
           {istexApiConfig.rankingModes.modes.map(rankingMode => (
             <div

@@ -33,7 +33,7 @@ export default function DownloadSection () {
   return (
     <div className='text-center my-12'>
       <TitleSection
-        title='Download'
+        title='Téléchargement'
         num='3'
         infoTextTitle=''
         infoTextContent=''
@@ -48,7 +48,7 @@ export default function DownloadSection () {
               value = parseInt(value);
               compressionLevelHandler(value);
             }}
-            className='bg-white p-2'
+            className='bg-white pl-4 py-2 text-sm'
           >
             {istexApiConfig.compressionLevels.levels.map(level => (
               <option key={level.label} value={level.value}>{level.label}</option>
@@ -69,7 +69,7 @@ export default function DownloadSection () {
                   archiveTypeHandler(value);
                 }}
               />
-              <label htmlFor={type}>{type.toUpperCase()}</label>
+              <label className='pl-2' htmlFor={type}>{type.toUpperCase()}</label>
             </span>
           ))}
         </div>

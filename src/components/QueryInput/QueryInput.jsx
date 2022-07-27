@@ -199,7 +199,7 @@ export default function QueryInput () {
   }
 
   return (
-    <div>
+    <div className='cursor-pointer'>
       <div>
         <RadioGroup
           className='flex'
@@ -210,7 +210,7 @@ export default function QueryInput () {
           {queryModes.modes.map(queryMode => (
             <div key={queryMode}>
               <RadioGroup.Option
-                className='flex items-center font-medium mr-2 w-32'
+                className='flex items-center font-medium mr-2 w-48'
                 value={queryMode}
               >
                 {({ checked }) => (

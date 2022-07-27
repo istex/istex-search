@@ -1,10 +1,10 @@
 export const queryModes = {
-  modes: ['query string', 'ark', 'file import', 'query assist'],
+  modes: ['Équation booléenne', 'Identifiants ARK', 'Import de fichier', 'Recherche assistée'],
   getDefault: () => queryModes.modes[0],
 };
 
 const rankingModes = {
-  modes: ['qualityOverRelevance', 'relevance', 'random'],
+  modes: ['Par pertinence & qualité', 'Par pertinence', 'Aléatoirement'],
   getDefault: () => rankingModes.modes[0],
 };
 
@@ -15,9 +15,9 @@ const archiveTypes = {
 
 const compressionLevels = {
   levels: [
-    { value: 0, label: 'No compression' },
-    { value: 6, label: 'Medium compression' },
-    { value: 9, label: 'High compression' },
+    { value: 0, label: 'Sans compression' },
+    { value: 6, label: 'Compression moyenne' },
+    { value: 9, label: 'Compression élevée' },
   ],
   getDefault: () => compressionLevels.levels[1],
 };

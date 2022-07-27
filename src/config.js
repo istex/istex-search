@@ -4,7 +4,7 @@ export const queryModes = {
 };
 
 const rankingModes = {
-  modes: ['Par pertinence & qualité', 'Par pertinence', 'Aléatoirement'],
+  modes: ['qualityOverRelevance', 'relevance', 'random'],
   getDefault: () => rankingModes.modes[0],
 };
 

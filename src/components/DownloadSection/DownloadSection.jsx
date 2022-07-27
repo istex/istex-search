@@ -56,7 +56,7 @@ export default function DownloadSection () {
           </select>
         </div>
         <div>
-          <span className='pr-2'>Format de l'archive: </span>
+          <span className='pr-2'>Format de l'archive : </span>
           {istexApiConfig.archiveTypes.types.map(type => (
             <span key={type} className='pr-4'>
               <input

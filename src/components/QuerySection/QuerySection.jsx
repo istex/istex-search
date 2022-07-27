@@ -16,6 +16,17 @@ const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, 
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
 
+const getRankingModeLabels = (rankingMode) => {
+  switch (rankingMode) {
+    case 'qualityOverRelevance':
+      return 'Par pertinence & qualité';
+    case 'relevance':
+      return 'Par pertinence';
+    case 'random':
+      return 'Aléatoirement';
+  }
+};
+
 export default function QuerySection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -154,7 +165,7 @@ export default function QuerySection () {
                 }}
                 className='mr-2'
               />
-              <label htmlFor={rankingMode}>{rankingMode}</label>
+              <label htmlFor={rankingMode}>{getRankingModeLabels(rankingMode)}</label>
             </div>
           ))}
         </div>

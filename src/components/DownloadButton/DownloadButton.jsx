@@ -112,6 +112,19 @@ export default function DownloadButton () {
 
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
+  // eslint-disable-next-line react/prop-types
+  const DownloadButtonWrapper = ({ disabled, onClick }) => {
+    return (
+      <button
+        className={`border-none bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        Télécharger
+      </button>
+    );
+  };
+
   return (
     <div className='mt-6'>
       <div className='text-center flex justify-center'>
@@ -132,22 +145,11 @@ export default function DownloadButton () {
               style='light'
               placement='right'
             >
-              <button
-                className='bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-2 px-4 cursor-not-allowed'
-                onClick={onDownload}
-                disabled={isFormIncomplete}
-              >
-                Télécharger
-              </button>
+              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
             </Tooltip>
             )
           : (
-            <button
-              className='bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-2 px-4 cursor-pointer'
-              onClick={onDownload}
-            >
-              Télécharger
-            </button>
+            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
             )}
       </div>
       {archiveSizeInGigabytes >= 1 && (

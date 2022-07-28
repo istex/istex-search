@@ -15,6 +15,7 @@ module.exports = {
         'istcolor-grey': {
           dark: '#696969',
           light: '#8f8f8f',
+          'extra-light': '#dadada',
         },
         'istcolor-black': '#1d1d1d',
         'istcolor-white': '#f0f0f0',

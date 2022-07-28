@@ -5,7 +5,7 @@ export const queryModes = {
     { value: 'fileImport', label: 'Import de fichier' },
     { value: 'queryAssist', label: 'Recherche assistée' },
   ],
-  getDefault: () => queryModes.modes[0].value,
+  getDefault: () => queryModes.modes[0],
 };
 
 const rankingModes = {
@@ -14,11 +14,14 @@ const rankingModes = {
     { value: 'relevance', label: 'Par pertinence' },
     { value: 'random', label: 'Aléatoirement' },
   ],
-  getDefault: () => rankingModes.modes[0].value,
+  getDefault: () => rankingModes.modes[0],
 };
 
 const archiveTypes = {
-  types: ['zip', 'tar'],
+  types: [
+    { value: 'zip', label: 'ZIP' },
+    { value: 'tar', label: 'TAR.GZ' },
+  ],
   getDefault: () => archiveTypes.types[0],
 };
 
@@ -78,9 +81,11 @@ export const formats = {
 
 export const usages = {
   customUsage: {
+    label: 'Usage personnalisé',
     selectedFormats: 0,
   },
   lodex: {
+    label: 'Lodex',
     selectedFormats: formats.metadata.json,
   },
 };

@@ -17,28 +17,28 @@ describe('Tests for the utility functions', () => {
     const queryStringRequest = {
       queryString: 'fulltext:fish',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes.getDefault(),
+      rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes.getDefault(),
+      archiveType: istexApiConfig.archiveTypes.getDefault().value,
       usage: Object.keys(usages)[0],
     };
     const queryStringWithLodexUsageRequest = {
       queryString: 'fulltext:fish',
       selectedFormats: usages.lodex.selectedFormats,
-      rankingMode: istexApiConfig.rankingModes.getDefault(),
+      rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes.getDefault(),
+      archiveType: istexApiConfig.archiveTypes.getDefault().value,
       usage: Object.keys(usages)[1],
     };
     const qIdRequest = {
       qId: 'fakeQId',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes.getDefault(),
+      rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes.getDefault(),
+      archiveType: istexApiConfig.archiveTypes.getDefault().value,
       usage: Object.keys(usages)[0],
     };
     const noSelectedFormatsRequest = {

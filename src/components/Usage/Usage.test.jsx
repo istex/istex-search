@@ -5,8 +5,8 @@ import Usage from './Usage';
 
 describe('Tests for the PredefinedUsage component', () => {
   it('Renders the radio button', () => {
-    render(<Usage name='myUsage' />);
-    const radioButton = screen.getByText(/myUsage/i);
+    render(<Usage name='lodex' label='Lodex' formats={{}} />);
+    const radioButton = screen.getByText(/Lodex/i);
 
     expect(radioButton).toBeInTheDocument();
   });

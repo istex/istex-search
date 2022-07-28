@@ -6,7 +6,7 @@ import { CheckIcon } from '@heroicons/react/solid';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
-export default function PredefinedUsage ({ name, formats }) {
+export default function PredefinedUsage ({ name, formats, label }) {
   const usage = useSelector(state => state.istexApi.usage);
 
   const usageChangedHandler = value => {
@@ -36,7 +36,7 @@ export default function PredefinedUsage ({ name, formats }) {
                     as='p'
                     className='text-xl text-gray-900 mt-8 font-semibold'
                   >
-                    {name === 'customUsage' ? 'Usage personnalisé' : name}
+                    {label}
                   </RadioGroup.Label>
                   <RadioGroup.Description
                     as='span'
@@ -75,5 +75,6 @@ export default function PredefinedUsage ({ name, formats }) {
 
 PredefinedUsage.propTypes = {
   name: PropTypes.string,
+  label: PropTypes.string,
   formats: PropTypes.number,
 };

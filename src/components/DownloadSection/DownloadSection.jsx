@@ -69,7 +69,7 @@ export default function DownloadSection () {
                   archiveTypeHandler(value);
                 }}
               />
-              <label className='pl-2' htmlFor={type}>{type.toUpperCase()}</label>
+              <label className='pl-2' htmlFor={type}>{type.label.toUpperCase()}</label>
             </span>
           ))}
         </div>

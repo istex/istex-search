@@ -12,11 +12,11 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon } from '@heroicons/react/solid';
+import { CloudUploadIcon, InformationCircleIcon } from '@heroicons/react/solid';
 
 export default function QueryInput () {
   const dispatch = useDispatch();
-  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
+  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [arkInputValue, setArkInputValue] = useState('');
 
@@ -30,7 +30,7 @@ export default function QueryInput () {
       setArkInputValue(arkList);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ark').value);
     } else {
-      setCurrentQueryMode(queryModes.getDefault());
+      setCurrentQueryMode(queryModes.getDefault().value);
       setQueryStringInputValue(newQueryString);
     }
 
@@ -200,7 +200,7 @@ export default function QueryInput () {
 
   return (
     <div className='cursor-pointer'>
-      <div>
+      <div className='w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
           className='flex'
           value={currentQueryMode}
@@ -210,13 +210,16 @@ export default function QueryInput () {
           {queryModes.modes.map(({ label, value }) => (
             <div key={label}>
               <RadioGroup.Option
-                className='flex items-center font-medium mr-2 w-48'
+                className='flex items-center font-medium mr-2'
                 value={value}
               >
                 {({ checked }) => (
-                  <span className={checked ? 'block w-full text-center border-gray-400 bg-istcolor-green-dark p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
-                    {label}
-                  </span>
+                  <>
+                    <span className={`flex items-center justify-center px-[30px] py-2 text-center w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                      {label}
+                      <InformationCircleIcon className='h-7 w-7 pl-2' />
+                    </span>
+                  </>
                 )}
               </RadioGroup.Option>
             </div>

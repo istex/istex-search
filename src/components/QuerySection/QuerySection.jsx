@@ -21,7 +21,7 @@ export default function QuerySection () {
   const queryString = useSelector(state => state.istexApi.queryString);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const rankingMode = useSelector(state => state.istexApi.rankingMode);
-  const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault());
+  const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault().value);
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
 

@@ -28,7 +28,7 @@ export default function QueryInput () {
     if (isArkQueryString(newQueryString)) {
       const arkList = getArksFromArkQueryString(newQueryString).join('\n');
       setArkInputValue(arkList);
-      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode === 'ark'));
+      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ark').value);
     } else {
       setCurrentQueryMode(queryModes.getDefault());
       setQueryStringInputValue(newQueryString);
@@ -130,7 +130,7 @@ export default function QueryInput () {
 
   let queryInputUi;
   switch (currentQueryMode) {
-    case queryModes.modes[0]:
+    case queryModes.modes[0].value:
       queryInputUi = (
         <textarea
           rows='1'
@@ -142,7 +142,7 @@ export default function QueryInput () {
         />
       );
       break;
-    case queryModes.modes[1]:
+    case queryModes.modes[1].value:
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2'
@@ -155,7 +155,7 @@ export default function QueryInput () {
         />
       );
       break;
-    case queryModes.modes[2]:
+    case queryModes.modes[2].value:
       // The value attribute is harcoded to '' so that React stop crying about this input being uncontrolled.
       // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
@@ -183,7 +183,7 @@ export default function QueryInput () {
         </>
       );
       break;
-    case queryModes.modes[3]:
+    case queryModes.modes[3].value:
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2'
@@ -207,15 +207,15 @@ export default function QueryInput () {
           onChange={setCurrentQueryMode}
           name='queryMode'
         >
-          {queryModes.modes.map(queryMode => (
-            <div key={queryMode}>
+          {queryModes.modes.map(({ label, value }) => (
+            <div key={label}>
               <RadioGroup.Option
                 className='flex items-center font-medium mr-2 w-48'
-                value={queryMode}
+                value={value}
               >
                 {({ checked }) => (
                   <span className={checked ? 'block w-full text-center border-gray-400 bg-istcolor-green-dark p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
-                    {queryMode}
+                    {label}
                   </span>
                 )}
               </RadioGroup.Option>

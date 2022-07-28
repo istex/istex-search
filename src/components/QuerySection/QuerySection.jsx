@@ -16,17 +16,6 @@ const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, 
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
 
-const getRankingModeLabels = (rankingMode) => {
-  switch (rankingMode) {
-    case 'qualityOverRelevance':
-      return 'Par pertinence & qualité';
-    case 'relevance':
-      return 'Par pertinence';
-    case 'random':
-      return 'Aléatoirement';
-  }
-};
-
 export default function QuerySection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -149,15 +138,15 @@ export default function QuerySection () {
       <div>
         <h4 className='mb-1'>Choisir les documents classés : </h4>
         <div className='flex'>
-          {istexApiConfig.rankingModes.modes.map(rankingMode => (
+          {istexApiConfig.rankingModes.modes.map(({ label, value: rankingModeValue }) => (
             <div
-              key={rankingMode}
+              key={rankingModeValue}
               className='mr-2'
             >
               <input
                 type='radio'
-                checked={currentRankingMode === rankingMode}
-                value={rankingMode}
+                checked={currentRankingMode === rankingModeValue}
+                value={rankingModeValue}
                 name='rankingMode'
                 onChange={event => {
                   const { value } = event.target;
@@ -165,7 +154,7 @@ export default function QuerySection () {
                 }}
                 className='mr-2'
               />
-              <label htmlFor={rankingMode}>{getRankingModeLabels(rankingMode)}</label>
+              <label htmlFor={rankingModeValue}>{label}</label>
             </div>
           ))}
         </div>

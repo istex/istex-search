@@ -1,11 +1,20 @@
 export const queryModes = {
-  modes: ['Équation booléenne', 'Identifiants ARK', 'Import de fichier', 'Recherche assistée'],
-  getDefault: () => queryModes.modes[0],
+  modes: [
+    { value: 'queryString', label: 'Équation booléenne' },
+    { value: 'ark', label: 'Identifiants ARK' },
+    { value: 'fileImport', label: 'Import de fichier' },
+    { value: 'queryAssist', label: 'Recherche assistée' },
+  ],
+  getDefault: () => queryModes.modes[0].value,
 };
 
 const rankingModes = {
-  modes: ['qualityOverRelevance', 'relevance', 'random'],
-  getDefault: () => rankingModes.modes[0],
+  modes: [
+    { value: 'qualityOverRelevance', label: 'Par pertinence & qualité' },
+    { value: 'relevance', label: 'Par pertinence' },
+    { value: 'random', label: 'Aléatoirement' },
+  ],
+  getDefault: () => rankingModes.modes[0].value,
 };
 
 const archiveTypes = {

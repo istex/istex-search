@@ -6,14 +6,14 @@ import { istexApiConfig, queryModes } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export function resetForm () {
-  eventEmitter.emit(events.setQueryMode, queryModes.getDefault());
+  eventEmitter.emit(events.setQueryMode, queryModes.getDefault().value);
   eventEmitter.emit(events.setQueryString, '');
   eventEmitter.emit(events.setQId, '');
   eventEmitter.emit(events.setNumberOfDocuments, 0);
-  eventEmitter.emit(events.setRankingMode, istexApiConfig.rankingModes.getDefault());
+  eventEmitter.emit(events.setRankingMode, istexApiConfig.rankingModes.getDefault().value);
   eventEmitter.emit(events.setSelectedFormats, noFormatSelected());
   eventEmitter.emit(events.setCompressionLevel, istexApiConfig.compressionLevels.getDefault().value);
-  eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault());
+  eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault().value);
   eventEmitter.emit(events.setUsage, '');
   eventEmitter.emit(events.resetResultPreview);
 

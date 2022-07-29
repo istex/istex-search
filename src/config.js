@@ -117,7 +117,7 @@ export const formatSizes = {
     covers: 1585080, // ~1.51 MB
     annexes: 7268606, // ~6.93 MB
   },
-  [archiveTypes.types[0]]: {
+  [archiveTypes.types[0].value]: {
     multipliers: {
       [compressionLevels.levels[0].value]: {
         fulltext: {
@@ -196,7 +196,7 @@ export const formatSizes = {
       },
     },
   },
-  [archiveTypes.types[1]]: {
+  [archiveTypes.types[1].value]: {
     multipliers: {
       [compressionLevels.levels[0].value]: {
         fulltext: {

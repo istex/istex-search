@@ -6,7 +6,7 @@ import { CheckIcon } from '@heroicons/react/solid';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
-export default function PredefinedUsage ({ name, formats, label }) {
+export default function Usage ({ name, formats, label }) {
   const usage = useSelector(state => state.istexApi.usage);
 
   const usageChangedHandler = value => {
@@ -73,7 +73,7 @@ export default function PredefinedUsage ({ name, formats, label }) {
   );
 }
 
-PredefinedUsage.propTypes = {
+Usage.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   formats: PropTypes.number,

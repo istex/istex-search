@@ -54,8 +54,8 @@ export default function UrlSearchParamsManager () {
     if (rankingMode != null) {
       let rankingModeToUse = rankingMode;
 
-      if (!istexApiConfig.rankingModes.modes.includes(rankingModeToUse)) {
-        rankingModeToUse = istexApiConfig.rankingModes.getDefault();
+      if (!istexApiConfig.rankingModes.modes.find(mode => mode.value === rankingModeToUse)) {
+        rankingModeToUse = istexApiConfig.rankingModes.getDefault().value;
       }
 
       eventEmitter.emit(events.setRankingMode, rankingModeToUse);
@@ -74,8 +74,8 @@ export default function UrlSearchParamsManager () {
     if (archiveType != null) {
       let archiveTypeToUse = archiveType;
 
-      if (!istexApiConfig.archiveTypes.types.includes(archiveType)) {
-        archiveTypeToUse = istexApiConfig.archiveTypes.getDefault();
+      if (!istexApiConfig.archiveTypes.types.find(type => type.value === archiveType)) {
+        archiveTypeToUse = istexApiConfig.archiveTypes.getDefault().value;
       }
 
       eventEmitter.emit(events.setArchiveType, archiveTypeToUse);

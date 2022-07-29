@@ -12,11 +12,11 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon } from '@heroicons/react/solid';
+import { CloudUploadIcon, InformationCircleIcon } from '@heroicons/react/solid';
 
 export default function QueryInput () {
   const dispatch = useDispatch();
-  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault());
+  const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [arkInputValue, setArkInputValue] = useState('');
 
@@ -28,9 +28,9 @@ export default function QueryInput () {
     if (isArkQueryString(newQueryString)) {
       const arkList = getArksFromArkQueryString(newQueryString).join('\n');
       setArkInputValue(arkList);
-      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode === 'ark'));
+      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ark').value);
     } else {
-      setCurrentQueryMode(queryModes.getDefault());
+      setCurrentQueryMode(queryModes.getDefault().value);
       setQueryStringInputValue(newQueryString);
     }
 
@@ -130,7 +130,7 @@ export default function QueryInput () {
 
   let queryInputUi;
   switch (currentQueryMode) {
-    case queryModes.modes[0]:
+    case queryModes.modes[0].value:
       queryInputUi = (
         <textarea
           rows='1'
@@ -142,7 +142,7 @@ export default function QueryInput () {
         />
       );
       break;
-    case queryModes.modes[1]:
+    case queryModes.modes[1].value:
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2'
@@ -155,7 +155,7 @@ export default function QueryInput () {
         />
       );
       break;
-    case queryModes.modes[2]:
+    case queryModes.modes[2].value:
       // The value attribute is harcoded to '' so that React stop crying about this input being uncontrolled.
       // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
@@ -183,7 +183,7 @@ export default function QueryInput () {
         </>
       );
       break;
-    case queryModes.modes[3]:
+    case queryModes.modes[3].value:
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2'
@@ -199,24 +199,27 @@ export default function QueryInput () {
   }
 
   return (
-    <div>
-      <div>
+    <div className='cursor-pointer'>
+      <div className='w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
           className='flex'
           value={currentQueryMode}
           onChange={setCurrentQueryMode}
           name='queryMode'
         >
-          {queryModes.modes.map(queryMode => (
-            <div key={queryMode}>
+          {queryModes.modes.map(({ label, value }) => (
+            <div key={label}>
               <RadioGroup.Option
-                className='flex items-center font-medium mr-2 w-32'
-                value={queryMode}
+                className='flex items-center font-medium mr-2'
+                value={value}
               >
                 {({ checked }) => (
-                  <span className={checked ? 'block w-full text-center border-gray-400 bg-istcolor-green-dark p-2' : 'border-[1px] w-full text-center border-[#458ca5] text-[#458ca5] p-2'}>
-                    {queryMode}
-                  </span>
+                  <>
+                    <span className={`flex items-center justify-center px-[30px] py-2 text-center w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                      {label}
+                      <InformationCircleIcon className='h-7 w-7 pl-2' />
+                    </span>
+                  </>
                 )}
               </RadioGroup.Option>
             </div>

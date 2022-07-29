@@ -5,7 +5,7 @@ import { resetForm } from '../ResetButton/ResetButton';
 import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
-import { ExclamationIcon } from '@heroicons/react/solid';
+import { Tooltip } from 'flowbite-react';
 
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -112,23 +112,46 @@ export default function DownloadButton () {
 
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
-  return (
-    <div className='mt-6'>
+  // eslint-disable-next-line react/prop-types
+  const DownloadButtonWrapper = ({ disabled, onClick }) => {
+    return (
       <button
-        className={`bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-2 px-4 ${isFormIncomplete ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-        onClick={onDownload}
-        disabled={isFormIncomplete}
+        className={`border-none bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        onClick={onClick}
+        disabled={disabled}
       >
         Télécharger
       </button>
-      {isFormIncomplete && (
-        <div className='mt-2'>
-          <p className='text-sm text-istcolor-grey-light'>
-            <ExclamationIcon className='h-5 w-5 inline-block text-istcolor-green-dark' />{' '}
-            Pour activer le téléchargement, complétez le formulaire en remplissant la fenêtre de requêtage par au moins <span className='font-bold'>1 caractère</span>, en sélectionnant au moins <span className='font-bold'>1 document</span> et en cochant au moins <span className='font-bold'>1 format</span> de fichier
-          </p>
-        </div>
-      )}
+    );
+  };
+
+  return (
+    <div className='mt-6'>
+      <div className='text-center flex justify-center'>
+        {isFormIncomplete
+          ? (
+            <Tooltip
+              content={
+                <p className='text-sm'>
+                  Pour activer le téléchargement<br />,
+                  complétez le formulaire en remplissant<br />
+                  la fenêtre de requêtage par au moins <br />
+                  <span className='font-bold'>1 caractère</span>, en sélectionnant au moins<br />
+                  <span className='font-bold'>1 document</span> et en cochant au moins<br />
+                  <span className='font-bold'>1 format</span> de fichier.
+                </p>
+              }
+              animation={false}
+              style='light'
+              placement='right'
+            >
+              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+            </Tooltip>
+            )
+          : (
+            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+            )}
+      </div>
       {archiveSizeInGigabytes >= 1 && (
         <span>{archiveSizeInGigabytes >= 5 ? 'Danger' : archiveSizeInGigabytes >= 1 ? 'Warning' : ''}: &gt;{archiveSizeInGigabytes} GB</span>
       )}

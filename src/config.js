@@ -1,23 +1,35 @@
 export const queryModes = {
-  modes: ['query string', 'ark', 'file import', 'query assist'],
+  modes: [
+    { value: 'queryString', label: 'Équation booléenne' },
+    { value: 'ark', label: 'Identifiants ARK' },
+    { value: 'fileImport', label: 'Import de fichier' },
+    { value: 'queryAssist', label: 'Recherche assistée' },
+  ],
   getDefault: () => queryModes.modes[0],
 };
 
 const rankingModes = {
-  modes: ['qualityOverRelevance', 'relevance', 'random'],
+  modes: [
+    { value: 'qualityOverRelevance', label: 'Par pertinence & qualité' },
+    { value: 'relevance', label: 'Par pertinence' },
+    { value: 'random', label: 'Aléatoirement' },
+  ],
   getDefault: () => rankingModes.modes[0],
 };
 
 const archiveTypes = {
-  types: ['zip', 'tar'],
+  types: [
+    { value: 'zip', label: 'ZIP' },
+    { value: 'tar', label: 'TAR.GZ' },
+  ],
   getDefault: () => archiveTypes.types[0],
 };
 
 const compressionLevels = {
   levels: [
-    { value: 0, label: 'No compression' },
-    { value: 6, label: 'Medium compression' },
-    { value: 9, label: 'High compression' },
+    { value: 0, label: 'Sans compression' },
+    { value: 6, label: 'Compression moyenne' },
+    { value: 9, label: 'Compression élevée' },
   ],
   getDefault: () => compressionLevels.levels[1],
 };
@@ -69,9 +81,11 @@ export const formats = {
 
 export const usages = {
   customUsage: {
+    label: 'Usage personnalisé',
     selectedFormats: 0,
   },
   lodex: {
+    label: 'Lodex',
     selectedFormats: formats.metadata.json,
   },
 };
@@ -103,7 +117,7 @@ export const formatSizes = {
     covers: 1585080, // ~1.51 MB
     annexes: 7268606, // ~6.93 MB
   },
-  [archiveTypes.types[0]]: {
+  [archiveTypes.types[0].value]: {
     multipliers: {
       [compressionLevels.levels[0].value]: {
         fulltext: {
@@ -182,7 +196,7 @@ export const formatSizes = {
       },
     },
   },
-  [archiveTypes.types[1]]: {
+  [archiveTypes.types[1].value]: {
     multipliers: {
       [compressionLevels.levels[0].value]: {
         fulltext: {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default function ResultPreview ({ results }) {
   return (
     <>
-      <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Result preview</h4>
+      <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Échantillon de résultats</h4>
       <div className='grid gap-x-8 gap-y-4 grid-cols-3 mr-4'>
         {results.map(result => (
           <div

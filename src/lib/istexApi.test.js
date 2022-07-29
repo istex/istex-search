@@ -98,18 +98,18 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     const queryStringRequest = {
       queryString: 'fulltext:fish',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes.getDefault(),
+      rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes.getDefault(),
+      archiveType: istexApiConfig.archiveTypes.getDefault().value,
     };
     const qIdRequest = {
       qId: 'fakeQId',
       selectedFormats: formats.fulltext.pdf,
-      rankingMode: istexApiConfig.rankingModes.getDefault(),
+      rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-      archiveType: istexApiConfig.archiveTypes.getDefault(),
+      archiveType: istexApiConfig.archiveTypes.getDefault().value,
     };
     const noSelectedFormatsRequest = {
       selectedFormats: 0,

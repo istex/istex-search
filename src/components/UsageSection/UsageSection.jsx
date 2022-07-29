@@ -83,6 +83,7 @@ export default function UsageSection () {
           >
             <Usage
               name={usageName}
+              label={usages[usageName].label}
               formats={usages[usageName].selectedFormats}
             />
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)

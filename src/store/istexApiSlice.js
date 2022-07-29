@@ -7,9 +7,9 @@ export function getDefaultState () {
     qId: '',
     selectedFormats: 0,
     numberOfDocuments: 0,
-    rankingMode: istexApiConfig.rankingModes.getDefault(),
+    rankingMode: istexApiConfig.rankingModes.getDefault().value,
     compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
-    archiveType: istexApiConfig.archiveTypes.getDefault(),
+    archiveType: istexApiConfig.archiveTypes.getDefault().value,
     usage: '',
   };
 }

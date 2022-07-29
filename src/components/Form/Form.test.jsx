@@ -6,6 +6,6 @@ import Form from './Form';
 describe('Tests for the Form component', () => {
   it('Renders the Usage title', () => {
     render(<Form />);
-    expect(screen.getByText(/Results ranking mode/i)).toBeDefined();
+    expect(screen.getByText(/Niveau de compression/i)).toBeDefined();
   });
 });

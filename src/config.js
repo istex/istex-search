@@ -3,7 +3,7 @@ export const queryModes = {
     { value: 'queryString', label: 'Équation booléenne' },
     { value: 'ark', label: 'Identifiants ARK' },
     { value: 'fileImport', label: 'Import de fichier' },
-    { value: 'queryAssist', label: 'Recherche assistée' },
+    { value: 'queryAssist', label: "Cliquez pour bénéficier de l'aide en ligne" },
   ],
   getDefault: () => queryModes.modes[0],
 };

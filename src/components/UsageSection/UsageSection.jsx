@@ -14,7 +14,12 @@ export default function UsageSection () {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
-  const [hasClickOnSubCategory, setHasClickOnSubCategory] = useState(false);
+
+  const handleDisplayingOfUsage = (usageName) => {
+    if (usageName === 'customUsage') {
+      setShouldDisplayUsage(false);
+    }
+  };
 
   const getWholeCategoryFormat = categoryName => {
     if (!formats[categoryName]) return 0;
@@ -80,60 +85,75 @@ export default function UsageSection () {
       />
       <p>Cliquez sur l’usage visé pour votre corpus :</p>
       {!shouldDisplayUsage && (
-        <h4
-          className='flex justify-start items-center cursor-pointer text-[#458ca5] text-xl font-semibold border-t-[1px] border-b-[1px] border-black mt-4 p-2'
+        <div
+          className='text-[#458ca5] text-xl font-semibold border-t-[1px] border-b-[1px] border-black mt-4 p-2'
           onClick={() => { setShouldDisplayUsage(true); }}
         >
-          <ChevronLeftIcon className='h-4 w-4' />{' '}
-          <span className=''>Usage personnalisé</span>
-        </h4>
+          <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
+            <ChevronLeftIcon className='inline h-6 w-6' />{' '}
+            <span className='text-sm font-semibold'>Usage personnalisé</span>
+          </span>
+        </div>
       )}
-      <div className='flex mt-4 justify-between w-full'>
+      <div className='flex mt-4 w-full'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}
           >
-            <Usage
-              name={usageName}
-              label={usages[usageName].label}
-              formats={usages[usageName].selectedFormats}
-            />
+            {shouldDisplayUsage && (
+              <div onClick={() => { handleDisplayingOfUsage(usageName); }}>
+                <Usage
+                  name={usageName}
+                  label={usages[usageName].label}
+                  formats={usages[usageName].selectedFormats}
+                  setShouldDisplayUsage={setShouldDisplayUsage}
+                />
+              </div>
+            )}
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)
             are both the custom usage */}
-            {(usageName === 'customUsage' && usage === 'customUsage') && (
-              <div className='flex'>
+            {(usageName === 'customUsage' && usage === 'customUsage') && !shouldDisplayUsage && (
+              <div className='grid gap-x-8 gap-y-4 grid-cols-5'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
                   if (Number.isInteger(formats[formatCategory])) {
                     return (
-                      <div key={formatCategory} className='mx-10 font-semibold capitalize'>
-                        <Format className='font-bold capitalize' name={formatCategory} value={formats[formatCategory]} />
+                      <div key={formatCategory} className='font-semibold capitalize'>
+                        <Format
+                          isSubCategory={false}
+                          className='font-bold capitalize'
+                          name={formatCategory}
+                          value={formats[formatCategory]}
+                        />
                       </div>
                     );
                   }
 
                   return (
-                    <div key={formatCategory} className='mx-10'>
-                      <input
-                        type='checkbox'
-                        name={formatCategory}
-                        onChange={toggleWholeCategory}
-                        checked={isWholeCategorySelected(formatCategory)}
-                        className={`mr-2 w-5 h-5 outline-none rounded border-gray-400 accent-[#a9bb1e] p-2 ${hasClickOnSubCategory ? 'bg-pink' : ''}`}
-                      />
-                      <label
-                        htmlFor={formatCategory}
-                        className='font-bold capitalize'
-                      >
-                        {formatCategory}
-                      </label>
+                    <div key={formatCategory} className='mx-5'>
+                      <div className='flex items-center mb-4'>
+                        <input
+                          type='checkbox'
+                          name={formatCategory}
+                          onChange={toggleWholeCategory}
+                          checked={isWholeCategorySelected(formatCategory)}
+                          id={`checkbox-${formatCategory}`}
+                          value=''
+                          className='w-5 h-5 outline-none border-istcolor-grey-dark text-istcolor-green-light bg-gray-100 rounded focus:ring-isistcolor-green-light'
+                        />
+                        <label
+                          htmlFor={`checkbox-${formatCategory}`}
+                          className='font-bold capitalize pl-2'
+                        >
+                          {formatCategory}
+                        </label>
+                      </div>
                       {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
                         <Format
                           key={formatName}
                           name={formatName}
                           value={formatValue}
                           className='pl-5'
-                          setHasClickOnSubCategory={setHasClickOnSubCategory}
                         />
                       ))}
                     </div>

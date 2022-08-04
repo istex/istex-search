@@ -5,9 +5,9 @@ import './Header.scss';
 
 export default function Header () {
   return (
-    <nav className='istex-header bg-white py-8 fixed w-full z-[1000]'>
-      <div className='max-w-7xl mx-auto px-2 sm:px-6 lg:px-16'>
-        <div className='relative flex items-center justify-between h-16'>
+    <nav className='istex-header bg-white fixed w-full z-[1000]'>
+      <div className='mx-auto'>
+        <div className='relative flex items-center justify-between md:mx-[135px] md:px-[12px] md:pt-[22px] md:pb-[22px]'>
           <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
 
             {/* Mobile menu button */}
@@ -36,19 +36,19 @@ export default function Header () {
               </svg>
             </button>
           </div>
-          <div className='flex w-full sm:items-stretch justify-between'>
+          <div className='flex w-full justify-between'>
             <div>
               <a className='flex flex-col justify-around' href='https://www.istex.fr'>
-                <img className='w-[184px]' src='https://www.istex.fr/wp-content/themes/istex/img/istex_logo.svg' alt='ISTEX' />
-                <span className='block leading-tight pt-4 font-montserrat-extrabold italic text-[10px] font-extrabold text-istcolor-blue'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
+                <img className='w-[184px]' src='/images/istex_logo.svg' alt='ISTEX' />
+                <span className='block leading-tight pt-4 font-montserrat-extrabold italic text-[10.200px] font-extrabold text-istcolor-blue'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
               </a>
             </div>
-            <div className='flex flex-col justify-between sm:ml-6'>
+            <div className='flex flex-col justify-between'>
               <div className='istex-social-network pb-3'>
-                <ul className='flex justify-end gap-4'>
+                <ul className='flex justify-end gap-5'>
                   <li className='cursor-pointer'>
                     <a href='https://twitter.com/ISTEX_Platform'>
-                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-[#00acee]' ariaLabelledby='titletw'>
+                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-[#00acee]' aria-labelledby='titletw'>
                         <title id='titletw'>Nous suivre sur Twitter</title>
                         <path d='M6.79 18.764c7.547 0 11.675-6.157 11.675-11.495 0-.175 0-.35-.012-.523a8.265 8.265 0 0 0 2.047-2.09 8.273 8.273 0 0 1-2.356.635 4.07 4.07 0 0 0 1.804-2.235 8.303 8.303 0 0 1-2.606.98 4.153 4.153 0 0 0-5.806-.174 4.006 4.006 0 0 0-1.187 3.86 11.717 11.717 0 0 1-8.457-4.22 4.005 4.005 0 0 0 1.271 5.392A4.122 4.122 0 0 1 1.3 8.389v.05c.001 1.924 1.378 3.58 3.292 3.96a4.144 4.144 0 0 1-1.852.07c.537 1.646 2.078 2.773 3.833 2.805A8.315 8.315 0 0 1 .5 16.95a11.754 11.754 0 0 0 6.29 1.812' fillRule='evenodd' />
                       </svg>
@@ -56,7 +56,7 @@ export default function Header () {
                   </li>
                   <li className='cursor-pointer'>
                     <a href='https://github.com/istex'>
-                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-istcolor-black' ariaLabelledby='titlegb'>
+                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-istcolor-black' aria-labelledby='titlegb'>
                         <title id='titlegb'>Code source</title>
                         <path d='M10.499 1.18C4.977 1.18.5 5.675.5 11.22c0 4.435 2.865 8.198 6.84 9.526.5.093.683-.217.683-.483 0-.24-.01-.87-.014-1.708-2.782.606-3.369-1.346-3.369-1.346-.454-1.16-1.11-1.469-1.11-1.469-.909-.622.068-.61.068-.61 1.003.071 1.53 1.035 1.53 1.035.893 1.534 2.342 1.091 2.912.834.09-.649.349-1.091.635-1.343-2.22-.253-4.555-1.115-4.555-4.961 0-1.096.39-1.992 1.03-2.695-.104-.254-.446-1.275.097-2.656 0 0 .84-.27 2.75 1.029a9.54 9.54 0 0 1 2.504-.338 9.563 9.563 0 0 1 2.504.339c1.909-1.299 2.747-1.029 2.747-1.029.545 1.383.203 2.403.1 2.656.642.703 1.028 1.599 1.028 2.695 0 3.857-2.337 4.705-4.565 4.954.359.31.679.923.679 1.859 0 1.342-.013 2.425-.013 2.754 0 .268.18.58.688.482A10.04 10.04 0 0 0 20.5 11.22c0-5.545-4.477-10.04-10.001-10.04z' fillRule='nonzero' />
                       </svg>
@@ -72,7 +72,7 @@ export default function Header () {
                   </li>
                   <li className='cursor-pointer'>
                     <a href='https://www.istex.fr/contactez-nous/'>
-                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-istcolor-blue' ariaLabelledby='titlect'>
+                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-istcolor-blue' aria-labelledby='titlect'>
                         <title id='titlect'>Contact</title>
                         <path d='M10.5 15.738.5 6.913v11.35h20V6.914l-10 8.825zm.001-2.662L.5 4.245v-.981h20v.98l-9.999 8.832z' fillRule='evenodd' />
                       </svg>
@@ -80,7 +80,9 @@ export default function Header () {
                   </li>
                 </ul>
               </div>
-              <SubMenu />
+              <div className='mt-4'>
+                <SubMenu />
+              </div>
             </div>
           </div>
         </div>

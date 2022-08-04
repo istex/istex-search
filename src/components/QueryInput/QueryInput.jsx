@@ -190,7 +190,7 @@ export default function QueryInput () {
           rows='2'
           cols='30'
           name='queryInput'
-          placeholder='We help here when you type your query...'
+          placeholder="Cliquez pour bénéficier de l'aide en ligne"
           value=''
           onChange={event => arkListHandler(event.target.value)}
         />

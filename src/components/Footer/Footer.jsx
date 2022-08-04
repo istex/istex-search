@@ -3,7 +3,7 @@ import React from 'react';
 export default function Footer () {
   return (
     <footer className='flex flex-col justify-between items-center bg-white mb-20 mt-5 py-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
-      <ul className='flex text-istcolor-black text-sm font-bold pt-5'>
+      <ul className='flex text-istcolor-black text-sm font-[600] pt-5'>
         <li className='px-4'>
           <a href='https://www.istex.fr/politique-de-confidentialite/'>Confidentialité</a>
         </li>

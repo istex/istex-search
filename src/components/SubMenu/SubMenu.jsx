@@ -2,48 +2,21 @@ import React from 'react';
 
 export default function SubMenu () {
   return (
-    <ul className='flex gap-12'>
-      <li className='flex flex-col justify-start hover:border-b-[3px] hover:border-istcolor-green-light text-istcolor-grey-light hover:text-istcolor-black pb-3'>
-        <a
-          href='https://www.istex.fr/la-base/'
-          className='istex-header__submenu text-sm font-bold'
-          aria-current='page'
-        >
-          La base
-        </a>
+    <ul className='font-montserrat-extrabold flex gap-12'>
+      <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
+        <a className='block pb-[8px]' href='https://www.istex.fr/la-base/'>La base</a>
       </li>
-
-      <li className='flex flex-col justify-start hover:border-b-[3px] hover:border-istcolor-green-light text-istcolor-grey-light hover:text-istcolor-black pb-3'>
-        <a
-          href='https://www.istex.fr/fouille-de-texte/'
-          className='istex-header__submenu text-sm font-bold'
-        >
-          Fouille de textes
-        </a>
+      <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
+        <a className='block pb-[8px]' href='https://www.istex.fr/fouille-de-texte/'>Fouille de textes</a>
       </li>
-      <li className='flex flex-col justify-start hover:border-b-[3px] hover:border-istcolor-green-light text-istcolor-grey-light hover:text-istcolor-black pb-3'>
-        <a
-          href='https://www.istex.fr/category/actualites/'
-          className='istex-header__submenu text-sm font-bold'
-        >
-          Actualités
-        </a>
+      <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
+        <a className='block pb-[8px]' href='https://www.istex.fr/category/actualites/'>Actualités</a>
       </li>
-      <li className='flex flex-col justify-start hover:border-b-[3px] hover:border-istcolor-green-light text-istcolor-grey-light hover:text-istcolor-black pb-3'>
-        <a
-          href='https://www.istex.fr/a-propos/'
-          className='istex-header__submenu text-sm font-bold'
-        >
-          À propos
-        </a>
+      <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
+        <a className='block pb-[8px]' href='https://www.istex.fr/a-propos/'>À propos</a>
       </li>
-      <li className='flex flex-col justify-start hover:border-b-[3px] hover:border-istcolor-green-light text-istcolor-grey-light hover:text-istcolor-black pb-3'>
-        <a
-          href='https://www.istex.fr/institutions-adherentes/'
-          className='istex-header__submenu text-sm font-bold'
-        >
-          Institutions adhérentes
-        </a>
+      <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
+        <a className='block pb-[8px]' href='https://www.istex.fr/institutions-adherentes/'>Institutions  adhérentes</a>
       </li>
     </ul>
   );

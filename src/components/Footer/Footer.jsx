@@ -24,38 +24,38 @@ export default function Footer () {
       <ul className='flex justify-between items-center pt-5'>
         <li className='px-5'>
           <a href='https://www.enseignementsup-recherche.gouv.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/img/mesr.svg' alt="ministère de l'enseignement supérieur et de la recherche" />
+            <img src='/images/mesr.svg' alt="ministère de l'enseignement supérieur et de la recherche" />
           </a>
         </li>
         <li className='px-5'>
           <a href='https://www.cnrs.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/img/cnrs.svg' alt='cnrs' />
+            <img src='/images/cnrs.svg' alt='cnrs' />
           </a>
         </li>
         <li className='px-5'>
           <a href='https://www.abes.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/img/abes.png' alt="abes : agence bibliographique de l'enseignement supérieur" />
+            <img src='/images/abes.png' alt="abes : agence bibliographique de l'enseignement supérieur" />
           </a>
         </li>
         <li className='px-5'>
           <a href='https://www.couperin.org/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/img/couperin.png' alt='couperin.org' />
+            <img src='/images/couperin.png' alt='couperin.org' />
           </a>
         </li>
         <li className='px-5'>
           <a href='https://franceuniversites.fr/'>
-            <img className='w-[150px]' src='https://www.istex.fr/wp-content/themes/istex/img/france_universites_logo.svg' alt='France universités' />
+            <img className='w-[150px]' src='/images/france_universites_logo.svg' alt='France universités' />
           </a>
         </li>
         <li className='px-5'>
           <a href='http://www.univ-lorraine.fr/'>
-            <img src='https://www.istex.fr/wp-content/themes/istex/img/ul.svg' alt='université de lorraine' />
+            <img src='/images/ul.svg' alt='université de lorraine' />
           </a>
         </li>
       </ul>
 
       <div className='py-5 text-center flex flex-col items-center'>
-        <img src='https://www.istex.fr/wp-content/themes/istex/img/investissement.png' alt="investissement d'avenir" />
+        <img src='/images/investissement.png' alt="investissement d'avenir" />
         <p className='mt-0 text-istcolor-grey-dark text-sm'>Financement : ANR-10-IDEX-0004-02</p>
       </div>
 

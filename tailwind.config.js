@@ -14,6 +14,7 @@ module.exports = {
         },
         'istcolor-grey': {
           dark: '#696969',
+          medium: '#adadad',
           light: '#8f8f8f',
           'extra-light': '#dadada',
         },

@@ -74,8 +74,8 @@ export default function DownloadButton () {
       let format;
 
       // Cases of covers and annexes which are not in a category
-      if (Number.isInteger(formats[formatCategory])) {
-        format = formats[formatCategory];
+      if (formats[formatCategory].value !== undefined) {
+        format = formats[formatCategory].value;
 
         if (!isFormatSelected(selectedFormats, format)) continue;
 
@@ -87,8 +87,8 @@ export default function DownloadButton () {
         continue;
       }
 
-      for (const formatName in formats[formatCategory]) {
-        format = formats[formatCategory][formatName];
+      for (const formatName in formats[formatCategory].formats) {
+        format = formats[formatCategory].formats[formatName].value;
 
         if (!isFormatSelected(selectedFormats, format)) continue;
 

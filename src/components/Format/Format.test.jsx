@@ -6,12 +6,11 @@ import { formats } from '../../config';
 
 describe('Tests for the Format component', () => {
   it('Renders the PDF checkbox', () => {
-    const pdfFormatName = 'PDF';
-    const pdfFormatValue = formats.fulltext.pdf;
-    render(<Format name={pdfFormatName} value={pdfFormatValue} />);
+    const pdfFormat = formats.fulltext.formats.pdf;
+    render(<Format name={pdfFormat.label} value={pdfFormat.value} />);
     const pdfCheckbox = screen.getByRole('checkbox');
 
     expect(pdfCheckbox).toBeInTheDocument();
-    expect(pdfCheckbox.name).toBe(pdfFormatName);
+    expect(pdfCheckbox.name).toBe(pdfFormat.label);
   });
 });

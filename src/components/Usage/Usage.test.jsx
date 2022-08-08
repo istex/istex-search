@@ -6,7 +6,7 @@ import { usages } from '../../config';
 
 describe('Tests for the PredefinedUsage component', () => {
   it('Renders the radio button', () => {
-    render(<Usage name='lodex' label={usages.lodex.label} formats={usages.lodex.value} />);
+    render(<Usage name='lodex' label={usages.lodex.label} formats={usages.lodex.selectedFormats} />);
     const radioButton = screen.getByText(/Lodex/i);
 
     expect(radioButton).toBeInTheDocument();

@@ -16,7 +16,7 @@ describe('Tests for the utility functions', () => {
   it('buildFullIstexDlUrl', () => {
     const queryStringRequest = {
       queryString: 'fulltext:fish',
-      selectedFormats: formats.fulltext.pdf,
+      selectedFormats: formats.fulltext.formats.pdf.value,
       rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
@@ -34,7 +34,7 @@ describe('Tests for the utility functions', () => {
     };
     const qIdRequest = {
       qId: 'fakeQId',
-      selectedFormats: formats.fulltext.pdf,
+      selectedFormats: formats.fulltext.formats.pdf.value,
       rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,

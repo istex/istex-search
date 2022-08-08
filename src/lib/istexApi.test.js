@@ -60,12 +60,12 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
   });
 
   it('buildExtractParamsFromFormats', () => {
-    const selectedFormats = formats.fulltext.pdf |
-      formats.fulltext.txt |
-      formats.enrichments.grobidFulltext |
-      formats.metadata.json |
-      formats.annexes |
-      formats.covers;
+    const selectedFormats = formats.fulltext.formats.pdf.value |
+      formats.fulltext.formats.txt.value |
+      formats.enrichments.formats.grobidFulltext.value |
+      formats.metadata.formats.json.value |
+      formats.annexes.value |
+      formats.covers.value;
     const noSelectedFormats = 0;
 
     expect(istexApi.buildExtractParamsFromFormats(selectedFormats)).toBe('fulltext[pdf,txt];metadata[json];enrichments[grobidFulltext];covers;annexes');
@@ -79,25 +79,25 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     const missingCommaExtractParams = 'fulltext[pdf,txt];metadata[jsonxml];enrichments[teeft,nb]';
     const missingSemiColonExtractParams = 'fulltext[pdf,txt]metadata[json]';
 
-    expect(istexApi.parseExtractParams(correctExtractParams)).toBe(formats.fulltext.pdf |
-      formats.fulltext.txt |
-      formats.enrichments.grobidFulltext |
-      formats.metadata.json |
-      formats.annexes |
-      formats.covers);
-    expect(istexApi.parseExtractParams(wrongFormatExtractParams)).toBe(formats.metadata.json);
-    expect(istexApi.parseExtractParams(wrongCategoryExtractParams)).toBe(formats.fulltext.pdf);
-    expect(istexApi.parseExtractParams(missingCommaExtractParams)).toBe(formats.fulltext.pdf |
-      formats.fulltext.txt |
-      formats.enrichments.teeft |
-      formats.enrichments.nb);
-    expect(istexApi.parseExtractParams(missingSemiColonExtractParams)).toBe(formats.fulltext.pdf | formats.fulltext.txt);
+    expect(istexApi.parseExtractParams(correctExtractParams)).toBe(formats.fulltext.formats.pdf.value |
+      formats.fulltext.formats.txt.value |
+      formats.enrichments.formats.grobidFulltext.value |
+      formats.metadata.formats.json.value |
+      formats.annexes.value |
+      formats.covers.value);
+    expect(istexApi.parseExtractParams(wrongFormatExtractParams)).toBe(formats.metadata.formats.json.value);
+    expect(istexApi.parseExtractParams(wrongCategoryExtractParams)).toBe(formats.fulltext.formats.pdf.value);
+    expect(istexApi.parseExtractParams(missingCommaExtractParams)).toBe(formats.fulltext.formats.pdf.value |
+      formats.fulltext.formats.txt.value |
+      formats.enrichments.formats.teeft.value |
+      formats.enrichments.formats.nb.value);
+    expect(istexApi.parseExtractParams(missingSemiColonExtractParams)).toBe(formats.fulltext.formats.pdf.value | formats.fulltext.formats.txt.value);
   });
 
   it('buildFullApiUrl', () => {
     const queryStringRequest = {
       queryString: 'fulltext:fish',
-      selectedFormats: formats.fulltext.pdf,
+      selectedFormats: formats.fulltext.formats.pdf.value,
       rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
@@ -105,7 +105,7 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
     };
     const qIdRequest = {
       qId: 'fakeQId',
-      selectedFormats: formats.fulltext.pdf,
+      selectedFormats: formats.fulltext.formats.pdf.value,
       rankingMode: istexApiConfig.rankingModes.getDefault().value,
       numberOfDocuments: 1,
       compressionLevel: istexApiConfig.compressionLevels.getDefault().value,
@@ -121,19 +121,19 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
   });
 
   it('selectFormat', () => {
-    expect(istexApi.selectFormat(formats.fulltext.pdf, formats.fulltext.txt)).toBe(formats.fulltext.pdf | formats.fulltext.txt);
+    expect(istexApi.selectFormat(formats.fulltext.formats.pdf.value, formats.fulltext.formats.txt.value)).toBe(formats.fulltext.formats.pdf.value | formats.fulltext.formats.txt.value);
   });
 
   it('deselectFormat', () => {
-    expect(istexApi.deselectFormat(formats.fulltext.pdf | formats.fulltext.txt, formats.fulltext.txt)).toBe(formats.fulltext.pdf);
+    expect(istexApi.deselectFormat(formats.fulltext.formats.pdf.value | formats.fulltext.formats.txt.value, formats.fulltext.formats.txt.value)).toBe(formats.fulltext.formats.pdf.value);
   });
 
   it('toggleFormat', () => {
-    const formatsWithTxt = formats.fulltext.pdf | formats.fulltext.txt;
-    const formatsWithoutTxt = formats.fulltext.pdf;
+    const formatsWithTxt = formats.fulltext.formats.pdf.value | formats.fulltext.formats.txt.value;
+    const formatsWithoutTxt = formats.fulltext.formats.pdf.value;
 
-    expect(istexApi.toggleFormat(formatsWithoutTxt, formats.fulltext.txt)).toBe(formatsWithTxt);
-    expect(istexApi.toggleFormat(formatsWithTxt, formats.fulltext.txt)).toBe(formatsWithoutTxt);
+    expect(istexApi.toggleFormat(formatsWithoutTxt, formats.fulltext.formats.txt.value)).toBe(formatsWithTxt);
+    expect(istexApi.toggleFormat(formatsWithTxt, formats.fulltext.formats.txt.value)).toBe(formatsWithoutTxt);
   });
 
   it('noFormatSelected', () => {
@@ -141,10 +141,10 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
   });
 
   it('isFormatSelected', () => {
-    const formatsWithTxt = formats.fulltext.pdf | formats.fulltext.txt;
-    const formatsWithoutTxt = formats.fulltext.pdf;
+    const formatsWithTxt = formats.fulltext.formats.pdf.value | formats.fulltext.formats.txt.value;
+    const formatsWithoutTxt = formats.fulltext.formats.pdf.value;
 
-    expect(istexApi.isFormatSelected(formatsWithTxt, formats.fulltext.txt)).toBe(true);
-    expect(istexApi.isFormatSelected(formatsWithoutTxt, formats.fulltext.txt)).toBe(false);
+    expect(istexApi.isFormatSelected(formatsWithTxt, formats.fulltext.formats.txt.value)).toBe(true);
+    expect(istexApi.isFormatSelected(formatsWithoutTxt, formats.fulltext.formats.txt.value)).toBe(false);
   });
 });

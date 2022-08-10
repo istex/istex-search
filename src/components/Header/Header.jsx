@@ -1,3 +1,4 @@
+import { Tooltip } from 'flowbite-react';
 import React from 'react';
 import SubMenu from '../SubMenu/SubMenu';
 
@@ -7,7 +8,7 @@ export default function Header () {
   return (
     <nav className='istex-header bg-white fixed w-full z-[1000]'>
       <div className='mx-auto'>
-        <div className='relative flex items-center justify-between md:mx-[135px] md:px-[12px] md:pt-[22px] md:pb-[22px]'>
+        <div className='relative flex items-center justify-between md:mx-[135px] md:px-[12px] md:pt-[22px] md:pb-[11px]'>
           <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
 
             {/* Mobile menu button */}
@@ -44,15 +45,24 @@ export default function Header () {
               </a>
             </div>
             <div className='flex flex-col justify-between'>
-              <div className='istex-social-network pb-3'>
+              <div className='istex-social-network pb-7'>
                 <ul className='flex justify-end gap-5'>
                   <li className='cursor-pointer'>
-                    <a href='https://twitter.com/ISTEX_Platform'>
-                      <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-[#00acee]' aria-labelledby='titletw'>
-                        <title id='titletw'>Nous suivre sur Twitter</title>
-                        <path d='M6.79 18.764c7.547 0 11.675-6.157 11.675-11.495 0-.175 0-.35-.012-.523a8.265 8.265 0 0 0 2.047-2.09 8.273 8.273 0 0 1-2.356.635 4.07 4.07 0 0 0 1.804-2.235 8.303 8.303 0 0 1-2.606.98 4.153 4.153 0 0 0-5.806-.174 4.006 4.006 0 0 0-1.187 3.86 11.717 11.717 0 0 1-8.457-4.22 4.005 4.005 0 0 0 1.271 5.392A4.122 4.122 0 0 1 1.3 8.389v.05c.001 1.924 1.378 3.58 3.292 3.96a4.144 4.144 0 0 1-1.852.07c.537 1.646 2.078 2.773 3.833 2.805A8.315 8.315 0 0 1 .5 16.95a11.754 11.754 0 0 0 6.29 1.812' fillRule='evenodd' />
-                      </svg>
-                    </a>
+                    <Tooltip
+                      placement='left'
+                      content={
+                        <p className='text-sm'>
+                          Nous suivre sur Twitter
+                        </p>
+                      }
+                    >
+                      <a href='https://twitter.com/ISTEX_Platform'>
+                        <svg width='21' height='21' xmlns='http://www.w3.org/2000/svg' className='fill-[#8f8f8f] hover:fill-[#00acee]' aria-labelledby='titletw'>
+                          <title id='titletw'>Nous suivre sur Twitter</title>
+                          <path d='M6.79 18.764c7.547 0 11.675-6.157 11.675-11.495 0-.175 0-.35-.012-.523a8.265 8.265 0 0 0 2.047-2.09 8.273 8.273 0 0 1-2.356.635 4.07 4.07 0 0 0 1.804-2.235 8.303 8.303 0 0 1-2.606.98 4.153 4.153 0 0 0-5.806-.174 4.006 4.006 0 0 0-1.187 3.86 11.717 11.717 0 0 1-8.457-4.22 4.005 4.005 0 0 0 1.271 5.392A4.122 4.122 0 0 1 1.3 8.389v.05c.001 1.924 1.378 3.58 3.292 3.96a4.144 4.144 0 0 1-1.852.07c.537 1.646 2.078 2.773 3.833 2.805A8.315 8.315 0 0 1 .5 16.95a11.754 11.754 0 0 0 6.29 1.812' fillRule='evenodd' />
+                        </svg>
+                      </a>
+                    </Tooltip>
                   </li>
                   <li className='cursor-pointer'>
                     <a href='https://github.com/istex'>

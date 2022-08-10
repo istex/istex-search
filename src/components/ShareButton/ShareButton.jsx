@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { LinkIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ShareButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -17,6 +17,8 @@ export default function ShareButton () {
     compressionLevel == null || // We can't just do !compressionLevel because 0 is a valid value
     !archiveType;
 
+  console.log({ isFormIncomplete });
+
   const copyLinkToClipboard = () => {
     navigator.clipboard.writeText(window.location.href)
       .then(() => window.alert(`${window.location.href} copied to clipboard!`))
@@ -29,9 +31,9 @@ export default function ShareButton () {
       onClick={copyLinkToClipboard}
     >
       <div className=''>
-        <LinkIcon className='h-12 w-12' />
+        <FontAwesomeIcon icon='link' size='3x' />
       </div>
-      <button className='istex-footer__text' disabled={isFormIncomplete}>Partager</button>
+      <button className='istex-footer__text pt-1' disabled={isFormIncomplete}>Partager</button>
     </div>
   );
 }

@@ -15,11 +15,7 @@ export default function UsageSection () {
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
 
-  const handleDisplayingOfUsage = (usageName) => {
-    if (usageName === 'customUsage') {
-      setShouldDisplayUsage(false);
-    }
-  };
+  const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
 
   const getWholeCategoryFormat = categoryName => {
     if (!formats[categoryName]) return 0;

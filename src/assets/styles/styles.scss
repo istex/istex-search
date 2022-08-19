@@ -32,3 +32,8 @@ input[type=number]::-webkit-outer-spin-button {
 .cta1:hover, .cta1:focus, .content .button.cta1 > a:hover, .content .button.cta1:hover > a, .content .button.cta1 > a:focus, .cta3:hover, .cta3:focus {
   background: linear-gradient(270deg,#51a7c5 0%,#458ca5 100%);
 }
+
+[data-testid=toast-element] {
+  background-color: rgb(69, 140, 165);
+  color: #fff;
+} 

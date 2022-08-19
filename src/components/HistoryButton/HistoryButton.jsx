@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ClockIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './HistoryButton.css';
 import HistoryRequest from '../HistoryRequest/HistoryRequest';
@@ -35,9 +35,9 @@ export default function HistoryButton () {
       onClick={() => setModalVisibility(true)}
     >
       <div className=''>
-        <ClockIcon className='h-12 w-12' />
+        <FontAwesomeIcon icon='clock-rotate-left' size='3x' />
       </div>
-      <button className='istex-footer__text'>Historique</button>
+      <button className='istex-footer__text pt-1'>Historique</button>
       <div ref={modalWindow} className='modal'>
         <div className='modal-content'>
           <button onClick={() => setModalVisibility(false)} className='close'>&times;</button>

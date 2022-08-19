@@ -33,6 +33,11 @@ input[type=number]::-webkit-outer-spin-button {
   background: linear-gradient(270deg,#51a7c5 0%,#458ca5 100%);
 }
 
+[data-testid=toast-element] {
+  background-color: rgb(69, 140, 165);
+  color: #fff;
+} 
+
 [role=tooltip], [data-testid="tooltip-arrow"] {
   background: rgb(70,70,70) !important;
 }

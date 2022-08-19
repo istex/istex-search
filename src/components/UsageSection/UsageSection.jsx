@@ -17,8 +17,8 @@ export default function UsageSection () {
     if (!formats[categoryName]) return 0;
 
     let wholeCategoryFormat = 0;
-    for (const formatName in formats[categoryName]) {
-      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName][formatName]);
+    for (const formatName in formats[categoryName].formats) {
+      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
     }
 
     return wholeCategoryFormat;
@@ -92,10 +92,10 @@ export default function UsageSection () {
               <div className='flex'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
-                  if (Number.isInteger(formats[formatCategory])) {
+                  if (formats[formatCategory].value !== undefined) {
                     return (
                       <div key={formatCategory}>
-                        <Format name={formatCategory} value={formats[formatCategory]} />
+                        <Format name={formats[formatCategory].label} value={formats[formatCategory].value} />
                       </div>
                     );
                   }
@@ -108,9 +108,14 @@ export default function UsageSection () {
                         onChange={toggleWholeCategory}
                         checked={isWholeCategorySelected(formatCategory)}
                       />
-                      <label htmlFor={formatCategory}>{formatCategory}</label>
-                      {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
-                        <Format key={formatName} name={formatName} value={formatValue} style={{ paddingLeft: '1em' }} />
+                      <label htmlFor={formatCategory}>{formats[formatCategory].label}</label>
+                      {Object.keys(formats[formatCategory].formats).map(formatName => (
+                        <Format
+                          key={formats[formatCategory].formats[formatName].label}
+                          name={formats[formatCategory].formats[formatName].label}
+                          value={formats[formatCategory].formats[formatName].value}
+                          style={{ paddingLeft: '1em' }}
+                        />
                       ))}
                     </div>
                   );

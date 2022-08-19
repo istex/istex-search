@@ -1,5 +1,6 @@
-import { RefreshIcon } from '@heroicons/react/solid';
 import React, { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
@@ -46,9 +47,9 @@ export default function FetchButton () {
       onClick={updateFormFromLastRequest}
     >
       <div className=''>
-        <RefreshIcon className='h-12 w-12' />
+        <FontAwesomeIcon icon='repeat' size='3x' />
       </div>
-      <button className='istex-footer__text'>
+      <button className='istex-footer__text pt-1'>
         Récupérer
       </button>
     </div>

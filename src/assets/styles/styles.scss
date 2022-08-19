@@ -37,3 +37,7 @@ input[type=number]::-webkit-outer-spin-button {
   background-color: rgb(69, 140, 165);
   color: #fff;
 } 
+
+[role=tooltip], [data-testid="tooltip-arrow"] {
+  background: rgb(70,70,70) !important;
+}

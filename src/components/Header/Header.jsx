@@ -51,7 +51,7 @@ export default function Header () {
                     <a href='https://twitter.com/ISTEX_Platform'>
                       <Tooltip
                         placement='bottom'
-                        animation='duration-500'
+                        animation={false}
                         content={
                           <p className='text-sm'>
                             Nous suivre sur Twitter
@@ -69,7 +69,7 @@ export default function Header () {
                     <a href='https://github.com/istex'>
                       <Tooltip
                         placement='bottom'
-                        animation='duration-500'
+                        animation={false}
                         content={
                           <p className='text-sm'>
                             Code source
@@ -87,7 +87,7 @@ export default function Header () {
                     <a href='https://www.youtube.com/channel/UCyow0tVlCRcjwRfk9p7q8Uw'>
                       <Tooltip
                         placement='bottom'
-                        animation='duration-500'
+                        animation={false}
                         content={
                           <p className='text-sm'>
                             Chaîne ISTEX
@@ -105,7 +105,7 @@ export default function Header () {
                     <a href='https://www.istex.fr/contactez-nous/'>
                       <Tooltip
                         placement='bottom'
-                        animation='duration-500'
+                        animation={false}
                         content={
                           <p className='text-sm'>
                             Contact

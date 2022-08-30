@@ -30,6 +30,7 @@ export const events = {
   closeHistoryModal: 'closeHistoryModal',
   resultPreviewResponseReceived: 'resultPreviewResponseReceived',
   resetResultPreview: 'resetResultPreview',
+  displayNotification: 'displayNotification',
 };
 
 export default new EventEmitter();

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalShareButton from './ModalShareButton';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function ShareButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -27,18 +28,17 @@ export default function ShareButton () {
       return;
     }
 
-    copyLinkToClipboard();
-  };
-
-  const copyLinkToClipboard = () => {
     setOpenModal(true);
     setUrlToClipboard(window.location.href);
   };
 
   const handleSaveToClipboard = () => {
     navigator.clipboard.writeText(window.location.href)
-      .then(() => window.alert(`${window.location.href} copied to clipboard!`))
-      .catch(() => window.alert(`${window.location.href} failed to copy to clipboard!`));
+      .then(() => eventEmitter.emit(events.displayNotification, { text: 'le lien a été copié dans le presse-papier' }))
+      .catch(() => eventEmitter.emit(events.displayNotification, {
+        text: 'Une erreur est survenue, veuillez réessayer ultérieurement !',
+        type: 'error',
+      }));
   };
 
   return (

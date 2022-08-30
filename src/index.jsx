@@ -11,6 +11,9 @@ import {
   faTriangleExclamation,
   faAngleDoubleLeft,
   faAngleDoubleRight,
+  faPenToSquare,
+  faDownload,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
@@ -23,7 +26,20 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-library.add(faEraser, faRepeat, faLink, faClockRotateLeft, faCircleInfo, faExclamationCircle, faTriangleExclamation, faAngleDoubleLeft, faAngleDoubleRight);
+library.add(
+  faEraser,
+  faRepeat,
+  faLink,
+  faClockRotateLeft,
+  faCircleInfo,
+  faExclamationCircle,
+  faTriangleExclamation,
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faPenToSquare,
+  faDownload,
+  faXmark,
+);
 
 ReactDOM.render(
   <BrowserRouter>

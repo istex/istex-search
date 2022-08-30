@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Footer () {
   return (
-    <footer className='flex flex-col justify-between items-center bg-white mb-20 mt-5 py-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
-      <ul className='flex text-istcolor-black text-sm font-[600] pt-5'>
+    <footer className='flex flex-col justify-between items-center bg-white mb-20 mt-5 pb-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
+      <ul className='flex text-istcolor-grey-link text-sm font-[600] pt-5'>
         <li className='px-4'>
           <a href='https://www.istex.fr/politique-de-confidentialite/'>Confidentialité</a>
         </li>
@@ -56,7 +56,7 @@ export default function Footer () {
 
       <div className='py-5 text-center flex flex-col items-center'>
         <img src='/images/investissement.png' alt="investissement d'avenir" />
-        <p className='mt-0 text-istcolor-grey-dark text-sm'>Financement : ANR-10-IDEX-0004-02</p>
+        <p className='mt-0 text-istcolor-grey-light font-opensans text-sm'>Financement : ANR-10-IDEX-0004-02</p>
       </div>
 
     </footer>

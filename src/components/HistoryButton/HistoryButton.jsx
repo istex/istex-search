@@ -1,25 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './HistoryButton.css';
-import HistoryRequest from '../HistoryRequest/HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
-import { Table } from 'flowbite-react';
 import ModalListHistory from './ModalListHistory';
 
 export default function HistoryButton () {
-  const modalWindow = useRef();
   const [requests, setRequests] = useState(historyManager.getAll());
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
-  const [openDownloadModal, setOpenDownloadModal] = useState(false);
-  const [openShareModal, setOpenShareModal] = useState(false);
 
   const setModalVisibility = (visible) => {
     setOpenHistoryModal(visible);
-    // console.log('display', display);
-    // const display = visible ? 'block' : 'none';
-    // modalWindow.current.style.display = display;
   };
 
   const historyUpdatedHandler = () => {

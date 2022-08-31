@@ -10,9 +10,11 @@ import { istexApiConfig } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
 import { ExclamationIcon } from '@heroicons/react/solid';
 import { Tooltip } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode) => {
-  const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode);
+const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode, currentPageURI) => {
+  const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode, currentPageURI);
+
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
 });
 
@@ -24,6 +26,9 @@ export default function QuerySection () {
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault().value);
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
+  const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '' });
+  const [currentPageURI, setCurrentPageURI] = useState('');
+  const [isLoading, setLoading] = useState(true);
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -50,6 +55,11 @@ export default function QuerySection () {
 
     setResultPreviewResults(data.hits);
     setTotalAmountOfDocuments(data.total);
+    setPageUrls({
+      lastPageURI: data.lastPageURI,
+      nextPageURI: data.nextPageURI,
+      prevPageURI: data.prevPageURI,
+    });
   };
 
   const resetResultPreviewHandler = () => {
@@ -64,8 +74,9 @@ export default function QuerySection () {
       return;
     }
 
-    await sendDelayedResultPreviewApiRequest(queryString, rankingMode);
-  }, [queryString, rankingMode]);
+    await sendDelayedResultPreviewApiRequest(queryString, rankingMode, currentPageURI);
+    setLoading(false);
+  }, [queryString, rankingMode, currentPageURI]);
 
   useEffect(() => {
     eventEmitter.addListener(events.setNumberOfDocuments, numberOfDocumentsHandler);
@@ -80,7 +91,22 @@ export default function QuerySection () {
         title='Requête'
         num='1'
         infoTextTitle=''
-        infoTextContent=''
+        infoTextContent={
+          <p className='text-sm text-white'>
+            Pour interroger ISTEX, vous avez le<br />
+            choix entre différents modes : un<br />
+            mode de recherche classique par<br />
+            équation booléenne, un mode de<br />
+            requêtage utilisant une liste<br />
+            d’identifiants pérennes de type ARK<br />
+            ou bien encore l’import d’un fichier<br />
+            spécifiant un corpus de documents<br />
+            au moyen d’identifiants uniques.<br />
+            Si vous avez besoin d'aide, consultez<br />
+            la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>ou bien<br />
+            contactez <a className='font-bold text-istcolor-blue cursor-pointer' href='mailto:contact@listes.istex.fr'>l’équipe ISTEX</a>.
+          </p>
+        }
       />
       <p className='mb-4'>
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
@@ -92,10 +118,10 @@ export default function QuerySection () {
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
             <div className='pl-4 text-sm'>
               <Tooltip
-                style='light'
                 placement='right'
+                trigger='click'
                 content={
-                  <p className='text-sm'>
+                  <p className='text-sm text-white'>
                     Reformulez votre requête ou vous ne <br />
                     pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
                     premiers documents sur <br />
@@ -103,14 +129,40 @@ export default function QuerySection () {
                   </p>
                 }
               >
-                <ExclamationIcon className='h-5 w-5 text-red-600' />
+                <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
               </Tooltip>
             </div>
           )}
         </div>
       )}
       <div className='flex items-center mb-4'>
-        <label htmlFor='numberOfDocumentsInput pr-2'>Choisir le nombre de documents : </label>
+        <label htmlFor='numberOfDocumentsInput pr-2'>
+          Choisir le nombre de documents
+        </label>
+        <Tooltip
+          placement='right'
+          trigger='click'
+          content={
+            <p className='text-sm text-white'>
+              Actuellement, il n’est pas possible de<br />
+              télécharger plus de 100 000<br />
+              documents. Cette valeur a été fixée<br />
+              arbitrairement, pour limiter le<br />
+              requêtage utilisant une liste<br />
+              volume et la durée du<br />
+              raisonnables.<br />
+              Si le nombre de documents à<br />
+              extraire est inférieur au nombre total<br />
+              des résultats correspondant à votre<br />
+              requête, le choix d’un mode de tri<br />
+              des documents peut vous intéresser<br />
+              (voir rubrique suivante).<br />
+            </p>
+          }
+        >
+          <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+        </Tooltip>
+        <span className='pl-2'>:</span>
         <input
           type='number'
           value={numberOfDocuments}
@@ -136,7 +188,32 @@ export default function QuerySection () {
         )}
       </div>
       <div>
-        <h4 className='mb-1'>Choisir les documents classés : </h4>
+        <h4 className='mb-1 flex items-center'>
+          Choisir les documents classés :
+          <Tooltip
+            placement='right'
+            trigger='click'
+            content={
+              <p className='text-sm text-white'>
+                Dans le cas où vous ne téléchargez<br />
+                qu’un sous-ensemble de documents<br />
+                par rapport aux résultats de votre<br />
+                requête, les documents sélectionnés<br />
+                pour votre corpus seront extraits en<br />
+                fonction, soit d’un ordre de<br />
+                pertinence relevé par un score de<br />
+                qualité (choix privilégié par défaut),<br />
+                soit d’un ordre de pertinence seul,<br />
+                soit tirés de manière aléatoire, ce<br />
+                mode de tri étant plus représentatif<br />
+                de la diversité des résultats.<br />
+                voir <a className='font-bold text-istcolor-blue cursor-pointer cta1' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>démonstrateur ISTEX</a>.
+              </p>
+            }
+          >
+            <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+          </Tooltip>
+        </h4>
         <div className='flex'>
           {istexApiConfig.rankingModes.modes.map(({ label, value: rankingModeValue }) => (
             <div
@@ -162,7 +239,15 @@ export default function QuerySection () {
       <div className='mt-4'>
         {resultPreviewResults.length > 0 && (
           <div>
-            <ResultPreview results={resultPreviewResults} />
+            <ResultPreview
+              results={resultPreviewResults}
+              totalAmountOfDocuments={totalAmountOfDocuments}
+              lastPageURI={pageUrls.lastPageURI}
+              nextPageURI={pageUrls.nextPageURI}
+              prevPageURI={pageUrls.prevPageURI}
+              setCurrentPageURI={setCurrentPageURI}
+              isLoading={isLoading}
+            />
           </div>
         )}
       </div>

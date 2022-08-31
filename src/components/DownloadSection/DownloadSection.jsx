@@ -36,7 +36,24 @@ export default function DownloadSection () {
         title='Téléchargement'
         num='3'
         infoTextTitle=''
-        infoTextContent=''
+        infoTextContent={
+          <p className='text-sm text-white'>
+            Une estimation de la taille du corpus<br />
+            s’affiche dans le bouton "télécharger"<br />
+            lorsqu’elle excède 1 Go.<br />
+            Dans le cas d’un corpus volumineux,<br />
+            sélectionnez le niveau de<br />
+            compression approprié à votre<br />
+            bande passante et à l’espace de<br />
+            stockage disponible sur votre disque<br />
+            dur.<br />
+            En cas de difficultés lors de<br />
+            l’ouverture de l’archive zip avec les<br />
+            outils Windows natifs, utilisez par<br />
+            exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>7-zip</a>.<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a> ou bien<br />
+          </p>
+        }
       />
       <div className='flex items-center justify-center mt-4 text-base'>
         <div className='mr-8'>

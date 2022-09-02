@@ -12,7 +12,11 @@ import { ExclamationIcon } from '@heroicons/react/solid';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const sendDelayedResultPreviewApiRequest = asyncDebounce(async (newQueryString, newRankingMode, currentPageURI) => {
+const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
+  newQueryString,
+  newRankingMode,
+  currentPageURI,
+) => {
   const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode, currentPageURI);
 
   eventEmitter.emit(events.resultPreviewResponseReceived, response);
@@ -242,9 +246,9 @@ export default function QuerySection () {
             <ResultPreview
               results={resultPreviewResults}
               totalAmountOfDocuments={totalAmountOfDocuments}
-              lastPageURI={pageUrls.lastPageURI}
               nextPageURI={pageUrls.nextPageURI}
               prevPageURI={pageUrls.prevPageURI}
+              lastPageURI={pageUrls.lastPageURI}
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
             />

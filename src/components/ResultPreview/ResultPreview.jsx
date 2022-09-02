@@ -2,17 +2,53 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function ResultPreview ({ isLoading, defaultPage = 1, results, totalAmountOfDocuments, lastPageURI, nextPageURI, setCurrentPageURI, prevPageURI }) {
-  const totalPage = Math.floor(totalAmountOfDocuments / 9);
-  const [page, setPage] = useState(defaultPage);
+export default function ResultPreview ({
+  isLoading,
+  defaultPage = 1,
+  results,
+  totalAmountOfDocuments,
+  nextPageURI,
+  setCurrentPageURI,
+  prevPageURI,
+  limit = 9,
+  lastPageURI,
+}) {
+  const totalPage = Math.ceil(totalAmountOfDocuments / limit);
+  const [page, setPage] = useState('');
+  const [currentPage, setCurrentPage] = useState('');
 
   const handlePageResult = (event) => {
     event.persist();
+
     setPage(event.target.value);
   };
 
+  const retreiveFromInsideUrl = (url) => {
+    const index = url.indexOf('from');
+    const from = url.substring(index + 5);
+
+    return from;
+  };
+
   const handleNewRequest = (url) => {
+    const from = +retreiveFromInsideUrl(url);
+
+    if (from === 0) {
+      currentPage(1);
+    } else {
+      setCurrentPage((from / limit) + 1);
+    }
+
     setCurrentPageURI(url);
+  };
+
+  const handleCurrentPageSubmit = (event) => {
+    event.preventDefault();
+    const from = retreiveFromInsideUrl(lastPageURI);
+    const newUrl = lastPageURI.replace(from, page);
+
+    setCurrentPage(page);
+    setCurrentPageURI(newUrl);
   };
 
   if (isLoading) {
@@ -52,14 +88,21 @@ export default function ResultPreview ({ isLoading, defaultPage = 1, results, to
       </div>
       <div className='flex justify-between items-center mt-5'>
         <div className='flex items-center'>
-          <span>Page {page || defaultPage} sur {totalPage}</span>
-          <input
-            type='text'
-            placeholder='Aller à la page...'
-            name='page'
-            onChange={handlePageResult}
-            className='ml-2'
-          />
+          <div>
+            Page <span className='font-bold'>{currentPage || defaultPage}</span> sur <span className='font-bold'>{totalPage}</span>
+          </div>
+          <form
+            onSubmit={handleCurrentPageSubmit}
+            className='ml-2 content-center m-0'
+          >
+            <input
+              type='text'
+              placeholder='Aller à la page...'
+              name='page'
+              onChange={handlePageResult}
+              value={page}
+            />
+          </form>
         </div>
         <div className='flex'>
           {!prevPageURI
@@ -93,8 +136,9 @@ ResultPreview.propTypes = {
   isLoading: PropTypes.bool,
   defaultPage: PropTypes.number,
   totalAmountOfDocuments: PropTypes.number,
-  lastPageURI: PropTypes.string,
   prevPageURI: PropTypes.string,
   nextPageURI: PropTypes.string,
+  lastPageURI: PropTypes.string,
   setCurrentPageURI: PropTypes.func,
+  limit: PropTypes.number,
 };

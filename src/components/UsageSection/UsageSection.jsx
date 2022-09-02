@@ -73,7 +73,19 @@ export default function UsageSection () {
         title='Usage'
         num='2'
         infoTextTitle=''
-        infoTextContent=''
+        infoTextContent={
+          <p className='text-sm text-white'>
+            Le choix du mode "Usage<br />
+            personnalisé" donne accès à tous les<br />
+            types de fichiers et de formats<br />
+            existants dans ISTEX. En revanche, le<br />
+            choix d’une plateforme ou d’un outil<br />
+            particuliers induit une sélection<br />
+            automatique des formats et types de<br />
+            fichiers qui seront extraits.<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>.
+          </p>
+        }
       />
       <p>Cliquez sur l’usage visé pour votre corpus :</p>
       <div className='flex mt-4'>

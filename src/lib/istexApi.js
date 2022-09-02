@@ -258,10 +258,14 @@ export function isFormatSelected (baseFormat, formatToCheck) {
  * @param {string} rankingMode The ranking mode URL search parameter.
  * @returns A `Promise`.
  */
-export function sendResultPreviewApiRequest (queryString, rankingMode) {
+export function sendResultPreviewApiRequest (queryString, rankingMode, currentPageURI) {
+  if (currentPageURI) {
+    return axios.get(currentPageURI);
+  }
+
   const url = new URL('document', istexApiConfig.baseUrl);
   url.searchParams.set('rankBy', rankingMode);
-  url.searchParams.set('size', 6);
+  url.searchParams.set('size', 9);
   url.searchParams.set('output', 'author,title,host.title,publicationDate');
   url.searchParams.set('sid', 'istex-dl');
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEraser, faRepeat, faLink, faClockRotateLeft, faCircleInfo, faExclamationCircle, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faEraser, faRepeat, faLink, faClockRotateLeft, faCircleInfo, faExclamationCircle, faTriangleExclamation, faAngleDoubleLeft, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
 import './assets/styles/styles.scss';
@@ -13,7 +13,7 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
-library.add(faEraser, faRepeat, faLink, faClockRotateLeft, faCircleInfo, faExclamationCircle, faTriangleExclamation);
+library.add(faEraser, faRepeat, faLink, faClockRotateLeft, faCircleInfo, faExclamationCircle, faTriangleExclamation, faAngleDoubleLeft, faAngleDoubleRight);
 
 ReactDOM.render(
   <BrowserRouter>

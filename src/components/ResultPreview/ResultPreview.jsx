@@ -36,7 +36,7 @@ export default function ResultPreview ({
     if (from === 0) {
       currentPage(1);
     } else {
-      setCurrentPage((from / limit) + 1);
+      setCurrentPage(Math.floor((from / limit) + 1));
     }
 
     setCurrentPageURI(url);

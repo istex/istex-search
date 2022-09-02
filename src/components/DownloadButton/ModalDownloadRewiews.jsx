@@ -37,7 +37,7 @@ export default function ModalDownloadRewiews ({ initOpening = false, setOpenModa
               onClick={onClose}
               className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
             >
-              Annuler
+              Fermer
             </button>
           </div>
         </Modal.Footer>

@@ -8,7 +8,7 @@ export default function Header () {
   return (
     <nav className='istex-header bg-white fixed w-full z-[1000]'>
       <div className='mx-auto'>
-        <div className='relative flex items-center justify-between md:mx-[135px] md:px-[12px] md:pt-[22px] md:pb-[11px]'>
+        <div style={{ paddingLeft: '215px', paddingRight: '215px' }} className='relative flex items-center justify-between px-10 py-10 md:pt-[22px] md:pb-[11px]'>
           <div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
 
             {/* Mobile menu button */}
@@ -37,7 +37,7 @@ export default function Header () {
               </svg>
             </button>
           </div>
-          <div className='flex w-full justify-between'>
+          <div className='flex w-full justify-around'>
             <div>
               <a className='flex flex-col justify-around' href='https://www.istex.fr'>
                 <img className='w-[184px]' src='/images/istex_logo.svg' alt='ISTEX' />

@@ -43,7 +43,7 @@ export default function FetchButton () {
 
   return (
     <div
-      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
       onClick={updateFormFromLastRequest}
     >
       <div className=''>

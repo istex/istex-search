@@ -45,7 +45,7 @@ export default function ShareButton () {
   return (
     <>
       <div
-        className={`flex flex-col justify-between istex-footer__link items-center mx-5 ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:text-white`}
+        className={`flex flex-col justify-between istex-footer__link items-center mx-5 ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:text-white istex-footer__icon`}
         onClick={handleShareButton}
       >
         <div className=''>

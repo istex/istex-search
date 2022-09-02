@@ -26,7 +26,7 @@ export default function ModalShareButton ({ initOpening = false, urlToClipboard 
             >
               <input
                 type='text'
-                className='block p-2.5 w-full z-20 text-sm text-black bg-istcolor-grey-extra-light border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-istcolor-grey-medium'
+                className='block p-2.5 w-full z-20 text-sm text-black bg-[#eee] border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-istcolor-grey-medium'
                 placeholder={urlToClipboard}
                 readOnly
               />

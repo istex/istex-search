@@ -12,7 +12,53 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon, InformationCircleIcon } from '@heroicons/react/solid';
+import { CloudUploadIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'flowbite-react';
+
+const infoText = {
+  queryString:
+  <p className='text-sm text-white'>
+    Pour construire votre équation<br />
+    booléenne, vous pouvez vous aider<br />
+    de l'échantillon de requêtes<br />
+    pédagogiques accessibles via le<br />
+    bouton "Exemples", de la<br />
+    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a> ou bien du<br />
+    mode de recherche avancée du<br />
+    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>démonstrateur ISTEX</a>.
+  </p>,
+  ark:
+  <p className='text-sm text-white'>
+    Copiez/collez dans cet onglet une<br />
+    liste d'identifiants de type ARK et le<br />
+    formulaire l'interprétera<br />
+    automatiquement. Explorez ce mode<br />
+    l’exemple disponible via le bouton<br />
+    "Exemples".<br />
+    Pour en savoir plus sur les<br />
+    identifiants ARK, reportez vous à la<br />
+    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+  </p>,
+  fileImport:
+  <p className='text-sm text-white'>
+    Cliquez sur l’icône ci-dessous et<br />
+    sélectionnez un fichier de type<br />
+    “.corpus” précisant les identifiants<br />
+    uniques (tels que des identifiants<br />
+    ARK) des documents qui composent<br />
+    votre corpus.<br />
+    Pour disposer d’un fichier .corpus,<br />
+    consultez <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+  </p>,
+  queryAssist:
+  <p className='text-sm text-white'>
+    Cliquez sur l’icône ci-dessous et<br />
+    pour utiliser une recherche guidée<br />
+    Pour plus d'informations,<br />
+    consultez <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+  </p>,
+};
 
 export default function QueryInput () {
   const dispatch = useDispatch();
@@ -215,9 +261,15 @@ export default function QueryInput () {
               >
                 {({ checked }) => (
                   <>
-                    <span className={`flex items-center justify-center px-[30px] py-2 text-center w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                    <span className={`flex items-center justify-center px-[30px] py-2 w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
                       {label}
-                      <InformationCircleIcon className='h-7 w-7 pl-2' />
+                      <Tooltip
+                        placement='top'
+                        trigger='click'
+                        content={infoText[value]}
+                      >
+                        <FontAwesomeIcon icon='circle-info' className='pl-2' />
+                      </Tooltip>
                     </span>
                   </>
                 )}

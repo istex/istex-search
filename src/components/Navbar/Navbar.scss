@@ -7,7 +7,7 @@
   overflow-x: hidden;
   -ms-overflow-y: hidden;
   overflow-y: hidden;
-  background-color: rgba(36, 43, 50, 1);
+  background-color:#458da6;
   left: 0;
 
   &__text {
@@ -16,5 +16,12 @@
     vertical-align: top;
     position: relative;
     top: -10px;
+  }
+
+  &__icon {
+    color : #1d1d1d;;
+    &:hover {
+      color: #ffffff;
+    }
   }
 }

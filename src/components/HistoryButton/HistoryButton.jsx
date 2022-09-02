@@ -31,7 +31,7 @@ export default function HistoryButton () {
 
   return (
     <div
-      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
       onClick={() => setModalVisibility(true)}
     >
       <div className=''>

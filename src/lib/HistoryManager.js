@@ -48,6 +48,11 @@ class HistoryManager {
     this.#update();
   }
 
+  removeAll () {
+    this.#history.splice(0, this.#history.length);
+    this.#update();
+  }
+
   modify (index, newItem) {
     if (!this.#isIndexValid(index)) return;
 
@@ -75,6 +80,10 @@ class HistoryManager {
 
   #isIndexValid (index) {
     return index >= 0 || index < this.#history.length;
+  }
+
+  isEmpty () {
+    return this.#history.length === 0;
   }
 
   static #getDefaultLastRequest () {

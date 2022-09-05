@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'flowbite-react';
 
 import HistoryRequest from '../HistoryRequest/HistoryRequest';
+import HistoryManager from '../../lib/HistoryManager';
+import ConfirmDeleteHistoryModal from './ConfirmDeleteHistoryModal';
 
 export default function ModalListHistory ({ show, onClose, requests }) {
+  const [openConfirmMofal, setOpenConfirmMofal] = useState(false);
+
   if (!show) {
     return null;
   }
+
+  const deleteAllHandler = () => {
+    HistoryManager.removeAll();
+  };
 
   return (
     <div className='modal text-istcolor-black'>
@@ -54,8 +62,9 @@ export default function ModalListHistory ({ show, onClose, requests }) {
           <div className='flex pt-4'>
             <button
               type='button'
-              onClick={() => {}}
-              className='p-2 text-white bg-[#d9534f] border border-[#d43f3a] hover:bg-[#c9302c] hover:border-[#ac2925] focus:ring-4 focus:outline-none'
+              onClick={() => { setOpenConfirmMofal(true); }}
+              disabled={HistoryManager.isEmpty()}
+              className={`p-2 text-white bg-[#d9534f] border border-[#d43f3a] ${HistoryManager.isEmpty() ? 'cursor-not-allowed opacity-75' : 'cursor-pointer hover:bg-[#c9302c] hover:border-[#ac2925]'} focus:ring-4 focus:outline-none`}
             >
               Supprimer l'historique
             </button>
@@ -71,6 +80,13 @@ export default function ModalListHistory ({ show, onClose, requests }) {
           </button>
         </div>
       </div>
+      {openConfirmMofal && (
+        <ConfirmDeleteHistoryModal
+          initOpening={openConfirmMofal}
+          setOpenModal={setOpenConfirmMofal}
+          deleteAllHandler={deleteAllHandler}
+        />
+      )}
     </div>
   );
 }

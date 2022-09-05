@@ -4,8 +4,6 @@ import { Table } from 'flowbite-react';
 
 import {
   buildExtractParamsFromFormats,
-  buildFullApiUrl,
-  sendDownloadApiRequest,
   getQueryStringFromQId,
   isArkQueryString,
   getArksFromArkQueryString,
@@ -38,17 +36,8 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   };
 
   const downloadHandler = () => {
-    const url = buildFullApiUrl(requestInfo).toString();
-
     eventEmitter.emit(events.displayDownloadModal, true);
-
-    // This function is synchronous
-    sendDownloadApiRequest(url);
-
-    historyManager.add({
-      ...requestInfo,
-      date: Date.now(),
-    });
+    onClose();
   };
 
   const shareHandler = () => {

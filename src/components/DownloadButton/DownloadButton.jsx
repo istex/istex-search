@@ -7,6 +7,7 @@ import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdA
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
 import ModalDownloadRewiews from './ModalDownloadRewiews';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -63,6 +64,10 @@ export default function DownloadButton () {
     // Reset the whole form once the download is complete
     resetForm();
   };
+
+  useEffect(() => {
+    eventEmitter.addListener(events.displayDownloadModal, onDownload);
+  }, []);
 
   const isFormIncomplete = queryString === '' ||
     !selectedFormats ||

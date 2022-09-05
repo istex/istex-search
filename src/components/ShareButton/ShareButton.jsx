@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,6 +31,10 @@ export default function ShareButton () {
     setOpenModal(true);
     setUrlToClipboard(window.location.href);
   };
+
+  useEffect(() => {
+    eventEmitter.addListener(events.displayShareModal, handleShareButton);
+  }, []);
 
   const handleSaveToClipboard = () => {
     setOpenModal(false);

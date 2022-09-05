@@ -16,7 +16,7 @@ import { buildFullIstexDlUrl } from '../../lib/utils';
 
 import './HistoryRequest.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-export default function HistoryRequest ({ requestInfo, onClose, setAutoFocus }) {
+export default function HistoryRequest ({ requestInfo, onClose }) {
   const [requestStringToDisplay, setRequestStringToDisplay] = useState('');
 
   const editHandler = () => {
@@ -32,13 +32,15 @@ export default function HistoryRequest ({ requestInfo, onClose, setAutoFocus }) 
     eventEmitter.emit(events.setCompressionLevel, requestInfo.compressionLevel);
     eventEmitter.emit(events.setArchiveType, requestInfo.archiveType);
     eventEmitter.emit(events.setUsage, requestInfo.usage);
+    eventEmitter.emit(events.addFocusOnInput, true);
 
     onClose();
-    setAutoFocus(true);
   };
 
   const downloadHandler = () => {
     const url = buildFullApiUrl(requestInfo).toString();
+
+    eventEmitter.emit(events.displayDownloadModal, true);
 
     // This function is synchronous
     sendDownloadApiRequest(url);
@@ -52,9 +54,9 @@ export default function HistoryRequest ({ requestInfo, onClose, setAutoFocus }) 
   const shareHandler = () => {
     const istexDlFullUrl = buildFullIstexDlUrl(requestInfo);
 
-    navigator.clipboard.writeText(istexDlFullUrl.href)
-      .then(() => window.alert(`${istexDlFullUrl.href} copied to clipboard!`))
-      .catch(() => window.alert(`${istexDlFullUrl.href} failed to copy to clipboard!`));
+    eventEmitter.emit(events.displayShareModal, istexDlFullUrl.href);
+
+    onClose();
   };
 
   const deleteHandler = () => {
@@ -149,5 +151,4 @@ export default function HistoryRequest ({ requestInfo, onClose, setAutoFocus }) 
 HistoryRequest.propTypes = {
   requestInfo: PropTypes.object,
   onClose: PropTypes.func,
-  setAutoFocus: PropTypes.func,
 };

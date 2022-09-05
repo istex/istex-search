@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Table } from 'flowbite-react';
 
 import HistoryRequest from '../HistoryRequest/HistoryRequest';
-import { Table } from 'flowbite-react';
 
 export default function ModalListHistory ({ show, onClose, requests }) {
   if (!show) {

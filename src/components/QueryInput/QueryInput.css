@@ -1,0 +1,19 @@
+.text-blue-istex {
+    color: #458CA5;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 15px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #458CA5;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

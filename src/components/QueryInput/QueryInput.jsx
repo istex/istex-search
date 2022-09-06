@@ -65,6 +65,8 @@ export default function QueryInput () {
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [arkInputValue, setArkInputValue] = useState('');
+  const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
+  const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -160,8 +162,22 @@ export default function QueryInput () {
     const reader = new window.FileReader();
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
-      const queryString = buildQueryStringFromCorpusFile(event.target.result);
+      const result = event.target.result;
+      const resultWithoutSpace = result.split(' ').join('').replace(/[\n\r]/g, '');
+      const index = resultWithoutSpace.indexOf('total') + 6;
+      const total = resultWithoutSpace.substring(index, index + 1);
+      const queryString = buildQueryStringFromCorpusFile(result);
       updateQueryString(queryString);
+
+      setShouldDisplaySuccessMsg(true);
+      setFileInfo({
+        fileName: file.name,
+        numberOfIds: total,
+      });
+
+      eventEmitter.emit(events.displayNotification, {
+        text: `import du fichier ${file.name} terminé`,
+      });
     };
 
     // TODO: print the error in a modal or something else
@@ -206,10 +222,10 @@ export default function QueryInput () {
       // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
         <>
-          <div className='flex justify-center items-center w-full mb-5'>
+          <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
-              forHtml='dropzone-file'
-              className='flex flex-col justify-center items-center rounded-lg border-2 text-[#458ca5] border-[#458ca5] border-dashed cursor-pointer hover:border-istcolor-green-light hover:text-black'
+              htmlFor='dropzone-file'
+              className='flex flex-col justify-center items-center rounded-lg border-2 text-istcolor-blue border-istcolor-blue border-dashed cursor-pointer hover:border-istcolor-green-light hover:text-black'
             >
               <div className='flex flex-col justify-center items-center pt-5 pb-6'>
                 <CloudUploadIcon className='w-12 h-12 my-4' />
@@ -225,6 +241,12 @@ export default function QueryInput () {
                 onChange={event => corpusFileHandler(event.target.files[0])}
               />
             </label>
+            {shouldDisplaySuccessMsg && (
+              <p className='mt-4 border-2 p-2 text-white bg-istcolor-green-dark border-istcolor-green-dark'>
+                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus.(Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
+                certains identifiants ne sont pas trouvés par le moteur de recherche)
+              </p>
+            )}
           </div>
         </>
       );

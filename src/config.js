@@ -157,10 +157,12 @@ export const catalogList = [
       {
         dataTitle: 'Tous les champs',
         dataInfo: 'Recherche d\'un ou plusieurs termes dans toute la notice',
+        dataValue: 'allPublicationDate',
       },
       {
         dataTitle: 'Année de publication',
         dataInfo: 'Date de publication papier de l\'article',
+        dataValue: 'publicationDate',
       },
     ],
   },
@@ -170,10 +172,12 @@ export const catalogList = [
       {
         dataTitle: 'Titre de la revue',
         dataInfo: 'Recherche d\'un ou plusieurs termes dans le titre de la revue',
+        dataValue: 'host.title',
       },
       {
         dataTitle: 'ISSN',
         dataInfo: 'Numéro ISSN de la revue',
+        dataValue: 'host.issn',
       },
     ],
   },
@@ -183,10 +187,12 @@ export const catalogList = [
       {
         dataTitle: 'Lieux géographiques',
         dataInfo: 'Recherche d\'un ou plusieurs termes identifiés dans le texte de l\'article comme étant un lieu géographique',
+        dataValue: 'namedEntities.unitex.placeName',
       },
       {
         dataTitle: 'Catégorie Inist',
         dataInfo: 'Recherche par catégorie scientifique du plan de classement Inist',
+        dataValue: 'categories.inist',
       },
     ],
   },

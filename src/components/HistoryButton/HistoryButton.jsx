@@ -1,18 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import './HistoryButton.css';
-import HistoryRequest from '../HistoryRequest/HistoryRequest';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
+import ModalListHistory from './ModalListHistory';
 
 export default function HistoryButton () {
-  const modalWindow = useRef();
   const [requests, setRequests] = useState(historyManager.getAll());
+  const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
-  const setModalVisibility = visible => {
-    const display = visible ? 'block' : 'none';
-    modalWindow.current.style.display = display;
+  const setModalVisibility = (visible) => {
+    setOpenHistoryModal(visible);
   };
 
   const historyUpdatedHandler = () => {
@@ -20,13 +18,8 @@ export default function HistoryButton () {
     setRequests([...historyManager.getAll()]);
   };
 
-  const closeHistoryModal = () => {
-    setModalVisibility(false);
-  };
-
   useEffect(() => {
     eventEmitter.addListener(events.historyUpdated, historyUpdatedHandler);
-    eventEmitter.addListener(events.closeHistoryModal, closeHistoryModal);
   }, []);
 
   return (
@@ -34,29 +27,15 @@ export default function HistoryButton () {
       className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
       onClick={() => setModalVisibility(true)}
     >
-      <div className=''>
+      <div className='pb-2'>
         <FontAwesomeIcon icon='clock-rotate-left' size='3x' />
       </div>
       <button className='istex-footer__text pt-1'>Historique</button>
-      <div ref={modalWindow} className='modal'>
-        <div className='modal-content'>
-          <button onClick={() => setModalVisibility(false)} className='close'>&times;</button>
-          <div className='history-table'>
-            <header className='history-header'>
-              <div className='history-header-item index'>#</div>
-              <div className='history-header-item date'>Date</div>
-              <div className='history-header-item request'>Request</div>
-              <div className='history-header-item formats'>Formats</div>
-              <div className='history-header-item nb-docs'>Nb. docs</div>
-              <div className='history-header-item rank'>Rank mode</div>
-              <div className='history-header-item actions'>Actions</div>
-            </header>
-            {requests.map((request, index) => (
-              <HistoryRequest key={request.date} requestInfo={{ ...request, index }} />
-            ))}
-          </div>
-        </div>
-      </div>
+      <ModalListHistory
+        show={openHistoryModal}
+        onClose={() => setOpenHistoryModal(false)}
+        requests={requests}
+      />
     </div>
   );
 }

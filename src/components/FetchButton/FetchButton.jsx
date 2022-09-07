@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
@@ -46,7 +45,7 @@ export default function FetchButton () {
       className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
       onClick={updateFormFromLastRequest}
     >
-      <div className=''>
+      <div className='pb-2'>
         <FontAwesomeIcon icon='repeat' size='3x' />
       </div>
       <button className='istex-footer__text pt-1'>

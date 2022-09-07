@@ -3,10 +3,6 @@
   position: fixed !important;
   width: 100%;
   bottom: 0;
-  -ms-overflow-x: hidden;
-  overflow-x: hidden;
-  -ms-overflow-y: hidden;
-  overflow-y: hidden;
   background-color:#458da6;
   left: 0;
 
@@ -23,5 +19,10 @@
     &:hover {
       color: #ffffff;
     }
+  }
+
+  &__tooltip {
+    max-width: 12rem;
+    color: 'white';
   }
 }

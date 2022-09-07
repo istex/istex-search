@@ -12,15 +12,15 @@ import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsMan
 
 export default function App () {
   const contextClass = {
-    success: 'bg-istcolor-blue',
+    warning: 'bg-istcolor-blue',
+    success: 'bg-istcolor-green-dark',
     error: 'bg-red-600',
-    warning: 'bg-orange-400',
   };
 
   const displayNotificationHandler = ({ text, type }) => {
     if (type === 'warn') {
       toast.warn(text, {
-        icon: () => <FontAwesomeIcon icon='triangle-exclamation' />,
+        icon: () => <FontAwesomeIcon icon='circle-info' />,
       });
     } else if (type === 'error') {
       toast.error(text, {
@@ -28,7 +28,7 @@ export default function App () {
       });
     } else {
       toast.success(text, {
-        icon: () => <FontAwesomeIcon icon='circle-info' />,
+        icon: () => <FontAwesomeIcon icon='circle-check' />,
       });
     }
   };

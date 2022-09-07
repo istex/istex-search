@@ -6,6 +6,10 @@
 
 }
 
+.w-header{
+  width: 77rem;
+}
+
 /*siteHeader*/
 .siteHeader {
   box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.08);
@@ -36,7 +40,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 84px
 }
 
 .interactions {
@@ -188,20 +191,24 @@ a:hover .ct {
 ////////////////////////////////
 /* LES MEDIA QUERIES  */
 //////////////////////////////////////
-/// 
-/// 
 
 
-
-@media only screen and (max-width:900px) {
+@media screen and (max-width:900px) {
   .inner-siteHeader {
     grid-template-columns: repeat(5, 1fr);
     align-items: center;
     padding: 0px 12px
   }
 
+  .mobile-contact {
+    position: relative;
+    top: 10px;
+  }
+
   .navigation-main {
-    grid-column: auto
+    grid-column: auto;
+    position: relative;
+    top: 10px;
   }
 
   .logo {
@@ -231,10 +238,9 @@ a:hover .ct {
 
   .menu {
     position: absolute;
-    top: 84px;
-    left: 0;
-    bottom: 0;
-    width: 80vw;
+    top: 63px;
+    left: -9px;
+    width: 70vw;
     background-color: #fff;
     transform: translateX(0);
     display: grid;
@@ -243,16 +249,23 @@ a:hover .ct {
     padding: 30px;
     z-index: 50;
     box-sizing: border-box;
+    height: 90vh;
+
+  }
+
+  .mobile-menu-text{
+    padding-bottom: 28px;
+    max-inline-size: max-content;
   }
 
   .navigation-main>.nav-button {
-    background: transparent url('../img/cross.svg') no-repeat center center;
+    background: transparent url('../images//menu_burger/cross.svg') no-repeat center center;
     width: 34px;
     height: 34px
   }
 
   .navigation-main.is-closed>.nav-button {
-    background: transparent url('../img/burger.svg') no-repeat center center;
+    background: transparent url('../images/menu_burger/burger.svg') no-repeat center center;
     width: 34px;
     height: 34px
   }

@@ -7,6 +7,7 @@ import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdA
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
 import ModalDownloadRewiews from './ModalDownloadRewiews';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -21,6 +22,14 @@ export default function DownloadButton () {
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
+  const handleDownload = (event) => {
+    setOpenModal(true);
+
+    if (event) {
+      onDownload();
+    }
+  };
+
   const onDownload = async () => {
     const options = {
       selectedFormats,
@@ -30,8 +39,6 @@ export default function DownloadButton () {
       archiveType,
       usage,
     };
-
-    setOpenModal(true);
 
     if (qId) {
       try {
@@ -63,6 +70,10 @@ export default function DownloadButton () {
     // Reset the whole form once the download is complete
     resetForm();
   };
+
+  useEffect(() => {
+    eventEmitter.addListener(events.displayDownloadModal, handleDownload);
+  }, []);
 
   const isFormIncomplete = queryString === '' ||
     !selectedFormats ||
@@ -149,11 +160,11 @@ export default function DownloadButton () {
               style='light'
               placement='right'
             >
-              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             </Tooltip>
             )
           : (
-            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             )}
       </div>
       {archiveSizeInGigabytes >= 1 && (

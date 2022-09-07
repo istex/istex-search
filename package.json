@@ -25,6 +25,7 @@
     "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.1",
     "crypto-js": "^4.1.1",
+    "date-fns": "^2.29.2",
     "eventemitter3": "^4.0.7",
     "flowbite": "^1.5.1",
     "flowbite-react": "^0.1.3",

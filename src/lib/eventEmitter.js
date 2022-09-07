@@ -31,6 +31,9 @@ export const events = {
   resultPreviewResponseReceived: 'resultPreviewResponseReceived',
   resetResultPreview: 'resetResultPreview',
   displayNotification: 'displayNotification',
+  addFocusOnInput: 'addFocusOnInput',
+  displayShareModal: 'displayShareModal',
+  displayDownloadModal: 'displayDownloadModal',
 };
 
 export default new EventEmitter();

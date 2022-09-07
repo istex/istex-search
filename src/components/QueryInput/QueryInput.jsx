@@ -163,7 +163,7 @@ export default function QueryInput () {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const result = event.target.result;
-      const resultWithoutSpace = result.split(' ').join('').replace(/[\n\r]/g, '');
+      const resultWithoutSpace = result.replace(/[\s\n\r]/g, '');
       const index = resultWithoutSpace.indexOf('total') + 6;
       const total = resultWithoutSpace.substring(index, index + 1);
       const queryString = buildQueryStringFromCorpusFile(result);
@@ -243,7 +243,7 @@ export default function QueryInput () {
             </label>
             {shouldDisplaySuccessMsg && (
               <p className='mt-4 border-2 p-2 text-white bg-istcolor-green-dark border-istcolor-green-dark'>
-                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus.(Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
+                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
                 certains identifiants ne sont pas trouvés par le moteur de recherche)
               </p>
             )}

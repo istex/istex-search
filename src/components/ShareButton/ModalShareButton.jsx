@@ -22,17 +22,17 @@ export default function ModalShareButton ({ initOpening = false, urlToClipboard 
         <Modal.Body>
           <div className='space-y-6'>
             <div
-              className='relative w-full'
+              className='flex w-full'
             >
               <input
                 type='text'
-                className='block p-2.5 w-full z-20 text-sm text-black bg-[#eee] border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-istcolor-grey-medium'
+                className='p-2.5 px-3 z-20 flex-1 text-sm text-black bg-[#eee] border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-istcolor-grey-medium'
                 placeholder={urlToClipboard}
                 readOnly
               />
               <button
                 type='button'
-                className='absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
+                className='p-2.5 text-sm font-medium text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
                 onClick={handleSaveToClipboard}
               >
                 Copier

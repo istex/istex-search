@@ -73,6 +73,20 @@ export default function QueryInput () {
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
 
+<<<<<<< HEAD
+=======
+  // const onClickExample=(params)=>{
+  //   navigate('/'+ params.request);
+  //   setQueryStringInputValue(params.input)
+  //   updateQueryString(params.input)
+  //   setIsOpen(false);
+  // }
+
+  const startQueryAvancedSearch = (value) => {
+    setFocusAdvancedSearch(value);
+  };
+
+>>>>>>> add catalog list form request value
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
       setArkInputValue('');

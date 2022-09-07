@@ -2,8 +2,21 @@
     color: #458CA5;
 }
 
+.catalog-container {
+  max-height: 22rem;
+  min-height: 18rem;  
+}
+
+.catalog-title {
+    background-color: #458CA5;  
+}
+
+.catalog-title:hover {
+    background-color: #458CA5;  
+}
+
 .scroll::-webkit-scrollbar {
-    width: 15px;
+    width: 1rem;
 }
 
 .scroll::-webkit-scrollbar-track {

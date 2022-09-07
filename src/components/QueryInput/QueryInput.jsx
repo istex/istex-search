@@ -10,14 +10,13 @@ import {
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { queryModes, istexApiConfig } from '../../config';
+import { queryModes, istexApiConfig, catalogList } from '../../config';
 import { RadioGroup } from '@headlessui/react';
 import { CloudUploadIcon } from '@heroicons/react/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 import { useFocus } from '../../lib/hooks';
 import './QueryInput.css';
-import catalogList from '../../lib/avancedFormConfig';
 
 const infoText = {
   queryString:
@@ -267,7 +266,7 @@ export default function QueryInput () {
       );
       break;
     case queryModes.modes[3].value:
-      // avanced form case
+      /* Avanced form case */
       queryInputUi = (
         <>
           <form>
@@ -282,9 +281,9 @@ export default function QueryInput () {
                 </div>
               </div>
             </div>
-            {/* Liste de Champs de catalogues Avec scroll  */}
+            {/* catalog fields list with scroll */}
             <h2 id='accordion-collapse-heading' className={`${focusAdvancedSearch ? 'opacity-1' : 'hidden'}`}>
-              <div style={{ backgroundColor: '#458CA5', display: 'flex' }} className='flex items-center justify-between w-full p-5  bg-black-200 font-medium text-left text-gray-500 border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800' data-accordion-target='#accordion-collapse-body-1' aria-expanded='true' aria-controls='accordion-collapse-body-1'>
+              <div className='catalog-title flex items-center justify-between w-full p-5  bg-black-200 font-medium text-left text-gray-500 border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800' data-accordion-target='#accordion-collapse-body-1' aria-expanded='true' aria-controls='accordion-collapse-body-1'>
                 <div className='grow '>
                   <span className='inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium  bg-gray-600 rounded-full dark:bg-blue-900 dark:text-blue-200'> </span>
                   <span className='inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium  bg-gray-600 rounded-full dark:bg-blue-900 dark:text-blue-200'> </span>
@@ -300,14 +299,14 @@ export default function QueryInput () {
             </h2>
 
             <div id='dropdownUsers' className={`${focusAdvancedSearch ? 'opacity-1' : 'hidden'} z-10 w-120 bg-white rounded shadow dark:bg-gray-700 scroll`}>
-              <ul style={{ maxHeight: '400px', minHeight: '250px' }} className='overflow-y-auto py-1 h-48 text-gray-700 pb-3 dark:text-gray-200 ml-4 scroll' aria-labelledby='dropdownUsersButton'>
-                {catalogList.map((catalogue, index) => (
+              <ul className='catalog-container overflow-y-auto py-1 h-48 text-gray-700 pb-3 dark:text-gray-200 ml-4 scroll' aria-labelledby='dropdownUsersButton'>
+                {catalogList.map((catalog, index) => (
                   <li className='pb-3 pl-5' key={index}>
-                    <h3 className='mb-4 font-semibold text-gray-900 dark:text-white'>{catalogue.title} </h3>
-                    {catalogue.items.map((item, index) => (
+                    <h3 className='mb-4 font-semibold text-gray-900 dark:text-white'>{catalog.title} </h3>
+                    {catalog.items.map((item, index) => (
                       <div className='flex pb-3' key={index}>
                         <div className='flex items-center h-5'>
-                          <input id={`helper-radio-${index}`} name={item.dataTitle} type='checkbox' aria-describedby='helper-radio-text-{index}' className='w-4 h-4 text-blue-istex bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' />
+                          <input id={`helper-radio-${index}`} name={item.dataTitle} type='checkbox' aria-describedby='helper-radio-text-{index}' className='cursor-pointer w-4 h-4 text-blue-istex bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' />
                         </div>
                         <div className='ml-2 text-sm'>
                           <label htmlFor='helper-radio' className='font-medium text-gray-900 dark:text-gray-300'>{item.dataTitle}</label>
@@ -336,8 +335,8 @@ export default function QueryInput () {
   }
 
   return (
-    <div className='cursor-pointer'>
-      <div className='w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
+    <div>
+      <div className='cursor-pointer w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
           className='flex'
           value={currentQueryMode}

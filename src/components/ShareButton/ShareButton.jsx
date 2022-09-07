@@ -40,7 +40,10 @@ export default function ShareButton () {
   const handleSaveToClipboard = () => {
     setOpenModal(false);
     navigator.clipboard.writeText(urlToClipboard)
-      .then(() => eventEmitter.emit(events.displayNotification, { text: 'le lien a été copié dans le presse-papier' }))
+      .then(() => eventEmitter.emit(events.displayNotification, {
+        text: 'le lien a été copié dans le presse-papier',
+        type: 'warn',
+      }))
       .catch(() => eventEmitter.emit(events.displayNotification, {
         text: 'Une erreur est survenue, veuillez réessayer ultérieurement !',
         type: 'error',

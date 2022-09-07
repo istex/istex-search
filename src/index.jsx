@@ -14,6 +14,7 @@ import {
   faPenToSquare,
   faDownload,
   faXmark,
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
@@ -39,6 +40,7 @@ library.add(
   faPenToSquare,
   faDownload,
   faXmark,
+  faCircleCheck,
 );
 
 ReactDOM.render(

@@ -23,13 +23,14 @@ export default function ShareButton () {
     compressionLevel == null || // We can't just do !compressionLevel because 0 is a valid value
     !archiveType;
 
-  const handleShareButton = () => {
-    if (isFormIncomplete) {
+  const handleShareButton = (option) => {
+    const optionType = typeof option === 'string';
+    if (isFormIncomplete && !optionType) {
       return;
     }
 
     setOpenModal(true);
-    setUrlToClipboard(window.location.href);
+    setUrlToClipboard(optionType ? option : window.location.href);
   };
 
   useEffect(() => {

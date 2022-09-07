@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'flowbite-react';
+import { format } from 'date-fns';
 
 import {
   buildExtractParamsFromFormats,
   getQueryStringFromQId,
   isArkQueryString,
   getArksFromArkQueryString,
+  sendDownloadApiRequest,
+  buildFullApiUrl,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
@@ -14,6 +17,7 @@ import { buildFullIstexDlUrl } from '../../lib/utils';
 
 import './HistoryRequest.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { resetForm } from '../ResetButton/ResetButton';
 export default function HistoryRequest ({ requestInfo, onClose }) {
   const [requestStringToDisplay, setRequestStringToDisplay] = useState('');
 
@@ -36,7 +40,19 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   };
 
   const downloadHandler = () => {
-    eventEmitter.emit(events.displayDownloadModal, true);
+    eventEmitter.emit(events.displayDownloadModal);
+
+    const url = buildFullApiUrl(requestInfo).toString();
+
+    // This function is synchronous
+    sendDownloadApiRequest(url);
+
+    historyManager.add({
+      ...requestInfo,
+      date: Date.now(),
+    });
+
+    resetForm();
     onClose();
   };
 
@@ -89,7 +105,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         <span className='font-bold'>{requestInfo.index + 1}</span>
       </Table.Cell>
       <Table.Cell>
-        {requestInfo.date}
+        {format(requestInfo.date, 'dd/MM/yyyy hh:mm:ss')}
       </Table.Cell>
       <Table.Cell>
         {requestStringToDisplay}

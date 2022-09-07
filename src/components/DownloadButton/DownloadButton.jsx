@@ -22,6 +22,14 @@ export default function DownloadButton () {
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
+  const handleDownload = (event) => {
+    setOpenModal(true);
+
+    if (event) {
+      onDownload();
+    }
+  };
+
   const onDownload = async () => {
     const options = {
       selectedFormats,
@@ -31,8 +39,6 @@ export default function DownloadButton () {
       archiveType,
       usage,
     };
-
-    setOpenModal(true);
 
     if (qId) {
       try {
@@ -66,7 +72,7 @@ export default function DownloadButton () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.displayDownloadModal, onDownload);
+    eventEmitter.addListener(events.displayDownloadModal, handleDownload);
   }, []);
 
   const isFormIncomplete = queryString === '' ||
@@ -154,11 +160,11 @@ export default function DownloadButton () {
               style='light'
               placement='right'
             >
-              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             </Tooltip>
             )
           : (
-            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             )}
       </div>
       {archiveSizeInGigabytes >= 1 && (

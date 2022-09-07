@@ -15,6 +15,7 @@ import { RadioGroup } from '@headlessui/react';
 import { CloudUploadIcon } from '@heroicons/react/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
+import { useFocus } from '../../lib/hooks';
 
 const infoText = {
   queryString:
@@ -67,6 +68,7 @@ export default function QueryInput () {
   const [arkInputValue, setArkInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
+  const [inputRef, setInputFocus] = useFocus();
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -184,10 +186,15 @@ export default function QueryInput () {
     reader.onerror = console.error;
   };
 
+  const handleFocusOnInput = () => {
+    setInputFocus();
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
     eventEmitter.addListener(events.setQId, qIdHandler);
+    eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
   }, []);
 
   let queryInputUi;
@@ -201,6 +208,7 @@ export default function QueryInput () {
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
           onChange={event => queryInputHandler(event.target.value)}
+          ref={inputRef}
         />
       );
       break;

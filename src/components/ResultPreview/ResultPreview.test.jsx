@@ -5,7 +5,7 @@ import ResultPreview from './ResultPreview';
 
 describe('Tests for the ResultPreview component', () => {
   it('Renders the Result preview title', () => {
-    render(<ResultPreview results={[]} />);
+    render(<ResultPreview results={[]} totalAmountOfDocuments={0} />);
     // const titleElement = screen.getByRole('heading', { level: 4, name: 'Result preview' });
 
     // expect(titleElement).toBeInTheDocument();

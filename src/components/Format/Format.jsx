@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { toggleFormat, isFormatSelected } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
-export default function Format ({ name, value, className, isSubCategory = true }) {
+export default function Format ({ name, value, className }) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
 
   const checkHandler = () => {
@@ -21,7 +21,7 @@ export default function Format ({ name, value, className, isSubCategory = true }
           checked={isFormatSelected(selectedFormats, value)}
           id={`checkbox-${name}`}
           value=''
-          className={`w-5 h-5 outline-none border-istcolor-grey-dark ${isSubCategory ? 'text-istcolor-blue' : 'text-istcolor-green-light'} bg-gray-100 rounded focus:ring-isistcolor-green-light`}
+          className='w-5 h-5 outline-none border-istcolor-grey-dark text-istcolor-green-light bg-gray-100 rounded focus:ring-isistcolor-green-light'
         />
         <label
           htmlFor={`checkbox-${name}`}
@@ -38,5 +38,4 @@ Format.propTypes = {
   name: PropTypes.string,
   value: PropTypes.number,
   className: PropTypes.string,
-  isSubCategory: PropTypes.bool,
 };

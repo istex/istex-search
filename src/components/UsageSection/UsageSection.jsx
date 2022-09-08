@@ -150,7 +150,7 @@ export default function UsageSection () {
                           checked={isWholeCategorySelected(formatCategory)}
                           id={`checkbox-${formatCategory}`}
                           value=''
-                          className='w-5 h-5 outline-none border-istcolor-grey-dark text-istcolor-green-light bg-gray-100 rounded focus:ring-isistcolor-green-light'
+                          className='w-5 h-5 outline-none border-istcolor-grey-dark bg-gray-100 text-istcolor-green-light rounded focus:ring-isistcolor-green-light'
                         />
                         <label
                           htmlFor={`checkbox-${formatCategory}`}
@@ -159,11 +159,11 @@ export default function UsageSection () {
                           {formats[formatCategory].label}
                         </label>
                       </div>
-                      {Object.entries(formats[formatCategory].formats).map(formatName => (
+                      {Object.keys(formats[formatCategory].formats).map(formatName => (
                         <Format
-                          key={formats[formatCategory].formats[formatName].label}
-                          name={formats[formatCategory].formats[formatName].label}
-                          value={formats[formatCategory].formats[formatName].value}
+                          key={formats[formatCategory]?.formats[formatName]?.label}
+                          name={formats[formatCategory]?.formats[formatName]?.label}
+                          value={formats[formatCategory]?.formats[formatName]?.value}
                           className='pl-5'
                         />
                       ))}

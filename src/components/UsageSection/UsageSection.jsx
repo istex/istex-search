@@ -21,8 +21,8 @@ export default function UsageSection () {
     if (!formats[categoryName]) return 0;
 
     let wholeCategoryFormat = 0;
-    for (const formatName in formats[categoryName]) {
-      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName][formatName]);
+    for (const formatName in formats[categoryName].formats) {
+      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
     }
 
     return wholeCategoryFormat;
@@ -77,7 +77,19 @@ export default function UsageSection () {
         title='Usage'
         num='2'
         infoTextTitle=''
-        infoTextContent=''
+        infoTextContent={
+          <p className='text-sm text-white'>
+            Le choix du mode "Usage<br />
+            personnalisé" donne accès à tous les<br />
+            types de fichiers et de formats<br />
+            existants dans ISTEX. En revanche, le<br />
+            choix d’une plateforme ou d’un outil<br />
+            particuliers induit une sélection<br />
+            automatique des formats et types de<br />
+            fichiers qui seront extraits.<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>.
+          </p>
+        }
       />
       <p>Cliquez sur l’usage visé pour votre corpus :</p>
       {!shouldDisplayUsage && (
@@ -112,21 +124,24 @@ export default function UsageSection () {
               <div className='grid gap-x-8 gap-y-4 grid-cols-5'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
-                  if (Number.isInteger(formats[formatCategory])) {
+                  if (formats[formatCategory].value !== undefined) {
                     return (
                       <div key={formatCategory} className='font-semibold capitalize'>
                         <Format
                           isSubCategory={false}
                           className='font-bold capitalize'
-                          name={formatCategory}
-                          value={formats[formatCategory]}
+                          name={formats[formatCategory].label}
+                          value={formats[formatCategory].value}
                         />
                       </div>
                     );
                   }
 
                   return (
-                    <div key={formatCategory} className='mx-5'>
+                    <div
+                      key={formatCategory}
+                      className='mx-5'
+                    >
                       <div className='flex items-center mb-4'>
                         <input
                           type='checkbox'
@@ -141,14 +156,14 @@ export default function UsageSection () {
                           htmlFor={`checkbox-${formatCategory}`}
                           className='font-bold capitalize pl-2'
                         >
-                          {formatCategory}
+                          {formats[formatCategory].label}
                         </label>
                       </div>
-                      {Object.entries(formats[formatCategory]).map(([formatName, formatValue]) => (
+                      {Object.entries(formats[formatCategory].formats).map(formatName => (
                         <Format
-                          key={formatName}
-                          name={formatName}
-                          value={formatValue}
+                          key={formats[formatCategory].formats[formatName].label}
+                          name={formats[formatCategory].formats[formatName].label}
+                          value={formats[formatCategory].formats[formatName].value}
                           className='pl-5'
                         />
                       ))}

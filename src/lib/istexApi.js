@@ -95,16 +95,16 @@ export function buildExtractParamsFromFormats (selectedFormats) {
     const currentCategoryParams = [];
 
     // Cases of covers and annexes which are not in a category
-    if (Number.isInteger(formats[formatCategory])) {
-      if (isFormatSelected(selectedFormats, formats[formatCategory])) {
+    if (formats[formatCategory].value !== undefined) {
+      if (isFormatSelected(selectedFormats, formats[formatCategory].value)) {
         extractParams.push(formatCategory);
       }
       continue;
     }
 
     // Build every format of the current category (e.g. pdf, txt for the fulltext category)
-    for (const currentCategoryFormat in formats[formatCategory]) {
-      if (isFormatSelected(selectedFormats, formats[formatCategory][currentCategoryFormat])) {
+    for (const currentCategoryFormat in formats[formatCategory].formats) {
+      if (isFormatSelected(selectedFormats, formats[formatCategory].formats[currentCategoryFormat].value)) {
         currentCategoryParams.push(currentCategoryFormat);
       }
     }
@@ -130,7 +130,7 @@ export function parseExtractParams (extractParamsAsString) {
   const formatCategories = extractParamsAsString.split(';')
     .filter(category => {
       // category would look like this: 'fulltext[txt,pdf]' so we
-      // need to make sure supportedFormatCategory is at the begging category
+      // need to make sure supportedFormatCategory is at the beginning of category
       for (const supportedFormatCategory in formats) {
         if (category.startsWith(supportedFormatCategory)) return true;
       }
@@ -143,8 +143,8 @@ export function parseExtractParams (extractParamsAsString) {
 
     // If formatCategory does not contain '[' and ']', it means it's 'covers' or 'annexes'
     if (indexOfOpeningBracket === -1 || indexOfClosingBracket === -1) {
-      if (Number.isInteger(formats[formatCategory])) {
-        selectedFormats = selectFormat(selectedFormats, formats[formatCategory]);
+      if (formats[formatCategory].value !== undefined) {
+        selectedFormats = selectFormat(selectedFormats, formats[formatCategory].value);
       }
       continue;
     }
@@ -155,10 +155,10 @@ export function parseExtractParams (extractParamsAsString) {
     // Get the formats within formatCategoryName and only keep the supported formats
     const currentCategoryFormats = formatCategory.substring(indexOfOpeningBracket + 1, indexOfClosingBracket)
       .split(',')
-      .filter(categoryFormat => Object.keys(formats[formatCategoryName]).includes(categoryFormat));
+      .filter(categoryFormat => Object.keys(formats[formatCategoryName].formats).includes(categoryFormat));
 
     for (const currentCategoryFormat of currentCategoryFormats) {
-      selectedFormats = selectFormat(selectedFormats, formats[formatCategoryName][currentCategoryFormat]);
+      selectedFormats = selectFormat(selectedFormats, formats[formatCategoryName].formats[currentCategoryFormat].value);
     }
   }
 
@@ -258,10 +258,14 @@ export function isFormatSelected (baseFormat, formatToCheck) {
  * @param {string} rankingMode The ranking mode URL search parameter.
  * @returns A `Promise`.
  */
-export function sendResultPreviewApiRequest (queryString, rankingMode) {
+export function sendResultPreviewApiRequest (queryString, rankingMode, currentPageURI) {
+  if (currentPageURI) {
+    return axios.get(currentPageURI);
+  }
+
   const url = new URL('document', istexApiConfig.baseUrl);
   url.searchParams.set('rankBy', rankingMode);
-  url.searchParams.set('size', 6);
+  url.searchParams.set('size', 9);
   url.searchParams.set('output', 'author,title,host.title,publicationDate');
   url.searchParams.set('sid', 'istex-dl');
 
@@ -288,9 +292,6 @@ export function sendDownloadApiRequest (url) {
   const link = document.createElement('a');
   link.href = url;
 
-  // This attribute is set to open the URL in another tab, this is useful when the user is redirected
-  // to the identity federation page so that they don't lose the current ISTEX-DL page
-  link.setAttribute('target', '_blank');
   link.click();
 }
 

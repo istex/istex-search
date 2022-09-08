@@ -55,28 +55,88 @@ export const istexApiConfig = {
 //      0        0       0000000000      0000000000     0000000000
 export const formats = {
   fulltext: {
-    pdf: 1 << 0,
-    tei: 1 << 1,
-    txt: 1 << 2,
-    cleaned: 1 << 3,
-    zip: 1 << 4,
-    tiff: 1 << 5,
+    label: 'Texte intégral',
+    formats: {
+      pdf: {
+        label: 'PDF',
+        value: 1 << 0,
+      },
+      tei: {
+        label: 'TEI',
+        value: 1 << 1,
+      },
+      txt: {
+        label: 'TXT',
+        value: 1 << 2,
+      },
+      cleaned: {
+        label: 'CLEANED',
+        value: 1 << 3,
+      },
+      zip: {
+        label: 'ZIP',
+        value: 1 << 4,
+      },
+      tiff: {
+        label: 'TIFF',
+        value: 1 << 5,
+      },
+    },
   },
   metadata: {
-    json: 1 << 10,
-    xml: 1 << 11,
-    mods: 1 << 12,
+    label: 'Métadonnées',
+    formats: {
+      json: {
+        label: 'JSON',
+        value: 1 << 10,
+      },
+      xml: {
+        label: 'XML',
+        value: 1 << 11,
+      },
+      mods: {
+        label: 'MODS',
+        value: 1 << 12,
+      },
+    },
   },
   enrichments: {
-    multicat: 1 << 20,
-    nb: 1 << 21,
-    grobidFulltext: 1 << 22,
-    refBibs: 1 << 23,
-    teeft: 1 << 24,
-    unitex: 1 << 25,
+    label: 'Enrichissements',
+    formats: {
+      multicat: {
+        label: 'multicat',
+        value: 1 << 20,
+      },
+      nb: {
+        label: 'nb',
+        value: 1 << 21,
+      },
+      grobidFulltext: {
+        label: 'grobidFulltext',
+        value: 1 << 22,
+      },
+      refBibs: {
+        label: 'refBibs',
+        value: 1 << 23,
+      },
+      teeft: {
+        label: 'teeft',
+        value: 1 << 24,
+      },
+      unitex: {
+        label: 'unitex',
+        value: 1 << 25,
+      },
+    },
   },
-  covers: 1 << 30,
-  annexes: 1 << 31,
+  covers: {
+    label: 'Couvertures',
+    value: 1 << 30,
+  },
+  annexes: {
+    label: 'Annexes',
+    value: 1 << 31,
+  },
 };
 
 export const usages = {
@@ -86,9 +146,51 @@ export const usages = {
   },
   lodex: {
     label: 'Lodex',
-    selectedFormats: formats.metadata.json,
+    selectedFormats: formats.metadata.formats.json.value,
   },
 };
+
+export const catalogList = [
+  {
+    title: 'Souvent utilisé',
+    items: [
+      {
+        dataTitle: 'Tous les champs',
+        dataInfo: 'Recherche d\'un ou plusieurs termes dans toute la notice',
+      },
+      {
+        dataTitle: 'Année de publication',
+        dataInfo: 'Date de publication papier de l\'article',
+      },
+    ],
+  },
+  {
+    title: 'Revues',
+    items: [
+      {
+        dataTitle: 'Titre de la revue',
+        dataInfo: 'Recherche d\'un ou plusieurs termes dans le titre de la revue',
+      },
+      {
+        dataTitle: 'ISSN',
+        dataInfo: 'Numéro ISSN de la revue',
+      },
+    ],
+  },
+  {
+    title: 'Enrichissements',
+    items: [
+      {
+        dataTitle: 'Lieux géographiques',
+        dataInfo: 'Recherche d\'un ou plusieurs termes identifiés dans le texte de l\'article comme étant un lieu géographique',
+      },
+      {
+        dataTitle: 'Catégorie Inist',
+        dataInfo: 'Recherche par catégorie scientifique du plan de classement Inist',
+      },
+    ],
+  },
+];
 
 // Maybe find a better way to estimate the archive size one day...
 export const formatSizes = {

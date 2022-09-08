@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Tooltip } from 'flowbite-react';
 
 import { resetForm } from '../ResetButton/ResetButton';
 import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
 import { formats, formatSizes } from '../../config';
-import { Tooltip } from 'flowbite-react';
+import ModalDownloadRewiews from './ModalDownloadRewiews';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -18,6 +20,15 @@ export default function DownloadButton () {
   const usage = useSelector(state => state.istexApi.usage);
 
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleDownload = (event) => {
+    setOpenModal(true);
+
+    if (event) {
+      onDownload();
+    }
+  };
 
   const onDownload = async () => {
     const options = {
@@ -60,6 +71,10 @@ export default function DownloadButton () {
     resetForm();
   };
 
+  useEffect(() => {
+    eventEmitter.addListener(events.displayDownloadModal, handleDownload);
+  }, []);
+
   const isFormIncomplete = queryString === '' ||
     !selectedFormats ||
     !rankingMode ||
@@ -74,8 +89,8 @@ export default function DownloadButton () {
       let format;
 
       // Cases of covers and annexes which are not in a category
-      if (Number.isInteger(formats[formatCategory])) {
-        format = formats[formatCategory];
+      if (formats[formatCategory].value !== undefined) {
+        format = formats[formatCategory].value;
 
         if (!isFormatSelected(selectedFormats, format)) continue;
 
@@ -87,8 +102,8 @@ export default function DownloadButton () {
         continue;
       }
 
-      for (const formatName in formats[formatCategory]) {
-        format = formats[formatCategory][formatName];
+      for (const formatName in formats[formatCategory].formats) {
+        format = formats[formatCategory].formats[formatName].value;
 
         if (!isFormatSelected(selectedFormats, format)) continue;
 
@@ -116,7 +131,7 @@ export default function DownloadButton () {
   const DownloadButtonWrapper = ({ disabled, onClick }) => {
     return (
       <button
-        className={`border-none bg-istcolor-blue hover:bg-istcolor-green-light hover:text-istcolor-black text-white font-bold py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`border-none text-white font-montserrat-regular font-bold py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed bg-istcolor-grey-medium' : 'cursor-pointer bg-istcolor-blue button cta1'}`}
         onClick={onClick}
         disabled={disabled}
       >
@@ -132,8 +147,8 @@ export default function DownloadButton () {
           ? (
             <Tooltip
               content={
-                <p className='text-sm'>
-                  Pour activer le téléchargement<br />,
+                <p className='text-sm text-white'>
+                  Pour activer le téléchargement,<br />
                   complétez le formulaire en remplissant<br />
                   la fenêtre de requêtage par au moins <br />
                   <span className='font-bold'>1 caractère</span>, en sélectionnant au moins<br />
@@ -145,15 +160,21 @@ export default function DownloadButton () {
               style='light'
               placement='right'
             >
-              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+              <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             </Tooltip>
             )
           : (
-            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={onDownload} />
+            <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             )}
       </div>
       {archiveSizeInGigabytes >= 1 && (
         <span>{archiveSizeInGigabytes >= 5 ? 'Danger' : archiveSizeInGigabytes >= 1 ? 'Warning' : ''}: &gt;{archiveSizeInGigabytes} GB</span>
+      )}
+      {openModal && (
+        <ModalDownloadRewiews
+          initOpening={openModal}
+          setOpenModal={setOpenModal}
+        />
       )}
     </div>
   );

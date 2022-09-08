@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReplyIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { noFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, queryModes } from '../../config';
@@ -23,13 +23,13 @@ export function resetForm () {
 export default function ResetButton () {
   return (
     <div
-      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white'
+      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
       onClick={resetForm}
     >
-      <div className=''>
-        <ReplyIcon className='h-12 w-12' />
+      <div className='pb-2'>
+        <FontAwesomeIcon icon='eraser' size='3x' />
       </div>
-      <button className='istex-footer__text'>Réinitialiser</button>
+      <button className='istex-footer__text pt-1'>Réinitialiser</button>
     </div>
   );
 }

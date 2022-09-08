@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 import { useFocus } from '../../lib/hooks';
 import './QueryInput.css';
+import { resetForm } from '../ResetButton/ResetButton';
 
 const infoText = {
   queryString:
@@ -340,7 +341,10 @@ export default function QueryInput () {
         <RadioGroup
           className='flex'
           value={currentQueryMode}
-          onChange={setCurrentQueryMode}
+          onChange={(value) => {
+            resetForm();
+            setCurrentQueryMode(value);
+          }}
           name='queryMode'
         >
           {queryModes.modes.map(({ label, value }) => (

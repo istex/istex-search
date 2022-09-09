@@ -83,12 +83,6 @@ function AdvancedSearchForm ({ catalogList }) {
 }
 
 AdvancedSearchForm.propTypes = {
-<<<<<<< HEAD
-=======
-  updateQueryString: PropTypes.func,
-  focusAdvancedSearch: PropTypes.any,
-  startQueryAvancedSearch: PropTypes.func,
->>>>>>> add catalog list form request value
   catalogList: PropTypes.array,
 };
 

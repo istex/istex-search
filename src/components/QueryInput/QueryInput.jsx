@@ -67,23 +67,11 @@ const infoText = {
 export default function QueryInput () {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
-  const [focusAdvancedSearch, setFocusAdvancedSearch] = useState(false);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [arkInputValue, setArkInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
-
-  // const onClickExample=(params)=>{
-  //   navigate('/'+ params.request);
-  //   setQueryStringInputValue(params.input)
-  //   updateQueryString(params.input)
-  //   setIsOpen(false);
-  // }
-
-  const startQueryAvancedSearch = (value) => {
-    setFocusAdvancedSearch(value);
-  };
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -279,9 +267,6 @@ export default function QueryInput () {
       queryInputUi = (
         <>
           <AdvancedSearchForm
-            focusAdvancedSearch={focusAdvancedSearch}
-            updateQueryString={updateQueryString}
-            startQueryAvancedSearch={startQueryAvancedSearch}
             catalogList={catalogList}
           />
           <br />

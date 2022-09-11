@@ -210,7 +210,7 @@ export default function QueryInput () {
       queryInputUi = (
         <textarea
           rows='1'
-          className='md:w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
+          className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           name='queryInput'
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
@@ -339,7 +339,7 @@ export default function QueryInput () {
     <div>
       <div className='cursor-pointer w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
-          className='flex flex-col md:flex-row'
+          className='w-full flex flex-wrap text-sm md:text-base md:flex-row items-center'
           value={currentQueryMode}
           onChange={(value) => {
             resetForm();
@@ -348,14 +348,17 @@ export default function QueryInput () {
           name='queryMode'
         >
           {queryModes.modes.map(({ label, value }) => (
-            <div key={label}>
+            <div
+              key={label}
+              className='w-1/2 text-xs md:text-base md:w-auto md:inline-block'
+            >
               <RadioGroup.Option
-                className='flex items-center font-medium mr-2'
+                className='flex items-center justify-between font-medium md:mr-2'
                 value={value}
               >
                 {({ checked }) => (
                   <>
-                    <span className={`flex items-center justify-center px-[30px] py-2 w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                    <span className={`flex items-center md:justify-center px-2 py-2 md:px-[30px] md:py-2 w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
                       {label}
                       <Tooltip
                         placement='top'
@@ -372,7 +375,7 @@ export default function QueryInput () {
           ))}
         </RadioGroup>
       </div>
-      <div className='my-2'>
+      <div className='flex my-2'>
         {queryInputUi}
       </div>
     </div>

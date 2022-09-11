@@ -39,10 +39,10 @@ export default function App () {
 
   return (
     <div className='text-istcolor-black'>
-      <Header />
+      {/* <Header /> */}
       <TextHeaderIstexDL />
       <Form />
-      <UrlSearchParamsManager />
+      {/* <UrlSearchParamsManager />
       <Footer />
       <Navbar />
       <ToastContainer
@@ -51,7 +51,7 @@ export default function App () {
         limit={1}
         toastClassName={({ type }) => `${contextClass[type || 'default']} text-white text-sm relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer`}
         autoClose={3000}
-      />
+      /> */}
     </div>
   );
 }

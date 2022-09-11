@@ -2,29 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './TitleSection.scss';
 import { Tooltip } from 'flowbite-react';
 
 export default function TitleSection ({ num, title, infoTextContent }) {
   return (
-    <div className='title-section flex justify-between items-center'>
-      <h2 className='title-section__num-title flex'>
-        <span className='bg-istcolor-green-dark title-section__num-title__num'>
+    <div className='flex justify-between items-center pb-[5px] text-istcolor-black mt-2 mb-2 border-b-2 border-istcolor-black'>
+      <h2 className='flex font-montserrat-bold text-center'>
+        <span className='rounded-full bg-istcolor-green-dark h-auto w-[30px] text-[20px] md:text-[30px] mr-1'>
           {`${num}.`}
         </span>
-        <span className='title-section__num-title__title'>
+        <span className='text-[30px]'>
           {title}
         </span>
       </h2>
-      <div className='title-section__info cursor-pointer'>
-        <Tooltip
-          placement='left'
-          trigger='click'
-          content={infoTextContent}
-        >
-          <FontAwesomeIcon icon='circle-info' size='2x' className='text-istcolor-blue' />
-        </Tooltip>
-      </div>
+      <Tooltip
+        placement='left'
+        trigger='click'
+        content={infoTextContent}
+      >
+        <FontAwesomeIcon icon='circle-info' size='2x' className='text-istcolor-blue cursor-pointer' />
+      </Tooltip>
     </div>
   );
 }

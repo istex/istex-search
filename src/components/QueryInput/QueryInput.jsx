@@ -210,7 +210,7 @@ export default function QueryInput () {
       queryInputUi = (
         <textarea
           rows='1'
-          className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
+          className='md:w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           name='queryInput'
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
@@ -339,7 +339,7 @@ export default function QueryInput () {
     <div>
       <div className='cursor-pointer w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
-          className='flex'
+          className='flex flex-col md:flex-row'
           value={currentQueryMode}
           onChange={(value) => {
             resetForm();

@@ -63,7 +63,7 @@ export default function ResultPreview ({
   return (
     <>
       <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Parcourir les résultats</h4>
-      <div className='grid gap-x-8 gap-y-4 grid-cols-3 mr-4'>
+      <div className='grid grid-cols-1 md:gap-x-8 md:gap-y-4 md:grid-cols-3 md:mr-4'>
         {results.map(result => (
           <div
             key={result.id}

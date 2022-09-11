@@ -116,29 +116,32 @@ export default function QuerySection () {
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
       </p>
       <QueryInput />
-      {!!totalAmountOfDocuments && (
-        <div className='my-4 flex items-center'>
-          <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
-          {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
-            <div className='pl-4 text-sm'>
-              <Tooltip
-                placement='right'
-                trigger='click'
-                content={
-                  <p className='text-sm text-white'>
-                    Reformulez votre requête ou vous ne <br />
-                    pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
-                    premiers documents sur <br />
-                    les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
-                  </p>
-                }
-              >
-                <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
-              </Tooltip>
-            </div>
-          )}
-        </div>
-      )}
+      <div className=''>
+        {!!totalAmountOfDocuments && (
+          <div className='my-4 flex items-center'>
+            <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
+            {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
+              <div className='pl-4 text-sm'>
+                <Tooltip
+                  placement='right'
+                  trigger='click'
+                  content={
+                    <p className='text-sm text-white'>
+                      Reformulez votre requête ou vous ne <br />
+                      pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
+                      premiers documents sur <br />
+                      les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
+                    </p>
+                  }
+                >
+                  <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
+                </Tooltip>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div className='flex items-center mb-4'>
         <label htmlFor='numberOfDocumentsInput pr-2'>
           Choisir le nombre de documents
@@ -240,7 +243,7 @@ export default function QuerySection () {
           ))}
         </div>
       </div>
-      <div className='mt-4'>
+      {/* <div className='mt-4'>
         {resultPreviewResults.length > 0 && (
           <div>
             <ResultPreview
@@ -254,7 +257,7 @@ export default function QuerySection () {
             />
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

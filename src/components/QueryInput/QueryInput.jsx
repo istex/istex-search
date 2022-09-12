@@ -266,18 +266,20 @@ export default function QueryInput () {
       /* Avanced form case */
       queryInputUi = (
         <>
-          <AdvancedSearchForm
-            catalogList={catalogList}
-          />
-          <br />
           <textarea
-            className='w-full border-[1px] border-istcolor-green-dark p-2'
-            rows='2'
-            cols='30'
+            rows='1'
+            className='w-full border-[1px] border-istcolor-green-dark mb-3 p-2 placeholder:text-istcolor-grey-medium'
             name='queryInput'
-            placeholder="Cliquez pour bénéficier de l'aide en ligne "
-            value=''
-            onChange={event => arkListHandler(event.target.value)}
+            placeholder='brain AND language:fre'
+            value={queryStringInputValue}
+            onChange={event => queryInputHandler(event.target.value)}
+            ref={inputRef}
+          />
+          <AdvancedSearchForm
+            updateQueryString={updateQueryString}
+            catalogList={catalogList}
+            queryInputHandler={queryInputHandler}
+            inputRef={inputRef}
           />
         </>
       );

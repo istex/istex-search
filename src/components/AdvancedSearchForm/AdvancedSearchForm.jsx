@@ -1,15 +1,20 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import AdvancedSearchIntervalInput from '../AdvancedSearchIntervalInput/AdvancedSearchIntervalInput';
 
-function AdvancedSearchForm ({ catalogList }) {
+function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
   const [request, setRequest] = useState('');
   const [openCatalogList, setOpenCatalogList] = useState(false);
+  const [openIntervalInput, setOpenIntervalInput] = useState(false);
+  const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(2020);
+  const [intervalInputMinValue, setIntervalInputMinValue] = useState(1600);
+  const [intervalInputData, setIntervalInputData] = useState('');
   const searchInput = useRef(null);
   const startQueryAvancedSearch = (value) => {
     setOpenCatalogList(value);
   };
 
-  function togglePreference (field) {
+  function togglePreference (field, data) {
     // Update the advanced search input request with selected field
     let newRequest = request;
     newRequest += ' ' + field.target.value;
@@ -23,7 +28,42 @@ function AdvancedSearchForm ({ catalogList }) {
       searchInput.current.setSelectionRange(endlineFocus, endlineFocus, 'forward');
       searchInput.current.focus();
       setOpenCatalogList(false);
-    }, 1000);
+      isInterval(data);
+    }, 500);
+  }
+
+  function isInterval (data) {
+    const intervalList = [
+      'Date de publication',
+      'Date de copyright',
+      'Score',
+      'Nombre de mots du PDF',
+      'Nombre de caractères du PDF',
+      'Nombre de mots du résumé',
+      'nombre de caractères du résumé',
+      'nombre de pages du PDF',
+      'nombre de mots par page du PDF',
+    ];
+
+    if (intervalList.includes(data.dataTitle)) {
+      fetch(`https://api.istex.fr/document/?q=*&facet=${data.dataValue}`)
+        .then(response => response.json())
+      // Whe make an update of the dataMax and dataMin value with the api istex request on the facet
+        .then(res => {
+          setIntervalInputData(data);
+          setIntervalInputMinValue(parseInt(res.aggregations[data.dataValue].buckets[0].fromAsString ||
+            res.aggregations[data.dataValue].buckets[0].from));
+          setIntervalInputMaxValue(parseInt(res.aggregations[data.dataValue].buckets[0].toAsString ||
+            res.aggregations[data.dataValue].buckets[0].to));
+          setTimeout(() => {
+            setOpenIntervalInput(true);
+          }, 1000);
+        });
+    }
+  }
+
+  function updateIntervalRequest (min, max) {
+    searchInput.current.value = `${intervalInputData.dataTitle} de  ${min} à ${max}`;
   }
 
   return (
@@ -45,6 +85,21 @@ function AdvancedSearchForm ({ catalogList }) {
           </div>
         </div>
       </div>
+      {
+        openIntervalInput
+          ? <AdvancedSearchIntervalInput
+              intervalInputData={intervalInputData}
+              setOpenIntervalInput={setOpenIntervalInput}
+              setRequest={setRequest}
+              min={intervalInputMinValue}
+              max={intervalInputMaxValue}
+              searchInput={searchInput}
+              queryInputHandler={queryInputHandler}
+              onChange={({ min, max }) => { updateIntervalRequest(min, max); }}
+            />
+          : null
+      }
+
       {/* catalog fields list with scroll */}
       <h2 id='accordion-collapse-heading' className={`${openCatalogList ? 'opacity-1' : 'hidden'}`}>
         <div className='catalog-title flex items-center justify-between w-full p-5  bg-black-200 font-medium text-left text-gray-500 border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800' data-accordion-target='#accordion-collapse-body-1' aria-expanded='true' aria-controls='accordion-collapse-body-1'>
@@ -66,7 +121,7 @@ function AdvancedSearchForm ({ catalogList }) {
               {catalog.items.map((item, index) => (
                 <div className='flex pb-3' key={index}>
                   <div className='flex items-center h-5'>
-                    <input id={`helper-radio-${index}`} name={item.dataTitle} type='checkbox' onChange={(e) => { togglePreference(e); }} value={item.dataTitle} aria-describedby='helper-radio-text-{index}' className='cursor-pointer w-4 h-4 text-blue-istex bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' />
+                    <input id={`helper-radio-${index}`} name={item.dataTitle} type='checkbox' onChange={(e) => { togglePreference(e, item); }} value={item.dataTitle} aria-describedby='helper-radio-text-{index}' className='cursor-pointer w-4 h-4 text-blue-istex bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' />
                   </div>
                   <div className='ml-2 text-sm'>
                     <label htmlFor='helper-radio' className='font-medium text-gray-900 dark:text-gray-300'>{item.dataTitle}</label>
@@ -83,7 +138,8 @@ function AdvancedSearchForm ({ catalogList }) {
 }
 
 AdvancedSearchForm.propTypes = {
-  catalogList: PropTypes.array,
+  catalogList: PropTypes.array.isRequired,
+  queryInputHandler: PropTypes.func,
 };
 
 AdvancedSearchForm.defaultProps = {};

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
 
 import { noFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, queryModes } from '../../config';
@@ -20,16 +21,22 @@ export function resetForm () {
   eventEmitter.emit(events.resetUrlParams);
 }
 
-export default function ResetButton () {
+export default function ResetButton ({ className, sizeIcon, fontSizeText }) {
   return (
     <div
-      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
+      className={className}
       onClick={resetForm}
     >
-      <div className='pb-2'>
-        <FontAwesomeIcon icon='eraser' size='3x' />
+      <div>
+        <FontAwesomeIcon icon='eraser' className={sizeIcon} />
       </div>
-      <button className='istex-footer__text pt-1'>Réinitialiser</button>
+      <button className={fontSizeText}>Réinitialiser</button>
     </div>
   );
 }
+
+ResetButton.propTypes = {
+  className: PropTypes.string,
+  sizeIcon: PropTypes.string,
+  fontSizeText: PropTypes.string,
+};

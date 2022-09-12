@@ -44,7 +44,7 @@ export default function App () {
       <Form />
       <UrlSearchParamsManager />
       <Footer />
-      {/* <Navbar /> */}
+      <Navbar />
       <ToastContainer
         hideProgressBar
         closeButton={false}

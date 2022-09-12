@@ -39,7 +39,7 @@ export default function App () {
 
   return (
     <div className='text-istcolor-black'>
-      {/* <Header /> */}
+      <Header />
       <TextHeaderIstexDL />
       <Form />
       <UrlSearchParamsManager />

@@ -158,7 +158,6 @@ export default function DownloadButton () {
               }
               animation={false}
               style='light'
-              placement='right'
             >
               <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             </Tooltip>

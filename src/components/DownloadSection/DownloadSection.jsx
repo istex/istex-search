@@ -55,8 +55,8 @@ export default function DownloadSection () {
           </p>
         }
       />
-      <div className='flex items-center justify-center mt-4 text-base'>
-        <div className='mr-8'>
+      <div className='flex flex-col md:flex-row items-center justify-center mt-4 text-base'>
+        <div className='pr-8'>
           <span className='pr-2'>Niveau de compression : </span>
           <select
             value={compressionLevel}
@@ -73,7 +73,7 @@ export default function DownloadSection () {
           </select>
         </div>
         <div>
-          <span className='pr-2'>Format de l'archive : </span>
+          <span className='inline-block pt-2 md:pt-0 pr-2'>Format de l'archive : </span>
           {istexApiConfig.archiveTypes.types.map(type => (
             <span key={type.value} className='pr-4'>
               <input

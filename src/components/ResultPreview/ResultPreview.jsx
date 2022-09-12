@@ -88,7 +88,7 @@ export default function ResultPreview ({
           </div>
         ))}
       </div>
-      <div className='flex justify-between items-center mt-5'>
+      <div className='flex flex-col md:flex-row justify-between items-center mt-5'>
         <div className='flex items-center'>
           <div>
             Page <span className='font-bold'>{currentPage || defaultPage}</span> sur <span className='font-bold'>{totalPage}</span>
@@ -106,7 +106,7 @@ export default function ResultPreview ({
             />
           </form>
         </div>
-        <div className='flex'>
+        <div className='flex mt-3 md:mt-0'>
           {!prevPageURI
             ? null
             : (

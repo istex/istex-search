@@ -42,16 +42,16 @@ export default function App () {
       {/* <Header /> */}
       <TextHeaderIstexDL />
       <Form />
-      {/* <UrlSearchParamsManager />
+      <UrlSearchParamsManager />
       <Footer />
-      <Navbar />
+      {/* <Navbar /> */}
       <ToastContainer
         hideProgressBar
         closeButton={false}
         limit={1}
         toastClassName={({ type }) => `${contextClass[type || 'default']} text-white text-sm relative flex p-1 min-h-10 rounded-md justify-between overflow-hidden cursor-pointer`}
         autoClose={3000}
-      /> */}
+      />
     </div>
   );
 }

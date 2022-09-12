@@ -19,12 +19,12 @@ export default function Usage ({ name, formats, label }) {
     <RadioGroup
       value={usage}
       onChange={usageChangedHandler}
-      className='mr-5'
+      className='mb-2 md:mb-0 md:mr-5'
       name='usages'
     >
       <RadioGroup.Option
         value={name}
-        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] w-[351px]'
+        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] md:w-[351px]'
       >
         {({ active, checked }) => (
           <div className={`box-content flex flex-col justify-between w-full h-full bg-white border-4 cursor-pointer border-b-0${checked ? ' border-istcolor-green-dark' : ''}`}>

@@ -52,6 +52,10 @@ export default function UsageSection () {
   };
 
   const selectedFormatsHandler = newSelectedFormats => {
+    if (newSelectedFormats === 0) {
+      setShouldDisplayUsage(true);
+    }
+
     dispatch(setSelectedFormats(newSelectedFormats));
     eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
@@ -91,10 +95,10 @@ export default function UsageSection () {
           </p>
         }
       />
-      <p>Cliquez sur l’usage visé pour votre corpus :</p>
+      <p className='text-sm md:text-base'>Cliquez sur l’usage visé pour votre corpus :</p>
       {!shouldDisplayUsage && (
         <div
-          className='text-[#458ca5] text-xl font-semibold border-t-[1px] border-b-[1px] border-black mt-4 p-2'
+          className='text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 p-2'
           onClick={() => { setShouldDisplayUsage(true); }}
         >
           <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
@@ -103,7 +107,7 @@ export default function UsageSection () {
           </span>
         </div>
       )}
-      <div className='flex mt-4 w-full'>
+      <div className='flex flex-col md:flex-row mt-4'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}
@@ -121,12 +125,12 @@ export default function UsageSection () {
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)
             are both the custom usage */}
             {(usageName === 'customUsage' && usage === 'customUsage') && !shouldDisplayUsage && (
-              <div className='grid gap-x-8 gap-y-4 grid-cols-5'>
+              <div className='flex flex-col md:flex-row gap-x-8 gap-y-4'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
                   if (formats[formatCategory].value !== undefined) {
                     return (
-                      <div key={formatCategory} className='font-semibold capitalize'>
+                      <div key={formatCategory} className='font-semibold capitalize mx-5 md:mx-0'>
                         <Format
                           isSubCategory={false}
                           className='font-bold capitalize'

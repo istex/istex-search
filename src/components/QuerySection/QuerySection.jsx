@@ -117,10 +117,10 @@ export default function QuerySection () {
       </p>
       <QueryInput />
       {!!totalAmountOfDocuments && (
-        <div className='my-4 flex items-center'>
+        <div className='my-4'>
           <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
-            <div className='pl-4 text-sm'>
+            <div className='pl-4 text-sm inline-block align-middle'>
               <Tooltip
                 placement='right'
                 trigger='click'
@@ -139,33 +139,36 @@ export default function QuerySection () {
           )}
         </div>
       )}
-      <div className='flex items-center mb-4'>
+
+      <div className='mb-4'>
         <label htmlFor='numberOfDocumentsInput pr-2'>
           Choisir le nombre de documents
         </label>
-        <Tooltip
-          placement='right'
-          trigger='click'
-          content={
-            <p className='text-sm text-white'>
-              Actuellement, il n’est pas possible de<br />
-              télécharger plus de 100 000<br />
-              documents. Cette valeur a été fixée<br />
-              arbitrairement, pour limiter le<br />
-              requêtage utilisant une liste<br />
-              volume et la durée du<br />
-              raisonnables.<br />
-              Si le nombre de documents à<br />
-              extraire est inférieur au nombre total<br />
-              des résultats correspondant à votre<br />
-              requête, le choix d’un mode de tri<br />
-              des documents peut vous intéresser<br />
-              (voir rubrique suivante).<br />
-            </p>
-          }
-        >
-          <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
-        </Tooltip>
+        <div className='inline-block align-middle'>
+          <Tooltip
+            placement='right'
+            trigger='click'
+            content={
+              <p className='text-sm text-white'>
+                Actuellement, il n’est pas possible de<br />
+                télécharger plus de 100 000<br />
+                documents. Cette valeur a été fixée<br />
+                arbitrairement, pour limiter le<br />
+                requêtage utilisant une liste<br />
+                volume et la durée du<br />
+                raisonnables.<br />
+                Si le nombre de documents à<br />
+                extraire est inférieur au nombre total<br />
+                des résultats correspondant à votre<br />
+                requête, le choix d’un mode de tri<br />
+                des documents peut vous intéresser<br />
+                (voir rubrique suivante).<br />
+              </p>
+            }
+          >
+            <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+          </Tooltip>
+        </div>
         <span className='pl-2'>:</span>
         <input
           type='number'
@@ -180,7 +183,7 @@ export default function QuerySection () {
           className='ml-5 border-[1px] border-istcolor-green-dark px-2 py-1 w-20'
         />
         {!!totalAmountOfDocuments && (
-          <div className='ml-2'>
+          <div className='ml-2 inline-block'>
             <span> / <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</strong></span>
             <button
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
@@ -218,7 +221,7 @@ export default function QuerySection () {
             <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
           </Tooltip>
         </h4>
-        <div className='flex'>
+        <div className='flex flex-col md:flex-row'>
           {istexApiConfig.rankingModes.modes.map(({ label, value: rankingModeValue }) => (
             <div
               key={rankingModeValue}

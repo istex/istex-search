@@ -63,30 +63,32 @@ export default function ResultPreview ({
   return (
     <>
       <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Parcourir les résultats</h4>
-      <div className='grid gap-x-8 gap-y-4 grid-cols-3 mr-4'>
+      <div className='grid grid-cols-1 gap-y-2 auto-rows-fr md:gap-x-8 md:gap-y-4 md:grid-cols-3 md:mr-4'>
         {results.map(result => (
           <div
             key={result.id}
-            className='border-[1px] py-2 border-l-[10px] text-[#458ca5] border-[#458ca5] hover:border-black px-2 cursor-pointer hover:bg-istcolor-green-light hover:text-black'
+            className='flex flex-col justify-between text-istcolor-blue hover:text-istcolor-black border-[1px] py-2 border-l-[10px] border-istcolor-blue hover:border-istcolor-black px-2 cursor-pointer hover:bg-istcolor-green-light'
           >
-            <strong className='font-semibold text-sm'>{result.title ? result.title : 'Untitled Document'}</strong>
-            {result.author && (
-              <div className='italic text-sm pt-2'>
-                {result.author.map(currentAuthor => currentAuthor.name).join(' ; ')}
-              </div>
-            )}
+            <div>
+              <div className='font-semibold text-sm line-clamp-2'>{result.title ? result.title : 'Untitled Document'}</div>
+              {result.author && (
+                <div className='italic text-sm pt-2 text-istcolor-black truncate'>
+                  {result.author.map(currentAuthor => currentAuthor.name).join(' ; ')}
+                </div>
+              )}
+            </div>
             <div className='flex justify-between text-sm pt-2'>
               {result.host?.title && (
-                <div>{result.host.title}</div>
+                <div className='text-istcolor-black truncate'>{result.host.title}</div>
               )}
               {result.publicationDate && (
-                <div>{result.publicationDate}</div>
+                <div className='text-istcolor-black'>{result.publicationDate}</div>
               )}
             </div>
           </div>
         ))}
       </div>
-      <div className='flex justify-between items-center mt-5'>
+      <div className='flex flex-col md:flex-row justify-between items-center mt-5'>
         <div className='flex items-center'>
           <div>
             Page <span className='font-bold'>{currentPage || defaultPage}</span> sur <span className='font-bold'>{totalPage}</span>
@@ -104,7 +106,7 @@ export default function ResultPreview ({
             />
           </form>
         </div>
-        <div className='flex'>
+        <div className='flex mt-3 md:mt-0'>
           {!prevPageURI
             ? null
             : (

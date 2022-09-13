@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalShareButton from './ModalShareButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
-export default function ShareButton () {
+export default function ShareButton ({ sizeIcon, fontSizeText }) {
   const queryString = useSelector(state => state.istexApi.queryString);
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
@@ -53,14 +54,14 @@ export default function ShareButton () {
   return (
     <>
       <div
-        className={`flex flex-col justify-between istex-footer__link items-center mx-5 ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:text-white istex-footer__icon`}
+        className={`flex flex-col justify-center items-center ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:text-white text-istcolor-black`}
         onClick={handleShareButton}
       >
-        <div className='pb-2'>
-          <FontAwesomeIcon icon='link' size='3x' />
+        <div>
+          <FontAwesomeIcon icon='link' className={sizeIcon} />
         </div>
         <button
-          className='istex-footer__text pt-1'
+          className={fontSizeText}
           disabled={isFormIncomplete}
         >
           Partager
@@ -77,3 +78,8 @@ export default function ShareButton () {
     </>
   );
 }
+
+ShareButton.propTypes = {
+  sizeIcon: PropTypes.string,
+  fontSizeText: PropTypes.string,
+};

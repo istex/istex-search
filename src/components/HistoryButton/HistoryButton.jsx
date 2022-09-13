@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
+
 import './HistoryButton.css';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 import ModalListHistory from './ModalListHistory';
 
-export default function HistoryButton () {
+export default function HistoryButton ({ className, sizeIcon, fontSizeText }) {
   const [requests, setRequests] = useState(historyManager.getAll());
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
@@ -24,13 +26,13 @@ export default function HistoryButton () {
 
   return (
     <div
-      className='flex flex-col justify-between istex-footer__link items-center mx-5 cursor-pointer hover:text-white istex-footer__icon'
+      className={className}
       onClick={() => setModalVisibility(true)}
     >
-      <div className='pb-2'>
-        <FontAwesomeIcon icon='clock-rotate-left' size='3x' />
+      <div>
+        <FontAwesomeIcon icon='clock-rotate-left' className={sizeIcon} />
       </div>
-      <button className='istex-footer__text pt-1'>Historique</button>
+      <button className={fontSizeText}>Historique</button>
       <ModalListHistory
         show={openHistoryModal}
         onClose={() => setOpenHistoryModal(false)}
@@ -39,3 +41,9 @@ export default function HistoryButton () {
     </div>
   );
 }
+
+HistoryButton.propTypes = {
+  className: PropTypes.string,
+  sizeIcon: PropTypes.string,
+  fontSizeText: PropTypes.string,
+};

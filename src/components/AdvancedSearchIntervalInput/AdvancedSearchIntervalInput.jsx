@@ -4,7 +4,17 @@ import './AdvancedSearchIntervalInput.scss';
 import PropTypes from 'prop-types';
 import { Modal, Button, TextInput, Label } from 'flowbite-react';
 
-function AdvancedSearchIntervalInput ({ min, max, onChange, intervalInputData, setOpenIntervalInput, searchInput, setRequest, queryInputHandler }) {
+function AdvancedSearchIntervalInput ({
+  min,
+  max,
+  onChange,
+  intervalInputData,
+  setOpenIntervalInput,
+  searchInput,
+  setRequest,
+  queryInputHandler,
+  setDisableCatalogInput
+}) {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const [openModal, setOpenModal] = useState(false);
@@ -58,6 +68,7 @@ function AdvancedSearchIntervalInput ({ min, max, onChange, intervalInputData, s
   // Update the query with the interval search values and close the interval input box
   const updateQuery = () => {
     queryInputHandler(`${intervalInputData.dataValue}:[${minVal} TO ${maxVal}]`);
+    setDisableCatalogInput(true);
     setOpenIntervalInput(false);
   };
 
@@ -124,7 +135,7 @@ function AdvancedSearchIntervalInput ({ min, max, onChange, intervalInputData, s
         <button onClick={(e) => { e.preventDefault(); updateQuery(); }} className='text-white relative right-2  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Ajouter</button>
       </div>
 
-      <div className='interval-wrapper' onClick={() => { setRequest(''); searchInput.current.value = ''; setOpenIntervalInput(false); }} role='navigation' aria-label='menu-principal'>
+      <div className='interval-wrapper' onClick={() => { setRequest(''); searchInput.current.value = ''; setOpenIntervalInput(false); setDisableCatalogInput(false); }} role='navigation' aria-label='menu-principal'>
         <button id='toggle-nav' title='fermer la fenêtre' className='close-button ' />
       </div>
 
@@ -176,6 +187,7 @@ AdvancedSearchIntervalInput.propTypes = {
   max: PropTypes.number.isRequired,
   intervalInputData: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
+  setDisableCatalogInput: PropTypes.func.isRequired,
   searchInput: PropTypes.any.isRequired,
   setOpenIntervalInput: PropTypes.func.isRequired,
   setRequest: PropTypes.func.isRequired,

@@ -230,17 +230,17 @@ export const catalogList = [
         dataValue: 'qualityIndicators.abstractWordCount',
       },
       {
-        dataTitle: 'nombre de caractères du résumé',
+        dataTitle: 'Nombre de caractères du résumé',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.abstractCharCount',
       },
       {
-        dataTitle: 'nombre de pages du PDF',
+        dataTitle: 'Nombre de pages du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfPageCount',
       },
       {
-        dataTitle: 'nombre de mots par page du PDF',
+        dataTitle: 'Nombre de mots par page du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfWordsPerPage',
       },

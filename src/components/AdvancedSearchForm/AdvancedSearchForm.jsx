@@ -5,6 +5,7 @@ import AdvancedSearchIntervalInput from '../AdvancedSearchIntervalInput/Advanced
 function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
   const [request, setRequest] = useState('');
   const [openCatalogList, setOpenCatalogList] = useState(false);
+  const [disableCatalogInput, setDisableCatalogInput] = useState(false);
   const [openIntervalInput, setOpenIntervalInput] = useState(false);
   const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(2020);
   const [intervalInputMinValue, setIntervalInputMinValue] = useState(1600);
@@ -40,9 +41,9 @@ function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
       'Nombre de mots du PDF',
       'Nombre de caractères du PDF',
       'Nombre de mots du résumé',
-      'nombre de caractères du résumé',
-      'nombre de pages du PDF',
-      'nombre de mots par page du PDF',
+      'Nombre de caractères du résumé',
+      'Nombre de pages du PDF',
+      'Nombre de mots par page du PDF',
     ];
 
     if (intervalList.includes(data.dataTitle)) {
@@ -57,6 +58,7 @@ function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
             res.aggregations[data.dataValue].buckets[0].to));
           setTimeout(() => {
             setOpenIntervalInput(true);
+            setDisableCatalogInput(true);
           }, 1000);
         });
     }
@@ -81,6 +83,7 @@ function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
               defaultValue={request} onClick={() => { startQueryAvancedSearch(true); }}
               className='block p-2 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-full border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
               placeholder='Sélectionner un ou plusieurs champs dans le catalogue...'
+              disabled={disableCatalogInput}
             />
           </div>
         </div>
@@ -94,6 +97,7 @@ function AdvancedSearchForm ({ catalogList, queryInputHandler }) {
               min={intervalInputMinValue}
               max={intervalInputMaxValue}
               searchInput={searchInput}
+              setDisableCatalogInput={setDisableCatalogInput}
               queryInputHandler={queryInputHandler}
               onChange={({ min, max }) => { updateIntervalRequest(min, max); }}
             />

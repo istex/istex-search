@@ -274,6 +274,7 @@ export default function QueryInput () {
             value={queryStringInputValue}
             onChange={event => queryInputHandler(event.target.value)}
             ref={inputRef}
+            disabled
           />
           <AdvancedSearchForm
             updateQueryString={updateQueryString}

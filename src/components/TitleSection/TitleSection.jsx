@@ -16,11 +16,12 @@ export default function TitleSection ({ num, title, infoTextContent }) {
         </span>
       </h2>
       <Tooltip
-        placement='left'
         trigger='click'
         content={infoTextContent}
       >
-        <FontAwesomeIcon icon='circle-info' size='2x' className='text-istcolor-blue cursor-pointer' />
+        <button>
+          <FontAwesomeIcon icon='circle-info' size='2x' className='text-istcolor-blue cursor-pointer' />
+        </button>
       </Tooltip>
     </div>
   );

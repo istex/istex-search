@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+
 import { toggleFormat, isFormatSelected } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
+import { Tooltip } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function Format ({ name, value, className }) {
+export default function Format ({ name, value, className, infoText }) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
 
   const checkHandler = () => {
@@ -25,9 +28,17 @@ export default function Format ({ name, value, className }) {
         />
         <label
           htmlFor={`checkbox-${name}`}
-          className='italic pl-2'
+          className='flex items-center italic pl-2'
         >
-          {name}
+          <span>{name}</span>
+          <Tooltip
+            trigger='click'
+            content={infoText}
+          >
+            <button>
+              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+            </button>
+          </Tooltip>
         </label>
       </div>
     </div>
@@ -38,4 +49,5 @@ Format.propTypes = {
   name: PropTypes.string,
   value: PropTypes.number,
   className: PropTypes.string,
+  infoText: PropTypes.node,
 };

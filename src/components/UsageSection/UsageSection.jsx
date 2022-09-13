@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ChevronLeftIcon } from '@heroicons/react/solid';
+import { Tooltip } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import Format from '../Format/Format';
+import { formats as formatInfoText } from '../Format/infoTooltip';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
-import { ChevronLeftIcon } from '@heroicons/react/solid';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
@@ -136,6 +140,7 @@ export default function UsageSection () {
                           className='font-bold capitalize'
                           name={formats[formatCategory].label}
                           value={formats[formatCategory].value}
+                          infoText={formatInfoText[formatCategory].infoText}
                         />
                       </div>
                     );
@@ -158,9 +163,17 @@ export default function UsageSection () {
                         />
                         <label
                           htmlFor={`checkbox-${formatCategory}`}
-                          className='font-bold capitalize pl-2'
+                          className='flex items-center font-bold capitalize pl-2'
                         >
                           {formats[formatCategory].label}
+                          <Tooltip
+                            trigger='click'
+                            content={formatInfoText[formatCategory].infoText}
+                          >
+                            <button>
+                              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+                            </button>
+                          </Tooltip>
                         </label>
                       </div>
                       {Object.keys(formats[formatCategory].formats).map(formatName => (
@@ -168,6 +181,7 @@ export default function UsageSection () {
                           key={formats[formatCategory]?.formats[formatName]?.label}
                           name={formats[formatCategory]?.formats[formatName]?.label}
                           value={formats[formatCategory]?.formats[formatName]?.value}
+                          infoText={formatInfoText[formatCategory]?.formats[formatName]?.infoText}
                           className='pl-5'
                         />
                       ))}

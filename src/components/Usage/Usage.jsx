@@ -5,7 +5,6 @@ import { RadioGroup } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/solid';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
-
 export default function Usage ({ name, formats, label }) {
   const usage = useSelector(state => state.istexApi.usage);
 
@@ -20,12 +19,12 @@ export default function Usage ({ name, formats, label }) {
     <RadioGroup
       value={usage}
       onChange={usageChangedHandler}
-      className='mr-5'
+      className='mb-2 md:mb-0 md:mr-5'
       name='usages'
     >
       <RadioGroup.Option
         value={name}
-        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] w-[351px]'
+        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] md:w-[351px]'
       >
         {({ active, checked }) => (
           <div className={`box-content flex flex-col justify-between w-full h-full bg-white border-4 cursor-pointer border-b-0${checked ? ' border-istcolor-green-dark' : ''}`}>
@@ -50,7 +49,7 @@ export default function Usage ({ name, formats, label }) {
                 </div>
               </div>
             </div>
-            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-[#458ca5]'} w-full`}>
+            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-istcolor-blue'} w-full`}>
               {checked && (
                 <CheckIcon className='h-6 w-6' />
               )}
@@ -58,11 +57,11 @@ export default function Usage ({ name, formats, label }) {
                 {checked ? <span className='pl-2'>Usage sélectioné</span> : <span className='pl-2'>Choisir cet usage</span>}
               </p>
             </div>
-            <div className='absolute right-2 top-2 p-2 text-center text-[#4a4a4a] bg-[#f0f0f0]'>
+            <div className='absolute right-2 top-2 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
               <p className='text-sm'>TDM</p>
             </div>
             {name === 'customUsage' && (
-              <div className='absolute right-2 top-11 p-2 text-center text-[#4a4a4a] bg-[#f0f0f0]'>
+              <div className='absolute right-2 top-11 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
                 <p className='text-sm'>DOC</p>
               </div>
             )}

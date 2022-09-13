@@ -243,6 +243,14 @@ export function noFormatSelected () {
 }
 
 /**
+ * Returns a negative value for differencing of no format selected.
+ * @returns A format corresponding to reset form (-1).
+ */
+export function resetFormatSelected () {
+  return -1;
+}
+
+/**
  * Check if `formatToCheck` is selected in `baseFormat`.
  * @param {number} baseFormat The format to check in.
  * @param {number} formatToCheck Teh format to check.

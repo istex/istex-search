@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { ChevronLeftIcon } from '@heroicons/react/solid';
+import { Tooltip } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import Format from '../Format/Format';
+import { formats as formatInfoText } from '../Format/infoTooltip';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, noFormatSelected, resetFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
@@ -12,6 +17,9 @@ export default function UsageSection () {
   const dispatch = useDispatch();
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
+  const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
+
+  const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
 
   const getWholeCategoryFormat = categoryName => {
     if (!formats[categoryName]) return 0;
@@ -47,9 +55,15 @@ export default function UsageSection () {
     return isFormatSelected(selectedFormats, wholeCategoryFormat);
   };
 
-  const selectedFormatsHandler = newSelectedFormats => {
+  const selectedFormatsHandler = (newSelectedFormats) => {
+    // if user resets form
+    const isResetForm = newSelectedFormats === resetFormatSelected();
+    if (isResetForm) {
+      setShouldDisplayUsage(true);
+    }
+
     dispatch(setSelectedFormats(newSelectedFormats));
-    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
+    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, isResetForm ? noFormatSelected() : newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
     eventEmitter.emit(events.setExtractUrlParam, extractParams);
@@ -87,46 +101,89 @@ export default function UsageSection () {
           </p>
         }
       />
-      <p>Cliquez sur l’usage visé pour votre corpus :</p>
-      <div className='flex mt-4'>
+      <p className='text-sm md:text-base'>Cliquez sur l’usage visé pour votre corpus :</p>
+      {!shouldDisplayUsage && (
+        <div
+          className='text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 p-2'
+        >
+          <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
+            <ChevronLeftIcon className='inline h-6 w-6' />{' '}
+            <span className='text-sm font-semibold'>Usage personnalisé</span>
+          </span>
+        </div>
+      )}
+      <div className='flex flex-col md:flex-row mt-4'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}
           >
-            <Usage
-              name={usageName}
-              label={usages[usageName].label}
-              formats={usages[usageName].selectedFormats}
-            />
+            {shouldDisplayUsage && (
+              <div onClick={() => { handleDisplayingOfUsage(usageName); }}>
+                <Usage
+                  name={usageName}
+                  label={usages[usageName].label}
+                  formats={usages[usageName].selectedFormats}
+                  setShouldDisplayUsage={setShouldDisplayUsage}
+                />
+              </div>
+            )}
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)
             are both the custom usage */}
-            {(usageName === 'customUsage' && usage === 'customUsage') && (
-              <div className='flex'>
+            {(usageName === 'customUsage' && usage === 'customUsage') && !shouldDisplayUsage && (
+              <div className='flex flex-col md:flex-row gap-x-8 gap-y-4'>
                 {Object.keys(formats).map(formatCategory => {
                   // Cases of covers and annexes which are not in a category
                   if (formats[formatCategory].value !== undefined) {
                     return (
-                      <div key={formatCategory}>
-                        <Format name={formats[formatCategory].label} value={formats[formatCategory].value} />
+                      <div key={formatCategory} className='font-semibold capitalize mx-5 md:mx-0'>
+                        <Format
+                          isSubCategory={false}
+                          className='font-bold capitalize'
+                          name={formats[formatCategory].label}
+                          value={formats[formatCategory].value}
+                          infoText={formatInfoText[formatCategory].infoText}
+                        />
                       </div>
                     );
                   }
 
                   return (
-                    <div key={formatCategory}>
-                      <input
-                        type='checkbox'
-                        name={formatCategory}
-                        onChange={toggleWholeCategory}
-                        checked={isWholeCategorySelected(formatCategory)}
-                      />
-                      <label htmlFor={formatCategory}>{formats[formatCategory].label}</label>
+                    <div
+                      key={formatCategory}
+                      className='mx-5'
+                    >
+                      <div className='flex items-center mb-4'>
+                        <input
+                          type='checkbox'
+                          name={formatCategory}
+                          onChange={toggleWholeCategory}
+                          checked={isWholeCategorySelected(formatCategory)}
+                          id={`checkbox-${formatCategory}`}
+                          value=''
+                          className='w-5 h-5 outline-none border-istcolor-grey-dark bg-gray-100 text-istcolor-green-light rounded focus:ring-isistcolor-green-light'
+                        />
+                        <label
+                          htmlFor={`checkbox-${formatCategory}`}
+                          className='flex items-center font-bold capitalize pl-2'
+                        >
+                          {formats[formatCategory].label}
+                          <Tooltip
+                            trigger='click'
+                            content={formatInfoText[formatCategory].infoText}
+                          >
+                            <button>
+                              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+                            </button>
+                          </Tooltip>
+                        </label>
+                      </div>
                       {Object.keys(formats[formatCategory].formats).map(formatName => (
                         <Format
-                          key={formats[formatCategory].formats[formatName].label}
-                          name={formats[formatCategory].formats[formatName].label}
-                          value={formats[formatCategory].formats[formatName].value}
-                          style={{ paddingLeft: '1em' }}
+                          key={formats[formatCategory]?.formats[formatName]?.label}
+                          name={formats[formatCategory]?.formats[formatName]?.label}
+                          value={formats[formatCategory]?.formats[formatName]?.value}
+                          infoText={formatInfoText[formatCategory]?.formats[formatName]?.infoText}
+                          className='pl-5'
                         />
                       ))}
                     </div>

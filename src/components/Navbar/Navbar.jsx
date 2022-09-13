@@ -16,39 +16,47 @@ export default function Navbar () {
       <div className='flex justify-center gap-2 md:gap-x-16 items-center'>
         <Tooltip
           content={(
-            <div className='max-w-[12rem]'>
+            <div className='max-w-[12rem] text-center'>
               Effacez tout pour redémarrer avec un formulaire vide
             </div>
           )}
         >
-          <ResetButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          <button>
+            <ResetButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          </button>
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem]'>
+            <div className='max-w-[12rem] text-center'>
               Récupérez l'état en cours de votre formulaire
             </div>
           )}
         >
-          <FetchButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          <button>
+            <FetchButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          </button>
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem]'>
+            <div className='max-w-[12rem] text-center'>
               Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
             </div>
           )}
         >
-          <ShareButton sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          <button>
+            <ShareButton sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          </button>
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem]'>
+            <div className='max-w-[12rem] text-center'>
               Accédez à l'historique de vos 30 derniers téléchargements
             </div>
           )}
         >
-          <HistoryButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          <button>
+            <HistoryButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+          </button>
         </Tooltip>
       </div>
     </div>

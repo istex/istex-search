@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Footer () {
   return (
-    <footer className='flex flex-col justify-between items-center bg-white mb-20 mt-5 pb-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
+    <footer className='flex flex-col justify-between items-center bg-white pb-14 md:pb-20 mt-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
       <ul className='flex gap-[30px] flex-wrap justify-center items-center m-0 text-center text-istcolor-grey-link text-[14px] font-[600] pt-5'>
         <li>
           <a href='https://www.istex.fr/politique-de-confidentialite/'>Confidentialité</a>

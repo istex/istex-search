@@ -8,7 +8,7 @@ import Format from '../Format/Format';
 import { formats as formatInfoText } from '../Format/infoTooltip';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, noFormatSelected, resetFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
@@ -55,13 +55,15 @@ export default function UsageSection () {
     return isFormatSelected(selectedFormats, wholeCategoryFormat);
   };
 
-  const selectedFormatsHandler = newSelectedFormats => {
-    if (newSelectedFormats === 0) {
+  const selectedFormatsHandler = (newSelectedFormats) => {
+    // if user resets form
+    const isResetForm = newSelectedFormats === resetFormatSelected();
+    if (isResetForm) {
       setShouldDisplayUsage(true);
     }
 
     dispatch(setSelectedFormats(newSelectedFormats));
-    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
+    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, isResetForm ? noFormatSelected() : newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
     eventEmitter.emit(events.setExtractUrlParam, extractParams);
@@ -103,7 +105,6 @@ export default function UsageSection () {
       {!shouldDisplayUsage && (
         <div
           className='text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 p-2'
-          onClick={() => { setShouldDisplayUsage(true); }}
         >
           <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
             <ChevronLeftIcon className='inline h-6 w-6' />{' '}

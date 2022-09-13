@@ -49,7 +49,7 @@ export default function Usage ({ name, formats, label }) {
                 </div>
               </div>
             </div>
-            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-[#458ca5]'} w-full`}>
+            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-istcolor-blue'} w-full`}>
               {checked && (
                 <CheckIcon className='h-6 w-6' />
               )}
@@ -57,11 +57,11 @@ export default function Usage ({ name, formats, label }) {
                 {checked ? <span className='pl-2'>Usage sélectioné</span> : <span className='pl-2'>Choisir cet usage</span>}
               </p>
             </div>
-            <div className='absolute right-2 top-2 p-2 text-center text-[#4a4a4a] bg-[#f0f0f0]'>
+            <div className='absolute right-2 top-2 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
               <p className='text-sm'>TDM</p>
             </div>
             {name === 'customUsage' && (
-              <div className='absolute right-2 top-11 p-2 text-center text-[#4a4a4a] bg-[#f0f0f0]'>
+              <div className='absolute right-2 top-11 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
                 <p className='text-sm'>DOC</p>
               </div>
             )}

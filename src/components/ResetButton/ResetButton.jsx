@@ -1,9 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { noFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, queryModes } from '../../config';
 import eventEmitter, { events } from '../../lib/eventEmitter';
+import { resetFormatSelected } from '../../lib/istexApi';
 
 export function resetForm () {
   eventEmitter.emit(events.setQueryMode, queryModes.getDefault().value);
@@ -11,7 +11,7 @@ export function resetForm () {
   eventEmitter.emit(events.setQId, '');
   eventEmitter.emit(events.setNumberOfDocuments, 0);
   eventEmitter.emit(events.setRankingMode, istexApiConfig.rankingModes.getDefault().value);
-  eventEmitter.emit(events.setSelectedFormats, noFormatSelected());
+  eventEmitter.emit(events.setSelectedFormats, resetFormatSelected());
   eventEmitter.emit(events.setCompressionLevel, istexApiConfig.compressionLevels.getDefault().value);
   eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault().value);
   eventEmitter.emit(events.setUsage, '');

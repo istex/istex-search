@@ -10,7 +10,7 @@ export default function Header () {
     dynamicWidth: window.innerWidth,
     dynamicHeight: window.innerHeight,
   });
-  const [mobileMenuIsOpened, setMobileMenuIsOpened] = useState(false);
+  const [mobileMenuIsOpened, setMobileMenuIsOpened] = useState(true);
   const toggleMobileMenu = () => {
     mobileMenuIsOpened ? setMobileMenuIsOpened(false) : setMobileMenuIsOpened(true);
   };

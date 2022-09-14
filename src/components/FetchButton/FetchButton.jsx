@@ -50,9 +50,9 @@ export default function FetchButton ({ className, sizeIcon, fontSizeText }) {
       <div>
         <FontAwesomeIcon icon='repeat' className={sizeIcon} />
       </div>
-      <button className={fontSizeText}>
+      <span className={fontSizeText}>
         Récupérer
-      </button>
+      </span>
     </div>
   );
 }

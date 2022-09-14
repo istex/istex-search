@@ -97,7 +97,7 @@ export default function UsageSection () {
             particuliers induit une sélection<br />
             automatique des formats et types de<br />
             fichiers qui seront extraits.<br />
-            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>.
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1'>documentation ISTEX </a>.
           </p>
         }
       />

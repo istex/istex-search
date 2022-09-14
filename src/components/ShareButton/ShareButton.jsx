@@ -60,12 +60,12 @@ export default function ShareButton ({ sizeIcon, fontSizeText }) {
         <div>
           <FontAwesomeIcon icon='link' className={sizeIcon} />
         </div>
-        <button
+        <span
           className={fontSizeText}
           disabled={isFormIncomplete}
         >
           Partager
-        </button>
+        </span>
       </div>
       {openModal && (
         <ModalShareButton

@@ -33,7 +33,7 @@ export default function HistoryButton ({ className, sizeIcon, fontSizeText }) {
         <div>
           <FontAwesomeIcon icon='clock-rotate-left' className={sizeIcon} />
         </div>
-        <button className={fontSizeText}>Historique</button>
+        <span className={fontSizeText}>Historique</span>
       </div>
       <ModalListHistory
         show={openHistoryModal}

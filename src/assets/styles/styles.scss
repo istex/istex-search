@@ -40,6 +40,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 [role=tooltip], [data-testid="tooltip-arrow"] {
   background: rgb(70,70,70) !important;
+  z-index: 1000;
+  text-align: left;
 }
 
 [data-testid=modal] {

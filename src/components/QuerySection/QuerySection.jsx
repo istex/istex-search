@@ -133,7 +133,9 @@ export default function QuerySection () {
                   </p>
                 }
               >
-                <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
+                <button>
+                  <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
+                </button>
               </Tooltip>
             </div>
           )}
@@ -166,7 +168,9 @@ export default function QuerySection () {
               </p>
             }
           >
-            <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+            <button>
+              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+            </button>
           </Tooltip>
         </div>
         <span className='pl-2'>:</span>
@@ -218,7 +222,9 @@ export default function QuerySection () {
               </p>
             }
           >
-            <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+            <button>
+              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+            </button>
           </Tooltip>
         </h4>
         <div className='flex flex-col md:flex-row'>

@@ -297,7 +297,7 @@ export default function QueryInput () {
           {queryModes.modes.map(({ label, value }) => (
             <div
               key={label}
-              className='w-1/2 text-xs md:text-base md:w-auto md:inline-block'
+              className='relative w-1/2 text-xs md:text-base md:w-auto md:inline-block'
             >
               <RadioGroup.Option
                 className='flex items-center justify-between font-medium md:mr-2'
@@ -307,19 +307,21 @@ export default function QueryInput () {
                   <>
                     <span className={`flex items-center md:justify-center px-2 py-2 md:px-[30px] md:py-2 w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
                       {label}
-                      <Tooltip
-                        placement='top'
-                        trigger='click'
-                        content={infoText[value]}
-                      >
-                        <button>
-                          <FontAwesomeIcon icon='circle-info' className='pl-2' />
-                        </button>
-                      </Tooltip>
                     </span>
                   </>
                 )}
               </RadioGroup.Option>
+              <div className='absolute top-[14px] right-4'>
+                <Tooltip
+                  placement='top'
+                  trigger='click'
+                  content={<div className='min-w-[12rem]'>{infoText[value]}</div>}
+                >
+                  <button>
+                    <FontAwesomeIcon icon='circle-info' />
+                  </button>
+                </Tooltip>
+              </div>
             </div>
           ))}
         </RadioGroup>

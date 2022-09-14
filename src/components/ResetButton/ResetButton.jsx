@@ -30,7 +30,7 @@ export default function ResetButton ({ className, sizeIcon, fontSizeText }) {
       <div>
         <FontAwesomeIcon icon='eraser' className={sizeIcon} />
       </div>
-      <button className={fontSizeText}>Réinitialiser</button>
+      <span className={fontSizeText}>Réinitialiser</span>
     </div>
   );
 }

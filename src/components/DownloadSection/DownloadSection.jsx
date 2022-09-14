@@ -35,7 +35,6 @@ export default function DownloadSection () {
       <TitleSection
         title='Téléchargement'
         num='3'
-        infoTextTitle=''
         infoTextContent={
           <p className='text-sm text-white'>
             Une estimation de la taille du corpus<br />
@@ -50,8 +49,8 @@ export default function DownloadSection () {
             En cas de difficultés lors de<br />
             l’ouverture de l’archive zip avec les<br />
             outils Windows natifs, utilisez par<br />
-            exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>7-zip</a>.<br />
-            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a> ou bien<br />
+            exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' href='https://www.7-zip.org/'>7-zip</a>.<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement'>documentation ISTEX</a>.
           </p>
         }
       />

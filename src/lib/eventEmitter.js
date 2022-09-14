@@ -34,6 +34,7 @@ export const events = {
   addFocusOnInput: 'addFocusOnInput',
   displayShareModal: 'displayShareModal',
   displayDownloadModal: 'displayDownloadModal',
+  setNumberRowsInput: 'setNumberRowsInput',
 };
 
 export default new EventEmitter();

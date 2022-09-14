@@ -19,6 +19,7 @@ import { useFocus } from '../../lib/hooks';
 import './QueryInput.css';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
+import ModalExampleQueryButton from '../ExampleQueryButton/ModalExampleQueryButton';
 
 const infoText = {
   queryString:
@@ -70,6 +71,8 @@ export default function QueryInput () {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
+  const [openModalExampleQuery, setOpenModalExampleQuery] = useState(false);
+  const [numberRowsInput, setNumberRowsInput] = useState(0);
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -191,11 +194,16 @@ export default function QueryInput () {
     setInputFocus();
   };
 
+  const handleNumberRowsInput = (number) => {
+    setNumberRowsInput(number);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
     eventEmitter.addListener(events.setQId, qIdHandler);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
+    eventEmitter.addListener(events.setNumberRowsInput, handleNumberRowsInput);
   }, []);
 
   let queryInputUi;
@@ -203,13 +211,14 @@ export default function QueryInput () {
     case queryModes.modes[0].value:
       queryInputUi = (
         <textarea
-          rows='1'
+          rows={`${numberRowsInput === 0 ? '1' : numberRowsInput}`}
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           name='queryInput'
           placeholder='brain AND language:fre'
           value={queryStringInputValue}
           onChange={event => queryInputHandler(event.target.value)}
           ref={inputRef}
+          cols='40'
         />
       );
       break;
@@ -217,8 +226,8 @@ export default function QueryInput () {
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          rows='2'
-          cols='30'
+          rows={`${numberRowsInput === 0 ? '2' : numberRowsInput}`}
+          cols='40'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
           value={arkInputValue}
@@ -308,7 +317,7 @@ export default function QueryInput () {
               >
                 {({ checked }) => (
                   <>
-                    <span className={`flex items-center md:justify-center px-2 py-2 md:px-[30px] md:py-2 w-full border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                    <span className={`px-2 py-2 md:px-[30px] border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
                       {label}
                     </span>
                   </>
@@ -328,10 +337,34 @@ export default function QueryInput () {
             </div>
           ))}
         </RadioGroup>
+        <div
+          className='flex justify-around items-center px-2 py-2 md:px-[30px] text-istcolor-blue hover:text-istcolor-white border-[1px] border-istcolor-blue mb-2 font-bold cta1 font-montserrat-bold'
+          onClick={() => setOpenModalExampleQuery(true)}
+        >
+          <span>Exemples</span>
+          <div className='pl-2'>
+            <Tooltip
+              content={<div className='min-w-[12rem]'>Testez des exemples de requête</div>}
+            >
+              <button>
+                <FontAwesomeIcon icon='circle-info' />
+              </button>
+            </Tooltip>
+          </div>
+        </div>
       </div>
       <div className='flex flex-col my-2'>
         {queryInputUi}
       </div>
+      <ModalExampleQueryButton
+        setOpenModal={setOpenModalExampleQuery}
+        show={openModalExampleQuery}
+        setQueryStringInputValue={setQueryStringInputValue}
+        updateQueryString={updateQueryString}
+        setNumberRowsInput={setNumberRowsInput}
+        setCurrentQueryMode={setCurrentQueryMode}
+        setArkInputValue={setArkInputValue}
+      />
     </div>
   );
 }

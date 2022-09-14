@@ -327,7 +327,7 @@ export default function QueryInput () {
           ))}
         </RadioGroup>
       </div>
-      <div className='flex my-2'>
+      <div className='flex flex-col my-2'>
         {queryInputUi}
       </div>
     </div>

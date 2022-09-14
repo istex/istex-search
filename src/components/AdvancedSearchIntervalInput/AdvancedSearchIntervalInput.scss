@@ -1,21 +1,32 @@
-.container {
-    height: 10vh;
+.container-input-interval {
+    height: 20vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content:center;
     background-color: white;
+
+    @media (max-width: 700px) {
+      height: 20vh;
+      flex-direction: column;
+      justify-content:center;
+    }
   }
 
   .bold{
     font-weight: bold;
   }
+
+  .label-input-range {
+    position: relative;
+    top:-1rem;
+  }
   
   .interval-wrapper {
-    align-self: flex-end;
-    justify-self: flex-end;
+    align-self: flex-start;
     position: relative;
-    top: -6rem;
-    left: 69rem;
+    top: -1.5rem;
+ 
   }
 
   .close-button {
@@ -24,16 +35,23 @@
     height: 34px
   }
 
-  .right-2 {
-    right: -4rem;
+  .add-button {
+    right: 0rem;
+    top: 0.5rem;
   }
+
+  .range-input {
+    position: relative;
+    top: -2rem;
+  }
+
   .mb-3-25 {
     margin-bottom: 3.25rem;
   }
   
   .slider {
     position: relative;
-    right: -1.4rem;
+    right: -0.79rem;
     width: 20rem;
   }
   

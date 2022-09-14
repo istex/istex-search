@@ -13,7 +13,7 @@ function AdvancedSearchIntervalInput ({
   searchInput,
   setRequest,
   queryInputHandler,
-  setDisableCatalogInput
+  setDisableCatalogInput,
 }) {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
@@ -91,52 +91,53 @@ function AdvancedSearchIntervalInput ({
 
   return (
     <>
-      <div className='container rounded-t-xl bg-white rounded shadow dark:bg-gray-700'>
-        <label htmlFor='default-range' className=' bold block mb-3-25 text-sm font-medium text-gray-900 dark:text-gray-300'>{intervalInputData.dataTitle}</label>
-
+      <div className='container-input-interval rounded-t-xl bg-white rounded shadow dark:bg-gray-700'>
+        <button onClick={() => { setRequest(''); searchInput.current.value = ''; setOpenIntervalInput(false); setDisableCatalogInput(false); }} id='toggle-nav' title='fermer la fenêtre' className='close-button interval-wrapper' />
         <div>
-          <input
-            id='minmax-range'
-            type='range'
-            min={min}
-            max={max}
-            value={minVal}
-            ref={minValRef}
-            onChange={(event) => {
-              const value = Math.min(+event.target.value, maxVal - 1);
-              setMinVal(value);
-              event.target.value = value.toString();
-            }}
-            className={classnames('thumb thumb--zindex-3', {
-              'thumb--zindex-5': minVal > max - 100,
-            })}
-          />
-          <input
-            type='range'
-            min={min}
-            max={max}
-            value={maxVal}
-            ref={maxValRef}
-            onChange={(event) => {
-              const value = Math.max(+event.target.value, minVal + 1);
-              setMaxVal(value);
-              event.target.value = value.toString();
-            }}
-            className='thumb thumb--zindex-4'
-          />
+          <label htmlFor='default-range' className=' label-input-range bold block mb-3-25 text-sm font-medium text-gray-900 dark:text-gray-300'>{intervalInputData.dataTitle}</label>
+          <div className='range-input'>
+            <input
+              id='minmax-range'
+              type='range'
+              min={min}
+              max={max}
+              value={minVal}
+              ref={minValRef}
+              onChange={(event) => {
+                const value = Math.min(+event.target.value, maxVal - 1);
+                setMinVal(value);
+                event.target.value = value.toString();
+              }}
+              className={classnames('thumb thumb--zindex-3', {
+                'thumb--zindex-5': minVal > max - 100,
+              })}
+            />
+            <input
+              type='range'
+              min={min}
+              max={max}
+              value={maxVal}
+              ref={maxValRef}
+              onChange={(event) => {
+                const value = Math.max(+event.target.value, minVal + 1);
+                setMaxVal(value);
+                event.target.value = value.toString();
+              }}
+              className='thumb thumb--zindex-4'
+            />
 
-          <div className='slider'>
-            <div className='slider__track' />
-            <div ref={range} className='slider__range' />
-            <div className='slider__left-value cursor-pointer' onClick={() => { changeValue('min'); }}>{minVal}</div>
-            <div className='slider__right-value cursor-pointer' onClick={() => { changeValue('max'); }}>{maxVal}</div>
+            <div className='slider'>
+              <div className='slider__track' />
+              <div ref={range} className='slider__range' />
+              <div className='slider__left-value cursor-pointer' onClick={() => { changeValue('min'); }}>{minVal}</div>
+              <div className='slider__right-value cursor-pointer' onClick={() => { changeValue('max'); }}>{maxVal}</div>
+            </div>
           </div>
         </div>
-        <button onClick={(e) => { e.preventDefault(); updateQuery(); }} className='text-white relative right-2  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Ajouter</button>
-      </div>
+        <div role='navigation' aria-label='menu-principal'>
+          <button onClick={(e) => { e.preventDefault(); updateQuery(); }} className='text-white relative add-button  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>Ajouter</button>
+        </div>
 
-      <div className='interval-wrapper' onClick={() => { setRequest(''); searchInput.current.value = ''; setOpenIntervalInput(false); setDisableCatalogInput(false); }} role='navigation' aria-label='menu-principal'>
-        <button id='toggle-nav' title='fermer la fenêtre' className='close-button ' />
       </div>
 
       <Modal

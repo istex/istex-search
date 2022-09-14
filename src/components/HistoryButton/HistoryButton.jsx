@@ -25,20 +25,22 @@ export default function HistoryButton ({ className, sizeIcon, fontSizeText }) {
   }, []);
 
   return (
-    <div
-      className={className}
-      onClick={() => setModalVisibility(true)}
-    >
-      <div>
-        <FontAwesomeIcon icon='clock-rotate-left' className={sizeIcon} />
+    <>
+      <div
+        className={className}
+        onClick={() => setModalVisibility(true)}
+      >
+        <div>
+          <FontAwesomeIcon icon='clock-rotate-left' className={sizeIcon} />
+        </div>
+        <button className={fontSizeText}>Historique</button>
       </div>
-      <button className={fontSizeText}>Historique</button>
       <ModalListHistory
         show={openHistoryModal}
         onClose={() => setOpenHistoryModal(false)}
         requests={requests}
       />
-    </div>
+    </>
   );
 }
 

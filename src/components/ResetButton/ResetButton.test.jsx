@@ -6,8 +6,8 @@ import ResetButton from './ResetButton';
 describe('Tests for the ResetButton component', () => {
   it('Renders the reset button', () => {
     render(<ResetButton />);
-    const buttonElement = screen.getByRole('button');
+    const textElement = screen.getByText('Réinitialiser');
 
-    expect(buttonElement).toBeInTheDocument();
+    expect(textElement).toBeInTheDocument();
   });
 });

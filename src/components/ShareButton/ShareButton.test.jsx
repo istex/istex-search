@@ -6,8 +6,8 @@ import ShareButton from './ShareButton';
 describe('Tests for the ShareButton component', () => {
   it('Renders the share button', () => {
     render(<ShareButton />);
-    const buttonElement = screen.getByRole('button');
+    const textElement = screen.getByText('Partager');
 
-    expect(buttonElement).toBeInTheDocument();
+    expect(textElement).toBeInTheDocument();
   });
 });

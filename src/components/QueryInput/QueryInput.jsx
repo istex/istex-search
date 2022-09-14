@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import PropTypes from 'prop-types';
+import { RadioGroup } from '@headlessui/react';
+import { CloudUploadIcon } from '@heroicons/react/solid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'flowbite-react';
+
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
   buildQueryStringFromArks,
@@ -11,10 +17,6 @@ import {
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig, catalogList } from '../../config';
-import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon } from '@heroicons/react/solid';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from 'flowbite-react';
 import { useFocus } from '../../lib/hooks';
 import './QueryInput.css';
 import { resetForm } from '../ResetButton/ResetButton';
@@ -63,7 +65,7 @@ const infoText = {
   </p>,
 };
 
-export default function QueryInput () {
+export default function QueryInput ({ totalAmountOfDocuments }) {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
@@ -226,7 +228,7 @@ export default function QueryInput () {
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          rows={`${numberRowsInput === 0 ? '2' : numberRowsInput}`}
+          rows={(totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) ? totalAmountOfDocuments : `${numberRowsInput === 0 ? '2' : numberRowsInput}`}
           cols='40'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
@@ -368,3 +370,7 @@ export default function QueryInput () {
     </div>
   );
 }
+
+QueryInput.propTypes = {
+  totalAmountOfDocuments: PropTypes.string,
+};

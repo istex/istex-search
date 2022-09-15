@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'flowbite-react';
+import { Table, Tooltip } from 'flowbite-react';
 import { format } from 'date-fns';
 
 import {
@@ -15,7 +15,7 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 import { buildFullIstexDlUrl } from '../../lib/utils';
 
-import './HistoryRequest.css';
+import './HistoryRequest.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { resetForm } from '../ResetButton/ResetButton';
 export default function HistoryRequest ({ requestInfo, onClose }) {
@@ -108,7 +108,11 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         {format(requestInfo.date, 'dd/MM/yyyy hh:mm:ss')}
       </Table.Cell>
       <Table.Cell>
-        {requestStringToDisplay}
+        <div
+          className={`history-tab-request ${requestInfo?.queryString?.includes('arkIstex') ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
+        >
+          {requestStringToDisplay}
+        </div>
       </Table.Cell>
       <Table.Cell>
         {buildExtractParamsFromFormats(requestInfo.selectedFormats)}
@@ -120,34 +124,52 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         {requestInfo.rankingMode}
       </Table.Cell>
       <Table.Cell>
-        <button
-          type='button'
-          onClick={editHandler}
-          className='inline-block pl-2'
-        >
-          <FontAwesomeIcon icon='pen-to-square' size='2x' />
-        </button>
-        <button
-          type='button'
-          onClick={downloadHandler}
-          className='inline-block pl-2'
-        >
-          <FontAwesomeIcon icon='download' size='2x' />
-        </button>
-        <button
-          type='button'
-          onClick={shareHandler}
-          className='inline-block pl-2'
-        >
-          <FontAwesomeIcon icon='link' size='2x' />
-        </button>
-        <button
-          type='button'
-          onClick={deleteHandler}
-          className='inline-block pl-2'
-        >
-          <FontAwesomeIcon icon='xmark' size='2x' />
-        </button>
+        <div className='flex'>
+          <Tooltip
+            content='Editer cette requête'
+          >
+            <button
+              type='button'
+              onClick={editHandler}
+              className='inline-block pl-2'
+            >
+              <FontAwesomeIcon icon='pen-to-square' className='md:text-2xl' />
+            </button>
+          </Tooltip>
+          <Tooltip
+            content='Télécharger cette requête'
+          >
+            <button
+              type='button'
+              onClick={downloadHandler}
+              className='inline-block pl-2'
+            >
+              <FontAwesomeIcon icon='download' className='md:text-2xl' />
+            </button>
+          </Tooltip>
+          <Tooltip
+            content='Partager cette requête'
+          >
+            <button
+              type='button'
+              onClick={shareHandler}
+              className='inline-block pl-2'
+            >
+              <FontAwesomeIcon icon='link' className='md:text-2xl' />
+            </button>
+          </Tooltip>
+          <Tooltip
+            content='Supprimer cette requête'
+          >
+            <button
+              type='button'
+              onClick={deleteHandler}
+              className='inline-block pl-2'
+            >
+              <FontAwesomeIcon icon='xmark' className='md:text-2xl' />
+            </button>
+          </Tooltip>
+        </div>
       </Table.Cell>
     </Table.Row>
   );

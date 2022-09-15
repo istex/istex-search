@@ -47,3 +47,17 @@ input[type=number]::-webkit-outer-spin-button {
 [data-testid=modal] {
   z-index: 3000;
 }
+
+.istex-modal{
+  &__header {
+    background-color: #458CA5;  
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+  } 
+  &__text {
+    color: #fefefe;
+    font-weight: 700;
+  }
+}

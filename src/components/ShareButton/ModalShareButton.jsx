@@ -16,9 +16,13 @@ export default function ModalShareButton ({ initOpening = false, urlToClipboard 
         show={open}
         onClose={onClose}
       >
-        <Modal.Header>
-          Partager
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header>
+            <span className='istex-modal__text'>
+              Partager
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div className='space-y-6'>
             <div

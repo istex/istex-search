@@ -16,9 +16,13 @@ export default function ModalDownloadRewiews ({ initOpening = false, setOpenModa
         show={open}
         onClose={onClose}
       >
-        <Modal.Header>
-          Téléchargement en cours
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header>
+            <span className='istex-modal__text'>
+              Téléchargement en cours
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div className='flex flex-col justify-between items-center'>
             <p>

@@ -27,9 +27,13 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
         onClose={onClose}
         size='7xl'
       >
-        <Modal.Header>
-          Historique des requêtes
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header className='istex-modal__header'>
+            <span className='istex-modal__text'>
+              Historique des requêtes
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div className='h-[220px] md:h-[300px] overflow-auto'>
             <Table hoverable>

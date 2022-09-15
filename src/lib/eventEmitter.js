@@ -34,6 +34,7 @@ export const events = {
   addFocusOnInput: 'addFocusOnInput',
   displayShareModal: 'displayShareModal',
   displayDownloadModal: 'displayDownloadModal',
+  resetMessageImportCorpus: 'resetMessageImportCorpus',
 };
 
 export default new EventEmitter();

@@ -200,10 +200,15 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     setNumberRowsInput(number);
   };
 
+  const handleResetMessageImportCorpus = () => {
+    setShouldDisplaySuccessMsg(false);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
     eventEmitter.addListener(events.setQId, qIdHandler);
+    eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
     eventEmitter.addListener(events.setNumberRowsInput, handleNumberRowsInput);
   }, []);

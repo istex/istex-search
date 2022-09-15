@@ -35,6 +35,7 @@ export const events = {
   displayShareModal: 'displayShareModal',
   displayDownloadModal: 'displayDownloadModal',
   setNumberRowsInput: 'setNumberRowsInput',
+  resetMessageImportCorpus: 'resetMessageImportCorpus',
 };
 
 export default new EventEmitter();

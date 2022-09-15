@@ -51,9 +51,13 @@ export default function ModalExampleQueryButton ({
         show={open}
         onClose={onClose}
       >
-        <Modal.Header>
-          Exemples de requêtes
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header>
+            <span className='istex-modal__text'>
+              Exemples de requêtes
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div className='flex flex-col text-sm overflow-auto h-96'>
             Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API ISTEX en utilisant :

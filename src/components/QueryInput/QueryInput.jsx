@@ -204,6 +204,16 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     setShouldDisplaySuccessMsg(false);
   };
 
+  const displayNumberRows = () => {
+    if (totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) {
+      return totalAmountOfDocuments;
+    } else if (numberRowsInput === 0) {
+      return '2';
+    } else {
+      return numberRowsInput;
+    }
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
@@ -233,7 +243,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       queryInputUi = (
         <textarea
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          rows={(totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) ? totalAmountOfDocuments : `${numberRowsInput === 0 ? '2' : numberRowsInput}`}
+          rows={displayNumberRows(numberRowsInput, totalAmountOfDocuments)}
           cols='40'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'

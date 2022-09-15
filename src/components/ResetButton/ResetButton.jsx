@@ -17,6 +17,7 @@ export function resetForm () {
   eventEmitter.emit(events.setArchiveType, istexApiConfig.archiveTypes.getDefault().value);
   eventEmitter.emit(events.setUsage, '');
   eventEmitter.emit(events.resetResultPreview);
+  eventEmitter.emit(events.setNumberRowsInput, 0);
   eventEmitter.emit(events.resetMessageImportCorpus);
 
   eventEmitter.emit(events.resetUrlParams);

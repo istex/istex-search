@@ -115,7 +115,7 @@ export default function QuerySection () {
       <p className='mb-4'>
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
       </p>
-      <QueryInput />
+      <QueryInput totalAmountOfDocuments={totalAmountOfDocuments} />
       {!!totalAmountOfDocuments && (
         <div className='my-4'>
           <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>

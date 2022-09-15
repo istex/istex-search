@@ -387,5 +387,5 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
 }
 
 QueryInput.propTypes = {
-  totalAmountOfDocuments: PropTypes.string,
+  totalAmountOfDocuments: PropTypes.number,
 };

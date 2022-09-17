@@ -290,16 +290,19 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       /* Avanced form case */
       queryInputUi = (
         <>
-          <textarea
-            rows='1'
-            className='w-full border-[1px] border-istcolor-green-dark mb-3 p-2 placeholder:text-istcolor-grey-medium'
-            name='queryInput'
-            placeholder='brain AND language:fre'
-            value={queryStringInputValue}
-            onChange={event => queryInputHandler(event.target.value)}
-            ref={inputRef}
-            disabled
-          />
+          <div className='flex items-center'>
+            <span className='font-bold'>Requête API : </span>
+            <textarea
+              rows='1'
+              className='ml-4 flex-1 border-[1px] border-istcolor-green-dark mb-3 p-2 placeholder:text-istcolor-grey-medium'
+              name='queryInput'
+              placeholder='brain AND language:fre'
+              value={queryStringInputValue}
+              onChange={event => queryInputHandler(event.target.value)}
+              ref={inputRef}
+              disabled
+            />
+          </div>
           <AdvancedSearchForm
             updateQueryString={updateQueryString}
             catalogList={catalogList}

@@ -150,6 +150,19 @@ export const usages = {
   },
 };
 
+export const operatorsRequest = ['AND', 'OR'];
+
+export const operatorsField = [
+  { id: 'is_equal', label: 'égal' },
+  { id: 'is_not_equal', label: 'non égal' },
+  { id: 'is_empty', label: 'est vide' },
+  { id: 'is_not_empty', label: "n'est pas vide" },
+  { id: 'is_more_than', label: 'supérieur' },
+  { id: 'is_less_than', label: 'inférieur' },
+  { id: 'is_between', label: 'est entre' },
+  { id: 'is_not_between', label: "n'est pas entre" },
+];
+
 export const catalogList = [
   {
     title: 'Souvent utilisés',
@@ -158,11 +171,16 @@ export const catalogList = [
         dataTitle: 'Tous champs',
         dataInfo: 'Recherche d\'un ou plusieurs termes tous champs de recherche confondus',
         dataValue: '',
+        operatorsField: [],
       },
       {
         dataTitle: 'Année de publication',
         dataInfo: 'Date de publication papier de l\'article',
         dataValue: 'publicationDate',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'date' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
     ],
   },
@@ -173,11 +191,17 @@ export const catalogList = [
         dataTitle: 'Titre de la revue',
         dataInfo: 'Recherche d\'un ou plusieurs termes dans le titre de la revue',
         dataValue: 'host.title',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
       },
       {
         dataTitle: 'ISSN',
         dataInfo: 'Numéro ISSN de la revue',
         dataValue: 'host.issn',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
       },
     ],
   },
@@ -188,11 +212,15 @@ export const catalogList = [
         dataTitle: 'Lieux géographiques',
         dataInfo: 'Recherche d\'un ou plusieurs termes identifiés dans le texte de l\'article comme étant un lieu géographique',
         dataValue: 'namedEntities.unitex.placeName',
+        operatorsField: [],
       },
       {
         dataTitle: 'Catégorie Inist',
         dataInfo: 'Recherche par catégorie scientifique du plan de classement Inist',
         dataValue: 'categories.inist',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
       },
     ],
   },
@@ -203,46 +231,82 @@ export const catalogList = [
         dataTitle: 'Date de publication',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'publicationDate',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'date' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Date de copyright',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'copyrightDate',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'date' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Score',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.score',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de mots du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfWordCount',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de caractères du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfCharCount',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de mots du résumé',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.abstractWordCount',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de caractères du résumé',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.abstractCharCount',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de pages du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfPageCount',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
       {
         dataTitle: 'Nombre de mots par page du PDF',
         dataInfo: 'Texte a mettre en attente .........',
         dataValue: 'qualityIndicators.pdfWordsPerPage',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'number' },
+          { id: 'is_between', typeField: 'range' },
+        ],
       },
     ],
   },

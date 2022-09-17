@@ -1,10 +1,11 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import classnames from 'classnames';
-import './AdvancedSearchIntervalInput.scss';
 import PropTypes from 'prop-types';
 import { Modal, Button, TextInput, Label } from 'flowbite-react';
 
-function AdvancedSearchIntervalInput ({
+import './RangeField.scss';
+
+function RangeField ({
   min,
   max,
   onChange,
@@ -183,7 +184,7 @@ function AdvancedSearchIntervalInput ({
   );
 }
 
-AdvancedSearchIntervalInput.propTypes = {
+RangeField.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
   intervalInputData: PropTypes.object.isRequired,
@@ -195,6 +196,6 @@ AdvancedSearchIntervalInput.propTypes = {
   queryInputHandler: PropTypes.func.isRequired,
 };
 
-AdvancedSearchIntervalInput.defaultProps = {};
+RangeField.defaultProps = {};
 
-export default AdvancedSearchIntervalInput;
+export default RangeField;

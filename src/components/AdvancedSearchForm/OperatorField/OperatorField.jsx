@@ -2,7 +2,7 @@ import React from 'react';
 import { Select } from 'flowbite-react';
 import PropTypes from 'prop-types';
 
-function OperatorField ({ options = [], setTypeField }) {
+function OperatorField ({ options = [], setTypeField, typeField }) {
   const handleChange = (event) => {
     setTypeField(event.target.value);
   };
@@ -33,6 +33,7 @@ function OperatorField ({ options = [], setTypeField }) {
 OperatorField.propTypes = {
   options: PropTypes.array,
   setTypeField: PropTypes.func,
+  typeField: PropTypes.string,
 };
 
 export default OperatorField;

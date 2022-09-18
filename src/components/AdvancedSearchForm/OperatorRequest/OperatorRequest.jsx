@@ -4,10 +4,17 @@ import PropTypes from 'prop-types';
 
 import { operatorsRequest } from '../../../config';
 
-function OperatorRequest ({ setTypeField }) {
+function OperatorRequest ({ setSelectedOperatorRequest, index, handleQueryAdvancedSearch }) {
   const handleChange = (event) => {
+    const operator = event.target.value;
     // setTypeField(event.target.value);
     console.log({ value: event.target.value });
+
+    setSelectedOperatorRequest({
+      queryValue: operator,
+    }, index);
+
+    handleQueryAdvancedSearch({ operator, index });
   };
 
   return (
@@ -33,7 +40,9 @@ function OperatorRequest ({ setTypeField }) {
 }
 
 OperatorRequest.propTypes = {
-  setTypeField: PropTypes.func,
+  setSelectedOperatorRequest: PropTypes.func,
+  handleQueryAdvancedSearch: PropTypes.func,
+  index: PropTypes.number,
 };
 
 export default OperatorRequest;

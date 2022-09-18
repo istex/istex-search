@@ -21,10 +21,11 @@ export default function SearchField ({
   removeFields,
   setDisableCatalogInput,
   index,
+  setEnabledDeleteButton,
 }) {
   console.log('SearchField', { selectField });
   const [operatorSelect, setOperatorSelect] = useState([]);
-  const [typeField, setTypeField] = useState('');
+  const [typeField, setTypeField] = useState('text');
   const searchInputRef = useRef(null);
 
   const updateValueOfSearchInput = (fn) => {
@@ -39,6 +40,7 @@ export default function SearchField ({
     setDisableCatalogInput(false);
     removeFields(index);
     searchInputRef.current.value = '';
+    setEnabledDeleteButton(false);
   };
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function SearchField ({
               )
             }
             {
-              typeField
+              typeField === 'range'
                 ? (
                   <div className='py-5'>
                     <IntervalRangeField
@@ -144,4 +146,5 @@ SearchField.propTypes = {
   removeFields: PropTypes.func,
   setDisableCatalogInput: PropTypes.func,
   index: PropTypes.number,
+  setEnabledDeleteButton: PropTypes.func,
 };

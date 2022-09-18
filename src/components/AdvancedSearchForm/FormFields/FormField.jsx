@@ -12,6 +12,7 @@ function FormField ({
   selectField,
   setSelectField,
   index,
+  handleQueryAdvancedSearch,
 }) {
   console.log('FormField', { selectField });
 
@@ -42,12 +43,15 @@ function FormField ({
 
   // Update the query with the interval search values and close the interval input box
   const updateQuery = (queryValue) => {
-    queryInputHandler(queryValue);
+    setSelectField({
+      ...selectField,
+      queryValue,
+    }, index);
     setDisableCatalogInput(true);
     setOpenIntervalInput(false);
-
     setEnabledDeleteButton(true);
     setShouldDisplayAddButton(true);
+    handleQueryAdvancedSearch({ queryValue });
   };
 
   return (
@@ -68,6 +72,7 @@ function FormField ({
         enabledDeleteButton={enabledDeleteButton}
         removeFields={removeFields}
         index={index}
+        setEnabledDeleteButton={setEnabledDeleteButton}
       />
       <CatalogList
         openCatalogList={openCatalogList}
@@ -85,6 +90,7 @@ FormField.propTypes = {
   selectField: PropTypes.object,
   setSelectField: PropTypes.func,
   index: PropTypes.number,
+  handleQueryAdvancedSearch: PropTypes.func,
 };
 
 export default FormField;

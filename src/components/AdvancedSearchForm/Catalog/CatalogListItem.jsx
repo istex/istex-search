@@ -11,7 +11,15 @@ export default function CatalogListItem ({
       {catalog.items.map((item, index) => (
         <div className='flex pb-3' key={index}>
           <div className='flex items-center h-5'>
-            <input id={`helper-radio-${index}`} name={item.dataTitle} type='checkbox' onChange={(e) => { togglePreference(e, item); }} value={item.dataTitle} aria-describedby='helper-radio-text-{index}' className='cursor-pointer w-4 h-4 text-blue-istex bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' />
+            <input
+              id={`helper-radio-${index}`}
+              name={item.dataTitle}
+              type='checkbox'
+              onChange={(e) => { togglePreference(e, item); }}
+              value={item.dataTitle}
+              aria-describedby='helper-radio-text-{index}'
+              className='cursor-pointer w-4 h-4 text-blue-istex bg-gray-100 border-gray-300'
+            />
           </div>
           <div className='ml-2 text-sm'>
             <label htmlFor='helper-radio' className='font-medium text-gray-900 dark:text-gray-300'>{item.dataTitle}</label>

@@ -5,6 +5,8 @@ import { operatorsField } from '../../../../config';
 import OperatorField from '../../OperatorField/OperatorField';
 import SearchInput from './SearchInput';
 import IntervalRangeField from '../RangeField/IntervalRangeField';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'flowbite-react';
 
 export default function SearchField ({
   shoudDisplaySearch,
@@ -15,7 +17,12 @@ export default function SearchField ({
   selectField,
   setSelectField,
   updateQuery,
+  enabledDeleteButton,
+  removeFields,
+  setDisableCatalogInput,
+  index,
 }) {
+  console.log('SearchField', { selectField });
   const [operatorSelect, setOperatorSelect] = useState([]);
   const [typeField, setTypeField] = useState('');
   const searchInputRef = useRef(null);
@@ -26,6 +33,12 @@ export default function SearchField ({
 
   const handleTypeField = (field) => {
     setTypeField(field);
+  };
+
+  const handleRemoveFields = () => {
+    setDisableCatalogInput(false);
+    removeFields(index);
+    searchInputRef.current.value = '';
   };
 
   useEffect(() => {
@@ -61,16 +74,31 @@ export default function SearchField ({
       className={`${shoudDisplaySearch ? 'block' : 'hidden'} z-10 rounded`}
     >
       <div className='flex flex-col justify-between pb-3 '>
-        <SearchInput
-          disableCatalogInput={disableCatalogInput}
-          value={selectField.inputSearchValue ? selectField.inputSearchValue : ''}
-          onClick={() => {
-            setShoudDisplaySearch(false);
-            startQueryAvancedSearch(true);
-          }}
-          onChange={event => setSelectField(prev => ({ ...prev, inputSearchValue: event.target.value }))}
-          ref={searchInputRef}
-        />
+        <div className='flex items-center'>
+          <SearchInput
+            disableCatalogInput={disableCatalogInput}
+            value={selectField.inputSearchValue ? selectField.inputSearchValue : ''}
+            onClick={() => {
+              setShoudDisplaySearch(false);
+              startQueryAvancedSearch(true);
+            }}
+            ref={searchInputRef}
+          />
+
+          {enabledDeleteButton && (
+            <Tooltip
+              content='Supprimer cette recherche'
+            >
+              <button
+                type='button'
+                onClick={() => handleRemoveFields()}
+                className='inline-block pl-2 text-istcolor-red'
+              >
+                <FontAwesomeIcon icon='trash-can' className='md:text-lg' />
+              </button>
+            </Tooltip>
+          )}
+        </div>
 
         {openIntervalInput && (
           <div className='flex flex-1 items-center flex-col justify-center bg-white h-[300px] mt-2'>
@@ -112,4 +140,8 @@ SearchField.propTypes = {
   selectField: PropTypes.object,
   setSelectField: PropTypes.func,
   updateQuery: PropTypes.func,
+  enabledDeleteButton: PropTypes.bool,
+  removeFields: PropTypes.func,
+  setDisableCatalogInput: PropTypes.func,
+  index: PropTypes.number,
 };

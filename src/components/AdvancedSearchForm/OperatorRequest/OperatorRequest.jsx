@@ -2,25 +2,27 @@ import React from 'react';
 import { Select } from 'flowbite-react';
 import PropTypes from 'prop-types';
 
-function OperatorField ({ options = [], setTypeField }) {
+import { operatorsRequest } from '../../../config';
+
+function OperatorRequest ({ setTypeField }) {
   const handleChange = (event) => {
-    setTypeField(event.target.value);
+    // setTypeField(event.target.value);
+    console.log({ value: event.target.value });
   };
 
   return (
     <div
       id='select'
-      className='pt-4'
     >
       <Select
-        id='operator-field'
+        id='operator-request'
         required
         onChange={handleChange}
       >
-        {options.map((option, index) => (
+        {operatorsRequest.map((option, index) => (
           <option
             key={`${option.id}-${index}`}
-            value={option.typeField}
+            value={option.value}
           >
             {option.label}
           </option>
@@ -30,9 +32,8 @@ function OperatorField ({ options = [], setTypeField }) {
   );
 }
 
-OperatorField.propTypes = {
-  options: PropTypes.array,
+OperatorRequest.propTypes = {
   setTypeField: PropTypes.func,
 };
 
-export default OperatorField;
+export default OperatorRequest;

@@ -150,7 +150,10 @@ export const usages = {
   },
 };
 
-export const operatorsRequest = ['AND', 'OR'];
+export const operatorsRequest = [
+  { value: 'AND', label: 'ET' },
+  { value: 'OR', label: 'OU' },
+];
 
 export const operatorsField = [
   { id: 'is_equal', label: 'égal' },

@@ -7,6 +7,8 @@ const SearchInput = React.forwardRef(({
   onClick,
   onChange,
 }, ref) => {
+  console.log('SearchInput', { value });
+
   return (
     <div className='w-1/2'>
       <label htmlFor='input-group-search' className='sr-only'>Search</label>

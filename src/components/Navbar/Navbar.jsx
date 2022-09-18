@@ -12,7 +12,7 @@ export default function Navbar () {
   const fontSizeText = 'text-center text-[14px] md:text-base align-top';
 
   return (
-    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-blue py-2'>
+    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-blue py-2 z-50'>
       <div className='flex justify-center gap-2 md:gap-x-16 items-center'>
         <Tooltip
           content={(

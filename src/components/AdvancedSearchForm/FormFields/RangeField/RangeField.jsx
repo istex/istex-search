@@ -9,10 +9,10 @@ function RangeField ({
   max,
   onChange,
   intervalInputData,
-  setOpenIntervalInput,
-  queryInputHandler,
-  setDisableCatalogInput,
+  updateQuery,
 }) {
+  console.log('RangeField', { min, max });
+
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(0);
@@ -22,6 +22,11 @@ function RangeField ({
   // Convert to percentage
   const getPercent = useCallback((value) => {
     Math.round(((value - min) / (max - min)) * 100);
+  }, [min, max]);
+
+  useEffect(() => {
+    setMinVal(min);
+    setMaxVal(max);
   }, [min, max]);
 
   // Set width of the range to decrease from the left side
@@ -35,13 +40,6 @@ function RangeField ({
       }
     }
   }, [minVal, getPercent]);
-
-  // Update the query with the interval search values and close the interval input box
-  const updateQuery = () => {
-    queryInputHandler(`${intervalInputData.dataValue}:[${minVal} TO ${maxVal}]`);
-    setDisableCatalogInput(true);
-    setOpenIntervalInput(false);
-  };
 
   // Set width of the range to decrease from the right side
   useEffect(() => {
@@ -109,7 +107,10 @@ function RangeField ({
       >
         <button
           type='button'
-          onClick={(e) => { e.preventDefault(); updateQuery(); }}
+          onClick={(e) => {
+            e.preventDefault();
+            updateQuery(`${intervalInputData.dataValue}:[${minVal} TO ${maxVal}]`);
+          }}
           className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
         >
           Valider
@@ -125,9 +126,7 @@ RangeField.propTypes = {
   max: PropTypes.number.isRequired,
   intervalInputData: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  setDisableCatalogInput: PropTypes.func.isRequired,
-  setOpenIntervalInput: PropTypes.func.isRequired,
-  queryInputHandler: PropTypes.func.isRequired,
+  updateQuery: PropTypes.func.isRequired,
 };
 
 export default RangeField;

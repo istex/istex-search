@@ -23,9 +23,14 @@ export default function SearchField ({
 }) {
   const [operatorSelect, setOperatorSelect] = useState([]);
   const searchInput = useRef();
+  const [typeField, setTypeField] = useState('');
 
   const updateIntervalRequest = (min, max) => {
     searchInput.current.value = `${intervalInputData.dataTitle} de ${min} à ${max}`;
+  };
+
+  const handleTypeField = (field) => {
+    setTypeField(field);
   };
 
   useEffect(() => {
@@ -61,7 +66,7 @@ export default function SearchField ({
       id='dropdownSearch'
       className={`${shoudDisplaySearch ? 'block' : 'hidden'} z-10 rounded`}
     >
-      <div className='flex flex-col md:flex-row justify-between pb-3 '>
+      <div className='flex flex-col justify-between pb-3 '>
         <div className='w-1/2'>
           <label htmlFor='input-group-search' className='sr-only'>Search</label>
           <div className='relative'>
@@ -84,28 +89,39 @@ export default function SearchField ({
             />
           </div>
         </div>
-        {
-          operatorSelect.length > 0 && <OperatorField options={operatorSelect} />
-        }
-        {/* {
-          openIntervalInput
-            ? (
-              <div className='w-1/2'>
-                <RangeField
-                  intervalInputData={intervalInputData}
-                  setOpenIntervalInput={setOpenIntervalInput}
-                  setRequest={setRequest}
-                  min={intervalInputMinValue}
-                  max={intervalInputMaxValue}
-                  searchInput={searchInput}
-                  setDisableCatalogInput={setDisableCatalogInput}
-                  queryInputHandler={queryInputHandler}
-                  onChange={({ min, max }) => { updateIntervalRequest(min, max); }}
+
+        {openIntervalInput && (
+          <div className='flex flex-1 items-center flex-col justify-center bg-white h-[300px] mt-2'>
+            {
+              operatorSelect.length > 0 && (
+                <OperatorField
+                  options={operatorSelect}
+                  setTypeField={field => handleTypeField(field)}
+                  typeField={typeField}
                 />
-              </div>
               )
-            : null
-        } */}
+            }
+            {
+              typeField
+                ? (
+                  <div className='py-5'>
+                    <RangeField
+                      intervalInputData={intervalInputData}
+                      setOpenIntervalInput={setOpenIntervalInput}
+                      setRequest={setRequest}
+                      min={intervalInputMinValue}
+                      max={intervalInputMaxValue}
+                      searchInput={searchInput}
+                      setDisableCatalogInput={setDisableCatalogInput}
+                      queryInputHandler={queryInputHandler}
+                      onChange={({ min, max }) => { updateIntervalRequest(min, max); }}
+                    />
+                  </div>
+                  )
+                : null
+            }
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,20 +1,17 @@
+import React from 'react';
 import { Select } from 'flowbite-react';
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function OperatorField ({ options = [] }) {
-  const [value, setValue] = useState('');
-
+function OperatorField ({ options = [], setTypeField }) {
   const handleChange = (event) => {
-    setValue(event.target.value);
-
-    console.log({ value });
+    setTypeField(event.target.value);
   };
 
-  console.log('OperatorField', { options });
-
   return (
-    <div id='select'>
+    <div
+      id='select'
+      className='pt-4'
+    >
       <Select
         id='countries'
         required
@@ -35,6 +32,7 @@ function OperatorField ({ options = [] }) {
 
 OperatorField.propTypes = {
   options: PropTypes.array,
+  setTypeField: PropTypes.func,
 };
 
 export default OperatorField;

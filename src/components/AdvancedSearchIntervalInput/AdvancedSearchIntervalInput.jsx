@@ -144,9 +144,13 @@ function AdvancedSearchIntervalInput ({
         show={openModal}
         onClose={onCloseModal}
       >
-        <Modal.Header>
-          Choix de l'intervalle
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header>
+            <span className='istex-modal__text'>
+              Choix de l'intervalle
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div>
             <div className='mb-2 block'>

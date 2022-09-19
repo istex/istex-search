@@ -21,6 +21,7 @@ export default function SearchField ({
   setDisableCatalogInput,
   index,
   setEnabledDeleteButton,
+  numberOfFields,
 }) {
   const [operatorSelect, setOperatorSelect] = useState([]);
   const [typeField, setTypeField] = useState('text');
@@ -37,8 +38,11 @@ export default function SearchField ({
   const handleRemoveFields = () => {
     setDisableCatalogInput(false);
     removeFields(index);
-    searchInputRef.current.value = '';
-    setEnabledDeleteButton(false);
+
+    if (numberOfFields === index + 1) {
+      searchInputRef.current.value = '';
+      setEnabledDeleteButton(false);
+    }
   };
 
   useEffect(() => {
@@ -144,4 +148,5 @@ SearchField.propTypes = {
   setDisableCatalogInput: PropTypes.func,
   index: PropTypes.number,
   setEnabledDeleteButton: PropTypes.func,
+  numberOfFields: PropTypes.number,
 };

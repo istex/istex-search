@@ -80,6 +80,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
               selectField={formField}
               setSelectField={handleSelectField}
               handleQueryAdvancedSearch={handleQueryAdvancedSearch}
+              numberOfFields={formFields.length}
             />
           );
         } else {

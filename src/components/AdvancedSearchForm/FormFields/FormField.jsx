@@ -13,6 +13,7 @@ function FormField ({
   setSelectField,
   index,
   handleQueryAdvancedSearch,
+  numberOfFields,
 }) {
   const [openCatalogList, setOpenCatalogList] = useState(false);
   const [disableCatalogInput, setDisableCatalogInput] = useState(false);
@@ -71,6 +72,7 @@ function FormField ({
         removeFields={removeFields}
         index={index}
         setEnabledDeleteButton={setEnabledDeleteButton}
+        numberOfFields={numberOfFields}
       />
       <CatalogList
         openCatalogList={openCatalogList}
@@ -89,6 +91,7 @@ FormField.propTypes = {
   setSelectField: PropTypes.func,
   index: PropTypes.number,
   handleQueryAdvancedSearch: PropTypes.func,
+  numberOfFields: PropTypes.number,
 };
 
 export default FormField;

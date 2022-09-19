@@ -23,16 +23,13 @@ function AdvancedSearchForm ({ queryInputHandler }) {
   };
 
   const removeFields = (index) => {
-    console.log({ length: formFields.length, index });
     if (formFields.length === 1) {
       setFormFields(initialFieldArray);
       setShouldDisplayAddButton(false);
-      console.log('removeFields', 'premier cas');
       queryInputHandler('');
     }
 
     if (formFields.length > 1 && formFields.length > index + 1) {
-      console.log('removeFields', 'deuxieme cas');
       const removeValFrom = [index, index + 1];
       const newFormFields = formFields.filter((value, index) => removeValFrom.indexOf(index) === -1);
       setFormFields(newFormFields);
@@ -40,7 +37,6 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     }
 
     if (formFields.length > 1 && formFields.length === index + 1) {
-      console.log('removeFields', 'troisieme cas');
       const removeValFrom = [index, index - 1];
       const newFormFields = formFields.filter((value, index) => removeValFrom.indexOf(index) === -1);
       setFormFields(newFormFields);
@@ -52,7 +48,6 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     let result = newFormFields.map((formField) => {
       return formField.queryValue;
     }).join(' ');
-    console.log('handleQueryAdvancedSearch', { result });
 
     if (queryValue) {
       result = `${result}${queryValue}`;
@@ -69,8 +64,6 @@ function AdvancedSearchForm ({ queryInputHandler }) {
 
     queryInputHandler(result);
   };
-
-  console.log('AdvancedSearchForm', { formFields });
 
   return (
     <form>

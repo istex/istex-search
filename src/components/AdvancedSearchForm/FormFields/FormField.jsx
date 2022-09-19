@@ -14,8 +14,6 @@ function FormField ({
   index,
   handleQueryAdvancedSearch,
 }) {
-  console.log('FormField', { selectField });
-
   const [openCatalogList, setOpenCatalogList] = useState(false);
   const [disableCatalogInput, setDisableCatalogInput] = useState(false);
   const [openIntervalInput, setOpenIntervalInput] = useState(false);

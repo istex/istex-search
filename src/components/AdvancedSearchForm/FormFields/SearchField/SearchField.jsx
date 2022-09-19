@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { operatorsField } from '../../../../config';
 import OperatorField from '../../OperatorField/OperatorField';
 import SearchInput from './SearchInput';
-import IntervalRangeField from '../RangeField/IntervalRangeField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
+import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectField';
 
 export default function SearchField ({
   shoudDisplaySearch,
@@ -15,7 +15,6 @@ export default function SearchField ({
   setShoudDisplaySearch,
   startQueryAvancedSearch,
   selectField,
-  setSelectField,
   updateQuery,
   enabledDeleteButton,
   removeFields,
@@ -23,7 +22,6 @@ export default function SearchField ({
   index,
   setEnabledDeleteButton,
 }) {
-  console.log('SearchField', { selectField });
   const [operatorSelect, setOperatorSelect] = useState([]);
   const [typeField, setTypeField] = useState('text');
   const searchInputRef = useRef(null);
@@ -64,9 +62,8 @@ export default function SearchField ({
         return filtered;
       }, []);
 
-      console.log('SearchField USE_EFFECT', { reduced });
-
       setOperatorSelect(reduced);
+      handleTypeField(reduced[0].typeField);
     }
   }, [selectField]);
 
@@ -114,13 +111,14 @@ export default function SearchField ({
               )
             }
             {
-              typeField === 'range'
+              typeField
                 ? (
                   <div className='py-5'>
-                    <IntervalRangeField
+                    <RetreiveCorrectField
                       data={selectField}
                       updateValueOfSearchInput={updateValueOfSearchInput}
                       updateQuery={updateQuery}
+                      typeField={typeField}
                     />
                   </div>
                   )
@@ -140,7 +138,6 @@ SearchField.propTypes = {
   setShoudDisplaySearch: PropTypes.func,
   startQueryAvancedSearch: PropTypes.func,
   selectField: PropTypes.object,
-  setSelectField: PropTypes.func,
   updateQuery: PropTypes.func,
   enabledDeleteButton: PropTypes.bool,
   removeFields: PropTypes.func,

@@ -11,8 +11,6 @@ function RangeField ({
   intervalInputData,
   updateQuery,
 }) {
-  console.log('RangeField', { min, max });
-
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(0);

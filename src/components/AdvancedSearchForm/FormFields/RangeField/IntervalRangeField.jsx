@@ -29,7 +29,7 @@ function IntervalRangeField ({
         ));
         setLoading(false); // stop loading when data is fetched
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     };
 

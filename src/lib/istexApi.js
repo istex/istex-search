@@ -287,8 +287,6 @@ export function sendResultPreviewApiRequest (queryString, rankingMode, currentPa
 
   url.searchParams.set('q', queryString);
 
-  console.log({ url: url.toString() });
-
   return axios.get(url.toString());
 }
 

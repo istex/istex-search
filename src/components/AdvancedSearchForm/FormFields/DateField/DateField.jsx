@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function NumberField ({ data, updateQuery, onChange }) {
+function DateField ({ data, updateQuery, onChange }) {
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
@@ -18,10 +18,11 @@ function NumberField ({ data, updateQuery, onChange }) {
       <div className='mb-2'>
         <input
           name={data.dataValue}
-          placeholder='Entrer votre valeur'
+          placeholder='YYYY'
           onChange={event => handleChange(event)}
           value={value}
-          type='number'
+          type='text'
+          maxLength={4}
           className='border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium focus:outline-none'
         />
       </div>
@@ -42,10 +43,10 @@ function NumberField ({ data, updateQuery, onChange }) {
   );
 }
 
-NumberField.propTypes = {
+DateField.propTypes = {
   data: PropTypes.object,
   updateQuery: PropTypes.func,
   onChange: PropTypes.func,
 };
 
-export default NumberField;
+export default DateField;

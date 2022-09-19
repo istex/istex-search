@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 
-export default function TitleSection ({ num, title, infoTextContent }) {
+export default function TitleSection ({ num, title, infoTextContent, showTooltipContent }) {
+  const toolTipButton = useRef(null);
+  const simulateClick = () => {
+    toolTipButton.current.click();
+  };
+  const firstUpdate = useRef(true);
+  useEffect(() => {
+    if (!firstUpdate.current) simulateClick();
+    firstUpdate.current = false;
+  }, [showTooltipContent]);
+
   return (
     <div className='flex justify-between items-center pb-[5px] text-istcolor-black mt-2 mb-2 border-b-2 border-istcolor-black'>
       <h2 className='flex font-montserrat-bold text-center'>
@@ -19,7 +29,7 @@ export default function TitleSection ({ num, title, infoTextContent }) {
         trigger='click'
         content={infoTextContent}
       >
-        <button>
+        <button ref={toolTipButton}>
           <FontAwesomeIcon icon='circle-info' size='2x' className='text-istcolor-blue cursor-pointer' />
         </button>
       </Tooltip>
@@ -30,5 +40,6 @@ export default function TitleSection ({ num, title, infoTextContent }) {
 TitleSection.propTypes = {
   num: PropTypes.string,
   title: PropTypes.string,
+  showTooltipContent: PropTypes.bool,
   infoTextContent: PropTypes.node,
 };

@@ -33,6 +33,7 @@ export default function QuerySection () {
   const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '' });
   const [currentPageURI, setCurrentPageURI] = useState('');
   const [isLoading, setLoading] = useState(true);
+  const [showTooltipContent, setShowTooltipContent] = useState(true);
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -95,21 +96,32 @@ export default function QuerySection () {
         title='Requête'
         num='1'
         infoTextTitle=''
+        showTooltipContent={showTooltipContent}
         infoTextContent={
-          <p className='text-sm text-white'>
-            Pour interroger ISTEX, vous avez le<br />
-            choix entre différents modes : un<br />
-            mode de recherche classique par<br />
-            équation booléenne, un mode de<br />
-            requêtage utilisant une liste<br />
-            d’identifiants pérennes de type ARK<br />
-            ou bien encore l’import d’un fichier<br />
-            spécifiant un corpus de documents<br />
-            au moyen d’identifiants uniques.<br />
-            Si vous avez besoin d'aide, consultez<br />
-            la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>ou bien<br />
-            contactez <a className='font-bold text-istcolor-blue cursor-pointer' href='mailto:contact@listes.istex.fr'>l’équipe ISTEX</a>.
-          </p>
+          <>
+            <div className='flex w-full justify-end relative left-1'>
+              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                <span className='sr-only'>Fermer l'info bulle</span>
+                <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                </svg>
+              </button>
+            </div>
+            <p className='text-sm text-white'>
+              Pour interroger ISTEX, vous avez le<br />
+              choix entre différents modes : un<br />
+              mode de recherche classique par<br />
+              équation booléenne, un mode de<br />
+              requêtage utilisant une liste<br />
+              d’identifiants pérennes de type ARK<br />
+              ou bien encore l’import d’un fichier<br />
+              spécifiant un corpus de documents<br />
+              au moyen d’identifiants uniques.<br />
+              Si vous avez besoin d'aide, consultez<br />
+              la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>ou bien<br />
+              contactez <a className='font-bold text-istcolor-blue cursor-pointer' href='mailto:contact@listes.istex.fr'>l’équipe ISTEX</a>.
+            </p>
+          </>
         }
       />
       <p className='mb-4'>

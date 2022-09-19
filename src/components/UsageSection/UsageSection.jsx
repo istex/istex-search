@@ -18,6 +18,7 @@ export default function UsageSection () {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
+  const [showTooltipContent, setShowTooltipContent] = useState(true);
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
 
@@ -87,18 +88,29 @@ export default function UsageSection () {
         title='Usage'
         num='2'
         infoTextTitle=''
+        showTooltipContent={showTooltipContent}
         infoTextContent={
-          <p className='text-sm text-white'>
-            Le choix du mode "Usage<br />
-            personnalisé" donne accès à tous les<br />
-            types de fichiers et de formats<br />
-            existants dans ISTEX. En revanche, le<br />
-            choix d’une plateforme ou d’un outil<br />
-            particuliers induit une sélection<br />
-            automatique des formats et types de<br />
-            fichiers qui seront extraits.<br />
-            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1'>documentation ISTEX </a>.
-          </p>
+          <>
+            <div className='flex w-full justify-end relative left-1'>
+              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                <span className='sr-only'>Fermer l'info bulle</span>
+                <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                </svg>
+              </button>
+            </div>
+            <p className='text-sm text-white'>
+              Le choix du mode "Usage<br />
+              personnalisé" donne accès à tous les<br />
+              types de fichiers et de formats<br />
+              existants dans ISTEX. En revanche, le<br />
+              choix d’une plateforme ou d’un outil<br />
+              particuliers induit une sélection<br />
+              automatique des formats et types de<br />
+              fichiers qui seront extraits.<br />
+              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1'>documentation ISTEX </a>.
+            </p>
+          </>
         }
       />
       <p className='text-sm md:text-base'>Cliquez sur l’usage visé pour votre corpus :</p>

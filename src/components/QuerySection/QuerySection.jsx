@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
 import QueryInput from '../QueryInput/QueryInput';
@@ -33,6 +33,8 @@ export default function QuerySection () {
   const [currentPageURI, setCurrentPageURI] = useState('');
   const [isLoading, setLoading] = useState(false);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
+  const docNumberToolTip = useRef(null);
+  const docClassedToolTip = useRef(null);
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -91,6 +93,10 @@ export default function QuerySection () {
     eventEmitter.addListener(events.resetResultPreview, resetResultPreviewHandler);
   }, []);
 
+  const addClick = (value) => {
+    value.current.click();
+  };
+
   return (
     <div className='my-12'>
       <TitleSection
@@ -101,7 +107,7 @@ export default function QuerySection () {
         infoTextContent={
           <>
             <div className='flex w-full justify-end relative left-1'>
-              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                 <span className='sr-only'>Fermer l'info bulle</span>
                 <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
                   <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
@@ -164,24 +170,34 @@ export default function QuerySection () {
             placement='right'
             trigger='click'
             content={
-              <p className='text-sm text-white'>
-                Actuellement, il n’est pas possible de<br />
-                télécharger plus de 100 000<br />
-                documents. Cette valeur a été fixée<br />
-                arbitrairement, pour limiter le<br />
-                requêtage utilisant une liste<br />
-                volume et la durée du<br />
-                raisonnables.<br />
-                Si le nombre de documents à<br />
-                extraire est inférieur au nombre total<br />
-                des résultats correspondant à votre<br />
-                requête, le choix d’un mode de tri<br />
-                des documents peut vous intéresser<br />
-                (voir rubrique suivante).<br />
-              </p>
+              <>
+                <div className='flex w-full justify-end relative left-1'>
+                  <button type='button' onClick={() => addClick(docNumberToolTip)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                    <span className='sr-only'>Fermer l'info bulle</span>
+                    <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                    </svg>
+                  </button>
+                </div>
+                <p className='text-sm text-white'>
+                  Actuellement, il n’est pas possible de<br />
+                  télécharger plus de 100 000<br />
+                  documents. Cette valeur a été fixée<br />
+                  arbitrairement, pour limiter le<br />
+                  requêtage utilisant une liste<br />
+                  volume et la durée du<br />
+                  raisonnables.<br />
+                  Si le nombre de documents à<br />
+                  extraire est inférieur au nombre total<br />
+                  des résultats correspondant à votre<br />
+                  requête, le choix d’un mode de tri<br />
+                  des documents peut vous intéresser<br />
+                  (voir rubrique suivante).<br />
+                </p>
+              </>
             }
           >
-            <button>
+            <button ref={docNumberToolTip}>
               <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
             </button>
           </Tooltip>
@@ -218,24 +234,34 @@ export default function QuerySection () {
             placement='right'
             trigger='click'
             content={
-              <p className='text-sm text-white'>
-                Dans le cas où vous ne téléchargez<br />
-                qu’un sous-ensemble de documents<br />
-                par rapport aux résultats de votre<br />
-                requête, les documents sélectionnés<br />
-                pour votre corpus seront extraits en<br />
-                fonction, soit d’un ordre de<br />
-                pertinence relevé par un score de<br />
-                qualité (choix privilégié par défaut),<br />
-                soit d’un ordre de pertinence seul,<br />
-                soit tirés de manière aléatoire, ce<br />
-                mode de tri étant plus représentatif<br />
-                de la diversité des résultats.<br />
-                Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/results/scoring.html'>documentation ISTEX</a>.
-              </p>
+              <>
+                <div className='flex w-full justify-end relative left-1'>
+                  <button type='button' onClick={() => addClick(docClassedToolTip)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                    <span className='sr-only'>Fermer l'info bulle</span>
+                    <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                    </svg>
+                  </button>
+                </div>
+                <p className='text-sm text-white'>
+                  Dans le cas où vous ne téléchargez<br />
+                  qu’un sous-ensemble de documents<br />
+                  par rapport aux résultats de votre<br />
+                  requête, les documents sélectionnés<br />
+                  pour votre corpus seront extraits en<br />
+                  fonction, soit d’un ordre de<br />
+                  pertinence relevé par un score de<br />
+                  qualité (choix privilégié par défaut),<br />
+                  soit d’un ordre de pertinence seul,<br />
+                  soit tirés de manière aléatoire, ce<br />
+                  mode de tri étant plus représentatif<br />
+                  de la diversité des résultats.<br />
+                  voir <a className='font-bold text-istcolor-blue cursor-pointer cta1' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>démonstrateur ISTEX</a>.
+                </p>
+              </>
             }
           >
-            <button>
+            <button ref={docClassedToolTip}>
               <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
             </button>
           </Tooltip>

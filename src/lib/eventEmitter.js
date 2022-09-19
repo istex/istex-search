@@ -36,6 +36,7 @@ export const events = {
   displayDownloadModal: 'displayDownloadModal',
   setNumberRowsInput: 'setNumberRowsInput',
   resetMessageImportCorpus: 'resetMessageImportCorpus',
+  setQueryAdvancedSearch: 'setQueryAdvancedSearch',
 };
 
 export default new EventEmitter();

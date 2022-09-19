@@ -16,6 +16,7 @@ import {
   faXmark,
   faCircleCheck,
   faMagnifyingGlass,
+  faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
@@ -43,6 +44,7 @@ library.add(
   faXmark,
   faCircleCheck,
   faMagnifyingGlass,
+  faTrashCan,
 );
 
 ReactDOM.render(

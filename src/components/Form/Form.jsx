@@ -6,7 +6,7 @@ import DownloadSection from '../DownloadSection/DownloadSection';
 
 export default function Form () {
   return (
-    <main className='w-full container mx-auto'>
+    <main className='w-full container md:w-[1170px] mx-auto'>
       <QuerySection />
       <UsageSection />
       <DownloadSection />

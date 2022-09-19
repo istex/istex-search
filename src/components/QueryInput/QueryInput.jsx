@@ -301,6 +301,8 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
               onChange={event => queryInputHandler(event.target.value)}
               ref={inputRef}
               disabled
+              style={{ resize: 'none' }}
+              autoComplete='off'
             />
           </div>
           <AdvancedSearchForm

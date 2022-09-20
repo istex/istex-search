@@ -34,7 +34,7 @@ export default function ResultPreview ({
     const from = +retreiveFromInsideUrl(url);
 
     if (from === 0) {
-      currentPage(1);
+      setCurrentPage(1);
     } else {
       setCurrentPage(Math.floor((from / limit) + 1));
     }

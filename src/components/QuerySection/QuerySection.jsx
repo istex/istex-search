@@ -205,7 +205,7 @@ export default function QuerySection () {
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
               className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-istcolor-green-light hover:text-black'
             >
-              All
+              Tout
             </button>
           </div>
         )}

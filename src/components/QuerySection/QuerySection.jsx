@@ -30,9 +30,9 @@ export default function QuerySection () {
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault().value);
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
-  const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '' });
+  const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '', firstPageURI: '' });
   const [currentPageURI, setCurrentPageURI] = useState('');
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
@@ -64,6 +64,7 @@ export default function QuerySection () {
       lastPageURI: data.lastPageURI,
       nextPageURI: data.nextPageURI,
       prevPageURI: data.prevPageURI,
+      firstPageURI: data.firstPageURI,
     });
   };
 
@@ -74,6 +75,7 @@ export default function QuerySection () {
 
   // If queryString or rankingMode change, update the results preview
   useEffect(async () => {
+    setLoading(true);
     if (!queryString) {
       sendDelayedResultPreviewApiRequest.cancel();
       return;
@@ -270,6 +272,7 @@ export default function QuerySection () {
               nextPageURI={pageUrls.nextPageURI}
               prevPageURI={pageUrls.prevPageURI}
               lastPageURI={pageUrls.lastPageURI}
+              firstPageURI={pageUrls.firstPageURI}
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
             />

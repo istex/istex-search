@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
+import { Tooltip } from 'flowbite-react';
 
 export default function Pagination ({
   totalAmountOfDocuments,
@@ -33,11 +34,18 @@ export default function Pagination ({
     const newPage = +event.target[0].value;
     event.preventDefault();
     const from = +retreiveFromInsideUrl(lastPageURI);
-    const newUrl = lastPageURI.replace(from, `${(newPage - 1) * limit}`);
+    const newFrom = (newPage - 1) * limit;
+    const newUrl = lastPageURI.replace(from, `${newFrom}`);
+
+    // reset the form
+    setPage('');
+    // check if it is the last page
+    if (newFrom > from) {
+      return;
+    }
 
     setCurrentPage(newPage);
     setCurrentPageURI(newUrl);
-    setPage('');
   };
 
   const handleNewRequest = (url) => {
@@ -57,6 +65,22 @@ export default function Pagination ({
       <div className='flex items-center'>
         <div>
           Page <span className='font-bold'>{currentPage || defaultPage}</span> sur <span className='font-bold'>{totalPage}</span>
+        </div>
+        <div className='pl-2 text-sm inline-block align-middle'>
+          <Tooltip
+            trigger='click'
+            content={
+              <p className='text-sm text-white'>
+                La pagination n'autorise pas à dépasser le<br />
+                <span className='font-bold'>10000ème résultat</span>. A cet effet, les pages qui pourront être<br />
+                requetées vont de la page <span className='font-bold'>une</span> à la <span className='font-bold'>1111</span>.
+              </p>
+            }
+          >
+            <button>
+              <FontAwesomeIcon icon='triangle-exclamation' className='text-istcolor-red' />
+            </button>
+          </Tooltip>
         </div>
         <form
           onSubmit={handleCurrentPageSubmit}

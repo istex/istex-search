@@ -8,7 +8,6 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
-import { ExclamationIcon } from '@heroicons/react/solid';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -148,7 +147,7 @@ export default function QuerySection () {
                 }
               >
                 <button>
-                  <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
+                  <FontAwesomeIcon icon='triangle-exclamation' className='text-istcolor-red' />
                 </button>
               </Tooltip>
             </div>

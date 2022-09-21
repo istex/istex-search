@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Pagination from './Pagination';
 import ResultList from './ResultList';
-import { Spinner } from 'flowbite-react';
+import ResultLoader from './ResultLoader';
 
 export default function ResultPreview ({
   isLoading,
@@ -22,13 +22,7 @@ export default function ResultPreview ({
       <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Parcourir les résultats</h4>
       {isLoading
         ? (
-          <div className='flex w-full justify-center mt-4'>
-            <Spinner
-              size='xl'
-              color='info'
-              aria-label='result loader'
-            />
-          </div>
+          <ResultLoader />
           )
         : (
           <ResultList

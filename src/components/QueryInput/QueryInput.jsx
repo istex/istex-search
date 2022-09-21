@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
@@ -60,8 +60,8 @@ const infoText = {
   </p>,
   queryAssist:
   <p className='text-sm text-white'>
-    Cliquez sur l’icône ci-dessous et<br />
-    pour utiliser une recherche guidée.
+    Cliquez ci-dessous pour accéder <br />
+    à une recherche guidée
   </p>,
 };
 
@@ -315,6 +315,10 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       );
       break;
   }
+  const nodesRef = useRef([]);
+  const onClick = (index) => {
+    nodesRef.current[index].click();
+  };
 
   return (
     <div>
@@ -328,7 +332,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           }}
           name='queryMode'
         >
-          {queryModes.modes.map(({ label, value }) => (
+          {queryModes.modes.map(({ label, value }, index) => (
             <div
               key={label}
               className='relative w-1/2 text-xs md:text-base md:w-auto md:inline-block'
@@ -349,9 +353,21 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
                 <Tooltip
                   placement='top'
                   trigger='click'
-                  content={<div className='min-w-[12rem]'>{infoText[value]}</div>}
+                  content={
+                    <div className='min-w-[12rem]'>
+                      <div className='flex w-full justify-end relative left-1'>
+                        <button type='button' onClick={() => onClick(index)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                          <span className='sr-only'>Fermer l'info bulle</span>
+                          <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                          </svg>
+                        </button>
+                      </div>
+                      {infoText[value]}
+                    </div>
+}
                 >
-                  <button>
+                  <button ref={(elem) => (nodesRef.current[index] = elem)}>
                     <FontAwesomeIcon icon='circle-info' />
                   </button>
                 </Tooltip>

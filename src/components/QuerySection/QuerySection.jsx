@@ -8,7 +8,6 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
-import { ExclamationIcon } from '@heroicons/react/solid';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -30,9 +29,9 @@ export default function QuerySection () {
   const [currentRankingMode, setCurrentRankingMode] = useState(istexApiConfig.rankingModes.getDefault().value);
   const [resultPreviewResults, setResultPreviewResults] = useState([]);
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
-  const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '' });
+  const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '', firstPageURI: '' });
   const [currentPageURI, setCurrentPageURI] = useState('');
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
@@ -64,6 +63,7 @@ export default function QuerySection () {
       lastPageURI: data.lastPageURI,
       nextPageURI: data.nextPageURI,
       prevPageURI: data.prevPageURI,
+      firstPageURI: data.firstPageURI,
     });
   };
 
@@ -74,6 +74,7 @@ export default function QuerySection () {
 
   // If queryString or rankingMode change, update the results preview
   useEffect(async () => {
+    setLoading(true);
     if (!queryString) {
       sendDelayedResultPreviewApiRequest.cancel();
       return;
@@ -146,7 +147,7 @@ export default function QuerySection () {
                 }
               >
                 <button>
-                  <ExclamationIcon className='h-5 w-5 text-red-600 cursor-pointer' />
+                  <FontAwesomeIcon icon='triangle-exclamation' className='text-istcolor-red' />
                 </button>
               </Tooltip>
             </div>
@@ -270,6 +271,7 @@ export default function QuerySection () {
               nextPageURI={pageUrls.nextPageURI}
               prevPageURI={pageUrls.prevPageURI}
               lastPageURI={pageUrls.lastPageURI}
+              firstPageURI={pageUrls.firstPageURI}
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
             />

@@ -45,6 +45,7 @@ library.add(
   faCircleCheck,
   faMagnifyingGlass,
   faTrashCan,
+  faTriangleExclamation,
 );
 
 ReactDOM.render(

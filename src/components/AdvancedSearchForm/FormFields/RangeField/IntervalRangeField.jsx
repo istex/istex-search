@@ -40,7 +40,7 @@ function IntervalRangeField ({
     ? (
       <Spinner
         color='success'
-        aria-label='Success spinner example'
+        aria-label='loader fetch data'
       />
       )
     : (

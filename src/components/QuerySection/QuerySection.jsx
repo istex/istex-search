@@ -259,7 +259,7 @@ export default function QuerySection () {
                   soit tirés de manière aléatoire, ce<br />
                   mode de tri étant plus représentatif<br />
                   de la diversité des résultats.<br />
-                  voir <a className='font-bold text-istcolor-blue cursor-pointer cta1' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>démonstrateur ISTEX</a>.
+                  Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/results/scoring.html'>documentation ISTEX</a>.
                 </p>
               </>
             }

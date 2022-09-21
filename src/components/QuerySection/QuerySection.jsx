@@ -10,6 +10,7 @@ import { istexApiConfig } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { usePrevious } from '../../lib/hooks';
 
 const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
   newQueryString,
@@ -31,6 +32,7 @@ export default function QuerySection () {
   const [totalAmountOfDocuments, setTotalAmountOfDocuments] = useState(0);
   const [pageUrls, setPageUrls] = useState({ lastPageURI: '', nextPageURI: '', prevPageURI: '', firstPageURI: '' });
   const [currentPageURI, setCurrentPageURI] = useState('');
+  const prevCurrentPageURI = usePrevious(currentPageURI);
   const [isLoading, setLoading] = useState(false);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const docNumberToolTip = useRef(null);
@@ -82,7 +84,8 @@ export default function QuerySection () {
       return;
     }
 
-    await sendDelayedResultPreviewApiRequest(queryString, rankingMode, currentPageURI);
+    const paginationQueryString = prevCurrentPageURI !== currentPageURI ? currentPageURI : '';
+    await sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString);
     setLoading(false);
   }, [queryString, rankingMode, currentPageURI]);
 
@@ -300,6 +303,7 @@ export default function QuerySection () {
               firstPageURI={pageUrls.firstPageURI}
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
+              currentRankingMode={currentRankingMode}
             />
           </div>
         )}

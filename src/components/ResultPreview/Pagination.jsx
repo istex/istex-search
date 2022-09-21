@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'flowbite-react';
@@ -12,8 +12,9 @@ export default function Pagination ({
   lastPageURI,
   limit,
   firstPageURI,
+  currentRankingMode,
 }) {
-  const totalPage = Math.ceil(totalAmountOfDocuments / limit);
+  const totalPage = Math.floor(totalAmountOfDocuments / limit);
   const [currentPage, setCurrentPage] = useState('');
   const [page, setPage] = useState('');
 
@@ -68,6 +69,10 @@ export default function Pagination ({
     setCurrentPageURI(url);
   };
 
+  useEffect(() => {
+    setCurrentPage('');
+  }, [totalAmountOfDocuments, currentRankingMode]);
+
   return (
     <div className='flex flex-col md:flex-row justify-between items-center mt-5'>
       <div className='flex items-center'>
@@ -79,9 +84,10 @@ export default function Pagination ({
             trigger='click'
             content={
               <p className='text-sm text-white'>
-                La pagination n'autorise pas à dépasser le<br />
-                <span className='font-bold'>10000ème résultat</span>. A cet effet, les pages qui pourront être<br />
-                requetées vont de la page <span className='font-bold'>une</span> à la <span className='font-bold'>1111</span>.
+                La pagination ne permet pas de dépasser<br />
+                le <span className='font-bold'>10000ème résultat</span>. Par conséquent, il est<br />
+                impossible d'accéder aux pages supérieures<br />
+                à <span className='font-bold'>1111</span>.
               </p>
             }
           >
@@ -159,4 +165,5 @@ Pagination.propTypes = {
   setCurrentPageURI: PropTypes.func,
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
+  currentRankingMode: PropTypes.string,
 };

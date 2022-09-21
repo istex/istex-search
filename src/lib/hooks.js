@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 export const useFocus = () => {
   const htmlElRef = useRef(null);
@@ -21,4 +21,13 @@ export const useStateWithCallback = (initialValue) => {
   };
 
   return [value, setValueAndCallback];
+};
+
+// custom hook for getting previous value
+export const usePrevious = value => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 };

@@ -16,6 +16,7 @@ export default function ResultPreview ({
   limit = 9,
   lastPageURI,
   firstPageURI,
+  currentRankingMode,
 }) {
   return (
     <>
@@ -38,6 +39,7 @@ export default function ResultPreview ({
         lastPageURI={lastPageURI}
         limit={limit}
         firstPageURI={firstPageURI}
+        currentRankingMode={currentRankingMode}
       />
     </>
   );
@@ -54,4 +56,5 @@ ResultPreview.propTypes = {
   setCurrentPageURI: PropTypes.func,
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
+  currentRankingMode: PropTypes.string,
 };

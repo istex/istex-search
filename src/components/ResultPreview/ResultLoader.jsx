@@ -3,9 +3,9 @@ import React from 'react';
 export default function ResultLoader () {
   return (
     <div className='grid grid-cols-1 gap-y-2 auto-rows-fr md:gap-x-8 md:gap-y-4 md:grid-cols-3 md:mr-4 w-full'>
-      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(result => (
+      {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((result, index) => (
         <div
-          key={result.id}
+          key={index}
           className='flex flex-col justify-between text-istcolor-blue hover:text-istcolor-black border-[1px] py-2 border-l-[10px] border-istcolor-blue hover:border-istcolor-black px-2 cursor-pointer hover:bg-istcolor-green-light'
         >
           <div className='p-3 max-w-sm w-full mx-auto'>

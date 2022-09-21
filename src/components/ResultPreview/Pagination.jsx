@@ -31,14 +31,22 @@ export default function Pagination ({
   };
 
   const handleCurrentPageSubmit = (event) => {
-    const newPage = +event.target[0].value;
     event.preventDefault();
+
+    // reset the form
+    setPage('');
+
+    const newPage = +event.target[0].value;
+
+    // check negative page
+    if (newPage <= 0) {
+      return;
+    }
+
     const from = +retreiveFromInsideUrl(lastPageURI);
     const newFrom = (newPage - 1) * limit;
     const newUrl = lastPageURI.replace(from, `${newFrom}`);
 
-    // reset the form
-    setPage('');
     // check if it is the last page
     if (newFrom > from) {
       return;

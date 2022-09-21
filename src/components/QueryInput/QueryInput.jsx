@@ -60,8 +60,8 @@ const infoText = {
   </p>,
   queryAssist:
   <p className='text-sm text-white'>
-    Cliquez sur l’icône ci-dessous et<br />
-    pour utiliser une recherche guidée.
+    Cliquez sur l’icône ci-dessous vous<br />
+    donnera access à une recherche guidée.
   </p>,
 };
 

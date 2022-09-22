@@ -205,12 +205,12 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   };
 
   const displayNumberRows = () => {
-    if (totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) {
-      return totalAmountOfDocuments;
-    } else if (numberRowsInput === 0) {
+    if (numberRowsInput === 0) {
       return '2';
-    } else {
+    } else if (numberRowsInput > 0) {
       return numberRowsInput;
+    } else if (totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) {
+      return totalAmountOfDocuments;
     }
   };
 
@@ -376,7 +376,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           ))}
         </RadioGroup>
         <div
-          className='flex justify-around items-center px-2 py-2 md:px-[30px] text-istcolor-blue hover:text-istcolor-white border-[1px] border-istcolor-blue mb-2 font-bold cta1 font-montserrat-bold'
+          className='flex justify-around items-center px-2 py-2 md:px-[30px] text-istcolor-blue hover:text-istcolor-white border-[1px] border-istcolor-blue mb-2 font-bold cta1 font-montserrat-regular'
           onClick={() => setOpenModalExampleQuery(true)}
         >
           <span>Exemples</span>

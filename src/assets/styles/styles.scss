@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url(/images/BG_ISTEX_LIGHT_DESKTOP.jpeg) center repeat;
+  background-color: #f0f0f0;
 }
 
 code {
@@ -29,7 +29,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 /* Need to do this, because with tailwind we cannot add linear gradient inside config */
-.cta1:hover, .cta1:focus, .content .button.cta1 > a:hover, .content .button.cta1:hover > a, .content .button.cta1 > a:focus, .cta3:hover, .cta3:focus {
+.cta1:hover, .content .button.cta1 > a:hover, .content .button.cta1:hover > a, .content .button.cta1 > a:focus, .cta3:hover, .cta3:focus {
   background: linear-gradient(270deg,#51a7c5 0%,#458ca5 100%);
 }
 

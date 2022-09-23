@@ -9,7 +9,7 @@ function IntervalRangeField ({
   updateValueOfSearchInput,
   updateQuery,
 }) {
-  const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(1);
+  const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(100);
   const [intervalInputMinValue, setIntervalInputMinValue] = useState(0);
   const [isLoading, setLoading] = useState(true);
 
@@ -46,6 +46,7 @@ function IntervalRangeField ({
     : (
       <RangeField
         intervalInputData={data}
+        step={1}
         min={intervalInputMinValue}
         max={intervalInputMaxValue}
         onChange={({ min, max }) => {

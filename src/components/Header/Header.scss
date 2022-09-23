@@ -6,7 +6,15 @@
 
 }
 
-.w-header{
+.baseline {
+  color: #458ca5;
+  background-color: #fff;
+  font-weight: bold;
+  font-size: .644rem;
+  font-style: italic;
+}
+
+.w-header {
   width: 77rem;
 }
 
@@ -253,7 +261,7 @@ a:hover .ct {
 
   }
 
-  .mobile-menu-text{
+  .mobile-menu-text {
     padding-bottom: 28px;
     max-inline-size: max-content;
   }

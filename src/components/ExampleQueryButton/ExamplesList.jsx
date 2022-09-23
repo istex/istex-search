@@ -12,14 +12,13 @@ export default function ExamplesList ({ onClickExample }) {
       key={example.text.toString()}
     >
       <Tooltip content='Essayez cette requête'>
-        <span
+        <button
           onClick={() => onClickExample(example)}
-          className='mr-[20px]'
         >
           <FontAwesomeIcon icon='magnifying-glass' className='text-2xl' />
-        </span>
+        </button>
       </Tooltip>
-      <span>{example.text}</span>
+      <span className='ml-[20px]'>{example.text}</span>
     </div>,
   );
 }

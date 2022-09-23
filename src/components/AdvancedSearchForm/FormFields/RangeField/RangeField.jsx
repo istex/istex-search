@@ -1,127 +1,222 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import classnames from 'classnames';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-
+import { Modal, Button, TextInput, Label, Tooltip } from 'flowbite-react';
+import ModalRangeField from './ModalRangeField';
 import './RangeField.scss';
 
 function RangeField ({
+  step,
   min,
   max,
   onChange,
   intervalInputData,
   updateQuery,
 }) {
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
+  const [minValue, setMinValue] = useState(min);
+  const [maxValue, setMaxValue] = useState(max);
+  const [openModal, setOpenModal] = useState(false);
+  const [modalIntervalUpdateType, setModalIntervalUpdateType] = useState('min');
+  const [modalIntervalUpdateValue, setModalIntervalUpdateValue] = useState(null);
   const minValRef = useRef(0);
   const maxValRef = useRef(0);
-  const range = useRef(null);
+  const updateValRef = useRef(null);
 
-  // Convert to percentage
-  const getPercent = useCallback((value) => {
-    Math.round(((value - min) / (max - min)) * 100);
-  }, [min, max]);
+  const onCloseModal = () => {
+    setOpenModal(false);
+  };
 
-  useEffect(() => {
-    setMinVal(min);
-    setMaxVal(max);
-  }, [min, max]);
-
-  // Set width of the range to decrease from the left side
-  useEffect(() => {
-    if (maxValRef.current) {
-      const minPercent = getPercent(minVal);
-      const maxPercent = getPercent(+maxValRef.current.value);
-      if (range.current) {
-        range.current.style.left = `${minPercent}%`;
-        range.current.style.width = `${maxPercent - minPercent}%`;
-      }
+  const updateIntervalValue = (value) => {
+    if (modalIntervalUpdateType === 'min' && value <= maxValRef.current.value) {
+      value = parseFloat(value);
+      // the new min value is the value from the event.
+      // it should not exceed the current max value!
+      setMinValue(value);
+      minValRef.current.value = value;
+    } else if (modalIntervalUpdateType === 'max' && value >= minValRef.current.value) {
+      value = parseFloat(value);
+      // the new min value is the value from the event.
+      // it should not exceed the current min value!
+      setMaxValue(value);
+      maxValRef.current.value = value;
     }
-  }, [minVal, getPercent]);
+    onCloseModal();
+  };
 
-  // Set width of the range to decrease from the right side
-  useEffect(() => {
-    if (minValRef.current) {
-      const minPercent = getPercent(+minValRef.current.value);
-      const maxPercent = getPercent(maxVal);
-
-      if (range.current) {
-        range.current.style.width = `${maxPercent - minPercent}%`;
-      }
+  const changeValue = (value) => {
+    if (value === 'min') {
+      setModalIntervalUpdateValue(minValue);
+      updateValRef.current.value = minValue;
+    } else {
+      setModalIntervalUpdateValue(maxValue);
+      updateValRef.current.value = maxValue;
     }
-  }, [maxVal, getPercent]);
+    setOpenModal(true);
+    setModalIntervalUpdateType(value);
+  };
 
-  // Get min and max values when their state changes
-  useEffect(() => {
-    onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
+  const handleMinChange = event => {
+    event.preventDefault();
+    const value = parseFloat(event.target.value);
+    // the new min value is the value from the event.
+    // it should not exceed the current max value!
+    const newMinVal = Math.min(value, maxValue - step);
+    setMinValue(newMinVal);
+  };
+
+  const handleMaxChange = event => {
+    event.preventDefault();
+    const value = parseFloat(event.target.value);
+    // the new max value is the value from the event.
+    // it must not be less than the current min value!
+    const newMaxVal = Math.max(value, minValue + step);
+    setMaxValue(newMaxVal);
+  };
+
+  const minPos = ((minValue - min) / (max - min)) * 100;
+  const maxPos = ((maxValue - min) / (max - min)) * 100;
 
   return (
-    <div>
-      <div>
-        <div className='z-0'>
-          <input
-            id='minmax-range'
-            type='range'
-            min={min}
-            max={max}
-            value={minVal}
-            ref={minValRef}
-            onChange={(event) => {
-              const value = Math.min(+event.target.value, maxVal - 1);
-              setMinVal(value);
-              event.target.value = value.toString();
-            }}
-            className={classnames('thumb thumb--zindex-3', {
-              'thumb--zindex-5': minVal > max - 100,
-            })}
-          />
-          <input
-            type='range'
-            min={min}
-            max={max}
-            value={maxVal}
-            ref={maxValRef}
-            onChange={(event) => {
-              const value = Math.max(+event.target.value, minVal + 1);
-              setMaxVal(value);
-              event.target.value = value.toString();
-            }}
-            className='thumb thumb--zindex-4'
-          />
+    <>
+      <div id='container-range' className='relative bottom-6'>
+        <div className='wrapper'>
+          <div className='input-wrapper'>
+            <input
+              className='input'
+              type='range'
+              value={minValue}
+              min={min}
+              max={max}
+              step={step}
+              ref={minValRef}
+              onChange={handleMinChange}
+            />
+            <input
+              className='input'
+              type='range'
+              value={maxValue}
+              ref={maxValRef}
+              min={min}
+              max={max}
+              step={step}
+              onChange={handleMaxChange}
+            />
+          </div>
 
-          <div className='slider'>
-            <div className='slider__track' />
-            <div ref={range} className='slider__range' />
-            <div className='slider__left-value'>{minVal}</div>
-            <div className='slider__right-value'>{maxVal}</div>
+          <div className='control-wrapper '>
+            <div className='control' style={{ left: `${minPos}%` }} />
+            <div className='rail'>
+              <div
+                className='inner-rail'
+                style={{ left: `${minPos}%`, right: `${100 - maxPos}%` }}
+              />
+            </div>
+            <div className='control' style={{ left: `${maxPos}%` }} />
           </div>
         </div>
-      </div>
-      <div
-        role='navigation'
-        aria-label='menu-principal'
-        className='pt-8 text-center'
-      >
-        <button
-          type='button'
-          onClick={(e) => {
-            e.preventDefault();
-            updateQuery(`${intervalInputData.dataValue}:[${minVal} TO ${maxVal}]`);
-          }}
-          className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
+        <div className='flex justify-between relative bottom-4'>
+          <Tooltip
+            content={(
+              <div className='max-w-[12rem] text-center'>
+                Cliquez pour saisir la valeur minimale
+              </div>
+            )}
+          >
+            <div className='pl-3 cursor-pointer' onClick={() => { changeValue('min'); }}><span className='bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800'> {minValue} </span></div>
+          </Tooltip>
+
+          <Tooltip
+            content={(
+              <div className='max-w-[12rem] min-w-[10rem] text-center'>
+                Cliquez pour saisir la valeur maximale
+              </div>
+            )}
+          >
+            <div className='pr-3 cursor-pointer' onClick={() => { changeValue('max'); }}><span className='bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800'> {maxValue} </span></div>
+          </Tooltip>
+        </div>
+
+        <div
+          role='navigation'
+          aria-label='menu-principal'
+          className='text-center'
         >
-          Valider
-        </button>
+          <button
+            type='button'
+            onClick={(e) => {
+              e.preventDefault();
+              updateQuery(`${intervalInputData.dataValue}:[${minValue} TO ${maxValue}]`);
+            }}
+            className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
+          >
+            Valider
+          </button>
+        </div>
       </div>
 
-    </div>
+      <ModalRangeField
+        openModal={openModal}
+        onCloseModal={onCloseModal}
+        updateIntervalValue={updateIntervalValue}
+        modalIntervalUpdateType={modalIntervalUpdateType}
+        modalIntervalUpdateValue={modalIntervalUpdateValue}
+        minValRef={minValRef}
+        maxValRef={maxValRef}
+        min={min}
+        max={max}
+        updateValRef={updateValRef}
+      />
+
+      <Modal
+        show={openModal}
+        onClose={onCloseModal}
+      >
+        <div className='istex-modal__header'>
+          <Modal.Header>
+            <span className='istex-modal__text'>
+              Choix de l'intervalle
+            </span>
+          </Modal.Header>
+        </div>
+        <Modal.Body>
+          <div>
+            <div className='mb-2 block'>
+              <Label
+                htmlFor='value1'
+                value={`Choisissez la valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
+              />
+            </div>
+            <TextInput
+              id='value1'
+              type='number'
+              min={modalIntervalUpdateType === 'max' ? minValRef.current.value : min}
+              max={modalIntervalUpdateType === 'min' ? maxValRef.current.value : max}
+              placeholder='name@flowbite.com'
+              required
+              ref={updateValRef}
+              defaultValue={modalIntervalUpdateValue}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button style={{ backgroundColor: '#458ca5' }} onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
+            Modifier la valeur
+          </Button>
+          <Button
+            color='gray'
+            onClick={onCloseModal}
+          >
+            Fermer
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 
 RangeField.propTypes = {
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  step: PropTypes.number.isRequired,
   intervalInputData: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,

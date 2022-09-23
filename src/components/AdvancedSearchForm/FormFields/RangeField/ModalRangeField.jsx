@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { Label, Modal, TextInput } from 'flowbite-react';
+import React from 'react';
+import { Label, Modal, TextInput, Button } from 'flowbite-react';
 import PropTypes from 'prop-types';
 
 function ModalRangeField ({
@@ -12,17 +12,20 @@ function ModalRangeField ({
   maxValRef,
   min,
   max,
+  updateValRef,
 }) {
-  const updateValRef = useRef(null);
-
   return (
     <Modal
       show={openModal}
       onClose={onCloseModal}
     >
-      <Modal.Header>
-        Choix de l'intervalle
-      </Modal.Header>
+      <div className='istex-modal__header'>
+        <Modal.Header>
+          <span className='istex-modal__text'>
+            Choix de l'intervalle
+          </span>
+        </Modal.Header>
+      </div>
       <Modal.Body>
         <div>
           <div className='mb-2 block'>
@@ -44,22 +47,15 @@ function ModalRangeField ({
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <div className='flex w-full justify-end'>
-          <button
-            type='button'
-            onClick={onCloseModal}
-            className='p-2 text-white bg-istcolor-grey-medium focus:ring-4 focus:outline-none'
-          >
-            Fermer
-          </button>
-          <button
-            type='button'
-            onClick={() => { updateIntervalValue(updateValRef.current.value); }}
-            className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
-          >
-            Modifier la valeur
-          </button>
-        </div>
+        <Button style={{ backgroundColor: '#458ca5' }} onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
+          Modifier la valeur
+        </Button>
+        <Button
+          color='gray'
+          onClick={onCloseModal}
+        >
+          Fermer
+        </Button>
       </Modal.Footer>
     </Modal>
   );
@@ -73,6 +69,7 @@ ModalRangeField.propTypes = {
   modalIntervalUpdateValue: PropTypes.number,
   minValRef: PropTypes.any,
   maxValRef: PropTypes.any,
+  updateValRef: PropTypes.any,
   min: PropTypes.number,
   max: PropTypes.number,
 };

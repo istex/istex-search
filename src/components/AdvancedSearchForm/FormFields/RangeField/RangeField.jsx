@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, TextInput, Label, Tooltip } from 'flowbite-react';
-
+import ModalRangeField from './ModalRangeField';
 import './RangeField.scss';
 
 function RangeField ({
@@ -26,18 +26,17 @@ function RangeField ({
   };
 
   const updateIntervalValue = (value) => {
-    console.log('min', value);
     if (modalIntervalUpdateType === 'min' && value <= maxValRef.current.value) {
       value = parseFloat(value);
       // the new min value is the value from the event.
       // it should not exceed the current max value!
-      setMinValue(value.toString());
+      setMinValue(value);
       minValRef.current.value = value;
     } else if (modalIntervalUpdateType === 'max' && value >= minValRef.current.value) {
       value = parseFloat(value);
       // the new min value is the value from the event.
       // it should not exceed the current min value!
-      setMaxValue(value.toString());
+      setMaxValue(value);
       maxValRef.current.value = value;
     }
     onCloseModal();
@@ -153,6 +152,19 @@ function RangeField ({
           </button>
         </div>
       </div>
+
+      <ModalRangeField
+        openModal={openModal}
+        onCloseModal={onCloseModal}
+        updateIntervalValue={updateIntervalValue}
+        modalIntervalUpdateType={modalIntervalUpdateType}
+        modalIntervalUpdateValue={modalIntervalUpdateValue}
+        minValRef={minValRef}
+        maxValRef={maxValRef}
+        min={min}
+        max={max}
+        updateValRef={updateValRef}
+      />
 
       <Modal
         show={openModal}

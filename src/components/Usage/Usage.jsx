@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { RadioGroup } from '@headlessui/react';
-import { CheckIcon } from '@heroicons/react/solid';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function Usage ({ name, formats, label }) {
   const usage = useSelector(state => state.istexApi.usage);
 
@@ -19,53 +19,55 @@ export default function Usage ({ name, formats, label }) {
     <RadioGroup
       value={usage}
       onChange={usageChangedHandler}
-      className='mb-2 md:mb-0 md:mr-5'
+      className='mb-2 md:mb-0 md:mr-5 cursor-pointer'
       name='usages'
     >
       <RadioGroup.Option
         value={name}
-        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] md:w-[351px]'
+        className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] md:w-[340px]'
       >
         {({ active, checked }) => (
-          <div className={`box-content flex flex-col justify-between w-full h-full bg-white border-4 cursor-pointer border-b-0${checked ? ' border-istcolor-green-dark' : ''}`}>
-            <div className='flex flex-col items-center justify-between'>
-              <div className='flex flex-col items-center'>
-                <div className='flex flex-col justify-center items-center p-10'>
-                  <RadioGroup.Label
-                    as='p'
-                    className='text-xl text-gray-900 mt-8 font-semibold'
-                  >
-                    {label}
-                  </RadioGroup.Label>
-                  <RadioGroup.Description
-                    as='span'
-                  >
-                    {name === 'lodex' && (
-                      <span className='text-xs pt-4'>
-                        Analyse graphique / Exploration de corpus
-                      </span>
-                    )}
-                  </RadioGroup.Description>
+          <>
+            <div className={`pt-24 flex flex-col justify-start items-center w-full h-full bg-white border-[3px] border-b-0${checked ? ' border-istcolor-green-dark' : ' border-white'}`}>
+              <div className='flex flex-col items-center justify-between'>
+                <div className='flex flex-col items-center'>
+                  <div className='flex flex-col justify-center items-center'>
+                    <RadioGroup.Label
+                      as='p'
+                      className='text-2xl font-montserrat-semibold text-istcolor-black'
+                    >
+                      {label}
+                    </RadioGroup.Label>
+                    <RadioGroup.Description
+                      as='span'
+                      className={`text-xs ${name === 'lodex' ? 'pt-3' : 'pt-0'}`}
+                    >
+                      {name === 'lodex' && 'Analyse graphique / Exploration de corpus'}
+                    </RadioGroup.Description>
+                  </div>
                 </div>
               </div>
+              {name === 'customUsage' && (
+                <div className='flex flex-col absolute right-6 top-6'>
+                  <span className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>DOC</span>
+                  <p className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>TDM</p>
+                </div>
+              )}
+              {name === 'lodex' && (
+                <div className='flex flex-col absolute right-6 top-6'>
+                  <p className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>TDM</p>
+                </div>
+              )}
             </div>
-            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-istcolor-blue'} w-full`}>
+            <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-istcolor-blue cta1'} w-full`}>
               {checked && (
-                <CheckIcon className='h-6 w-6' />
+                <FontAwesomeIcon icon='check' />
               )}
               <p>
-                {checked ? <span className='pl-2'>Usage sélectioné</span> : <span className='pl-2'>Choisir cet usage</span>}
+                {checked ? <span className='pl-2 text-sm font-montserrat-bold'>Usage sélectioné</span> : <span className='pl-2 text-sm font-montserrat-bold'>Choisir cet usage</span>}
               </p>
             </div>
-            <div className='absolute right-2 top-2 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
-              <p className='text-sm'>TDM</p>
-            </div>
-            {name === 'customUsage' && (
-              <div className='absolute right-2 top-11 p-2 text-center text-istcolor-grey-link bg-istcolor-white'>
-                <p className='text-sm'>DOC</p>
-              </div>
-            )}
-          </div>
+          </>
         )}
       </RadioGroup.Option>
     </RadioGroup>

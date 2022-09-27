@@ -43,6 +43,7 @@ import config from './config';
 // https://trello.com/c/XXtGrIQq/157-2-longueur-de-requ%C3%AAte-max-tester-limites-avec-chrome-et-firefox
 export const characterLimit = config.characterLimit;
 export const nbHistory = 30;
+export const validUsages = [1, 2, 3];
 
 export default class Form extends React.Component {
     static handleReload() {
@@ -108,10 +109,12 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.usage = false;
-        this.loadexUsageLabel = 'Choisir cet usage';
+        this.lodexUsageLabel = 'Choisir cet usage';
+        this.cortextUsageLabel = 'Choisir cet usage';
         this.persUsageLabel = 'Choisir cet usage';
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
+        this.selectedCortextClass = '';
         this.limitNbDocClass = 'limitNbDocTxtHide';
         this.showSamplesDiv = false;
         this.showEstimatedSizeTxtClass = 'hidden';
@@ -457,16 +460,28 @@ export default class Form extends React.Component {
         if (parsedUrl.usage === '1') {
             this.usage = 1;
             this.selectedLodexClass = '';
+            this.selectedCortextClass = '';
+            this.selectedPersClass = 'selectedUsage';
             this.shouldHideUpersonnalise = ' ';
             this.shouldHideU = 'hidden';
             this.persUsageLabel = 'usage sélectionné';
-            this.loadexUsageLabel = 'choisir cet usage';
-            this.selectedPersClass = 'selectedUsage';
+            this.lodexUsageLabel = 'choisir cet usage';
+            this.cortextUsageLabel = 'choisir cet usage';
         } else if (parsedUrl.usage === '2') {
             this.usage = 2;
             this.selectedPersClass = '';
+            this.selectedCortextClass = '';
             this.selectedLodexClass = 'selectedUsage';
-            this.loadexUsageLabel = 'usage sélectionné';
+            this.lodexUsageLabel = 'usage sélectionné';
+            this.persUsageLabel = 'choisir cet usage';
+            this.cortextUsageLabel = 'choisir cet usage';
+        } else if (parsedUrl.usage === '3') {
+            this.usage = 3;
+            this.selectedPersClass = '';
+            this.selectedLodexClass = '';
+            this.selectedCortextClass = 'selectedUsage';
+            this.cortextUsageLabel = 'usage sélectionné';
+            this.lodexUsageLabel = 'choisir cet usage';
             this.persUsageLabel = 'choisir cet usage';
         }
         if (parsedUrl.q_id !== undefined) {
@@ -696,10 +711,12 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
         this.usage = false;
-        this.loadexUsageLabel = 'Choisir cet usage';
+        this.lodexUsageLabel = 'Choisir cet usage';
+        this.cortextUsageLabel = 'Choisir cet usage';
         this.persUsageLabel = 'Choisir cet usage';
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
+        this.selectedCortextClass = '';
         this.limitNbDocClass = 'limitNbDocTxtHide';
         this.showSamplesDiv = false;
         this.showEstimatedSizeTxtClass = 'hidden';
@@ -1010,17 +1027,31 @@ export default class Form extends React.Component {
 
         if (this.usage === 1) {
             ISTEX.searchParams.set('usage', this.usage);
-            this.selectedLodexClass = '';
             this.persUsageLabel = 'usage sélectionné';
-            this.loadexUsageLabel = 'choisir cet usage';
+            this.lodexUsageLabel = 'choisir cet usage';
+            this.cortextUsageLabel = 'choisir cet usage';
             this.selectedPersClass = 'selectedUsage';
+            this.selectedLodexClass = '';
+            this.selectedCortextClass = '';
         } else if (this.usage === 2) {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedLodexClass = 'selectedUsage';
             ISTEX.searchParams.set('extract', 'metadata[json]');
-            this.loadexUsageLabel = 'usage sélectionné';
+            this.lodexUsageLabel = 'usage sélectionné';
+            this.cortextUsageLabel = 'choisir cet usage';
             this.persUsageLabel = 'choisir cet usage';
             this.selectedPersClass = '';
+            this.selectedCortextClass = '';
+            archiveSize = sizes.metadataSize.json * size;
+        } else if (this.usage === 3) {
+            ISTEX.searchParams.set('usage', this.usage);
+            this.selectedCortextClass = 'selectedUsage';
+            ISTEX.searchParams.set('extract', 'fulltext[tei,txt];enrichments[teeft]');
+            this.cortextUsageLabel = 'usage sélectionné';
+            this.lodexUsageLabel = 'choisir cet usage';
+            this.persUsageLabel = 'choisir cet usage';
+            this.selectedPersClass = '';
+            this.selectedLodexClass = '';
             archiveSize = sizes.metadataSize.json * size;
         }
 
@@ -1065,10 +1096,12 @@ export default class Form extends React.Component {
                 c.uncheckCurrent(name);
             }
         });
-        this.loadexUsageLabel = 'Choisir cet usage';
+        this.lodexUsageLabel = 'Choisir cet usage';
         this.persUsageLabel = 'Choisir cet usage';
+        this.cortextUsageLabel = 'Choisir cet usage';
         this.selectedPersClass = '';
         this.selectedLodexClass = '';
+        this.selectedCortextClass = '';
         this.usage = false;
         this.shouldHideUpersonnalise = 'hidden';
         this.shouldHideU = 'col-lg-12 col-sm-12 usages';
@@ -1125,7 +1158,7 @@ export default class Form extends React.Component {
         const filetypeFormats = Object.keys(this.state)
             .filter(key => key.startsWith('extract'))
             .filter(key => this.state[key]);
-        if (this.usage === 2 && this.state.total > 0 && this.state.size > 0) {
+        if (validUsages.includes(this.usage) && this.state.total > 0 && this.state.size > 0) {
             return false;
         }
         return (!this.state.total || this.state.total <= 0 || filetypeFormats.length <= 0 || this.state.size <= 0);
@@ -1135,9 +1168,11 @@ export default class Form extends React.Component {
         this.shouldHideUpersonnalise = '';
         this.shouldHideU = 'hidden';
         this.selectedLodexClass = '';
+        this.selectedCortextClass = '';
         this.usage = 1;
         this.persUsageLabel = 'usage sélectionné';
-        this.loadexUsageLabel = 'choisir cet usage';
+        this.lodexUsageLabel = 'choisir cet usage';
+        this.cortextUsageLabel = 'choisir cet usage';
         this.selectedPersClass = 'selectedUsage';
 
         this.setState({});
@@ -1152,11 +1187,25 @@ export default class Form extends React.Component {
     showUsageLodex() {
         this.usage = 2;
         this.selectedLodexClass = 'selectedUsage';
-        this.loadexUsageLabel = 'usage sélectionné';
+        this.lodexUsageLabel = 'usage sélectionné';
         this.persUsageLabel = 'choisir cet usage';
+        this.cortextUsageLabel = 'choisir cet usage';
         this.selectedPersClass = '';
+        this.selectedCortextClass = '';
         this.setState({});
     }
+
+    showUsageCortext() {
+        this.usage = 3;
+        this.selectedCortextClass = 'selectedUsage';
+        this.cortextUsageLabel = 'usage sélectionné';
+        this.persUsageLabel = 'choisir cet usage';
+        this.lodexUsageLabel = 'choisir cet usage';
+        this.selectedPersClass = '';
+        this.selectedLodexClass = '';
+        this.setState({});
+    }   
+
 
     checkSamples = () => {
         let samplesRes = this.state.samples;
@@ -1870,7 +1919,25 @@ export default class Form extends React.Component {
                                                 <td className="lv3">Lodex<br /><span className="txtU">Analyse graphique  / Exploration de corpus</span></td>
                                             </tr>
                                             <tr>
-                                                <td className="lv5"><i className="fa fa-check ico-usage" />  {this.loadexUsageLabel}</td>
+                                                <td className="lv5"><i className="fa fa-check ico-usage" />  {this.lodexUsageLabel}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-widget">
+                                    <table className={'widget ' + this.selectedCortextClass} onClick={() => this.showUsageCortext()}>
+                                        <tbody>
+                                            <tr>
+                                                <td className="lv1"><span className="lv11">TDM</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv2b">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv3">Cortext<br /><span className="txtU">Ajouter une petite description...</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td className="lv5"><i className="fa fa-check ico-usage" />  {this.cortextUsageLabel}</td>
                                             </tr>
                                         </tbody>
                                     </table>

@@ -17,6 +17,7 @@ import {
   faCircleCheck,
   faMagnifyingGlass,
   faTrashCan,
+  faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
@@ -46,6 +47,7 @@ library.add(
   faMagnifyingGlass,
   faTrashCan,
   faTriangleExclamation,
+  faAngleLeft,
 );
 
 ReactDOM.render(

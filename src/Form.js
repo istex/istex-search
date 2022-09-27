@@ -1046,7 +1046,7 @@ export default class Form extends React.Component {
         } else if (this.usage === 3) {
             ISTEX.searchParams.set('usage', this.usage);
             this.selectedCortextClass = 'selectedUsage';
-            ISTEX.searchParams.set('extract', 'fulltext[tei,txt];enrichments[teeft]');
+            ISTEX.searchParams.set('extract', 'fulltext[tei,cleaned];enrichments[teeft]');
             this.cortextUsageLabel = 'usage sélectionné';
             this.lodexUsageLabel = 'choisir cet usage';
             this.persUsageLabel = 'choisir cet usage';
@@ -1934,7 +1934,7 @@ export default class Form extends React.Component {
                                                 <td className="lv2b">&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <td className="lv3">Cortext<br /><span className="txtU">Ajouter une petite description...</span></td>
+                                                <td className="lv3">Cortext<br /><span className="txtU">Plateforme d'outils / Analyse multidimensionnelle</span></td>
                                             </tr>
                                             <tr>
                                                 <td className="lv5"><i className="fa fa-check ico-usage" />  {this.cortextUsageLabel}</td>

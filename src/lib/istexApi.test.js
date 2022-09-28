@@ -68,7 +68,16 @@ ark ark:/67375/NVC-8SNSRJ6Z-Z`;
       formats.covers.value;
     const noSelectedFormats = 0;
 
-    expect(istexApi.buildExtractParamsFromFormats(selectedFormats)).toBe('fulltext[pdf,txt];metadata[json];enrichments[grobidFulltext];covers;annexes');
+    const expectedFormats = [
+      /fulltext\[pdf,txt\]/,
+      /metadata\[json\]/,
+      /enrichments\[grobidFulltext\]/,
+      /covers/,
+      /annexes/,
+    ];
+    for (let f = 0; f < expectedFormats.length; f++) {
+      expect(istexApi.buildExtractParamsFromFormats(selectedFormats)).toMatch(expectedFormats[f]);
+    }
     expect(istexApi.buildExtractParamsFromFormats(noSelectedFormats)).toBe('');
   });
 

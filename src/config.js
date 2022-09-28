@@ -100,6 +100,14 @@ export const formats = {
       },
     },
   },
+  annexes: {
+    label: 'Annexes',
+    value: 1 << 31,
+  },
+  covers: {
+    label: 'Couvertures',
+    value: 1 << 30,
+  },
   enrichments: {
     label: 'Enrichissements',
     formats: {
@@ -128,14 +136,6 @@ export const formats = {
         value: 1 << 25,
       },
     },
-  },
-  covers: {
-    label: 'Couvertures',
-    value: 1 << 30,
-  },
-  annexes: {
-    label: 'Annexes',
-    value: 1 << 31,
   },
 };
 

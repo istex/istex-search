@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ResultDetailExtension from './ResultDetailExtension';
 
 export default function ResultDetail ({ data = {} }) {
+  const [extendAbstract, setExtendAbstract] = useState(false);
   const extensions = [
     {
       id: 'fulltext',
@@ -36,16 +37,20 @@ export default function ResultDetail ({ data = {} }) {
     },
   ];
 
+  const handleExtendAbstract = () => {
+    setExtendAbstract(prev => !prev);
+  };
+
   return (
-    <div className='flex flex-col mb-8'>
+    <div className='flex flex-col mb-8 pb-[40px]'>
       <div className='bg-istcolor-green-dark mb-4'>
         <h5 className='text-istcolor-white font-montserrat-semibold p-2'>{data.title}</h5>
       </div>
       <div className='px-[20px]'>
         <div className='flex justify-between'>
           <div className='flex flex-col w-3/5'>
-            <div className='mb-4 line-clamp-6'>
-              {data?.abstract || 'Pas de résumé pour ce résultat.'}
+            <div className={`mb-4 ${extendAbstract ? 'cursor-zoom-out' : 'line-clamp-3 cursor-zoom-in'}`}>
+              <p onClick={handleExtendAbstract}>{data?.abstract || 'Pas de résumé pour ce résultat.'}</p>
             </div>
             <div className='flex gap-8'>
               {extensions.map(ext => (

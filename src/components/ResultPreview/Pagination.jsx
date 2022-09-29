@@ -15,6 +15,7 @@ export default function Pagination ({
   limit,
   firstPageURI,
   currentRankingMode,
+  setShouldDisplayResultDetail,
 }) {
   const totalPage = Math.floor(totalAmountOfDocuments / limit);
   const [currentPage, setCurrentPage] = useState('');
@@ -38,6 +39,7 @@ export default function Pagination ({
 
     // reset the form
     setPage('');
+    setShouldDisplayResultDetail(false);
 
     const newPage = +event.target[0].value;
 
@@ -69,6 +71,7 @@ export default function Pagination ({
     }
 
     setCurrentPageURI(url);
+    setShouldDisplayResultDetail(false);
   };
 
   useEffect(() => {
@@ -170,4 +173,5 @@ Pagination.propTypes = {
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
   currentRankingMode: PropTypes.string,
+  setShouldDisplayResultDetail: PropTypes.func,
 };

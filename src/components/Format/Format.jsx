@@ -23,11 +23,13 @@ export default function Format ({
   const checkHandler = () => {
     const selectedFormat = !checked;
 
-    if (selectedFormat === true) {
-      setSelectedFormatInsideCategory([...selectedFormatInsideCategory, name]);
-    } else {
-      const newSelected = selectedFormatInsideCategory.filter(formatName => formatName !== name);
-      setSelectedFormatInsideCategory(newSelected);
+    if (setSelectedFormatInsideCategory) {
+      if (selectedFormat === true) {
+        setSelectedFormatInsideCategory([...selectedFormatInsideCategory, name]);
+      } else {
+        const newSelected = selectedFormatInsideCategory.filter(formatName => formatName !== name);
+        setSelectedFormatInsideCategory(newSelected);
+      }
     }
 
     eventEmitter.emit(events.setSelectedFormats, toggleFormat(selectedFormats, value));

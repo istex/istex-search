@@ -274,7 +274,7 @@ export function sendResultPreviewApiRequest (queryString, rankingMode, currentPa
   const url = new URL('document', istexApiConfig.baseUrl);
   url.searchParams.set('rankBy', rankingMode);
   url.searchParams.set('size', 9);
-  url.searchParams.set('output', 'author,title,host.title,publicationDate');
+  url.searchParams.set('output', '*');
   url.searchParams.set('sid', 'istex-dl');
 
   // If the query string is too long some browsers won't accept to send a GET request so we send a POST request

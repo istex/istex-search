@@ -7,10 +7,31 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function Format ({ name, value, className, infoText }) {
+export default function Format ({
+  name,
+  value,
+  className,
+  infoText,
+  setSelectedFormatInsideCategory,
+  selectedFormatInsideCategory,
+}) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const buttonRef = useRef(null);
+
+  const checked = isFormatSelected(selectedFormats, value);
+
   const checkHandler = () => {
+    const selectedFormat = !checked;
+
+    if (setSelectedFormatInsideCategory) {
+      if (selectedFormat === true) {
+        setSelectedFormatInsideCategory([...selectedFormatInsideCategory, name]);
+      } else {
+        const newSelected = selectedFormatInsideCategory.filter(formatName => formatName !== name);
+        setSelectedFormatInsideCategory(newSelected);
+      }
+    }
+
     eventEmitter.emit(events.setSelectedFormats, toggleFormat(selectedFormats, value));
   };
 
@@ -28,13 +49,13 @@ export default function Format ({ name, value, className, infoText }) {
           checked={isFormatSelected(selectedFormats, value)}
           id={`checkbox-${name}`}
           value=''
-          className='w-5 h-5 outline-none border-istcolor-grey-dark text-istcolor-green-light bg-gray-100 rounded focus:ring-isistcolor-green-light'
+          className='w-5 h-5 border-[2px] border-istcolor-grey-light text-istcolor-green-light bg-gray-100 rounded focus:ring-transparent focus:border-istcolor-grey-light'
         />
         <label
           htmlFor={`checkbox-${name}`}
-          className='flex items-center italic pl-2'
+          className='flex items-center pl-2'
         >
-          <span>{name}</span>
+          <span className='text-sm'>{name}</span>
           <Tooltip
             trigger='click'
             content={
@@ -66,4 +87,6 @@ Format.propTypes = {
   value: PropTypes.number,
   className: PropTypes.string,
   infoText: PropTypes.node,
+  selectedFormatInsideCategory: PropTypes.array,
+  setSelectedFormatInsideCategory: PropTypes.func,
 };

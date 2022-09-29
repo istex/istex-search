@@ -17,6 +17,7 @@ import {
   faCircleCheck,
   faMagnifyingGlass,
   faTrashCan,
+  faAngleLeft,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -47,6 +48,7 @@ library.add(
   faMagnifyingGlass,
   faTrashCan,
   faTriangleExclamation,
+  faAngleLeft,
   faCheck,
 );
 

@@ -20,6 +20,7 @@ export default function SearchField ({
   removeFields,
   setDisableCatalogInput,
   index,
+  groupIndex,
   setEnabledDeleteButton,
   numberOfFields,
 }) {
@@ -37,7 +38,7 @@ export default function SearchField ({
 
   const handleRemoveFields = () => {
     setDisableCatalogInput(false);
-    removeFields(index);
+    removeFields(index - 1, groupIndex);
 
     if (numberOfFields === index + 1) {
       searchInputRef.current.value = '';
@@ -147,6 +148,7 @@ SearchField.propTypes = {
   removeFields: PropTypes.func,
   setDisableCatalogInput: PropTypes.func,
   index: PropTypes.number,
+  groupIndex: PropTypes.number,
   setEnabledDeleteButton: PropTypes.func,
   numberOfFields: PropTypes.number,
 };

@@ -1052,7 +1052,8 @@ export default class Form extends React.Component {
             this.persUsageLabel = 'choisir cet usage';
             this.selectedPersClass = '';
             this.selectedLodexClass = '';
-            archiveSize = sizes.metadataSize.json * size;
+            archiveSize = (sizes.enrichmentsSize['teeft'] + sizes.fulltextSize['txt'] + sizes.fulltextSize['cleaned']) * size;
+
         }
 
 
@@ -1934,7 +1935,7 @@ export default class Form extends React.Component {
                                                 <td className="lv2b">&nbsp;</td>
                                             </tr>
                                             <tr>
-                                                <td className="lv3">Cortext<br /><span className="txtU">Plateforme d'outils / Analyse multidimensionnelle</span></td>
+                                                <td className="lv3">CorText<br /><span className="txtU">Plateforme d'outils / Analyse multidimensionnelle</span></td>
                                             </tr>
                                             <tr>
                                                 <td className="lv5"><i className="fa fa-check ico-usage" />  {this.cortextUsageLabel}</td>

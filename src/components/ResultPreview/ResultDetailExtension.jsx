@@ -6,17 +6,17 @@ export default function ResultDetailExtension ({
 }) {
   const {
     title,
-    customUsage,
+    documentFormats,
     isArray,
   } = extension;
   let list;
 
-  if (!customUsage) {
+  if (!documentFormats) {
     return null;
   }
 
   if (isArray) {
-    list = customUsage.map((item, index) => (
+    list = documentFormats.map((item, index) => (
       <div className='inline-block relative' key={index}>
         <a href={item.uri} target='_blank' rel='noreferrer'>
           <img src={`/images/extensions/${item.extension === 'cleaned' ? 'txt' : item.extension}.png`} alt='icone extension' />
@@ -31,10 +31,10 @@ export default function ResultDetailExtension ({
       </div>
     ));
   } else {
-    list = Object.keys(customUsage).map((nameItem, index) => (
+    list = Object.keys(documentFormats).map((nameItem, index) => (
       <div className='inline-block relative' key={index}>
-        <a href={customUsage[nameItem][0].uri} target='_blank' rel='noreferrer'>
-          <img src={`/images/extensions/${customUsage[nameItem][0].extension}.png`} alt='icone extension' />
+        <a href={documentFormats[nameItem][0].uri} target='_blank' rel='noreferrer'>
+          <img src={`/images/extensions/${documentFormats[nameItem][0].extension}.png`} alt='icone extension' />
         </a>
         <span
           className='absolute italic font-montserrat-semibold rotate-[17deg] scale-[0.8] skew-x-[1deg] skew-y-[1deg] translate-x-0 translate-y-0 bg-[#F1DB32] text-istcolor-black text-xs left-0 top-0 -ml-2'

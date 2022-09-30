@@ -16,7 +16,7 @@ export default function ResultList ({
 
   return shouldDisplayResultDetail
     ? (
-      <ResultDetail data={item} />
+      <ResultDetail documentResult={item} />
       )
     : (
       <div className='grid grid-cols-1 gap-y-2 auto-rows-fr md:gap-x-8 md:gap-y-4 md:grid-cols-3 md:mr-4 w-full'>

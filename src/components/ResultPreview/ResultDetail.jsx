@@ -2,37 +2,37 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ResultDetailExtension from './ResultDetailExtension';
 
-export default function ResultDetail ({ data = {} }) {
+export default function ResultDetail ({ documentResult = {} }) {
   const [extendAbstract, setExtendAbstract] = useState(false);
   const extensions = [
     {
       id: 'fulltext',
       title: 'texte integral',
-      customUsage: data.fulltext,
+      documentFormats: documentResult.fulltext,
       isArray: true,
     },
     {
       id: 'metadata',
       title: 'métadonnées',
-      customUsage: data.metadata,
+      documentFormats: documentResult.metadata,
       isArray: true,
     },
     {
       id: 'enrichments',
       title: 'enrichissements',
-      customUsage: data.enrichments,
+      documentFormats: documentResult.enrichments,
       isArray: false,
     },
     {
       id: 'annexes',
       title: 'annexes',
-      customUsage: data.annexes,
+      documentFormats: documentResult.annexes,
       isArray: true,
     },
     {
       id: 'covers',
       title: 'couverture',
-      customUsage: data.covers,
+      documentFormats: documentResult.covers,
       isArray: true,
     },
   ];
@@ -44,13 +44,13 @@ export default function ResultDetail ({ data = {} }) {
   return (
     <div className='flex flex-col mb-8 pb-[40px]'>
       <div className='bg-istcolor-green-dark mb-4'>
-        <h5 className='text-istcolor-white font-montserrat-semibold p-2'>{data.title}</h5>
+        <h5 className='text-istcolor-white font-montserrat-semibold p-2'>{documentResult.title}</h5>
       </div>
       <div className='px-[20px]'>
         <div className='flex justify-between'>
           <div className='flex flex-col w-3/5'>
             <div className={`mb-4 ${extendAbstract ? 'cursor-zoom-out' : 'line-clamp-3 cursor-zoom-in'}`}>
-              <p onClick={handleExtendAbstract}>{data?.abstract || 'Pas de résumé pour ce résultat.'}</p>
+              <p onClick={handleExtendAbstract}>{documentResult?.abstract || 'Pas de résumé pour ce résultat.'}</p>
             </div>
             <div className='flex gap-8'>
               {extensions.map(ext => (
@@ -66,47 +66,47 @@ export default function ResultDetail ({ data = {} }) {
               <span
                 className='inline-block text-xs bg-[#337ab7] text-istcolor-white py-1 px-2 rounded'
               >
-                {data?.corpusName}
+                {documentResult?.corpusName}
               </span>
               <span
                 className='inline-block text-xs bg-[#337ab7] text-istcolor-white py-1 px-2 rounded ml-2'
               >
-                {data?.genre && data.genre[0]}
+                {documentResult?.genre && documentResult.genre[0]}
               </span>
             </div>
             <div className='flex justify-end mb-1'>
               <span
                 className='inline-block text-xs bg-[#337ab7] text-istcolor-white py-1 px-2 rounded line-clamp-1'
               >
-                {data?.host?.title}
+                {documentResult?.host?.title}
               </span>
             </div>
             <div className='flex justify-end mb-1'>
               <span
                 className='inline-block text-xs bg-istcolor-green-dark text-istcolor-white py-1 px-2 rounded mb-1'
               >
-                {data?.arkIstex}
+                {documentResult?.arkIstex}
               </span>
             </div>
             <div className='flex justify-end mb-1'>
               <span
                 className='inline-block text-xs bg-istcolor-blue text-istcolor-white py-1 px-2 rounded'
               >
-                Score : {data?.score}
+                Score : {documentResult?.score}
               </span>
             </div>
             <div className='flex justify-end mb-1'>
               <span
                 className='inline-block text-xs bg-istcolor-blue text-istcolor-white py-1 px-2 rounded'
               >
-                Mots : {data?.qualityIndicators?.pdfWordCount}
+                Mots : {documentResult?.qualityIndicators?.pdfWordCount}
               </span>
             </div>
             <div className='flex justify-end mb-1'>
               <span
                 className='inline-block text-xs bg-istcolor-blue text-istcolor-white py-1 px-2 rounded'
               >
-                Publication : {data?.publicationDate}
+                Publication : {documentResult?.publicationDate}
               </span>
             </div>
           </div>
@@ -117,5 +117,5 @@ export default function ResultDetail ({ data = {} }) {
 }
 
 ResultDetail.propTypes = {
-  data: PropTypes.object,
+  documentResult: PropTypes.object,
 };

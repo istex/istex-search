@@ -9,7 +9,7 @@ function OperatorRequest ({ setSelectedOperatorRequest, index, handleQueryAdvanc
     const operator = event.target.value;
     setSelectedOperatorRequest({
       queryValue: operator,
-    }, index);
+    }, index, groupIndex);
     handleQueryAdvancedSearch();
   };
 

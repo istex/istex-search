@@ -61,6 +61,8 @@ export default function QuerySection () {
   const resultPreviewResponseReceivedHandler = response => {
     const { data } = response;
 
+    console.log('resultPreviewResponseReceivedHandler', { data });
+
     setResultPreviewResults(data.hits);
     setTotalAmountOfDocuments(data.total);
     setPageUrls({
@@ -304,6 +306,7 @@ export default function QuerySection () {
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
               currentRankingMode={currentRankingMode}
+              queryString={queryString}
             />
           </div>
         )}

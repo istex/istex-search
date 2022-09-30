@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'flowbite-react';
+import { checkIfQueryIsTooLong } from '../../lib/istexApi';
 
 const TOTAL_PAGINATION_ALLOWED = 10000;
 
@@ -15,6 +16,8 @@ export default function Pagination ({
   limit,
   firstPageURI,
   currentRankingMode,
+  setShouldDisplayResultDetail,
+  queryString,
 }) {
   const totalPage = Math.floor(totalAmountOfDocuments / limit);
   const [currentPage, setCurrentPage] = useState('');
@@ -33,11 +36,30 @@ export default function Pagination ({
     return from;
   };
 
+  const retreiveQuerySearchInsideUrl = (url) => {
+    const indexStart = url.indexOf('q');
+    const indexEnd = url.indexOf('size');
+    const q = url.substring(indexStart, indexEnd);
+
+    return q;
+  };
+
+  const handleApiUrlSize = (url) => {
+    if (checkIfQueryIsTooLong(queryString)) {
+      const q = retreiveQuerySearchInsideUrl(url);
+      const newUrl = url.replace(q, '');
+      return newUrl;
+    }
+
+    return url;
+  };
+
   const handleCurrentPageSubmit = (event) => {
     event.preventDefault();
 
     // reset the form
     setPage('');
+    setShouldDisplayResultDetail(false);
 
     const newPage = +event.target[0].value;
 
@@ -56,19 +78,19 @@ export default function Pagination ({
     }
 
     setCurrentPage(newPage);
-    setCurrentPageURI(newUrl);
+    setCurrentPageURI(handleApiUrlSize(newUrl));
   };
 
   const handleNewRequest = (url) => {
     const from = +retreiveFromInsideUrl(url);
-
     if (from === 0) {
       setCurrentPage(1);
     } else {
       setCurrentPage(Math.floor((from / limit) + 1));
     }
 
-    setCurrentPageURI(url);
+    setCurrentPageURI(handleApiUrlSize(url));
+    setShouldDisplayResultDetail(false);
   };
 
   useEffect(() => {
@@ -170,4 +192,6 @@ Pagination.propTypes = {
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
   currentRankingMode: PropTypes.string,
+  setShouldDisplayResultDetail: PropTypes.func,
+  queryString: PropTypes.string,
 };

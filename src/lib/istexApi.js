@@ -261,25 +261,39 @@ export function isFormatSelected (baseFormat, formatToCheck) {
 }
 
 /**
+ * Verify is query search is too long. some browsers won't accept to send a GET request so we send a POST request
+ * @param {string} queryString The query string URL search parameter.
+ * @returns A `Boolean`.
+ */
+export function checkIfQueryIsTooLong (queryString) {
+  return queryString.length > istexApiConfig.queryStringMaxLength;
+}
+
+/**
  * Send a request to the ISTEX API to preview the results that will be in the archive.
  * @param {string} queryString The query string URL search parameter.
  * @param {string} rankingMode The ranking mode URL search parameter.
  * @returns A `Promise`.
  */
 export function sendResultPreviewApiRequest (queryString, rankingMode, currentPageURI) {
-  if (currentPageURI) {
+  if (currentPageURI && checkIfQueryIsTooLong(queryString)) {
+    return axios.post(currentPageURI, {
+      qString: queryString,
+    });
+    // return axios.get(currentPageURI);
+  } else if (currentPageURI && !checkIfQueryIsTooLong(queryString)) {
     return axios.get(currentPageURI);
   }
 
   const url = new URL('document', istexApiConfig.baseUrl);
   url.searchParams.set('rankBy', rankingMode);
   url.searchParams.set('size', 9);
-  url.searchParams.set('output', 'author,title,host.title,publicationDate');
+  url.searchParams.set('output', '*');
   url.searchParams.set('sid', 'istex-dl');
 
   // If the query string is too long some browsers won't accept to send a GET request so we send a POST request
   // instead and pass the query string in the body
-  if (queryString.length > istexApiConfig.queryStringMaxLength) {
+  if (checkIfQueryIsTooLong(queryString)) {
     return axios.post(url.toString(), {
       qString: queryString,
     });

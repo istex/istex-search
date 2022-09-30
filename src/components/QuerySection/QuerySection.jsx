@@ -304,6 +304,7 @@ export default function QuerySection () {
               setCurrentPageURI={setCurrentPageURI}
               isLoading={isLoading}
               currentRankingMode={currentRankingMode}
+              queryString={queryString}
             />
           </div>
         )}

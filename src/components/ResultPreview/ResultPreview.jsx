@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Pagination from './Pagination';
 import ResultList from './ResultList';
 import ResultLoader from './ResultLoader';
+import ResultTitle from './ResultTitle';
 
 export default function ResultPreview ({
   isLoading,
@@ -17,10 +18,16 @@ export default function ResultPreview ({
   lastPageURI,
   firstPageURI,
   currentRankingMode,
+  queryString,
 }) {
+  const [shouldDisplayResultDetail, setShouldDisplayResultDetail] = useState(false);
+
   return (
     <>
-      <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>Parcourir les résultats</h4>
+      <ResultTitle
+        shouldDisplayResultDetail={shouldDisplayResultDetail}
+        setShouldDisplayResultDetail={setShouldDisplayResultDetail}
+      />
       {isLoading
         ? (
           <ResultLoader />
@@ -28,6 +35,8 @@ export default function ResultPreview ({
         : (
           <ResultList
             results={results}
+            shouldDisplayResultDetail={shouldDisplayResultDetail}
+            setShouldDisplayResultDetail={setShouldDisplayResultDetail}
           />
           )}
       <Pagination
@@ -40,6 +49,8 @@ export default function ResultPreview ({
         limit={limit}
         firstPageURI={firstPageURI}
         currentRankingMode={currentRankingMode}
+        setShouldDisplayResultDetail={setShouldDisplayResultDetail}
+        queryString={queryString}
       />
     </>
   );
@@ -57,4 +68,5 @@ ResultPreview.propTypes = {
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
   currentRankingMode: PropTypes.string,
+  queryString: PropTypes.string,
 };

@@ -18,6 +18,7 @@ export default function ResultPreview ({
   lastPageURI,
   firstPageURI,
   currentRankingMode,
+  queryString,
 }) {
   const [shouldDisplayResultDetail, setShouldDisplayResultDetail] = useState(false);
 
@@ -49,6 +50,7 @@ export default function ResultPreview ({
         firstPageURI={firstPageURI}
         currentRankingMode={currentRankingMode}
         setShouldDisplayResultDetail={setShouldDisplayResultDetail}
+        queryString={queryString}
       />
     </>
   );
@@ -66,4 +68,5 @@ ResultPreview.propTypes = {
   limit: PropTypes.number,
   firstPageURI: PropTypes.string,
   currentRankingMode: PropTypes.string,
+  queryString: PropTypes.string,
 };

@@ -2,10 +2,12 @@ import React from 'react';
 import AdvancedSearchForm from './AdvancedSearchForm';
 import { describe, it } from 'vitest';
 import { customRender as render } from '../../test/utils';
-import { catalogList } from '../../config';
 
+const queryInputHandler = newQueryStringInput => {
+  return true;
+};
 describe('Tests for the AdvancedSearchForm component', () => {
   it('Renders the AdvancedSearchForm form', () => {
-    render(<AdvancedSearchForm catalogList={catalogList} />);
+    render(<AdvancedSearchForm queryInputHandler={queryInputHandler} />);
   });
 });

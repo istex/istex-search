@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { Tooltip } from 'flowbite-react';
 import { checkIfQueryIsTooLong } from '../../lib/istexApi';
-
-const TOTAL_PAGINATION_ALLOWED = 10000;
 
 export default function Pagination ({
   totalAmountOfDocuments,
@@ -103,25 +100,6 @@ export default function Pagination ({
         <div>
           Page <span className='font-bold'>{currentPage || defaultPage}</span> sur <span className='font-bold'>{totalPage}</span>
         </div>
-        {(totalAmountOfDocuments > TOTAL_PAGINATION_ALLOWED) && (
-          <div className='pl-2 text-sm inline-block align-middle'>
-            <Tooltip
-              trigger='click'
-              content={
-                <p className='text-sm text-white'>
-                  La pagination ne permet pas de dépasser<br />
-                  le <span className='font-bold'>10000ème résultat</span>. Par conséquent, il est<br />
-                  impossible d'accéder aux pages supérieures<br />
-                  à <span className='font-bold'>1111</span>.
-                </p>
-              }
-            >
-              <button>
-                <FontAwesomeIcon icon='triangle-exclamation' className='text-istcolor-red' />
-              </button>
-            </Tooltip>
-          </div>
-        )}
         <form
           onSubmit={handleCurrentPageSubmit}
           className='flex ml-2 content-center m-0'
@@ -145,20 +123,21 @@ export default function Pagination ({
       <div className='flex mt-3 md:mt-0'>
         <button
           type='button'
-          className='p-2 mr-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
+          disabled={!prevPageURI}
+          className={`p-2 text-white ${!prevPageURI ? 'cursor-not-allowed bg-istcolor-grey-medium' : 'bg-istcolor-blue border border-istcolor-blue cta1'} !focus:outline-none`}
           onClick={() => handleNewRequest(firstPageURI)}
         >
-          Première page
+          <span className='text-xl'>⇤</span>
         </button>
         {!prevPageURI
           ? null
           : (
             <button
               type='button'
-              className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
+              className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
               onClick={() => handleNewRequest(prevPageURI)}
             >
-              <FontAwesomeIcon icon='angles-left' />
+              <FontAwesomeIcon icon='angles-left' className='text-sm' />
             </button>)}
         {!nextPageURI
           ? null
@@ -168,14 +147,15 @@ export default function Pagination ({
               className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
               onClick={() => handleNewRequest(nextPageURI)}
             >
-              <FontAwesomeIcon icon='angles-right' />
+              <FontAwesomeIcon icon='angles-right' className='text-sm' />
             </button>)}
         <button
           type='button'
-          className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
+          disabled={!nextPageURI}
+          className={`p-2 ml-2 text-white ${!nextPageURI ? 'cursor-not-allowed bg-istcolor-grey-medium' : 'bg-istcolor-blue border border-istcolor-blue cta1'} !focus:outline-none`}
           onClick={() => handleNewRequest(lastPageURI)}
         >
-          Dernière page
+          <span className='text-xl'>⇥</span>
         </button>
       </div>
     </div>

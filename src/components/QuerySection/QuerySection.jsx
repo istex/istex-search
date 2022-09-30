@@ -61,8 +61,6 @@ export default function QuerySection () {
   const resultPreviewResponseReceivedHandler = response => {
     const { data } = response;
 
-    console.log('resultPreviewResponseReceivedHandler', { data });
-
     setResultPreviewResults(data.hits);
     setTotalAmountOfDocuments(data.total);
     setPageUrls({

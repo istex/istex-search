@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, TextInput, Label, Tooltip } from 'flowbite-react';
 import ModalRangeField from './ModalRangeField';
@@ -25,19 +25,43 @@ function RangeField ({
     setOpenModal(false);
   };
 
+  useEffect(() => {
+    // Close modal and change valeur of interval with press Enter
+    const keyDownHandler = event => {
+      if (event.key === 'Enter' && openModal === true) {
+        event.preventDefault();
+        updateIntervalValue(updateValRef.current.value);
+      }
+    };
+    document.addEventListener('keydown', keyDownHandler);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    };
+  }, []);
+
   const updateIntervalValue = (value) => {
     if (modalIntervalUpdateType === 'min' && value <= maxValRef.current.value) {
       value = parseFloat(value);
       // the new min value is the value from the event.
       // it should not exceed the current max value!
-      setMinValue(value);
-      minValRef.current.value = value;
+      if (min <= value) {
+        setMinValue(value);
+        minValRef.current.value = value;
+      } else {
+        setMinValue(min);
+        minValRef.current.value = min;
+      }
     } else if (modalIntervalUpdateType === 'max' && value >= minValRef.current.value) {
       value = parseFloat(value);
       // the new min value is the value from the event.
       // it should not exceed the current min value!
-      setMaxValue(value);
-      maxValRef.current.value = value;
+      if (max >= value) {
+        setMaxValue(value);
+        maxValRef.current.value = value;
+      } else {
+        setMaxValue(max);
+        maxValRef.current.value = max;
+      }
     }
     onCloseModal();
   };
@@ -190,14 +214,14 @@ function RangeField ({
               type='number'
               min={modalIntervalUpdateType === 'max' ? minValRef.current.value : min}
               max={modalIntervalUpdateType === 'min' ? maxValRef.current.value : max}
-              placeholder='name@flowbite.com'
+              placeholder={`Choisissez une valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
               required
               ref={updateValRef}
               defaultValue={modalIntervalUpdateValue}
             />
           </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer class='flex justify-end items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600 border-t'>
           <Button style={{ backgroundColor: '#458ca5' }} onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
             Modifier la valeur
           </Button>

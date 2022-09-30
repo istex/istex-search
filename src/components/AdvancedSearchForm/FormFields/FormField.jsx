@@ -12,6 +12,7 @@ function FormField ({
   selectField,
   setSelectField,
   index,
+  groupIndex,
   handleQueryAdvancedSearch,
   numberOfFields,
 }) {
@@ -31,7 +32,7 @@ function FormField ({
     setSelectField({
       ...data,
       inputSearchValue: event.target.value,
-    }, index);
+    }, index, groupIndex);
 
     setOpenIntervalInput(true);
     setDisableCatalogInput(true);
@@ -45,12 +46,12 @@ function FormField ({
     setSelectField({
       ...selectField,
       queryValue,
-    }, index);
+    }, index, groupIndex);
     setDisableCatalogInput(true);
     setOpenIntervalInput(false);
     setEnabledDeleteButton(true);
     setShouldDisplayAddButton(true);
-    handleQueryAdvancedSearch({ queryValue });
+    handleQueryAdvancedSearch();
   };
 
   return (
@@ -71,6 +72,7 @@ function FormField ({
         enabledDeleteButton={enabledDeleteButton}
         removeFields={removeFields}
         index={index}
+        groupIndex={groupIndex}
         setEnabledDeleteButton={setEnabledDeleteButton}
         numberOfFields={numberOfFields}
       />
@@ -90,6 +92,7 @@ FormField.propTypes = {
   selectField: PropTypes.object,
   setSelectField: PropTypes.func,
   index: PropTypes.number,
+  groupIndex: PropTypes.number,
   handleQueryAdvancedSearch: PropTypes.func,
   numberOfFields: PropTypes.number,
 };

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon } from '@heroicons/react/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 
@@ -18,10 +17,11 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig, catalogList } from '../../config';
 import { useFocus } from '../../lib/hooks';
-import './QueryInput.css';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ModalExampleQueryButton from '../ExampleQueryButton/ModalExampleQueryButton';
+
+import './QueryInput.scss';
 
 const infoText = {
   queryString:
@@ -172,16 +172,18 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     reader.onload = event => {
       const result = event.target.result;
       const resultWithoutSpace = result.replace(/[\s\n\r]/g, '');
-      const index = resultWithoutSpace.indexOf('total') + 6;
-      const total = resultWithoutSpace.substring(index, index + 1);
+      const indexStart = resultWithoutSpace.indexOf('total') + 6;
+      const indexEnd = resultWithoutSpace.indexOf('[ISTEX]');
+      const total = resultWithoutSpace.substring(indexStart, indexEnd);
       const queryString = buildQueryStringFromCorpusFile(result);
       updateQueryString(queryString);
 
       setShouldDisplaySuccessMsg(true);
-      setFileInfo({
+      setFileInfo(prev => ({
+        ...prev,
         fileName: file.name,
         numberOfIds: total,
-      });
+      }));
 
       eventEmitter.emit(events.displayNotification, {
         text: `import du fichier ${file.name} terminé`,
@@ -223,6 +225,13 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     eventEmitter.addListener(events.setNumberRowsInput, handleNumberRowsInput);
   }, []);
 
+  useEffect(() => {
+    setFileInfo(prev => ({
+      ...prev,
+      numberOfIds: totalAmountOfDocuments,
+    }));
+  }, [totalAmountOfDocuments]);
+
   let queryInputUi;
   switch (currentQueryMode) {
     case queryModes.modes[0].value:
@@ -260,11 +269,13 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
               htmlFor='dropzone-file'
-              className='flex flex-col justify-center items-center rounded-lg border-2 text-istcolor-blue border-istcolor-blue border-dashed cursor-pointer hover:border-istcolor-green-light hover:text-black'
+              className='wrapper-file-import flex flex-col justify-center items-center border-[1px] mt-4 p-[6px] w-[140px] h-[170px] pt-[30px] font-opensans text-[16px] text-center text-istcolor-blue border-istcolor-blue cursor-pointer hover:border-istcolor-green-light hover:text-istcolor-black hover:bg-istcolor-green-light'
             >
-              <div className='flex flex-col justify-center items-center pt-5 pb-6'>
-                <CloudUploadIcon className='w-12 h-12 my-4' />
-                <p className='mx-2 mb-2 text-sm'>Sélectionnez votre fichier</p>
+              <div className='flex flex-col justify-center items-center'>
+                <div className='file-import w-[48px] h-[64px] mb-[10px]' />
+                <p className='mx-2 mb-2 text-sm'>
+                  {shouldDisplaySuccessMsg ? 'Modifiez en sélectionnant un autre fichier' : 'Sélectionnez votre fichier'}
+                </p>
               </div>
               <input
                 id='dropzone-file'

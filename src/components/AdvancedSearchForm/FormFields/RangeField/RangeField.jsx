@@ -9,6 +9,7 @@ function RangeField ({
   min,
   max,
   onChange,
+  onCloseChoiceInputModal,
   intervalInputData,
   updateQuery,
 }) {
@@ -174,6 +175,15 @@ function RangeField ({
           >
             Valider
           </button>
+          <button
+            type='button'
+            onClick={() => {
+              onCloseChoiceInputModal();
+            }}
+            className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
+          >
+            Annuler
+          </button>
         </div>
       </div>
 
@@ -243,6 +253,7 @@ RangeField.propTypes = {
   step: PropTypes.number.isRequired,
   intervalInputData: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
+  onCloseChoiceInputModal: PropTypes.func.isRequired,
   updateQuery: PropTypes.func.isRequired,
 };
 

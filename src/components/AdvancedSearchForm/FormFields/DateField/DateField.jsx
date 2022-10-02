@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function DateField ({ data, updateQuery, onChange }) {
+function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
@@ -38,6 +38,15 @@ function DateField ({ data, updateQuery, onChange }) {
         >
           Valider
         </button>
+        <button
+          type='button'
+          onClick={() => {
+            onCloseChoiceInputModal();
+          }}
+          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
+        >
+          Annuler
+        </button>
       </div>
     </div>
   );
@@ -47,6 +56,7 @@ DateField.propTypes = {
   data: PropTypes.object,
   updateQuery: PropTypes.func,
   onChange: PropTypes.func,
+  onCloseChoiceInputModal: PropTypes.func,
 };
 
 export default DateField;

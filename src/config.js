@@ -174,7 +174,9 @@ export const catalogList = [
         dataTitle: 'Tous champs',
         dataInfo: 'Recherche d\'un ou plusieurs termes tous champs de recherche confondus',
         dataValue: '',
-        operatorsField: [],
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
       },
       {
         dataTitle: 'Année de publication',
@@ -215,7 +217,9 @@ export const catalogList = [
         dataTitle: 'Lieux géographiques',
         dataInfo: 'Recherche d\'un ou plusieurs termes identifiés dans le texte de l\'article comme étant un lieu géographique',
         dataValue: 'namedEntities.unitex.placeName',
-        operatorsField: [],
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
       },
       {
         dataTitle: 'Catégorie Inist',

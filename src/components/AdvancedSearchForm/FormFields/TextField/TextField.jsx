@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function TextField ({ data, updateQuery, onChange }) {
+function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const [value, setValue] = useState('');
 
   const handleChange = (event) => {
     setValue(event.target.value);
+  };
+
+  const updateQueryString = () => {
+    const reWhiteSpace = (/\s/);
+    // Check for white space
+    if (reWhiteSpace.test(value)) {
+      updateQuery(`${data.dataValue}:${'"' + value + '"' || ''}`);
+    } else {
+      updateQuery(`${data.dataValue}:${value || ''}`);
+    }
   };
 
   // Change the value in realtime inside search input
@@ -33,11 +43,20 @@ function TextField ({ data, updateQuery, onChange }) {
           type='button'
           onClick={(e) => {
             e.preventDefault();
-            updateQuery(`${data.dataValue}:${value || ''}`);
+            updateQueryString();
           }}
           className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
         >
           Valider
+        </button>
+        <button
+          type='button'
+          onClick={() => {
+            onCloseChoiceInputModal();
+          }}
+          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
+        >
+          Annuler
         </button>
       </div>
     </div>
@@ -47,6 +66,7 @@ function TextField ({ data, updateQuery, onChange }) {
 TextField.propTypes = {
   data: PropTypes.object,
   updateQuery: PropTypes.func,
+  onCloseChoiceInputModal: PropTypes.func,
   onChange: PropTypes.func,
 };
 

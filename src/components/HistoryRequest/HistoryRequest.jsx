@@ -115,7 +115,11 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         </div>
       </Table.Cell>
       <Table.Cell>
-        {buildExtractParamsFromFormats(requestInfo.selectedFormats)}
+        <div className='flex flex-col'>
+          {buildExtractParamsFromFormats(requestInfo.selectedFormats).split(';').map((selectedFormat, index) => (
+            <span key={index}>{selectedFormat}</span>
+          ))}
+        </div>
       </Table.Cell>
       <Table.Cell>
         {requestInfo.numberOfDocuments}
@@ -133,7 +137,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
               onClick={editHandler}
               className='inline-block pl-2'
             >
-              <FontAwesomeIcon icon='pen-to-square' className='md:text-2xl' />
+              <FontAwesomeIcon icon='pen-to-square' className='md:text-xl' />
             </button>
           </Tooltip>
           <Tooltip
@@ -144,7 +148,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
               onClick={downloadHandler}
               className='inline-block pl-2'
             >
-              <FontAwesomeIcon icon='download' className='md:text-2xl' />
+              <FontAwesomeIcon icon='download' className='md:text-xl' />
             </button>
           </Tooltip>
           <Tooltip
@@ -155,7 +159,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
               onClick={shareHandler}
               className='inline-block pl-2'
             >
-              <FontAwesomeIcon icon='link' className='md:text-2xl' />
+              <FontAwesomeIcon icon='link' className='md:text-xl' />
             </button>
           </Tooltip>
           <Tooltip
@@ -166,7 +170,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
               onClick={deleteHandler}
               className='inline-block pl-2'
             >
-              <FontAwesomeIcon icon='xmark' className='md:text-2xl' />
+              <FontAwesomeIcon icon='xmark' className='md:text-xl' />
             </button>
           </Tooltip>
         </div>

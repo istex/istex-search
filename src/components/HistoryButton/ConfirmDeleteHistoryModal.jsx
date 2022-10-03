@@ -17,9 +17,13 @@ export default function ConfirmDeleteHistoryModal ({ initOpening = false, setOpe
         onClose={onClose}
         size='md'
       >
-        <Modal.Header>
-          Partager
-        </Modal.Header>
+        <div className='istex-modal__header'>
+          <Modal.Header className='istex-modal__header'>
+            <span className='istex-modal__text'>
+              Confirmation
+            </span>
+          </Modal.Header>
+        </div>
         <Modal.Body>
           <div className='flex items-center justify-between'>
             <p>

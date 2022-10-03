@@ -60,7 +60,7 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
                   Actions
                 </Table.HeadCell>
               </Table.Head>
-              <Table.Body className='divide-y text-2xl md:text-base'>
+              <Table.Body className='divide-y text-2xl md:text-sm'>
                 {requests.map((request, index) => (
                   <HistoryRequest
                     key={request.date}

@@ -20,7 +20,6 @@ function FormField ({
   const [disableCatalogInput, setDisableCatalogInput] = useState(false);
   const [openIntervalInput, setOpenIntervalInput] = useState(false);
   const [shoudDisplaySearch, setShoudDisplaySearch] = useState(true);
-  const [enabledDeleteButton, setEnabledDeleteButton] = useState((false));
 
   const startQueryAvancedSearch = (value) => {
     setOpenCatalogList(value);
@@ -42,14 +41,15 @@ function FormField ({
   };
 
   // Update the query with the interval search values and close the interval input box
-  const updateQuery = (queryValue) => {
+  const updateQuery = (queryValue, value) => {
     setSelectField({
       ...selectField,
       queryValue,
+      value,
+      enabledDeleteButton: true,
     }, index, groupIndex);
     setDisableCatalogInput(true);
     setOpenIntervalInput(false);
-    setEnabledDeleteButton(true);
     setShouldDisplayAddButton(true);
     handleQueryAdvancedSearch();
   };
@@ -69,11 +69,9 @@ function FormField ({
         selectField={selectField}
         setSelectField={setSelectField}
         updateQuery={updateQuery}
-        enabledDeleteButton={enabledDeleteButton}
         removeFields={removeFields}
         index={index}
         groupIndex={groupIndex}
-        setEnabledDeleteButton={setEnabledDeleteButton}
         numberOfFields={numberOfFields}
       />
       <CatalogList

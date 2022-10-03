@@ -10,18 +10,15 @@ import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectFiel
 
 export default function SearchField ({
   shoudDisplaySearch,
-  disableCatalogInput,
   openIntervalInput,
   setShoudDisplaySearch,
   startQueryAvancedSearch,
   selectField,
   updateQuery,
-  enabledDeleteButton,
   removeFields,
   setDisableCatalogInput,
   index,
   groupIndex,
-  setEnabledDeleteButton,
   numberOfFields,
 }) {
   const [operatorSelect, setOperatorSelect] = useState([]);
@@ -37,12 +34,11 @@ export default function SearchField ({
   };
 
   const handleRemoveFields = () => {
-    setDisableCatalogInput(false);
     removeFields(index - 1, groupIndex);
 
     if (numberOfFields === index + 1) {
       searchInputRef.current.value = '';
-      setEnabledDeleteButton(false);
+      setDisableCatalogInput(false);
     }
   };
 
@@ -80,7 +76,7 @@ export default function SearchField ({
       <div className='flex flex-col justify-between pb-3 '>
         <div className='flex items-center'>
           <SearchInput
-            disableCatalogInput={disableCatalogInput}
+            disableCatalogInput={!!selectField.enabledDeleteButton}
             value={selectField.inputSearchValue ? selectField.inputSearchValue : ''}
             onClick={() => {
               setShoudDisplaySearch(false);
@@ -89,7 +85,7 @@ export default function SearchField ({
             ref={searchInputRef}
           />
 
-          {enabledDeleteButton && (
+          {selectField.enabledDeleteButton && (
             <Tooltip
               content='Supprimer cette recherche'
             >
@@ -138,17 +134,14 @@ export default function SearchField ({
 
 SearchField.propTypes = {
   shoudDisplaySearch: PropTypes.bool,
-  disableCatalogInput: PropTypes.bool,
   openIntervalInput: PropTypes.bool,
   setShoudDisplaySearch: PropTypes.func,
   startQueryAvancedSearch: PropTypes.func,
   selectField: PropTypes.object,
   updateQuery: PropTypes.func,
-  enabledDeleteButton: PropTypes.bool,
   removeFields: PropTypes.func,
   setDisableCatalogInput: PropTypes.func,
   index: PropTypes.number,
   groupIndex: PropTypes.number,
-  setEnabledDeleteButton: PropTypes.func,
   numberOfFields: PropTypes.number,
 };

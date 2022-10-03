@@ -33,7 +33,7 @@ function TextField ({ data, updateQuery, onChange }) {
           type='button'
           onClick={(e) => {
             e.preventDefault();
-            updateQuery(`${data.dataValue}:${value || ''}`);
+            updateQuery(`${data.dataValue}:${value || ''}`, value);
           }}
           className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
         >

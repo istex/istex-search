@@ -24,25 +24,12 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     if (groupFields.length === 1) {
       newGroupFields[0].allFields = [...groupFields[0].allFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }];
       setGroupFields(newGroupFields);
-      // setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
     } else {
       newGroupFields[groupIndex].allFields = [...groupFields[groupIndex].allFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }];
       setGroupFields(newGroupFields);
-      // setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
     }
     setShouldDisplayAddButton(false);
   };
-
-  const updateFields = (groupIndex, fieldIndex, payload) => {
-    const newGroupFields = [...groupFields];
-    newGroupFields[groupIndex].allFields[fieldIndex] = { ...payload };
-    setGroupFields(newGroupFields);
-    setShouldDisplayAddButton(false);
-  };
-
-  // useEffect(() => {
-  //   if (groupFields.length === 1) setGroupFields([{ id: 1, allFields: { type: 'field' }, type: 'group' }]);
-  // }, []);
 
   // Update the Query at every GrouFields change
   useEffect(() => {
@@ -97,7 +84,10 @@ function AdvancedSearchForm ({ queryInputHandler }) {
         newGroupFields[groupIndex].allFields.splice(index, 2);
       }
 
-      if (newGroupFields[groupIndex].allFields.length === 0) {
+      if (newGroupFields[groupIndex].allFields.length === 0 && groupIndex === 0) {
+        newGroupFields[0].allFields = [{ type: 'field' }];
+        setGroupFields([...newGroupFields]);
+      } else if (newGroupFields[groupIndex].allFields.length === 0) {
         removeGroups(groupIndex);
       } else {
         setGroupFields([...newGroupFields]);
@@ -114,10 +104,11 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     } else {
       Query += '(';
       groupFields.forEach((group) => {
-        if (group.id === 2 && group.type === 'operator') {
-          Query += ` ${group.queryValue} (`;
-        } else if (group.id !== 2 && group.type === 'operator') {
-          Query += `) ${group.queryValue} ( `;
+        if (group.id === 0 && group.type === 'group') {
+          Query += `(${group.queryValue} `;
+        }
+        if (group.type === 'operator') {
+          Query += `) ${group.queryValue} (`;
         } else if (group.type === 'group') {
           group.allFields.forEach((field, index) => {
             if (index <= group.allFields.length - 2) Query += field.queryValue + ' ';
@@ -125,7 +116,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
           });
         }
       });
-      if (groupFields.length > 1) Query += '))';
+      if (groupFields.length > 1) Query += ')';
     }
     // replace 'undefined' in the request api input when value is not set
     const updatedQuery = Query.replace('undefined', '*valeur à définir*');
@@ -163,7 +154,6 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                               queryInputHandler={queryInputHandler}
                               index={index}
                               groupIndex={groupIndex}
-                              updateFields={updateFields}
                               setShouldDisplayAddButton={setShouldDisplayAddButton}
                               removeFields={removeFields}
                               selectField={formField}

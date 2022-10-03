@@ -10,8 +10,10 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
 
   const updateQueryString = () => {
     const reWhiteSpace = (/\s/);
-    // Check for white space
-    if (reWhiteSpace.test(value)) {
+    if (data.dataValue === '') {
+      updateQuery(value);
+    } else if (reWhiteSpace.test(value)) {
+      // Check for white space
       updateQuery(`${data.dataValue}:${'"' + value + '"' || ''}`, value);
     } else {
       updateQuery(`${data.dataValue}:${value || ''}`, value);

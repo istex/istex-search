@@ -60,8 +60,7 @@ const infoText = {
   </p>,
   queryAssist:
   <p className='text-sm text-white'>
-    Cliquez ci-dessous pour accéder <br />
-    à une recherche guidée
+    Cliquez sur la zone de recherche avec loupe pour choisir dans la liste qui s'ouvre le champ à interroger, avant de sélectionner la valeur souhaitée. <br />
   </p>,
 };
 
@@ -302,8 +301,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       queryInputUi = (
         <>
           <div className='flex items-center mb-4'>
-            <span className='mr-4 font-bold'>Requête API : </span>
-            <div className='flex items-center w-10/12'>
+            <div className='flex items-center w-full'>
               <textarea
                 rows='1'
                 className='flex-1 border-[1px] border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium'

@@ -8,17 +8,14 @@ import { useStateWithCallback } from '../../lib/hooks';
 function AdvancedSearchForm ({ queryInputHandler }) {
   const initialFieldArray = [{ type: 'field' }];
 
+  const [groupFields, setGroupFields] = useStateWithCallback([{ id: 1, allFields: initialFieldArray, type: 'group' }]);
   const [formFields, setFormFields] = useStateWithCallback(initialFieldArray);
-  const [groupFields, setGroupFields] = useStateWithCallback([{ id: 1, allFields: [initialFieldArray], type: 'group' }]);
   const [shouldDisplayAddButton, setShouldDisplayAddButton] = useState(false);
   const [shouldDisplayGroupOperatorButton, setShouldDisplayGroupOperatorButton] = useState(false);
 
   const handleSelectField = (field, index, groupIndex) => {
     const newGroupFields = [...groupFields];
-    const newFormFields = [...formFields];
-    newFormFields[index] = { ...newFormFields[index], ...field };
-    setFormFields(newFormFields);
-    newGroupFields[groupIndex].allFields[newGroupFields[groupIndex].allFields.length - 1] = { ...newGroupFields[groupIndex].allFields[newGroupFields[groupIndex].allFields.length - 1], ...field };
+    newGroupFields[groupIndex].allFields[index] = { ...newGroupFields[groupIndex].allFields[index], ...field };
     setGroupFields(newGroupFields);
   };
 
@@ -27,18 +24,25 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     if (groupFields.length === 1) {
       newGroupFields[0].allFields = [...groupFields[0].allFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }];
       setGroupFields(newGroupFields);
-      setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
+      // setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
     } else {
       newGroupFields[groupIndex].allFields = [...groupFields[groupIndex].allFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }];
       setGroupFields(newGroupFields);
-      setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
+      // setFormFields([...formFields, { type: 'operator', queryValue: 'AND' }, { type: 'field' }]);
     }
     setShouldDisplayAddButton(false);
   };
 
-  useEffect(() => {
-    if (groupFields.length === 1) setGroupFields([{ id: 1, allFields: formFields, type: 'group' }]);
-  }, [formFields]);
+  const updateFields = (groupIndex, fieldIndex, payload) => {
+    const newGroupFields = [...groupFields];
+    newGroupFields[groupIndex].allFields[fieldIndex] = { ...payload };
+    setGroupFields(newGroupFields);
+    setShouldDisplayAddButton(false);
+  };
+
+  // useEffect(() => {
+  //   if (groupFields.length === 1) setGroupFields([{ id: 1, allFields: { type: 'field' }, type: 'group' }]);
+  // }, []);
 
   // Update the Query at every GrouFields change
   useEffect(() => {
@@ -145,7 +149,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                         onClick={() => removeGroups(groupIndex)}
                         className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-red-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
                       >
-                        <span className='flex items-center rounded-md text-sm px-2 py-2 mb-2 relative bottom-2 text-white bg-istcolor-red border border-istcolor-red cta1 focus:ring-4 focus:outline-none'>
+                        <span className='flex items-center rounded-md text-sm px-2 py-2 mb-2 relative bottom-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'>
                           Supprimer le groupe
                         </span>
                       </button>)}
@@ -159,6 +163,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                               queryInputHandler={queryInputHandler}
                               index={index}
                               groupIndex={groupIndex}
+                              updateFields={updateFields}
                               setShouldDisplayAddButton={setShouldDisplayAddButton}
                               removeFields={removeFields}
                               selectField={formField}
@@ -216,9 +221,17 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                         )
                       : (
                         <>
-                          <span className='text-white text-sm'>
-                            {groupFields[groupIndex + 1]?.value}
-                          </span>
+                          <Tooltip
+                            content={(
+                              <div className='min-w-[9rem] max-w-[12rem] text-center  '>
+                                Cliquez ici pour modifier l'opérateur groupe
+                              </div>
+                            )}
+                          >
+                            <span className='text-white text-sm'>
+                              {groupFields[groupIndex + 1]?.value}
+                            </span>
+                          </Tooltip>
                         </>
                         )}
 

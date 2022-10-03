@@ -7,6 +7,7 @@ import SearchInput from './SearchInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip, Modal } from 'flowbite-react';
 import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectField';
+import SearchValue from './SearchValue';
 
 export default function SearchField ({
   shoudDisplaySearch,
@@ -26,6 +27,7 @@ export default function SearchField ({
   const [showModal, setShowModal] = useState(true);
   const [typeField, setTypeField] = useState('text');
   const searchInputRef = useRef(null);
+  const searchValueRef = useRef(null);
 
   const updateValueOfSearchInput = (fn) => {
     searchInputRef.current.value = fn();
@@ -91,6 +93,12 @@ export default function SearchField ({
             }}
             ref={searchInputRef}
           />
+          {selectField.inputSearchValue && (
+            <SearchValue
+              value={selectField.value}
+              ref={searchValueRef}
+            />
+          )}
 
           {selectField.enabledDeleteButton && (
             <Tooltip

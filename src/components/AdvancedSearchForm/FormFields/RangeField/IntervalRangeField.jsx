@@ -39,10 +39,12 @@ function IntervalRangeField ({
 
   return isLoading
     ? (
-      <Spinner
-        color='success'
-        aria-label='loader fetch data'
-      />
+      <div className='flex justify-center'>
+        <Spinner
+          color='success'
+          aria-label='loader fetch data'
+        />
+      </div>
       )
     : (
       <RangeField

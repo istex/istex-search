@@ -169,7 +169,7 @@ function RangeField ({
             type='button'
             onClick={(e) => {
               e.preventDefault();
-              updateQuery(`${intervalInputData.dataValue}:[${minValue} TO ${maxValue}]`);
+              updateQuery(`${intervalInputData.dataValue}:[${minValue} TO ${maxValue}]`, `${minValue} à ${maxValue}`);
             }}
             className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
           >
@@ -231,7 +231,7 @@ function RangeField ({
             />
           </div>
         </Modal.Body>
-        <Modal.Footer class='flex justify-end items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600 border-t'>
+        <Modal.Footer className='flex justify-end items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600 border-t'>
           <Button style={{ backgroundColor: '#458ca5' }} onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
             Modifier la valeur
           </Button>

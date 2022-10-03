@@ -16,9 +16,6 @@ function RetreiveCorrectField (props) {
           {...props}
           onChange={(value) => {
             /** need to have this each time because search input is uncontrolled component */
-            props.updateValueOfSearchInput(() => {
-              return `${props.data.dataTitle} égal à ${value}`;
-            });
           }}
         />
       );
@@ -29,9 +26,6 @@ function RetreiveCorrectField (props) {
           {...props}
           onChange={(value) => {
             /** need to have this each time because search input is uncontrolled component */
-            props.updateValueOfSearchInput(() => {
-              return `${props.data.dataTitle} égal à ${value}`;
-            });
           }}
         />
       );
@@ -42,9 +36,6 @@ function RetreiveCorrectField (props) {
           {...props}
           onChange={(value) => {
             /** need to have this each time because search input is uncontrolled component */
-            props.updateValueOfSearchInput(() => {
-              return `${props.data.dataTitle} égal à ${value}`;
-            });
           }}
         />
       );

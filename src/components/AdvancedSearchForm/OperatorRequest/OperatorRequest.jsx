@@ -16,6 +16,7 @@ function OperatorRequest ({ setSelectedOperatorRequest, index, handleQueryAdvanc
   return (
     <div
       id='select'
+      className='mb-1'
     >
       <Select
         id='operator-request'

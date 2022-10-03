@@ -12,9 +12,9 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
     const reWhiteSpace = (/\s/);
     // Check for white space
     if (reWhiteSpace.test(value)) {
-      updateQuery(`${data.dataValue}:${'"' + value + '"' || ''}`);
+      updateQuery(`${data.dataValue}:${'"' + value + '"' || ''}`, value);
     } else {
-      updateQuery(`${data.dataValue}:${value || ''}`);
+      updateQuery(`${data.dataValue}:${value || ''}`, value);
     }
   };
 

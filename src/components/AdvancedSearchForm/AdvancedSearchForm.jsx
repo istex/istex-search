@@ -82,6 +82,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
 
   const removeFields = (index, groupIndex) => {
     const newGroupFields = [...groupFields];
+
     if (newGroupFields.length === 1 && newGroupFields[0].allFields.length === 1) {
       newGroupFields[0].allFields = initialFieldArray;
       setGroupFields(newGroupFields);
@@ -95,8 +96,12 @@ function AdvancedSearchForm ({ queryInputHandler }) {
       } else {
         newGroupFields[groupIndex].allFields.splice(index, 2);
       }
-      if (newGroupFields[groupIndex].allFields.length === 0)removeGroups(groupIndex);
-      else setGroupFields(newGroupFields);
+
+      if (newGroupFields[groupIndex].allFields.length === 0) {
+        removeGroups(groupIndex);
+      } else {
+        setGroupFields([...newGroupFields]);
+      }
     }
   };
 
@@ -172,7 +177,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                         return (
                           <div
                             key={`operator-request-${index}`}
-                            className='w-1/4 mb-2'
+                            className='inline-block w-20 mb-2'
                           >
                             <OperatorRequest
                               setSelectedOperatorRequest={handleSelectField}

@@ -153,6 +153,7 @@ export const usages = {
 export const operatorsRequest = [
   { value: 'AND', label: 'ET' },
   { value: 'OR', label: 'OU' },
+  { value: 'NOT', label: 'SAUF' },
 ];
 
 export const operatorsField = [

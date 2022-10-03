@@ -4,7 +4,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from 'flowbite-react';
+import { Spinner, Tooltip } from 'flowbite-react';
 
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
@@ -170,10 +170,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const result = event.target.result;
-      const resultWithoutSpace = result.replace(/[\s\n\r]/g, '');
-      const indexStart = resultWithoutSpace.indexOf('total') + 6;
-      const indexEnd = resultWithoutSpace.indexOf('[ISTEX]');
-      const total = resultWithoutSpace.substring(indexStart, indexEnd);
       const queryString = buildQueryStringFromCorpusFile(result);
       updateQueryString(queryString);
 
@@ -181,7 +177,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       setFileInfo(prev => ({
         ...prev,
         fileName: file.name,
-        numberOfIds: total,
       }));
 
       eventEmitter.emit(events.displayNotification, {
@@ -288,7 +283,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
             </label>
             {shouldDisplaySuccessMsg && (
               <p className='mt-4 border-2 p-2 text-white bg-istcolor-green-dark border-istcolor-green-dark'>
-                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
+                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. {fileInfo.numberOfIds ? <span className='font-bold'>{fileInfo.numberOfIds}</span> : <Spinner size='xs' color='warning' />} identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
                 certains identifiants ne sont pas trouvés par le moteur de recherche)
               </p>
             )}

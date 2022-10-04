@@ -3,9 +3,8 @@ import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
-import { CloudUploadIcon } from '@heroicons/react/solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from 'flowbite-react';
+import { Spinner, Tooltip } from 'flowbite-react';
 
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
@@ -18,10 +17,11 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig, catalogList } from '../../config';
 import { useFocus } from '../../lib/hooks';
-import './QueryInput.css';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ModalExampleQueryButton from '../ExampleQueryButton/ModalExampleQueryButton';
+
+import './QueryInput.scss';
 
 const infoText = {
   queryString:
@@ -60,8 +60,7 @@ const infoText = {
   </p>,
   queryAssist:
   <p className='text-sm text-white'>
-    Cliquez ci-dessous pour accéder <br />
-    à une recherche guidée
+    Cliquez sur la zone de recherche avec loupe pour choisir dans la liste qui s'ouvre le champ à interroger, avant de sélectionner la valeur souhaitée. <br />
   </p>,
 };
 
@@ -171,17 +170,14 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const result = event.target.result;
-      const resultWithoutSpace = result.replace(/[\s\n\r]/g, '');
-      const index = resultWithoutSpace.indexOf('total') + 6;
-      const total = resultWithoutSpace.substring(index, index + 1);
       const queryString = buildQueryStringFromCorpusFile(result);
       updateQueryString(queryString);
 
       setShouldDisplaySuccessMsg(true);
-      setFileInfo({
+      setFileInfo(prev => ({
+        ...prev,
         fileName: file.name,
-        numberOfIds: total,
-      });
+      }));
 
       eventEmitter.emit(events.displayNotification, {
         text: `import du fichier ${file.name} terminé`,
@@ -223,6 +219,13 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     eventEmitter.addListener(events.setNumberRowsInput, handleNumberRowsInput);
   }, []);
 
+  useEffect(() => {
+    setFileInfo(prev => ({
+      ...prev,
+      numberOfIds: totalAmountOfDocuments,
+    }));
+  }, [totalAmountOfDocuments]);
+
   let queryInputUi;
   switch (currentQueryMode) {
     case queryModes.modes[0].value:
@@ -260,11 +263,13 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
               htmlFor='dropzone-file'
-              className='flex flex-col justify-center items-center rounded-lg border-2 text-istcolor-blue border-istcolor-blue border-dashed cursor-pointer hover:border-istcolor-green-light hover:text-black'
+              className='wrapper-file-import flex flex-col justify-center items-center border-[1px] mt-4 p-[6px] w-[140px] h-[170px] pt-[30px] font-opensans text-[16px] text-center text-istcolor-blue border-istcolor-blue cursor-pointer hover:border-istcolor-green-light hover:text-istcolor-black hover:bg-istcolor-green-light'
             >
-              <div className='flex flex-col justify-center items-center pt-5 pb-6'>
-                <CloudUploadIcon className='w-12 h-12 my-4' />
-                <p className='mx-2 mb-2 text-sm'>Sélectionnez votre fichier</p>
+              <div className='flex flex-col justify-center items-center'>
+                <div className='file-import w-[48px] h-[64px] mb-[10px]' />
+                <p className='mx-2 mb-2 text-sm'>
+                  {shouldDisplaySuccessMsg ? 'Modifiez en sélectionnant un autre fichier' : 'Sélectionnez votre fichier'}
+                </p>
               </div>
               <input
                 id='dropzone-file'
@@ -278,7 +283,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
             </label>
             {shouldDisplaySuccessMsg && (
               <p className='mt-4 border-2 p-2 text-white bg-istcolor-green-dark border-istcolor-green-dark'>
-                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
+                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. {fileInfo.numberOfIds ? <span className='font-bold'>{fileInfo.numberOfIds}</span> : <Spinner size='xs' color='warning' />} identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
                 certains identifiants ne sont pas trouvés par le moteur de recherche)
               </p>
             )}
@@ -291,11 +296,10 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       queryInputUi = (
         <>
           <div className='flex items-center mb-4'>
-            <span className='mr-4 font-bold'>Requête API : </span>
-            <div className='flex items-center w-10/12'>
+            <div className='flex items-center w-full'>
               <textarea
-                rows='1'
-                className='flex-1 border-[1px] border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium'
+                rows={`${inputRef.current.value.length <= 110 ? '1' : ''}`}
+                className={`flex-1 border-[1px] ${inputRef.current.value.length <= 180 ? '' : 'text-[0.9rem]'}  border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium`}
                 name='queryInput'
                 placeholder='brain AND language:fre'
                 value={queryStringInputValue}
@@ -303,7 +307,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
                 ref={inputRef}
                 disabled
                 style={{ resize: 'none' }}
-                autoComplete='off'
               />
               <button
                 type='button'

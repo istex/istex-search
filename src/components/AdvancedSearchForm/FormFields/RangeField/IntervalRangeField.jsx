@@ -7,6 +7,7 @@ import { Spinner } from 'flowbite-react';
 function IntervalRangeField ({
   data,
   updateValueOfSearchInput,
+  onCloseChoiceInputModal,
   updateQuery,
 }) {
   const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(100);
@@ -38,10 +39,12 @@ function IntervalRangeField ({
 
   return isLoading
     ? (
-      <Spinner
-        color='success'
-        aria-label='loader fetch data'
-      />
+      <div className='flex justify-center'>
+        <Spinner
+          color='success'
+          aria-label='loader fetch data'
+        />
+      </div>
       )
     : (
       <RangeField
@@ -49,6 +52,7 @@ function IntervalRangeField ({
         step={1}
         min={intervalInputMinValue}
         max={intervalInputMaxValue}
+        onCloseChoiceInputModal={onCloseChoiceInputModal}
         onChange={({ min, max }) => {
           updateValueOfSearchInput(() => {
             return `${data.dataTitle} de ${min} à ${max}`;
@@ -63,6 +67,7 @@ IntervalRangeField.propTypes = {
   data: PropTypes.object,
   updateValueOfSearchInput: PropTypes.func,
   updateQuery: PropTypes.func,
+  onCloseChoiceInputModal: PropTypes.func,
 };
 
 export default IntervalRangeField;

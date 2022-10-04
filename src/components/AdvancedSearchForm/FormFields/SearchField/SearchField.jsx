@@ -5,30 +5,38 @@ import { operatorsField } from '../../../../config';
 import OperatorField from '../../OperatorField/OperatorField';
 import SearchInput from './SearchInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from 'flowbite-react';
+import { Tooltip, Modal } from 'flowbite-react';
 import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectField';
+import SearchValue from './SearchValue';
 
 export default function SearchField ({
   shoudDisplaySearch,
-  disableCatalogInput,
   openIntervalInput,
   setShoudDisplaySearch,
   startQueryAvancedSearch,
   selectField,
-  updateQuery,
-  enabledDeleteButton,
   removeFields,
   setDisableCatalogInput,
   index,
-  setEnabledDeleteButton,
+  updateQuery,
+  groupIndex,
   numberOfFields,
+  setOpenIntervalInput,
 }) {
   const [operatorSelect, setOperatorSelect] = useState([]);
+  const [showModal, setShowModal] = useState(true);
   const [typeField, setTypeField] = useState('text');
   const searchInputRef = useRef(null);
+  const searchValueRef = useRef(null);
 
   const updateValueOfSearchInput = (fn) => {
     searchInputRef.current.value = fn();
+  };
+
+  const onCloseChoiceInputModal = () => {
+    setOpenIntervalInput(false);
+    setShoudDisplaySearch(false);
+    startQueryAvancedSearch(true);
   };
 
   const handleTypeField = (field) => {
@@ -36,12 +44,11 @@ export default function SearchField ({
   };
 
   const handleRemoveFields = () => {
-    setDisableCatalogInput(false);
-    removeFields(index);
+    removeFields(index - 1, groupIndex);
 
     if (numberOfFields === index + 1) {
       searchInputRef.current.value = '';
-      setEnabledDeleteButton(false);
+      setDisableCatalogInput(false);
     }
   };
 
@@ -52,7 +59,6 @@ export default function SearchField ({
         const elt = operatorsFieldFromSelectedField.find(
           operatorFieldFromSelectedField => operatorFieldFromSelectedField.id === operator.id,
         );
-
         if (elt) {
           const someNewValue = {
             id: operator.id,
@@ -74,12 +80,12 @@ export default function SearchField ({
   return (
     <div
       id='dropdownSearch'
-      className={`${shoudDisplaySearch ? 'block' : 'hidden'} z-10 rounded`}
+      className='block z-10 rounded'
     >
       <div className='flex flex-col justify-between pb-3 '>
         <div className='flex items-center'>
           <SearchInput
-            disableCatalogInput={disableCatalogInput}
+            disableCatalogInput={!!selectField.enabledDeleteButton}
             value={selectField.inputSearchValue ? selectField.inputSearchValue : ''}
             onClick={() => {
               setShoudDisplaySearch(false);
@@ -87,8 +93,14 @@ export default function SearchField ({
             }}
             ref={searchInputRef}
           />
+          {selectField.inputSearchValue && (
+            <SearchValue
+              value={selectField.value}
+              ref={searchValueRef}
+            />
+          )}
 
-          {enabledDeleteButton && (
+          {selectField.enabledDeleteButton && (
             <Tooltip
               content='Supprimer cette recherche'
             >
@@ -104,8 +116,21 @@ export default function SearchField ({
         </div>
 
         {openIntervalInput && (
-          <div className='flex flex-1 items-center flex-col justify-center bg-white h-[300px] mt-2'>
-            {
+          <Modal
+            show={showModal}
+            onClose={onCloseChoiceInputModal}
+            className='relative h-full w-full p-4 md:h-auto y max-w-2xl'
+          >
+            <div className='istex-modal__header'>
+              <Modal.Header>
+                <span className='istex-modal__text'>
+                  {`Choix de ${selectField.dataTitle}`}
+                </span>
+              </Modal.Header>
+            </div>
+            <Modal.Body>
+              <div className='flex flex-1 items-center flex-col justify-center bg-white h-[300px] mt-2'>
+                {
               operatorSelect.length > 0 && (
                 <OperatorField
                   options={operatorSelect}
@@ -114,11 +139,16 @@ export default function SearchField ({
                 />
               )
             }
-            {
+                {
               typeField
                 ? (
-                  <div className='py-5'>
+                  <div className={`py-5 ${typeField === 'range' && 'w-full'}`}>
                     <RetreiveCorrectField
+                      setOpenIntervalInput={setOpenIntervalInput}
+                      setShowModal={setShowModal}
+                      setShoudDisplaySearch={setShoudDisplaySearch}
+                      startQueryAvancedSearch={startQueryAvancedSearch}
+                      onCloseChoiceInputModal={onCloseChoiceInputModal}
                       data={selectField}
                       updateValueOfSearchInput={updateValueOfSearchInput}
                       updateQuery={updateQuery}
@@ -128,7 +158,9 @@ export default function SearchField ({
                   )
                 : null
             }
-          </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         )}
       </div>
     </div>
@@ -137,16 +169,15 @@ export default function SearchField ({
 
 SearchField.propTypes = {
   shoudDisplaySearch: PropTypes.bool,
-  disableCatalogInput: PropTypes.bool,
   openIntervalInput: PropTypes.bool,
   setShoudDisplaySearch: PropTypes.func,
   startQueryAvancedSearch: PropTypes.func,
   selectField: PropTypes.object,
   updateQuery: PropTypes.func,
-  enabledDeleteButton: PropTypes.bool,
   removeFields: PropTypes.func,
   setDisableCatalogInput: PropTypes.func,
+  setOpenIntervalInput: PropTypes.func,
   index: PropTypes.number,
-  setEnabledDeleteButton: PropTypes.func,
+  groupIndex: PropTypes.number,
   numberOfFields: PropTypes.number,
 };

@@ -33,6 +33,11 @@ input[type=number]::-webkit-outer-spin-button {
   background: linear-gradient(270deg,#51a7c5 0%,#458ca5 100%);
 }
 
+/* Need to do this, because with tailwind we cannot add linear gradient inside config */
+.cta2:hover, .content .button.cta2 > a:hover {
+  background: linear-gradient(270deg,#e27673 0%,#d9534f 100%);
+}
+
 [data-testid=toast-element] {
   background-color: rgb(69, 140, 165);
   color: #fff;

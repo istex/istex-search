@@ -42,9 +42,11 @@ export default function Navbar () {
             </div>
           )}
         >
-          <button>
+          {/* We don't use button here because of bug. the button adds a focus
+          to the click which prevents the tooltip from disappearing after opening the modal */}
+          <div>
             <ShareButton sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
-          </button>
+          </div>
         </Tooltip>
         <Tooltip
           content={(
@@ -53,9 +55,11 @@ export default function Navbar () {
             </div>
           )}
         >
-          <button>
+          {/* We don't use button here because of bug. the button adds a focus
+          to the click which prevents the tooltip from disappearing after opening the modal */}
+          <div>
             <HistoryButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
-          </button>
+          </div>
         </Tooltip>
       </div>
     </div>

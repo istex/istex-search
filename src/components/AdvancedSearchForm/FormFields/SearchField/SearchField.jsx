@@ -80,7 +80,7 @@ export default function SearchField ({
   return (
     <div
       id='dropdownSearch'
-      className={`${shoudDisplaySearch ? 'block' : 'hidden'} z-10 rounded`}
+      className='block z-10 rounded'
     >
       <div className='flex flex-col justify-between pb-3 '>
         <div className='flex items-center'>

@@ -13,7 +13,6 @@ function FormField ({
   setSelectField,
   index,
   groupIndex,
-  updateFields,
   handleQueryAdvancedSearch,
   numberOfFields,
 }) {
@@ -71,13 +70,13 @@ function FormField ({
         setSelectField={setSelectField}
         updateQuery={updateQuery}
         removeFields={removeFields}
-        updateFields={updateFields}
         index={index}
         groupIndex={groupIndex}
         numberOfFields={numberOfFields}
         setOpenCatalogList={setOpenCatalogList}
       />
       <CatalogList
+        setOpenCatalogList={setOpenCatalogList}
         openCatalogList={openCatalogList}
         togglePreference={togglePreference}
       />
@@ -90,7 +89,6 @@ FormField.propTypes = {
   setFormFields: PropTypes.func,
   setShouldDisplayAddButton: PropTypes.func,
   removeFields: PropTypes.func,
-  updateFields: PropTypes.func,
   selectField: PropTypes.object,
   setSelectField: PropTypes.func,
   index: PropTypes.number,

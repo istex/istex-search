@@ -342,7 +342,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
 
   return (
     <div>
-      <div className='cursor-pointer w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
+      <div className='w-full border-b-[2px] border-b-istcolor-green-dark flex items-end'>
         <RadioGroup
           className='w-full flex flex-wrap text-sm md:text-base md:flex-row items-center'
           value={currentQueryMode}
@@ -363,35 +363,40 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
               >
                 {({ checked }) => (
                   <>
-                    <span className={`px-2 py-2 md:px-[30px] border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
-                      {label}
-                    </span>
+                    <div className={`cursor-pointer px-2 py-2 md:px-[30px] md:static  border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                      <span className='lg:relative lg:right-2 md:static'>
+                        {label}
+                      </span>
+                    </div>
+
+                    <div className={` 'cursor-default lg:absolute lg:top-[0.9rem] lg:right-6 ${checked ? 'text-white' : ' text-istcolor-grey-dark'}`}>
+                      <Tooltip
+                        placement='top'
+                        trigger='click'
+                        content={
+                          <div className='min-w-[12rem]'>
+                            <div className='flex w-full justify-end relative left-1'>
+                              <button type='button' onClick={() => onClick(index)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                                <span className='sr-only'>Fermer l'info bulle</span>
+                                <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                                </svg>
+                              </button>
+                            </div>
+                            {infoText[value]}
+                          </div>
+}
+                      >
+                        <button ref={(elem) => (nodesRef.current[index] = elem)}>
+                          <FontAwesomeIcon icon='circle-info' />
+                        </button>
+                      </Tooltip>
+
+                    </div>
                   </>
                 )}
               </RadioGroup.Option>
-              <div className='absolute top-[14px] right-4'>
-                <Tooltip
-                  placement='top'
-                  trigger='click'
-                  content={
-                    <div className='min-w-[12rem]'>
-                      <div className='flex w-full justify-end relative left-1'>
-                        <button type='button' onClick={() => onClick(index)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
-                          <span className='sr-only'>Fermer l'info bulle</span>
-                          <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
-                            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
-                          </svg>
-                        </button>
-                      </div>
-                      {infoText[value]}
-                    </div>
-}
-                >
-                  <button ref={(elem) => (nodesRef.current[index] = elem)}>
-                    <FontAwesomeIcon icon='circle-info' />
-                  </button>
-                </Tooltip>
-              </div>
+
             </div>
           ))}
         </RadioGroup>

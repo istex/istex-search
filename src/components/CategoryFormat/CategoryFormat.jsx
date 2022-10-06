@@ -58,7 +58,7 @@ export default function CategoryFormat ({
           htmlFor={`checkbox-${formatCategory}`}
           className='flex items-center font-bold pl-2'
         >
-          <span className='text-sm'>{formats[formatCategory].label}</span>
+          <span className='text-sm pr-2'>{formats[formatCategory].label}</span>
           <Tooltip
             trigger='click'
             content={
@@ -76,7 +76,7 @@ export default function CategoryFormat ({
             }
           >
             <button className='scale-125' ref={(ref) => { nodeRef.current = ref; }}>
-              <FontAwesomeIcon icon='circle-info' size='1x' className='text-istcolor-blue pl-2 cursor-pointer' />
+              <FontAwesomeIcon icon='circle-info' size='1x' className='text-istcolor-blue cursor-pointer' />
             </button>
           </Tooltip>
         </label>

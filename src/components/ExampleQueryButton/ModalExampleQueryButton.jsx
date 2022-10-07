@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import ExamplesList from './ExamplesList';
 import { buildQueryStringFromArks } from '../../lib/istexApi';
+import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function ModalExampleQueryButton ({
   show,
@@ -28,6 +29,8 @@ export default function ModalExampleQueryButton ({
   };
 
   const onClickExample = params => {
+    eventEmitter.emit(events.setNumberOfDocuments, 0);
+
     if (params.currentQueryMode === 'ark') {
       setArkInputValue(params.input);
 

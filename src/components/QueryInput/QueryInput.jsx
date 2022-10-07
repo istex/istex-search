@@ -15,7 +15,7 @@ import {
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { queryModes, istexApiConfig, catalogList } from '../../config';
+import { queryModes, istexApiConfig } from '../../config';
 import { useFocus } from '../../lib/hooks';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
@@ -298,8 +298,8 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex items-center mb-4'>
             <div className='flex items-center w-full'>
               <textarea
-                rows={`${inputRef.current.value.length <= 110 ? '1' : ''}`}
-                className={`flex-1 border-[1px] ${inputRef.current.value.length <= 180 ? '' : 'text-[0.9rem]'}  border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium`}
+                rows={`${inputRef.current?.value?.length <= 110 ? '1' : ''}`}
+                className={`flex-1 border-[1px] ${inputRef.current?.value?.length <= 180 ? '' : 'text-[0.9rem]'}  border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium`}
                 name='queryInput'
                 placeholder='brain AND language:fre'
                 value={queryStringInputValue}
@@ -320,10 +320,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
             </div>
           </div>
           <AdvancedSearchForm
-            updateQueryString={updateQueryString}
-            catalogList={catalogList}
             queryInputHandler={queryInputHandler}
-            inputRef={inputRef}
           />
         </>
       );

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { Tooltip } from 'flowbite-react';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, noFormatSelected, resetFormatSelected, selectFormat } from '../../lib/istexApi';
@@ -17,6 +17,16 @@ export default function UsageSection () {
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
+  const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
+  const toolTipButton = useRef(null);
+  const simulateClick = () => {
+    toolTipButton.current.click();
+  };
+  const firstUpdate = useRef(true);
+  useEffect(() => {
+    if (!firstUpdate.current) simulateClick();
+    firstUpdate.current = false;
+  }, [showLowerTooltipContent]);
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
 
@@ -106,7 +116,7 @@ export default function UsageSection () {
               particuliers induit une sélection<br />
               automatique des formats et types de<br />
               fichiers qui seront extraits.<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1'>documentation ISTEX </a>.
+              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1' rel='noreferrer'>documentation ISTEX </a>.
             </p>
           </>
         }
@@ -114,12 +124,40 @@ export default function UsageSection () {
       <p className='text-sm md:text-base'>Cliquez sur l’usage visé pour votre corpus :</p>
       {!shouldDisplayUsage && (
         <div
-          className='text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 mb-5 p-2'
+          className='flex justify-start  text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 mb-5 p-2'
         >
           <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
             <FontAwesomeIcon icon='angle-left' />{' '}
             <span className='text-[16px] font-semibold'>Usage personnalisé</span>
           </span>
+
+          <Tooltip
+            trigger='click'
+            content={
+              <div className='max-w-[22rem]'>
+                <div className='flex justify-end relative left-1'>
+                  <button type='button' onClick={() => setShowLowerTooltipContent(!showLowerTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
+                    <span className='sr-only'>Fermer l'info bulle</span>
+                    <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
+                    </svg>
+                  </button>
+                </div>
+                <p className='text-sm text-white'>
+                  Les différents formats et types de fichiers disponibles sont décrits
+                  succinctement dans cette interface et plus complètement dans
+                  la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1' rel='noreferrer'>documentation ISTEX </a>.
+                  <br />
+                  Attention : toutes les publications ISTEX ne possèdent pas l’ensemble des types de fichiers et de formats possibles
+                  (notamment annexes, couvertures ou enrichissements).
+                </p>
+              </div>
+            }
+          >
+            <button className='pl-2 w-fit h-2 w-2 relative top-[0.3em]' ref={toolTipButton}>
+              <FontAwesomeIcon icon='circle-info' size='1x' className='text-istcolor-blue cursor-pointer' />
+            </button>
+          </Tooltip>
         </div>
       )}
       <div className='flex flex-col md:flex-row mt-4'>

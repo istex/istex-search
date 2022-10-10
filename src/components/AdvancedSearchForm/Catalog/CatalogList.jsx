@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'flowbite-react';
+
 import CatalogListItem from './CatalogListItem';
 import { catalogList } from '../../../config';
 

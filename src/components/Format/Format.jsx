@@ -55,7 +55,7 @@ export default function Format ({
           htmlFor={`checkbox-${name}`}
           className='flex items-center pl-2'
         >
-          <span className='text-sm'>{name}</span>
+          <span className='text-sm pr-2'>{name}</span>
           <Tooltip
             trigger='click'
             content={
@@ -73,7 +73,7 @@ export default function Format ({
             }
           >
             <button ref={buttonRef}>
-              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue pl-2 cursor-pointer' />
+              <FontAwesomeIcon icon='circle-info' className='text-istcolor-blue cursor-pointer' />
             </button>
           </Tooltip>
         </label>

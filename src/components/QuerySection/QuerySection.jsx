@@ -128,8 +128,8 @@ export default function QuerySection () {
               spécifiant un corpus de documents<br />
               au moyen d’identifiants uniques.<br />
               Si vous avez besoin d'aide, consultez<br />
-              la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX </a>ou bien<br />
-              contactez <a className='font-bold text-istcolor-blue cursor-pointer' href='mailto:contact@listes.istex.fr'>l’équipe ISTEX</a>.
+              la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-' rel='noreferrer'>documentation ISTEX </a>ou bien<br />
+              contactez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='mailto:contact@listes.istex.fr' rel='noreferrer'>l’équipe ISTEX</a>.
             </p>
           </>
         }
@@ -216,7 +216,7 @@ export default function QuerySection () {
             const value = parseInt(event.target.value);
             numberOfDocumentsHandler(value);
           }}
-          className='ml-5 border-[1px] border-istcolor-green-dark px-2 py-1 w-20'
+          className='ml-5 border-[1px] border-istcolor-green-dark px-2 py-1 w-28'
         />
         {!!totalAmountOfDocuments && (
           <div className='ml-2 inline-block'>
@@ -259,7 +259,7 @@ export default function QuerySection () {
                   soit tirés de manière aléatoire, ce<br />
                   mode de tri étant plus représentatif<br />
                   de la diversité des résultats.<br />
-                  Voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/results/scoring.html'>documentation ISTEX</a>.
+                  Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/api/results/scoring.html' rel='noreferrer'>documentation ISTEX</a>.
                 </p>
               </>
             }

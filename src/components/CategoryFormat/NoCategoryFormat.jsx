@@ -9,10 +9,10 @@ export default function NoCategoryFormat ({
   formats,
 }) {
   return (
-    <div className='font-semibold capitalize mx-5 md:mx-0'>
+    <div className='font-semibold mx-5 md:mx-0'>
       <Format
         isSubCategory={false}
-        className='font-bold capitalize'
+        className='font-bold '
         name={formats[formatCategory].label}
         value={formats[formatCategory].value}
         infoText={formatInfoText[formatCategory].infoText}

@@ -40,6 +40,7 @@ export default function ResultPreview ({
           />
           )}
       <Pagination
+        shouldDisplayResultDetail={shouldDisplayResultDetail}
         totalAmountOfDocuments={totalAmountOfDocuments}
         defaultPage={defaultPage}
         nextPageURI={nextPageURI}

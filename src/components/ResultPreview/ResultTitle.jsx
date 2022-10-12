@@ -17,8 +17,11 @@ export default function ResultTitle ({ shouldDisplayResultDetail, setShouldDispl
   };
 
   return (
-    <h4 className='font-semibold border-[#303030] border-b-[1px] mb-4'>
-      <span className={`${shouldDisplayResultDetail && 'cursor-pointer'} flex justify-between flex-row`} onClick={handleClick}>Parcourir les résultats
+    <div className='font-semibold border-[#303030] border-b-[1px] mb-4'>
+      <div className={`${shouldDisplayResultDetail && 'cursor-pointer'} flex justify-between flex-row`} onClick={handleClick}>
+        <div>
+          Parcourir les résultats {shouldDisplayResultDetail && <span className='text-istcolor-grey-medium'>/ Document ISTEX</span>}
+        </div>
         <Tooltip
           trigger='click'
           content={
@@ -47,9 +50,8 @@ export default function ResultTitle ({ shouldDisplayResultDetail, setShouldDispl
             <FontAwesomeIcon icon='circle-info' size='1x' className='text-istcolor-blue pl-2 cursor-pointer' />
           </button>
         </Tooltip>
-      </span>{' '}
-      {shouldDisplayResultDetail && <span className='text-istcolor-grey-medium'>/ Document ISTEX</span>}
-    </h4>
+      </div>
+    </div>
   );
 }
 

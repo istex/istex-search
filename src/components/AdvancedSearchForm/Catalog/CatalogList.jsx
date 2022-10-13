@@ -40,6 +40,17 @@ export default function CatalogList ({
               </ul>
             </div>
           </Modal.Body>
+          <Modal.Footer>
+            <div className='flex w-full justify-end'>
+              <button
+                type='button'
+                onClick={() => { setOpenCatalogList(false); }}
+                className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
+              >
+                Annuler
+              </button>
+            </div>
+          </Modal.Footer>
         </Modal>
       )
     }

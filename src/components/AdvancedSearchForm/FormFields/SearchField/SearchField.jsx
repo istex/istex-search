@@ -124,7 +124,7 @@ export default function SearchField ({
             <div className='istex-modal__header'>
               <Modal.Header>
                 <span className='istex-modal__text'>
-                  {`Choix de ${selectField.dataTitle}`}
+                  {`Valeur de ${selectField.dataTitle}`}
                 </span>
               </Modal.Header>
             </div>

@@ -100,7 +100,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   }, []);
 
   return (
-    <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+    <Table.Row className='bg-white'>
       <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
         <span className='font-bold'>{requestInfo.index + 1}</span>
       </Table.Cell>

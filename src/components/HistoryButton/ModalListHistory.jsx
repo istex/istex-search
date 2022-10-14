@@ -20,6 +20,18 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
     HistoryManager.removeAll();
   };
 
+  const handleMarginTopModal = (numberOfrequest) => {
+    if (numberOfrequest > 4) {
+      return 'mt-96';
+    }
+
+    if (numberOfrequest > 0 && numberOfrequest <= 4) {
+      return 'mt-48';
+    }
+
+    return 'mt-0';
+  };
+
   return (
     <>
       <Modal
@@ -27,7 +39,7 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
         onClose={onClose}
         size='7xl'
       >
-        <div className='istex-modal__header'>
+        <div className={`istex-modal__header ${handleMarginTopModal(requests?.length)}`}>
           <Modal.Header className='istex-modal__header'>
             <span className='istex-modal__text'>
               Historique des requêtes
@@ -35,7 +47,7 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
           </Modal.Header>
         </div>
         <Modal.Body>
-          <div className='h-[220px] md:h-[300px] overflow-auto'>
+          <div className={`${requests?.length > 4 ? 'h-full' : ''} overflow-auto`}>
             <Table hoverable>
               <Table.Head>
                 <Table.HeadCell>

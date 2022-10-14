@@ -12,7 +12,6 @@ export default function ModalExampleQueryButton ({
   setOpenModal,
   setQueryStringInputValue,
   updateQueryString,
-  setNumberRowsInput,
   setCurrentQueryMode,
   setArkInputValue,
 }) {
@@ -42,7 +41,6 @@ export default function ModalExampleQueryButton ({
       updateQueryString(params.input);
     }
 
-    setNumberRowsInput(params.numberRowsInput);
     setCurrentQueryMode(params.currentQueryMode);
     navigate(`/${params.request}`);
     setOpenModal(false);
@@ -88,7 +86,6 @@ ModalExampleQueryButton.propTypes = {
   setOpenModal: PropTypes.func,
   setQueryStringInputValue: PropTypes.func,
   updateQueryString: PropTypes.func,
-  setNumberRowsInput: PropTypes.func,
   setCurrentQueryMode: PropTypes.func,
   setArkInputValue: PropTypes.func,
 };

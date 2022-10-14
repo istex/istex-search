@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Spinner, Tooltip } from 'flowbite-react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import { setQueryString, setQId } from '../../store/istexApiSlice';
 import {
@@ -73,7 +74,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
   const [openModalExampleQuery, setOpenModalExampleQuery] = useState(false);
-  const [numberRowsInput, setNumberRowsInput] = useState(0);
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -192,22 +192,8 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     setInputFocus();
   };
 
-  const handleNumberRowsInput = (number) => {
-    setNumberRowsInput(number);
-  };
-
   const handleResetMessageImportCorpus = () => {
     setShouldDisplaySuccessMsg(false);
-  };
-
-  const displayNumberRows = () => {
-    if (numberRowsInput === 0) {
-      return '2';
-    } else if (numberRowsInput > 0) {
-      return numberRowsInput;
-    } else if (totalAmountOfDocuments > 0 && totalAmountOfDocuments <= 10000) {
-      return totalAmountOfDocuments;
-    }
   };
 
   useEffect(() => {
@@ -216,7 +202,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     eventEmitter.addListener(events.setQId, qIdHandler);
     eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
-    eventEmitter.addListener(events.setNumberRowsInput, handleNumberRowsInput);
   }, []);
 
   useEffect(() => {
@@ -230,8 +215,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   switch (currentQueryMode) {
     case queryModes.modes[0].value:
       queryInputUi = (
-        <textarea
-          rows={`${numberRowsInput === 0 ? '1' : numberRowsInput}`}
+        <TextareaAutosize
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           name='queryInput'
           placeholder='brain AND language:fre'
@@ -239,19 +223,20 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           onChange={event => queryInputHandler(event.target.value)}
           ref={inputRef}
           cols='40'
+          maxRows={10}
         />
       );
       break;
     case queryModes.modes[1].value:
       queryInputUi = (
-        <textarea
+        <TextareaAutosize
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          rows={displayNumberRows(numberRowsInput, totalAmountOfDocuments)}
           cols='40'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
           value={arkInputValue}
           onChange={event => arkListHandler(event.target.value)}
+          maxRows={12}
         />
       );
       break;
@@ -415,7 +400,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
         show={openModalExampleQuery}
         setQueryStringInputValue={setQueryStringInputValue}
         updateQueryString={updateQueryString}
-        setNumberRowsInput={setNumberRowsInput}
         setCurrentQueryMode={setCurrentQueryMode}
         setArkInputValue={setArkInputValue}
       />

@@ -34,7 +34,6 @@ export const events = {
   addFocusOnInput: 'addFocusOnInput',
   displayShareModal: 'displayShareModal',
   displayDownloadModal: 'displayDownloadModal',
-  setNumberRowsInput: 'setNumberRowsInput',
   resetMessageImportCorpus: 'resetMessageImportCorpus',
   setQueryAdvancedSearch: 'setQueryAdvancedSearch',
 };

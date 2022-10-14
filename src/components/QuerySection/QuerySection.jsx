@@ -273,7 +273,7 @@ export default function QuerySection () {
           {istexApiConfig.rankingModes.modes.map(({ label, value: rankingModeValue }) => (
             <div
               key={rankingModeValue}
-              className='mr-2'
+              className='mr-4'
             >
               <input
                 type='radio'
@@ -284,7 +284,7 @@ export default function QuerySection () {
                   const { value } = event.target;
                   rankingModeHandler(value);
                 }}
-                className='mr-2'
+                className='mr-3'
               />
               <label htmlFor={rankingModeValue}>{label}</label>
             </div>

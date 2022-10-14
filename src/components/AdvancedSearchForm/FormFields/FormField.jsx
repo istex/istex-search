@@ -31,6 +31,7 @@ function FormField ({
     setSelectField({
       ...data,
       inputSearchValue: event.target.value,
+      enabledDeleteButton: true,
     }, index, groupIndex);
 
     setOpenIntervalInput(true);
@@ -46,7 +47,6 @@ function FormField ({
       ...selectField,
       queryValue,
       value,
-      enabledDeleteButton: true,
     }, index, groupIndex);
     setDisableCatalogInput(true);
     setOpenIntervalInput(false);

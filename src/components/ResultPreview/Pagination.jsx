@@ -15,8 +15,13 @@ export default function Pagination ({
   currentRankingMode,
   setShouldDisplayResultDetail,
   queryString,
+  shouldDisplayResultDetail,
 }) {
-  const totalPage = Math.floor(totalAmountOfDocuments / limit);
+  if (shouldDisplayResultDetail) {
+    return null;
+  }
+
+  const totalPage = Math.ceil(totalAmountOfDocuments / limit);
   const [currentPage, setCurrentPage] = useState('');
   const [page, setPage] = useState('');
 
@@ -174,4 +179,5 @@ Pagination.propTypes = {
   currentRankingMode: PropTypes.string,
   setShouldDisplayResultDetail: PropTypes.func,
   queryString: PropTypes.string,
+  shouldDisplayResultDetail: PropTypes.bool,
 };

@@ -6,14 +6,14 @@ const SearchValue = React.forwardRef(({
   onChange,
 }, ref) => {
   return (
-    <div className='ml-4'>
-      <div className='relative'>
+    <div className='w-1/2 ml-4'>
+      <div className='relative w-full'>
         <input
           key={value}
           type='text'
           onChange={onChange}
           defaultValue={value}
-          className='block w-28 pl-4 text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light'
+          className='w-full block pl-4 text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light truncate'
           placeholder='Ajouter une valeur'
           disabled
           ref={ref}

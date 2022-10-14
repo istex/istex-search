@@ -1,6 +1,6 @@
 {
   "name": "istex-dl",
-  "version": "5.0.0-alpha.8",
+  "version": "5.0.0-alpha.9",
   "description": "Web application dedicated to ISTEX sub-corpus extraction.",
   "private": true,
   "scripts": {

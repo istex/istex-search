@@ -13,7 +13,7 @@ const SearchValue = React.forwardRef(({
           type='text'
           onChange={onChange}
           defaultValue={value}
-          className='w-full block pl-4 text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light'
+          className='w-full block pl-4 text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light truncate'
           placeholder='Ajouter une valeur'
           disabled
           ref={ref}

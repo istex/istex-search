@@ -339,7 +339,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
               >
                 {({ checked }) => (
                   <>
-                    <div className={`cursor-pointer px-2 py-2 md:px-[30px] md:static  border-[1px] font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
+                    <div className={`cursor-pointer px-2 py-2 md:px-[30px] md:static font-bold ${checked ? 'bg-istcolor-green-dark hover:bg-istcolor-green-light text-white' : 'bg-istcolor-grey-extra-light text-istcolor-grey-dark'}`}>
                       <span className='lg:relative lg:right-2 md:static'>
                         {label}
                       </span>

@@ -21,7 +21,7 @@ export default function Pagination ({
     return null;
   }
 
-  const totalPage = Math.floor(totalAmountOfDocuments / limit);
+  const totalPage = Math.ceil(totalAmountOfDocuments / limit);
   const [currentPage, setCurrentPage] = useState('');
   const [page, setPage] = useState('');
 

@@ -282,8 +282,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
         <>
           <div className='flex items-center mb-4'>
             <div className='flex items-center w-full'>
-              <textarea
-                rows={`${inputRef.current?.value?.length <= 110 ? '1' : ''}`}
+              <TextareaAutosize
                 className={`flex-1 border-[1px] ${inputRef.current?.value?.length <= 180 ? '' : 'text-[0.9rem]'}  border-istcolor-green-dark mr-2 p-2 placeholder:text-istcolor-grey-medium`}
                 name='queryInput'
                 placeholder='brain AND language:fre'
@@ -292,6 +291,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
                 ref={inputRef}
                 disabled
                 style={{ resize: 'none' }}
+                maxRows={3}
               />
               <button
                 type='button'

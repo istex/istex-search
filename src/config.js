@@ -144,11 +144,13 @@ export const usages = {
     label: 'Usage personnalisé',
     description: '',
     selectedFormats: 0,
+    tags: ['DOC', 'TDM'],
   },
   lodex: {
     label: 'Lodex',
     description: 'Analyse graphique / Exploration de corpus',
     selectedFormats: formats.metadata.formats.json.value,
+    tags: ['TDM'],
   },
   cortext: {
     label: 'CorText',
@@ -156,6 +158,7 @@ export const usages = {
     selectedFormats: formats.fulltext.formats.tei.value |
       formats.fulltext.formats.cleaned.value |
       formats.enrichments.formats.teeft.value,
+    tags: ['TDM'],
   },
 };
 

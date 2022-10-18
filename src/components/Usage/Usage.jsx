@@ -5,13 +5,13 @@ import { RadioGroup } from '@headlessui/react';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-export default function Usage ({ name, label, description, formats }) {
+export default function Usage ({ usageInfo }) {
   const usage = useSelector(state => state.istexApi.usage);
 
   const usageChangedHandler = value => {
     const newUsage = value;
 
-    eventEmitter.emit(events.setSelectedFormats, formats);
+    eventEmitter.emit(events.setSelectedFormats, usageInfo.selectedFormats);
     eventEmitter.emit(events.setUsage, newUsage);
   };
 
@@ -23,7 +23,7 @@ export default function Usage ({ name, label, description, formats }) {
       name='usages'
     >
       <RadioGroup.Option
-        value={name}
+        value={usageInfo.name}
         className='flex relative flex-col text-xl justify-between items-center focus:outline-none h-[270px] md:w-[340px]'
       >
         {({ active, checked }) => (
@@ -36,35 +36,29 @@ export default function Usage ({ name, label, description, formats }) {
                       as='p'
                       className='text-2xl font-montserrat-semibold text-istcolor-black'
                     >
-                      {label}
+                      {usageInfo.label}
                     </RadioGroup.Label>
                     <RadioGroup.Description
                       as='span'
                       className='text-xs pt-3'
                     >
-                      {description}
+                      {usageInfo.description}
                     </RadioGroup.Description>
                   </div>
                 </div>
               </div>
-              {name === 'customUsage' && (
-                <div className='flex flex-col absolute right-6 top-6'>
-                  <span className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>DOC</span>
-                  <p className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>TDM</p>
-                </div>
-              )}
-              {name === 'lodex' && (
-                <div className='flex flex-col absolute right-6 top-6'>
-                  <p className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>TDM</p>
-                </div>
-              )}
+              <div className='flex flex-col absolute right-6 top-6'>
+                {usageInfo.tags.map(tag => (
+                  <span key={tag} className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>{tag}</span>
+                ))}
+              </div>
             </div>
             <div className={`flex justify-center text-white p-4 ${checked ? ' bg-istcolor-green-dark' : 'bg-istcolor-blue cta1'} w-full`}>
               {checked && (
                 <FontAwesomeIcon icon='check' />
               )}
               <p>
-                {checked ? <span className='pl-2 text-sm font-montserrat-bold'>Usage sélectioné</span> : <span className='pl-2 text-sm font-montserrat-bold'>Choisir cet usage</span>}
+                {checked ? <span className='pl-2 text-sm font-montserrat-bold'>Usage sélectionné</span> : <span className='pl-2 text-sm font-montserrat-bold'>Choisir cet usage</span>}
               </p>
             </div>
           </>
@@ -75,8 +69,5 @@ export default function Usage ({ name, label, description, formats }) {
 }
 
 Usage.propTypes = {
-  name: PropTypes.string,
-  label: PropTypes.string,
-  description: PropTypes.string,
-  formats: PropTypes.number,
+  usageInfo: PropTypes.object,
 };

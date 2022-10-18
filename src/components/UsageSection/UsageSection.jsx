@@ -170,6 +170,7 @@ export default function UsageSection () {
                 <Usage
                   name={usageName}
                   label={usages[usageName].label}
+                  description={usages[usageName].description}
                   formats={usages[usageName].selectedFormats}
                   setShouldDisplayUsage={setShouldDisplayUsage}
                 />

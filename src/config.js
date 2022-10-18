@@ -142,14 +142,17 @@ export const formats = {
 export const usages = {
   customUsage: {
     label: 'Usage personnalisé',
+    description: '',
     selectedFormats: 0,
   },
   lodex: {
     label: 'Lodex',
+    description: 'Analyse graphique / Exploration de corpus',
     selectedFormats: formats.metadata.formats.json.value,
   },
   cortext: {
     label: 'CorText',
+    description: 'Plateforme d\'outils / Analyse multidimensionnelle',
     selectedFormats: formats.fulltext.formats.tei.value |
       formats.fulltext.formats.cleaned.value |
       formats.enrichments.formats.teeft.value,

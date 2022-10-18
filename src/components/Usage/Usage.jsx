@@ -5,7 +5,7 @@ import { RadioGroup } from '@headlessui/react';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-export default function Usage ({ name, formats, label }) {
+export default function Usage ({ name, label, description, formats }) {
   const usage = useSelector(state => state.istexApi.usage);
 
   const usageChangedHandler = value => {
@@ -40,10 +40,9 @@ export default function Usage ({ name, formats, label }) {
                     </RadioGroup.Label>
                     <RadioGroup.Description
                       as='span'
-                      className={`text-xs ${name === 'lodex' ? 'pt-3' : 'pt-0'}`}
+                      className='text-xs pt-3'
                     >
-                      {name === 'lodex' && 'Analyse graphique / Exploration de corpus'}
-                      {name === 'cortext' && 'Plateforme d\'outils / Analyse multidimensionnelle'}
+                      {description}
                     </RadioGroup.Description>
                   </div>
                 </div>
@@ -78,5 +77,6 @@ export default function Usage ({ name, formats, label }) {
 Usage.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
+  description: PropTypes.string,
   formats: PropTypes.number,
 };

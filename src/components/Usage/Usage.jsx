@@ -43,6 +43,7 @@ export default function Usage ({ name, formats, label }) {
                       className={`text-xs ${name === 'lodex' ? 'pt-3' : 'pt-0'}`}
                     >
                       {name === 'lodex' && 'Analyse graphique / Exploration de corpus'}
+                      {name === 'cortext' && 'Plateforme d\'outils / Analyse multidimensionnelle'}
                     </RadioGroup.Description>
                   </div>
                 </div>

@@ -148,6 +148,12 @@ export const usages = {
     label: 'Lodex',
     selectedFormats: formats.metadata.formats.json.value,
   },
+  cortext: {
+    label: 'CorText',
+    selectedFormats: formats.fulltext.formats.tei.value |
+      formats.fulltext.formats.cleaned.value |
+      formats.enrichments.formats.teeft.value,
+  },
 };
 
 export const operatorsRequest = [

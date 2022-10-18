@@ -167,12 +167,7 @@ export default function UsageSection () {
           >
             {shouldDisplayUsage && (
               <div onClick={() => { handleDisplayingOfUsage(usageName); }}>
-                <Usage
-                  name={usageName}
-                  label={usages[usageName].label}
-                  formats={usages[usageName].selectedFormats}
-                  setShouldDisplayUsage={setShouldDisplayUsage}
-                />
+                <Usage usageInfo={{ name: usageName, ...usages[usageName] }} />
               </div>
             )}
             {/* Check if the current usage being rendered (usageName) and the current selected usage (currentUsage)

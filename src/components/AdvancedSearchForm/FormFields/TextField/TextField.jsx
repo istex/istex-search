@@ -9,10 +9,8 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   };
 
   const updateQueryString = () => {
-    const reWhiteSpace = (/\s/);
-
-    // The value entered by the user needs to be surrounded by double-quotes (") if it contains a space character
-    const valueToPutInQuery = reWhiteSpace.test(value) ? `"${value}"` : value;
+    // The value entered by the user needs to be surrounded by double-quotes (")
+    const valueToPutInQuery = `"${value}"`;
 
     if (data.dataValue === '') {
       updateQuery(valueToPutInQuery, value);

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, noFormatSelected, resetFormatSelected, selectFormat } from '../../lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
@@ -65,20 +65,20 @@ export default function UsageSection () {
   };
 
   const selectedFormatsHandler = (newSelectedFormats) => {
-    // if user resets form
-    const isResetForm = newSelectedFormats === resetFormatSelected();
-    if (isResetForm) {
-      setShouldDisplayUsage(true);
-    }
-
     dispatch(setSelectedFormats(newSelectedFormats));
-    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, isResetForm ? noFormatSelected() : newSelectedFormats);
+    eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
     eventEmitter.emit(events.setExtractUrlParam, extractParams);
   };
 
   const usageHandler = newUsage => {
+    // newUsage is an empty string when the format gets reset and we want to display
+    // the different usages again in that case
+    if (newUsage === '') {
+      setShouldDisplayUsage(true);
+    }
+
     dispatch(setUsage(newUsage));
 
     eventEmitter.emit(events.setUsageUrlParam, newUsage);

@@ -167,20 +167,20 @@ function RangeField ({
         >
           <button
             type='button'
+            className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
             onClick={(e) => {
               e.preventDefault();
               updateQuery(`${intervalInputData.dataValue}:[${minValue} TO ${maxValue}]`, `${minValue} à ${maxValue}`);
             }}
-            className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
           >
             Valider
           </button>
           <button
             type='button'
+            className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
             onClick={() => {
               onCloseChoiceInputModal();
             }}
-            className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
           >
             Annuler
           </button>

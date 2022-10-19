@@ -128,122 +128,115 @@ function AdvancedSearchForm ({ queryInputHandler }) {
     <form className='pl-2 ml-4 md:ml-4'>
       <ol data-testid='timeline-component' className='relative border-l border-[#458ca5] dark:border-gray-700'>
         {groupFields.map((groupField, groupIndex) => {
-          if (groupField.type === 'group') {
-            return (
-              <li key={`groupfield-${groupIndex}`} data-testid='timeline-item' className='mb-10 ml-6'>
-                <div data-testid='timeline-point' className='bg-[#458ca5]'>
-                  <div className='absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-[#458ca5] bg-[#458ca5] dark:border-[#458ca5] dark:bg-[#458ca5]' />
-                </div>
-                <div data-testid='timeline-content' className=''>
-                  <div className='mb-4 text-base font-normal text-gray-500 dark:text-gray-400'>
-                    {groupIndex >= 1 && (
-                      <button
-                        onClick={() => removeGroups(groupIndex)}
-                        className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-red-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
-                      >
-                        <span className='flex items-center rounded-md text-sm px-2 py-2 mb-2 relative bottom-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'>
-                          Supprimer le groupe
-                        </span>
-                      </button>)}
-                    {groupField.type === 'group' && groupField.allFields.map((formField, index) => {
-                      if (formField.type === 'field') {
-                        return (
-                          <>
-                            <FormField
-                              key={`field-${index}`}
-                              setFormFields={setFormFields}
-                              queryInputHandler={queryInputHandler}
-                              index={index}
-                              groupIndex={groupIndex}
-                              setShouldDisplayAddButton={setShouldDisplayAddButton}
-                              removeFields={removeFields}
-                              selectField={formField}
-                              setSelectField={handleSelectField}
-                              handleQueryAdvancedSearch={handleQueryAdvancedSearch}
-                              numberOfFields={formFields.length}
-                            />
-                          </>
-                        );
-                      } else {
-                        return (
-                          <div
-                            key={`operator-request-${index}`}
-                            className='inline-block w-20 mb-2'
-                          >
-                            <OperatorRequest
-                              setSelectedOperatorRequest={handleSelectField}
-                              index={index}
-                              groupIndex={groupIndex}
-                              handleQueryAdvancedSearch={handleQueryAdvancedSearch}
-                            />
-                          </div>
-                        );
-                      }
-                    })}
-                    {
-                    shouldDisplayAddButton && (
-                      <button
-                        onClick={() => addFields(groupIndex)}
-                        className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
-                      >
-                        <span className='flex items-center rounded-md text-sm px-4 py-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'>
-                          Ajouter
-                        </span>
-                      </button>
-                    )
-                  }
-                  </div>
-                </div>
-                <div onClick={() => setShouldDisplayGroupOperatorButton(!shouldDisplayGroupOperatorButton)} data-testid='timeline-point' className='h-3 w-3 mr-2 cursor-pointer'>
-                  <span className='absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#458ca5] ring-8 ring-[#458ca5] dark:bg-white dark:ring-white'>
-
-                    {groupIndex > groupFields.length - 3
-                      ? (
-                        <Tooltip
-                          content={(
-                            <div className='min-w-[9rem] max-w-[12rem] text-center  '>
-                              Cliquez ici pour créer un nouveau groupe
-                            </div>
-                            )}
-                        >
-                          <svg stroke='currentColor' fill='currentColor' strokeWidth='0' viewBox='0 0 16 16' aria-hidden='true' className='h-3 w-3 text-white dark:text-blue-300' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M14 7v1H8v6H7V8H1V7h6V1h1v6h6z' />
-                          </svg>
-                        </Tooltip>
-                        )
-                      : (
-                        <>
-                          <Tooltip
-                            content={(
-                              <div className='min-w-[9rem] max-w-[12rem] text-center  '>
-                                Cliquez ici pour modifier l'opérateur groupe
-                              </div>
-                            )}
-                          >
-                            <span className='text-white text-sm'>
-                              {groupFields[groupIndex + 1]?.value}
-                            </span>
-                          </Tooltip>
-                        </>
-                        )}
-
-                  </span>
-                </div>
-                {
-                  shouldDisplayGroupOperatorButton && (
-                    <select style={{ maxWidth: '13rem', minWidth: '11rem' }} onChange={(e) => addGroups(e, groupField.id + 1 || false)} className='block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 rounded-lg p-2.5 text-sm' id='operator-request' required=''>
-                      <option className='hidden' value=''> Choisissez l'opérateur </option>
-                      <option value='AND'>ET</option>
-                      <option value='OR'>OU</option>
-                      <option value='NOT'>SAUF</option>
-                    </select>
-                  )
-                }
-
-              </li>
-            );
-          } else {
+          if (groupField.type !== 'group') {
             return null;
           }
+
+          return (
+            <li key={`groupfield-${groupIndex}`} data-testid='timeline-item' className='mb-10 ml-6'>
+              <div data-testid='timeline-point' className='bg-[#458ca5]'>
+                <div className='absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full border border-[#458ca5] bg-[#458ca5] dark:border-[#458ca5] dark:bg-[#458ca5]' />
+              </div>
+              <div data-testid='timeline-content' className=''>
+                <div className='mb-4 text-base font-normal text-gray-500 dark:text-gray-400'>
+                  {groupIndex >= 1 && (
+                    <button
+                      onClick={() => removeGroups(groupIndex)}
+                      className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-red-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
+                    >
+                      <span className='flex items-center rounded-md text-sm px-2 py-2 mb-2 relative bottom-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'>
+                        Supprimer le groupe
+                      </span>
+                    </button>)}
+                  {groupField.allFields.map((formField, index) => {
+                    if (formField.type === 'field') {
+                      return (
+                        <FormField
+                          key={`field-${index}`}
+                          setFormFields={setFormFields}
+                          queryInputHandler={queryInputHandler}
+                          index={index}
+                          groupIndex={groupIndex}
+                          setShouldDisplayAddButton={setShouldDisplayAddButton}
+                          removeFields={removeFields}
+                          selectField={formField}
+                          setSelectField={handleSelectField}
+                          handleQueryAdvancedSearch={handleQueryAdvancedSearch}
+                          numberOfFields={formFields.length}
+                        />
+                      );
+                    }
+
+                    return (
+                      <div key={`operator-request-${index}`} className='inline-block w-20 mb-2'>
+                        <OperatorRequest
+                          setSelectedOperatorRequest={handleSelectField}
+                          index={index}
+                          groupIndex={groupIndex}
+                          handleQueryAdvancedSearch={handleQueryAdvancedSearch}
+                        />
+                      </div>
+                    );
+                  })}
+                  {
+                  shouldDisplayAddButton && (
+                    <button
+                      onClick={() => addFields(groupIndex)}
+                      className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg'
+                      type='button'
+                    >
+                      <span className='flex items-center rounded-md text-sm px-4 py-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'>
+                        Ajouter
+                      </span>
+                    </button>
+                  )
+                }
+                </div>
+              </div>
+              <div onClick={() => setShouldDisplayGroupOperatorButton(!shouldDisplayGroupOperatorButton)} data-testid='timeline-point' className='h-3 w-3 mr-2 cursor-pointer'>
+                <span className='absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#458ca5] ring-8 ring-[#458ca5] dark:bg-white dark:ring-white'>
+
+                  {groupIndex > groupFields.length - 3
+                    ? (
+                      <Tooltip
+                        content={(
+                          <div className='min-w-[9rem] max-w-[12rem] text-center  '>
+                            Cliquez ici pour créer un nouveau groupe
+                          </div>
+                          )}
+                      >
+                        <svg stroke='currentColor' fill='currentColor' strokeWidth='0' viewBox='0 0 16 16' aria-hidden='true' className='h-3 w-3 text-white dark:text-blue-300' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M14 7v1H8v6H7V8H1V7h6V1h1v6h6z' />
+                        </svg>
+                      </Tooltip>
+                      )
+                    : (
+                      <Tooltip
+                        content={(
+                          <div className='min-w-[9rem] max-w-[12rem] text-center  '>
+                            Cliquez ici pour modifier l'opérateur groupe
+                          </div>
+                        )}
+                      >
+                        <span className='text-white text-sm'>
+                          {groupFields[groupIndex + 1]?.value}
+                        </span>
+                      </Tooltip>
+                      )}
+
+                </span>
+              </div>
+              {
+                shouldDisplayGroupOperatorButton && (
+                  <select style={{ maxWidth: '13rem', minWidth: '11rem' }} onChange={(e) => addGroups(e, groupField.id + 1 || false)} className='block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 rounded-lg p-2.5 text-sm' id='operator-request' required=''>
+                    <option className='hidden' value=''> Choisissez l'opérateur </option>
+                    <option value='AND'>ET</option>
+                    <option value='OR'>OU</option>
+                    <option value='NOT'>SAUF</option>
+                  </select>
+                )
+              }
+            </li>
+          );
         })}
       </ol>
 

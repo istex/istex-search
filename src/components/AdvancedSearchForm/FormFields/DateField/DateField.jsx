@@ -5,14 +5,15 @@ import { Spinner } from 'flowbite-react';
 
 function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const [value, setValue] = useState('');
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
   const [intervalInputMaxValue, setIntervalInputMaxValue] = useState(100);
   const [intervalInputMinValue, setIntervalInputMinValue] = useState(0);
   const [isLoading, setLoading] = useState(true);
   const [optionsValue, setOptionsValue] = useState([]);
 
   const handleChange = (item) => {
-    setValue(item.value);
+    // item.value is of type number and needs to be casted to a string to be set in value
+    setValue(`${item.value}`);
     setSelectedOption(item);
   };
 
@@ -42,7 +43,7 @@ function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
     setLoading(true);
     const optionsValue = [];
 
-    for (let i = intervalInputMaxValue; i--; i >= intervalInputMinValue) {
+    for (let i = intervalInputMaxValue; i >= intervalInputMinValue; i--) {
       optionsValue.push({
         value: i, label: `${i}`,
       });
@@ -95,20 +96,21 @@ function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
       <div className='text-center'>
         <button
           type='button'
+          className={`p-2 ml-2 text-white bg-istcolor-blue border focus:ring-4 focus:outline-none ${value === '' ? 'bg-istcolor-grey-medium cursor-not-allowed' : 'border-istcolor-blue cta1'}`}
+          disabled={value === ''}
           onClick={(e) => {
             e.preventDefault();
             updateQuery(`${data.dataValue}:${value}`, value);
           }}
-          className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
         >
           Valider
         </button>
         <button
           type='button'
+          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
           onClick={() => {
             onCloseChoiceInputModal();
           }}
-          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
         >
           Annuler
         </button>

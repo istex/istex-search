@@ -29,20 +29,21 @@ function NumberField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) 
       <div className='text-center'>
         <button
           type='button'
+          className={`p-2 ml-2 text-white bg-istcolor-blue border focus:ring-4 focus:outline-none ${value === '' ? 'bg-istcolor-grey-medium cursor-not-allowed' : 'border-istcolor-blue cta1'}`}
+          disabled={value === ''}
           onClick={(e) => {
             e.preventDefault();
-            updateQuery(`${data.dataValue}:${value}`);
+            updateQuery(`${data.dataValue}:${value}`, value);
           }}
-          className='p-2 ml-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
         >
           Valider
         </button>
         <button
           type='button'
+          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
           onClick={() => {
             onCloseChoiceInputModal();
           }}
-          className='p-2 ml-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'
         >
           Annuler
         </button>

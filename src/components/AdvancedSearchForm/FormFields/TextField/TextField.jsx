@@ -10,13 +10,14 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
 
   const updateQueryString = () => {
     const reWhiteSpace = (/\s/);
+
+    // The value entered by the user needs to be surrounded by double-quotes (") if it contains a space character
+    const valueToPutInQuery = reWhiteSpace.test(value) ? `"${value}"` : value;
+
     if (data.dataValue === '') {
-      updateQuery(value);
-    } else if (reWhiteSpace.test(value)) {
-      // Check for white space
-      updateQuery(`${data.dataValue}:${'"' + value + '"' || ''}`, value);
+      updateQuery(valueToPutInQuery, value);
     } else {
-      updateQuery(`${data.dataValue}:${value || ''}`, value);
+      updateQuery(`${data.dataValue}:${valueToPutInQuery}`, value);
     }
   };
 

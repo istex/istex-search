@@ -25,9 +25,9 @@ export function parseCorpusFileContent (corpusFileContent) {
     // so we can break out of the loop
     if (line === '[ISTEX]') break;
 
-    // Split the line to get an arrays like ['ark', '<ark>', ...] or ['id', '<id>']
+    // Split the line to get arrays like ['ark', '<ark>', ...] or ['id', '<id>', ...]
     const lineSegments = line
-      .split('#')[0] // Only keep that is before the potential comment
+      .split('#')[0] // Only keep what is before the potential comment
       .split(' ') // Separate the words
       .filter(token => token !== ''); // Remove the empty strings
 
@@ -60,7 +60,7 @@ export function parseCorpusFileContent (corpusFileContent) {
 
 /**
  * Build the query string to request the Istex IDs in `istexIds`
- * @param {*} istexIds The array containing the Istex IDs
+ * @param {string[]} istexIds The array containing the Istex IDs
  * @returns A properly formatted query string to request the Istex IDs in `istexIds`
  */
 export function buildQueryStringFromIstexIds (istexIds) {

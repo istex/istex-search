@@ -72,7 +72,19 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
       'ark:/67375/NVC-S58LP3M2-S ',
     ];
 
-    expect(istexApi.buildQueryStringFromArks(arks)).toBe('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")');
+    const expectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")';
+    expect(istexApi.buildQueryStringFromArks(arks)).toBe(expectedQueryString);
+  });
+
+  it('buildQueryStringFromIstexIds', () => {
+    const istexIds = [
+      '59E080581FC0350BC92AD9975484E4127E8803A0',
+      'CAE51D9B29CBA1B8C81A136946C75A51055C7066',
+      'B940A8D3FD96AB383C6393070933764A2CE3D106',
+    ];
+
+    const expectedQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
+    expect(istexApi.buildQueryStringFromIstexIds(istexIds)).toBe(expectedQueryString);
   });
 
   it('isArkQueryString', () => {

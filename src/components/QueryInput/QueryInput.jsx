@@ -4,7 +4,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Spinner, Tooltip } from 'flowbite-react';
+import { Tooltip } from 'flowbite-react';
 import TextareaAutosize from 'react-textarea-autosize';
 
 import { setQueryString, setQId } from '../../store/istexApiSlice';
@@ -12,7 +12,7 @@ import {
   buildQueryStringFromArks,
   isArkQueryString,
   getArksFromArkQueryString,
-  buildQueryStringFromCorpusFile,
+  parseCorpusFileContent,
   getQueryStringFromQId,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
@@ -170,14 +170,14 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const result = event.target.result;
-      const queryString = buildQueryStringFromCorpusFile(result);
+      const { numberOfIds, queryString } = parseCorpusFileContent(result);
       updateQueryString(queryString);
 
       setShouldDisplaySuccessMsg(true);
-      setFileInfo(prev => ({
-        ...prev,
+      setFileInfo({
         fileName: file.name,
-      }));
+        numberOfIds,
+      });
 
       eventEmitter.emit(events.displayNotification, {
         text: `import du fichier ${file.name} terminé`,
@@ -203,13 +203,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
   }, []);
-
-  useEffect(() => {
-    setFileInfo(prev => ({
-      ...prev,
-      numberOfIds: totalAmountOfDocuments,
-    }));
-  }, [totalAmountOfDocuments]);
 
   let queryInputUi;
   switch (currentQueryMode) {
@@ -268,7 +261,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
             </label>
             {shouldDisplaySuccessMsg && (
               <p className='mt-4 border-2 p-2 text-white bg-istcolor-green-dark border-istcolor-green-dark'>
-                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. {fileInfo.numberOfIds ? <span className='font-bold'>{fileInfo.numberOfIds}</span> : <Spinner size='xs' color='warning' />} identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
+                Fichier <span className='font-bold'>{fileInfo.fileName}</span> analysé. <span className='font-bold'>{fileInfo.numberOfIds}</span> identifiants ont été parcourus. (Attention, le nombre des documents disponibles au téléchargement peut être inférieur si
                 certains identifiants ne sont pas trouvés par le moteur de recherche)
               </p>
             )}

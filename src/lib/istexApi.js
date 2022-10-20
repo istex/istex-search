@@ -2,11 +2,13 @@ import axios from 'axios';
 import { istexApiConfig, formats } from '../config';
 
 /**
- * Build the query string to request the documents in `corpusFileContent`.
+ * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
+ * to send to the API.
  * @param {string} corpusFileContent The .corpus file contents.
- * @returns The query string to request the documents in the .corpus file.
+ * @returns An object providing the number of parsed identifiers and the corresponding query string
+ * to send to the API.
  */
-export function buildQueryStringFromCorpusFile (corpusFileContent) {
+export function parseCorpusFileContent (corpusFileContent) {
   const lines = corpusFileContent.split('\n');
   const arks = [];
   const istexIds = [];
@@ -50,7 +52,10 @@ export function buildQueryStringFromCorpusFile (corpusFileContent) {
     queryString.push(buildQueryStringFromIstexIds(istexIds));
   }
 
-  return queryString.join(' OR ');
+  return {
+    numberOfIds: arks.length + istexIds.length,
+    queryString: queryString.join(' OR '),
+  };
 }
 
 /**

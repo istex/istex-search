@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import * as istexApi from './istexApi';
 import { istexApiConfig, formats } from '../config';
 
-describe('Tests for the ISTEX API related functions', () => {
-  it('buildQueryStringFromCorpusFile', () => {
+describe('Tests for the Istex API related functions', () => {
+  it('parseCorpusFileContent', () => {
     const completeCorpusFileContent =
 `#
 # Fichier .corpus
@@ -50,13 +50,19 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
 id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
 
     const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S") OR id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
-    expect(istexApi.buildQueryStringFromCorpusFile(completeCorpusFileContent)).toBe(completeExpectedQueryString);
+    const parsedCompleteCorpusFileContent = istexApi.parseCorpusFileContent(completeCorpusFileContent);
+    expect(parsedCompleteCorpusFileContent.queryString).toBe(completeExpectedQueryString);
+    expect(parsedCompleteCorpusFileContent.numberOfIds).toBe(6);
 
     const onlyArksExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")';
-    expect(istexApi.buildQueryStringFromCorpusFile(onlyArksCorpusFileContent)).toBe(onlyArksExpectedQueryString);
+    const parsedOnlyArksCorpusFileContent = istexApi.parseCorpusFileContent(onlyArksCorpusFileContent);
+    expect(parsedOnlyArksCorpusFileContent.queryString).toBe(onlyArksExpectedQueryString);
+    expect(parsedOnlyArksCorpusFileContent.numberOfIds).toBe(3);
 
     const onlyIstexIdsExpectedQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
-    expect(istexApi.buildQueryStringFromCorpusFile(onlyIstexIdsCorpusFileContent)).toBe(onlyIstexIdsExpectedQueryString);
+    const parsedOnlyIstexIdsCorpusFileContent = istexApi.parseCorpusFileContent(onlyIstexIdsCorpusFileContent);
+    expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
+    expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
   });
 
   it('buildQueryStringFromArks', () => {

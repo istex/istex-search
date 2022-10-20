@@ -9,11 +9,13 @@ import { istexApiConfig, formats } from '../config';
 export function buildQueryStringFromCorpusFile (corpusFileContent) {
   const lines = corpusFileContent.split('\n');
   const arks = [];
+  const istexIds = [];
+  const queryString = [];
 
   // The ark identifiers are at the end of the file so it's more efficient to go through
   // the lines backwards
   for (let i = lines.length - 1; i >= 0; i--) {
-    const line = lines[i];
+    const line = lines[i].trim();
 
     if (!line) continue;
 
@@ -21,18 +23,51 @@ export function buildQueryStringFromCorpusFile (corpusFileContent) {
     // so we can break out of the loop
     if (line === '[ISTEX]') break;
 
-    // The format for the lines with an ark identifier is: 'ark <arkIstex>' so we need to remove
-    // 'ark ' (4 characters) at the beginning of the line to extract the identifier
-    arks.push(line.substring(4));
+    // Split the line to get an arrays like ['ark', '<ark>', ...] or ['id', '<id>']
+    const lineSegments = line
+      .split('#')[0] // Only keep that is before the potential comment
+      .split(' ') // Separate the words
+      .filter(token => token !== ''); // Remove the empty strings
+
+    // If the line contains less than 2 segments, it means it does not have the format 'ark <ark>' or 'id <id>'
+    // so we just skip it
+    if (lineSegments.length < 2) continue;
+
+    const [idType, idValue] = lineSegments;
+
+    if (idType === 'ark') {
+      arks.push(idValue);
+    } else if (idType === 'id') {
+      istexIds.push(idValue);
+    }
   }
 
-  return buildQueryStringFromArks(arks);
+  if (arks.length > 0) {
+    queryString.push(buildQueryStringFromArks(arks));
+  }
+
+  if (istexIds.length > 0) {
+    queryString.push(buildQueryStringFromIstexIds(istexIds));
+  }
+
+  return queryString.join(' OR ');
 }
 
 /**
- * Build the query string to request the ark identifiers in `arkString`.
+ * Build the query string to request the Istex IDs in `istexIds`
+ * @param {*} istexIds The array containing the Istex IDs
+ * @returns A properly formatted query string to request the Istex IDs in `istexIds`
+ */
+export function buildQueryStringFromIstexIds (istexIds) {
+  const formattedIds = istexIds.map(id => `"${id.trim()}"`);
+
+  return `id:(${formattedIds.join(' ')})`;
+}
+
+/**
+ * Build the query string to request the ark identifiers in `arks`.
  * @param {string[]} arks The array containing the ark identifiers.
- * @returns A properly formatted query string to request to arks in `arkString`.
+ * @returns A properly formatted query string to request the ark identifiers in `arks`.
  */
 export function buildQueryStringFromArks (arks) {
   const formattedArks = arks.map(ark => `"${ark.trim()}"`);

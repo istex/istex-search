@@ -157,7 +157,19 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     }
 
     const arks = arkList.split('\n');
-    const queryString = buildQueryStringFromArks(arks);
+
+    let queryString;
+    try {
+      queryString = buildQueryStringFromArks(arks);
+    } catch (err) {
+      eventEmitter.emit(events.displayNotification, {
+        text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
+        type: 'error',
+      });
+
+      return;
+    }
+
     updateQueryString(queryString);
   };
 
@@ -170,7 +182,20 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     reader.readAsText(file, 'utf-8');
     reader.onload = event => {
       const result = event.target.result;
-      const { numberOfIds, queryString } = parseCorpusFileContent(result);
+
+      let parsingResult;
+      try {
+        parsingResult = parseCorpusFileContent(result);
+      } catch (err) {
+        eventEmitter.emit(events.displayNotification, {
+          text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
+          type: 'error',
+        });
+
+        return;
+      }
+
+      const { numberOfIds, queryString } = parsingResult;
       updateQueryString(queryString);
 
       setShouldDisplaySuccessMsg(true);

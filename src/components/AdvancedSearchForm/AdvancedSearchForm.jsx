@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip } from 'flowbite-react';
+// import { Tooltip } from 'flowbite-react';
 
 import FormField from './FormFields/FormField';
 import OperatorRequest from './OperatorRequest/OperatorRequest';
@@ -193,7 +193,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                 }
                 </div>
               </div>
-              <div onClick={() => setShouldDisplayGroupOperatorButton(!shouldDisplayGroupOperatorButton)} data-testid='timeline-point' className='h-3 w-3 mr-2 cursor-pointer'>
+              {/* <div onClick={() => setShouldDisplayGroupOperatorButton(!shouldDisplayGroupOperatorButton)} data-testid='timeline-point' className='h-3 w-3 mr-2 cursor-pointer'>
                 <span className='absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-[#458ca5] ring-8 ring-[#458ca5] dark:bg-white dark:ring-white'>
 
                   {groupIndex > groupFields.length - 3
@@ -222,9 +222,8 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                         </span>
                       </Tooltip>
                       )}
-
                 </span>
-              </div>
+              </div> */}
               {
                 shouldDisplayGroupOperatorButton && (
                   <select style={{ maxWidth: '13rem', minWidth: '11rem' }} onChange={(e) => addGroups(e, groupField.id + 1 || false)} className='block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 rounded-lg p-2.5 text-sm' id='operator-request' required=''>

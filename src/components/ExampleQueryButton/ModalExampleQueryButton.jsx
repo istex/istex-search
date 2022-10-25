@@ -34,7 +34,19 @@ export default function ModalExampleQueryButton ({
       setArkInputValue(params.input);
 
       const arks = params.input.split('\n');
-      const queryString = buildQueryStringFromArks(arks);
+
+      let queryString;
+      try {
+        queryString = buildQueryStringFromArks(arks);
+      } catch (err) {
+        eventEmitter.emit(events.displayNotification, {
+          text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
+          type: 'error',
+        });
+
+        return;
+      }
+
       updateQueryString(queryString);
     } else {
       setQueryStringInputValue(params.input);

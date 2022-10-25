@@ -97,24 +97,12 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
     expect(istexApi.isArkQueryString(garbageString)).toBe(false);
   });
 
-  it('isEmptyArkQueryString', () => {
-    const emptyArkQueryString = 'arkIstex.raw:("")';
-    const nonEmptyArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z")';
-    const garbageInput = 'some garbage data';
-
-    expect(istexApi.isEmptyArkQueryString(emptyArkQueryString)).toBe(true);
-    expect(istexApi.isEmptyArkQueryString(nonEmptyArkQueryString)).toBe(false);
-    expect(istexApi.isEmptyArkQueryString(garbageInput)).toBe(false);
-  });
-
   it('getArksFromArkQueryString', () => {
     const singleArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F")';
     const multipleArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
-    const garbageString = 'foo:bar';
 
     expect(istexApi.getArksFromArkQueryString(singleArkQueryString)).toEqual(['ark:/67375/NVC-15SZV86B-F']);
     expect(istexApi.getArksFromArkQueryString(multipleArkQueryString)).toEqual(['ark:/67375/NVC-15SZV86B-F', 'ark:/67375/NVC-XMM4B8LD-H']);
-    expect(istexApi.getArksFromArkQueryString(garbageString)).toBe(null);
   });
 
   it('buildExtractParamsFromFormats', () => {

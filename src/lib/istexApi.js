@@ -1,5 +1,8 @@
 import axios from 'axios';
+import InistArkConstructor from 'inist-ark';
 import { istexApiConfig, formats } from '../config';
+
+const InistArk = new InistArkConstructor();
 
 /**
  * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
@@ -14,7 +17,7 @@ export function parseCorpusFileContent (corpusFileContent) {
   const istexIds = [];
   const queryString = [];
 
-  // The ark identifiers are at the end of the file so it's more efficient to go through
+  // The identifiers are at the end of the file so it's more efficient to go through
   // the lines backwards
   for (let i = lines.length - 1; i >= 0; i--) {
     const line = lines[i].trim();
@@ -38,6 +41,13 @@ export function parseCorpusFileContent (corpusFileContent) {
     const [idType, idValue] = lineSegments;
 
     if (idType === 'ark') {
+      try {
+        InistArk.parse(idValue);
+      } catch (err) {
+        err.line = i + 1;
+        throw err;
+      }
+
       arks.push(idValue);
     } else if (idType === 'id') {
       istexIds.push(idValue);
@@ -75,7 +85,20 @@ export function buildQueryStringFromIstexIds (istexIds) {
  * @returns A properly formatted query string to request the ark identifiers in `arks`.
  */
 export function buildQueryStringFromArks (arks) {
-  const formattedArks = arks.map(ark => `"${ark.trim()}"`);
+  const formattedArks = arks
+    .filter(ark => ark !== '')
+    .map((ark, index) => {
+      const trimmedArk = ark.trim();
+
+      try {
+        InistArk.parse(trimmedArk);
+      } catch (err) {
+        err.line = index + 1;
+        throw err;
+      }
+
+      return `"${trimmedArk}"`;
+    });
 
   return `arkIstex.raw:(${formattedArks.join(' ')})`;
 }
@@ -86,29 +109,27 @@ export function buildQueryStringFromArks (arks) {
  * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
  */
 export function isArkQueryString (queryString) {
-  return queryString.match(/arkIstex.raw:\(("(ark:\/67375\/[a-z0-9]{3}-[a-z0-9]{8}-[a-z0-9]{1})?" ?)*\)/i) !== null;
+  // Regex to check if queryString starts with 'arkIstex.raw:(', ends with '(', and contains sequences of
+  // characters surrounded by double-quotes between the parentheses. This doesn't make sure each sequence of
+  // characters is a valid ark.
+  const arkQueryStringRegex = /^(?:arkIstex\.raw:\((?:".*"?)*\))$/gi;
+
+  if (!arkQueryStringRegex.test(queryString)) {
+    return false;
+  }
+
+  const arks = getArksFromArkQueryString(queryString);
+  const hasInvalidArk = arks.some(ark => InistArk.validate(ark).ark === false);
+
+  return !hasInvalidArk;
 }
 
 /**
- * Test whether `queryString` is a query string to request ark identifiers but with no identifier.
- * @param {string} queryString The query string to test.
- * @returns `true` if `queryString` is equal to `arkIstex.raw:("")`, `false` otherwise.
- */
-export function isEmptyArkQueryString (queryString) {
-  // When the ark text input is empty, an array with an empty string is passed to
-  // buildQueryStringFromArks so we test if queryString is equal to the value returned
-  // by buildQueryStringFromArks when passed an array with an empty string
-  return queryString === buildQueryStringFromArks(['']);
-}
-
-/**
- * Extract ark identifiers from an ark query string.
+ * Extract ark identifiers from an ark query string. This assumes `queryString` is an ark query string.
  * @param {string} queryString The query string the extract the ark identifiers from.
  * @returns An array of ark identifiers, `null` if `queryString` is not an ark query string.
  */
 export function getArksFromArkQueryString (queryString) {
-  if (!isArkQueryString(queryString)) return null;
-
   // Get rid of 'arkIstex.raw:(' at the beginning of queryString
   queryString = queryString.substring('arkIstex.raw:('.length);
 

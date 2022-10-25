@@ -40,8 +40,9 @@ export default function QuerySection () {
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
-      // Prevent the number of documents to be greater than istexApiConfig.maxAmountOfDocuments
-      newNumberOfDocuments = Math.min(newNumberOfDocuments, istexApiConfig.maxAmountOfDocuments);
+      // Prevent the number of documents to be greater than totalAmountOfDocuments if preview results were fetched,
+      // istexApiConfig.maxAmountOfDocuments otherwise
+      newNumberOfDocuments = Math.min(newNumberOfDocuments, totalAmountOfDocuments || istexApiConfig.maxAmountOfDocuments);
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 

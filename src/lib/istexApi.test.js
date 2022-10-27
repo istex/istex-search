@@ -14,7 +14,6 @@ total        : 5
 [ISTEX]
 
 ark   ark:/67375/NVC-S58LP3M2-S    # very cool comment
-garbage line
 ark ark:/67375/NVC-RBP335V7-7    # very cool comment
 
 ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment
@@ -32,7 +31,6 @@ total        : 5
 [ISTEX]
 
 ark   ark:/67375/NVC-S58LP3M2-S    # very cool comment
-garbage line
 ark ark:/67375/NVC-RBP335V7-7    # very cool comment
 ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment`;
 
@@ -45,9 +43,23 @@ date         : 2022-3-11
 total        : 5
 [ISTEX]
 id    B940A8D3FD96AB383C6393070933764A2CE3D106   # very cool comment
-garbage line
 id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
 id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
+
+    const invalidLineCorpusFileContent =
+`#
+# Fichier .corpus
+#
+query        : *
+date         : 2022-3-11
+total        : 5
+[ISTEX]
+ark  ark:/67375/NVC-S58LP3M2-S
+   
+garbage line
+
+ark  ark:/67375/NVC-RBP335V7-7
+ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
 
     const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S") OR id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
     const parsedCompleteCorpusFileContent = istexApi.parseCorpusFileContent(completeCorpusFileContent);
@@ -63,6 +75,8 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
     const parsedOnlyIstexIdsCorpusFileContent = istexApi.parseCorpusFileContent(onlyIstexIdsCorpusFileContent);
     expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
     expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
+
+    expect(() => istexApi.parseCorpusFileContent(invalidLineCorpusFileContent)).toThrow();
   });
 
   it('buildQueryStringFromArks', () => {

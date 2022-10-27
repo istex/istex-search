@@ -12,6 +12,7 @@ const InistArk = new InistArkConstructor();
  * to send to the API.
  */
 export function parseCorpusFileContent (corpusFileContent) {
+  const validIdTypes = ['ark', 'id'];
   const lines = corpusFileContent.split('\n');
   const arks = [];
   const istexIds = [];
@@ -34,9 +35,16 @@ export function parseCorpusFileContent (corpusFileContent) {
       .split(' ') // Separate the words
       .filter(token => token !== ''); // Remove the empty strings
 
-    // If the line contains less than 2 segments, it means it does not have the format 'ark <ark>' or 'id <id>'
-    // so we just skip it
-    if (lineSegments.length < 2) continue;
+    // At this point, if lineSegments is empty, it means the line was not an empty string but only
+    // contained spaces and this is not seen as an error
+    if (lineSegments.length === 0) continue;
+
+    // The first segment of the line needs to be a valid ID type
+    if (!validIdTypes.includes(lineSegments[0])) {
+      const err = new Error('Syntax error');
+      err.line = i + 1;
+      throw err;
+    }
 
     const [idType, idValue] = lineSegments;
 

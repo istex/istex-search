@@ -18,12 +18,14 @@ import { buildFullIstexDlUrl } from '../../lib/utils';
 import './HistoryRequest.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { resetForm } from '../ResetButton/ResetButton';
+
 export default function HistoryRequest ({ requestInfo, onClose }) {
-  const [requestStringToDisplay, setRequestStringToDisplay] = useState('');
+  const [queryString, setQueryString] = useState('');
 
   const editHandler = () => {
     if (requestInfo.qId) {
       eventEmitter.emit(events.setQId, requestInfo.qId);
+      eventEmitter.emit(events.setQueryString, queryString);
     } else {
       eventEmitter.emit(events.setQueryString, requestInfo.queryString);
     }
@@ -68,35 +70,27 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
     historyManager.remove(requestInfo.index);
   };
 
-  const getRequestStringToDisplay = async () => {
-    let requestStringToDisplay;
-
+  // If requestInfo contains a q_id, we need to fetch the corresponding query string, otherwise just return
+  // requestInfo.queryString
+  const getQueryString = async () => {
     if (requestInfo.qId) {
       try {
         const response = await getQueryStringFromQId(requestInfo.qId);
 
-        requestStringToDisplay = response.data.req;
+        return response.data.req;
       } catch (err) {
         // TODO: print an error message in a modal or delete the request from the history maybe
         console.error(err);
 
-        requestStringToDisplay = requestInfo.qId;
+        return requestInfo.qId;
       }
     }
 
-    if (requestInfo.queryString) {
-      requestStringToDisplay = requestInfo.queryString;
-    }
-
-    if (isArkQueryString(requestStringToDisplay)) {
-      requestStringToDisplay = getArksFromArkQueryString(requestStringToDisplay).join('\n');
-    }
-
-    return requestStringToDisplay;
+    return requestInfo.queryString;
   };
 
   useEffect(async () => {
-    setRequestStringToDisplay(await getRequestStringToDisplay());
+    setQueryString(await getQueryString());
   }, []);
 
   return (
@@ -111,7 +105,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         <div
           className={`history-tab-request ${requestInfo?.queryString?.includes('arkIstex') ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
         >
-          {requestStringToDisplay}
+          {isArkQueryString(queryString) ? getArksFromArkQueryString(queryString).join('\n') : queryString}
         </div>
       </Table.Cell>
       <Table.Cell>

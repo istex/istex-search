@@ -171,7 +171,7 @@ export default function QuerySection () {
 
       <div className='mb-4'>
         <label htmlFor='numberOfDocumentsInput pr-2'>
-          Choisir le nombre de documents
+          Choisir le nombre de documents :
         </label>
         <div className='inline-block align-middle'>
           <Tooltip
@@ -210,7 +210,6 @@ export default function QuerySection () {
             </button>
           </Tooltip>
         </div>
-        <span className='pl-2'>:</span>
         <input
           type='number'
           value={numberOfDocuments}

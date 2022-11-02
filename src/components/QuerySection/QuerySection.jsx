@@ -120,16 +120,16 @@ export default function QuerySection () {
               </button>
             </div>
             <p className='text-sm text-white'>
-              Pour interroger ISTEX, vous avez le<br />
-              choix entre différents modes : un<br />
-              mode de recherche classique par<br />
-              équation booléenne, un mode de<br />
-              requêtage utilisant une liste<br />
-              d’identifiants pérennes de type ARK<br />
-              ou bien encore l’import d’un fichier<br />
-              spécifiant un corpus de documents<br />
+              Pour interroger ISTEX, vous avez le
+              choix entre différents modes : un
+              mode de recherche classique par
+              équation booléenne, un mode de
+              requêtage utilisant une liste
+              d’identifiants pérennes de type ARK
+              ou bien encore l’import d’un fichier
+              spécifiant un corpus de documents
               au moyen d’identifiants uniques.<br />
-              Si vous avez besoin d'aide, consultez<br />
+              Si vous avez besoin d'aide, consultez
               la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-' rel='noreferrer'>documentation ISTEX </a>ou bien<br />
               contactez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='mailto:contact@listes.istex.fr' rel='noreferrer'>l’équipe ISTEX</a>.
             </p>
@@ -150,10 +150,10 @@ export default function QuerySection () {
                 trigger='click'
                 content={
                   <p className='text-sm text-white'>
-                    Reformulez votre requête ou vous ne <br />
-                    pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
-                    premiers documents sur <br />
-                    les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
+                    Reformulez votre requête ou vous ne
+                    pourrez télécharger que les <span className='font-bold'>100 000</span>
+                    premiers documents sur 
+                    les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> résultats potentiels.
                   </p>
                 }
               >
@@ -168,7 +168,7 @@ export default function QuerySection () {
 
       <div className='mb-4'>
         <label htmlFor='numberOfDocumentsInput pr-2'>
-          Choisir le nombre de documents
+          Choisir le nombre de documents :
         </label>
         <div className='inline-block align-middle'>
           <Tooltip
@@ -185,18 +185,18 @@ export default function QuerySection () {
                   </button>
                 </div>
                 <p className='text-sm text-white'>
-                  Actuellement, il n’est pas possible de<br />
-                  télécharger plus de 100 000<br />
-                  documents. Cette valeur a été fixée<br />
-                  arbitrairement, pour limiter le<br />
-                  requêtage utilisant une liste<br />
-                  volume et la durée du<br />
+                  Actuellement, il n’est pas possible de
+                  télécharger plus de 100 000
+                  documents. Cette valeur a été fixée
+                  arbitrairement, pour limiter le
+                  requêtage utilisant une liste
+                  volume et la durée du
                   raisonnables.<br />
-                  Si le nombre de documents à<br />
-                  extraire est inférieur au nombre total<br />
-                  des résultats correspondant à votre<br />
-                  requête, le choix d’un mode de tri<br />
-                  des documents peut vous intéresser<br />
+                  Si le nombre de documents à
+                  extraire est inférieur au nombre total
+                  des résultats correspondant à votre
+                  requête, le choix d’un mode de tri
+                  des documents peut vous intéresser
                   (voir rubrique suivante).<br />
                 </p>
               </>
@@ -207,7 +207,7 @@ export default function QuerySection () {
             </button>
           </Tooltip>
         </div>
-        <span className='pl-2'>:</span>
+        <span className='pl-2'></span>
         <input
           type='number'
           value={numberOfDocuments}
@@ -249,17 +249,17 @@ export default function QuerySection () {
                   </button>
                 </div>
                 <p className='text-sm text-white'>
-                  Dans le cas où vous ne téléchargez<br />
-                  qu’un sous-ensemble de documents<br />
-                  par rapport aux résultats de votre<br />
-                  requête, les documents sélectionnés<br />
-                  pour votre corpus seront extraits en<br />
-                  fonction, soit d’un ordre de<br />
-                  pertinence relevé par un score de<br />
-                  qualité (choix privilégié par défaut),<br />
-                  soit d’un ordre de pertinence seul,<br />
-                  soit tirés de manière aléatoire, ce<br />
-                  mode de tri étant plus représentatif<br />
+                  Dans le cas où vous ne téléchargez
+                  qu’un sous-ensemble de documents
+                  par rapport aux résultats de votre
+                  requête, les documents sélectionnés
+                  pour votre corpus seront extraits en
+                  fonction, soit d’un ordre de
+                  pertinence relevé par un score de
+                  qualité (choix privilégié par défaut),
+                  soit d’un ordre de pertinence seul,
+                  soit tirés de manière aléatoire, ce
+                  mode de tri étant plus représentatif
                   de la diversité des résultats.<br />
                   Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/api/results/scoring.html' rel='noreferrer'>documentation ISTEX</a>.
                 </p>

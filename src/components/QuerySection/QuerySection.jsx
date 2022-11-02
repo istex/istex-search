@@ -42,8 +42,11 @@ export default function QuerySection () {
     if (!isNaN(newNumberOfDocuments)) {
       // If the number of results from the request is greater than istexApiConfig.maxAmountOfDocuments,
       // cap maxAmountOfDownloadableDocuments to istexApiConfig.maxAmountOfDocuments
-      const maxAmountOfDownloadableDocuments = Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments);
-      newNumberOfDocuments = Math.min(newNumberOfDocuments, maxAmountOfDownloadableDocuments);
+      const maxValue = totalAmountOfDocuments > 0
+        ? Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)
+        : istexApiConfig.maxAmountOfDocuments;
+
+      newNumberOfDocuments = Math.min(newNumberOfDocuments, maxValue);
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 

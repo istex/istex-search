@@ -119,6 +119,9 @@ function AdvancedSearchForm ({ queryInputHandler }) {
       });
       if (groupFields.length > 1) Query += ')';
     }
+
+    if (Query === '') return;
+
     // replace 'undefined' in the request api input when value is not set
     const updatedQuery = Query.replace('undefined', '*valeur à définir*');
     queryInputHandler(updatedQuery);

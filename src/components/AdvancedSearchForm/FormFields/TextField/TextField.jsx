@@ -9,13 +9,16 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   };
 
   const updateQueryString = () => {
-    // The value entered by the user needs to be surrounded by double-quotes (")
-    const valueToPutInQuery = `"${value}"`;
+    const trimmedValue = value.trim();
+
+    // The value entered by the user needs to be surrounded by double-quotes (") if it contains a space character
+    // or a hyphen
+    const valueToPutInQuery = /[\s-]/.test(trimmedValue) ? `"${trimmedValue}"` : trimmedValue;
 
     if (data.dataValue === '') {
-      updateQuery(valueToPutInQuery, value);
+      updateQuery(valueToPutInQuery, trimmedValue);
     } else {
-      updateQuery(`${data.dataValue}:${valueToPutInQuery}`, value);
+      updateQuery(`${data.dataValue}:${valueToPutInQuery}`, trimmedValue);
     }
   };
 

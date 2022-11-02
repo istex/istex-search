@@ -379,7 +379,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
                             </div>
                             {infoText[value]}
                           </div>
-}
+                        }
                       >
                         <button ref={(elem) => (nodesRef.current[index] = elem)}>
                           <FontAwesomeIcon icon='circle-info' />

@@ -32,9 +32,9 @@ const infoText = {
     de l'échantillon de requêtes<br />
     pédagogiques accessibles via le<br />
     bouton "Exemples", de la<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/'>documentation ISTEX </a> ou bien du<br />
+    <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/requetage/' rel='noreferrer'>documentation ISTEX </a> ou bien du<br />
     mode de recherche avancée du<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/'>démonstrateur ISTEX</a>.
+    <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://demo.istex.fr/' rel='noreferrer'>démonstrateur ISTEX</a>.
   </p>,
   ark:
   <p className='text-sm text-white'>
@@ -46,7 +46,7 @@ const infoText = {
     "Exemples".<br />
     Pour en savoir plus sur les<br />
     identifiants ARK, reportez vous à la<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/'>documentation ISTEX</a>.
+    <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/api/ark/' rel='noreferrer'>documentation ISTEX</a>.
   </p>,
   fileImport:
   <p className='text-sm text-white'>
@@ -57,7 +57,7 @@ const infoText = {
     ARK) des documents qui composent<br />
     votre corpus.<br />
     Pour disposer d’un fichier .corpus,<br />
-    consultez <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+    consultez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' rel='noreferrer'>documentation ISTEX</a>.
   </p>,
   queryAssist:
   <p className='text-sm text-white'>

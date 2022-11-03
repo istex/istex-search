@@ -185,15 +185,84 @@ export const catalogList = [
     items: [
       {
         dataTitle: 'Tous champs',
-        dataInfo: 'Recherche d\'un ou plusieurs termes tous champs de recherche confondus',
+        dataInfo: 'Recherche sur tous champs confondus',
         dataValue: '',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
+        dataTitle: 'Titre',
+        dataInfo: 'Recherche sur le titre de l\'article ou du chapitre de livre',
+        dataValue: 'title',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Résumé',
+        dataInfo: 'Recherche sur le résumé de l\'article ou du chapitre de livre',
+        dataValue: 'abstract',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Articles ou Chapitres',
+    items: [
+      {
+        dataTitle: 'Titre',
+        dataInfo: 'Titre du document',
+        dataValue: 'title',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Nom d\'auteur',
+        dataInfo: 'Noms des auteurs du document',
+        dataValue: 'author.name',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Résumé',
+        dataInfo: 'résumé du document',
+        dataValue: 'abstract',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Texte intégral',
+        dataInfo: 'corps du texte - restreint aux documents nettoyés',
+        dataValue: 'qualityIndicators.tdmReady:true AND fulltext', // dirty hack
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'DOI',
+        dataInfo: 'identifiant DOI du document',
+        dataValue: 'doi',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Langue',
+        dataInfo: 'langue de publication',
+        dataValue: 'language',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
         dataTitle: 'Année de publication',
-        dataInfo: 'Date de publication papier de l\'article',
+        dataInfo: 'date de publication papier',
         dataValue: 'publicationDate',
         operatorsField: [
           { id: 'is_equal', typeField: 'date' },
@@ -203,11 +272,107 @@ export const catalogList = [
     ],
   },
   {
-    title: 'Revues',
+    title: 'Mots-clés',
     items: [
       {
-        dataTitle: 'Titre de la revue',
-        dataInfo: 'Recherche d\'un ou plusieurs termes dans le titre de la revue',
+        dataTitle: 'Mot-clé d\'auteur',
+        dataInfo: 'mots-clés attribués par les auteurs',
+        dataValue: 'subject.value',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Mot-clé Teeft',
+        dataInfo: 'mots-clés extraits du texte par Teeft',
+        dataValue: 'keywords.teeft',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Catégories scientifiques',
+    items: [
+      {
+        dataTitle: 'Catégorie Inist',
+        dataInfo: 'catégorie du plan de classement Inist',
+        dataValue: 'categories.inist',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Catégorie Scopus',
+        dataInfo: 'catégorie de la classification Scopus',
+        dataValue: 'categories.scopus',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Catégorie Science-Metrix',
+        dataInfo: 'catégorie de la classification Science-Metrix',
+        dataValue: 'categories.scienceMetrix',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Catégorie WoS',
+        dataInfo: 'catégorie de la classification Web of Science',
+        dataValue: 'categories.wos',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Entités nommées',
+    items: [
+      {
+        dataTitle: 'Date',
+        dataInfo: 'date détectée dans le texte',
+        dataValue: 'namedEntities.unitex.date',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'date' },
+          { id: 'is_between', typeField: 'range' },
+        ],
+      },
+      {
+        dataTitle: 'Lieu administratif',
+        dataInfo: 'nom de lieu géopolitique ou administratif détecté dans le texte',
+        dataValue: 'namedEntities.unitex.placeName',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Lieu géographique',
+        dataInfo: 'nom de lieu comportant une caractéristique géographique détecté dans le texte',
+        dataValue: 'namedEntities.unitex.geogName',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Personne',
+        dataInfo: 'nom de personne détecté dans le texte',
+        dataValue: 'namedEntities.unitex.persName',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Revues ou Monographies',
+    items: [
+      {
+        dataTitle: 'Titre',
+        dataInfo: 'Titre de la revue ou monographie',
         dataValue: 'host.title',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
@@ -215,29 +380,40 @@ export const catalogList = [
       },
       {
         dataTitle: 'ISSN',
-        dataInfo: 'Numéro ISSN de la revue',
+        dataInfo: 'Numéro ISSN de la revue papier',
         dataValue: 'host.issn',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
         ],
       },
-    ],
-  },
-  {
-    title: 'Enrichissements',
-    items: [
       {
-        dataTitle: 'Lieux géographiques',
-        dataInfo: 'Recherche d\'un ou plusieurs termes identifiés dans le texte de l\'article comme étant un lieu géographique',
-        dataValue: 'namedEntities.unitex.placeName',
+        dataTitle: 'e-ISSN',
+        dataInfo: 'Numéro ISSN de la revue électronique',
+        dataValue: 'host.eissn',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
-        dataTitle: 'Catégorie Inist',
-        dataInfo: 'Recherche par catégorie scientifique du plan de classement Inist',
-        dataValue: 'categories.inist',
+        dataTitle: 'ISBN',
+        dataInfo: 'Numéro ISBN de la monographie papier',
+        dataValue: 'host.isbn',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'e-ISBN',
+        dataInfo: 'Numéro ISBN de la monographie électronique',
+        dataValue: 'host.eisbn',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'DOI',
+        dataInfo: 'identifiant DOI de la revue',
+        dataValue: 'host.doi',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
         ],
@@ -245,87 +421,76 @@ export const catalogList = [
     ],
   },
   {
-    title: 'Champs liés à des périodes',
+    title: 'Séries de monographies',
     items: [
+      {
+        dataTitle: 'Titre de la série',
+        dataInfo: 'Titre de la série',
+        dataValue: 'serie.title',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'Issn de la série',
+        dataInfo: 'Numéro ISSN de la série papier',
+        dataValue: 'serie.issn',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'e-Issn de la série',
+        dataInfo: 'Numéro ISSN de la série électronique',
+        dataValue: 'serie.eissn',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+      {
+        dataTitle: 'DOI de la série',
+        dataInfo: 'identifiant DOI de la série',
+        dataValue: 'serie.doi',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Références bibliographiques',
+    items: [
+      {
+        dataTitle: 'Noms d\'auteur',
+        dataInfo: 'Noms d\'auteur du document référencé',
+        dataValue: 'rebBibs.author.name',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
       {
         dataTitle: 'Date de publication',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'publicationDate',
+        dataInfo: 'Date de publication du document référencé',
+        dataValue: 'refBibs.publicationDate',
         operatorsField: [
           { id: 'is_equal', typeField: 'date' },
           { id: 'is_between', typeField: 'range' },
         ],
       },
       {
-        dataTitle: 'Date de copyright',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'copyrightDate',
+        dataTitle: 'Titre article',
+        dataInfo: 'Titre du document référencé',
+        dataValue: 'refBibs.title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'date' },
-          { id: 'is_between', typeField: 'range' },
+          { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
-        dataTitle: 'Score',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.score',
+        dataTitle: 'DOI',
+        dataInfo: 'DOI du document référencé',
+        dataValue: 'refBibs.doi',
         operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de mots du PDF',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.pdfWordCount',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de caractères du PDF',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.pdfCharCount',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de mots du résumé',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.abstractWordCount',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de caractères du résumé',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.abstractCharCount',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de pages du PDF',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.pdfPageCount',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
-        ],
-      },
-      {
-        dataTitle: 'Nombre de mots par page du PDF',
-        dataInfo: 'Texte a mettre en attente .........',
-        dataValue: 'qualityIndicators.pdfWordsPerPage',
-        operatorsField: [
-          { id: 'is_equal', typeField: 'number' },
-          { id: 'is_between', typeField: 'range' },
+          { id: 'is_equal', typeField: 'text' },
         ],
       },
     ],

@@ -27,37 +27,17 @@ import './QueryInput.scss';
 const infoText = {
   queryString:
   <p className='text-sm text-white'>
-    Pour construire votre équation<br />
-    booléenne, vous pouvez vous aider<br />
-    de l'échantillon de requêtes<br />
-    pédagogiques accessibles via le<br />
-    bouton "Exemples", de la<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/'>documentation ISTEX </a> ou bien du<br />
-    mode de recherche avancée du<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/'>démonstrateur ISTEX</a>.
+    Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/'>documentation ISTEX </a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/'>démonstrateur ISTEX</a>.
   </p>,
   ark:
   <p className='text-sm text-white'>
-    Copiez/collez dans cet onglet une<br />
-    liste d'identifiants de type ARK et le<br />
-    formulaire l'interprétera<br />
-    automatiquement. Explorez ce mode<br />
-    l’exemple disponible via le bouton<br />
-    "Exemples".<br />
-    Pour en savoir plus sur les<br />
-    identifiants ARK, reportez vous à la<br />
-    <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/'>documentation ISTEX</a>.
+    Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".<br />
+    Pour en savoir plus sur les identifiants ARK, reportez vous à la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/'>documentation ISTEX</a>.
   </p>,
   fileImport:
   <p className='text-sm text-white'>
-    Cliquez sur l’icône ci-dessous et<br />
-    sélectionnez un fichier de type<br />
-    “.corpus” précisant les identifiants<br />
-    uniques (tels que des identifiants<br />
-    ARK) des documents qui composent<br />
-    votre corpus.<br />
-    Pour disposer d’un fichier .corpus,<br />
-    consultez <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+    Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
+    Pour disposer d’un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
   </p>,
   queryAssist:
   <p className='text-sm text-white'>

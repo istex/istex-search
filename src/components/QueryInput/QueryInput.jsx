@@ -27,17 +27,17 @@ import './QueryInput.scss';
 const infoText = {
   queryString:
   <p className='text-sm text-white'>
-    Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/'>documentation ISTEX </a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/'>démonstrateur ISTEX</a>.
+    Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation ISTEX </a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur ISTEX</a>.
   </p>,
   ark:
   <p className='text-sm text-white'>
     Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".<br />
-    Pour en savoir plus sur les identifiants ARK, reportez vous à la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/'>documentation ISTEX</a>.
+    Pour en savoir plus sur les identifiants ARK, reportez vous à la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/' target='_blank' rel='noreferrer'>documentation ISTEX</a>.
   </p>,
   fileImport:
   <p className='text-sm text-white'>
     Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
-    Pour disposer d’un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-'>documentation ISTEX</a>.
+    Pour disposer d’un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation ISTEX</a>.
   </p>,
   queryAssist:
   <p className='text-sm text-white'>

@@ -41,7 +41,7 @@ const infoText = {
   </p>,
   queryAssist:
   <p className='text-sm text-white'>
-    Cliquez sur la zone de recherche avec loupe pour choisir dans la liste qui s'ouvre le champ à interroger, avant de sélectionner la valeur souhaitée. <br />
+    Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
   </p>,
 };
 

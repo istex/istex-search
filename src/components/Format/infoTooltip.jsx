@@ -11,7 +11,7 @@ export const formats = {
     réalisées par ISTEX sur ces<br />
     documents et de l’utilisation<br />
     souhaitée pour le corpus.<br />
-    Voir <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-int%C3%A9gral' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-int%C3%A9gral' rel='noreferrer'>documentation ISTEX</a>
   </p>,
     formats: {
       pdf: {
@@ -62,7 +62,7 @@ export const formats = {
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-zip' rel='noreferrer'>ZIP</a><br />
     Répertoire compressé contenant,<br />
-    pour chaque document du corpus<br />
+    pour chaque document du corpus,<br />
     les fichiers fournis par l’éditeur (PDF,<br />
     XML structuré, images, couvertures,<br />
     annexes), ainsi que le JSON produit<br />
@@ -87,7 +87,7 @@ export const formats = {
     permettant de présenter un<br />
     document (nom de l’auteur,<br />
     affiliation, revue, éditeur, etc.).<br />
-    Voir <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#m%C3%A9tadonn%C3%A9es' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#m%C3%A9tadonn%C3%A9es' rel='noreferrer'>documentation ISTEX</a>
   </p>,
     formats: {
       json: {
@@ -130,7 +130,7 @@ export const formats = {
     Grobid (grobidFulltext), termes<br />
     d’indexation (teeft), entités nommées<br />
     (unitex).<br />
-    Voir <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements' rel='noreferrer'>documentation ISTEX</a>
   </p>,
     formats: {
       multicat: {
@@ -180,7 +180,7 @@ export const formats = {
   <p className='text-sm text-white'>
     Termes d’indexation, extraits des<br />
     documents en texte intégral grâce à<br />
-    l’outil <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q' rel='noreferrer'>teeft</a>
+    l’outil <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://enrichment-process.data.istex.fr/ark:/67375/R0H-R25KK4KZ-Q' rel='noreferrer'>Teeft</a>
   </p>,
       },
       unitex: {
@@ -202,7 +202,7 @@ export const formats = {
     est publié le document. Ils peuvent<br />
     être de plusieurs types : documents<br />
     textuels, images, pages web, etc.<br />
-    Voir <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures' rel='noreferrer'>documentation ISTEX</a>
   </p>,
   },
   annexes: {
@@ -214,7 +214,7 @@ export const formats = {
     peuvent être de plusieurs types :<br />
     textes, tableurs, diaporamas, images,<br />
     vidéos, multimédias, etc.<br />
-    Voir <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes' rel='noreferrer'>documentation ISTEX</a>
   </p>,
   },
 };

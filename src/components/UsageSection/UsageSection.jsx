@@ -116,7 +116,7 @@ export default function UsageSection () {
               particuliers induit une sélection<br />
               automatique des formats et types de<br />
               fichiers qui seront extraits.<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1' rel='noreferrer'>documentation ISTEX </a>.
+              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage' rel='noreferrer'>documentation ISTEX </a>.
             </p>
           </>
         }
@@ -146,7 +146,7 @@ export default function UsageSection () {
                 <p className='text-sm text-white'>
                   Les différents formats et types de fichiers disponibles sont décrits
                   succinctement dans cette interface et plus complètement dans
-                  la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage_1' rel='noreferrer'>documentation ISTEX </a>.
+                  la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html' rel='noreferrer'>documentation ISTEX </a>.
                   <br />
                   Attention : toutes les publications ISTEX ne possèdent pas l’ensemble des types de fichiers et de formats possibles
                   (notamment annexes, couvertures ou enrichissements).

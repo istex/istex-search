@@ -133,7 +133,7 @@ export default function QuerySection () {
               spécifiant un corpus de documents<br />
               au moyen d’identifiants uniques.<br />
               Si vous avez besoin d'aide, consultez<br />
-              la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi-' rel='noreferrer'>documentation ISTEX </a>ou bien<br />
+              la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' rel='noreferrer'>documentation ISTEX </a>ou bien<br />
               contactez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='mailto:contact@listes.istex.fr' rel='noreferrer'>l’équipe ISTEX</a>.
             </p>
           </>
@@ -156,7 +156,7 @@ export default function QuerySection () {
                     Reformulez votre requête ou vous ne <br />
                     pourrez télécharger que les <span className='font-bold'>100 000</span> <br />
                     premiers documents sur <br />
-                    les <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
+                    <span className='font-bold'>{totalAmountOfDocuments.toLocaleString()}</span> de résultats potentiels.
                   </p>
                 }
               >
@@ -190,10 +190,10 @@ export default function QuerySection () {
                 <p className='text-sm text-white'>
                   Actuellement, il n’est pas possible de<br />
                   télécharger plus de 100 000<br />
-                  documents. Cette valeur a été fixée<br />
-                  arbitrairement, pour limiter le<br />
-                  requêtage utilisant une liste<br />
-                  volume et la durée du<br />
+                  documents. Cette valeur a été fixée <br />
+                  arbitrairement, pour limiter le <br />
+                  volume et la durée du <br />
+                  téléchargement à des dimensions <br />
                   raisonnables.<br />
                   Si le nombre de documents à<br />
                   extraire est inférieur au nombre total<br />

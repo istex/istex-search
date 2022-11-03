@@ -14,7 +14,7 @@ const SearchValue = React.forwardRef(({
           onChange={onChange}
           defaultValue={value}
           className='w-full block pl-4 text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light truncate'
-          placeholder='Ajouter une valeur'
+          placeholder='Valeur non saisie... Supprimez et recommencez'
           disabled
           ref={ref}
         />

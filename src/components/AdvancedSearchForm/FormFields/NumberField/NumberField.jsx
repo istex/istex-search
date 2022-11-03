@@ -18,7 +18,7 @@ function NumberField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) 
       <div className='mb-2'>
         <input
           name={data.dataValue}
-          placeholder='Entrer votre valeur'
+          placeholder='Entrez un nombre'
           onChange={event => handleChange(event)}
           value={value}
           type='number'

@@ -102,7 +102,7 @@ export default function SearchField ({
 
           {selectField.enabledDeleteButton && (
             <Tooltip
-              content='Supprimer cette recherche'
+              content='Supprimez cette recherche'
             >
               <button
                 type='button'

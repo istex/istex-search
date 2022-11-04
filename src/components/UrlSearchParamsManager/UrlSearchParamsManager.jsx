@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { parseExtractParams } from '../../lib/istexApi';
+import { getQueryStringFromQId, parseExtractParams } from '../../lib/istexApi';
 import { isValidMd5 } from '../../lib/utils';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig, usages } from '../../config';
@@ -33,7 +33,16 @@ export default function UrlSearchParamsManager () {
     } else if (queryString) {
       eventEmitter.emit(events.setQueryString, queryString);
     } else if (isValidMd5(qId)) {
-      eventEmitter.emit(events.setQId, qId);
+      // Fetch the corresponding query string from the API
+      getQueryStringFromQId(qId)
+        .then(response => {
+          eventEmitter.emit(events.setQueryString, response.data.req);
+          eventEmitter.emit(events.setQId, qId);
+        })
+        .catch(err => {
+          // TODO: print an error message in a modal or something else
+          console.error(err);
+        });
     }
 
     if (extractParamsAsString != null) {

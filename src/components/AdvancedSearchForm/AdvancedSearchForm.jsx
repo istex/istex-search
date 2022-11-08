@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import FormField from './FormFields/FormField';
 import OperatorRequest from './OperatorRequest/OperatorRequest';
 import { useStateWithCallback } from '../../lib/hooks';
+import { Tooltip } from 'flowbite-react';
 
 function AdvancedSearchForm ({ queryInputHandler }) {
   const initialFieldArray = [{ type: 'field' }];
@@ -183,15 +184,23 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                   })}
                   {
                   shouldDisplayAddButton && (
-                    <button
-                      onClick={() => addFields(groupIndex)}
-                      className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg'
-                      type='button'
+                    <Tooltip
+                      content={(
+                        <div className='max-w-[10rem] text-center'>
+                          Cliquez pour ajouter un autre critère en sélectionnant un nouveau champ
+                        </div>
+                      )}
                     >
-                      <span className='flex items-center rounded-md text-sm px-4 py-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'>
-                        Ajouter
-                      </span>
-                    </button>
+                      <button
+                        onClick={() => addFields(groupIndex)}
+                        className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg'
+                        type='button'
+                      >
+                        <span className='flex items-center rounded-md text-sm px-4 py-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'>
+                          Ajouter
+                        </span>
+                      </button>
+                    </Tooltip>
                   )
                 }
                 </div>

@@ -291,15 +291,23 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
                 style={{ resize: 'none' }}
                 maxRows={3}
               />
-              <button
-                type='button'
-                onClick={() => {
-                  setCurrentQueryMode(queryModes.getDefault().value);
-                }}
-                className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
+              <Tooltip
+                content={(
+                  <div className='max-w-[13rem] text-center'>
+                    Cliquez pour basculer en mode “Équation booléenne” et modifier votre requête en toute liberté
+                  </div>
+               )}
               >
-                <FontAwesomeIcon icon='pen-to-square' className='md:text-2xl' />
-              </button>
+                <button
+                  type='button'
+                  onClick={() => {
+                    setCurrentQueryMode(queryModes.getDefault().value);
+                  }}
+                  className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 !focus:outline-none'
+                >
+                  <FontAwesomeIcon icon='pen-to-square' className='md:text-2xl' />
+                </button>
+              </Tooltip>
             </div>
           </div>
           <AdvancedSearchForm

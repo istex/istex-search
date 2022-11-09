@@ -26,7 +26,7 @@ export default function ResultTitle ({ shouldDisplayResultDetail, setShouldDispl
           trigger='click'
           content={
             <>
-              <div className='max-w-[22rem]'>
+              <div className='max-w-[15rem]'>
                 <div className='flex w-full justify-end relative left-1'>
                   <button type='button' onClick={() => onCloseClick()} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                     <span className='sr-only'>Fermer l'info bulle</span>
@@ -38,7 +38,8 @@ export default function ResultTitle ({ shouldDisplayResultDetail, setShouldDispl
                 <p>
                   L'exploration des résultats peut vous aider à ajuster
                   votre équation à votre besoin en vous offrant par un simple clic l’accès aux formats proposés
-                  pour chacun des documents. Par défaut, sont affichés les résultats classés selon des critères de pertinence &
+                  pour chacun des documents.<br />
+                  Par défaut, sont affichés les résultats classés selon des critères de pertinence &
                   qualité par rapport à votre requête.
                   Le choix d’un autre mode de tri modifiera l'ordre proposé en conséquence.
                 </p>

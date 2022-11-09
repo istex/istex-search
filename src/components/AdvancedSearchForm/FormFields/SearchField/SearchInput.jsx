@@ -22,7 +22,7 @@ const SearchInput = React.forwardRef(({
           defaultValue={value}
           onClick={onClick}
           className='block p-2 pl-10 w-full text-sm text-istcolor-black bg-istcolor-white rounded-full border border-istcolor-green-dark focus:border-istcolor-green-light'
-          placeholder='Cliquez pour sélectionner un champ parmi les propositions du catalogue'
+          placeholder='Cliquez pour choisir un champ parmi la sélection du catalogue'
           disabled={disableCatalogInput}
           ref={ref}
         />

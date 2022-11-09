@@ -108,7 +108,7 @@ export default function UsageSection () {
               </button>
             </div>
             <p className='text-sm text-white'>
-              Le choix du mode "Usage<br />
+              Le choix du mode "Usage <br />
               personnalisé" donne accès à tous les<br />
               types de fichiers et de formats<br />
               existants dans ISTEX. En revanche, le<br />
@@ -134,7 +134,7 @@ export default function UsageSection () {
           <Tooltip
             trigger='click'
             content={
-              <div className='max-w-[22rem]'>
+              <div className='max-w-[15rem]'>
                 <div className='flex justify-end relative left-1'>
                   <button type='button' onClick={() => setShowLowerTooltipContent(!showLowerTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                     <span className='sr-only'>Fermer l'info bulle</span>

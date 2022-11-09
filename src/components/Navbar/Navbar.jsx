@@ -15,7 +15,7 @@ export default function Navbar () {
       <div className='flex justify-center gap-2 md:gap-x-16 items-center'>
         <Tooltip
           content={(
-            <div className='max-w-[12rem] text-center'>
+            <div className='max-w-[10rem] text-center'>
               Effacez tout pour redémarrer avec un formulaire vide
             </div>
           )}
@@ -26,7 +26,7 @@ export default function Navbar () {
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem] text-center'>
+            <div className='max-w-[8rem] text-center'>
               Récupérez l'état en cours de votre formulaire
             </div>
           )}
@@ -37,7 +37,7 @@ export default function Navbar () {
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem] text-center'>
+            <div className='max-w-[9rem] text-center'>
               Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
             </div>
           )}
@@ -50,7 +50,7 @@ export default function Navbar () {
         </Tooltip>
         <Tooltip
           content={(
-            <div className='max-w-[12rem] text-center'>
+            <div className='max-w-[10rem] text-center'>
               Accédez à l'historique de vos 30 derniers téléchargements
             </div>
           )}

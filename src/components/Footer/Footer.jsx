@@ -20,7 +20,9 @@ export default function Footer () {
           <a href='https://stats.uptimerobot.com/Lg8APTkMmW'>Météo des services</a>
         </li>
       </ul>
-
+      <div className='p-[30px] text-center flex flex-col items-center'>
+        <p className='mt-0 text-istcolor-grey font-opensans text-sm'>Plus sur Istex-DL : <a className='font-bold text-istcolor-grey-link cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html' target='_blank' rel='noreferrer'>Documentation</a> & <a className='font-bold text-istcolor-grey-link cursor-pointer' href='https://web-tutorials.delivery.istex.fr/ark:/67375/Q05-JGB4KZ75-8/index.html#/' target='_blank' rel='noreferrer'>Tutoriel</a></p>
+      </div>
       <ul className='flex gap-[30px] flex-wrap justify-center items-center pt-5'>
         <li>
           <a href='https://www.enseignementsup-recherche.gouv.fr/'>

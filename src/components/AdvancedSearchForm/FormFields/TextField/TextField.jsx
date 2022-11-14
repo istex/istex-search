@@ -16,7 +16,8 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
 
     // The value entered by the user needs to be surrounded by double-quotes (") if it contains a space character
     // or a hyphen
-    const valueToPutInQuery = (/[\s-]/.test(trimmedValue) || trimmedValue.match(doiRegex)) ? `"${trimmedValue}"` : trimmedValue;
+    const quotedValue = (/[\s-]/.test(trimmedValue) || doiRegex.test(trimmedValue)) ? `"${trimmedValue}"` : trimmedValue;
+    const valueToPutInQuery = quotedValue.replace(/""/g, '"');
 
     if (data.dataValue === '') {
       updateQuery(valueToPutInQuery, trimmedValue);

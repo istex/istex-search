@@ -215,6 +215,14 @@ export const catalogList = [
           { id: 'is_equal', typeField: 'text' },
         ],
       },
+      {
+        dataTitle: 'DOI',
+        dataInfo: 'Recherche par identifiant DOI de l\'article ou du chapitre de livre',
+        dataValue: 'doi',
+        operatorsField: [
+          { id: 'is_equal', typeField: 'text' },
+        ],
+      },
     ],
   },
   {
@@ -345,13 +353,12 @@ export const catalogList = [
         dataInfo: 'Recherche par date détectée dans le texte',
         dataValue: 'namedEntities.unitex.date',
         operatorsField: [
-          { id: 'is_equal', typeField: 'date' },
-          { id: 'is_between', typeField: 'range' },
+          { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
         dataTitle: 'Lieu administratif',
-        dataInfo: 'Recherche par nom de lieu géopolitique ou administratif détecté dans le texte',
+        dataInfo: 'Recherche par nom de lieu, géopolitique ou administratif, détecté dans le texte',
         dataValue: 'namedEntities.unitex.placeName',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
@@ -359,7 +366,7 @@ export const catalogList = [
       },
       {
         dataTitle: 'Lieu géographique',
-        dataInfo: 'Recherche par nom de lieu comportant une caractéristique géographique détecté dans le texte',
+        dataInfo: 'Recherche par nom de lieu, comportant une caractéristique géographique, détecté dans le texte',
         dataValue: 'namedEntities.unitex.geogName',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },

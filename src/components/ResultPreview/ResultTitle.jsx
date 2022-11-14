@@ -20,7 +20,7 @@ export default function ResultTitle ({ shouldDisplayResultDetail, setShouldDispl
     <div className='font-semibold border-[#303030] border-b-[1px] mb-4'>
       <div className={`${shouldDisplayResultDetail && 'cursor-pointer'} flex justify-between flex-row`} onClick={handleClick}>
         <div>
-          Parcourir les résultats {shouldDisplayResultDetail && <span className='text-istcolor-grey-medium'>/ Document ISTEX</span>}
+          Parcourir les résultats {shouldDisplayResultDetail && <span className='text-istcolor-grey-medium'>/ Document Istex</span>}
         </div>
         <Tooltip
           trigger='click'

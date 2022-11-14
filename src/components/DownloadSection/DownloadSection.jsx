@@ -57,10 +57,10 @@ export default function DownloadSection () {
               stockage disponible sur votre disque<br />
               dur.<br />
               En cas de difficultés lors de<br />
-              l’ouverture de l’archive zip avec les<br />
+              l’ouverture de l’archive ZIP avec les<br />
               outils Windows natifs, utilisez par<br />
               exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://www.7-zip.org/' rel='noreferrer'>7-zip</a>.<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement' rel='noreferrer'>documentation ISTEX</a>.
+              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement%0D-_1' rel='noreferrer'>documentation Istex</a>.
             </p>
           </>
         }

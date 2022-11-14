@@ -80,7 +80,7 @@ export default function ExampleQueryButton ({ setQueryStringInputValue, updateQu
                       </button>
                     </div>
                     <div className={styles.modalBody}>
-                      Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API ISTEX en utilisant :
+                      Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API Istex en utilisant :
                       {ExamplesList}
                     </div>
                     <div className={styles.modalFooter}><button type='button' onClick={closeModal} className={[styles.btn + ' ' + styles.btnDefault]}>Annuler</button>

@@ -123,7 +123,7 @@ export default function QuerySection () {
               </button>
             </div>
             <p className='text-sm text-white'>
-              Pour interroger ISTEX, vous avez le<br />
+              Pour interroger Istex, vous avez le<br />
               choix entre différents modes : un<br />
               mode de recherche classique par<br />
               équation booléenne, un mode de<br />
@@ -132,9 +132,12 @@ export default function QuerySection () {
               ou bien encore l’import d’un fichier<br />
               spécifiant un corpus de documents<br />
               au moyen d’identifiants uniques.<br />
+              Le mode "Recherche assistée" vous<br />
+              accompagne dans l'écriture d'une<br />
+              équation booléenne.<br />
               Si vous avez besoin d'aide, consultez<br />
-              la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' rel='noreferrer'>documentation ISTEX </a>ou bien<br />
-              contactez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='mailto:contact@listes.istex.fr' rel='noreferrer'>l’équipe ISTEX</a>.
+              la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' rel='noreferrer'>documentation Istex</a> ou bien<br />
+              contactez <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='mailto:contact@listes.istex.fr' rel='noreferrer'>l’équipe Istex</a>.
             </p>
           </>
         }
@@ -263,7 +266,7 @@ export default function QuerySection () {
                   soit tirés de manière aléatoire, ce<br />
                   mode de tri étant plus représentatif<br />
                   de la diversité des résultats.<br />
-                  Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/api/results/scoring.html' rel='noreferrer'>documentation ISTEX</a>.
+                  Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/api/results/scoring.html' rel='noreferrer'>documentation Istex</a>.
                 </p>
               </>
             }

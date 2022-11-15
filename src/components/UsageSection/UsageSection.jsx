@@ -109,14 +109,23 @@ export default function UsageSection () {
             </div>
             <p className='text-sm text-white'>
               Le choix du mode "Usage <br />
-              personnalisé" donne accès à tous les<br />
-              types de fichiers et de formats<br />
-              existants dans ISTEX. En revanche, le<br />
-              choix d’une plateforme ou d’un outil<br />
-              particuliers induit une sélection<br />
-              automatique des formats et types de<br />
-              fichiers qui seront extraits.<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage' rel='noreferrer'>documentation ISTEX </a>.
+              personnalisé" donne accès à<br />
+              tous les types de fichiers<br />
+              et de formats existants dans<br />
+              Istex.<br />
+              En revanche, le choix d’une<br />
+              plateforme ou d’un outil<br />
+              particuliers induit une<br />
+              sélection automatique des<br />
+              formats et types de fichiers<br />
+              qui seront extraits.<br />
+              Attention : les publications<br />
+              Istex ne possèdent pas toutes<br />
+              l’ensemble des types de fichiers<br />
+              et de formats possibles<br />
+              (notamment annexes,<br />
+              couvertures ou enrichissements).<br />
+              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage' rel='noreferrer'>documentation Istex</a>.
             </p>
           </>
         }
@@ -134,7 +143,7 @@ export default function UsageSection () {
           <Tooltip
             trigger='click'
             content={
-              <div className='max-w-[15rem]'>
+              <div className='max-w-[14rem]'>
                 <div className='flex justify-end relative left-1'>
                   <button type='button' onClick={() => setShowLowerTooltipContent(!showLowerTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
                     <span className='sr-only'>Fermer l'info bulle</span>
@@ -146,10 +155,9 @@ export default function UsageSection () {
                 <p className='text-sm text-white'>
                   Les différents formats et types de fichiers disponibles sont décrits
                   succinctement dans cette interface et plus complètement dans
-                  la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html' rel='noreferrer'>documentation ISTEX </a>.
+                  <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html' rel='noreferrer'> cette annexe</a> de la documentation Istex.
                   <br />
-                  Attention : toutes les publications ISTEX ne possèdent pas l’ensemble des types de fichiers et de formats possibles
-                  (notamment annexes, couvertures ou enrichissements).
+                  Les particularités de sélection associées aux formats TXT et CLEANED sont à découvrir dans la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage-_1' rel='noreferrer'>documentation Istex</a>.
                 </p>
               </div>
             }

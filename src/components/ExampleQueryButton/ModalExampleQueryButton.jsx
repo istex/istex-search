@@ -73,7 +73,7 @@ export default function ModalExampleQueryButton ({
         </div>
         <Modal.Body>
           <div className='flex flex-col text-sm overflow-auto h-96 text-istcolor-grey-link'>
-            Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API ISTEX en utilisant :
+            Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API Istex en utilisant :
             <ExamplesList onClickExample={onClickExample} />
           </div>
         </Modal.Body>

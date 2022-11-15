@@ -36,7 +36,7 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
       <div className='mb-2'>
         <textarea
           name={data.dataValue}
-          placeholder='Entrez le texte à rechercher'
+          placeholder='Entrez la valeur à rechercher'
           onChange={event => handleChange(event)}
           value={value}
           type='text'

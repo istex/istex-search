@@ -8,10 +8,10 @@ export const formats = {
     Le choix du format de texte intégral<br />
     est à faire en fonction de l’origine des<br />
     documents, des transformations<br />
-    réalisées par ISTEX sur ces<br />
+    réalisées par Istex sur ces<br />
     documents et de l’utilisation<br />
     souhaitée pour le corpus.<br />
-    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-int%C3%A9gral' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#texte-int%C3%A9gral' rel='noreferrer'>documentation Istex</a>
   </p>,
     formats: {
       pdf: {
@@ -25,7 +25,7 @@ export const formats = {
         infoText:
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-tei-text-encoding-initiative-initiative-pour-lencodage-du-texte' rel='noreferrer'>TEI : Text Encoding Initiative</a><br />
-    Fichier XML produit par ISTEX selon<br />
+    Fichier XML produit par Istex selon<br />
     les guidelines P5 du format TEI, soit à<br />
     partir des XML originaux fournis par<br />
     l’éditeur, soit à partir du PDF via une<br />
@@ -37,7 +37,7 @@ export const formats = {
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-txt-text' rel='noreferrer'>TXT : Text</a><br />
     Fichier en texte brut produit par<br />
-    ISTEX à partir d’une transformation<br />
+    Istex à partir d’une transformation<br />
     du PDF original à l’aide du logiciel<br />
     PDF to Text ou via une chaîne de<br />
     réocérisation permettant d’améliorer<br />
@@ -49,12 +49,12 @@ export const formats = {
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-cleaned-nettoy%C3%A9' rel='noreferrer'>CLEANED : Nettoyé</a><br />
     Fichier en texte brut, produit par<br />
-    ISTEX, dépourvu de mise en forme,<br />
+    Istex, dépourvu de mise en forme,<br />
     image, tableau ou formule et qui<br />
     contient uniquement le contenu<br />
-    textuel du corps du document (entre<br />
-    le résumé et les références<br />
-    bibliographiques).
+    textuel du corps du document<br />
+    (entre le résumé et les références<br />
+    bibliographiques)
   </p>,
       },
       zip: {
@@ -66,7 +66,7 @@ export const formats = {
     les fichiers fournis par l’éditeur (PDF,<br />
     XML structuré, images, couvertures,<br />
     annexes), ainsi que le JSON produit<br />
-    par ISTEX
+    par Istex
   </p>,
       },
       tiff: {
@@ -87,14 +87,14 @@ export const formats = {
     permettant de présenter un<br />
     document (nom de l’auteur,<br />
     affiliation, revue, éditeur, etc.).<br />
-    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#m%C3%A9tadonn%C3%A9es' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#m%C3%A9tadonn%C3%A9es' rel='noreferrer'>documentation Istex</a>
   </p>,
     formats: {
       json: {
         infoText:
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-json-javascript-object-notation-notation-des-objets-du-langage-javascript' rel='noreferrer'>JSON : JavaScript Object Notation</a><br />
-    Fichier produit par ISTEX<br />
+    Fichier produit par Istex<br />
     rassemblant toutes les métadonnées<br />
     et les enrichissements
   </p>,
@@ -112,7 +112,7 @@ export const formats = {
   <p className='text-sm text-white'>
     <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#o-mods-metadata-object-description-schema-sch%C3%A9ma-de-description-objet-de-m%C3%A9tadonn%C3%A9es-' rel='noreferrer'>MODS : Metadata Object Description Schema</a><br />
     Fichier XML standardisé produit par<br />
-    ISTEX à partir d’une transformation<br />
+    Istex à partir d’une transformation<br />
     des XML originaux<br />
   </p>,
       },
@@ -122,7 +122,7 @@ export const formats = {
     infoText:
   <p className='text-sm text-white'>
     Informations complémentaires, au<br />
-    format TEI, produites par ISTEX :<br />
+    format TEI, produites par Istex :<br />
     catégories scientifiques (multicat et<br />
     nb), références bibliographiques<br />
     structurées (refBibs), version<br />
@@ -130,7 +130,7 @@ export const formats = {
     Grobid (grobidFulltext), termes<br />
     d’indexation (teeft), entités nommées<br />
     (unitex).<br />
-    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#enrichissements' rel='noreferrer'>documentation Istex</a>
   </p>,
     formats: {
       multicat: {
@@ -202,7 +202,7 @@ export const formats = {
     est publié le document. Ils peuvent<br />
     être de plusieurs types : documents<br />
     textuels, images, pages web, etc.<br />
-    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#couvertures' rel='noreferrer'>documentation Istex</a>
   </p>,
   },
   annexes: {
@@ -214,7 +214,7 @@ export const formats = {
     peuvent être de plusieurs types :<br />
     textes, tableurs, diaporamas, images,<br />
     vidéos, multimédias, etc.<br />
-    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes' rel='noreferrer'>documentation ISTEX</a>
+    Voir la <a className='font-bold text-istcolor-blue cursor-pointer hover:underline underline-offset-2' target='_blank' href='https://doc.istex.fr/tdm/annexes/liste-des-formats.html#annexes' rel='noreferrer'>documentation Istex</a>
   </p>,
   },
 };

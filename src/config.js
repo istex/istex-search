@@ -169,8 +169,8 @@ export const operatorsRequest = [
 ];
 
 export const operatorsField = [
-  { id: 'is_equal', label: 'égal' },
-  { id: 'is_not_equal', label: 'non égal' },
+  { id: 'is_equal', label: 'est égale à' },
+  { id: 'is_not_equal', label: 'n\'est pas égale à' },
   { id: 'is_empty', label: 'est vide' },
   { id: 'is_not_empty', label: "n'est pas vide" },
   { id: 'is_more_than', label: 'supérieur' },

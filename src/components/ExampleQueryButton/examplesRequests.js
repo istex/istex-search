@@ -63,7 +63,7 @@ export const examples = [
     currentQueryMode: 'queryString',
   },
   {
-    text: 'des identifiants ISTEX de type ARK',
+    text: 'des identifiants Istex de type ARK',
     request: '?withID=true&q=arkIstex.raw%3A%28"ark%3A%2F67375%2FHXZ-3PZ5S1MB-7"+"ark%3A%2F67375%2FHXZ-XH6SRM66-7"+"ark%3A%2F67375%2F6H6-K00Q3697-8"+"ark%3A%2F67375%2F6H6-52QRK0X3-F"+"ark%3A%2F67375%2FHXZ-H5NSV5QF-M"+"ark%3A%2F67375%2FHXZ-J1BLQKH4-3"+"ark%3A%2F67375%2FHXZ-QVSXSCHW-P"+"ark%3A%2F67375%2FHXZ-RVC4D13J-W"+"ark%3A%2F67375%2F6H6-19QHR7H2-6"+"ark%3A%2F67375%2FHXZ-0F8518D4-K"+"ark%3A%2F67375%2F6H6-9Q9HLC0X-7"+"ark%3A%2F67375%2F6H6-QTZPZZXD-H"%29&extract=&size=0&rankBy=qualityOverRelevance&archiveType=zip&compressionLevel=6&sid=istex-dl&total=12',
     input: `ark:/67375/HXZ-3PZ5S1MB-7
 ark:/67375/HXZ-XH6SRM66-7

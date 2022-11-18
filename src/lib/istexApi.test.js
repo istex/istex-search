@@ -119,6 +119,22 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.getArksFromArkQueryString(multipleArkQueryString)).toEqual(['ark:/67375/NVC-15SZV86B-F', 'ark:/67375/NVC-XMM4B8LD-H']);
   });
 
+  it('isIstexIdQueryString', () => {
+    const correctIstexIdQueryString = 'id:("1234" "5678")';
+    const garbageString = 'foo:bar';
+
+    expect(istexApi.isIstexIdQueryString(correctIstexIdQueryString)).toBe(true);
+    expect(istexApi.isIstexIdQueryString(garbageString)).toBe(false);
+  });
+
+  it('getIstexIdsFromIstexIdQueryString', () => {
+    const singleIstexIdQueryString = 'id:("1234")';
+    const multipleIstexIdsQueryString = 'id:("1234" "5678")';
+
+    expect(istexApi.getIstexIdsFromIstexIdQueryString(singleIstexIdQueryString)).toEqual(['1234']);
+    expect(istexApi.getIstexIdsFromIstexIdQueryString(multipleIstexIdsQueryString)).toEqual(['1234', '5678']);
+  });
+
   it('buildExtractParamsFromFormats', () => {
     const selectedFormats = formats.fulltext.formats.pdf.value |
       formats.fulltext.formats.txt.value |

@@ -117,7 +117,7 @@ export function buildQueryStringFromArks (arks) {
  * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
  */
 export function isArkQueryString (queryString) {
-  // Regex to check if queryString starts with 'arkIstex.raw:(', ends with '(', and contains sequences of
+  // Regex to check if queryString starts with 'arkIstex.raw:(', ends with ')', and contains sequences of
   // characters surrounded by double-quotes between the parentheses. This doesn't make sure each sequence of
   // characters is a valid ark.
   const arkQueryStringRegex = /^(?:arkIstex\.raw:\((?:".*"?)*\))$/gi;
@@ -135,7 +135,7 @@ export function isArkQueryString (queryString) {
 /**
  * Extract ark identifiers from an ark query string. This assumes `queryString` is an ark query string.
  * @param {string} queryString The query string the extract the ark identifiers from.
- * @returns An array of ark identifiers, `null` if `queryString` is not an ark query string.
+ * @returns An array of ark identifiers.
  */
 export function getArksFromArkQueryString (queryString) {
   // Get rid of 'arkIstex.raw:(' at the beginning of queryString
@@ -145,6 +145,38 @@ export function getArksFromArkQueryString (queryString) {
   queryString = queryString.substring(0, queryString.length - 1);
 
   // Get rid of the double-quotes (") surrounding each ark identifier
+  queryString = queryString.replace(/"/g, '');
+
+  return queryString.split(' ');
+}
+
+/**
+ * Check if `queryString` has the format `id:("<id1>" "<id2>"...)`.
+ * @param {string} queryString The query string to check.
+ * @returns `true` if `queryString` has the format `id:("<id1>" "<id2>"...)`, `false` otherwise.
+ */
+export function isIstexIdQueryString (queryString) {
+  // Regex to check if queryString starts with 'id:(', ends with ')', and contains sequences of
+  // characters surrounded by double-quotes between the parentheses. This doesn't make sure each sequence of
+  // characters is a valid Istex ID.
+  const istexIdQueryStringRegex = /^(?:id:\((?:".*"?)*\))$/gi;
+
+  return istexIdQueryStringRegex.test(queryString);
+}
+
+/**
+ * Extract Istex identifiers from an Istex ID query string. This assumes `queryString` is an Istex ID query string.
+ * @param {string} queryString The query string the extract the Istex identifiers from.
+ * @returns An array of Istex identifiers.
+ */
+export function getIstexIdsFromIstexIdQueryString (queryString) {
+  // Get rid of 'id:(' at the beginning of queryString
+  queryString = queryString.substring('id:('.length);
+
+  // Get rid of the last parenthesis at the end of queryString
+  queryString = queryString.substring(0, queryString.length - 1);
+
+  // Get rid of the double-quotes (") surrounding each Istex identifier
   queryString = queryString.replace(/"/g, '');
 
   return queryString.split(' ');

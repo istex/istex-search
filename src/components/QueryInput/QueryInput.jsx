@@ -14,6 +14,8 @@ import {
   getArksFromArkQueryString,
   parseCorpusFileContent,
   getQueryStringFromQId,
+  isIstexIdQueryString,
+  getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
@@ -60,9 +62,19 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       setArkInputValue('');
     }
 
-    if (isArkQueryString(newQueryString)) {
-      const arkList = getArksFromArkQueryString(newQueryString).join('\n');
-      setArkInputValue(arkList);
+    const _isArkQueryString = isArkQueryString(newQueryString);
+    const _isIstexIdQueryString = isIstexIdQueryString(newQueryString);
+
+    // Very strange legacy behavior where the ARK tab is also supposed to support Istex IDs... Would be nice
+    // to remove in the future
+    if (_isArkQueryString || _isIstexIdQueryString) {
+      let list;
+      if (_isArkQueryString) {
+        list = getArksFromArkQueryString(newQueryString).join('\n');
+      } else if (_isIstexIdQueryString) {
+        list = getIstexIdsFromIstexIdQueryString(newQueryString).join('\n');
+      }
+      setArkInputValue(list);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ark').value);
     } else {
       setCurrentQueryMode(queryModes.getDefault().value);

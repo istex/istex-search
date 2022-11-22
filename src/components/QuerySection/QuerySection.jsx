@@ -12,6 +12,8 @@ import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePrevious } from '../../lib/hooks';
 
+import './QuerySection.scss';
+
 const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
   newQueryString,
   newRankingMode,
@@ -86,6 +88,7 @@ export default function QuerySection () {
     setLoading(true);
     if (!queryString) {
       sendDelayedResultPreviewApiRequest.cancel();
+      setLoading(false);
       return;
     }
 
@@ -146,7 +149,7 @@ export default function QuerySection () {
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
       </p>
       <QueryInput totalAmountOfDocuments={totalAmountOfDocuments} />
-      {!!totalAmountOfDocuments && (
+      {queryString && !isLoading && (
         <div className='my-4'>
           <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
@@ -169,6 +172,14 @@ export default function QuerySection () {
               </Tooltip>
             </div>
           )}
+        </div>
+      )}
+      {isLoading && (
+        <div className='waiting-for-results-text'>
+          Calcul du nombre de résultats... &nbsp;
+          <div className='waiting-for-results-icon-container'>
+            <FontAwesomeIcon icon='magnifying-glass' className='text-istcolor-blue waiting-for-results-icon' />
+          </div>
         </div>
       )}
 

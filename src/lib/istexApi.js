@@ -407,6 +407,10 @@ export function sendDownloadApiRequest (url) {
   const link = document.createElement('a');
   link.href = url;
 
+  // This attribute is set to open the URL in another tab, this is useful when the user is redirected
+  // to the identity federation page so that they don't lose the current ISTEX-DL page
+  link.setAttribute('target', '_blank');
+
   link.click();
 }
 

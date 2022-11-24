@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
-import { istexApiConfig } from '../../config';
+import { isFormatSelected } from '../../lib/istexApi';
+import { istexApiConfig, formats, formatSizes } from '../../config';
 import TitleSection from '../TitleSection/TitleSection';
 
 export default function DownloadSection () {
   const dispatch = useDispatch();
+  const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
+  const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
+  const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
+
   const compressionLevelHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
 
@@ -25,10 +30,55 @@ export default function DownloadSection () {
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 
+  const estimateArchiveSize = () => {
+    let size = 0;
+
+    for (const formatCategory in formats) {
+      let format;
+
+      // Cases of covers and annexes which are not in a category
+      if (formats[formatCategory].value !== undefined) {
+        format = formats[formatCategory].value;
+
+        if (!isFormatSelected(selectedFormats, format)) continue;
+
+        const formatSize = formatSizes.baseSizes[formatCategory];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory];
+
+        size += formatSize * multiplier * numberOfDocuments;
+
+        continue;
+      }
+
+      for (const formatName in formats[formatCategory].formats) {
+        format = formats[formatCategory].formats[formatName].value;
+
+        if (!isFormatSelected(selectedFormats, format)) continue;
+
+        const formatSize = formatSizes.baseSizes[formatCategory][formatName];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory][formatName];
+
+        size += formatSize * multiplier * numberOfDocuments;
+      }
+    }
+
+    return size;
+  };
+
+  const updateArchiveSizeText = () => {
+    const size = estimateArchiveSize();
+    const oneGigabyte = 1 * 1024 * 1024 * 1024;
+    const sizeRoundedToLowerGigabyte = Math.floor(size / oneGigabyte);
+
+    setArchiveSizeInGigabytes(sizeRoundedToLowerGigabyte);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setCompressionLevel, compressionLevelHandler);
     eventEmitter.addListener(events.setArchiveType, archiveTypeHandler);
   }, []);
+
+  useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
   return (
     <div className='text-center my-12 font-opensans font-[14px]'>
@@ -101,6 +151,11 @@ export default function DownloadSection () {
           ))}
         </div>
       </div>
+      {archiveSizeInGigabytes >= 1 && (
+        <div className={`my-6 font-bold ${archiveSizeInGigabytes >= 6 ? 'text-istcolor-red' : 'text-istcolor-orange'}`}>
+          Taille estimée &gt; <span>{archiveSizeInGigabytes} Go</span>
+        </div>
+      )}
       <DownloadButton />
     </div>
   );

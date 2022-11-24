@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import { Tooltip } from 'flowbite-react';
 
 import { resetForm } from '../ResetButton/ResetButton';
-import { buildFullApiUrl, isFormatSelected, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
+import { buildFullApiUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
-import { formats, formatSizes } from '../../config';
 import ModalDownloadRewiews from './ModalDownloadRewiews';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
@@ -19,7 +18,6 @@ export default function DownloadButton () {
   const archiveType = useSelector(state => state.istexApi.archiveType);
   const usage = useSelector(state => state.istexApi.usage);
 
-  const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
   const [openModal, setOpenModal] = useState(false);
 
   const handleDownload = (event) => {
@@ -82,51 +80,6 @@ export default function DownloadButton () {
     compressionLevel == null || // We can't just do !compressionLevel because 0 is a valid value
     !archiveType;
 
-  const estimateArchiveSize = () => {
-    let size = 0;
-
-    for (const formatCategory in formats) {
-      let format;
-
-      // Cases of covers and annexes which are not in a category
-      if (formats[formatCategory].value !== undefined) {
-        format = formats[formatCategory].value;
-
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory];
-
-        size += formatSize * multiplier * numberOfDocuments;
-
-        continue;
-      }
-
-      for (const formatName in formats[formatCategory].formats) {
-        format = formats[formatCategory].formats[formatName].value;
-
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory][formatName];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory][formatName];
-
-        size += formatSize * multiplier * numberOfDocuments;
-      }
-    }
-
-    return size;
-  };
-
-  const updateArchiveSizeText = () => {
-    const size = estimateArchiveSize();
-    const oneGigabyte = 1 * 1024 * 1024 * 1024;
-    const sizeRoundedToLowerGigabyte = Math.floor(size / oneGigabyte);
-
-    setArchiveSizeInGigabytes(sizeRoundedToLowerGigabyte);
-  };
-
-  useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
-
   // eslint-disable-next-line react/prop-types
   const DownloadButtonWrapper = ({ disabled, onClick }) => {
     return (
@@ -142,11 +95,6 @@ export default function DownloadButton () {
 
   return (
     <div className='mt-6'>
-      {archiveSizeInGigabytes >= 1 && (
-        <div className={`my-6 font-bold ${archiveSizeInGigabytes >= 6 ? 'text-istcolor-red' : 'text-istcolor-orange'}`}>
-          Taille estimée &gt; <span>{archiveSizeInGigabytes} Go</span>
-        </div>
-      )}
       <div className='text-center flex justify-center'>
         {isFormIncomplete
           ? (

@@ -142,6 +142,11 @@ export default function DownloadButton () {
 
   return (
     <div className='mt-6'>
+      {archiveSizeInGigabytes >= 1 && (
+        <div className={`my-6 font-bold ${archiveSizeInGigabytes >= 6 ? 'text-istcolor-red' : 'text-istcolor-orange'}`}>
+          Taille estimée &gt; <span>{archiveSizeInGigabytes} Go</span>
+        </div>
+      )}
       <div className='text-center flex justify-center'>
         {isFormIncomplete
           ? (
@@ -166,9 +171,6 @@ export default function DownloadButton () {
             <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             )}
       </div>
-      {archiveSizeInGigabytes >= 1 && (
-        <span>{archiveSizeInGigabytes >= 5 ? 'Danger' : archiveSizeInGigabytes >= 1 ? 'Warning' : ''}: &gt;{archiveSizeInGigabytes} GB</span>
-      )}
       {openModal && (
         <ModalDownloadRewiews
           initOpening={openModal}

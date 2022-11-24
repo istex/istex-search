@@ -5,7 +5,9 @@ import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { isFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, formats, formatSizes } from '../../config';
+
 import TitleSection from '../TitleSection/TitleSection';
+import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';
 
 export default function DownloadSection () {
   const dispatch = useDispatch();
@@ -152,8 +154,11 @@ export default function DownloadSection () {
         </div>
       </div>
       {archiveSizeInGigabytes >= 1 && (
-        <div className={`my-6 font-bold ${archiveSizeInGigabytes >= 6 ? 'text-istcolor-red' : 'text-istcolor-orange'}`}>
-          Taille estimée &gt; <span>{archiveSizeInGigabytes} Go</span>
+        <div className='my-6'>
+          <FeedbackMessage
+            type={archiveSizeInGigabytes >= 6 ? FeedbackMessageTypes.Error : FeedbackMessageTypes.Warning}
+            message={<>Taille estimée &gt; {archiveSizeInGigabytes} Go</>}
+          />
         </div>
       )}
       <DownloadButton />

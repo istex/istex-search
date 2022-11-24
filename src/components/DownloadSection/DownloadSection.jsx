@@ -154,7 +154,7 @@ export default function DownloadSection () {
         </div>
       </div>
       {archiveSizeInGigabytes >= 1 && (
-        <div className='my-6'>
+        <div className='my-6 text-center flex justify-center'>
           <FeedbackMessage
             type={archiveSizeInGigabytes >= 6 ? FeedbackMessageTypes.Error : FeedbackMessageTypes.Warning}
             message={<>Taille estimée &gt; {archiveSizeInGigabytes} Go</>}

@@ -12,7 +12,7 @@ export const FeedbackMessageTypes = {
 
 export default function FeedbackMessage ({ type, message }) {
   return (
-    <div className={`font-bold feedback-message-${type}`}>
+    <div className={`px-12 font-bold feedback-message-${type}`}>
       {message}
     </div>
   );

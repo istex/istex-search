@@ -176,7 +176,7 @@ export default function QuerySection () {
       )}
       {isLoading && (
         <div className='waiting-for-results-text'>
-          Calcul du nombre de résultats... &nbsp;
+          Calcul en cours du nombre de résultats... &nbsp;
           <div className='waiting-for-results-icon-container'>
             <FontAwesomeIcon icon='magnifying-glass' className='text-istcolor-blue waiting-for-results-icon' />
           </div>

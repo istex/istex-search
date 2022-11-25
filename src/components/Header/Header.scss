@@ -13,6 +13,26 @@
   font-style: italic;
 }
 
+.header-icon {
+  fill: theme('colors.istcolor-grey.light');
+}
+
+.twitter-icon:hover {
+  fill: #00acee;
+}
+
+.github-icon:hover {
+  fill: #000
+}
+
+.youtube-icon:hover {
+  fill: #c4302b;
+}
+
+.contact-icon:hover {
+  fill: theme('colors.istcolor-blue');
+}
+
 .w-header {
   width: 77rem;
 }

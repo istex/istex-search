@@ -110,7 +110,7 @@ export default function Header () {
             }
             <a className={`${screenSize.dynamicWidth >= 900 ? 'justify-between' : 'justify-center'} logo flex flex-col `} href='https://www.istex.fr'>
               <img className='logo-istex w-[184px]' src='/images/istex_logo.svg' alt='ISTEX' />
-              <span className='baseline  relative bottom-3  block leading-tight font-montserrat-bold italic text-[10.200px] font-extrabold text-istcolor-blue'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
+              <span className='baseline relative bottom-3 block leading-tight font-montserrat-bold italic text-[10.200px] text-istcolor-blue'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
             </a>
             <div className='flex flex-col justify-between'>
               <div className='istex-social-network pb-7 interactions'>

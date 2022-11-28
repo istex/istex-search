@@ -49,7 +49,7 @@ export default function Footer () {
             <img className='w-[150px]' src='/images/france_universites_logo.svg' alt='France universités' />
           </a>
         </li>
-        <li className='px-5'>
+        <li>
           <a href='http://www.univ-lorraine.fr/'>
             <img src='/images/ul.svg' alt='université de lorraine' />
           </a>

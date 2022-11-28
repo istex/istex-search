@@ -2,7 +2,7 @@
 FROM node:lts-alpine3.15 AS builder
 LABEL stage=builder
 
-# Copy the source code files needed the generate the production build
+# Copy the source code files needed to generate the production build
 WORKDIR /app/
 COPY ./src/ /app/src/
 COPY ./public/ /app/public/

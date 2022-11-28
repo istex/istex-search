@@ -10,6 +10,8 @@ import {
   getArksFromArkQueryString,
   sendDownloadApiRequest,
   buildFullApiUrl,
+  isIstexIdQueryString,
+  getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
@@ -21,15 +23,15 @@ import { resetForm } from '../ResetButton/ResetButton';
 
 export default function HistoryRequest ({ requestInfo, onClose }) {
   const [queryString, setQueryString] = useState('');
+  const [_isArkQueryString, setIsArkQueryString] = useState(false);
+  const [_isIstexIdQueryString, setIsIstexIdQueryString] = useState(false);
 
   const editHandler = () => {
     if (requestInfo.qId) {
       eventEmitter.emit(events.setQId, requestInfo.qId);
-      eventEmitter.emit(events.setQueryString, queryString);
-    } else {
-      eventEmitter.emit(events.setQueryString, requestInfo.queryString);
     }
 
+    eventEmitter.emit(events.setQueryString, queryString);
     eventEmitter.emit(events.setSelectedFormats, requestInfo.selectedFormats);
     eventEmitter.emit(events.setNumberOfDocuments, requestInfo.numberOfDocuments);
     eventEmitter.emit(events.setRankingMode, requestInfo.rankingMode);
@@ -90,7 +92,11 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   };
 
   useEffect(async () => {
-    setQueryString(await getQueryString());
+    const queryStringToUse = await getQueryString();
+    setQueryString(queryStringToUse);
+
+    setIsArkQueryString(isArkQueryString(queryStringToUse));
+    setIsIstexIdQueryString(isIstexIdQueryString(queryStringToUse));
   }, []);
 
   return (
@@ -103,9 +109,13 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
       </Table.Cell>
       <Table.Cell>
         <div
-          className={`history-tab-request ${requestInfo?.queryString?.includes('arkIstex') ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
+          className={`history-tab-request ${_isArkQueryString || _isIstexIdQueryString ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
         >
-          {isArkQueryString(queryString) ? getArksFromArkQueryString(queryString).join('\n') : queryString}
+          {(() => {
+            if (_isArkQueryString) return getArksFromArkQueryString(queryString).map(ark => <div key={ark}>{ark}<br /></div>);
+            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).map(id => <div key={id}>{id}<br /></div>);
+            return queryString;
+          })()}
         </div>
       </Table.Cell>
       <Table.Cell>

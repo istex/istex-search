@@ -1,0 +1,33 @@
+.waiting-for-results-text {
+  display: flex;
+  align-items: center;
+}
+
+.waiting-for-results-icon-container {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+}
+
+.waiting-for-results-icon {
+  animation: waiting-for-results-icon-animation 1.5s ease-in-out infinite;
+}
+
+// Triangle animation
+@keyframes waiting-for-results-icon-animation {
+  0% {
+    transform: translateX(0%) translateY(0%); // top-left corner
+  }
+
+  33% {
+    transform: translateX(100%) translateY(0%); // top-right corner
+  }
+
+  66% {
+    transform: translateX(50%) translateY(100%); // bottom-middle
+  }
+
+  100% {
+    transform: translateX(0%) translateY(0%); // back to top-left corner
+  }
+}

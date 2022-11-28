@@ -77,7 +77,7 @@ export default function Footer () {
 
       <div className='p-[30px] text-center flex flex-col items-center'>
         <img src='/images/investissement.png' alt="investissement d'avenir" />
-        <p className='mt-0 text-istcolor-grey-light font-opensans text-sm'>Financement : ANR-10-IDEX-0004-02</p>
+        <p className='mt-1 text-istcolor-grey-light font-opensans text-sm'>Financement : ANR-10-IDEX-0004-02</p>
       </div>
 
     </footer>

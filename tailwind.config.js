@@ -22,6 +22,7 @@ module.exports = {
         'istcolor-black': '#1d1d1d',
         'istcolor-white': '#f0f0f0',
         'istcolor-blue': '#458ca5',
+        'istcolor-red': '#d9534f',
       },
     },
     fontFamily: {

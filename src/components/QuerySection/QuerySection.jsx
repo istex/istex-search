@@ -203,7 +203,7 @@ export default function QuerySection () {
                 </div>
                 <p className='text-sm text-white'>
                   Actuellement, il n’est pas possible de<br />
-                  télécharger plus de 100 000<br />
+                  télécharger plus de {istexApiConfig.maxAmountOfDocuments.toLocaleString()}<br />
                   documents. Cette valeur a été fixée <br />
                   arbitrairement, pour limiter le <br />
                   volume et la durée du <br />
@@ -238,7 +238,7 @@ export default function QuerySection () {
         />
         {!!totalAmountOfDocuments && (
           <div className='ml-2 inline-block'>
-            <span> / <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments)}</strong></span>
+            <span> / <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments).toLocaleString()}</strong></span>
             <button
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
               className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-istcolor-green-light hover:text-black'

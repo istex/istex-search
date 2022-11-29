@@ -21,7 +21,7 @@ export default function Footer () {
         </li>
       </ul>
       <div className='p-[30px] text-center flex flex-col items-center'>
-        <p className='mt-0 text-istcolor-grey font-opensans text-sm'>
+        <p className='mt-0 text-istcolor-grey font-opensans-regular text-sm'>
           Plus sur Istex-DL :&nbsp;
           <a
             className='font-bold text-istcolor-grey-link cursor-pointer'
@@ -77,7 +77,7 @@ export default function Footer () {
 
       <div className='p-[30px] text-center flex flex-col items-center'>
         <img src='/images/investissement.png' alt="investissement d'avenir" />
-        <p className='mt-1 text-istcolor-grey-light font-opensans text-sm'>Financement : ANR-10-IDEX-0004-02</p>
+        <p className='mt-1 text-istcolor-grey-light font-opensans-regular text-sm'>Financement : ANR-10-IDEX-0004-02</p>
       </div>
 
     </footer>

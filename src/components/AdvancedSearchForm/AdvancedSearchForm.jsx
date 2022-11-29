@@ -146,7 +146,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                   {groupIndex >= 1 && (
                     <button
                       onClick={() => removeGroups(groupIndex)}
-                      className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-red-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
+                      className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-red-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg' type='button'
                     >
                       <span className='flex items-center rounded-md text-sm px-2 py-2 mb-2 relative bottom-2 text-white bg-istcolor-red border border-istcolor-red cta2 focus:ring-4 focus:outline-none'>
                         Supprimer le groupe
@@ -193,7 +193,7 @@ function AdvancedSearchForm ({ queryInputHandler }) {
                     >
                       <button
                         onClick={() => addFields(groupIndex)}
-                        className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 focus:!ring-2 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg'
+                        className='border hover:bg-gray-100 hover:text-blue-700 disabled:hover:bg-white focus:ring-blue-700 focus:text-blue-700 dark:bg-transparent dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-2 dark:disabled:hover:bg-gray-800 group flex h-min w-fit items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg'
                         type='button'
                       >
                         <span className='flex items-center rounded-md text-sm px-4 py-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'>

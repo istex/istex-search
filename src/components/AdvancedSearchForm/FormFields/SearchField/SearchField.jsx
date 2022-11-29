@@ -107,7 +107,7 @@ export default function SearchField ({
               <button
                 type='button'
                 onClick={() => handleRemoveFields()}
-                className='inline-block pl-2 text-istcolor-red'
+                className='inline-block pl-2 text-istcolor-grey-light hover:text-istcolor-red'
               >
                 <FontAwesomeIcon icon='trash-can' className='md:text-lg' />
               </button>

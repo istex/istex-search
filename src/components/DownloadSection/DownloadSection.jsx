@@ -83,7 +83,7 @@ export default function DownloadSection () {
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
   return (
-    <div className='text-center my-12 font-opensans font-[14px]'>
+    <div className='text-center my-12 font-opensans-regular font-[14px]'>
       <TitleSection
         title='Téléchargement'
         num='3'

@@ -258,7 +258,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
               htmlFor='dropzone-file'
-              className='wrapper-file-import flex flex-col justify-center items-center border-[1px] mt-4 p-[6px] w-[140px] h-[170px] pt-[30px] font-opensans text-[16px] text-center text-istcolor-blue border-istcolor-blue cursor-pointer hover:border-istcolor-green-light hover:text-istcolor-black hover:bg-istcolor-green-light'
+              className='wrapper-file-import flex flex-col justify-center items-center border-[1px] mt-4 p-[6px] w-[140px] h-[170px] pt-[30px] font-opensans-regular text-[16px] text-center text-istcolor-blue border-istcolor-blue cursor-pointer hover:border-istcolor-green-light hover:text-istcolor-black hover:bg-istcolor-green-light'
             >
               <div className='flex flex-col justify-center items-center'>
                 <div className='file-import w-[48px] h-[64px] mb-[10px]' />

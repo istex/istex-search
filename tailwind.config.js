@@ -1,4 +1,8 @@
-/** @type {import('tailwindcss').Config} */
+const fallbackFonts = [
+  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+  'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif',
+];
+
 module.exports = {
   content: [
     './index.html',
@@ -26,44 +30,11 @@ module.exports = {
       },
     },
     fontFamily: {
-      'montserrat-regular': ['Montserrat-Regular', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-black': ['Montserrat-Black', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-bold': ['Montserrat-Bold', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-semibold': ['Montserrat-SemiBold', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-extrabold': ['Montserrat-ExtraBold', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-light': ['Montserrat-Light', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-extralight': ['Montserrat-ExtraLight', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-italic': ['Montserrat-Italic', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'montserrat-lightitalic': ['Montserrat-LightItalic', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      opensans: ['OpenSans', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'opensans-light': ['OpenSans-Light', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'opensans-bold': ['OpenSans-Bold', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
-
-      'opensans-italic': ['OpenSans-Italic', 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif'],
+      'montserrat-regular': ['Montserrat-Regular', ...fallbackFonts],
+      'montserrat-medium': ['Montserrat-Medium', ...fallbackFonts],
+      'montserrat-bold': ['Montserrat-Bold', ...fallbackFonts],
+      'montserrat-semibold': ['Montserrat-SemiBold', ...fallbackFonts],
+      'opensans-regular': ['OpenSans-Regular', ...fallbackFonts],
     },
   },
   plugins: [

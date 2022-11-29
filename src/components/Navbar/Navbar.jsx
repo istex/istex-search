@@ -7,12 +7,13 @@ import ShareButton from '../ShareButton/ShareButton';
 import HistoryButton from '../HistoryButton/HistoryButton';
 
 export default function Navbar () {
-  const defaultClassName = 'flex flex-col justify-between items-center cursor-pointer hover:text-white text-istcolor-black';
+  const defaultClassName = 'flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-1.5 text-istcolor-black';
   const sizeIcon = 'text-3xl md:text-4xl';
   const fontSizeText = 'text-center text-[14px] md:text-base align-top';
+
   return (
-    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-blue py-2 z-50'>
-      <div className='flex justify-center gap-2 md:gap-x-16 items-center'>
+    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-green-dark py-1 z-50'>
+      <div className='flex justify-center gap-2 md:gap-x-14 items-center'>
         <Tooltip
           content={(
             <div className='max-w-[10rem] text-center'>

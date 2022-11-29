@@ -162,7 +162,7 @@ export default function UsageSection () {
               </div>
             }
           >
-            <button className='pl-2 w-fit h-2 w-2 relative top-[0.3em]' ref={toolTipButton}>
+            <button className='pl-2 w-fit h-2 relative top-[0.3em]' ref={toolTipButton}>
               <FontAwesomeIcon icon='circle-info' size='1x' className='text-istcolor-blue cursor-pointer' />
             </button>
           </Tooltip>

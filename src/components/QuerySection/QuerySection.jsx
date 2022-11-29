@@ -151,7 +151,7 @@ export default function QuerySection () {
       <QueryInput totalAmountOfDocuments={totalAmountOfDocuments} />
       {queryString && !isLoading && (
         <div className='my-4'>
-          <span>L’équation saisie correspond à <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
+          <span>L'équation saisie correspond à <strong>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (
             <div className='pl-4 text-sm inline-block align-middle'>
               <Tooltip
@@ -238,7 +238,7 @@ export default function QuerySection () {
         />
         {!!totalAmountOfDocuments && (
           <div className='ml-2 inline-block'>
-            <span> / <strong className='rounded-full p-2 bg-istcolor-green-dark text-black'>{Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments).toLocaleString()}</strong></span>
+            <span> / {Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments).toLocaleString()}</span>
             <button
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
               className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-istcolor-green-light hover:text-black'

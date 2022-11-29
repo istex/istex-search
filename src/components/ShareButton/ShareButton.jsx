@@ -54,7 +54,7 @@ export default function ShareButton ({ sizeIcon, fontSizeText }) {
   return (
     <>
       <div
-        className={`flex flex-col justify-center items-center ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:text-white text-istcolor-black`}
+        className={`flex flex-col justify-center items-center ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:bg-istcolor-white hover:rounded-md p-1.5 text-istcolor-black`}
         onClick={handleShareButton}
       >
         <div>

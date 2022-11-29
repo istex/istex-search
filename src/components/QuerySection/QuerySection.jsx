@@ -241,7 +241,7 @@ export default function QuerySection () {
             <span> / {Math.min(totalAmountOfDocuments, istexApiConfig.maxAmountOfDocuments).toLocaleString()}</span>
             <button
               onClick={() => numberOfDocumentsHandler(totalAmountOfDocuments)}
-              className='ml-2 px-2 py-1 border-[1px] border-[#458ca5] text-[#458ca5] hover:bg-istcolor-green-light hover:text-black'
+              className='ml-2 px-2 py-1 bg-istcolor-green-dark hover:bg-istcolor-green-light text-white font-bold'
             >
               Tout
             </button>

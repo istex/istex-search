@@ -22,7 +22,7 @@ import { queryModes, istexApiConfig } from '../../config';
 import { useFocus } from '../../lib/hooks';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
-import ModalExampleQueryButton from '../ExampleQueryButton/ModalExampleQueryButton';
+import ExamplesButton from '../ExamplesButton/ExamplesButton';
 
 import './QueryInput.scss';
 
@@ -55,7 +55,6 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
-  const [openModalExampleQuery, setOpenModalExampleQuery] = useState(false);
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -251,7 +250,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       );
       break;
     case queryModes.modes[2].value:
-      // The value attribute is harcoded to '' so that React stop crying about this input being uncontrolled.
+      // The value attribute is harcoded to '' so that React stops crying about this input being uncontrolled.
       // Meanwhile the docs say that file input can't be controlled for security reasons... (https://reactjs.org/docs/uncontrolled-components.html#the-file-input-tag)
       queryInputUi = (
         <>
@@ -287,7 +286,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       );
       break;
     case queryModes.modes[3].value:
-      /* Avanced form case */
+      /* Advanced form case */
       queryInputUi = (
         <>
           <div className='flex items-center mb-4'>
@@ -394,33 +393,11 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
             </div>
           ))}
         </RadioGroup>
-        <div
-          className='flex justify-around items-center px-2 py-2 md:px-[30px] text-istcolor-blue hover:text-istcolor-white border-[1px] border-istcolor-blue mb-2 font-bold cta1 font-montserrat-regular'
-          onClick={() => setOpenModalExampleQuery(true)}
-        >
-          <span>Exemples</span>
-          <div className='pl-2'>
-            <Tooltip
-              content={<div className='min-w-[12rem]'>Testez des exemples de requête</div>}
-            >
-              <button>
-                <FontAwesomeIcon icon='circle-info' />
-              </button>
-            </Tooltip>
-          </div>
-        </div>
+        <ExamplesButton />
       </div>
       <div className='flex flex-col my-2'>
         {queryInputUi}
       </div>
-      <ModalExampleQueryButton
-        setOpenModal={setOpenModalExampleQuery}
-        show={openModalExampleQuery}
-        setQueryStringInputValue={setQueryStringInputValue}
-        updateQueryString={updateQueryString}
-        setCurrentQueryMode={setCurrentQueryMode}
-        setArkInputValue={setArkInputValue}
-      />
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function Example ({ info, closeModal }) {
   };
 
   return (
-    <div className='flex min-h-[2.5rem]'>
+    <div className='flex min-h-[2.75rem] text-istcolor-grey-link'>
       <div className='flex flex-col justify-around'>
         <Tooltip content='Essayez cette requête'>
           <button onClick={fillFormFromExample}>
@@ -23,7 +23,7 @@ export default function Example ({ info, closeModal }) {
           </button>
         </Tooltip>
       </div>
-      <span className='flex flex-col justify-around ml-5 text-sm text-istcolor-grey-link'>{info.label}</span>
+      <span className='flex flex-col justify-around ml-5 text-sm'>{info.label}</span>
     </div>
   );
 }

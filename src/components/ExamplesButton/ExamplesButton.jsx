@@ -30,10 +30,10 @@ export default function ExamplesButton () {
           </Modal.Header>
         </div>
         <Modal.Body>
-          <p className='pb-4 text-sm text-istcolor-grey-link'>
+          <p className='pb-3 text-sm text-istcolor-grey-link'>
             Voici quelques exemples dont vous pouvez vous inspirer pour votre recherche. Cliquez sur l'une des loupes et la zone de requête sera remplie automatiquement par le contenu de l'exemple choisi. Cet échantillon illustre différentes façons d'interroger l'API Istex en utilisant :
           </p>
-          <div className='flex flex-col justify-between'>
+          <div className='flex flex-col justify-between overflow-auto h-72'>
             {examples.map(example => (
               <div key={example.label}>
                 <Example info={example} closeModal={() => showModal(false)} />

@@ -162,6 +162,49 @@ export const usages = {
   },
 };
 
+export const examples = [
+  {
+    label: 'des troncatures sur des termes de recherche en français et en anglais',
+    queryString: 'orthophon* OR logothérap* OR logotherap*',
+  },
+  {
+    label: 'des opérateurs booléens imbriqués',
+    queryString: '(species AND ("plant taxonomy" OR  phytogeograph*)) NOT ((fungi fungus) NOT mycorrhiz*)',
+  },
+  {
+    label: 'des données bibliographiques',
+    queryString: '(host.issn:"0922-6435" OR host.title:"Journal of Geophysical Research") AND publicationDate:2003 AND genre:("research-article" OR “review article”)',
+  },
+  {
+    label: 'des indicateurs de qualité',
+    queryString: '"deep learning" AND qualityIndicators.pdfVersion:[1.3 TO 1.5] AND qualityIndicators.score:[3.5 TO *]',
+  },
+  {
+    label: 'des expressions régulières sur des termes de recherche',
+    queryString: '/es(k|qu)im(o|au)[sx]?/ OR  /inuit(s)?/',
+  },
+  {
+    label: 'de la recherche floue et des opérateurs de proximité',
+    queryString: '(african~1 + arctic~1) AND "past climate"~2',
+  },
+  {
+    label: 'des enrichissements de type catégorie scientifique',
+    queryString: 'categories.scienceMetrix:"astronomy & astrophysics" OR categories.scopus:"astronomy and astrophysics" OR categories.wos:"astronomy & astrophysics" OR categories.inist:"astronomy"',
+  },
+  {
+    label: 'des enrichissements de type entité nommée',
+    queryString: 'namedEntities.unitex.persName:beethoven AND namedEntities.unitex.placeName:vienna AND namedEntities.unitex.date:"eighteenth century"',
+  },
+  {
+    label: 'des enrichissements de type terme d’indexation',
+    queryString: 'keywords.teeft:coronavirus*',
+  },
+  {
+    label: 'des identifiants Istex de type ARK',
+    queryString: 'arkIstex.raw:("ark:/67375/HXZ-3PZ5S1MB-7" "ark:/67375/HXZ-XH6SRM66-7" "ark:/67375/6H6-K00Q3697-8" "ark:/67375/6H6-52QRK0X3-F" "ark:/67375/HXZ-H5NSV5QF-M" "ark:/67375/HXZ-J1BLQKH4-3" "ark:/67375/HXZ-QVSXSCHW-P" "ark:/67375/HXZ-RVC4D13J-W" "ark:/67375/6H6-19QHR7H2-6" "ark:/67375/HXZ-0F8518D4-K" "ark:/67375/6H6-9Q9HLC0X-7" "ark:/67375/6H6-QTZPZZXD-H")',
+  },
+];
+
 export const operatorsRequest = [
   { value: 'AND', label: 'ET' },
   { value: 'OR', label: 'OU' },

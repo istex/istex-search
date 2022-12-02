@@ -23,7 +23,7 @@ export default function ResultList ({
         {results.map(result => (
           <div
             key={result.id}
-            className='flex flex-col justify-between text-istcolor-blue hover:text-istcolor-black border-[1px] py-2 border-l-[10px] border-istcolor-blue hover:border-istcolor-black px-2 cursor-pointer hover:bg-istcolor-green-light'
+            className='flex flex-col justify-between border-[1px] py-2 border-l-[10px] px-2 cursor-pointer cta3 hover:border-l-istcolor-white'
             onClick={() => handleClick(result)}
           >
             <div>

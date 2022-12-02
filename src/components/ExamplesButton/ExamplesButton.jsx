@@ -10,7 +10,7 @@ export default function ExamplesButton () {
   return (
     <>
       <button
-        className='flex items-center px-2 py-2 md:px-7 border-[1px] text-istcolor-blue border-istcolor-blue hover:text-istcolor-white hover:bg-istcolor-blue font-bold font-montserrat-regular'
+        className='flex items-center px-2 py-2 md:px-7 border-[1px] cta3 font-bold font-montserrat-regular'
         onClick={() => showModal(true)}
       >
         <span>Exemples</span>

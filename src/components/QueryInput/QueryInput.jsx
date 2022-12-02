@@ -257,7 +257,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
               htmlFor='dropzone-file'
-              className='flex flex-col items-center w-[8.75rem] mt-4 py-8 text-center border-[1px] font-opensans-regular cursor-pointer text-istcolor-blue border-istcolor-blue hover:text-istcolor-white hover:bg-istcolor-blue'
+              className='flex flex-col items-center w-[8.75rem] mt-4 py-8 text-center border-[1px] font-opensans-regular cursor-pointer cta3'
             >
               <div className='flex flex-col justify-center items-center'>
                 <FontAwesomeIcon icon='file-arrow-up' size='4x' className='mb-2' />

@@ -257,11 +257,11 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           <div className='flex flex-col justify-center items-center w-full mb-5'>
             <label
               htmlFor='dropzone-file'
-              className='wrapper-file-import flex flex-col justify-center items-center border-[1px] mt-4 p-[6px] w-[140px] h-[170px] pt-[30px] font-opensans-regular text-[16px] text-center text-istcolor-blue border-istcolor-blue cursor-pointer hover:border-istcolor-green-light hover:text-istcolor-black hover:bg-istcolor-green-light'
+              className='flex flex-col items-center w-[8.75rem] mt-4 py-8 text-center border-[1px] font-opensans-regular cursor-pointer cta3'
             >
               <div className='flex flex-col justify-center items-center'>
-                <div className='file-import w-[48px] h-[64px] mb-[10px]' />
-                <p className='mx-2 mb-2 text-sm'>
+                <FontAwesomeIcon icon='file-arrow-up' size='4x' className='mb-2' />
+                <p className='text-sm'>
                   {shouldDisplaySuccessMsg ? 'Modifiez en sélectionnant un autre fichier' : 'Sélectionnez votre fichier'}
                 </p>
               </div>

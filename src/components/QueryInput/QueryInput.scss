@@ -30,11 +30,3 @@
 .scroll::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
-.file-import {
-    background-image: url('/images/ico_upload.png');
-}
-
-.wrapper-file-import:hover .file-import {
-    background-image: url('/images/ico_upload_active.png');
-}

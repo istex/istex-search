@@ -19,6 +19,7 @@ import {
   faTrashCan,
   faAngleLeft,
   faCheck,
+  faFileArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
@@ -50,6 +51,7 @@ library.add(
   faTriangleExclamation,
   faAngleLeft,
   faCheck,
+  faFileArrowUp,
 );
 
 ReactDOM.render(

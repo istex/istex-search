@@ -23,7 +23,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import './index.scss';
-import './assets/styles/styles.scss';
 import 'flowbite';
 import 'react-toastify/dist/ReactToastify.min.css';
 

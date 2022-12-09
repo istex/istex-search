@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './TextHeaderIstexDL.scss';
+import './Banner.scss';
 
-export default function TextHeaderIstexDL () {
+export default function Banner () {
   return (
-    <header className='flex flex-col w-full md:flex-row items-center justify-center p-6 text-header-istex-dl overflow-hidden'>
+    <header className='flex flex-col w-full md:flex-row items-center justify-center p-6 banner overflow-hidden'>
       <img className='h-32 w-32' src='/images/ic_telecharger_corpus_white.svg' alt='image download' />
 
       <div className='py-4 flex flex-col items-start pl-5'>

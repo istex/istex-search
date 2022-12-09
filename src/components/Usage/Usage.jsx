@@ -34,7 +34,7 @@ export default function Usage ({ usageInfo }) {
                   <div className='flex flex-col justify-center items-center'>
                     <RadioGroup.Label
                       as='p'
-                      className='text-2xl font-montserrat-semibold text-istcolor-black'
+                      className='text-2xl text-istcolor-black'
                     >
                       {usageInfo.label}
                     </RadioGroup.Label>
@@ -49,7 +49,7 @@ export default function Usage ({ usageInfo }) {
               </div>
               <div className='flex flex-col absolute right-6 top-6'>
                 {usageInfo.tags.map(tag => (
-                  <span key={tag} className='text-xs font-montserrat-regular font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>{tag}</span>
+                  <span key={tag} className='text-xs font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>{tag}</span>
                 ))}
               </div>
             </div>
@@ -58,7 +58,7 @@ export default function Usage ({ usageInfo }) {
                 <FontAwesomeIcon icon='check' />
               )}
               <p>
-                {checked ? <span className='pl-2 text-sm font-montserrat-bold'>Usage sélectionné</span> : <span className='pl-2 text-sm font-montserrat-bold'>Choisir cet usage</span>}
+                <span className='pl-2 text-sm font-bold'>{checked ? 'Usage sélectionné' : 'Choisir cet usage'}</span>
               </p>
             </div>
           </>

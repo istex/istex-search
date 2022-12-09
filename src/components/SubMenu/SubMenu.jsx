@@ -7,7 +7,7 @@ export default function SubMenu ({ screenSize }) {
     <>
       {screenSize.dynamicWidth >= 900
         ? (
-          <ul className='menu font-montserrat-bold flex gap-12 font-[14px]'>
+          <ul className='menu font-montserrat font-bold flex gap-12'>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
               <a className='block pb-[8px]' href='https://www.istex.fr/la-base/'>La base</a>
             </li>
@@ -21,7 +21,7 @@ export default function SubMenu ({ screenSize }) {
               <a className='block pb-[8px]' href='https://www.istex.fr/a-propos/'>À propos</a>
             </li>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/institutions-adherentes/'>Institutions  adhérentes</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/institutions-adherentes/'>Institutions adhérentes</a>
             </li>
           </ul>
           )

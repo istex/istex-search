@@ -130,14 +130,14 @@ export default function UsageSection () {
           </>
         }
       />
-      <p className='text-sm md:text-base'>Cliquez sur l’usage visé pour votre corpus :</p>
+      <p>Cliquez sur l’usage visé pour votre corpus :</p>
       {!shouldDisplayUsage && (
         <div
-          className='flex justify-start  text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 mb-5 p-2'
+          className='flex justify-start text-istcolor-blue text-xl font-semibold border-t-[1px] border-b-[1px] border-istcolor-black mt-4 mb-5 p-2'
         >
-          <span className='cursor-pointer font-[16px]' onClick={() => { setShouldDisplayUsage(true); }}>
+          <span className='cursor-pointer' onClick={() => { setShouldDisplayUsage(true); }}>
             <FontAwesomeIcon icon='angle-left' />{' '}
-            <span className='text-[16px] font-semibold'>Usage personnalisé</span>
+            <span className='text-base'>Usage personnalisé</span>
           </span>
 
           <Tooltip

@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 import Form from '../Form/Form';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
-import TextHeaderIstexDL from '../TextHeaderIstexDL/TextHeaderIstexDL';
+import Banner from '../Banner/Banner';
 import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
 export default function App () {
@@ -40,7 +40,7 @@ export default function App () {
   return (
     <div className='text-istcolor-black'>
       <Header />
-      <TextHeaderIstexDL />
+      <Banner />
       <Form />
       <UrlSearchParamsManager />
       <Footer />

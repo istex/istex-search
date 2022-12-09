@@ -1,4 +1,81 @@
-/* ./src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700&subset=latin,latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,latin-ext');
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f0f0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+@mixin generateTitleClass($suffix, $fontSize) {
+  .title-#{$suffix} {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: $fontSize;
+  }
+}
+
+@include generateTitleClass(1, 2.5rem);
+@include generateTitleClass(2, 1.875rem);
+@include generateTitleClass(3, 1.5rem);
+@include generateTitleClass(4, 1.25rem);
+@include generateTitleClass(5, 1.125rem);
+
+/* Need to do this, because with tailwind we cannot add linear gradient inside config */
+.cta1:hover, .content .button.cta1 > a:hover, .content .button.cta1:hover > a, .content .button.cta1 > a:focus {
+  background: linear-gradient(270deg,#51a7c5 0%,#458ca5 100%);
+}
+
+/* Need to do this, because with tailwind we cannot add linear gradient inside config */
+.cta2:hover, .content .button.cta2 > a:hover {
+  background: linear-gradient(270deg,#e27673 0%,#d9534f 100%);
+}
+
+.cta3 {
+  @apply text-istcolor-blue border-istcolor-blue hover:text-istcolor-white hover:bg-istcolor-blue focus:text-istcolor-white focus:bg-istcolor-blue;
+}
+
+textarea {
+  font-size: unset;
+}
+
+[data-testid=toast-element] {
+  background-color: rgb(69, 140, 165);
+  color: #fff;
+} 
+
+[role=tooltip], [data-testid="tooltip-arrow"] {
+  background: rgb(70,70,70) !important;
+  z-index: 1000;
+  text-align: left;
+}
+
+[data-testid=modal] {
+  z-index: 3000;
+}
+
+.istex-modal{
+  &__header {
+    background-color: #458CA5;  
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+  } 
+  &__text {
+    color: #fefefe;
+    font-weight: 700;
+  }
+}

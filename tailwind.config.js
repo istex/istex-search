@@ -1,8 +1,3 @@
-const fallbackFonts = [
-  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-  'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'sans-serif',
-];
-
 module.exports = {
   content: [
     './index.html',
@@ -30,11 +25,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      'montserrat-regular': ['Montserrat-Regular', ...fallbackFonts],
-      'montserrat-medium': ['Montserrat-Medium', ...fallbackFonts],
-      'montserrat-bold': ['Montserrat-Bold', ...fallbackFonts],
-      'montserrat-semibold': ['Montserrat-SemiBold', ...fallbackFonts],
-      'opensans-regular': ['OpenSans-Regular', ...fallbackFonts],
+      montserrat: ['Montserrat', 'sans-serif'],
     },
   },
   plugins: [

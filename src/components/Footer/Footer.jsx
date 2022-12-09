@@ -3,7 +3,7 @@ import React from 'react';
 export default function Footer () {
   return (
     <footer className='flex flex-col justify-between items-center bg-white pb-14 md:pb-20 mt-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
-      <ul className='flex gap-[30px] flex-wrap justify-center items-center m-0 text-center text-istcolor-grey-link text-sm font-montserrat-medium font-medium pt-5'>
+      <ul className='flex gap-[30px] flex-wrap justify-center items-center m-0 text-center text-istcolor-grey-link text-sm font-medium pt-5'>
         <li>
           <a href='https://www.istex.fr/politique-de-confidentialite/'>Confidentialité</a>
         </li>
@@ -21,7 +21,7 @@ export default function Footer () {
         </li>
       </ul>
       <div className='p-[30px] text-center flex flex-col items-center'>
-        <p className='mt-0 text-istcolor-grey font-opensans-regular text-sm'>
+        <p className='mt-0 text-istcolor-grey text-sm'>
           Plus sur Istex-DL :&nbsp;
           <a
             className='font-bold text-istcolor-grey-link cursor-pointer'
@@ -77,7 +77,7 @@ export default function Footer () {
 
       <div className='p-[30px] text-center flex flex-col items-center'>
         <img src='/images/investissement.png' alt="investissement d'avenir" />
-        <p className='mt-1 text-istcolor-grey-light font-opensans-regular text-sm'>Financement : ANR-10-IDEX-0004-02</p>
+        <p className='mt-1 text-istcolor-grey-light text-sm'>Financement : ANR-10-IDEX-0004-02</p>
       </div>
 
     </footer>

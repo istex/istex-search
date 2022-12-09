@@ -17,7 +17,7 @@ export default function TitleSection ({ num, title, infoTextContent, showTooltip
 
   return (
     <div className='flex justify-between items-center pb-[5px] text-istcolor-black mt-2 mb-2 border-b-2 border-istcolor-black'>
-      <h2 className='flex font-montserrat-bold text-center'>
+      <h2 className='flex title-2 text-center'>
         <span className='rounded-full bg-istcolor-green-dark h-auto w-[3rem] text-[20px] md:text-[30px] mr-2'>
           {`${num}.`}
         </span>

@@ -163,7 +163,7 @@ function RangeField ({
         <div
           role='navigation'
           aria-label='menu-principal'
-          className='text-center'
+          className='text-center font-montserrat font-medium'
         >
           <button
             type='button'

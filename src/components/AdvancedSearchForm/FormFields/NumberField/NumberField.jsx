@@ -26,7 +26,7 @@ function NumberField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) 
         />
       </div>
 
-      <div className='text-center'>
+      <div className='text-center font-montserrat font-medium'>
         <button
           type='button'
           className={`p-2 ml-2 text-white bg-istcolor-blue border focus:ring-4 focus:outline-none ${value === '' ? 'bg-istcolor-grey-medium cursor-not-allowed' : 'border-istcolor-blue cta1'}`}

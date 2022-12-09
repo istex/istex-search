@@ -84,7 +84,7 @@ export default function DownloadButton () {
   const DownloadButtonWrapper = ({ disabled, onClick }) => {
     return (
       <button
-        className={`border-none text-white font-montserrat-regular font-bold py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed bg-istcolor-grey-medium' : 'cursor-pointer bg-istcolor-blue button cta1'}`}
+        className={`border-none text-white font-montserrat font-medium py-[16px] px-[30px] leading-[18px] ${disabled ? 'cursor-not-allowed bg-istcolor-grey-medium' : 'cursor-pointer bg-istcolor-blue button cta1'}`}
         onClick={onClick}
         disabled={disabled}
       >

@@ -83,7 +83,7 @@ export default function DownloadSection () {
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);
 
   return (
-    <div className='text-center my-12 font-opensans-regular font-[14px]'>
+    <div className='text-center my-12'>
       <TitleSection
         title='Téléchargement'
         num='3'
@@ -117,7 +117,7 @@ export default function DownloadSection () {
           </>
         }
       />
-      <div className='flex flex-col md:flex-row items-center justify-center mt-4 text-base'>
+      <div className='flex flex-col md:flex-row items-center justify-center mt-4'>
         <div className='pr-8'>
           <span className='pr-2'>Niveau de compression : </span>
           <select

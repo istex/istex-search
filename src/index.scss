@@ -47,6 +47,10 @@ input[type=number]::-webkit-outer-spin-button {
   @apply text-istcolor-blue border-istcolor-blue hover:text-istcolor-white hover:bg-istcolor-blue focus:text-istcolor-white focus:bg-istcolor-blue;
 }
 
+textarea {
+  font-size: unset;
+}
+
 [data-testid=toast-element] {
   background-color: rgb(69, 140, 165);
   color: #fff;

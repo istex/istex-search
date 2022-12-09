@@ -41,7 +41,7 @@ export default function Header () {
                   <div id='navigation-main' className={`navigation-main ${mobileMenuIsOpened ? 'is-closed' : ''}`} onClick={toggleMobileMenu} role='navigation' aria-label='menu-principal'>
                     <button id='toggle-nav' title='afficher le menu' className='nav-button' />
 
-                    <ul className='menu font-montserrat-bold flex gap-12 font-[14px]'>
+                    <ul className='menu font-montserrat font-bold flex gap-12'>
                       <li className='text-sm mobile-menu-text text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
                         <a className='block pb-[8px]' href='https://www.istex.fr/la-base/'>La base</a>
                       </li>
@@ -94,7 +94,7 @@ export default function Header () {
             }
             <a className={`${screenSize.dynamicWidth >= 900 ? 'justify-between' : 'justify-center'} logo flex flex-col `} href='https://www.istex.fr'>
               <img className='logo-istex w-[184px]' src='/images/istex_logo.svg' alt='ISTEX' />
-              <span className='baseline relative bottom-3 block leading-tight font-montserrat-bold italic text-[10.200px] text-istcolor-blue'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
+              <span className='baseline relative bottom-3 block'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
             </a>
             <div className='flex flex-col justify-between'>
               <div className='istex-social-network pb-7 interactions'>

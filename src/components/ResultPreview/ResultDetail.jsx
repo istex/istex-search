@@ -44,7 +44,7 @@ export default function ResultDetail ({ documentResult = {} }) {
   return (
     <div className='flex flex-col mb-8 pb-[40px]'>
       <div className='bg-istcolor-green-dark mb-4'>
-        <h5 className='text-istcolor-white p-2'>{documentResult.title}</h5>
+        <h5 className='font-bold text-istcolor-white p-2'>{documentResult.title}</h5>
       </div>
       <div className='px-[20px]'>
         <div className='flex justify-between'>

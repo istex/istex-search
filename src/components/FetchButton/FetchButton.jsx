@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PropTypes from 'prop-types';
 
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 
-export default function FetchButton ({ className, sizeIcon, fontSizeText }) {
+export default function FetchButton () {
   const updateFormFromLastRequest = () => {
     const mostRecentRequest = historyManager.getLastRequest();
 
@@ -44,21 +43,15 @@ export default function FetchButton ({ className, sizeIcon, fontSizeText }) {
 
   return (
     <div
-      className={className}
+      className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-1.5 text-istcolor-black'
       onClick={updateFormFromLastRequest}
     >
       <div>
-        <FontAwesomeIcon icon='repeat' className={sizeIcon} />
+        <FontAwesomeIcon icon='repeat' className='text-3xl md:text-4xl' />
       </div>
-      <span className={fontSizeText}>
+      <span className='text-center align-top'>
         Récupérer
       </span>
     </div>
   );
 }
-
-FetchButton.propTypes = {
-  className: PropTypes.string,
-  sizeIcon: PropTypes.string,
-  fontSizeText: PropTypes.string,
-};

@@ -7,7 +7,7 @@ import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
-import TitleSection from '../TitleSection/TitleSection';
+import SectionTitle from '../SectionTitle/SectionTitle';
 import CategoryFormat from '../CategoryFormat/CategoryFormat';
 import NoCategoryFormat from '../CategoryFormat/NoCategoryFormat';
 
@@ -92,7 +92,7 @@ export default function UsageSection () {
 
   return (
     <div className='my-12'>
-      <TitleSection
+      <SectionTitle
         title='Usage'
         num='2'
         infoTextTitle=''

@@ -7,10 +7,6 @@ import ShareButton from '../ShareButton/ShareButton';
 import HistoryButton from '../HistoryButton/HistoryButton';
 
 export default function Navbar () {
-  const defaultClassName = 'flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-1.5 text-istcolor-black';
-  const sizeIcon = 'text-3xl md:text-4xl';
-  const fontSizeText = 'text-center align-top';
-
   return (
     <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-green-dark py-1 z-50'>
       <div className='flex justify-center gap-2 md:gap-x-14 items-center'>
@@ -22,7 +18,7 @@ export default function Navbar () {
           )}
         >
           <button>
-            <ResetButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+            <ResetButton />
           </button>
         </Tooltip>
         <Tooltip
@@ -33,7 +29,7 @@ export default function Navbar () {
           )}
         >
           <button>
-            <FetchButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+            <FetchButton />
           </button>
         </Tooltip>
         <Tooltip
@@ -46,7 +42,7 @@ export default function Navbar () {
           {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
           <div>
-            <ShareButton sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+            <ShareButton />
           </div>
         </Tooltip>
         <Tooltip
@@ -59,7 +55,7 @@ export default function Navbar () {
           {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
           <div>
-            <HistoryButton className={defaultClassName} sizeIcon={sizeIcon} fontSizeText={fontSizeText} />
+            <HistoryButton />
           </div>
         </Tooltip>
       </div>

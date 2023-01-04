@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 
-export default function TitleSection ({ num, title, infoTextContent, showTooltipContent }) {
+export default function SectionTitle ({ num, title, infoTextContent, showTooltipContent }) {
   const toolTipButton = useRef(null);
   const simulateClick = () => {
     toolTipButton.current.click();
@@ -35,7 +35,7 @@ export default function TitleSection ({ num, title, infoTextContent, showTooltip
   );
 }
 
-TitleSection.propTypes = {
+SectionTitle.propTypes = {
   num: PropTypes.string,
   title: PropTypes.string,
   showTooltipContent: PropTypes.bool,

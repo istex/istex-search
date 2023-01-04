@@ -6,7 +6,7 @@ import eventEmitter, { events } from '../../lib/eventEmitter';
 import { isFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, formats, formatSizes } from '../../config';
 
-import TitleSection from '../TitleSection/TitleSection';
+import SectionTitle from '../SectionTitle/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';
 
 export default function DownloadSection () {
@@ -84,7 +84,7 @@ export default function DownloadSection () {
 
   return (
     <div className='text-center my-12'>
-      <TitleSection
+      <SectionTitle
         title='Téléchargement'
         num='3'
         showTooltipContent={showTooltipContent}

@@ -7,7 +7,7 @@ import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
-import TitleSection from '../TitleSection/TitleSection';
+import SectionTitle from '../SectionTitle/SectionTitle';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePrevious } from '../../lib/hooks';
@@ -110,7 +110,7 @@ export default function QuerySection () {
 
   return (
     <div className='my-12'>
-      <TitleSection
+      <SectionTitle
         title='Requête'
         num='1'
         infoTextTitle=''

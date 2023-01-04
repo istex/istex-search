@@ -34,7 +34,7 @@ export default function Usage ({ usageInfo }) {
                   <div className='flex flex-col justify-center items-center'>
                     <RadioGroup.Label
                       as='p'
-                      className='text-2xl text-istcolor-black'
+                      className='text-xl text-istcolor-black'
                     >
                       {usageInfo.label}
                     </RadioGroup.Label>

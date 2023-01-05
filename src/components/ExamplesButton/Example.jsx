@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { resetForm } from '../ResetButton/ResetButton';
+import { useResetForm } from '@/lib/hooks';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 
 export default function Example ({ info, closeModal }) {
+  const resetForm = useResetForm();
+
   const fillFormFromExample = () => {
     resetForm();
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tooltip } from 'flowbite-react';
 
-import { resetForm } from '../ResetButton/ResetButton';
+import { useResetForm } from '@/lib/hooks';
 import { buildFullApiUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
 import historyManager from '../../lib/HistoryManager';
 import ModalDownloadRewiews from './ModalDownloadRewiews';
@@ -19,6 +19,7 @@ export default function DownloadButton () {
   const usage = useSelector(state => state.istexApi.usage);
 
   const [openModal, setOpenModal] = useState(false);
+  const resetForm = useResetForm();
 
   const handleDownload = (event) => {
     setOpenModal(true);

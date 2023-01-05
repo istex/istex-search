@@ -20,7 +20,7 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 import { useFocus } from '../../lib/hooks';
-import { resetForm } from '../ResetButton/ResetButton';
+import { useResetForm } from '@/lib/hooks';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from '../ExamplesButton/ExamplesButton';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
@@ -57,6 +57,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
   const { setQueryStringUrlParam, setQIdUrlParam } = useUrlSearchParamsContext();
+  const resetForm = useResetForm();
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {

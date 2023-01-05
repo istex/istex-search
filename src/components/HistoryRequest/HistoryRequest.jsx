@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Tooltip } from 'flowbite-react';
 import { format } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   buildExtractParamsFromFormats,
@@ -16,15 +17,15 @@ import {
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import historyManager from '../../lib/HistoryManager';
 import { buildFullIstexDlUrl } from '../../lib/utils';
+import { useResetForm } from '@/lib/hooks';
 
 import './HistoryRequest.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { resetForm } from '../ResetButton/ResetButton';
 
 export default function HistoryRequest ({ requestInfo, onClose }) {
   const [queryString, setQueryString] = useState('');
   const [_isArkQueryString, setIsArkQueryString] = useState(false);
   const [_isIstexIdQueryString, setIsIstexIdQueryString] = useState(false);
+  const resetForm = useResetForm();
 
   const editHandler = () => {
     if (requestInfo.qId) {

@@ -56,7 +56,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
-  const { setQueryStringUrlParam } = useUrlSearchParamsContext();
+  const { setQueryStringUrlParam, setQIdUrlParam } = useUrlSearchParamsContext();
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -108,7 +108,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const qIdHandler = async (newQId, originalQueryString) => {
     dispatch(setQId(newQId));
 
-    eventEmitter.emit(events.setQIdUrlParam, newQId);
+    setQIdUrlParam(newQId);
 
     // newQId can be an empty string when the qId is reset, if that's the case, we don't want to send a request
     // to get the corresponding queryString so we just stop here

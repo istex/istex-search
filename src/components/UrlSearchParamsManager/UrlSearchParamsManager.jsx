@@ -119,11 +119,11 @@ export default function UrlSearchParamsManager () {
   //   setUrlSearchParam('q', queryStringParam);
   // };
 
-  const setQIdUrlParam = qIdParam => {
-    if (searchParams.has('q')) searchParams.delete('q');
+  // const setQIdUrlParam = qIdParam => {
+  //   if (searchParams.has('q')) searchParams.delete('q');
 
-    setUrlSearchParam('q_id', qIdParam);
-  };
+  //   setUrlSearchParam('q_id', qIdParam);
+  // };
 
   const resetUrlParams = () => {
     setSearchParams({});
@@ -133,7 +133,7 @@ export default function UrlSearchParamsManager () {
     fillFormFromUrlSearchParams();
 
     // eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
-    eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
+    // eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
     eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
     eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
     eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));

@@ -9,7 +9,6 @@ import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
 import UrlSearchParamsProvider from '../UrlSearchParamsManager/UrlSearchParamsContext';
-import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
 export default function App () {
   const contextClass = {
@@ -46,7 +45,6 @@ export default function App () {
         <Form />
         <Navbar />
       </UrlSearchParamsProvider>
-      <UrlSearchParamsManager />
       <Footer />
       <ToastContainer
         hideProgressBar

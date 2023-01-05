@@ -5,6 +5,7 @@ import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { isFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, formats, formatSizes } from '../../config';
+import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 
 import SectionTitle from '../SectionTitle/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';
@@ -17,18 +18,19 @@ export default function DownloadSection () {
   const archiveType = useSelector(state => state.istexApi.archiveType);
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
+  const { setUrlSearchParam } = useUrlSearchParamsContext();
 
   const compressionLevelHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));
 
-    eventEmitter.emit(events.setCompressionLevelUrlParam, newCompressionLevel);
+    setUrlSearchParam('compressionLevel', newCompressionLevel);
     eventEmitter.emit(events.setCompressionLevelInLastRequestOfHistory, newCompressionLevel);
   };
 
   const archiveTypeHandler = newArchiveType => {
     dispatch(setArchiveType(newArchiveType));
 
-    eventEmitter.emit(events.setArchiveTypeUrlParam, newArchiveType);
+    setUrlSearchParam('archiveType', newArchiveType);
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 

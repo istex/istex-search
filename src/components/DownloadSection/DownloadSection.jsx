@@ -30,7 +30,7 @@ export default function DownloadSection () {
   const archiveTypeHandler = newArchiveType => {
     dispatch(setArchiveType(newArchiveType));
 
-    eventEmitter.emit(events.setArchiveTypeUrlParam, newArchiveType);
+    setUrlSearchParam('archiveType', newArchiveType);
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 

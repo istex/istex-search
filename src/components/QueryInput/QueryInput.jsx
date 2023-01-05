@@ -23,7 +23,7 @@ import { useFocus } from '../../lib/hooks';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from '../ExamplesButton/ExamplesButton';
-import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
+import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 
 import './QueryInput.scss';
 

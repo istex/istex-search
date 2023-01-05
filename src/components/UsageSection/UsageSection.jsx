@@ -10,7 +10,7 @@ import { formats, usages } from '../../config';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import CategoryFormat from '../CategoryFormat/CategoryFormat';
 import NoCategoryFormat from '../CategoryFormat/NoCategoryFormat';
-import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
+import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 
 export default function UsageSection () {
   const dispatch = useDispatch();

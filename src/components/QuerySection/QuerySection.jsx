@@ -11,7 +11,7 @@ import SectionTitle from '../SectionTitle/SectionTitle';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePrevious } from '../../lib/hooks';
-import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
+import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 
 import './QuerySection.scss';
 

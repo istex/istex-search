@@ -8,7 +8,7 @@ import Form from '../Form/Form';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
-import UrlSearchParamsProvider from '../UrlSearchParamsManager/UrlSearchParamsContext';
+import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
 
 export default function App () {
   const contextClass = {

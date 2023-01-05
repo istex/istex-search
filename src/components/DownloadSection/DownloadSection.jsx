@@ -5,7 +5,7 @@ import DownloadButton from '../DownloadButton/DownloadButton';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { isFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, formats, formatSizes } from '../../config';
-import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
+import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 
 import SectionTitle from '../SectionTitle/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';

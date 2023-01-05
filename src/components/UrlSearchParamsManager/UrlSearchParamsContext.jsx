@@ -1,11 +1,24 @@
-import { useEffect } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getQueryStringFromQId, parseExtractParams } from '../../lib/istexApi';
 import { isValidMd5 } from '../../lib/utils';
 import eventEmitter, { events } from '../../lib/eventEmitter';
 import { istexApiConfig, usages } from '../../config';
 
-export default function UrlSearchParamsManager () {
+export const UrlSearchParamsContext = createContext();
+
+export function useUrlSearchParamsContext () {
+  const context = useContext(UrlSearchParamsContext);
+
+  if (!context) {
+    throw new Error('useUrlSearchParamsContext must be within a UrlSearchParamsProvider');
+  }
+
+  return context;
+}
+
+export default function UrlSearchParamsProvider ({ children }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const queryString = searchParams.get('q');
@@ -113,11 +126,11 @@ export default function UrlSearchParamsManager () {
     setSearchParams(searchParams);
   };
 
-  // const setQueryStringUrlParam = queryStringParam => {
-  //   if (searchParams.has('q_id')) searchParams.delete('q_id');
+  const setQueryStringUrlParam = queryStringParam => {
+    if (searchParams.has('q_id')) searchParams.delete('q_id');
 
-  //   setUrlSearchParam('q', queryStringParam);
-  // };
+    setUrlSearchParam('q', queryStringParam);
+  };
 
   const setQIdUrlParam = qIdParam => {
     if (searchParams.has('q')) searchParams.delete('q');
@@ -129,19 +142,24 @@ export default function UrlSearchParamsManager () {
     setSearchParams({});
   };
 
+  const contextValue = {
+    setUrlSearchParam,
+    setQueryStringUrlParam,
+    setQIdUrlParam,
+    resetUrlParams,
+  };
+
   useEffect(() => {
     fillFormFromUrlSearchParams();
-
-    // eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
-    eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
-    eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
-    eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
-    eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
-    eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
-    eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
-    eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
-    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
-  return null;
+  return (
+    <UrlSearchParamsContext.Provider value={contextValue}>
+      {children}
+    </UrlSearchParamsContext.Provider>
+  );
 }
+
+UrlSearchParamsProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};

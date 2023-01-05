@@ -8,6 +8,7 @@ import Form from '../Form/Form';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
+import UrlSearchParamsProvider from '../UrlSearchParamsManager/UrlSearchParamsContext';
 import UrlSearchParamsManager from '../UrlSearchParamsManager/UrlSearchParamsManager';
 
 export default function App () {
@@ -41,10 +42,12 @@ export default function App () {
     <div className='text-istcolor-black'>
       <Header />
       <Banner />
-      <Form />
+      <UrlSearchParamsProvider>
+        <Form />
+        <Navbar />
+      </UrlSearchParamsProvider>
       <UrlSearchParamsManager />
       <Footer />
-      <Navbar />
       <ToastContainer
         hideProgressBar
         closeButton={false}

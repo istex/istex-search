@@ -23,6 +23,7 @@ import { useFocus } from '../../lib/hooks';
 import { resetForm } from '../ResetButton/ResetButton';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from '../ExamplesButton/ExamplesButton';
+import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
 
 import './QueryInput.scss';
 
@@ -55,6 +56,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
+  const { setQueryStringUrlParam } = useUrlSearchParamsContext();
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
@@ -86,7 +88,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const updateQueryString = newQueryString => {
     dispatch(setQueryString(newQueryString));
 
-    eventEmitter.emit(events.setQueryStringUrlParam, newQueryString);
+    setQueryStringUrlParam(newQueryString);
     eventEmitter.emit(events.setQueryStringInLastRequestOfHistory, newQueryString);
 
     if (!newQueryString) {

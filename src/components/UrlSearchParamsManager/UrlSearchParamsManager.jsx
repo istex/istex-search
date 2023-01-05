@@ -101,17 +101,17 @@ export default function UrlSearchParamsManager () {
     setSearchParams(searchParams);
   };
 
-  const setUrlSearchParam = (name, value) => {
-    // We only want to delete the URL search parameter when the value is falsy but not 0 because 0 is a valid
-    // value for some parameters
-    if (!value && value !== 0) {
-      searchParams.delete(name);
-    } else {
-      searchParams.set(name, value);
-    }
+  // const setUrlSearchParam = (name, value) => {
+  //   // We only want to delete the URL search parameter when the value is falsy but not 0 because 0 is a valid
+  //   // value for some parameters
+  //   if (!value && value !== 0) {
+  //     searchParams.delete(name);
+  //   } else {
+  //     searchParams.set(name, value);
+  //   }
 
-    setSearchParams(searchParams);
-  };
+  //   setSearchParams(searchParams);
+  // };
 
   // const setQueryStringUrlParam = queryStringParam => {
   //   if (searchParams.has('q_id')) searchParams.delete('q_id');
@@ -139,7 +139,7 @@ export default function UrlSearchParamsManager () {
     // eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
     // eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
     // eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
-    eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
+    // eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
     eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 

@@ -80,7 +80,7 @@ export default function UsageSection () {
 
     dispatch(setUsage(newUsage));
 
-    eventEmitter.emit(events.setUsageUrlParam, newUsage);
+    setUrlSearchParam('usage', newUsage);
     eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
   };
 

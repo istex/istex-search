@@ -11,6 +11,7 @@ import SectionTitle from '../SectionTitle/SectionTitle';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePrevious } from '../../lib/hooks';
+import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
 
 import './QuerySection.scss';
 
@@ -39,6 +40,7 @@ export default function QuerySection () {
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const docNumberToolTip = useRef(null);
   const docClassedToolTip = useRef(null);
+  const { setUrlSearchParam } = useUrlSearchParamsContext();
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -52,7 +54,7 @@ export default function QuerySection () {
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
-      eventEmitter.emit(events.setNumberOfDocumentsUrlParam, newNumberOfDocuments);
+      setUrlSearchParam('size', newNumberOfDocuments);
       eventEmitter.emit(events.setNumberOfDocumentsInLastRequestOfHistory, newNumberOfDocuments);
     }
   };

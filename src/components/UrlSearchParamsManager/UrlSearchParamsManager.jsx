@@ -125,9 +125,9 @@ export default function UrlSearchParamsManager () {
   //   setUrlSearchParam('q_id', qIdParam);
   // };
 
-  const resetUrlParams = () => {
-    setSearchParams({});
-  };
+  // const resetUrlParams = () => {
+  //   setSearchParams({});
+  // };
 
   useEffect(() => {
     fillFormFromUrlSearchParams();
@@ -140,7 +140,7 @@ export default function UrlSearchParamsManager () {
     // eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
     // eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
     // eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
-    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
+    // eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
   return null;

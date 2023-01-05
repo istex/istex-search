@@ -146,11 +146,12 @@ export default function UrlSearchParamsProvider ({ children }) {
     setUrlSearchParam,
     setQueryStringUrlParam,
     setQIdUrlParam,
-    resetUrlParams,
   };
 
   useEffect(() => {
     fillFormFromUrlSearchParams();
+
+    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
   return (

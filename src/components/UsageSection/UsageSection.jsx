@@ -10,6 +10,7 @@ import { formats, usages } from '../../config';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import CategoryFormat from '../CategoryFormat/CategoryFormat';
 import NoCategoryFormat from '../CategoryFormat/NoCategoryFormat';
+import { useUrlSearchParamsContext } from '../UrlSearchParamsManager/UrlSearchParamsContext';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
@@ -19,14 +20,12 @@ export default function UsageSection () {
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
   const toolTipButton = useRef(null);
+  const firstUpdate = useRef(true);
+  const { setUrlSearchParam } = useUrlSearchParamsContext();
+
   const simulateClick = () => {
     toolTipButton.current.click();
   };
-  const firstUpdate = useRef(true);
-  useEffect(() => {
-    if (!firstUpdate.current) simulateClick();
-    firstUpdate.current = false;
-  }, [showLowerTooltipContent]);
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
 
@@ -69,7 +68,7 @@ export default function UsageSection () {
     eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
-    eventEmitter.emit(events.setExtractUrlParam, extractParams);
+    setUrlSearchParam('extract', extractParams);
   };
 
   const usageHandler = newUsage => {
@@ -84,6 +83,11 @@ export default function UsageSection () {
     eventEmitter.emit(events.setUsageUrlParam, newUsage);
     eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
   };
+
+  useEffect(() => {
+    if (!firstUpdate.current) simulateClick();
+    firstUpdate.current = false;
+  }, [showLowerTooltipContent]);
 
   useEffect(() => {
     eventEmitter.addListener(events.setSelectedFormats, selectedFormatsHandler);

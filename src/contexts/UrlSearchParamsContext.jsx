@@ -138,7 +138,7 @@ export default function UrlSearchParamsProvider ({ children }) {
     setUrlSearchParam('q_id', qIdParam);
   };
 
-  const resetUrlParams = () => {
+  const resetUrlSearchParams = () => {
     setSearchParams({});
   };
 
@@ -146,12 +146,11 @@ export default function UrlSearchParamsProvider ({ children }) {
     setUrlSearchParam,
     setQueryStringUrlParam,
     setQIdUrlParam,
+    resetUrlSearchParams,
   };
 
   useEffect(() => {
     fillFormFromUrlSearchParams();
-
-    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
   return (

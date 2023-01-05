@@ -10,7 +10,6 @@ export const events = {
   setCompressionLevel: 'setCompressionLevel',
   setArchiveType: 'setArchiveType',
   setUsage: 'setUsage',
-  resetUrlParams: 'resetUrlParams',
   setQueryStringInLastRequestOfHistory: 'setQueryStringInLastRequestOfHistory',
   setNumberOfDocumentsInLastRequestOfHistory: 'setNumberOfDocumentsInLastRequestOfHistory',
   setRankingModeInLastRequestOfHistory: 'setRankingModeInLastRequestOfHistory',

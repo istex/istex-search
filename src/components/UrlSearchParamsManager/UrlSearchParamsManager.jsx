@@ -135,7 +135,7 @@ export default function UrlSearchParamsManager () {
     // eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
     // eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
     // eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
-    eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
+    // eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
     eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
     eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
     eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));

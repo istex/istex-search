@@ -63,7 +63,7 @@ export default function QuerySection () {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
-    eventEmitter.emit(events.setRankingModeUrlParam, newRankingMode);
+    setUrlSearchParam('rankBy', newRankingMode);
     eventEmitter.emit(events.setRankingModeInLastRequestOfHistory, newRankingMode);
   };
 

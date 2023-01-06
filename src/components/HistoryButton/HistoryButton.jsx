@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import './HistoryButton.css';
-import eventEmitter, { events } from '../../lib/eventEmitter';
-import historyManager from '../../lib/HistoryManager';
 import ModalListHistory from './ModalListHistory';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+import { useHistoryContext } from '@/contexts/HistoryContext';
+
+import './HistoryButton.css';
 
 export default function HistoryButton () {
-  const [requests, setRequests] = useState(historyManager.getAll());
+  const { eventEmitter, events } = useEventEmitterContext();
+  const history = useHistoryContext();
+
+  const [requests, setRequests] = useState(history.getAll());
   const [openHistoryModal, setOpenHistoryModal] = useState(false);
 
   const setModalVisibility = (visible) => {
@@ -16,7 +20,7 @@ export default function HistoryButton () {
 
   const historyUpdatedHandler = () => {
     // Yes, the array has to be cloned every time to trigger a re-render (cf. https://stackoverflow.com/a/67354136)
-    setRequests([...historyManager.getAll()]);
+    setRequests([...history.getAll()]);
   };
 
   useEffect(() => {

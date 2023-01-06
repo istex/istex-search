@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { Modal, Table } from 'flowbite-react';
 
 import HistoryRequest from '../HistoryRequest/HistoryRequest';
-import HistoryManager from '../../lib/HistoryManager';
 import ConfirmDeleteHistoryModal from './ConfirmDeleteHistoryModal';
+import { useHistoryContext } from '@/contexts/HistoryContext';
 
 export default function ModalListHistory ({ show, onClose: setOpenModal, requests }) {
   const [openConfirmMofal, setOpenConfirmMofal] = useState(false);
+  const history = useHistoryContext();
 
   if (!show) {
     return null;
@@ -17,7 +18,7 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
   };
 
   const deleteAllHandler = () => {
-    HistoryManager.removeAll();
+    history.removeAll();
   };
 
   const handleMarginTopModal = (numberOfrequest) => {
@@ -87,8 +88,8 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
             <button
               type='button'
               onClick={() => { setOpenConfirmMofal(true); }}
-              disabled={HistoryManager.isEmpty()}
-              className={`p-2 text-white bg-[#d9534f] border border-[#d43f3a] ${HistoryManager.isEmpty() ? 'cursor-not-allowed opacity-75' : 'cursor-pointer hover:bg-[#c9302c] hover:border-[#ac2925]'} focus:ring-4 focus:outline-none`}
+              disabled={history.isEmpty()}
+              className={`p-2 text-white bg-[#d9534f] border border-[#d43f3a] ${history.isEmpty() ? 'cursor-not-allowed opacity-75' : 'cursor-pointer hover:bg-[#c9302c] hover:border-[#ac2925]'} focus:ring-4 focus:outline-none`}
             >
               Supprimer l'historique
             </button>

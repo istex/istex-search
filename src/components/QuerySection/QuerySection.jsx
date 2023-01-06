@@ -4,7 +4,6 @@ import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice'
 import QueryInput from '../QueryInput/QueryInput';
 import ResultPreview from '../ResultPreview/ResultPreview';
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
 import SectionTitle from '../SectionTitle/SectionTitle';
@@ -12,18 +11,9 @@ import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePrevious } from '../../lib/hooks';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 import './QuerySection.scss';
-
-const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
-  newQueryString,
-  newRankingMode,
-  currentPageURI,
-) => {
-  const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode, currentPageURI);
-
-  eventEmitter.emit(events.resultPreviewResponseReceived, response);
-});
 
 export default function QuerySection () {
   const dispatch = useDispatch();
@@ -41,6 +31,17 @@ export default function QuerySection () {
   const docNumberToolTip = useRef(null);
   const docClassedToolTip = useRef(null);
   const { setUrlSearchParam } = useUrlSearchParamsContext();
+  const { eventEmitter, events } = useEventEmitterContext();
+
+  const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
+    newQueryString,
+    newRankingMode,
+    currentPageURI,
+  ) => {
+    const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode, currentPageURI);
+
+    eventEmitter.emit(events.resultPreviewResponseReceived, response);
+  });
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {

@@ -5,12 +5,12 @@ import { Tooltip } from 'flowbite-react';
 import Usage from '../Usage/Usage';
 import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { formats, usages } from '../../config';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import CategoryFormat from '../CategoryFormat/CategoryFormat';
 import NoCategoryFormat from '../CategoryFormat/NoCategoryFormat';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function UsageSection () {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export default function UsageSection () {
   const toolTipButton = useRef(null);
   const firstUpdate = useRef(true);
   const { setUrlSearchParam } = useUrlSearchParamsContext();
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const simulateClick = () => {
     toolTipButton.current.click();

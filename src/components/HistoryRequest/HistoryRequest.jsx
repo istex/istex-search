@@ -14,10 +14,10 @@ import {
   isIstexIdQueryString,
   getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
-import eventEmitter, { events } from '../../lib/eventEmitter';
-import historyManager from '../../lib/HistoryManager';
 import { buildFullIstexDlUrl } from '../../lib/utils';
 import { useResetForm } from '@/lib/hooks';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+import { useHistoryContext } from '@/contexts/HistoryContext';
 
 import './HistoryRequest.scss';
 
@@ -26,6 +26,8 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   const [_isArkQueryString, setIsArkQueryString] = useState(false);
   const [_isIstexIdQueryString, setIsIstexIdQueryString] = useState(false);
   const resetForm = useResetForm();
+  const { eventEmitter, events } = useEventEmitterContext();
+  const history = useHistoryContext();
 
   const editHandler = () => {
     if (requestInfo.qId) {
@@ -52,7 +54,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
     // This function is synchronous
     sendDownloadApiRequest(url);
 
-    historyManager.add({
+    history.add({
       ...requestInfo,
       date: Date.now(),
     });
@@ -70,7 +72,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   };
 
   const deleteHandler = () => {
-    historyManager.remove(requestInfo.index);
+    history.remove(requestInfo.index);
   };
 
   // If requestInfo contains a q_id, we need to fetch the corresponding query string, otherwise just return

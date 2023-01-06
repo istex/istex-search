@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { RadioGroup } from '@headlessui/react';
-
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+
 export default function Usage ({ usageInfo }) {
   const usage = useSelector(state => state.istexApi.usage);
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const usageChangedHandler = value => {
     const newUsage = value;

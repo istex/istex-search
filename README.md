@@ -6,7 +6,7 @@
 
 ## Prerequisites
 
-- For debugging: Node.js >= 12
+- For debugging: Node.js >= 14
 - For production: docker & docker-compose or [ezmaster](https://github.com/inist-cnrs/ezmaster)
 
 ## Development

@@ -3,23 +3,14 @@ import { useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getQueryStringFromQId, parseExtractParams } from '../lib/istexApi';
 import { isValidMd5 } from '../lib/utils';
-import eventEmitter, { events } from '../lib/eventEmitter';
 import { istexApiConfig, usages } from '../config';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export const UrlSearchParamsContext = createContext();
 
-export function useUrlSearchParamsContext () {
-  const context = useContext(UrlSearchParamsContext);
-
-  if (!context) {
-    throw new Error('useUrlSearchParamsContext must be within a UrlSearchParamsProvider');
-  }
-
-  return context;
-}
-
 export default function UrlSearchParamsProvider ({ children }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const queryString = searchParams.get('q');
   const qId = searchParams.get('q_id');
@@ -158,6 +149,16 @@ export default function UrlSearchParamsProvider ({ children }) {
       {children}
     </UrlSearchParamsContext.Provider>
   );
+}
+
+export function useUrlSearchParamsContext () {
+  const context = useContext(UrlSearchParamsContext);
+
+  if (!context) {
+    throw new Error('useUrlSearchParamsContext must be within a UrlSearchParamsProvider');
+  }
+
+  return context;
 }
 
 UrlSearchParamsProvider.propTypes = {

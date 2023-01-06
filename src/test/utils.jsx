@@ -1,9 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { render } from '@testing-library/react';
-import myStore from '../store/store';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEraser,
@@ -19,6 +18,9 @@ import {
   faDownload,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+
+import myStore from '../store/store';
+import EventEmitterProvider from '@/contexts/EventEmitterContext';
 
 // Custom render function that will wrap the component to test in a Redux Provider and a Router
 // to allow it to access the store.
@@ -46,14 +48,18 @@ function customRender (ui, {
   function Wrapper ({ children }) {
     return (
       <BrowserRouter>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <EventEmitterProvider>
+            {children}
+          </EventEmitterProvider>
+        </Provider>
       </BrowserRouter>
     );
   }
 
   // Props validation to make sure the children of the component to test are in an object
   Wrapper.propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   };
 
   // Call the render function from React, pass it the wrapper and propagate the render options

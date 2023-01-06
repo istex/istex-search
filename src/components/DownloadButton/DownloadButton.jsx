@@ -4,9 +4,9 @@ import { Tooltip } from 'flowbite-react';
 
 import { useResetForm } from '@/lib/hooks';
 import { buildFullApiUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
-import historyManager from '../../lib/HistoryManager';
 import ModalDownloadRewiews from './ModalDownloadRewiews';
-import eventEmitter, { events } from '../../lib/eventEmitter';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+import { useHistoryContext } from '@/contexts/HistoryContext';
 
 export default function DownloadButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -20,6 +20,8 @@ export default function DownloadButton () {
 
   const [openModal, setOpenModal] = useState(false);
   const resetForm = useResetForm();
+  const { eventEmitter, events } = useEventEmitterContext();
+  const history = useHistoryContext();
 
   const handleDownload = (event) => {
     setOpenModal(true);
@@ -61,7 +63,7 @@ export default function DownloadButton () {
     // This function is synchronous
     sendDownloadApiRequest(url);
 
-    historyManager.add({
+    history.add({
       ...options,
       date: Date.now(),
     });

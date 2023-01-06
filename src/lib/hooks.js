@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 
-import eventEmitter, { events } from '@/lib/eventEmitter';
 import { istexApiConfig, queryModes } from '@/config';
 import { noFormatSelected } from '@/lib/istexApi';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export const useFocus = () => {
   const htmlElRef = useRef(null);
@@ -39,6 +39,7 @@ export const usePrevious = value => {
 
 export function useResetForm () {
   const { resetUrlSearchParams } = useUrlSearchParamsContext();
+  const { eventEmitter, events } = useEventEmitterContext();
 
   return () => {
     eventEmitter.emit(events.setQueryMode, queryModes.getDefault().value);

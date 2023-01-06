@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
 import DownloadButton from '../DownloadButton/DownloadButton';
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { isFormatSelected } from '../../lib/istexApi';
 import { istexApiConfig, formats, formatSizes } from '../../config';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 import SectionTitle from '../SectionTitle/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';
@@ -19,6 +19,7 @@ export default function DownloadSection () {
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
   const { setUrlSearchParam } = useUrlSearchParamsContext();
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const compressionLevelHandler = newCompressionLevel => {
     dispatch(setCompressionLevel(newCompressionLevel));

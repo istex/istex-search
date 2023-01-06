@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import eventEmitter, { events } from '../../lib/eventEmitter';
-import historyManager from '../../lib/HistoryManager';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+import { useHistoryContext } from '@/contexts/HistoryContext';
 
 export default function FetchButton () {
+  const { eventEmitter, events } = useEventEmitterContext();
+  const history = useHistoryContext();
+
   const updateFormFromLastRequest = () => {
-    const mostRecentRequest = historyManager.getLastRequest();
+    const mostRecentRequest = history.getLastRequest();
 
     if (!mostRecentRequest) {
       return;
@@ -27,18 +30,14 @@ export default function FetchButton () {
     eventEmitter.emit(events.setUsage, mostRecentRequest.usage);
   };
 
-  const populateLastRequest = (fieldName, fieldValue) => {
-    historyManager.populateLastRequest(fieldName, fieldValue);
-  };
-
   useEffect(() => {
-    eventEmitter.addListener(events.setQueryStringInLastRequestOfHistory, queryString => populateLastRequest('queryString', queryString));
-    eventEmitter.addListener(events.setNumberOfDocumentsInLastRequestOfHistory, numberOfDocuments => populateLastRequest('numberOfDocuments', numberOfDocuments));
-    eventEmitter.addListener(events.setRankingModeInLastRequestOfHistory, rankingMode => populateLastRequest('rankingMode', rankingMode));
-    eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, compressionLevel => populateLastRequest('compressionLevel', compressionLevel));
-    eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, archiveType => populateLastRequest('archiveType', archiveType));
-    eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, selectedFormats => populateLastRequest('selectedFormats', selectedFormats));
-    eventEmitter.addListener(events.setUsageInLastRequestOfHistory, usage => populateLastRequest('usage', usage));
+    eventEmitter.addListener(events.setQueryStringInLastRequestOfHistory, queryString => history.populateLastRequest('queryString', queryString));
+    eventEmitter.addListener(events.setNumberOfDocumentsInLastRequestOfHistory, numberOfDocuments => history.populateLastRequest('numberOfDocuments', numberOfDocuments));
+    eventEmitter.addListener(events.setRankingModeInLastRequestOfHistory, rankingMode => history.populateLastRequest('rankingMode', rankingMode));
+    eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, compressionLevel => history.populateLastRequest('compressionLevel', compressionLevel));
+    eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, archiveType => history.populateLastRequest('archiveType', archiveType));
+    eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, selectedFormats => history.populateLastRequest('selectedFormats', selectedFormats));
+    eventEmitter.addListener(events.setUsageInLastRequestOfHistory, usage => history.populateLastRequest('usage', usage));
   }, []);
 
   return (

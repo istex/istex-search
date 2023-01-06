@@ -17,13 +17,13 @@ import {
   isIstexIdQueryString,
   getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { queryModes, istexApiConfig } from '../../config';
 import { useFocus } from '../../lib/hooks';
 import { useResetForm } from '@/lib/hooks';
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from '../ExamplesButton/ExamplesButton';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 import './QueryInput.scss';
 
@@ -58,6 +58,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const [inputRef, setInputFocus] = useFocus();
   const { setQueryStringUrlParam, setQIdUrlParam } = useUrlSearchParamsContext();
   const resetForm = useResetForm();
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {

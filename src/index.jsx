@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faEraser,
@@ -22,14 +24,13 @@ import {
   faFileArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-import './index.scss';
-import 'flowbite';
-import 'react-toastify/dist/ReactToastify.min.css';
-
 import App from './components/App/App';
 import store from './store/store';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import EventEmitterProvider from '@/contexts/EventEmitterContext';
+
+import 'flowbite';
+import 'react-toastify/dist/ReactToastify.min.css';
+import './index.scss';
 
 library.add(
   faEraser,
@@ -54,12 +55,14 @@ library.add(
 );
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Provider>
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
+        <EventEmitterProvider>
+          <App />
+        </EventEmitterProvider>
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>,
   document.getElementById('root'),
 );

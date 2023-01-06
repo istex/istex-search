@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import Footer from '../Footer/Footer';
 import Form from '../Form/Form';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
 import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
+import HistoryProvider from '@/contexts/HistoryContext';
 
 export default function App () {
+  const { eventEmitter, events } = useEventEmitterContext();
+
   const contextClass = {
     warning: 'bg-istcolor-blue',
     success: 'bg-istcolor-green-dark',
@@ -42,8 +45,10 @@ export default function App () {
       <Header />
       <Banner />
       <UrlSearchParamsProvider>
-        <Form />
-        <Navbar />
+        <HistoryProvider>
+          <Form />
+          <Navbar />
+        </HistoryProvider>
       </UrlSearchParamsProvider>
       <Footer />
       <ToastContainer

@@ -1,3 +1,5 @@
+import React, { useContext, createContext } from 'react';
+import PropTypes from 'prop-types';
 import { EventEmitter } from 'eventemitter3';
 
 export const events = {
@@ -29,4 +31,33 @@ export const events = {
   setQueryAdvancedSearch: 'setQueryAdvancedSearch',
 };
 
-export default new EventEmitter();
+export const EventEmitterContext = createContext();
+
+const eventEmitter = new EventEmitter();
+
+export default function EventEmitterProvider ({ children }) {
+  const contextValue = {
+    events,
+    eventEmitter,
+  };
+
+  return (
+    <EventEmitterContext.Provider value={contextValue}>
+      {children}
+    </EventEmitterContext.Provider>
+  );
+}
+
+export function useEventEmitterContext () {
+  const context = useContext(EventEmitterContext);
+
+  if (!context) {
+    throw new Error('useEventEmitterContext must be within a EventEmitterProvider');
+  }
+
+  return context;
+}
+
+EventEmitterProvider.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+};

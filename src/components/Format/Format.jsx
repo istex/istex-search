@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import { toggleFormat, isFormatSelected } from '../../lib/istexApi';
-import eventEmitter, { events } from '../../lib/eventEmitter';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { toggleFormat, isFormatSelected } from '../../lib/istexApi';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function Format ({
   name,
@@ -17,6 +17,7 @@ export default function Format ({
 }) {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const buttonRef = useRef(null);
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const checked = isFormatSelected(selectedFormats, value);
 

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalShareButton from './ModalShareButton';
-import eventEmitter, { events } from '../../lib/eventEmitter';
+import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function ShareButton () {
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -15,6 +15,7 @@ export default function ShareButton () {
 
   const [openModal, setOpenModal] = useState(false);
   const [urlToClipboard, setUrlToClipboard] = useState('');
+  const { eventEmitter, events } = useEventEmitterContext();
 
   const isFormIncomplete = queryString === '' ||
     !selectedFormats ||

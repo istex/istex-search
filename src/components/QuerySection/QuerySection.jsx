@@ -15,6 +15,8 @@ import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 import './QuerySection.scss';
 
+const sendDelayedResultPreviewApiRequest = asyncDebounce(sendResultPreviewApiRequest);
+
 export default function QuerySection () {
   const dispatch = useDispatch();
   const queryString = useSelector(state => state.istexApi.queryString);
@@ -32,16 +34,6 @@ export default function QuerySection () {
   const docClassedToolTip = useRef(null);
   const { setUrlSearchParam } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
-
-  const sendDelayedResultPreviewApiRequest = asyncDebounce(async (
-    newQueryString,
-    newRankingMode,
-    currentPageURI,
-  ) => {
-    const response = await sendResultPreviewApiRequest(newQueryString, newRankingMode, currentPageURI);
-
-    eventEmitter.emit(events.resultPreviewResponseReceived, response);
-  });
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
     if (!isNaN(newNumberOfDocuments)) {
@@ -96,7 +88,9 @@ export default function QuerySection () {
     }
 
     const paginationQueryString = prevCurrentPageURI !== currentPageURI ? currentPageURI : '';
-    await sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString);
+    const response = await sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString);
+
+    eventEmitter.emit(events.resultPreviewResponseReceived, response);
     setLoading(false);
   }, [queryString, rankingMode, currentPageURI]);
 

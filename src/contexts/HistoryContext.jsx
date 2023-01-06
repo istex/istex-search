@@ -94,6 +94,7 @@ export default function HistoryProvider ({ children }) {
   };
 
   const init = () => {
+    history = [];
     lastRequest = getDefaultLastRequest();
 
     if (!window.localStorage.getItem(LOCAL_STORAGE_HISTORY_KEY) || !window.localStorage.getItem(LOCAL_STORAGE_LAST_REQUEST_KEY)) {

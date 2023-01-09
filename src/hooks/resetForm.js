@@ -1,43 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
-
 import { istexApiConfig, queryModes } from '@/config';
 import { noFormatSelected } from '@/lib/istexApi';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
-export const useFocus = () => {
-  const htmlElRef = useRef(null);
-  const setFocus = () => { htmlElRef.current && htmlElRef.current.focus(); };
-
-  return [htmlElRef, setFocus];
-};
-
-export const useStateWithCallback = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-
-  const setValueAndCallback = (newValue, callback) => {
-    setValue(prevValue => {
-      if (callback) {
-        callback(prevValue, newValue);
-      }
-
-      return newValue;
-    });
-  };
-
-  return [value, setValueAndCallback];
-};
-
-// custom hook for getting previous value
-export const usePrevious = value => {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
-};
-
-export function useResetForm () {
+export default function useResetForm () {
   const { resetUrlSearchParams } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
 

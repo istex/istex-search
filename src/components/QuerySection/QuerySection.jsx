@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
-import QueryInput from '../QueryInput/QueryInput';
-import ResultPreview from '../ResultPreview/ResultPreview';
-import { sendResultPreviewApiRequest } from '../../lib/istexApi';
-import { asyncDebounce } from '../../lib/utils';
-import { istexApiConfig } from '../../config';
 import SectionTitle from '../SectionTitle/SectionTitle';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { usePrevious } from '../../lib/hooks';
+
+import QueryInput from '../QueryInput/QueryInput';
+import ResultPreview from '../ResultPreview/ResultPreview';
+import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice';
+import { sendResultPreviewApiRequest } from '../../lib/istexApi';
+import { asyncDebounce } from '../../lib/utils';
+import { istexApiConfig } from '../../config';
+import usePrevious from '@/hooks/previous';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

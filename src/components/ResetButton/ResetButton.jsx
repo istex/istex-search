@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { useResetForm } from '@/lib/hooks';
+import useResetForm from '@/hooks/resetForm';
 
 export default function ResetButton () {
   const resetForm = useResetForm();

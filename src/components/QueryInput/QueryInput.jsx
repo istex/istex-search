@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 import TextareaAutosize from 'react-textarea-autosize';
 
-import { setQueryString, setQId } from '../../store/istexApiSlice';
+import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
+import ExamplesButton from '../ExamplesButton/ExamplesButton';
 import {
   buildQueryStringFromArks,
   isArkQueryString,
@@ -18,10 +19,9 @@ import {
   getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
 import { queryModes, istexApiConfig } from '../../config';
-import { useFocus } from '../../lib/hooks';
-import { useResetForm } from '@/lib/hooks';
-import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
-import ExamplesButton from '../ExamplesButton/ExamplesButton';
+import { setQueryString, setQId } from '../../store/istexApiSlice';
+import useFocus from '@/hooks/focus';
+import useResetForm from '@/hooks/resetForm';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

@@ -10,7 +10,7 @@ import { setNumberOfDocuments, setRankingMode } from '../../store/istexApiSlice'
 import { sendResultPreviewApiRequest } from '../../lib/istexApi';
 import { asyncDebounce } from '../../lib/utils';
 import { istexApiConfig } from '../../config';
-import usePrevious from '@/hooks/previous';
+import usePrevious from '@/hooks/usePrevious';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

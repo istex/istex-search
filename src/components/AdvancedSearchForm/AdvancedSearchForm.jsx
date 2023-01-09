@@ -4,7 +4,7 @@ import { Tooltip } from 'flowbite-react';
 
 import FormField from './FormFields/FormField';
 import OperatorRequest from './OperatorRequest/OperatorRequest';
-import useStateWithCallback from '@/hooks/stateWithCallback';
+import useStateWithCallback from '@/hooks/useStateWithCallback';
 
 function AdvancedSearchForm ({ queryInputHandler }) {
   const initialFieldArray = [{ type: 'field' }];

@@ -15,7 +15,7 @@ import {
   getIstexIdsFromIstexIdQueryString,
 } from '../../lib/istexApi';
 import { buildFullIstexDlUrl } from '../../lib/utils';
-import useResetForm from '@/hooks/resetForm';
+import useResetForm from '@/hooks/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';
 

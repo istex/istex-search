@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import useResetForm from '@/hooks/resetForm';
+import useResetForm from '@/hooks/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function Example ({ info, closeModal }) {

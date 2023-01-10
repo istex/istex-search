@@ -22,7 +22,7 @@ import {
 import { queryModes, istexApiConfig } from '@/config';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
-import useResetForm from '@/hooks/useResetForm';
+import useResetForm from '@/features/resetForm/hooks/useResetForm';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

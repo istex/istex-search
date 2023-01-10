@@ -1,10 +1,10 @@
 import React from 'react';
 import { Tooltip } from 'flowbite-react';
 
-import ResetButton from '../ResetButton/ResetButton';
-import FetchButton from '../FetchButton/FetchButton';
-import ShareButton from '../ShareButton/ShareButton';
-import HistoryButton from '../HistoryButton/HistoryButton';
+import ResetButton from '@/features/navbar/components/ResetButton/ResetButton';
+import FetchButton from '@/features/navbar/components/FetchButton/FetchButton';
+import ShareButton from '@/features/navbar/components/ShareButton/ShareButton';
+import HistoryButton from '@/features/navbar/components/HistoryButton/HistoryButton';
 
 export default function Navbar () {
   return (

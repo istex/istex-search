@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ModalListHistory from './ModalListHistory';
+
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';
 

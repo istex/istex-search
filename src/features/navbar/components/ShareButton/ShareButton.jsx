@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModalShareButton from './ModalShareButton';
+
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function ShareButton () {

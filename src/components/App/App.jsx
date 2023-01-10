@@ -7,6 +7,7 @@ import Form from '../Form/Form';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
+
 import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import HistoryProvider from '@/contexts/HistoryContext';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Modal } from 'flowbite-react';
 import PropTypes from 'prop-types';
+import { Modal } from 'flowbite-react';
 
 export default function ConfirmDeleteHistoryModal ({ initOpening = false, setOpenModal, deleteAllHandler }) {
   const [open, setOpen] = useState(initOpening);

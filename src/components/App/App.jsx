@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Footer from '../Footer/Footer';
 import Form from '../Form/Form';
 import Header from '../Header/Header';
-import Navbar from '../Navbar/Navbar';
+import BottomMenu from '../BottomMenu/BottomMenu';
 import Banner from '../Banner/Banner';
 
 import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
@@ -48,7 +48,7 @@ export default function App () {
       <UrlSearchParamsProvider>
         <HistoryProvider>
           <Form />
-          <Navbar />
+          <BottomMenu />
         </HistoryProvider>
       </UrlSearchParamsProvider>
       <Footer />

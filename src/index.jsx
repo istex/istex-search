@@ -24,7 +24,7 @@ import {
   faFileArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-import App from '@/components/App/App';
+import App from '@/components/App';
 import store from '@/store/store';
 import EventEmitterProvider from '@/contexts/EventEmitterContext';
 

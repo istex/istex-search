@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { describe, it, expect } from 'vitest';
 
-import { customRender as render } from '../test/utils';
-import HistoryProvider, { useHistoryContext } from '@/contexts/HistoryContext';
+import { customRender as render } from '@/test/utils';
 import { getDefaultState } from '@/store/istexApiSlice';
+import HistoryProvider, { useHistoryContext } from '@/contexts/HistoryContext';
 
 describe('Tests for the HistoryContext', () => {
   test('get', history => {

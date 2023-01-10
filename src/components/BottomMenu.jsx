@@ -1,10 +1,10 @@
 import React from 'react';
 import { Tooltip } from 'flowbite-react';
 
-import ResetButton from '@/features/resetForm/components/ResetButton/ResetButton';
-import FetchButton from '@/features/fetch/components/FetchButton/FetchButton';
-import ShareButton from '@/features/share/components/ShareButton/ShareButton';
-import HistoryButton from '@/features/history/components/HistoryButton/HistoryButton';
+import ResetButton from '@/features/resetForm/ResetButton';
+import FetchButton from '@/features/fetch/FetchButton';
+import ShareButton from '@/features/share/ShareButton';
+import HistoryButton from '@/features/history/HistoryButton';
 
 export default function BottomMenu () {
   return (

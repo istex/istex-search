@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import SectionTitle from '@/components/SectionTitle/SectionTitle';
-import QueryInput from '@/features/query/components/QueryInput/QueryInput';
-import ResultPreview from '@/features/query/components/ResultPreview/ResultPreview';
+import SectionTitle from '@/components/SectionTitle';
+import QueryInput from '@/features/query/QueryInput';
+import ResultPreview from '@/features/query/ResultPreview/ResultPreview';
 
 import { setNumberOfDocuments, setRankingMode } from '@/store/istexApiSlice';
 import { sendResultPreviewApiRequest } from '@/lib/istexApi';

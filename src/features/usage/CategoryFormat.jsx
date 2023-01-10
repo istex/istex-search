@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 
-import { formats as formatInfoText } from '../Format/infoTooltip';
-import Format from '../Format/Format';
+import { formats as formatInfoText } from './infoTooltip';
+import Format from './Format';
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 
 export const CHECKBOX_STATES = {

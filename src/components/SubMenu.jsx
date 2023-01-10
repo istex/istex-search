@@ -1,6 +1,7 @@
 import React from 'react';
-import '../Header/Header.scss';
 import PropTypes from 'prop-types';
+
+import './Header.scss';
 
 export default function SubMenu ({ screenSize }) {
   return (

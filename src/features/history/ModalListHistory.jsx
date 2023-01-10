@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Table } from 'flowbite-react';
 
-import HistoryRequest from '../HistoryRequest/HistoryRequest';
+import HistoryRequest from './HistoryRequest';
 import ConfirmDeleteHistoryModal from './ConfirmDeleteHistoryModal';
 
 import { useHistoryContext } from '@/contexts/HistoryContext';

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import QuerySection from '@/sections/query/QuerySection';
-import UsageSection from '@/sections/usage/UsageSection';
-import DownloadSection from '@/sections/download/DownloadSection';
+import QuerySection from '@/sections/QuerySection';
+import UsageSection from '@/sections/UsageSection';
+import DownloadSection from '@/sections/DownloadSection';
 
 export default function Form () {
   return (

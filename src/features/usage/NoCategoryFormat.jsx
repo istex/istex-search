@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Format from '../Format/Format';
-import { formats as formatInfoText } from '../Format/infoTooltip';
+import Format from './Format';
+import { formats as formatInfoText } from './infoTooltip';
 
 export default function NoCategoryFormat ({
   formatCategory,

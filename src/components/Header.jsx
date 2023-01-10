@@ -1,10 +1,11 @@
 import { Tooltip } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
-import SubMenu from '../SubMenu/SubMenu';
-import { ReactComponent as TwitterIcon } from '../../assets/img/head-ico-twitter.svg';
-import { ReactComponent as GithubIcon } from '../../assets/img/head-ico-github.svg';
-import { ReactComponent as YoutubeIcon } from '../../assets/img/head-ico-youtube.svg';
-import { ReactComponent as ContactIcon } from '../../assets/img/head-ico-contact.svg';
+
+import SubMenu from './SubMenu';
+import { ReactComponent as TwitterIcon } from '@/assets/img/head-ico-twitter.svg';
+import { ReactComponent as GithubIcon } from '@/assets/img/head-ico-github.svg';
+import { ReactComponent as YoutubeIcon } from '@/assets/img/head-ico-youtube.svg';
+import { ReactComponent as ContactIcon } from '@/assets/img/head-ico-contact.svg';
 
 import './Header.scss';
 

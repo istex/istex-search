@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Footer from '../Footer/Footer';
-import Form from '../Form/Form';
-import Header from '../Header/Header';
-import BottomMenu from '../BottomMenu/BottomMenu';
-import Banner from '../Banner/Banner';
+import Footer from './Footer';
+import Form from './Form';
+import Header from './Header';
+import BottomMenu from './BottomMenu';
+import Banner from './Banner';
 
 import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';

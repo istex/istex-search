@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import DownloadButton from '@/features/download/components/DownloadButton/DownloadButton';
-import SectionTitle from '@/components/SectionTitle/SectionTitle';
-import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage/FeedbackMessage';
+import DownloadButton from '@/features/download/DownloadButton';
+import SectionTitle from '@/components/SectionTitle';
+import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import { setCompressionLevel, setArchiveType } from '@/store/istexApiSlice';
 import { isFormatSelected } from '@/lib/istexApi';

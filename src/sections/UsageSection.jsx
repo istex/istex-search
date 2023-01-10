@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
 
-import Usage from '@/features/usage/components/Usage/Usage';
-import SectionTitle from '@/components/SectionTitle/SectionTitle';
-import CategoryFormat from '@/features/usage/components/CategoryFormat/CategoryFormat';
-import NoCategoryFormat from '@/features/usage/components/CategoryFormat/NoCategoryFormat';
+import Usage from '@/features/usage/Usage';
+import SectionTitle from '@/components/SectionTitle';
+import CategoryFormat from '@/features/usage/CategoryFormat';
+import NoCategoryFormat from '@/features/usage/NoCategoryFormat';
 
 import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '@/lib/istexApi';

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Modal } from 'flowbite-react';
 
 import CatalogListItem from './CatalogListItem';
-import { catalogList } from '../../../config';
+
+import { catalogList } from '@/config';
 
 export default function CatalogList ({
   openCatalogList,

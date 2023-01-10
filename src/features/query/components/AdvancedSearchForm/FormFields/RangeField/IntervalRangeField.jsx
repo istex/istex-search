@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Spinner } from 'flowbite-react';
 
 import RangeField from './RangeField';
-import { Spinner } from 'flowbite-react';
 
 function IntervalRangeField ({
   data,

@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button, TextInput, Label, Tooltip } from 'flowbite-react';
+
 import ModalRangeField from './ModalRangeField';
+
 import './RangeField.scss';
 
 function RangeField ({

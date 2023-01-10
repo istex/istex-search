@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
 import ResultDetailExtension from './ResultDetailExtension';
 
 export default function ResultDetail ({ documentResult = {} }) {

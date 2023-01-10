@@ -9,6 +9,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import AdvancedSearchForm from '../AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from '../ExamplesButton/ExamplesButton';
+
 import {
   buildQueryStringFromArks,
   isArkQueryString,
@@ -17,9 +18,9 @@ import {
   getQueryStringFromQId,
   isIstexIdQueryString,
   getIstexIdsFromIstexIdQueryString,
-} from '../../lib/istexApi';
-import { queryModes, istexApiConfig } from '../../config';
-import { setQueryString, setQId } from '../../store/istexApiSlice';
+} from '@/lib/istexApi';
+import { queryModes, istexApiConfig } from '@/config';
+import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
 import useResetForm from '@/hooks/useResetForm';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';

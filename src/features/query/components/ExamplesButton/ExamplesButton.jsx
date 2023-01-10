@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Tooltip, Modal } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { examples } from '../../config';
+
 import Example from './Example';
+
+import { examples } from '@/config';
 
 export default function ExamplesButton () {
   const [modalOpened, showModal] = useState(false);

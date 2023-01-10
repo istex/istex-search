@@ -2,7 +2,7 @@ import React from 'react';
 import { Select } from 'flowbite-react';
 import PropTypes from 'prop-types';
 
-import { operatorsRequest } from '../../../config';
+import { operatorsRequest } from '@/config';
 
 function OperatorRequest ({ setSelectedOperatorRequest, index, handleQueryAdvancedSearch, groupIndex }) {
   const handleChange = (event) => {

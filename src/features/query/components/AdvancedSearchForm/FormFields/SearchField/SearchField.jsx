@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Tooltip, Modal } from 'flowbite-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { operatorsField } from '../../../../config';
 import OperatorField from '../../OperatorField/OperatorField';
 import SearchInput from './SearchInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip, Modal } from 'flowbite-react';
 import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectField';
 import SearchValue from './SearchValue';
+
+import { operatorsField } from '@/config';
 
 export default function SearchField ({
   shoudDisplaySearch,

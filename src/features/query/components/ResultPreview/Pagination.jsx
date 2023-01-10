@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { checkIfQueryIsTooLong } from '../../lib/istexApi';
+
+import { checkIfQueryIsTooLong } from '@/lib/istexApi';
 
 export default function Pagination ({
   totalAmountOfDocuments,

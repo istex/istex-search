@@ -1,6 +1,6 @@
 import React from 'react';
-import { Label, Modal, TextInput, Button } from 'flowbite-react';
 import PropTypes from 'prop-types';
+import { Label, Modal, TextInput, Button } from 'flowbite-react';
 
 function ModalRangeField ({
   openModal,

@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'flowbite-react';
 
 import ResetButton from '@/features/resetForm/components/ResetButton/ResetButton';
-import FetchButton from '@/features/bottomMenu/components/FetchButton/FetchButton';
+import FetchButton from '@/features/fetch/components/FetchButton/FetchButton';
 import ShareButton from '@/features/bottomMenu/components/ShareButton/ShareButton';
 import HistoryButton from '@/features/bottomMenu/components/HistoryButton/HistoryButton';
 

@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { Tooltip } from 'flowbite-react';
 
 import ModalDownloadRewiews from './ModalDownloadRewiews';
-import { buildFullApiUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '../../lib/istexApi';
+
+import { buildFullApiUrl, sendDownloadApiRequest, sendSaveQIdApiRequest } from '@/lib/istexApi';
 import useResetForm from '@/hooks/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';

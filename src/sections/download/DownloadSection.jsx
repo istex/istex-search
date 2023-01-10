@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCompressionLevel, setArchiveType } from '../../store/istexApiSlice';
-import DownloadButton from '../DownloadButton/DownloadButton';
-import { isFormatSelected } from '../../lib/istexApi';
-import { istexApiConfig, formats, formatSizes } from '../../config';
+
+import DownloadButton from '@/features/download/components/DownloadButton/DownloadButton';
+import SectionTitle from '@/components/SectionTitle/SectionTitle';
+import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage/FeedbackMessage';
+
+import { setCompressionLevel, setArchiveType } from '@/store/istexApiSlice';
+import { isFormatSelected } from '@/lib/istexApi';
+import { istexApiConfig, formats, formatSizes } from '@/config';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
-
-import SectionTitle from '../SectionTitle/SectionTitle';
-import FeedbackMessage, { FeedbackMessageTypes } from '../FeedbackMessage/FeedbackMessage';
 
 export default function DownloadSection () {
   const dispatch = useDispatch();

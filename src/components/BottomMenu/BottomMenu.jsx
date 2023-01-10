@@ -3,7 +3,7 @@ import { Tooltip } from 'flowbite-react';
 
 import ResetButton from '@/features/resetForm/components/ResetButton/ResetButton';
 import FetchButton from '@/features/fetch/components/FetchButton/FetchButton';
-import ShareButton from '@/features/bottomMenu/components/ShareButton/ShareButton';
+import ShareButton from '@/features/share/components/ShareButton/ShareButton';
 import HistoryButton from '@/features/history/components/HistoryButton/HistoryButton';
 
 export default function BottomMenu () {

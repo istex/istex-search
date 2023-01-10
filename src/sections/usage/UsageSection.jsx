@@ -2,13 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
-import Usage from '../Usage/Usage';
-import { setSelectedFormats, setUsage } from '../../store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '../../lib/istexApi';
-import { formats, usages } from '../../config';
-import SectionTitle from '../SectionTitle/SectionTitle';
-import CategoryFormat from '../CategoryFormat/CategoryFormat';
-import NoCategoryFormat from '../CategoryFormat/NoCategoryFormat';
+
+import Usage from '@/features/usage/components/Usage/Usage';
+import SectionTitle from '@/components/SectionTitle/SectionTitle';
+import CategoryFormat from '@/features/usage/components/CategoryFormat/CategoryFormat';
+import NoCategoryFormat from '@/features/usage/components/CategoryFormat/NoCategoryFormat';
+
+import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '@/lib/istexApi';
+import { formats, usages } from '@/config';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

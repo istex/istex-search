@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getQueryStringFromQId, parseExtractParams } from '../lib/istexApi';
-import { isValidMd5 } from '../lib/utils';
-import { istexApiConfig, usages } from '../config';
+import { useSearchParams } from 'react-router-dom';
+
+import { getQueryStringFromQId, parseExtractParams } from '@/lib/istexApi';
+import { isValidMd5 } from '@/lib/utils';
+import { istexApiConfig, usages } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export const UrlSearchParamsContext = createContext();

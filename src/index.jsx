@@ -24,13 +24,13 @@ import {
   faFileArrowUp,
 } from '@fortawesome/free-solid-svg-icons';
 
-import App from './components/App/App';
-import store from './store/store';
+import App from '@/components/App';
+import store from '@/store/store';
 import EventEmitterProvider from '@/contexts/EventEmitterContext';
 
 import 'flowbite';
 import 'react-toastify/dist/ReactToastify.min.css';
-import './index.scss';
+import '@/index.scss';
 
 library.add(
   faEraser,

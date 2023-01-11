@@ -8,7 +8,7 @@ import HistoryButton from '@/features/history/HistoryButton';
 
 export default function BottomMenu () {
   return (
-    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-green-dark py-1 z-50'>
+    <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-green-dark py-0.5 h-20 z-50'>
       <div className='flex justify-center gap-2 md:gap-x-14 items-center'>
         <Tooltip
           content={(

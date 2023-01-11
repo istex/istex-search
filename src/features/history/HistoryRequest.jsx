@@ -115,8 +115,8 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
           className={`history-tab-request ${_isArkQueryString || _isIstexIdQueryString ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
         >
           {(() => {
-            if (_isArkQueryString) return getArksFromArkQueryString(queryString).map(ark => <div key={ark}>{ark}<br /></div>);
-            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).map(id => <div key={id}>{id}<br /></div>);
+            if (_isArkQueryString) return getArksFromArkQueryString(queryString).slice(0, 10).map(ark => <div key={ark}>{ark}<br /></div>);
+            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).slice(0, 10).map(id => <div key={id}>{id}<br /></div>);
             return queryString;
           })()}
         </div>

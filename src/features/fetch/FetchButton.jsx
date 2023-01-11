@@ -42,7 +42,7 @@ export default function FetchButton () {
 
   return (
     <div
-      className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-1.5 text-istcolor-black'
+      className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
       onClick={updateFormFromLastRequest}
     >
       <div>

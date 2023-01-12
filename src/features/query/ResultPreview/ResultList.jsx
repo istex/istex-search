@@ -8,11 +8,11 @@ export default function ResultList ({
   shouldDisplayResultDetail,
   setShouldDisplayResultDetail,
 }) {
-  const [item, setitem] = useState({});
+  const [item, setItem] = useState({});
 
   const handleClick = (data) => {
     setShouldDisplayResultDetail(true);
-    setitem(data);
+    setItem(data);
   };
 
   return shouldDisplayResultDetail
@@ -20,28 +20,27 @@ export default function ResultList ({
       <ResultDetail documentResult={item} />
       )
     : (
-      <div className='grid grid-cols-1 gap-y-2 auto-rows-fr md:gap-x-8 md:gap-y-4 md:grid-cols-3 md:mr-4 w-full'>
+      <div className='grid grid-cols-1 gap-y-2 md:gap-x-8 md:gap-y-4 md:grid-cols-3 w-full'>
         {results.map(result => (
           <div
             key={result.id}
-            className='flex flex-col justify-between border-[1px] py-2 border-l-[10px] px-2 cursor-pointer cta3 hover:border-l-istcolor-white'
+            className='flex cursor-pointer border-[1px] border-istcolor-blue cta3 group'
             onClick={() => handleClick(result)}
           >
-            <div>
-              <div className='font-semibold text-sm line-clamp-2'>{result.title ? result.title : 'Untitled Document'}</div>
+            <div className='flex-none w-2 bg-istcolor-blue group-hover:bg-istcolor-white' />
+            {/* p-2 applies a padding of 0.5rem and we want the width to be 100% minus the padding (horrible hack...) */}
+            <div className='p-2 flex flex-col justify-between w-[calc(100%-0.5rem)] text-sm'>
+              <div className='font-semibold line-clamp-2'>{result.title ? result.title : 'Untitled Document'}</div>
               {result.author && (
-                <div className='italic text-sm pt-2 text-istcolor-black truncate'>
+                <div className='italic pt-2 text-istcolor-black group-hover:text-istcolor-white truncate'>
                   {result.author.map(currentAuthor => currentAuthor.name).join(' ; ')}
                 </div>
               )}
-            </div>
-            <div className='flex justify-between text-sm pt-2'>
-              {result.host?.title && (
-                <div className='text-istcolor-black truncate'>{result.host.title}</div>
-              )}
-              {result.publicationDate && (
-                <div className='text-istcolor-black'>{result.publicationDate}</div>
-              )}
+
+              <div className='flex justify-between text-sm pt-2 text-istcolor-black group-hover:text-istcolor-white'>
+                {result.host?.title && <div className='truncate'>{result.host.title}</div>}
+                {result.publicationDate && <div>{result.publicationDate}</div>}
+              </div>
             </div>
           </div>
         ))}

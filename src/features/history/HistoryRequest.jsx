@@ -19,8 +19,6 @@ import useResetForm from '@/features/resetForm/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';
 
-import './HistoryRequest.scss';
-
 export default function HistoryRequest ({ requestInfo, onClose }) {
   const [queryString, setQueryString] = useState('');
   const [_isArkQueryString, setIsArkQueryString] = useState(false);
@@ -112,11 +110,11 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
       </Table.Cell>
       <Table.Cell>
         <div
-          className={`history-tab-request ${_isArkQueryString || _isIstexIdQueryString ? 'history-tab-request__ark' : 'history-tab-request__query-string'}`}
+          className={`line-clamp-${_isArkQueryString || _isIstexIdQueryString ? '3' : '2'}`}
         >
           {(() => {
-            if (_isArkQueryString) return getArksFromArkQueryString(queryString).slice(0, 10).map(ark => <div key={ark}>{ark}<br /></div>);
-            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).slice(0, 10).map(id => <div key={id}>{id}<br /></div>);
+            if (_isArkQueryString) return getArksFromArkQueryString(queryString).slice(0, 4).map(ark => <div key={ark}>{ark}<br /></div>);
+            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>);
             return queryString;
           })()}
         </div>

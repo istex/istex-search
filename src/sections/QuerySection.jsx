@@ -233,7 +233,7 @@ export default function QuerySection () {
             const value = parseInt(event.target.value);
             numberOfDocumentsHandler(value);
           }}
-          className='ml-5 border-[1px] border-istcolor-green-dark px-2 py-1 w-28'
+          className='ml-5 border-[1px] border-istcolor-green-dark px-2 py-1 w-28 text-sm'
         />
         {!!totalAmountOfDocuments && (
           <div className='ml-2 inline-block'>

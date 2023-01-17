@@ -354,6 +354,22 @@ export function isFormatSelected (baseFormat, formatToCheck) {
 }
 
 /**
+ * Returns a format corresponding to all the formats inside `categoryName`.
+ * @param {string} categoryName The name of the category.
+ * @returns A format corresponding to all the formats inside `categoryName`.
+ */
+export function getWholeCategoryFormat (categoryName) {
+  if (!formats[categoryName]) return 0;
+
+  let wholeCategoryFormat = 0;
+  for (const formatName in formats[categoryName].formats) {
+    wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
+  }
+
+  return wholeCategoryFormat;
+}
+
+/**
  * Verify is query search is too long. some browsers won't accept to send a GET request so we send a POST request
  * @param {string} queryString The query string URL search parameter.
  * @returns A `Boolean`.

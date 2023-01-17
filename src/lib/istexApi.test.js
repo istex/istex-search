@@ -232,4 +232,28 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(istexApi.isFormatSelected(formatsWithTxt, formats.fulltext.formats.txt.value)).toBe(true);
     expect(istexApi.isFormatSelected(formatsWithoutTxt, formats.fulltext.formats.txt.value)).toBe(false);
   });
+
+  it('getWholeCategoryFormat', () => {
+    const fulltextFormats = formats.fulltext.formats.pdf.value |
+      formats.fulltext.formats.tei.value |
+      formats.fulltext.formats.txt.value |
+      formats.fulltext.formats.cleaned.value |
+      formats.fulltext.formats.zip.value |
+      formats.fulltext.formats.tiff.value;
+
+    const metadataFormats = formats.metadata.formats.json.value |
+      formats.metadata.formats.xml.value |
+      formats.metadata.formats.mods.value;
+
+    const enrichmentsFormats = formats.enrichments.formats.multicat.value |
+      formats.enrichments.formats.nb.value |
+      formats.enrichments.formats.grobidFulltext.value |
+      formats.enrichments.formats.refBibs.value |
+      formats.enrichments.formats.teeft.value |
+      formats.enrichments.formats.unitex.value;
+
+    expect(istexApi.getWholeCategoryFormat('fulltext')).toBe(fulltextFormats);
+    expect(istexApi.getWholeCategoryFormat('metadata')).toBe(metadataFormats);
+    expect(istexApi.getWholeCategoryFormat('enrichments')).toBe(enrichmentsFormats);
+  });
 });

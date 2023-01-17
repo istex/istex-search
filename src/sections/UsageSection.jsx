@@ -9,7 +9,7 @@ import CategoryFormat from '@/features/usage/CategoryFormat';
 import NoCategoryFormat from '@/features/usage/NoCategoryFormat';
 
 import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '@/lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat, getWholeCategoryFormat } from '@/lib/istexApi';
 import { formats, usages } from '@/config';
 import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
@@ -31,17 +31,6 @@ export default function UsageSection () {
   };
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
-
-  const getWholeCategoryFormat = categoryName => {
-    if (!formats[categoryName]) return 0;
-
-    let wholeCategoryFormat = 0;
-    for (const formatName in formats[categoryName].formats) {
-      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
-    }
-
-    return wholeCategoryFormat;
-  };
 
   const toggleWholeCategory = event => {
     const categoryName = event.target.name;

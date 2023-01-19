@@ -9,9 +9,8 @@ import CategoryFormat from '@/features/usage/CategoryFormat';
 import NoCategoryFormat from '@/features/usage/NoCategoryFormat';
 
 import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat } from '@/lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat, getWholeCategoryFormat } from '@/lib/istexApi';
 import { formats, usages } from '@/config';
-import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function UsageSection () {
@@ -23,7 +22,6 @@ export default function UsageSection () {
   const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
   const toolTipButton = useRef(null);
   const firstUpdate = useRef(true);
-  const { setUrlSearchParam } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
 
   const simulateClick = () => {
@@ -31,17 +29,6 @@ export default function UsageSection () {
   };
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
-
-  const getWholeCategoryFormat = categoryName => {
-    if (!formats[categoryName]) return 0;
-
-    let wholeCategoryFormat = 0;
-    for (const formatName in formats[categoryName].formats) {
-      wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
-    }
-
-    return wholeCategoryFormat;
-  };
 
   const toggleWholeCategory = event => {
     const categoryName = event.target.name;
@@ -71,7 +58,7 @@ export default function UsageSection () {
     eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
-    setUrlSearchParam('extract', extractParams);
+    eventEmitter.emit(events.setExtractUrlParam, extractParams);
   };
 
   const usageHandler = newUsage => {
@@ -83,7 +70,7 @@ export default function UsageSection () {
 
     dispatch(setUsage(newUsage));
 
-    setUrlSearchParam('usage', newUsage);
+    eventEmitter.emit(events.setUsageUrlParam, newUsage);
     eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
   };
 

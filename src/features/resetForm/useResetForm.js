@@ -1,10 +1,8 @@
 import { istexApiConfig, queryModes } from '@/config';
 import { noFormatSelected } from '@/lib/istexApi';
-import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function useResetForm () {
-  const { resetUrlSearchParams } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
 
   return () => {
@@ -20,6 +18,6 @@ export default function useResetForm () {
     eventEmitter.emit(events.resetResultPreview);
     eventEmitter.emit(events.resetMessageImportCorpus);
 
-    resetUrlSearchParams();
+    eventEmitter.emit(events.resetUrlParams);
   };
 }

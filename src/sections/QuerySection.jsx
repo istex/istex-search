@@ -12,7 +12,6 @@ import { sendResultPreviewApiRequest } from '@/lib/istexApi';
 import { asyncDebounce } from '@/lib/utils';
 import { istexApiConfig } from '@/config';
 import usePrevious from '@/hooks/usePrevious';
-import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 import './QuerySection.scss';
@@ -34,7 +33,6 @@ export default function QuerySection () {
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const docNumberToolTip = useRef(null);
   const docClassedToolTip = useRef(null);
-  const { setUrlSearchParam } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
@@ -49,7 +47,7 @@ export default function QuerySection () {
 
       dispatch(setNumberOfDocuments(newNumberOfDocuments));
 
-      setUrlSearchParam('size', newNumberOfDocuments);
+      eventEmitter.emit(events.setNumberOfDocumentsUrlParam, newNumberOfDocuments);
       eventEmitter.emit(events.setNumberOfDocumentsInLastRequestOfHistory, newNumberOfDocuments);
     }
   };
@@ -58,7 +56,7 @@ export default function QuerySection () {
     setCurrentRankingMode(newRankingMode);
     dispatch(setRankingMode(newRankingMode));
 
-    setUrlSearchParam('rankBy', newRankingMode);
+    eventEmitter.emit(events.setRankingModeUrlParam, newRankingMode);
     eventEmitter.emit(events.setRankingModeInLastRequestOfHistory, newRankingMode);
   };
 

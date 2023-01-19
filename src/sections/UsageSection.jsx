@@ -11,7 +11,6 @@ import NoCategoryFormat from '@/features/usage/NoCategoryFormat';
 import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
 import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat, getWholeCategoryFormat } from '@/lib/istexApi';
 import { formats, usages } from '@/config';
-import { useUrlSearchParamsContext } from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function UsageSection () {
@@ -23,7 +22,6 @@ export default function UsageSection () {
   const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
   const toolTipButton = useRef(null);
   const firstUpdate = useRef(true);
-  const { setUrlSearchParam } = useUrlSearchParamsContext();
   const { eventEmitter, events } = useEventEmitterContext();
 
   const simulateClick = () => {
@@ -60,7 +58,7 @@ export default function UsageSection () {
     eventEmitter.emit(events.setSelectedFormatsInLastRequestOfHistory, newSelectedFormats);
 
     const extractParams = buildExtractParamsFromFormats(newSelectedFormats);
-    setUrlSearchParam('extract', extractParams);
+    eventEmitter.emit(events.setExtractUrlParam, extractParams);
   };
 
   const usageHandler = newUsage => {
@@ -72,7 +70,7 @@ export default function UsageSection () {
 
     dispatch(setUsage(newUsage));
 
-    setUrlSearchParam('usage', newUsage);
+    eventEmitter.emit(events.setUsageUrlParam, newUsage);
     eventEmitter.emit(events.setUsageInLastRequestOfHistory, newUsage);
   };
 

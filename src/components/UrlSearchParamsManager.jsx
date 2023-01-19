@@ -1,15 +1,16 @@
-import React, { createContext, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
 import { getQueryStringFromQId, parseExtractParams } from '@/lib/istexApi';
 import { isValidMd5 } from '@/lib/utils';
 import { istexApiConfig, usages } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
-export const UrlSearchParamsContext = createContext();
+// It would be more appropriate to use a context to maintain a global state of URL search params
+// but there is currently a bug with the UsageSection that causes the search params to be off sync
+// with what's in the form when using a context. If the UsageSection is ever revisited, retrying
+// to implement the URL search params logic inside of a context would be nice.
 
-export default function UrlSearchParamsProvider ({ children }) {
+export default function UrlSearchParamsManager () {
   const [searchParams, setSearchParams] = useSearchParams();
   const { eventEmitter, events } = useEventEmitterContext();
 
@@ -130,38 +131,23 @@ export default function UrlSearchParamsProvider ({ children }) {
     setUrlSearchParam('q_id', qIdParam);
   };
 
-  const resetUrlSearchParams = () => {
+  const resetUrlParams = () => {
     setSearchParams({});
-  };
-
-  const contextValue = {
-    setUrlSearchParam,
-    setQueryStringUrlParam,
-    setQIdUrlParam,
-    resetUrlSearchParams,
   };
 
   useEffect(() => {
     fillFormFromUrlSearchParams();
+
+    eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
+    eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
+    eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
+    eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
+    eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
+    eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
+    eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
+    eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
+    eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
   }, []);
 
-  return (
-    <UrlSearchParamsContext.Provider value={contextValue}>
-      {children}
-    </UrlSearchParamsContext.Provider>
-  );
+  return null;
 }
-
-export function useUrlSearchParamsContext () {
-  const context = useContext(UrlSearchParamsContext);
-
-  if (!context) {
-    throw new Error('useUrlSearchParamsContext must be within a UrlSearchParamsProvider');
-  }
-
-  return context;
-}
-
-UrlSearchParamsProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-};

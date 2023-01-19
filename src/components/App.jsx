@@ -7,8 +7,8 @@ import Form from './Form';
 import Header from './Header';
 import BottomMenu from './BottomMenu';
 import Banner from './Banner';
+import UrlSearchParamsManager from './UrlSearchParamsManager';
 
-import UrlSearchParamsProvider from '@/contexts/UrlSearchParamsContext';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import HistoryProvider from '@/contexts/HistoryContext';
 
@@ -45,12 +45,11 @@ export default function App () {
     <div className='text-istcolor-black'>
       <Header />
       <Banner />
-      <UrlSearchParamsProvider>
-        <HistoryProvider>
-          <Form />
-          <BottomMenu />
-        </HistoryProvider>
-      </UrlSearchParamsProvider>
+      <HistoryProvider>
+        <Form />
+        <BottomMenu />
+      </HistoryProvider>
+      <UrlSearchParamsManager />
       <Footer />
       <ToastContainer
         hideProgressBar

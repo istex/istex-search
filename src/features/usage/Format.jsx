@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { toggleFormat, isFormatSelected } from '@/lib/istexApi';
+import { toggleFormat, isFormatSelected } from '@/lib/formats';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function Format ({

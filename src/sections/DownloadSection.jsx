@@ -6,7 +6,7 @@ import SectionTitle from '@/components/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import { setCompressionLevel, setArchiveType } from '@/store/istexApiSlice';
-import { isFormatSelected } from '@/lib/istexApi';
+import { isFormatSelected } from '@/lib/formats';
 import { istexApiConfig, formats, formatSizes } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

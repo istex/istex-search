@@ -1,4 +1,4 @@
-import { buildExtractParamsFromFormats } from './istexApi';
+import { buildExtractParamsFromFormats } from './formats';
 
 /**
  * Checks if `hash` is a valid md5 hash.

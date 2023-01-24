@@ -15,10 +15,10 @@ import {
   isArkQueryString,
   getArksFromArkQueryString,
   parseCorpusFileContent,
-  getQueryStringFromQId,
   isIstexIdQueryString,
   getIstexIdsFromIstexIdQueryString,
-} from '@/lib/istexApi';
+} from '@/lib/query';
+import { getQueryStringFromQId } from '@/lib/istexApi';
 import { queryModes, istexApiConfig } from '@/config';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
-import { checkIfQueryIsTooLong } from '@/lib/istexApi';
+import { isQueryStringTooLong } from '@/lib/query';
 
 export default function Pagination ({
   totalAmountOfDocuments,
@@ -48,7 +48,7 @@ export default function Pagination ({
   };
 
   const handleApiUrlSize = (url) => {
-    if (checkIfQueryIsTooLong(queryString)) {
+    if (isQueryStringTooLong(queryString)) {
       const q = retreiveQuerySearchInsideUrl(url);
       const newUrl = url.replace(q, '');
       return newUrl;

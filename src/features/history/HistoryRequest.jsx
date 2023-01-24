@@ -4,16 +4,9 @@ import { Table, Tooltip } from 'flowbite-react';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {
-  buildExtractParamsFromFormats,
-  getQueryStringFromQId,
-  isArkQueryString,
-  getArksFromArkQueryString,
-  sendDownloadApiRequest,
-  buildFullApiUrl,
-  isIstexIdQueryString,
-  getIstexIdsFromIstexIdQueryString,
-} from '@/lib/istexApi';
+import { isArkQueryString, getArksFromArkQueryString, isIstexIdQueryString, getIstexIdsFromIstexIdQueryString } from '@/lib/query';
+import { buildExtractParamsFromFormats } from '@/lib/formats';
+import { getQueryStringFromQId, sendDownloadApiRequest, buildFullApiUrl } from '@/lib/istexApi';
 import { buildFullIstexDlUrl } from '@/lib/utils';
 import useResetForm from '@/features/resetForm/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';

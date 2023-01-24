@@ -1,7 +1,7 @@
 export const queryModes = {
   modes: [
     { value: 'queryString', label: 'Équation booléenne' },
-    { value: 'ark', label: 'Identifiants ARK' },
+    { value: 'ids', label: 'Liste d\'identifiants' },
     { value: 'fileImport', label: 'Import de fichier' },
     { value: 'queryAssist', label: 'Recherche assistée' },
   ],

@@ -28,21 +28,21 @@ import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import './QueryInput.scss';
 
 const infoText = {
-  queryString:
+  [queryModes.modes[0].value]:
   <p className='text-sm text-white'>
     Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation Istex</a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur Istex</a>.
   </p>,
-  ark:
+  [queryModes.modes[1].value]:
   <p className='text-sm text-white'>
     Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".<br />
     Pour en savoir plus sur les identifiants ARK, reportez vous à la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/' target='_blank' rel='noreferrer'>documentation Istex</a>.
   </p>,
-  fileImport:
+  [queryModes.modes[2].value]:
   <p className='text-sm text-white'>
     Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
     Pour disposer d’un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
   </p>,
-  queryAssist:
+  [queryModes.modes[3].value]:
   <p className='text-sm text-white'>
     Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
   </p>,
@@ -52,7 +52,7 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
-  const [arkInputValue, setArkInputValue] = useState('');
+  const [idsInputValue, setIdsInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
@@ -61,14 +61,12 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
 
   const queryStringHandler = newQueryString => {
     if (!newQueryString) {
-      setArkInputValue('');
+      setIdsInputValue('');
     }
 
     const _isArkQueryString = isArkQueryString(newQueryString);
     const _isIstexIdQueryString = isIstexIdQueryString(newQueryString);
 
-    // Very strange legacy behavior where the ARK tab is also supposed to support Istex IDs... Would be nice
-    // to remove in the future
     if (_isArkQueryString || _isIstexIdQueryString) {
       let list;
       if (_isArkQueryString) {
@@ -76,8 +74,8 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
       } else if (_isIstexIdQueryString) {
         list = getIstexIdsFromIstexIdQueryString(newQueryString).join('\n');
       }
-      setArkInputValue(list);
-      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ark').value);
+      setIdsInputValue(list);
+      setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ids').value);
     } else {
       setCurrentQueryMode(queryModes.getDefault().value);
       setQueryStringInputValue(newQueryString);
@@ -139,22 +137,22 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     updateQueryString(newQueryStringInput);
   };
 
-  const arkListHandler = arkList => {
+  const idListHandler = idList => {
     eventEmitter.emit(events.setNumberOfDocuments, 0);
 
-    setArkInputValue(arkList);
+    setIdsInputValue(idList);
 
-    // If the ark list is empty, just pass it to updateQueryString and let this function handle the case
-    if (!arkList) {
-      updateQueryString(arkList);
+    // If the ID list is empty, just pass it to updateQueryString and let this function handle the case
+    if (!idList) {
+      updateQueryString(idList);
       return;
     }
 
-    const arks = arkList.split('\n');
+    const ids = idList.split('\n');
 
     let queryString;
     try {
-      queryString = buildQueryStringFromArks(arks);
+      queryString = buildQueryStringFromArks(ids);
     } catch (err) {
       eventEmitter.emit(events.displayNotification, {
         text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
@@ -246,8 +244,8 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
           cols='40'
           name='queryInput'
           placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
-          value={arkInputValue}
-          onChange={event => arkListHandler(event.target.value)}
+          value={idsInputValue}
+          onChange={event => idListHandler(event.target.value)}
           maxRows={12}
         />
       );

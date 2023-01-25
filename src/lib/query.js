@@ -1,6 +1,5 @@
 import InistArk from './inistArk';
 import { istexApiConfig, supportedIdTypes } from '@/config';
-import { isValidIstexId, isValidDoi } from './utils';
 
 /**
  * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
@@ -75,74 +74,6 @@ export function parseCorpusFileContent (corpusFileContent) {
 }
 
 /**
- * Build the query string to request the ARK identifiers in `arks`.
- * @param {string[]} arks The array containing the ARK identifiers.
- * @returns A properly formatted query string to request the ARK identifiers in `arks`.
- */
-export function buildQueryStringFromArks (arks) {
-  const formattedArks = arks
-    .filter(ark => ark !== '')
-    .map((ark, index) => {
-      const trimmedArk = ark.trim();
-
-      try {
-        InistArk.parse(trimmedArk);
-      } catch (err) {
-        err.line = index + 1;
-        throw err;
-      }
-
-      return `"${trimmedArk}"`;
-    });
-
-  return `${supportedIdTypes.ark.fieldName}:(${formattedArks.join(' ')})`;
-}
-
-/**
- * Build the query string to request the Istex IDs in `istexIds`.
- * @param {string[]} istexIds The array containing the Istex IDs.
- * @returns A properly formatted query string to request the Istex IDs in `istexIds`.
- */
-export function buildQueryStringFromIstexIds (istexIds) {
-  const formattedIds = istexIds
-    .filter(istexId => istexId !== '')
-    .map((istexId, index) => {
-      const trimmedIstexId = istexId.trim();
-      if (!isValidIstexId(trimmedIstexId)) {
-        const err = new Error(`Syntax error in ${trimmedIstexId}`);
-        err.line = index + 1;
-        throw err;
-      }
-
-      return `"${trimmedIstexId}"`;
-    });
-
-  return `${supportedIdTypes.istexId.fieldName}:(${formattedIds.join(' ')})`;
-}
-
-/**
- * Build the query string to the request the DOIs in `dois`.
- * @param {string[]} dois The array containing the DOIs.
- * @returns A properly formatted query string to request the DOIs in `dois`.
- */
-export function buildQueryStringFromDois (dois) {
-  const formattedDois = dois
-    .filter(doi => doi !== '')
-    .map((doi, index) => {
-      const trimmedDoi = doi.trim();
-      if (!isValidDoi(trimmedDoi)) {
-        const err = new Error(`Syntax error in ${trimmedDoi}`);
-        err.line = index + 1;
-        throw err;
-      }
-
-      return `"${trimmedDoi}"`;
-    });
-
-  return `${supportedIdTypes.doi.fieldName}:(${formattedDois.join(' ')})`;
-}
-
-/**
  * Check if `id` is of a supported identifier type and return the appropriate object inside `supportedIds`.
  * @param {string} id The identifier to use to find the appropriate object.
  * @returns The appropriate object inside `supportedIds`.
@@ -158,6 +89,15 @@ export function getSupportedIdTypeInfo (id) {
   }
 
   return null;
+}
+
+/**
+ * Build the query string to request the ARK identifiers in `arks`.
+ * @param {string[]} arks The array containing the ARK identifiers.
+ * @returns A properly formatted query string to request the ARK identifiers in `arks`.
+ */
+export function buildQueryStringFromArks (arks) {
+  return buildQueryStringFromIds(supportedIdTypes.ark, arks);
 }
 
 /**
@@ -179,6 +119,15 @@ export function getArksFromArkQueryString (queryString) {
 }
 
 /**
+ * Build the query string to request the Istex IDs in `istexIds`.
+ * @param {string[]} istexIds The array containing the Istex IDs.
+ * @returns A properly formatted query string to request the Istex IDs in `istexIds`.
+ */
+export function buildQueryStringFromIstexIds (istexIds) {
+  return buildQueryStringFromIds(supportedIdTypes.istexId, istexIds);
+}
+
+/**
  * Check if `queryString` has the format `id:("<id1>" "<id2>"...)`.
  * @param {string} queryString The query string to check.
  * @returns `true` if `queryString` has the format `id:("<id1>" "<id2>"...)`, `false` otherwise.
@@ -194,6 +143,15 @@ export function isIstexIdQueryString (queryString) {
  */
 export function getIstexIdsFromIstexIdQueryString (queryString) {
   return getIdsFromIdQueryString(supportedIdTypes.istexId.fieldName, queryString);
+}
+
+/**
+ * Build the query string to the request the DOIs in `dois`.
+ * @param {string[]} dois The array containing the DOIs.
+ * @returns A properly formatted query string to request the DOIs in `dois`.
+ */
+export function buildQueryStringFromDois (dois) {
+  return buildQueryStringFromIds(supportedIdTypes.doi, dois);
 }
 
 /**
@@ -221,6 +179,29 @@ export function getDoisFromDoiQueryString (queryString) {
  */
 export function isQueryStringTooLong (queryString) {
   return queryString.length > istexApiConfig.queryStringMaxLength;
+}
+
+/**
+ * Build the query string to request the identifiers in `ids`.
+ * @param {object} idTypeInfo One of the object in `supportedIdTypes`.
+ * @param {string[]} ids The list of identifiers to build the query string from.
+ * @returns A properly formatted query string to request the identifiers in `ids`.
+ */
+function buildQueryStringFromIds (idTypeInfo, ids) {
+  const formattedIds = ids
+    .filter(id => id !== '')
+    .map((id, index) => {
+      const trimmedId = id.trim();
+      if (!idTypeInfo.checkFn(trimmedId)) {
+        const err = new Error(`Syntax error in ${trimmedId}`);
+        err.line = index + 1;
+        throw err;
+      }
+
+      return `"${trimmedId}"`;
+    });
+
+  return `${idTypeInfo.fieldName}:(${formattedIds.join(' ')})`;
 }
 
 /**

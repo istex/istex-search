@@ -162,6 +162,18 @@ export const usages = {
   },
 };
 
+export const supportedIdentifiers = {
+  ark: {
+    fieldName: 'arkIstex.raw',
+  },
+  istexId: {
+    fieldName: 'id',
+  },
+  doi: {
+    fieldName: 'doi',
+  },
+};
+
 export const examples = [
   {
     label: 'des troncatures sur des termes de recherche en français et en anglais',

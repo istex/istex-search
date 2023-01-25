@@ -1,6 +1,6 @@
 import InistArkConstructor from 'inist-ark';
 
-import { istexApiConfig } from '@/config';
+import { istexApiConfig, supportedIdentifiers } from '@/config';
 import { isValidDoi } from './utils';
 
 const InistArk = new InistArkConstructor();
@@ -98,7 +98,7 @@ export function buildQueryStringFromArks (arks) {
       return `"${trimmedArk}"`;
     });
 
-  return `arkIstex.raw:(${formattedArks.join(' ')})`;
+  return `${supportedIdentifiers.ark.fieldName}:(${formattedArks.join(' ')})`;
 }
 
 /**
@@ -109,7 +109,7 @@ export function buildQueryStringFromArks (arks) {
 export function buildQueryStringFromIstexIds (istexIds) {
   const formattedIds = istexIds.map(id => `"${id.trim()}"`);
 
-  return `id:(${formattedIds.join(' ')})`;
+  return `${supportedIdentifiers.istexId.fieldName}:(${formattedIds.join(' ')})`;
 }
 
 /**
@@ -129,12 +129,11 @@ export function buildQueryStringFromDoiList (doiList) {
  * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
  */
 export function isArkQueryString (queryString) {
-  const arkFieldName = 'arkIstex.raw';
-  if (!queryString.startsWith(arkFieldName)) {
+  if (!queryString.startsWith(supportedIdentifiers.ark.fieldName)) {
     return false;
   }
 
-  const arks = getIdsFromIdQueryString(arkFieldName, queryString);
+  const arks = getIdsFromIdQueryString(supportedIdentifiers.ark.fieldName, queryString);
   const hasInvalidArk = arks.some(ark => InistArk.validate(ark).ark === false);
 
   return !hasInvalidArk;
@@ -146,7 +145,7 @@ export function isArkQueryString (queryString) {
  * @returns An array of ARK identifiers.
  */
 export function getArksFromArkQueryString (queryString) {
-  return getIdsFromIdQueryString('arkIstex.raw', queryString);
+  return getIdsFromIdQueryString(supportedIdentifiers.ark.fieldName, queryString);
 }
 
 /**
@@ -169,7 +168,7 @@ export function isIstexIdQueryString (queryString) {
  * @returns An array of Istex identifiers.
  */
 export function getIstexIdsFromIstexIdQueryString (queryString) {
-  return getIdsFromIdQueryString('id', queryString);
+  return getIdsFromIdQueryString(supportedIdentifiers.istexId.fieldName, queryString);
 }
 
 /**
@@ -178,12 +177,11 @@ export function getIstexIdsFromIstexIdQueryString (queryString) {
  * @returns `true` if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`, `false` otherwise.
  */
 export function isDoiQueryString (queryString) {
-  const doiFieldName = 'doi';
-  if (!queryString.startsWith(doiFieldName)) {
+  if (!queryString.startsWith(supportedIdentifiers.doi.fieldName)) {
     return false;
   }
 
-  const dois = getIdsFromIdQueryString(doiFieldName, queryString);
+  const dois = getIdsFromIdQueryString(supportedIdentifiers.doi.fieldName, queryString);
   const hasInvalidDoi = dois.some(doi => isValidDoi(doi) === false);
 
   return !hasInvalidDoi;
@@ -195,7 +193,7 @@ export function isDoiQueryString (queryString) {
  * @returns An array of DOIs.
  */
 export function getDoisFromDoiQueryString (queryString) {
-  return getIdsFromIdQueryString('doi', queryString);
+  return getIdsFromIdQueryString(supportedIdentifiers.doi.fieldName, queryString);
 }
 
 /**

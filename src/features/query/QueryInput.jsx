@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import PropTypes from 'prop-types';
 import { RadioGroup } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from 'flowbite-react';
@@ -48,7 +47,7 @@ const infoText = {
   </p>,
 };
 
-export default function QueryInput ({ totalAmountOfDocuments }) {
+export default function QueryInput () {
   const dispatch = useDispatch();
   const [currentQueryMode, setCurrentQueryMode] = useState(queryModes.getDefault().value);
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
@@ -402,7 +401,3 @@ export default function QueryInput ({ totalAmountOfDocuments }) {
     </div>
   );
 }
-
-QueryInput.propTypes = {
-  totalAmountOfDocuments: PropTypes.number,
-};

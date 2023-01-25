@@ -100,15 +100,39 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(Module.buildQueryStringFromIstexIds(istexIds)).toBe(expectedQueryString);
   });
 
-  it('buildQueryStringFromDoiList', () => {
-    const doiList = [
+  it('buildQueryStringFromDois', () => {
+    const dois = [
       '10.1007/s12291-008-0044-0',
       '10.1016/S0041-1345(00)01436-6',
       '10.1111/j.1365-2923.2011.04210.x',
     ];
 
     const expectedQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
-    expect(Module.buildQueryStringFromDoiList(doiList)).toBe(expectedQueryString);
+    expect(Module.buildQueryStringFromDois(dois)).toBe(expectedQueryString);
+  });
+
+  it('getQueryStringBuilder', () => {
+    const ark = 'ark:/67375/NVC-8SNSRJ6Z-Z';
+    const istexId = '59E080581FC0350BC92AD9975484E4127E8803A0';
+    const doi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
+    const garbage = 'abc';
+
+    expect(Module.getQueryStringBuilder(ark)).toBe(Module.buildQueryStringFromArks);
+    expect(Module.getQueryStringBuilder(istexId)).toBe(Module.buildQueryStringFromIstexIds);
+    expect(Module.getQueryStringBuilder(doi)).toBe(Module.buildQueryStringFromDois);
+    expect(Module.getQueryStringBuilder(garbage)).toBe(null);
+  });
+
+  it('getIdExtracterFunction', () => {
+    const ark = 'ark:/67375/NVC-8SNSRJ6Z-Z';
+    const istexId = '59E080581FC0350BC92AD9975484E4127E8803A0';
+    const doi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
+    const garbage = 'abc';
+
+    expect(Module.getIdExtracterFunction(ark)).toBe(Module.getArksFromArkQueryString);
+    expect(Module.getIdExtracterFunction(istexId)).toBe(Module.getIstexIdsFromIstexIdQueryString);
+    expect(Module.getIdExtracterFunction(doi)).toBe(Module.getDoisFromDoiQueryString);
+    expect(Module.getIdExtracterFunction(garbage)).toBe(null);
   });
 
   it('isArkQueryString', () => {

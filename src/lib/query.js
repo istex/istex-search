@@ -1,9 +1,6 @@
-import InistArkConstructor from 'inist-ark';
-
-import { istexApiConfig, supportedIdentifiers } from '@/config';
-import { isValidDoi } from './utils';
-
-const InistArk = new InistArkConstructor();
+import InistArk from './inistArk';
+import { istexApiConfig, supportedIds } from '@/config';
+import { isValidArk, isValidIstexId, isValidDoi } from './utils';
 
 /**
  * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
@@ -98,7 +95,7 @@ export function buildQueryStringFromArks (arks) {
       return `"${trimmedArk}"`;
     });
 
-  return `${supportedIdentifiers.ark.fieldName}:(${formattedArks.join(' ')})`;
+  return `${supportedIds.ark.fieldName}:(${formattedArks.join(' ')})`;
 }
 
 /**
@@ -109,18 +106,75 @@ export function buildQueryStringFromArks (arks) {
 export function buildQueryStringFromIstexIds (istexIds) {
   const formattedIds = istexIds.map(id => `"${id.trim()}"`);
 
-  return `${supportedIdentifiers.istexId.fieldName}:(${formattedIds.join(' ')})`;
+  return `${supportedIds.istexId.fieldName}:(${formattedIds.join(' ')})`;
 }
 
 /**
- * Build the query string to the request the DOIs in `doiList`.
- * @param {string[]} doiList The array containing the DOIs.
- * @returns A properly formatted query string to request the DOIs in `doiList`.
+ * Build the query string to the request the DOIs in `dois`.
+ * @param {string[]} dois The array containing the DOIs.
+ * @returns A properly formatted query string to request the DOIs in `dois`.
  */
-export function buildQueryStringFromDoiList (doiList) {
-  const formattedDoiList = doiList.map(doi => `"${doi.trim()}"`);
+export function buildQueryStringFromDois (dois) {
+  const formattedDois = dois.map(doi => `"${doi.trim()}"`);
 
-  return `doi:(${formattedDoiList.join(' ')})`;
+  return `doi:(${formattedDois.join(' ')})`;
+}
+
+// Object to map identifier types to their related functions
+const supportedIdsFunctions = {
+  [supportedIds.ark.fieldName]: {
+    check: isValidArk,
+    buildQueryString: buildQueryStringFromArks,
+    extractIds: getArksFromArkQueryString,
+  },
+  [supportedIds.istexId.fieldName]: {
+    check: isValidIstexId,
+    buildQueryString: buildQueryStringFromIstexIds,
+    extractIds: getIstexIdsFromIstexIdQueryString,
+  },
+  [supportedIds.doi.fieldName]: {
+    check: isValidDoi,
+    buildQueryString: buildQueryStringFromDois,
+    extractIds: getDoisFromDoiQueryString,
+  },
+};
+
+/**
+ * Check if `id` is of a supported identifier type and return the appropriate function to build a
+ * query string from a list of them.
+ * @param {string} id The identifier to use to find the appropriate function.
+ * @returns A function
+ * @example getQueryStringBuilder('ark:/67375/NVC-8SNSRJ6Z-Z') // => buildQueryStringFromArks
+ */
+export function getQueryStringBuilder (id) {
+  for (const supportedIdType in supportedIdsFunctions) {
+    const functionSet = supportedIdsFunctions[supportedIdType];
+
+    if (functionSet.check(id)) {
+      return functionSet.buildQueryString;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Check if `id` is of a supported identifier type and return the appropriate function to extract
+ * the identifiers from a query string of those identifiers.
+ * @param {string} id The identifier to use to find the appropriate function.
+ * @returns A function
+ * @example getIdExtracterFunction('ark:/67375/NVC-8SNSRJ6Z-Z') // => getArksFromArkQueryString
+ */
+export function getIdExtracterFunction (id) {
+  for (const supportedIdType in supportedIdsFunctions) {
+    const functionSet = supportedIdsFunctions[supportedIdType];
+
+    if (functionSet.check(id)) {
+      return functionSet.extractIds;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -129,11 +183,11 @@ export function buildQueryStringFromDoiList (doiList) {
  * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
  */
 export function isArkQueryString (queryString) {
-  if (!queryString.startsWith(supportedIdentifiers.ark.fieldName)) {
+  if (!queryString.startsWith(supportedIds.ark.fieldName)) {
     return false;
   }
 
-  const arks = getIdsFromIdQueryString(supportedIdentifiers.ark.fieldName, queryString);
+  const arks = getIdsFromIdQueryString(supportedIds.ark.fieldName, queryString);
   const hasInvalidArk = arks.some(ark => InistArk.validate(ark).ark === false);
 
   return !hasInvalidArk;
@@ -145,7 +199,7 @@ export function isArkQueryString (queryString) {
  * @returns An array of ARK identifiers.
  */
 export function getArksFromArkQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdentifiers.ark.fieldName, queryString);
+  return getIdsFromIdQueryString(supportedIds.ark.fieldName, queryString);
 }
 
 /**
@@ -168,7 +222,7 @@ export function isIstexIdQueryString (queryString) {
  * @returns An array of Istex identifiers.
  */
 export function getIstexIdsFromIstexIdQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdentifiers.istexId.fieldName, queryString);
+  return getIdsFromIdQueryString(supportedIds.istexId.fieldName, queryString);
 }
 
 /**
@@ -177,11 +231,11 @@ export function getIstexIdsFromIstexIdQueryString (queryString) {
  * @returns `true` if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`, `false` otherwise.
  */
 export function isDoiQueryString (queryString) {
-  if (!queryString.startsWith(supportedIdentifiers.doi.fieldName)) {
+  if (!queryString.startsWith(supportedIds.doi.fieldName)) {
     return false;
   }
 
-  const dois = getIdsFromIdQueryString(supportedIdentifiers.doi.fieldName, queryString);
+  const dois = getIdsFromIdQueryString(supportedIds.doi.fieldName, queryString);
   const hasInvalidDoi = dois.some(doi => isValidDoi(doi) === false);
 
   return !hasInvalidDoi;
@@ -193,7 +247,7 @@ export function isDoiQueryString (queryString) {
  * @returns An array of DOIs.
  */
 export function getDoisFromDoiQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdentifiers.doi.fieldName, queryString);
+  return getIdsFromIdQueryString(supportedIds.doi.fieldName, queryString);
 }
 
 /**

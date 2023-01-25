@@ -1,3 +1,4 @@
+import InistArk from './inistArk';
 import { buildExtractParamsFromFormats } from './formats';
 
 /**
@@ -8,7 +9,35 @@ import { buildExtractParamsFromFormats } from './formats';
 export function isValidMd5 (hash) {
   if (typeof hash !== 'string') return false;
 
-  return (/^[a-f0-9]{32}$/g).test(hash);
+  return (/^[a-f0-9]{32}$/gi).test(hash);
+}
+
+/**
+ * Check if `ark` is a valid ARK identifier.
+ * @param {string} ark The ARK identifier to check.
+ * @returns `true` if `ark` is a valid ARK identifier, `false` otherwise.
+ */
+export function isValidArk (ark) {
+  if (typeof ark !== 'string') return false;
+
+  try {
+    InistArk.parse(ark);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Check if `istexId` is a valid Istex identifier.
+ * @param {string} istexId The Istex identifier to check.
+ * @returns `true` if `istexId` is a valid Istex identifier, `false` otherwise.
+ */
+export function isValidIstexId (istexId) {
+  if (typeof istexId !== 'string') return false;
+
+  return (/^[A-F0-9]{40}$/g).test(istexId);
 }
 
 /**

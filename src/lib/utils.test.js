@@ -13,6 +13,26 @@ describe('Tests for the utility functions', () => {
     expect(utils.isValidMd5(invalidArg)).toBe(false);
   });
 
+  it('isValidArk', () => {
+    const validArk = 'ark:/67375/NVC-8SNSRJ6Z-Z';
+    const invalidArk = 'abc';
+    const invalidArg = 3;
+
+    expect(utils.isValidArk(validArk)).toBe(true);
+    expect(utils.isValidArk(invalidArk)).toBe(false);
+    expect(utils.isValidArk(invalidArg)).toBe(false);
+  });
+
+  it('isValidIstexId', () => {
+    const validIstexId = '59E080581FC0350BC92AD9975484E4127E8803A0';
+    const invalidIstexId = 'abc';
+    const invalidArg = 3;
+
+    expect(utils.isValidIstexId(validIstexId)).toBe(true);
+    expect(utils.isValidIstexId(invalidIstexId)).toBe(false);
+    expect(utils.isValidIstexId(invalidArg)).toBe(false);
+  });
+
   it('isValidDoi', () => {
     const validDoi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
     const invalidDoi = 'abc';

@@ -162,7 +162,7 @@ export const usages = {
   },
 };
 
-export const supportedIdentifiers = {
+export const supportedIds = {
   ark: {
     fieldName: 'arkIstex.raw',
   },

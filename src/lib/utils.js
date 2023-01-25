@@ -12,6 +12,17 @@ export function isValidMd5 (hash) {
 }
 
 /**
+ * Check if `doi` is a valid DOI.
+ * @param {string} doi The DOI to check.
+ * @returns `true` if `doi` is a valid DOI, `false` otherwise.
+ */
+export function isValidDoi (doi) {
+  if (typeof doi !== 'string') return false;
+
+  return (/\b(10[.][0-9]{4,}(?:[.][0-9]+)*\/(?:(?!["&'])\S)+)\b/gi).test(doi);
+}
+
+/**
  * Debounce `callback` after `delay`.
  * @param {function} callback The callback to debounce.
  * @param {number} delay The delay to wait before calling `callback`.

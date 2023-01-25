@@ -1,5 +1,7 @@
 import InistArkConstructor from 'inist-ark';
+
 import { istexApiConfig } from '@/config';
+import { isValidDoi } from './utils';
 
 const InistArk = new InistArkConstructor();
 
@@ -76,20 +78,9 @@ export function parseCorpusFileContent (corpusFileContent) {
 }
 
 /**
- * Build the query string to request the Istex IDs in `istexIds`
- * @param {string[]} istexIds The array containing the Istex IDs
- * @returns A properly formatted query string to request the Istex IDs in `istexIds`
- */
-export function buildQueryStringFromIstexIds (istexIds) {
-  const formattedIds = istexIds.map(id => `"${id.trim()}"`);
-
-  return `id:(${formattedIds.join(' ')})`;
-}
-
-/**
- * Build the query string to request the ark identifiers in `arks`.
- * @param {string[]} arks The array containing the ark identifiers.
- * @returns A properly formatted query string to request the ark identifiers in `arks`.
+ * Build the query string to request the ARK identifiers in `arks`.
+ * @param {string[]} arks The array containing the ARK identifiers.
+ * @returns A properly formatted query string to request the ARK identifiers in `arks`.
  */
 export function buildQueryStringFromArks (arks) {
   const formattedArks = arks
@@ -111,42 +102,51 @@ export function buildQueryStringFromArks (arks) {
 }
 
 /**
+ * Build the query string to request the Istex IDs in `istexIds`.
+ * @param {string[]} istexIds The array containing the Istex IDs.
+ * @returns A properly formatted query string to request the Istex IDs in `istexIds`.
+ */
+export function buildQueryStringFromIstexIds (istexIds) {
+  const formattedIds = istexIds.map(id => `"${id.trim()}"`);
+
+  return `id:(${formattedIds.join(' ')})`;
+}
+
+/**
+ * Build the query string to the request the DOIs in `doiList`.
+ * @param {string[]} doiList The array containing the DOIs.
+ * @returns A properly formatted query string to request the DOIs in `doiList`.
+ */
+export function buildQueryStringFromDoiList (doiList) {
+  const formattedDoiList = doiList.map(doi => `"${doi.trim()}"`);
+
+  return `doi:(${formattedDoiList.join(' ')})`;
+}
+
+/**
  * Check if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`.
  * @param {string} queryString The query string to check.
  * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
  */
 export function isArkQueryString (queryString) {
-  // Regex to check if queryString starts with 'arkIstex.raw:(', ends with ')', and contains sequences of
-  // characters surrounded by double-quotes between the parentheses. This doesn't make sure each sequence of
-  // characters is a valid ark.
-  const arkQueryStringRegex = /^(?:arkIstex\.raw:\((?:".*"?)*\))$/gi;
-
-  if (!arkQueryStringRegex.test(queryString)) {
+  const arkFieldName = 'arkIstex.raw';
+  if (!queryString.startsWith(arkFieldName)) {
     return false;
   }
 
-  const arks = getArksFromArkQueryString(queryString);
+  const arks = getIdsFromIdQueryString(arkFieldName, queryString);
   const hasInvalidArk = arks.some(ark => InistArk.validate(ark).ark === false);
 
   return !hasInvalidArk;
 }
 
 /**
- * Extract ark identifiers from an ark query string. This assumes `queryString` is an ark query string.
- * @param {string} queryString The query string the extract the ark identifiers from.
- * @returns An array of ark identifiers.
+ * Extract ARK identifiers from an ARK query string. This assumes `queryString` is an ARK query string.
+ * @param {string} queryString The query string to extract the ARK identifiers from.
+ * @returns An array of ARK identifiers.
  */
 export function getArksFromArkQueryString (queryString) {
-  // Get rid of 'arkIstex.raw:(' at the beginning of queryString
-  queryString = queryString.substring('arkIstex.raw:('.length);
-
-  // Get rid of the last parenthesis at the end of queryString
-  queryString = queryString.substring(0, queryString.length - 1);
-
-  // Get rid of the double-quotes (") surrounding each ark identifier
-  queryString = queryString.replace(/"/g, '');
-
-  return queryString.split(' ');
+  return getIdsFromIdQueryString('arkIstex.raw', queryString);
 }
 
 /**
@@ -169,16 +169,33 @@ export function isIstexIdQueryString (queryString) {
  * @returns An array of Istex identifiers.
  */
 export function getIstexIdsFromIstexIdQueryString (queryString) {
-  // Get rid of 'id:(' at the beginning of queryString
-  queryString = queryString.substring('id:('.length);
+  return getIdsFromIdQueryString('id', queryString);
+}
 
-  // Get rid of the last parenthesis at the end of queryString
-  queryString = queryString.substring(0, queryString.length - 1);
+/**
+ * Check if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`.
+ * @param {string} queryString The query string to check.
+ * @returns `true` if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`, `false` otherwise.
+ */
+export function isDoiQueryString (queryString) {
+  const doiFieldName = 'doi';
+  if (!queryString.startsWith(doiFieldName)) {
+    return false;
+  }
 
-  // Get rid of the double-quotes (") surrounding each Istex identifier
-  queryString = queryString.replace(/"/g, '');
+  const dois = getIdsFromIdQueryString(doiFieldName, queryString);
+  const hasInvalidDoi = dois.some(doi => isValidDoi(doi) === false);
 
-  return queryString.split(' ');
+  return !hasInvalidDoi;
+}
+
+/**
+ * Extract DOIs from a DOI query string. This assumes `queryString` is a DOI query string.
+ * @param {string} queryString The query string the extract the DOIs from.
+ * @returns An array of DOIs.
+ */
+export function getDoisFromDoiQueryString (queryString) {
+  return getIdsFromIdQueryString('doi', queryString);
 }
 
 /**
@@ -188,4 +205,23 @@ export function getIstexIdsFromIstexIdQueryString (queryString) {
  */
 export function isQueryStringTooLong (queryString) {
   return queryString.length > istexApiConfig.queryStringMaxLength;
+}
+
+/**
+ * Extract identifiers from a query string.
+ * @param {string} idFieldName The name of the ID field in the API.
+ * @param {string} queryString The query string to extract the identifiers from.
+ * @returns An array of identifiers
+ */
+function getIdsFromIdQueryString (idFieldName, queryString) {
+  // Get rid of '${idFieldName}:(' at the beginning of queryString
+  queryString = queryString.substring(`${idFieldName}:(`.length);
+
+  // Get rid of the last parenthesis at the end of queryString
+  queryString = queryString.substring(0, queryString.length - 1);
+
+  // Get rid of the double-quotes (") surrounding each identifier
+  queryString = queryString.replace(/"/g, '');
+
+  return queryString.split(' ');
 }

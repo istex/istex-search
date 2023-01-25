@@ -13,6 +13,16 @@ describe('Tests for the utility functions', () => {
     expect(utils.isValidMd5(invalidArg)).toBe(false);
   });
 
+  it('isValidDoi', () => {
+    const validDoi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
+    const invalidDoi = 'abc';
+    const invalidArg = 3;
+
+    expect(utils.isValidDoi(validDoi)).toBe(true);
+    expect(utils.isValidDoi(invalidDoi)).toBe(false);
+    expect(utils.isValidDoi(invalidArg)).toBe(false);
+  });
+
   it('buildFullIstexDlUrl', () => {
     const queryStringRequest = {
       queryString: 'fulltext:fish',

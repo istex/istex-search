@@ -100,6 +100,17 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(Module.buildQueryStringFromIstexIds(istexIds)).toBe(expectedQueryString);
   });
 
+  it('buildQueryStringFromDoiList', () => {
+    const doiList = [
+      '10.1007/s12291-008-0044-0',
+      '10.1016/S0041-1345(00)01436-6',
+      '10.1111/j.1365-2923.2011.04210.x',
+    ];
+
+    const expectedQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    expect(Module.buildQueryStringFromDoiList(doiList)).toBe(expectedQueryString);
+  });
+
   it('isArkQueryString', () => {
     const correctArkQueryString = 'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
     const badArkQueryString = 'arkIstex.raw:("ark1" "ark2")';
@@ -132,5 +143,21 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
 
     expect(Module.getIstexIdsFromIstexIdQueryString(singleIstexIdQueryString)).toEqual(['1234']);
     expect(Module.getIstexIdsFromIstexIdQueryString(multipleIstexIdsQueryString)).toEqual(['1234', '5678']);
+  });
+
+  it('isDoiQueryString', () => {
+    const correctDoiQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const garbageString = 'foo:bar';
+
+    expect(Module.isDoiQueryString(correctDoiQueryString)).toBe(true);
+    expect(Module.isDoiQueryString(garbageString)).toBe(false);
+  });
+
+  it('getDoisFromDoiQueryString', () => {
+    const singleDoiQueryString = 'doi:("10.1007/s12291-008-0044-0")';
+    const multipleDoiQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6")';
+
+    expect(Module.getDoisFromDoiQueryString(singleDoiQueryString)).toEqual(['10.1007/s12291-008-0044-0']);
+    expect(Module.getDoisFromDoiQueryString(multipleDoiQueryString)).toEqual(['10.1007/s12291-008-0044-0', '10.1016/S0041-1345(00)01436-6']);
   });
 });

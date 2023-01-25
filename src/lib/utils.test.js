@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
+
 import * as utils from './utils';
-import { istexApiConfig, formats, usages } from '../config';
+import { istexApiConfig, formats, usages } from '@/config';
 
 describe('Tests for the utility functions', () => {
   it('isValidMd5', () => {

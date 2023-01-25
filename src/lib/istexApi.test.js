@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { buildFullApiUrl } from './istexApi';
 import { istexApiConfig, formats } from '@/config';
 

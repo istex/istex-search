@@ -1,3 +1,13 @@
+import { isValidArk, isValidIstexId, isValidDoi } from '@/lib/utils';
+import {
+  buildQueryStringFromArks,
+  buildQueryStringFromIstexIds,
+  buildQueryStringFromDois,
+  getArksFromArkQueryString,
+  getIstexIdsFromIstexIdQueryString,
+  getDoisFromDoiQueryString,
+} from '@/lib/query';
+
 export const queryModes = {
   modes: [
     { value: 'queryString', label: 'Équation booléenne' },
@@ -165,12 +175,24 @@ export const usages = {
 export const supportedIds = {
   ark: {
     fieldName: 'arkIstex.raw',
+    label: 'ARK',
+    checkFn: isValidArk,
+    buildQueryString: buildQueryStringFromArks,
+    extractIds: getArksFromArkQueryString,
   },
   istexId: {
     fieldName: 'id',
+    label: 'ID Istex',
+    checkFn: isValidIstexId,
+    buildQueryString: buildQueryStringFromIstexIds,
+    extractIds: getIstexIdsFromIstexIdQueryString,
   },
   doi: {
     fieldName: 'doi',
+    label: 'DOI',
+    checkFn: isValidDoi,
+    buildQueryString: buildQueryStringFromDois,
+    extractIds: getDoisFromDoiQueryString,
   },
 };
 

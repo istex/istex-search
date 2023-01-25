@@ -10,12 +10,12 @@ import AdvancedSearchForm from './AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from './ExamplesButton';
 
 import {
-  buildQueryStringFromArks,
   isArkQueryString,
   getArksFromArkQueryString,
   parseCorpusFileContent,
   isIstexIdQueryString,
   getIstexIdsFromIstexIdQueryString,
+  getSupportedIdTypeInfo,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
 import { queryModes, istexApiConfig } from '@/config';
@@ -148,17 +148,20 @@ export default function QueryInput () {
     }
 
     const ids = idList.split('\n');
-
+    const idTypeInfo = getSupportedIdTypeInfo(ids[0]);
     let queryString;
-    try {
-      queryString = buildQueryStringFromArks(ids);
-    } catch (err) {
-      eventEmitter.emit(events.displayNotification, {
-        text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
-        type: 'error',
-      });
 
-      return;
+    if (idTypeInfo != null) {
+      try {
+        queryString = idTypeInfo.buildQueryString(ids);
+      } catch (err) {
+        eventEmitter.emit(events.displayNotification, {
+          text: `Erreur de syntaxe à la ligne ${err.line}`,
+          type: 'error',
+        });
+
+        return;
+      }
     }
 
     updateQueryString(queryString);

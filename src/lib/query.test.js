@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+
+import { supportedIds } from '@/config';
 import * as Module from './query';
 
 describe('Tests for the function building or parsing query strings', () => {
@@ -111,28 +113,16 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(Module.buildQueryStringFromDois(dois)).toBe(expectedQueryString);
   });
 
-  it('getQueryStringBuilder', () => {
+  it('getSupportedIdTypeInfo', () => {
     const ark = 'ark:/67375/NVC-8SNSRJ6Z-Z';
     const istexId = '59E080581FC0350BC92AD9975484E4127E8803A0';
     const doi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
     const garbage = 'abc';
 
-    expect(Module.getQueryStringBuilder(ark)).toBe(Module.buildQueryStringFromArks);
-    expect(Module.getQueryStringBuilder(istexId)).toBe(Module.buildQueryStringFromIstexIds);
-    expect(Module.getQueryStringBuilder(doi)).toBe(Module.buildQueryStringFromDois);
-    expect(Module.getQueryStringBuilder(garbage)).toBe(null);
-  });
-
-  it('getIdExtracterFunction', () => {
-    const ark = 'ark:/67375/NVC-8SNSRJ6Z-Z';
-    const istexId = '59E080581FC0350BC92AD9975484E4127E8803A0';
-    const doi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
-    const garbage = 'abc';
-
-    expect(Module.getIdExtracterFunction(ark)).toBe(Module.getArksFromArkQueryString);
-    expect(Module.getIdExtracterFunction(istexId)).toBe(Module.getIstexIdsFromIstexIdQueryString);
-    expect(Module.getIdExtracterFunction(doi)).toBe(Module.getDoisFromDoiQueryString);
-    expect(Module.getIdExtracterFunction(garbage)).toBe(null);
+    expect(Module.getSupportedIdTypeInfo(ark)).toBe(supportedIds.ark);
+    expect(Module.getSupportedIdTypeInfo(istexId)).toBe(supportedIds.istexId);
+    expect(Module.getSupportedIdTypeInfo(doi)).toBe(supportedIds.doi);
+    expect(Module.getSupportedIdTypeInfo(garbage)).toBe(null);
   });
 
   it('isArkQueryString', () => {
@@ -154,26 +144,30 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
   });
 
   it('isIstexIdQueryString', () => {
-    const correctIstexIdQueryString = 'id:("1234" "5678")';
+    const correctIstexIdQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9")';
+    const badIstexIdQueryString = 'id:("1234" "5678")';
     const garbageString = 'foo:bar';
 
     expect(Module.isIstexIdQueryString(correctIstexIdQueryString)).toBe(true);
+    expect(Module.isIstexIdQueryString(badIstexIdQueryString)).toBe(false);
     expect(Module.isIstexIdQueryString(garbageString)).toBe(false);
   });
 
   it('getIstexIdsFromIstexIdQueryString', () => {
-    const singleIstexIdQueryString = 'id:("1234")';
-    const multipleIstexIdsQueryString = 'id:("1234" "5678")';
+    const singleIstexIdQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0")';
+    const multipleIstexIdsQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9")';
 
-    expect(Module.getIstexIdsFromIstexIdQueryString(singleIstexIdQueryString)).toEqual(['1234']);
-    expect(Module.getIstexIdsFromIstexIdQueryString(multipleIstexIdsQueryString)).toEqual(['1234', '5678']);
+    expect(Module.getIstexIdsFromIstexIdQueryString(singleIstexIdQueryString)).toEqual(['59E080581FC0350BC92AD9975484E4127E8803A0']);
+    expect(Module.getIstexIdsFromIstexIdQueryString(multipleIstexIdsQueryString)).toEqual(['59E080581FC0350BC92AD9975484E4127E8803A0', '8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9']);
   });
 
   it('isDoiQueryString', () => {
     const correctDoiQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const badDoiQueryString = 'doi:("1234" "5678")';
     const garbageString = 'foo:bar';
 
     expect(Module.isDoiQueryString(correctDoiQueryString)).toBe(true);
+    expect(Module.isDoiQueryString(badDoiQueryString)).toBe(false);
     expect(Module.isDoiQueryString(garbageString)).toBe(false);
   });
 

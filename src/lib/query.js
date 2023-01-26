@@ -185,16 +185,16 @@ export function isQueryStringTooLong (queryString) {
  */
 function buildQueryStringFromIds (idTypeInfo, ids) {
   const formattedIds = ids
+    .map(id => id.trim())
     .filter(id => id !== '')
     .map((id, index) => {
-      const trimmedId = id.trim();
-      if (!idTypeInfo.isValidId(trimmedId)) {
-        const err = new Error(`Syntax error in ${trimmedId}`);
+      if (!idTypeInfo.isValidId(id)) {
+        const err = new Error(`Syntax error in ${id}`);
         err.line = index + 1;
         throw err;
       }
 
-      return `"${trimmedId}"`;
+      return `"${id}"`;
     });
 
   return `${idTypeInfo.fieldName}:(${formattedIds.join(' ')})`;
@@ -207,6 +207,8 @@ function buildQueryStringFromIds (idTypeInfo, ids) {
  * @returns `true` if `queryString` has the format `<idType>:("<id1>" "<id2>"...)`, `false` otherwise.
  */
 function isIdQueryString (idTypeInfo, queryString) {
+  queryString = queryString.trim();
+
   if (!queryString.startsWith(idTypeInfo.fieldName)) {
     return false;
   }
@@ -224,6 +226,8 @@ function isIdQueryString (idTypeInfo, queryString) {
  * @returns An array of identifiers
  */
 function getIdsFromIdQueryString (idFieldName, queryString) {
+  queryString = queryString.trim();
+
   // Get rid of '${idFieldName}:(' at the beginning of queryString
   queryString = queryString.substring(`${idFieldName}:(`.length);
 

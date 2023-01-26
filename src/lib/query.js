@@ -80,27 +80,11 @@ export function parseCorpusFileContent (corpusFileContent) {
  * @example getIdTypeInfoFromId('ark:/67375/NVC-8SNSRJ6Z-Z') // => supportedIds.ark
  */
 export function getIdTypeInfoFromId (id) {
-  for (const supportedIdTypeName in supportedIdTypes) {
-    const idTypeInfo = supportedIdTypes[supportedIdTypeName];
-
-    if (idTypeInfo.isValidId(id)) {
-      return idTypeInfo;
-    }
-  }
-
-  return null;
+  return Object.values(supportedIdTypes).find(idTypeInfo => idTypeInfo.isValidId(id));
 }
 
 export function getIdTypeInfoFromQueryString (queryString) {
-  for (const supportedIdTypeName in supportedIdTypes) {
-    const idTypeInfo = supportedIdTypes[supportedIdTypeName];
-
-    if (idTypeInfo.isValidQueryString(queryString)) {
-      return idTypeInfo;
-    }
-  }
-
-  return null;
+  return Object.values(supportedIdTypes).find(idTypeInfo => idTypeInfo.isValidQueryString(queryString));
 }
 
 /**

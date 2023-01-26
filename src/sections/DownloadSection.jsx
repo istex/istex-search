@@ -37,30 +37,24 @@ export default function DownloadSection () {
   const estimateArchiveSize = () => {
     let size = 0;
 
-    for (const formatCategory in formats) {
-      let format;
-
+    for (const [formatCategoryName, formatCategory] of Object.entries(formats)) {
       // Cases of covers and annexes which are not in a category
-      if (formats[formatCategory].value !== undefined) {
-        format = formats[formatCategory].value;
+      if (formatCategory.value !== undefined) {
+        if (!isFormatSelected(selectedFormats, formatCategory.value)) continue;
 
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory];
+        const formatSize = formatSizes.baseSizes[formatCategoryName];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName];
 
         size += formatSize * multiplier * numberOfDocuments;
 
         continue;
       }
 
-      for (const formatName in formats[formatCategory].formats) {
-        format = formats[formatCategory].formats[formatName].value;
+      for (const [formatName, format] of Object.entries(formatCategory.formats)) {
+        if (!isFormatSelected(selectedFormats, format.value)) continue;
 
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory][formatName];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory][formatName];
+        const formatSize = formatSizes.baseSizes[formatCategoryName][formatName];
+        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName][formatName];
 
         size += formatSize * multiplier * numberOfDocuments;
       }

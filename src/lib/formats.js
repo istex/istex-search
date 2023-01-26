@@ -60,8 +60,8 @@ export function getWholeCategoryFormat (categoryName) {
   if (!formats[categoryName]) return 0;
 
   let wholeCategoryFormat = 0;
-  for (const formatName in formats[categoryName].formats) {
-    wholeCategoryFormat = selectFormat(wholeCategoryFormat, formats[categoryName].formats[formatName].value);
+  for (const format of Object.values(formats[categoryName].formats)) {
+    wholeCategoryFormat = selectFormat(wholeCategoryFormat, format.value);
   }
 
   return wholeCategoryFormat;
@@ -77,27 +77,27 @@ export function buildExtractParamsFromFormats (selectedFormats) {
   const extractParams = [];
 
   // Build every category (fulltext, metadata and enrichments) of the extract parameter
-  for (const formatCategory in formats) {
+  for (const [formatCategoryName, formatCategory] of Object.entries(formats)) {
     const currentCategoryParams = [];
 
     // Cases of covers and annexes which are not in a category
-    if (formats[formatCategory].value !== undefined) {
-      if (isFormatSelected(selectedFormats, formats[formatCategory].value)) {
-        extractParams.push(formatCategory);
+    if (formatCategory.value !== undefined) {
+      if (isFormatSelected(selectedFormats, formatCategory.value)) {
+        extractParams.push(formatCategoryName);
       }
       continue;
     }
 
     // Build every format of the current category (e.g. pdf, txt for the fulltext category)
-    for (const currentCategoryFormat in formats[formatCategory].formats) {
-      if (isFormatSelected(selectedFormats, formats[formatCategory].formats[currentCategoryFormat].value)) {
-        currentCategoryParams.push(currentCategoryFormat);
+    for (const [currentCategoryFormatName, currentCategoryFormat] of Object.entries(formatCategory.formats)) {
+      if (isFormatSelected(selectedFormats, currentCategoryFormat.value)) {
+        currentCategoryParams.push(currentCategoryFormatName);
       }
     }
 
     // Only add the category if the category is not empty
     if (currentCategoryParams.length > 0) {
-      extractParams.push(`${formatCategory}[${currentCategoryParams.join(',')}]`);
+      extractParams.push(`${formatCategoryName}[${currentCategoryParams.join(',')}]`);
     }
   }
 
@@ -117,10 +117,7 @@ export function parseExtractParams (extractParamsAsString) {
     .filter(category => {
       // category would look like this: 'fulltext[txt,pdf]' so we
       // need to make sure supportedFormatCategory is at the beginning of category
-      for (const supportedFormatCategory in formats) {
-        if (category.startsWith(supportedFormatCategory)) return true;
-      }
-      return false;
+      return Object.keys(formats).some(supportedFormatCategory => category.startsWith(supportedFormatCategory));
     });
 
   for (const formatCategory of formatCategories) {

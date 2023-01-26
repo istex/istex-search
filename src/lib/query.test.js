@@ -122,7 +122,7 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(Module.getIdTypeInfoFromId(ark)).toBe(supportedIdTypes.ark);
     expect(Module.getIdTypeInfoFromId(istexId)).toBe(supportedIdTypes.istexId);
     expect(Module.getIdTypeInfoFromId(doi)).toBe(supportedIdTypes.doi);
-    expect(Module.getIdTypeInfoFromId(garbage)).toBe(null);
+    expect(Module.getIdTypeInfoFromId(garbage)).toBe(undefined);
   });
 
   it('isArkQueryString', () => {

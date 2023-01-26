@@ -6,8 +6,8 @@ import SectionTitle from '@/components/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import { setCompressionLevel, setArchiveType } from '@/store/istexApiSlice';
-import { isFormatSelected } from '@/lib/formats';
-import { istexApiConfig, formats, formatSizes } from '@/config';
+import { estimateArchiveSize } from '@/lib/formats';
+import { istexApiConfig } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function DownloadSection () {
@@ -34,37 +34,8 @@ export default function DownloadSection () {
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 
-  const estimateArchiveSize = () => {
-    let size = 0;
-
-    for (const [formatCategoryName, formatCategory] of Object.entries(formats)) {
-      // Cases of covers and annexes which are not in a category
-      if (formatCategory.value !== undefined) {
-        if (!isFormatSelected(selectedFormats, formatCategory.value)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategoryName];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName];
-
-        size += formatSize * multiplier * numberOfDocuments;
-
-        continue;
-      }
-
-      for (const [formatName, format] of Object.entries(formatCategory.formats)) {
-        if (!isFormatSelected(selectedFormats, format.value)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategoryName][formatName];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName][formatName];
-
-        size += formatSize * multiplier * numberOfDocuments;
-      }
-    }
-
-    return size;
-  };
-
   const updateArchiveSizeText = () => {
-    const size = estimateArchiveSize();
+    const size = estimateArchiveSize(selectedFormats, numberOfDocuments, compressionLevel, archiveType);
     const oneGigabyte = 1 * 1024 * 1024 * 1024;
     const sizeRoundedToLowerGigabyte = Math.floor(size / oneGigabyte);
 

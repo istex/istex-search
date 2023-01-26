@@ -1,4 +1,4 @@
-import { formats } from '@/config';
+import { formats, formatSizes } from '@/config';
 
 // The selected formats are represented as an integer where each bit represents a format
 // so we use bitwise operators to select/deselect formats (cf. https://stackoverflow.com/a/47990)
@@ -146,4 +146,41 @@ export function parseExtractParams (extractParamsAsString) {
   }
 
   return selectedFormats;
+}
+
+/**
+ * Estimate the size of an archive based on the average file sizes seen in Istex.
+ * @param {number} selectedFormats The selected formats as an integer (bit field).
+ * @param {number} numberOfDocuments The maximum number of documents.
+ * @param {0|6|9} compressionLevel The level of compression.
+ * @param {'zip'|'tar'} archiveType The type of archive.
+ * @returns The estimated archive size.
+ */
+export function estimateArchiveSize (selectedFormats, numberOfDocuments, compressionLevel, archiveType) {
+  let size = 0;
+
+  for (const [formatCategoryName, formatCategory] of Object.entries(formats)) {
+    // Cases of covers and annexes which are not in a category
+    if (formatCategory.value !== undefined) {
+      if (!isFormatSelected(selectedFormats, formatCategory.value)) continue;
+
+      const formatSize = formatSizes.baseSizes[formatCategoryName];
+      const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName];
+
+      size += formatSize * multiplier * numberOfDocuments;
+
+      continue;
+    }
+
+    for (const [formatName, format] of Object.entries(formatCategory.formats)) {
+      if (!isFormatSelected(selectedFormats, format.value)) continue;
+
+      const formatSize = formatSizes.baseSizes[formatCategoryName][formatName];
+      const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategoryName][formatName];
+
+      size += formatSize * multiplier * numberOfDocuments;
+    }
+  }
+
+  return size;
 }

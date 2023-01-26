@@ -13,9 +13,10 @@ import {
   parseCorpusFileContent,
   getIdTypeInfoFromId,
   getIdTypeInfoFromQueryString,
+  isQueryStringTooLong,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
-import { queryModes, istexApiConfig } from '@/config';
+import { queryModes } from '@/config';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
 import useResetForm from '@/features/resetForm/useResetForm';
@@ -86,7 +87,7 @@ export default function QueryInput () {
     }
 
     // If the query string is too long to be set in a URL search parameter, we replace it with a q_id instead
-    if (newQueryString.length > istexApiConfig.queryStringMaxLength) {
+    if (isQueryStringTooLong(newQueryString)) {
       // Yes, the hashing has to be done on the client side, this is due to a questionable design of the /q_id
       // route of the API and might (hopefully) change in the future
       const hashedValue = md5(newQueryString).toString();

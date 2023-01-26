@@ -139,7 +139,7 @@ export default function QueryInput () {
       return;
     }
 
-    const ids = idList.split('\n');
+    const ids = idList.split('\n').filter(id => id.trim() !== '');
     const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
 

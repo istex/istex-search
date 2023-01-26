@@ -10,12 +10,9 @@ import AdvancedSearchForm from './AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from './ExamplesButton';
 
 import {
-  isArkQueryString,
-  getArksFromArkQueryString,
   parseCorpusFileContent,
-  isIstexIdQueryString,
-  getIstexIdsFromIstexIdQueryString,
-  getSupportedIdTypeInfo,
+  getIdTypeInfoFromId,
+  getIdTypeInfoFromQueryString,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
 import { queryModes, istexApiConfig } from '@/config';
@@ -63,16 +60,10 @@ export default function QueryInput () {
       setIdsInputValue('');
     }
 
-    const _isArkQueryString = isArkQueryString(newQueryString);
-    const _isIstexIdQueryString = isIstexIdQueryString(newQueryString);
+    const idTypeInfo = getIdTypeInfoFromQueryString(newQueryString);
 
-    if (_isArkQueryString || _isIstexIdQueryString) {
-      let list;
-      if (_isArkQueryString) {
-        list = getArksFromArkQueryString(newQueryString).join('\n');
-      } else if (_isIstexIdQueryString) {
-        list = getIstexIdsFromIstexIdQueryString(newQueryString).join('\n');
-      }
+    if (idTypeInfo != null) {
+      const list = idTypeInfo.extractIds(newQueryString).join('\n');
       setIdsInputValue(list);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ids').value);
     } else {
@@ -148,7 +139,7 @@ export default function QueryInput () {
     }
 
     const ids = idList.split('\n');
-    const idTypeInfo = getSupportedIdTypeInfo(ids[0]);
+    const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
 
     if (idTypeInfo != null) {

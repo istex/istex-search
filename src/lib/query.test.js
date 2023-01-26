@@ -119,10 +119,10 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     const doi = '10.1002/(SICI)1522-2594(199911)42:5<952::AID-MRM16>3.0.CO;2-S';
     const garbage = 'abc';
 
-    expect(Module.getSupportedIdTypeInfo(ark)).toBe(supportedIdTypes.ark);
-    expect(Module.getSupportedIdTypeInfo(istexId)).toBe(supportedIdTypes.istexId);
-    expect(Module.getSupportedIdTypeInfo(doi)).toBe(supportedIdTypes.doi);
-    expect(Module.getSupportedIdTypeInfo(garbage)).toBe(null);
+    expect(Module.getIdTypeInfoFromId(ark)).toBe(supportedIdTypes.ark);
+    expect(Module.getIdTypeInfoFromId(istexId)).toBe(supportedIdTypes.istexId);
+    expect(Module.getIdTypeInfoFromId(doi)).toBe(supportedIdTypes.doi);
+    expect(Module.getIdTypeInfoFromId(garbage)).toBe(null);
   });
 
   it('isArkQueryString', () => {

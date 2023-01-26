@@ -4,7 +4,7 @@ import { Table, Tooltip } from 'flowbite-react';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { isArkQueryString, getArksFromArkQueryString, isIstexIdQueryString, getIstexIdsFromIstexIdQueryString } from '@/lib/query';
+import { getIdTypeInfoFromQueryString } from '@/lib/query';
 import { buildExtractParamsFromFormats } from '@/lib/formats';
 import { getQueryStringFromQId, sendDownloadApiRequest, buildFullApiUrl } from '@/lib/istexApi';
 import { buildFullIstexDlUrl } from '@/lib/utils';
@@ -14,8 +14,7 @@ import { useHistoryContext } from '@/contexts/HistoryContext';
 
 export default function HistoryRequest ({ requestInfo, onClose }) {
   const [queryString, setQueryString] = useState('');
-  const [_isArkQueryString, setIsArkQueryString] = useState(false);
-  const [_isIstexIdQueryString, setIsIstexIdQueryString] = useState(false);
+  const [idTypeInfo, setIdTypeInfo] = useState(null);
   const resetForm = useResetForm();
   const { eventEmitter, events } = useEventEmitterContext();
   const history = useHistoryContext();
@@ -85,12 +84,17 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
     return requestInfo.queryString;
   };
 
-  useEffect(async () => {
-    const queryStringToUse = await getQueryString();
-    setQueryString(queryStringToUse);
+  useEffect(() => {
+    const getQueryStringToUse = async () => {
+      const queryStringToUse = await getQueryString();
+      setQueryString(queryStringToUse);
 
-    setIsArkQueryString(isArkQueryString(queryStringToUse));
-    setIsIstexIdQueryString(isIstexIdQueryString(queryStringToUse));
+      return queryStringToUse;
+    };
+
+    getQueryStringToUse().then(queryStringToUse => {
+      setIdTypeInfo(getIdTypeInfoFromQueryString(queryStringToUse));
+    });
   }, []);
 
   return (
@@ -103,13 +107,9 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
       </Table.Cell>
       <Table.Cell>
         <div
-          className={`line-clamp-${_isArkQueryString || _isIstexIdQueryString ? '3' : '2'}`}
+          className={`line-clamp-${idTypeInfo != null ? '3' : '2'}`}
         >
-          {(() => {
-            if (_isArkQueryString) return getArksFromArkQueryString(queryString).slice(0, 4).map(ark => <div key={ark}>{ark}<br /></div>);
-            if (_isIstexIdQueryString) return getIstexIdsFromIstexIdQueryString(queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>);
-            return queryString;
-          })()}
+          {idTypeInfo != null ? idTypeInfo.extractIds(queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>) : queryString}
         </div>
       </Table.Cell>
       <Table.Cell>

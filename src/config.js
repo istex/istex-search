@@ -6,6 +6,9 @@ import {
   getArksFromArkQueryString,
   getIstexIdsFromIstexIdQueryString,
   getDoisFromDoiQueryString,
+  isArkQueryString,
+  isIstexIdQueryString,
+  isDoiQueryString,
 } from '@/lib/query';
 
 export const queryModes = {
@@ -176,21 +179,24 @@ export const supportedIdTypes = {
   ark: {
     fieldName: 'arkIstex.raw',
     label: 'ARK',
-    checkFn: isValidArk,
+    isValidId: isValidArk,
+    isValidQueryString: isArkQueryString,
     buildQueryString: buildQueryStringFromArks,
     extractIds: getArksFromArkQueryString,
   },
   istexId: {
     fieldName: 'id',
     label: 'ID Istex',
-    checkFn: isValidIstexId,
+    isValidId: isValidIstexId,
+    isValidQueryString: isIstexIdQueryString,
     buildQueryString: buildQueryStringFromIstexIds,
     extractIds: getIstexIdsFromIstexIdQueryString,
   },
   doi: {
     fieldName: 'doi',
     label: 'DOI',
-    checkFn: isValidDoi,
+    isValidId: isValidDoi,
+    isValidQueryString: isDoiQueryString,
     buildQueryString: buildQueryStringFromDois,
     extractIds: getDoisFromDoiQueryString,
   },

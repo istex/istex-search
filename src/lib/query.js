@@ -77,14 +77,26 @@ export function parseCorpusFileContent (corpusFileContent) {
  * Check if `id` is of a supported identifier type and return the appropriate object inside `supportedIds`.
  * @param {string} id The identifier to use to find the appropriate object.
  * @returns The appropriate object inside `supportedIds`.
- * @example getSupportedIdTypeInfo('ark:/67375/NVC-8SNSRJ6Z-Z') // => supportedIds.ark
+ * @example getIdTypeInfoFromId('ark:/67375/NVC-8SNSRJ6Z-Z') // => supportedIds.ark
  */
-export function getSupportedIdTypeInfo (id) {
+export function getIdTypeInfoFromId (id) {
   for (const supportedIdTypeName in supportedIdTypes) {
-    const supportedIdType = supportedIdTypes[supportedIdTypeName];
+    const idTypeInfo = supportedIdTypes[supportedIdTypeName];
 
-    if (supportedIdType.checkFn(id)) {
-      return supportedIdType;
+    if (idTypeInfo.isValidId(id)) {
+      return idTypeInfo;
+    }
+  }
+
+  return null;
+}
+
+export function getIdTypeInfoFromQueryString (queryString) {
+  for (const supportedIdTypeName in supportedIdTypes) {
+    const idTypeInfo = supportedIdTypes[supportedIdTypeName];
+
+    if (idTypeInfo.isValidQueryString(queryString)) {
+      return idTypeInfo;
     }
   }
 
@@ -192,7 +204,7 @@ function buildQueryStringFromIds (idTypeInfo, ids) {
     .filter(id => id !== '')
     .map((id, index) => {
       const trimmedId = id.trim();
-      if (!idTypeInfo.checkFn(trimmedId)) {
+      if (!idTypeInfo.isValidId(trimmedId)) {
         const err = new Error(`Syntax error in ${trimmedId}`);
         err.line = index + 1;
         throw err;
@@ -216,7 +228,7 @@ function isIdQueryString (idTypeInfo, queryString) {
   }
 
   const ids = getIdsFromIdQueryString(idTypeInfo.fieldName, queryString);
-  const hasInvalidId = ids.some(id => idTypeInfo.checkFn(id) === false);
+  const hasInvalidId = ids.some(id => idTypeInfo.isValidId(id) === false);
 
   return !hasInvalidId;
 }

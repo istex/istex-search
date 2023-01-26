@@ -16,7 +16,7 @@ import {
   isQueryStringTooLong,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
-import { queryModes } from '@/config';
+import { queryModes, supportedIdTypes } from '@/config';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
 import useResetForm from '@/features/resetForm/useResetForm';
@@ -237,7 +237,7 @@ export default function QueryInput () {
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           cols='40'
           name='queryInput'
-          placeholder='ark:/67375/0T8-JMF4G14B-2&#x0a;ark:/67375/0T8-RNCBH0VZ-8'
+          placeholder={`Liste d'identifiants parmi ${Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}`}
           value={idsInputValue}
           onChange={event => idListHandler(event.target.value)}
           maxRows={12}

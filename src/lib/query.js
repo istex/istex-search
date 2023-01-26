@@ -83,6 +83,12 @@ export function getIdTypeInfoFromId (id) {
   return Object.values(supportedIdTypes).find(idTypeInfo => idTypeInfo.isValidId(id));
 }
 
+/**
+ * Check if `queryString` is of a supported identifier type and return the appropriate object inside `supportedIds`.
+ * @param {string} queryString The query string to deduce the ID type from.
+ * @returns The appropriate object inside `supportedIds`.
+ * @example getIdTypeInfoFromQueryString('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z")') // => supportedIds.ark
+ */
 export function getIdTypeInfoFromQueryString (queryString) {
   return Object.values(supportedIdTypes).find(idTypeInfo => idTypeInfo.isValidQueryString(queryString));
 }

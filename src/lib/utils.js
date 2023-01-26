@@ -105,6 +105,17 @@ export function asyncDebounce (callback, delay = 1000) {
   return asyncDebounced;
 }
 
+/**
+ * Build the Istex-DL URL to be used when sharing the form.
+ * @param {string} queryString The query string (not needed if `qId` is present).
+ * @param {string} qId The q_id (not needed if `queryString` is present).
+ * @param {number} selectedFormats The selected formats as an integer (bit field).
+ * @param {string} rankingMode The ranking mode.
+ * @param {number} numberOfDocuments The maximum number of documents.
+ * @param {0|6|9} compressionLevel The level of compression.
+ * @param {'zip'|'tar'} archiveType The type of archive.
+ * @returns The full Istex-DL URL as an `URL` object.
+ */
 export function buildFullIstexDlUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType, usage }) {
   // If no format is selected, return early and don't add the extract parameter
   if (!selectedFormats) return null;

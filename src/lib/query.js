@@ -1,5 +1,7 @@
 import { istexApiConfig, supportedIdTypes } from '@/config';
 
+const MAX_NUMBER_OF_ERRORS = 20;
+
 /**
  * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
  * to send to the API.
@@ -10,6 +12,7 @@ import { istexApiConfig, supportedIdTypes } from '@/config';
 export function parseCorpusFileContent (corpusFileContent) {
   const lines = corpusFileContent.split('\n');
   const queryString = [];
+  const errorLines = [];
 
   // Build an object that will hold an array for each supported ID type and the functions to validate
   // them and build the query string
@@ -51,21 +54,28 @@ export function parseCorpusFileContent (corpusFileContent) {
 
     const [idType, idValue] = lineSegments;
 
-    // The first segment of the line needs to be a supported ID type
-    if (!ids[idType]) {
-      const err = new Error('Syntax error');
-      err.line = lineIndex + 1;
-      throw err;
-    }
+    // idType needs to be a supported ID type and idValue must be a valid ID of idType
+    if (!ids[idType] || !ids[idType].isValidId(idValue)) {
+      errorLines.push(lineIndex + 1);
 
-    // The ID needs to be valid
-    if (!ids[idType].isValidId(idValue)) {
-      const err = new Error('Syntax error');
-      err.line = lineIndex + 1;
-      throw err;
+      // If the maximum number of errors is reached, throw early
+      if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+        const err = new Error('Syntax errors');
+        err.lines = errorLines;
+        throw err;
+      }
+
+      continue;
     }
 
     ids[idType].list.push(idValue);
+  }
+
+  // Throw if errors were found
+  if (errorLines.length > 0) {
+    const err = new Error('Syntax errors');
+    err.lines = errorLines;
+    throw err;
   }
 
   // Build the query string and calculate to total amount of IDs
@@ -200,18 +210,32 @@ export function isQueryStringTooLong (queryString) {
  * @returns A properly formatted query string to request the identifiers in `ids`.
  */
 function buildQueryStringFromIds (idTypeInfo, ids) {
+  const errorLines = [];
+
   const formattedIds = ids
     .map(id => id.trim())
     .filter(id => id !== '')
-    .map((id, index) => {
+    .map((id, lineIndex) => {
       if (!idTypeInfo.isValidId(id)) {
-        const err = new Error(`Syntax error in ${id}`);
-        err.line = index + 1;
-        throw err;
+        errorLines.push(lineIndex + 1);
+
+        // If the maximum number of errors is reached, throw early
+        if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+          const err = new Error('Syntax errors');
+          err.lines = errorLines;
+          throw err;
+        }
       }
 
       return `"${id}"`;
     });
+
+  // Throw if errors were found
+  if (errorLines.length > 0) {
+    const err = new Error('Syntax errors');
+    err.lines = errorLines;
+    throw err;
+  }
 
   return `${idTypeInfo.fieldName}:(${formattedIds.join(' ')})`;
 }

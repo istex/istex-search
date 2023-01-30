@@ -135,19 +135,19 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
 
     const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
     expect(invalidLineError).not.toBe(null);
-    expect(invalidLineError).toHaveProperty('line', 10);
+    expect(invalidLineError.lines).toEqual([10]);
 
     const multipleErrorsError = getError(() => Module.parseCorpusFileContent(multipleErrorsCorpusFileContent));
     expect(multipleErrorsError).not.toBe(null);
-    expect(multipleErrorsError).toHaveProperty('line', 9);
+    expect(multipleErrorsError.lines).toEqual([9, 11]);
 
     const invalidArkError = getError(() => Module.parseCorpusFileContent(invalidArkCorpusFileContent));
     expect(invalidArkError).not.toBe(null);
-    expect(invalidArkError).toHaveProperty('line', 8);
+    expect(invalidArkError.lines).toEqual([8]);
 
     const invalidIstexIdError = getError(() => Module.parseCorpusFileContent(invalidIstexIdCorpusFileContent));
     expect(invalidIstexIdError).not.toBe(null);
-    expect(invalidIstexIdError).toHaveProperty('line', 8);
+    expect(invalidIstexIdError.lines).toEqual([8]);
   });
 
   it('buildQueryStringFromArks', () => {

@@ -195,8 +195,12 @@ export default function QueryInput () {
       });
     };
 
-    // TODO: print the error in a modal or something else
-    reader.onerror = console.error;
+    reader.onerror = () => {
+      eventEmitter.emit(events.displayNotification, {
+        text: `Impossible d'ouvrir le fichier ${file.name}`,
+        type: 'error',
+      });
+    };
   };
 
   const handleFocusOnInput = () => {

@@ -63,17 +63,31 @@ garbage line
 ark  ark:/67375/NVC-RBP335V7-7
 ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
 
-    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S") OR id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
+    const multipleErrorsCorpusFileContent =
+`#
+# Fichier .corpus
+#
+query        : *
+date         : 2022-3-11
+total        : 3
+[ISTEX]
+ark  ark:/67375/NVC-S58LP3M2-S
+first error
+ark  ark:/67375/NVC-RBP335V7-7
+second error
+ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
+
+    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z") OR id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0")';
     const parsedCompleteCorpusFileContent = Module.parseCorpusFileContent(completeCorpusFileContent);
     expect(parsedCompleteCorpusFileContent.queryString).toBe(completeExpectedQueryString);
     expect(parsedCompleteCorpusFileContent.numberOfIds).toBe(6);
 
-    const onlyArksExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-S58LP3M2-S")';
+    const onlyArksExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z")';
     const parsedOnlyArksCorpusFileContent = Module.parseCorpusFileContent(onlyArksCorpusFileContent);
     expect(parsedOnlyArksCorpusFileContent.queryString).toBe(onlyArksExpectedQueryString);
     expect(parsedOnlyArksCorpusFileContent.numberOfIds).toBe(3);
 
-    const onlyIstexIdsExpectedQueryString = 'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "B940A8D3FD96AB383C6393070933764A2CE3D106")';
+    const onlyIstexIdsExpectedQueryString = 'id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0")';
     const parsedOnlyIstexIdsCorpusFileContent = Module.parseCorpusFileContent(onlyIstexIdsCorpusFileContent);
     expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
     expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
@@ -81,6 +95,10 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
     expect(invalidLineError).not.toBe(null);
     expect(invalidLineError).toHaveProperty('line', 10);
+
+    const multipleErrorsError = getError(() => Module.parseCorpusFileContent(multipleErrorsCorpusFileContent));
+    expect(multipleErrorsError).not.toBe(null);
+    expect(multipleErrorsError).toHaveProperty('line', 9);
   });
 
   it('buildQueryStringFromArks', () => {

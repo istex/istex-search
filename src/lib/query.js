@@ -15,16 +15,22 @@ export function parseCorpusFileContent (corpusFileContent) {
   const istexIds = [];
   const queryString = [];
 
-  // The identifiers are at the end of the file so it's more efficient to go through
-  // the lines backwards
-  for (let i = lines.length - 1; i >= 0; i--) {
-    const line = lines[i].trim();
+  // Go through the lines until we reach the line containing '[ISTEX]' because we don't care about
+  // what is before it
+  let lineIndex = 0;
+  while (lines[lineIndex].trim() !== '[ISTEX]') {
+    lineIndex++;
+  }
+
+  // At this point lineIndex points to the line containing '[ISTEX]' so we need to increment it once
+  // more to start parsing
+  lineIndex++;
+
+  // Start at the line right after '[ISTEX]'
+  for (; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex].trim();
 
     if (!line) continue;
-
-    // The line containing '[ISTEX]' indicates that we reached the header of the file
-    // so we can break out of the loop
-    if (line === '[ISTEX]') break;
 
     // Split the line to get arrays like ['ark', '<ark>', ...] or ['id', '<id>', ...]
     const lineSegments = line
@@ -39,7 +45,7 @@ export function parseCorpusFileContent (corpusFileContent) {
     // The first segment of the line needs to be a valid ID type
     if (!validIdTypes.includes(lineSegments[0])) {
       const err = new Error('Syntax error');
-      err.line = i + 1;
+      err.line = lineIndex + 1;
       throw err;
     }
 
@@ -49,7 +55,7 @@ export function parseCorpusFileContent (corpusFileContent) {
       try {
         InistArk.parse(idValue);
       } catch (err) {
-        err.line = i + 1;
+        err.line = lineIndex + 1;
         throw err;
       }
 

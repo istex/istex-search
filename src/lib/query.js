@@ -1,4 +1,5 @@
 import InistArk from './inistArk';
+import { isValidIstexId } from './utils';
 import { istexApiConfig, supportedIdTypes } from '@/config';
 
 /**
@@ -61,6 +62,11 @@ export function parseCorpusFileContent (corpusFileContent) {
 
       arks.push(idValue);
     } else if (idType === 'id') {
+      if (!isValidIstexId(idValue)) {
+        const err = new Error('Syntax error');
+        err.line = lineIndex + 1;
+        throw err;
+      }
       istexIds.push(idValue);
     }
   }

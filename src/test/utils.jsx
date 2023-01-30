@@ -19,13 +19,12 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
-import myStore from '../store/store';
+import myStore from '@/store/store';
 import EventEmitterProvider from '@/contexts/EventEmitterContext';
 
 // Custom render function that will wrap the component to test in a Redux Provider and a Router
 // to allow it to access the store.
-function customRender (ui, {
-  preloadedState,
+export function customRender (ui, {
   store = myStore,
   ...renderOptions
 } = {}) {
@@ -66,6 +65,19 @@ function customRender (ui, {
   return render(ui, { wrapper: Wrapper, ...renderOptions });
 }
 
-export * from '@testing-library/react';
+/**
+ * Catch the potential error thrown by `func` and return it.
+ * @param {function} func The function that is supposed to throw an error.
+ * @returns An instance of `Error` if `func` throws, `null` otherwise.
+ */
+export function getError (func) {
+  try {
+    func();
+  } catch (err) {
+    return err;
+  }
 
-export { customRender };
+  return null;
+}
+
+export * from '@testing-library/react';

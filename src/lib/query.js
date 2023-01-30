@@ -1,5 +1,6 @@
-import InistArk from './inistArk';
 import { istexApiConfig, supportedIdTypes } from '@/config';
+
+const MAX_NUMBER_OF_ERRORS = 20;
 
 /**
  * Parse `corpusFileContent` to get the number of identifiers and build the corresponding query string
@@ -9,22 +10,37 @@ import { istexApiConfig, supportedIdTypes } from '@/config';
  * to send to the API.
  */
 export function parseCorpusFileContent (corpusFileContent) {
-  const validIdTypes = ['ark', 'id'];
   const lines = corpusFileContent.split('\n');
-  const arks = [];
-  const istexIds = [];
   const queryString = [];
+  const errorLines = [];
 
-  // The identifiers are at the end of the file so it's more efficient to go through
-  // the lines backwards
-  for (let i = lines.length - 1; i >= 0; i--) {
-    const line = lines[i].trim();
+  // Build an object that will hold an array for each supported ID type and the functions to validate
+  // them and build the query string
+  const ids = {};
+  for (const idTypeInfo of Object.values(supportedIdTypes)) {
+    ids[idTypeInfo.corpusFilePrefix] = {
+      list: [],
+      isValidId: idTypeInfo.isValidId,
+      buildQueryString: idTypeInfo.buildQueryString,
+    };
+  }
+
+  // Go through the lines until we reach the line containing '[ISTEX]' because we don't care about
+  // what is before it
+  let lineIndex = 0;
+  while (lines[lineIndex].trim() !== '[ISTEX]') {
+    lineIndex++;
+  }
+
+  // At this point lineIndex points to the line containing '[ISTEX]' so we need to increment it once
+  // more to start parsing
+  lineIndex++;
+
+  // Start at the line right after '[ISTEX]'
+  for (; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex].trim();
 
     if (!line) continue;
-
-    // The line containing '[ISTEX]' indicates that we reached the header of the file
-    // so we can break out of the loop
-    if (line === '[ISTEX]') break;
 
     // Split the line to get arrays like ['ark', '<ark>', ...] or ['id', '<id>', ...]
     const lineSegments = line
@@ -36,39 +52,43 @@ export function parseCorpusFileContent (corpusFileContent) {
     // contained spaces and this is not seen as an error
     if (lineSegments.length === 0) continue;
 
-    // The first segment of the line needs to be a valid ID type
-    if (!validIdTypes.includes(lineSegments[0])) {
-      const err = new Error('Syntax error');
-      err.line = i + 1;
-      throw err;
-    }
-
     const [idType, idValue] = lineSegments;
 
-    if (idType === 'ark') {
-      try {
-        InistArk.parse(idValue);
-      } catch (err) {
-        err.line = i + 1;
+    // idType needs to be a supported ID type and idValue must be a valid ID of idType
+    if (!ids[idType] || !ids[idType].isValidId(idValue)) {
+      errorLines.push(lineIndex + 1);
+
+      // If the maximum number of errors is reached, throw early
+      if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+        const err = new Error('Syntax errors');
+        err.lines = errorLines;
         throw err;
       }
 
-      arks.push(idValue);
-    } else if (idType === 'id') {
-      istexIds.push(idValue);
+      continue;
+    }
+
+    ids[idType].list.push(idValue);
+  }
+
+  // Throw if errors were found
+  if (errorLines.length > 0) {
+    const err = new Error('Syntax errors');
+    err.lines = errorLines;
+    throw err;
+  }
+
+  // Build the query string and calculate to total amount of IDs
+  let numberOfIds = 0;
+  for (const id of Object.values(ids)) {
+    if (id.list.length > 0) {
+      queryString.push(id.buildQueryString(id.list));
+      numberOfIds += id.list.length;
     }
   }
 
-  if (arks.length > 0) {
-    queryString.push(buildQueryStringFromArks(arks));
-  }
-
-  if (istexIds.length > 0) {
-    queryString.push(buildQueryStringFromIstexIds(istexIds));
-  }
-
   return {
-    numberOfIds: arks.length + istexIds.length,
+    numberOfIds,
     queryString: queryString.join(' OR '),
   };
 }
@@ -190,18 +210,32 @@ export function isQueryStringTooLong (queryString) {
  * @returns A properly formatted query string to request the identifiers in `ids`.
  */
 function buildQueryStringFromIds (idTypeInfo, ids) {
+  const errorLines = [];
+
   const formattedIds = ids
     .map(id => id.trim())
     .filter(id => id !== '')
-    .map((id, index) => {
+    .map((id, lineIndex) => {
       if (!idTypeInfo.isValidId(id)) {
-        const err = new Error(`Syntax error in ${id}`);
-        err.line = index + 1;
-        throw err;
+        errorLines.push(lineIndex + 1);
+
+        // If the maximum number of errors is reached, throw early
+        if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+          const err = new Error('Syntax errors');
+          err.lines = errorLines;
+          throw err;
+        }
       }
 
       return `"${id}"`;
     });
+
+  // Throw if errors were found
+  if (errorLines.length > 0) {
+    const err = new Error('Syntax errors');
+    err.lines = errorLines;
+    throw err;
+  }
 
   return `${idTypeInfo.fieldName}:(${formattedIds.join(' ')})`;
 }

@@ -179,6 +179,7 @@ export const supportedIdTypes = {
   ark: {
     fieldName: 'arkIstex.raw',
     label: 'ARK',
+    corpusFilePrefix: 'ark',
     isValidId: isValidArk,
     isValidQueryString: isArkQueryString,
     buildQueryString: buildQueryStringFromArks,
@@ -187,6 +188,7 @@ export const supportedIdTypes = {
   istexId: {
     fieldName: 'id',
     label: 'ID Istex',
+    corpusFilePrefix: 'id',
     isValidId: isValidIstexId,
     isValidQueryString: isIstexIdQueryString,
     buildQueryString: buildQueryStringFromIstexIds,
@@ -195,6 +197,7 @@ export const supportedIdTypes = {
   doi: {
     fieldName: 'doi',
     label: 'DOI',
+    corpusFilePrefix: 'doi',
     isValidId: isValidDoi,
     isValidQueryString: isDoiQueryString,
     buildQueryString: buildQueryStringFromDois,

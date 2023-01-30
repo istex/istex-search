@@ -148,7 +148,7 @@ export default function QueryInput () {
         queryString = idTypeInfo.buildQueryString(ids);
       } catch (err) {
         eventEmitter.emit(events.displayNotification, {
-          text: `Erreur de syntaxe à la ligne ${err.line}`,
+          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
           type: 'error',
         });
 
@@ -174,7 +174,7 @@ export default function QueryInput () {
         parsingResult = parseCorpusFileContent(result);
       } catch (err) {
         eventEmitter.emit(events.displayNotification, {
-          text: `Erreur de syntaxe dans l'ARK à la ligne ${err.line}`,
+          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
           type: 'error',
         });
 
@@ -195,8 +195,12 @@ export default function QueryInput () {
       });
     };
 
-    // TODO: print the error in a modal or something else
-    reader.onerror = console.error;
+    reader.onerror = () => {
+      eventEmitter.emit(events.displayNotification, {
+        text: `Impossible d'ouvrir le fichier ${file.name}`,
+        type: 'error',
+      });
+    };
   };
 
   const handleFocusOnInput = () => {

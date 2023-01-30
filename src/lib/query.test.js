@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { getError } from '@/test/utils';
 import { supportedIdTypes } from '@/config';
 import * as Module from './query';
 
@@ -11,7 +12,7 @@ describe('Tests for the function building or parsing query strings', () => {
 #
 query        : *
 date         : 2022-3-11
-total        : 5
+total        : 6
 [ISTEX]
 
 ark   ark:/67375/NVC-S58LP3M2-S    # very cool comment
@@ -28,7 +29,7 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
 #
 query        : *
 date         : 2022-3-11
-total        : 5
+total        : 3
 [ISTEX]
 
 ark   ark:/67375/NVC-S58LP3M2-S    # very cool comment
@@ -41,7 +42,7 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment`;
 #
 query        : *
 date         : 2022-3-11
-total        : 5
+total        : 3
 [ISTEX]
 id    B940A8D3FD96AB383C6393070933764A2CE3D106   # very cool comment
 id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
@@ -53,7 +54,7 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
 #
 query        : *
 date         : 2022-3-11
-total        : 5
+total        : 3
 [ISTEX]
 ark  ark:/67375/NVC-S58LP3M2-S
    
@@ -77,7 +78,9 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
     expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
     expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
 
-    expect(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent)).toThrow();
+    const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
+    expect(invalidLineError).not.toBe(null);
+    expect(invalidLineError).toHaveProperty('line', 10);
   });
 
   it('buildQueryStringFromArks', () => {

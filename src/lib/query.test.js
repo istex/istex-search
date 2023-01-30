@@ -12,7 +12,7 @@ describe('Tests for the function building or parsing query strings', () => {
 #
 query        : *
 date         : 2022-3-11
-total        : 6
+total        : 9
 [ISTEX]
 
 ark   ark:/67375/NVC-S58LP3M2-S    # very cool comment
@@ -21,7 +21,11 @@ ark ark:/67375/NVC-RBP335V7-7    # very cool comment
 ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment
 id    B940A8D3FD96AB383C6393070933764A2CE3D106   # very cool comment
 id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
-id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
+id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment
+
+doi   10.1007/s12291-008-0044-0   # very cool comment
+doi 10.1016/S0041-1345(00)01436-6  # very cool comment
+doi  10.1111/j.1365-2923.2011.04210.x # very cool comment`;
 
     const onlyArksCorpusFileContent =
 `#
@@ -47,6 +51,18 @@ total        : 3
 id    B940A8D3FD96AB383C6393070933764A2CE3D106   # very cool comment
 id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
 id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
+
+    const onlyDoisCorpusFileContent =
+`#
+# Fichier .corpus
+#
+query        : *
+date         : 2022-3-11
+total        : 3
+[ISTEX]
+doi   10.1007/s12291-008-0044-0   # very cool comment
+doi 10.1016/S0041-1345(00)01436-6  # very cool comment
+doi  10.1111/j.1365-2923.2011.04210.x # very cool comment`;
 
     const invalidLineCorpusFileContent =
 `#
@@ -97,10 +113,10 @@ total        : 1
 [ISTEX]
 id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
 
-    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z") OR id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0")';
+    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z") OR id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0") OR doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
     const parsedCompleteCorpusFileContent = Module.parseCorpusFileContent(completeCorpusFileContent);
     expect(parsedCompleteCorpusFileContent.queryString).toBe(completeExpectedQueryString);
-    expect(parsedCompleteCorpusFileContent.numberOfIds).toBe(6);
+    expect(parsedCompleteCorpusFileContent.numberOfIds).toBe(9);
 
     const onlyArksExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z")';
     const parsedOnlyArksCorpusFileContent = Module.parseCorpusFileContent(onlyArksCorpusFileContent);
@@ -111,6 +127,11 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
     const parsedOnlyIstexIdsCorpusFileContent = Module.parseCorpusFileContent(onlyIstexIdsCorpusFileContent);
     expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
     expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
+
+    const onlyDoisExpectedQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const parsedOnlyDoisCorpusFileContent = Module.parseCorpusFileContent(onlyDoisCorpusFileContent);
+    expect(parsedOnlyDoisCorpusFileContent.queryString).toBe(onlyDoisExpectedQueryString);
+    expect(parsedOnlyDoisCorpusFileContent.numberOfIds).toBe(3);
 
     const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
     expect(invalidLineError).not.toBe(null);

@@ -1,5 +1,3 @@
-import InistArk from './inistArk';
-import { isValidIstexId } from './utils';
 import { istexApiConfig, supportedIdTypes } from '@/config';
 
 /**
@@ -10,11 +8,19 @@ import { istexApiConfig, supportedIdTypes } from '@/config';
  * to send to the API.
  */
 export function parseCorpusFileContent (corpusFileContent) {
-  const validIdTypes = ['ark', 'id'];
   const lines = corpusFileContent.split('\n');
-  const arks = [];
-  const istexIds = [];
   const queryString = [];
+
+  // Build an object that will hold an array for each supported ID type and the functions to validate
+  // them and build the query string
+  const ids = {};
+  for (const idTypeInfo of Object.values(supportedIdTypes)) {
+    ids[idTypeInfo.corpusFilePrefix] = {
+      list: [],
+      isValidId: idTypeInfo.isValidId,
+      buildQueryString: idTypeInfo.buildQueryString,
+    };
+  }
 
   // Go through the lines until we reach the line containing '[ISTEX]' because we don't care about
   // what is before it
@@ -43,44 +49,36 @@ export function parseCorpusFileContent (corpusFileContent) {
     // contained spaces and this is not seen as an error
     if (lineSegments.length === 0) continue;
 
-    // The first segment of the line needs to be a valid ID type
-    if (!validIdTypes.includes(lineSegments[0])) {
+    const [idType, idValue] = lineSegments;
+
+    // The first segment of the line needs to be a supported ID type
+    if (!ids[idType]) {
       const err = new Error('Syntax error');
       err.line = lineIndex + 1;
       throw err;
     }
 
-    const [idType, idValue] = lineSegments;
+    // The ID needs to be valid
+    if (!ids[idType].isValidId(idValue)) {
+      const err = new Error('Syntax error');
+      err.line = lineIndex + 1;
+      throw err;
+    }
 
-    if (idType === 'ark') {
-      try {
-        InistArk.parse(idValue);
-      } catch (err) {
-        err.line = lineIndex + 1;
-        throw err;
-      }
+    ids[idType].list.push(idValue);
+  }
 
-      arks.push(idValue);
-    } else if (idType === 'id') {
-      if (!isValidIstexId(idValue)) {
-        const err = new Error('Syntax error');
-        err.line = lineIndex + 1;
-        throw err;
-      }
-      istexIds.push(idValue);
+  // Build the query string and calculate to total amount of IDs
+  let numberOfIds = 0;
+  for (const id of Object.values(ids)) {
+    if (id.list.length > 0) {
+      queryString.push(id.buildQueryString(id.list));
+      numberOfIds += id.list.length;
     }
   }
 
-  if (arks.length > 0) {
-    queryString.push(buildQueryStringFromArks(arks));
-  }
-
-  if (istexIds.length > 0) {
-    queryString.push(buildQueryStringFromIstexIds(istexIds));
-  }
-
   return {
-    numberOfIds: arks.length + istexIds.length,
+    numberOfIds,
     queryString: queryString.join(' OR '),
   };
 }

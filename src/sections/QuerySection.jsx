@@ -79,7 +79,7 @@ export default function QuerySection () {
   };
 
   // If queryString or rankingMode change, update the results preview
-  useEffect(async () => {
+  useEffect(() => {
     setLoading(true);
     if (!queryString) {
       sendDelayedResultPreviewApiRequest.cancel();
@@ -88,10 +88,10 @@ export default function QuerySection () {
     }
 
     const paginationQueryString = prevCurrentPageURI !== currentPageURI ? currentPageURI : '';
-    const response = await sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString);
-
-    eventEmitter.emit(events.resultPreviewResponseReceived, response);
-    setLoading(false);
+    sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString).then(response => {
+      eventEmitter.emit(events.resultPreviewResponseReceived, response);
+      setLoading(false);
+    });
   }, [queryString, rankingMode, currentPageURI]);
 
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function QuerySection () {
       <p className='mb-4'>
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
       </p>
-      <QueryInput totalAmountOfDocuments={totalAmountOfDocuments} />
+      <QueryInput />
       {queryString && !isLoading && (
         <div className='my-4'>
           <span>L'équation saisie correspond à <strong>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>

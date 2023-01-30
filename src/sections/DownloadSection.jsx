@@ -6,8 +6,8 @@ import SectionTitle from '@/components/SectionTitle';
 import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import { setCompressionLevel, setArchiveType } from '@/store/istexApiSlice';
-import { isFormatSelected } from '@/lib/istexApi';
-import { istexApiConfig, formats, formatSizes } from '@/config';
+import { estimateArchiveSize } from '@/lib/formats';
+import { istexApiConfig } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function DownloadSection () {
@@ -34,43 +34,8 @@ export default function DownloadSection () {
     eventEmitter.emit(events.setArchiveTypeInLastRequestOfHistory, newArchiveType);
   };
 
-  const estimateArchiveSize = () => {
-    let size = 0;
-
-    for (const formatCategory in formats) {
-      let format;
-
-      // Cases of covers and annexes which are not in a category
-      if (formats[formatCategory].value !== undefined) {
-        format = formats[formatCategory].value;
-
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory];
-
-        size += formatSize * multiplier * numberOfDocuments;
-
-        continue;
-      }
-
-      for (const formatName in formats[formatCategory].formats) {
-        format = formats[formatCategory].formats[formatName].value;
-
-        if (!isFormatSelected(selectedFormats, format)) continue;
-
-        const formatSize = formatSizes.baseSizes[formatCategory][formatName];
-        const multiplier = formatSizes[archiveType].multipliers[compressionLevel][formatCategory][formatName];
-
-        size += formatSize * multiplier * numberOfDocuments;
-      }
-    }
-
-    return size;
-  };
-
   const updateArchiveSizeText = () => {
-    const size = estimateArchiveSize();
+    const size = estimateArchiveSize(selectedFormats, numberOfDocuments, compressionLevel, archiveType);
     const oneGigabyte = 1 * 1024 * 1024 * 1024;
     const sizeRoundedToLowerGigabyte = Math.floor(size / oneGigabyte);
 

@@ -1,5 +1,5 @@
 import { istexApiConfig, queryModes } from '@/config';
-import { noFormatSelected } from '@/lib/istexApi';
+import { noFormatSelected } from '@/lib/formats';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
 export default function useResetForm () {

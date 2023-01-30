@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getQueryStringFromQId, parseExtractParams } from '@/lib/istexApi';
+import { getQueryStringFromQId } from '@/lib/istexApi';
+import { parseExtractParams } from '@/lib/formats';
 import { isValidMd5 } from '@/lib/utils';
 import { istexApiConfig, usages } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';

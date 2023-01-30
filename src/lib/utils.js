@@ -1,4 +1,5 @@
-import { buildExtractParamsFromFormats } from './istexApi';
+import InistArk from './inistArk';
+import { buildExtractParamsFromFormats } from './formats';
 
 /**
  * Checks if `hash` is a valid md5 hash.
@@ -8,7 +9,46 @@ import { buildExtractParamsFromFormats } from './istexApi';
 export function isValidMd5 (hash) {
   if (typeof hash !== 'string') return false;
 
-  return (/^[a-f0-9]{32}$/g).test(hash);
+  return (/^[a-f0-9]{32}$/gi).test(hash);
+}
+
+/**
+ * Check if `ark` is a valid ARK identifier.
+ * @param {string} ark The ARK identifier to check.
+ * @returns `true` if `ark` is a valid ARK identifier, `false` otherwise.
+ */
+export function isValidArk (ark) {
+  if (typeof ark !== 'string') return false;
+
+  try {
+    InistArk.parse(ark);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Check if `istexId` is a valid Istex identifier.
+ * @param {string} istexId The Istex identifier to check.
+ * @returns `true` if `istexId` is a valid Istex identifier, `false` otherwise.
+ */
+export function isValidIstexId (istexId) {
+  if (typeof istexId !== 'string') return false;
+
+  return (/^[A-F0-9]{40}$/g).test(istexId);
+}
+
+/**
+ * Check if `doi` is a valid DOI.
+ * @param {string} doi The DOI to check.
+ * @returns `true` if `doi` is a valid DOI, `false` otherwise.
+ */
+export function isValidDoi (doi) {
+  if (typeof doi !== 'string') return false;
+
+  return (/\b(10[.][0-9]{4,}(?:[.][0-9]+)*\/(?:(?!["&'])\S)+)\b/gi).test(doi);
 }
 
 /**
@@ -65,6 +105,17 @@ export function asyncDebounce (callback, delay = 1000) {
   return asyncDebounced;
 }
 
+/**
+ * Build the Istex-DL URL to be used when sharing the form.
+ * @param {string} queryString The query string (not needed if `qId` is present).
+ * @param {string} qId The q_id (not needed if `queryString` is present).
+ * @param {number} selectedFormats The selected formats as an integer (bit field).
+ * @param {string} rankingMode The ranking mode.
+ * @param {number} numberOfDocuments The maximum number of documents.
+ * @param {0|6|9} compressionLevel The level of compression.
+ * @param {'zip'|'tar'} archiveType The type of archive.
+ * @returns The full Istex-DL URL as an `URL` object.
+ */
 export function buildFullIstexDlUrl ({ queryString, qId, selectedFormats, rankingMode, numberOfDocuments, compressionLevel, archiveType, usage }) {
   // If no format is selected, return early and don't add the extract parameter
   if (!selectedFormats) return null;

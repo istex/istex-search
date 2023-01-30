@@ -9,7 +9,7 @@ import CategoryFormat from '@/features/usage/CategoryFormat';
 import NoCategoryFormat from '@/features/usage/NoCategoryFormat';
 
 import { setSelectedFormats, setUsage } from '@/store/istexApiSlice';
-import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat, getWholeCategoryFormat } from '@/lib/istexApi';
+import { buildExtractParamsFromFormats, deselectFormat, isFormatSelected, selectFormat, getWholeCategoryFormat } from '@/lib/formats';
 import { formats, usages } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 

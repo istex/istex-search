@@ -1,7 +1,20 @@
+import { isValidArk, isValidIstexId, isValidDoi } from '@/lib/utils';
+import {
+  buildQueryStringFromArks,
+  buildQueryStringFromIstexIds,
+  buildQueryStringFromDois,
+  getArksFromArkQueryString,
+  getIstexIdsFromIstexIdQueryString,
+  getDoisFromDoiQueryString,
+  isArkQueryString,
+  isIstexIdQueryString,
+  isDoiQueryString,
+} from '@/lib/query';
+
 export const queryModes = {
   modes: [
     { value: 'queryString', label: 'Équation booléenne' },
-    { value: 'ark', label: 'Identifiants ARK' },
+    { value: 'ids', label: 'Liste d\'identifiants' },
     { value: 'fileImport', label: 'Import de fichier' },
     { value: 'queryAssist', label: 'Recherche assistée' },
   ],
@@ -159,6 +172,33 @@ export const usages = {
       formats.fulltext.formats.cleaned.value |
       formats.enrichments.formats.teeft.value,
     tags: ['TDM'],
+  },
+};
+
+export const supportedIdTypes = {
+  ark: {
+    fieldName: 'arkIstex.raw',
+    label: 'ARK',
+    isValidId: isValidArk,
+    isValidQueryString: isArkQueryString,
+    buildQueryString: buildQueryStringFromArks,
+    extractIds: getArksFromArkQueryString,
+  },
+  istexId: {
+    fieldName: 'id',
+    label: 'ID Istex',
+    isValidId: isValidIstexId,
+    isValidQueryString: isIstexIdQueryString,
+    buildQueryString: buildQueryStringFromIstexIds,
+    extractIds: getIstexIdsFromIstexIdQueryString,
+  },
+  doi: {
+    fieldName: 'doi',
+    label: 'DOI',
+    isValidId: isValidDoi,
+    isValidQueryString: isDoiQueryString,
+    buildQueryString: buildQueryStringFromDois,
+    extractIds: getDoisFromDoiQueryString,
   },
 };
 

@@ -20,7 +20,6 @@ export default function HistoryButton () {
   };
 
   const historyUpdatedHandler = () => {
-    // Yes, the array has to be cloned every time to trigger a re-render (cf. https://stackoverflow.com/a/67354136)
     setRequests([...history.getAll()]);
   };
 

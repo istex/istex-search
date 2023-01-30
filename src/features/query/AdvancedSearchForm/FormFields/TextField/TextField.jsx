@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { isValidDoi } from '@/lib/utils';
+
 function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const [value, setValue] = useState('');
 
@@ -11,12 +13,9 @@ function TextField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const updateQueryString = () => {
     const trimmedValue = value.trim();
 
-    // regex matching on DOIs
-    const doiRegex = /(10\.\d{4,9}(?:[.][0-9]+)*\/[-._;()[\]/:A-Z0-9]+[^&";,)⟩?.\s])/gi;
-
     // The value entered by the user needs to be surrounded by double-quotes (") if it contains a space character
     // or a hyphen
-    const quotedValue = (/[\s-]/.test(trimmedValue) || doiRegex.test(trimmedValue)) ? `"${trimmedValue}"` : trimmedValue;
+    const quotedValue = (/[\s-]/.test(trimmedValue) || isValidDoi(trimmedValue)) ? `"${trimmedValue}"` : trimmedValue;
     const valueToPutInQuery = quotedValue.replace(/""/g, '"');
 
     if (data.dataValue === '') {

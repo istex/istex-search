@@ -95,7 +95,7 @@ export default function QuerySection () {
     sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString).then(response => {
       eventEmitter.emit(events.resultPreviewResponseReceived, response);
     }).catch(error => {
-      setErrorMessage(error?.response?.data?._error || '');
+      setErrorMessage(error.response.data?._error || `L'API Istex a renvoyé une erreur ${error.response.status}`);
       resetResultPreviewHandler();
     }).finally(() => setLoading(false));
   }, [queryString, rankingMode, currentPageURI]);

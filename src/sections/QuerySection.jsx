@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SectionTitle from '@/components/SectionTitle';
 import QueryInput from '@/features/query/QueryInput';
 import ResultPreview from '@/features/query/ResultPreview/ResultPreview';
+import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import { setNumberOfDocuments, setRankingMode } from '@/store/istexApiSlice';
 import { sendResultPreviewApiRequest } from '@/lib/istexApi';
@@ -33,6 +34,7 @@ export default function QuerySection () {
   const [showTooltipContent, setShowTooltipContent] = useState(true);
   const docNumberToolTip = useRef(null);
   const docClassedToolTip = useRef(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const { eventEmitter, events } = useEventEmitterContext();
 
   const numberOfDocumentsHandler = newNumberOfDocuments => {
@@ -76,11 +78,13 @@ export default function QuerySection () {
   const resetResultPreviewHandler = () => {
     setResultPreviewResults([]);
     setTotalAmountOfDocuments(0);
+    setLoading(false);
   };
 
   // If queryString or rankingMode change, update the results preview
   useEffect(() => {
     setLoading(true);
+    setErrorMessage('');
     if (!queryString) {
       sendDelayedResultPreviewApiRequest.cancel();
       setLoading(false);
@@ -90,8 +94,10 @@ export default function QuerySection () {
     const paginationQueryString = prevCurrentPageURI !== currentPageURI ? currentPageURI : '';
     sendDelayedResultPreviewApiRequest(queryString, rankingMode, paginationQueryString).then(response => {
       eventEmitter.emit(events.resultPreviewResponseReceived, response);
-      setLoading(false);
-    });
+    }).catch(error => {
+      setErrorMessage(error.response.data?._error || `L'API Istex a renvoyé une erreur ${error.response.status}`);
+      resetResultPreviewHandler();
+    }).finally(() => setLoading(false));
   }, [queryString, rankingMode, currentPageURI]);
 
   useEffect(() => {
@@ -146,7 +152,12 @@ export default function QuerySection () {
         Explicitez le corpus souhaité en fonction de votre sélection parmi l’un des onglets ci-dessous :
       </p>
       <QueryInput />
-      {queryString && !isLoading && (
+      {errorMessage && (
+        <div className='mb-2'>
+          <FeedbackMessage type={FeedbackMessageTypes.Error} message={errorMessage} />
+        </div>
+      )}
+      {queryString && !isLoading && !errorMessage && (
         <div className='my-4'>
           <span>L'équation saisie correspond à <strong>{totalAmountOfDocuments.toLocaleString()}</strong> document(s)</span>
           {totalAmountOfDocuments > istexApiConfig.maxAmountOfDocuments && (

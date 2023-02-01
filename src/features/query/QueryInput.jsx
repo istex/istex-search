@@ -143,17 +143,24 @@ export default function QueryInput () {
     const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
 
-    if (idTypeInfo != null) {
-      try {
-        queryString = idTypeInfo.buildQueryString(ids);
-      } catch (err) {
-        eventEmitter.emit(events.displayNotification, {
-          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-          type: 'error',
-        });
+    if (idTypeInfo == null) {
+      eventEmitter.emit(events.displayNotification, {
+        text: 'Erreurs de syntaxe aux lignes : 1',
+        type: 'error',
+      });
 
-        return;
-      }
+      return;
+    }
+
+    try {
+      queryString = idTypeInfo.buildQueryString(ids);
+    } catch (err) {
+      eventEmitter.emit(events.displayNotification, {
+        text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
+        type: 'error',
+      });
+
+      return;
     }
 
     updateQueryString(queryString);

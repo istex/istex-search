@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { RadioGroup } from '@headlessui/react';
@@ -17,6 +17,7 @@ import {
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
 import { queryModes, supportedIdTypes } from '@/config';
+import { debounce } from '@/lib/utils';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
 import useResetForm from '@/features/resetForm/useResetForm';
@@ -128,17 +129,7 @@ export default function QueryInput () {
     updateQueryString(newQueryStringInput);
   };
 
-  const idListHandler = idList => {
-    eventEmitter.emit(events.setNumberOfDocuments, 0);
-
-    setIdsInputValue(idList);
-
-    // If the ID list is empty, just pass it to updateQueryString and let this function handle the case
-    if (!idList) {
-      updateQueryString(idList);
-      return;
-    }
-
+  const buildQueryStringFromIdList = idList => {
     const ids = idList.split('\n').filter(id => id.trim() !== '');
     const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
@@ -164,6 +155,22 @@ export default function QueryInput () {
     }
 
     updateQueryString(queryString);
+  };
+
+  const debouncedQueryStringBuilder = useCallback(debounce(buildQueryStringFromIdList, 500), []);
+
+  const idListHandler = idList => {
+    eventEmitter.emit(events.setNumberOfDocuments, 0);
+
+    setIdsInputValue(idList);
+
+    // If the ID list is empty, just pass it to updateQueryString and let this function handle the case
+    if (!idList) {
+      updateQueryString(idList);
+      return;
+    }
+
+    debouncedQueryStringBuilder(idList);
   };
 
   const corpusFileHandler = file => {

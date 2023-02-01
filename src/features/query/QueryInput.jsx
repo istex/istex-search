@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import { RadioGroup } from '@headlessui/react';
@@ -17,6 +17,7 @@ import {
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
 import { queryModes, supportedIdTypes } from '@/config';
+import { debounce } from '@/lib/utils';
 import { setQueryString, setQId } from '@/store/istexApiSlice';
 import useFocus from '@/hooks/useFocus';
 import useResetForm from '@/features/resetForm/useResetForm';
@@ -128,6 +129,36 @@ export default function QueryInput () {
     updateQueryString(newQueryStringInput);
   };
 
+  const buildQueryStringFromIdList = idList => {
+    const ids = idList.split('\n').filter(id => id.trim() !== '');
+    const idTypeInfo = getIdTypeInfoFromId(ids[0]);
+    let queryString;
+
+    if (idTypeInfo == null) {
+      eventEmitter.emit(events.displayNotification, {
+        text: 'Erreurs de syntaxe aux lignes : 1',
+        type: 'error',
+      });
+
+      return;
+    }
+
+    try {
+      queryString = idTypeInfo.buildQueryString(ids);
+    } catch (err) {
+      eventEmitter.emit(events.displayNotification, {
+        text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
+        type: 'error',
+      });
+
+      return;
+    }
+
+    updateQueryString(queryString);
+  };
+
+  const debouncedQueryStringBuilder = useCallback(debounce(buildQueryStringFromIdList, 500), []);
+
   const idListHandler = idList => {
     eventEmitter.emit(events.setNumberOfDocuments, 0);
 
@@ -139,24 +170,7 @@ export default function QueryInput () {
       return;
     }
 
-    const ids = idList.split('\n').filter(id => id.trim() !== '');
-    const idTypeInfo = getIdTypeInfoFromId(ids[0]);
-    let queryString;
-
-    if (idTypeInfo != null) {
-      try {
-        queryString = idTypeInfo.buildQueryString(ids);
-      } catch (err) {
-        eventEmitter.emit(events.displayNotification, {
-          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-          type: 'error',
-        });
-
-        return;
-      }
-    }
-
-    updateQueryString(queryString);
+    debouncedQueryStringBuilder(idList);
   };
 
   const corpusFileHandler = file => {

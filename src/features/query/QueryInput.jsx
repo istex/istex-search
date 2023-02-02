@@ -32,8 +32,8 @@ const infoText = {
   </p>,
   [queryModes.modes[1].value]:
   <p className='text-sm text-white'>
-    Copiez/collez dans cet onglet une liste d'identifiants de type ARK et le formulaire l'interprétera automatiquement. Explorez ce mode de recherche en cliquant sur l’exemple disponible via le bouton "Exemples".<br />
-    Pour en savoir plus sur les identifiants ARK, reportez vous à la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    Copiez/collez une liste d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}) et le formulaire l'interprétera automatiquement. Testez l’échantillon disponible via le bouton "Exemples".<br />
+    En savoir plus sur les identifiants ARK : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/' target='_blank' rel='noreferrer'>documentation Istex</a>.
   </p>,
   [queryModes.modes[2].value]:
   <p className='text-sm text-white'>
@@ -255,7 +255,8 @@ export default function QueryInput () {
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           cols='40'
           name='queryInput'
-          placeholder={`Liste d'identifiants parmi ${Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}`}
+          placeholder='ark:/67375/1BB-Z9XR1RHS-K
+ark:/67375/B18-2M4TSK1X-8'
           value={idsInputValue}
           onChange={event => idListHandler(event.target.value)}
           maxRows={12}

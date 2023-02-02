@@ -130,11 +130,10 @@ export default function QuerySection () {
             </div>
             <p className='text-sm text-white'>
               Pour interroger Istex, vous avez le<br />
-              choix entre différents modes : un<br />
-              mode de recherche classique par<br />
-              équation booléenne, un mode de<br />
-              requêtage utilisant une liste<br />
-              d’identifiants pérennes de type ARK<br />
+              choix entre : un mode de recherche<br />
+              classique par équation booléenne,<br />
+              un mode de requêtage utilisant une<br />
+              liste d’identifiants uniques pérennes<br />
               ou bien encore l’import d’un fichier<br />
               spécifiant un corpus de documents<br />
               au moyen d’identifiants uniques.<br />

@@ -113,7 +113,7 @@ total        : 1
 [ISTEX]
 id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
 
-    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z") OR id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0") OR doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const completeExpectedQueryString = 'arkIstex.raw:("ark:/67375/NVC-S58LP3M2-S" "ark:/67375/NVC-RBP335V7-7" "ark:/67375/NVC-8SNSRJ6Z-Z") OR id:("B940A8D3FD96AB383C6393070933764A2CE3D106" "CAE51D9B29CBA1B8C81A136946C75A51055C7066" "59E080581FC0350BC92AD9975484E4127E8803A0") OR doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
     const parsedCompleteCorpusFileContent = Module.parseCorpusFileContent(completeCorpusFileContent);
     expect(parsedCompleteCorpusFileContent.queryString).toBe(completeExpectedQueryString);
     expect(parsedCompleteCorpusFileContent.numberOfIds).toBe(9);
@@ -128,7 +128,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
     expect(parsedOnlyIstexIdsCorpusFileContent.queryString).toBe(onlyIstexIdsExpectedQueryString);
     expect(parsedOnlyIstexIdsCorpusFileContent.numberOfIds).toBe(3);
 
-    const onlyDoisExpectedQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const onlyDoisExpectedQueryString = 'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
     const parsedOnlyDoisCorpusFileContent = Module.parseCorpusFileContent(onlyDoisCorpusFileContent);
     expect(parsedOnlyDoisCorpusFileContent.queryString).toBe(onlyDoisExpectedQueryString);
     expect(parsedOnlyDoisCorpusFileContent.numberOfIds).toBe(3);
@@ -179,7 +179,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       '10.1111/j.1365-2923.2011.04210.x',
     ];
 
-    const expectedQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const expectedQueryString = 'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
     expect(Module.buildQueryStringFromDois(dois)).toBe(expectedQueryString);
   });
 
@@ -232,8 +232,8 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   it('isDoiQueryString', () => {
-    const correctDoiQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
-    const badDoiQueryString = 'doi:("1234" "5678")';
+    const correctDoiQueryString = 'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
+    const badDoiQueryString = 'doi.raw:("1234" "5678")';
     const garbageString = 'foo:bar';
 
     expect(Module.isDoiQueryString(correctDoiQueryString)).toBe(true);
@@ -242,8 +242,8 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   it('getDoisFromDoiQueryString', () => {
-    const singleDoiQueryString = 'doi:("10.1007/s12291-008-0044-0")';
-    const multipleDoiQueryString = 'doi:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6")';
+    const singleDoiQueryString = 'doi.raw:("10.1007/s12291-008-0044-0")';
+    const multipleDoiQueryString = 'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6")';
 
     expect(Module.getDoisFromDoiQueryString(singleDoiQueryString)).toEqual(['10.1007/s12291-008-0044-0']);
     expect(Module.getDoisFromDoiQueryString(multipleDoiQueryString)).toEqual(['10.1007/s12291-008-0044-0', '10.1016/S0041-1345(00)01436-6']);

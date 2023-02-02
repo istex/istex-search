@@ -195,7 +195,7 @@ export const supportedIdTypes = {
     extractIds: getIstexIdsFromIstexIdQueryString,
   },
   doi: {
-    fieldName: 'doi',
+    fieldName: 'doi.raw',
     label: 'DOI',
     corpusFilePrefix: 'doi',
     isValidId: isValidDoi,

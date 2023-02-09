@@ -11,7 +11,6 @@ import ExamplesButton from './ExamplesButton';
 
 import {
   parseCorpusFileContent,
-  getIdTypeInfoFromId,
   getIdTypeInfoFromQueryString,
   isQueryStringTooLong,
 } from '@/lib/query';
@@ -52,7 +51,7 @@ export default function QueryInput () {
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [idsInputValue, setIdsInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
-  const [currentIdType, setCurrentIdType] = useState(Object.keys(supportedIdTypes)[0]);
+  const [currentIdTypeName, setCurrentIdTypeName] = useState(Object.keys(supportedIdTypes)[0]);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
   const resetForm = useResetForm();
@@ -130,22 +129,12 @@ export default function QueryInput () {
     updateQueryString(newQueryStringInput);
   };
 
-  const buildQueryStringFromIdList = idList => {
+  const buildQueryStringFromIdList = (idList, idTypeName) => {
     const ids = idList.split('\n').filter(id => id.trim() !== '');
-    const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
 
-    if (idTypeInfo == null) {
-      eventEmitter.emit(events.displayNotification, {
-        text: 'Erreurs de syntaxe aux lignes : 1',
-        type: 'error',
-      });
-
-      return;
-    }
-
     try {
-      queryString = idTypeInfo.buildQueryString(ids);
+      queryString = supportedIdTypes[idTypeName].buildQueryString(ids);
     } catch (err) {
       eventEmitter.emit(events.displayNotification, {
         text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
@@ -171,7 +160,7 @@ export default function QueryInput () {
       return;
     }
 
-    debouncedQueryStringBuilder(idList);
+    debouncedQueryStringBuilder(idList, currentIdTypeName);
   };
 
   const corpusFileHandler = file => {
@@ -257,14 +246,14 @@ export default function QueryInput () {
             className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
             cols='40'
             name='queryInput'
-            placeholder={supportedIdTypes[currentIdType].examples.join('\n')}
+            placeholder={supportedIdTypes[currentIdTypeName].examples.join('\n')}
             value={idsInputValue}
             onChange={event => idListHandler(event.target.value)}
             maxRows={12}
           />
           <select
             className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'
-            onChange={event => setCurrentIdType(event.target.value)}
+            onChange={event => setCurrentIdTypeName(event.target.value)}
           >
             {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (
               <option

@@ -255,8 +255,7 @@ export default function QueryInput () {
           className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
           cols='40'
           name='queryInput'
-          placeholder='ark:/67375/1BB-Z9XR1RHS-K
-ark:/67375/B18-2M4TSK1X-8'
+          placeholder='ark:/67375/1BB-Z9XR1RHS-K&#x0A;ark:/67375/B18-2M4TSK1X-8'
           value={idsInputValue}
           onChange={event => idListHandler(event.target.value)}
           maxRows={12}

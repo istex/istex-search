@@ -52,6 +52,7 @@ export default function QueryInput () {
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [idsInputValue, setIdsInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
+  const [currentIdType, setCurrentIdType] = useState(Object.keys(supportedIdTypes)[0]);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
   const resetForm = useResetForm();
@@ -256,12 +257,15 @@ export default function QueryInput () {
             className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
             cols='40'
             name='queryInput'
-            placeholder='ark:/67375/1BB-Z9XR1RHS-K&#x0A;ark:/67375/B18-2M4TSK1X-8'
+            placeholder={supportedIdTypes[currentIdType].examples.join('\n')}
             value={idsInputValue}
             onChange={event => idListHandler(event.target.value)}
             maxRows={12}
           />
-          <select className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'>
+          <select
+            className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'
+            onChange={event => setCurrentIdType(event.target.value)}
+          >
             {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (
               <option
                 key={idType.label}

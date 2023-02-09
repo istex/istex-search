@@ -251,15 +251,27 @@ export default function QueryInput () {
       break;
     case queryModes.modes[1].value:
       queryInputUi = (
-        <TextareaAutosize
-          className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          cols='40'
-          name='queryInput'
-          placeholder='ark:/67375/1BB-Z9XR1RHS-K&#x0A;ark:/67375/B18-2M4TSK1X-8'
-          value={idsInputValue}
-          onChange={event => idListHandler(event.target.value)}
-          maxRows={12}
-        />
+        <div className='flex gap-2'>
+          <TextareaAutosize
+            className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
+            cols='40'
+            name='queryInput'
+            placeholder='ark:/67375/1BB-Z9XR1RHS-K&#x0A;ark:/67375/B18-2M4TSK1X-8'
+            value={idsInputValue}
+            onChange={event => idListHandler(event.target.value)}
+            maxRows={12}
+          />
+          <select className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'>
+            {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (
+              <option
+                key={idType.label}
+                value={idTypeName}
+              >
+                {idType.label}
+              </option>
+            ))}
+          </select>
+        </div>
       );
       break;
     case queryModes.modes[2].value:

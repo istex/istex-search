@@ -163,6 +163,11 @@ export default function QueryInput () {
     debouncedQueryStringBuilder(idList, currentIdTypeName);
   };
 
+  const idTypeChangedHandler = event => {
+    setCurrentIdTypeName(event.target.value);
+    idListHandler('');
+  };
+
   const corpusFileHandler = file => {
     eventEmitter.emit(events.setNumberOfDocuments, 0);
 
@@ -253,7 +258,7 @@ export default function QueryInput () {
           />
           <select
             className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'
-            onChange={event => setCurrentIdTypeName(event.target.value)}
+            onChange={idTypeChangedHandler}
           >
             {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (
               <option

@@ -220,13 +220,20 @@ export default function QueryInput () {
     setShouldDisplaySuccessMsg(false);
   };
 
+  const resetCurrentIdTypeName = () => {
+    setCurrentIdTypeName(Object.keys(supportedIdTypes)[0]);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
     eventEmitter.addListener(events.setQId, qIdHandler);
     eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
+    eventEmitter.addListener(events.resetCurrentIdType, resetCurrentIdTypeName);
   }, []);
+
+  console.log(currentIdTypeName);
 
   let queryInputUi;
   switch (currentQueryMode) {

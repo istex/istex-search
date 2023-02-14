@@ -233,8 +233,6 @@ export default function QueryInput () {
     eventEmitter.addListener(events.resetCurrentIdType, resetCurrentIdTypeName);
   }, []);
 
-  console.log(currentIdTypeName);
-
   let queryInputUi;
   switch (currentQueryMode) {
     case queryModes.modes[0].value:

@@ -12,6 +12,8 @@ import ExamplesButton from './ExamplesButton';
 import {
   parseCorpusFileContent,
   getIdTypeInfoFromQueryString,
+  buildQueryStringFromIds,
+  getIdsFromIdQueryString,
   isQueryStringTooLong,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
@@ -65,7 +67,7 @@ export default function QueryInput () {
     const idTypeInfo = getIdTypeInfoFromQueryString(newQueryString);
 
     if (idTypeInfo != null) {
-      const list = idTypeInfo.extractIds(newQueryString).join('\n');
+      const list = getIdsFromIdQueryString(idTypeInfo, newQueryString).join('\n');
       setIdsInputValue(list);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ids').value);
     } else {
@@ -134,7 +136,7 @@ export default function QueryInput () {
     let queryString;
 
     try {
-      queryString = supportedIdTypes[idTypeName].buildQueryString(ids);
+      queryString = buildQueryStringFromIds(supportedIdTypes[idTypeName], ids);
     } catch (err) {
       eventEmitter.emit(events.displayNotification, {
         text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,

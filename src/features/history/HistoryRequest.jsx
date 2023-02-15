@@ -4,7 +4,7 @@ import { Table, Tooltip } from 'flowbite-react';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getIdTypeInfoFromQueryString } from '@/lib/query';
+import { getIdsFromIdQueryString, getIdTypeInfoFromQueryString } from '@/lib/query';
 import { buildExtractParamsFromFormats } from '@/lib/formats';
 import { getQueryStringFromQId, sendDownloadApiRequest, buildFullApiUrl } from '@/lib/istexApi';
 import { buildFullIstexDlUrl } from '@/lib/utils';
@@ -109,7 +109,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
         <div
           className={`line-clamp-${idTypeInfo != null ? '3' : '2'}`}
         >
-          {idTypeInfo != null ? idTypeInfo.extractIds(queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>) : queryString}
+          {idTypeInfo != null ? getIdsFromIdQueryString(idTypeInfo, queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>) : queryString}
         </div>
       </Table.Cell>
       <Table.Cell>

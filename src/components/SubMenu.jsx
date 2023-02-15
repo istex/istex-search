@@ -10,19 +10,19 @@ export default function SubMenu ({ screenSize }) {
         ? (
           <ul className='menu font-montserrat font-bold flex gap-12'>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/la-base/'>La base</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/la-base/' target='_blank' rel='noreferrer'>La base</a>
             </li>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/fouille-de-texte/'>Fouille de textes</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/fouille-de-texte/' target='_blank' rel='noreferrer'>Fouille de textes</a>
             </li>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/category/actualites/'>Actualités</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/category/actualites/' target='_blank' rel='noreferrer'>Actualités</a>
             </li>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/a-propos/'>À propos</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/a-propos/' target='_blank' rel='noreferrer'>À propos</a>
             </li>
             <li className='text-sm text-istcolor-grey-light border-b-[3px] border-b-transparent hover:text-istcolor-black hover:border-b-istcolor-green-light'>
-              <a className='block pb-[8px]' href='https://www.istex.fr/institutions-adherentes/'>Institutions adhérentes</a>
+              <a className='block pb-[8px]' href='https://www.istex.fr/institutions-adherentes/' target='_blank' rel='noreferrer'>Institutions adhérentes</a>
             </li>
           </ul>
           )

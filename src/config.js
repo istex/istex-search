@@ -1,15 +1,4 @@
 import { isValidArk, isValidIstexId, isValidDoi } from '@/lib/utils';
-import {
-  buildQueryStringFromArks,
-  buildQueryStringFromIstexIds,
-  buildQueryStringFromDois,
-  getArksFromArkQueryString,
-  getIstexIdsFromIstexIdQueryString,
-  getDoisFromDoiQueryString,
-  isArkQueryString,
-  isIstexIdQueryString,
-  isDoiQueryString,
-} from '@/lib/query';
 
 export const queryModes = {
   modes: [
@@ -180,28 +169,22 @@ export const supportedIdTypes = {
     fieldName: 'arkIstex.raw',
     label: 'ARK',
     corpusFilePrefix: 'ark',
+    examples: ['ark:/67375/1BB-Z9XR1RHS-K', 'ark:/67375/B18-2M4TSK1X-8'],
     isValidId: isValidArk,
-    isValidQueryString: isArkQueryString,
-    buildQueryString: buildQueryStringFromArks,
-    extractIds: getArksFromArkQueryString,
   },
   istexId: {
     fieldName: 'id',
     label: 'ID Istex',
     corpusFilePrefix: 'id',
+    examples: ['5505F878CE216B164009A349AFB608097F029661', '08DB6904B877C25BC961552D9E089BA757D98449'],
     isValidId: isValidIstexId,
-    isValidQueryString: isIstexIdQueryString,
-    buildQueryString: buildQueryStringFromIstexIds,
-    extractIds: getIstexIdsFromIstexIdQueryString,
   },
   doi: {
     fieldName: 'doi.raw',
     label: 'DOI',
     corpusFilePrefix: 'doi',
+    examples: ['10.1007/BF03174889', '10.3917/aco.031.106'],
     isValidId: isValidDoi,
-    isValidQueryString: isDoiQueryString,
-    buildQueryString: buildQueryStringFromDois,
-    extractIds: getDoisFromDoiQueryString,
   },
 };
 

@@ -21,7 +21,7 @@ export function parseCorpusFileContent (corpusFileContent) {
     ids[idTypeInfo.corpusFilePrefix] = {
       list: [],
       isValidId: idTypeInfo.isValidId,
-      buildQueryString: idTypeInfo.buildQueryString,
+      buildQueryString: ids => buildQueryStringFromIds(idTypeInfo, ids),
     };
   }
 
@@ -110,97 +110,7 @@ export function getIdTypeInfoFromId (id) {
  * @example getIdTypeInfoFromQueryString('arkIstex.raw:("ark:/67375/NVC-8SNSRJ6Z-Z")') // => supportedIds.ark
  */
 export function getIdTypeInfoFromQueryString (queryString) {
-  return Object.values(supportedIdTypes).find(idTypeInfo => idTypeInfo.isValidQueryString(queryString));
-}
-
-/**
- * Build the query string to request the ARK identifiers in `arks`.
- * @param {string[]} arks The array containing the ARK identifiers.
- * @returns A properly formatted query string to request the ARK identifiers in `arks`.
- */
-export function buildQueryStringFromArks (arks) {
-  return buildQueryStringFromIds(supportedIdTypes.ark, arks);
-}
-
-/**
- * Check if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`.
- * @param {string} queryString The query string to check.
- * @returns `true` if `queryString` has the format `arkIstex.raw:("<ark1>" "<ark2>"...)`, `false` otherwise.
- */
-export function isArkQueryString (queryString) {
-  return isIdQueryString(supportedIdTypes.ark, queryString);
-}
-
-/**
- * Extract ARK identifiers from an ARK query string. This assumes `queryString` is an ARK query string.
- * @param {string} queryString The query string to extract the ARK identifiers from.
- * @returns An array of ARK identifiers.
- */
-export function getArksFromArkQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdTypes.ark.fieldName, queryString);
-}
-
-/**
- * Build the query string to request the Istex IDs in `istexIds`.
- * @param {string[]} istexIds The array containing the Istex IDs.
- * @returns A properly formatted query string to request the Istex IDs in `istexIds`.
- */
-export function buildQueryStringFromIstexIds (istexIds) {
-  return buildQueryStringFromIds(supportedIdTypes.istexId, istexIds);
-}
-
-/**
- * Check if `queryString` has the format `id:("<id1>" "<id2>"...)`.
- * @param {string} queryString The query string to check.
- * @returns `true` if `queryString` has the format `id:("<id1>" "<id2>"...)`, `false` otherwise.
- */
-export function isIstexIdQueryString (queryString) {
-  return isIdQueryString(supportedIdTypes.istexId, queryString);
-}
-
-/**
- * Extract Istex identifiers from an Istex ID query string. This assumes `queryString` is an Istex ID query string.
- * @param {string} queryString The query string the extract the Istex identifiers from.
- * @returns An array of Istex identifiers.
- */
-export function getIstexIdsFromIstexIdQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdTypes.istexId.fieldName, queryString);
-}
-
-/**
- * Build the query string to the request the DOIs in `dois`.
- * @param {string[]} dois The array containing the DOIs.
- * @returns A properly formatted query string to request the DOIs in `dois`.
- */
-export function buildQueryStringFromDois (dois) {
-  return buildQueryStringFromIds(supportedIdTypes.doi, dois);
-}
-
-/**
- * Check if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`.
- * @param {string} queryString The query string to check.
- * @returns `true` if `queryString` has the format `doi:("<doi1>" "<doi2>"...)`, `false` otherwise.
- */
-export function isDoiQueryString (queryString) {
-  return isIdQueryString(supportedIdTypes.doi, queryString);
-}
-
-/**
- * Extract DOIs from a DOI query string. This assumes `queryString` is a DOI query string.
- * @param {string} queryString The query string the extract the DOIs from.
- * @returns An array of DOIs.
- */
-export function getDoisFromDoiQueryString (queryString) {
-  return getIdsFromIdQueryString(supportedIdTypes.doi.fieldName, queryString);
-}
-
-/**
- * Check whether the query string is too long to be sent as a GET request.
- * @param {string} queryString The query string URL search parameter.
- * @returns `true` if `queryString` is longer than `istexApiConfig.queryStringMaxLength`, `false` otherwise.
- */
-export function isQueryStringTooLong (queryString) {
-  return queryString.length > istexApiConfig.queryStringMaxLength;
+  return Object.values(supportedIdTypes).find(idTypeInfo => isIdQueryString(idTypeInfo, queryString));
 }
 
 /**
@@ -209,7 +119,7 @@ export function isQueryStringTooLong (queryString) {
  * @param {string[]} ids The list of identifiers to build the query string from.
  * @returns A properly formatted query string to request the identifiers in `ids`.
  */
-function buildQueryStringFromIds (idTypeInfo, ids) {
+export function buildQueryStringFromIds (idTypeInfo, ids) {
   const errorLines = [];
 
   const formattedIds = ids
@@ -246,14 +156,14 @@ function buildQueryStringFromIds (idTypeInfo, ids) {
  * @param {string} queryString The query string to check.
  * @returns `true` if `queryString` has the format `<idType>:("<id1>" "<id2>"...)`, `false` otherwise.
  */
-function isIdQueryString (idTypeInfo, queryString) {
+export function isIdQueryString (idTypeInfo, queryString) {
   queryString = queryString.trim();
 
   if (!queryString.startsWith(idTypeInfo.fieldName)) {
     return false;
   }
 
-  const ids = getIdsFromIdQueryString(idTypeInfo.fieldName, queryString);
+  const ids = getIdsFromIdQueryString(idTypeInfo, queryString);
   const hasInvalidId = ids.some(id => idTypeInfo.isValidId(id) === false);
 
   return !hasInvalidId;
@@ -261,15 +171,15 @@ function isIdQueryString (idTypeInfo, queryString) {
 
 /**
  * Extract identifiers from a query string.
- * @param {string} idFieldName The name of the ID field in the API.
+ * @param {object} idTypeInfo One of the object in `supportedIdTypes`.
  * @param {string} queryString The query string to extract the identifiers from.
  * @returns An array of identifiers
  */
-function getIdsFromIdQueryString (idFieldName, queryString) {
+export function getIdsFromIdQueryString (idTypeInfo, queryString) {
   queryString = queryString.trim();
 
-  // Get rid of '${idFieldName}:(' at the beginning of queryString
-  queryString = queryString.substring(`${idFieldName}:(`.length);
+  // Get rid of '${idTypeInfo.fieldName}:(' at the beginning of queryString
+  queryString = queryString.substring(`${idTypeInfo.fieldName}:(`.length);
 
   // Get rid of the last parenthesis at the end of queryString
   queryString = queryString.substring(0, queryString.length - 1);
@@ -278,4 +188,13 @@ function getIdsFromIdQueryString (idFieldName, queryString) {
   queryString = queryString.replace(/"/g, '');
 
   return queryString.split(' ');
+}
+
+/**
+ * Check whether the query string is too long to be sent as a GET request.
+ * @param {string} queryString The query string URL search parameter.
+ * @returns `true` if `queryString` is longer than `istexApiConfig.queryStringMaxLength`, `false` otherwise.
+ */
+export function isQueryStringTooLong (queryString) {
+  return queryString.length > istexApiConfig.queryStringMaxLength;
 }

@@ -17,6 +17,7 @@ export default function useResetForm () {
     eventEmitter.emit(events.setUsage, '');
     eventEmitter.emit(events.resetResultPreview);
     eventEmitter.emit(events.resetMessageImportCorpus);
+    eventEmitter.emit(events.resetCurrentIdType);
 
     eventEmitter.emit(events.resetUrlParams);
   };

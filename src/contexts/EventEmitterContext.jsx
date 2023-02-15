@@ -38,6 +38,7 @@ export const events = {
   displayDownloadModal: 'displayDownloadModal',
   resetMessageImportCorpus: 'resetMessageImportCorpus',
   setQueryAdvancedSearch: 'setQueryAdvancedSearch',
+  resetCurrentIdType: 'resetCurrentIdType',
 };
 
 export const EventEmitterContext = createContext();

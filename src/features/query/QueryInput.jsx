@@ -11,8 +11,9 @@ import ExamplesButton from './ExamplesButton';
 
 import {
   parseCorpusFileContent,
-  getIdTypeInfoFromId,
   getIdTypeInfoFromQueryString,
+  buildQueryStringFromIds,
+  getIdsFromIdQueryString,
   isQueryStringTooLong,
 } from '@/lib/query';
 import { getQueryStringFromQId } from '@/lib/istexApi';
@@ -52,6 +53,7 @@ export default function QueryInput () {
   const [queryStringInputValue, setQueryStringInputValue] = useState('');
   const [idsInputValue, setIdsInputValue] = useState('');
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
+  const [currentIdTypeName, setCurrentIdTypeName] = useState(Object.keys(supportedIdTypes)[0]);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
   const [inputRef, setInputFocus] = useFocus();
   const resetForm = useResetForm();
@@ -65,7 +67,7 @@ export default function QueryInput () {
     const idTypeInfo = getIdTypeInfoFromQueryString(newQueryString);
 
     if (idTypeInfo != null) {
-      const list = idTypeInfo.extractIds(newQueryString).join('\n');
+      const list = getIdsFromIdQueryString(idTypeInfo, newQueryString).join('\n');
       setIdsInputValue(list);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ids').value);
     } else {
@@ -129,22 +131,12 @@ export default function QueryInput () {
     updateQueryString(newQueryStringInput);
   };
 
-  const buildQueryStringFromIdList = idList => {
+  const buildQueryStringFromIdList = (idList, idTypeName) => {
     const ids = idList.split('\n').filter(id => id.trim() !== '');
-    const idTypeInfo = getIdTypeInfoFromId(ids[0]);
     let queryString;
 
-    if (idTypeInfo == null) {
-      eventEmitter.emit(events.displayNotification, {
-        text: 'Erreurs de syntaxe aux lignes : 1',
-        type: 'error',
-      });
-
-      return;
-    }
-
     try {
-      queryString = idTypeInfo.buildQueryString(ids);
+      queryString = buildQueryStringFromIds(supportedIdTypes[idTypeName], ids);
     } catch (err) {
       eventEmitter.emit(events.displayNotification, {
         text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
@@ -170,7 +162,12 @@ export default function QueryInput () {
       return;
     }
 
-    debouncedQueryStringBuilder(idList);
+    debouncedQueryStringBuilder(idList, currentIdTypeName);
+  };
+
+  const idTypeChangedHandler = event => {
+    setCurrentIdTypeName(event.target.value);
+    idListHandler('');
   };
 
   const corpusFileHandler = file => {
@@ -225,12 +222,17 @@ export default function QueryInput () {
     setShouldDisplaySuccessMsg(false);
   };
 
+  const resetCurrentIdTypeName = () => {
+    setCurrentIdTypeName(Object.keys(supportedIdTypes)[0]);
+  };
+
   useEffect(() => {
     eventEmitter.addListener(events.setQueryMode, queryModeHandler);
     eventEmitter.addListener(events.setQueryString, queryStringHandler);
     eventEmitter.addListener(events.setQId, qIdHandler);
     eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
+    eventEmitter.addListener(events.resetCurrentIdType, resetCurrentIdTypeName);
   }, []);
 
   let queryInputUi;
@@ -251,15 +253,30 @@ export default function QueryInput () {
       break;
     case queryModes.modes[1].value:
       queryInputUi = (
-        <TextareaAutosize
-          className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
-          cols='40'
-          name='queryInput'
-          placeholder='ark:/67375/1BB-Z9XR1RHS-K&#x0A;ark:/67375/B18-2M4TSK1X-8'
-          value={idsInputValue}
-          onChange={event => idListHandler(event.target.value)}
-          maxRows={12}
-        />
+        <div className='flex gap-2'>
+          <TextareaAutosize
+            className='w-full border-[1px] border-istcolor-green-dark p-2 placeholder:text-istcolor-grey-medium'
+            cols='40'
+            name='queryInput'
+            placeholder={supportedIdTypes[currentIdTypeName].examples.join('\n')}
+            value={idsInputValue}
+            onChange={event => idListHandler(event.target.value)}
+            maxRows={12}
+          />
+          <select
+            className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'
+            onChange={idTypeChangedHandler}
+          >
+            {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (
+              <option
+                key={idType.label}
+                value={idTypeName}
+              >
+                {idType.label}
+              </option>
+            ))}
+          </select>
+        </div>
       );
       break;
     case queryModes.modes[2].value:

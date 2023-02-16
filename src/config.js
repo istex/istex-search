@@ -165,6 +165,13 @@ export const usages = {
 };
 
 export const supportedIdTypes = {
+  doi: {
+    fieldName: 'doi.raw',
+    label: 'DOI',
+    corpusFilePrefix: 'doi',
+    examples: ['10.1007/BF03174889', '10.3917/aco.031.106'],
+    isValidId: isValidDoi,
+  },
   ark: {
     fieldName: 'arkIstex.raw',
     label: 'ARK',
@@ -178,13 +185,6 @@ export const supportedIdTypes = {
     corpusFilePrefix: 'id',
     examples: ['5505F878CE216B164009A349AFB608097F029661', '08DB6904B877C25BC961552D9E089BA757D98449'],
     isValidId: isValidIstexId,
-  },
-  doi: {
-    fieldName: 'doi.raw',
-    label: 'DOI',
-    corpusFilePrefix: 'doi',
-    examples: ['10.1007/BF03174889', '10.3917/aco.031.106'],
-    isValidId: isValidDoi,
   },
 };
 

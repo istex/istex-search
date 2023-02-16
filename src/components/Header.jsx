@@ -93,7 +93,7 @@ export default function Header () {
                   )
                 : null
             }
-            <a className={`${screenSize.dynamicWidth >= 900 ? 'justify-between' : 'justify-center'} logo flex flex-col `} href='https://www.istex.fr'>
+            <a className={`${screenSize.dynamicWidth >= 900 ? 'justify-between' : 'justify-center'} logo flex flex-col `} href='https://www.istex.fr' target='_blank' rel='noreferrer'>
               <img className='logo-istex w-[184px]' src='/images/istex_logo.svg' alt='ISTEX' />
               <span className='baseline relative bottom-3 block'>Le socle de la bibliothèque<br /> scientifique numérique nationale</span>
             </a>

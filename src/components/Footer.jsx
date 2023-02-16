@@ -5,19 +5,19 @@ export default function Footer () {
     <footer className='flex flex-col justify-between items-center bg-white pb-14 md:pb-20 mt-5 before:content-[""] before:block before:h-[7px] before:w-full before:bg-gradient-to-r before:from-istcolor-blue before:via-[#458ca5]/95 before:to-istcolor-green-light before:bg-left-top'>
       <ul className='flex gap-[30px] flex-wrap justify-center items-center m-0 text-center text-istcolor-grey-link text-sm font-medium font-montserrat pt-5'>
         <li>
-          <a href='https://www.istex.fr/politique-de-confidentialite/'>Confidentialité</a>
+          <a href='https://www.istex.fr/politique-de-confidentialite/' target='_blank' rel='noreferrer'>Confidentialité</a>
         </li>
         <li>
-          <a href='https://www.istex.fr/accessibilite/'>Accessibilité</a>
+          <a href='https://www.istex.fr/accessibilite/' target='_blank' rel='noreferrer'>Accessibilité</a>
         </li>
         <li>
-          <a href='https://www.istex.fr/mentions-legales/'>Mentions légales</a>
+          <a href='https://www.istex.fr/mentions-legales/' target='_blank' rel='noreferrer'>Mentions légales</a>
         </li>
         <li>
-          <a href='https://www.istex.fr/plan-du-site/'>Plan du site</a>
+          <a href='https://www.istex.fr/plan-du-site/' target='_blank' rel='noreferrer'>Plan du site</a>
         </li>
         <li>
-          <a href='https://stats.uptimerobot.com/Lg8APTkMmW'>Météo des services</a>
+          <a href='https://stats.uptimerobot.com/Lg8APTkMmW' target='_blank' rel='noreferrer'>Météo des services</a>
         </li>
       </ul>
       <div className='p-[30px] text-center flex flex-col items-center'>
@@ -44,32 +44,32 @@ export default function Footer () {
       </div>
       <ul className='flex gap-[30px] flex-wrap justify-center items-center pt-5'>
         <li>
-          <a href='https://www.enseignementsup-recherche.gouv.fr/'>
+          <a href='https://www.enseignementsup-recherche.gouv.fr/' target='_blank' rel='noreferrer'>
             <img src='/images/mesr.svg' alt="ministère de l'enseignement supérieur et de la recherche" />
           </a>
         </li>
         <li>
-          <a href='https://www.cnrs.fr/'>
+          <a href='https://www.cnrs.fr/' target='_blank' rel='noreferrer'>
             <img src='/images/cnrs.svg' alt='cnrs' />
           </a>
         </li>
         <li>
-          <a href='https://www.abes.fr/'>
+          <a href='https://www.abes.fr/' target='_blank' rel='noreferrer'>
             <img src='/images/abes.png' alt="abes : agence bibliographique de l'enseignement supérieur" />
           </a>
         </li>
         <li>
-          <a href='https://www.couperin.org/'>
+          <a href='https://www.couperin.org/' target='_blank' rel='noreferrer'>
             <img src='/images/couperin.png' alt='couperin.org' />
           </a>
         </li>
         <li>
-          <a href='https://franceuniversites.fr/'>
+          <a href='https://franceuniversites.fr/' target='_blank' rel='noreferrer'>
             <img className='w-[150px]' src='/images/france_universites_logo.svg' alt='France universités' />
           </a>
         </li>
         <li>
-          <a href='https://www.univ-lorraine.fr/'>
+          <a href='https://www.univ-lorraine.fr/' target='_blank' rel='noreferrer'>
             <img src='/images/ul.svg' alt='université de lorraine' />
           </a>
         </li>

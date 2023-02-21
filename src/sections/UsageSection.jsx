@@ -25,7 +25,7 @@ export default function UsageSection () {
   const { eventEmitter, events } = useEventEmitterContext();
 
   const simulateClick = () => {
-    toolTipButton.current.click();
+    toolTipButton.current?.click();
   };
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');

@@ -25,7 +25,7 @@ export default function UsageSection () {
   const { eventEmitter, events } = useEventEmitterContext();
 
   const simulateClick = () => {
-    toolTipButton.current.click();
+    toolTipButton.current?.click();
   };
 
   const handleDisplayingOfUsage = usageName => setShouldDisplayUsage(usageName !== 'customUsage');
@@ -90,7 +90,6 @@ export default function UsageSection () {
         title='Usage'
         num='2'
         infoTextTitle=''
-        showTooltipContent={showTooltipContent}
         infoTextContent={
           <>
             <div className='flex w-full justify-end relative left-1'>

@@ -117,7 +117,6 @@ export default function QuerySection () {
         title='Requête'
         num='1'
         infoTextTitle=''
-        showTooltipContent={showTooltipContent}
         infoTextContent={
           <>
             <div className='flex w-full justify-end relative left-1'>

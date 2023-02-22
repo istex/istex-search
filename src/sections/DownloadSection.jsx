@@ -54,7 +54,6 @@ export default function DownloadSection () {
       <SectionTitle
         title='Téléchargement'
         num='3'
-        showTooltipContent={showTooltipContent}
         infoTextContent={
           <>
             <div className='flex w-full justify-end relative left-1'>

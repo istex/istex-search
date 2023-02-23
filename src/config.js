@@ -239,6 +239,7 @@ export const operatorsRequest = [
 
 export const operatorsField = [
   { id: 'is_equal', label: 'est égale à' },
+  { id: 'contains', label: 'contient' },
   { id: 'is_not_equal', label: 'n\'est pas égale à' },
   { id: 'is_empty', label: 'est vide' },
   { id: 'is_not_empty', label: "n'est pas vide" },
@@ -257,7 +258,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur tous champs confondus',
         dataValue: '',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -265,7 +266,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur le titre de l\'article ou du chapitre de livre',
         dataValue: 'title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -273,7 +274,7 @@ export const catalogList = [
         dataInfo: 'Recherche par l\'un des mots-clés attribués à l\'article ou au chapitre de livre',
         dataValue: 'subject.value',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -281,7 +282,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur le résumé de l\'article ou du chapitre de livre',
         dataValue: 'abstract',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -302,7 +303,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur le titre du document',
         dataValue: 'title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -310,7 +311,7 @@ export const catalogList = [
         dataInfo: 'Recherche par l\'un des auteurs',
         dataValue: 'author.name',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -318,7 +319,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur le résumé du document',
         dataValue: 'abstract',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -326,7 +327,7 @@ export const catalogList = [
         dataInfo: 'Recherche sur le corps du texte - restreint aux documents nettoyés',
         dataValue: 'qualityIndicators.tdmReady:true AND fulltext', // dirty hack => find a better way to add constraints
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -364,7 +365,7 @@ export const catalogList = [
         dataInfo: 'Recherche par l\'un des mots-clés attribués au document par les auteurs',
         dataValue: 'subject.value',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -372,7 +373,7 @@ export const catalogList = [
         dataInfo: 'Recherche par l\'un des mots-clés extraits du texte intégral par l\'outil Teeft (Terms Extraction for English Full Texts)',
         dataValue: 'keywords.teeft',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
     ],
@@ -385,7 +386,7 @@ export const catalogList = [
         dataInfo: 'Recherche par catégorie du plan de classement Inist',
         dataValue: 'categories.inist',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -393,7 +394,7 @@ export const catalogList = [
         dataInfo: 'Recherche par catégorie de la classification Scopus',
         dataValue: 'categories.scopus',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -401,7 +402,7 @@ export const catalogList = [
         dataInfo: 'Recherche par catégorie de la classification Science-Metrix',
         dataValue: 'categories.scienceMetrix',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -409,7 +410,7 @@ export const catalogList = [
         dataInfo: 'Recherche par catégorie de la classification Web of Science',
         dataValue: 'categories.wos',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
     ],
@@ -422,7 +423,7 @@ export const catalogList = [
         dataInfo: 'Recherche par date détectée dans le texte',
         dataValue: 'namedEntities.unitex.date',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'is_equal', typeField: 'date' },
         ],
       },
       {
@@ -430,7 +431,7 @@ export const catalogList = [
         dataInfo: 'Recherche par nom de lieu, géopolitique ou administratif, détecté dans le texte',
         dataValue: 'namedEntities.unitex.placeName',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -438,7 +439,7 @@ export const catalogList = [
         dataInfo: 'Recherche par nom de lieu, comportant une caractéristique géographique, détecté dans le texte',
         dataValue: 'namedEntities.unitex.geogName',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -446,7 +447,7 @@ export const catalogList = [
         dataInfo: 'Recherche par nom de personne détecté dans le texte',
         dataValue: 'namedEntities.unitex.persName',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
     ],
@@ -459,7 +460,7 @@ export const catalogList = [
         dataInfo: 'Recherche par titre de la revue ou monographie',
         dataValue: 'host.title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -467,7 +468,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISSN de la revue papier',
         dataValue: 'host.issn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -475,7 +476,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISSN de la revue électronique',
         dataValue: 'host.eissn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -483,7 +484,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISBN de la monographie papier',
         dataValue: 'host.isbn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -491,7 +492,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISBN de la monographie électronique',
         dataValue: 'host.eisbn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -499,7 +500,7 @@ export const catalogList = [
         dataInfo: 'Recherche par DOI de la revue',
         dataValue: 'host.doi',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
     ],
@@ -512,7 +513,7 @@ export const catalogList = [
         dataInfo: 'Recherche par titre de la série',
         dataValue: 'serie.title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -520,7 +521,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISSN de la série papier',
         dataValue: 'serie.issn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -528,7 +529,7 @@ export const catalogList = [
         dataInfo: 'Recherche par numéro ISSN de la série électronique',
         dataValue: 'serie.eissn',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -536,7 +537,7 @@ export const catalogList = [
         dataInfo: 'Recherche par DOI de la série',
         dataValue: 'serie.doi',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
     ],
@@ -549,7 +550,7 @@ export const catalogList = [
         dataInfo: 'Recherche par noms d\'auteur du document référencé',
         dataValue: 'rebBibs.author.name',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {
@@ -566,7 +567,7 @@ export const catalogList = [
         dataInfo: 'Recherche par titre du document référencé',
         dataValue: 'refBibs.title',
         operatorsField: [
-          { id: 'is_equal', typeField: 'text' },
+          { id: 'contains', typeField: 'text' },
         ],
       },
       {

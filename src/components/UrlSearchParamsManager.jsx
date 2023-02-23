@@ -139,15 +139,34 @@ export default function UrlSearchParamsManager () {
   useEffect(() => {
     fillFormFromUrlSearchParams();
 
+    const setNumberOfDocumentsUrlParam = newSize => setUrlSearchParam('size', newSize);
+    const setRankingModeUrlParam = newRankingMode => setUrlSearchParam('rankBy', newRankingMode);
+    const setExtractUrlParam = newExtractParam => setUrlSearchParam('extract', newExtractParam);
+    const setCompressionLevelUrlParam = newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel);
+    const setArchiveTypeUrlParam = newArchiveType => setUrlSearchParam('archiveType', newArchiveType);
+    const setUsageUrlParam = newUsage => setUrlSearchParam('usage', newUsage);
+
     eventEmitter.addListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
     eventEmitter.addListener(events.setQIdUrlParam, setQIdUrlParam);
-    eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, newSize => setUrlSearchParam('size', newSize));
-    eventEmitter.addListener(events.setRankingModeUrlParam, newRankingMode => setUrlSearchParam('rankBy', newRankingMode));
-    eventEmitter.addListener(events.setExtractUrlParam, newExtractParam => setUrlSearchParam('extract', newExtractParam));
-    eventEmitter.addListener(events.setCompressionLevelUrlParam, newCompressionLevel => setUrlSearchParam('compressionLevel', newCompressionLevel));
-    eventEmitter.addListener(events.setArchiveTypeUrlParam, newArchiveType => setUrlSearchParam('archiveType', newArchiveType));
-    eventEmitter.addListener(events.setUsageUrlParam, newUsage => setUrlSearchParam('usage', newUsage));
+    eventEmitter.addListener(events.setNumberOfDocumentsUrlParam, setNumberOfDocumentsUrlParam);
+    eventEmitter.addListener(events.setRankingModeUrlParam, setRankingModeUrlParam);
+    eventEmitter.addListener(events.setExtractUrlParam, setExtractUrlParam);
+    eventEmitter.addListener(events.setCompressionLevelUrlParam, setCompressionLevelUrlParam);
+    eventEmitter.addListener(events.setArchiveTypeUrlParam, setArchiveTypeUrlParam);
+    eventEmitter.addListener(events.setUsageUrlParam, setUsageUrlParam);
     eventEmitter.addListener(events.resetUrlParams, resetUrlParams);
+
+    return () => {
+      eventEmitter.removeListener(events.setQueryStringUrlParam, setQueryStringUrlParam);
+      eventEmitter.removeListener(events.setQIdUrlParam, setQIdUrlParam);
+      eventEmitter.removeListener(events.setNumberOfDocumentsUrlParam, setNumberOfDocumentsUrlParam);
+      eventEmitter.removeListener(events.setRankingModeUrlParam, setRankingModeUrlParam);
+      eventEmitter.removeListener(events.setExtractUrlParam, setExtractUrlParam);
+      eventEmitter.removeListener(events.setCompressionLevelUrlParam, setCompressionLevelUrlParam);
+      eventEmitter.removeListener(events.setArchiveTypeUrlParam, setArchiveTypeUrlParam);
+      eventEmitter.removeListener(events.setUsageUrlParam, setUsageUrlParam);
+      eventEmitter.removeListener(events.resetUrlParams, resetUrlParams);
+    };
   }, []);
 
   return null;

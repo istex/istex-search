@@ -45,6 +45,11 @@ export default function DownloadSection () {
   useEffect(() => {
     eventEmitter.addListener(events.setCompressionLevel, compressionLevelHandler);
     eventEmitter.addListener(events.setArchiveType, archiveTypeHandler);
+
+    return () => {
+      eventEmitter.removeListener(events.setCompressionLevel, compressionLevelHandler);
+      eventEmitter.removeListener(events.setArchiveType, archiveTypeHandler);
+    };
   }, []);
 
   useEffect(updateArchiveSizeText, [selectedFormats, compressionLevel, numberOfDocuments]);

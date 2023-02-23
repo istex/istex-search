@@ -37,6 +37,10 @@ export default function ShareButton () {
 
   useEffect(() => {
     eventEmitter.addListener(events.displayShareModal, handleShareButton);
+
+    return () => {
+      eventEmitter.removeListener(events.displayShareModal, handleShareButton);
+    };
   }, []);
 
   const handleSaveToClipboard = () => {

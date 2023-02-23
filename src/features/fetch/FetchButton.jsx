@@ -31,13 +31,31 @@ export default function FetchButton () {
   };
 
   useEffect(() => {
-    eventEmitter.addListener(events.setQueryStringInLastRequestOfHistory, queryString => history.populateLastRequest('queryString', queryString));
-    eventEmitter.addListener(events.setNumberOfDocumentsInLastRequestOfHistory, numberOfDocuments => history.populateLastRequest('numberOfDocuments', numberOfDocuments));
-    eventEmitter.addListener(events.setRankingModeInLastRequestOfHistory, rankingMode => history.populateLastRequest('rankingMode', rankingMode));
-    eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, compressionLevel => history.populateLastRequest('compressionLevel', compressionLevel));
-    eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, archiveType => history.populateLastRequest('archiveType', archiveType));
-    eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, selectedFormats => history.populateLastRequest('selectedFormats', selectedFormats));
-    eventEmitter.addListener(events.setUsageInLastRequestOfHistory, usage => history.populateLastRequest('usage', usage));
+    const setQueryStringInLastRequestOfHistory = queryString => history.populateLastRequest('queryString', queryString);
+    const setNumberOfDocumentsInLastRequestOfHistory = numberOfDocuments => history.populateLastRequest('numberOfDocuments', numberOfDocuments);
+    const setRankingModeInLastRequestOfHistory = rankingMode => history.populateLastRequest('rankingMode', rankingMode);
+    const setCompressionLevelInLastRequestOfHistory = compressionLevel => history.populateLastRequest('compressionLevel', compressionLevel);
+    const setArchiveTypeInLastRequestOfHistory = archiveType => history.populateLastRequest('archiveType', archiveType);
+    const setSelectedFormatsInLastRequestOfHistory = selectedFormats => history.populateLastRequest('selectedFormats', selectedFormats);
+    const setUsageInLastRequestOfHistory = usage => history.populateLastRequest('usage', usage);
+
+    eventEmitter.addListener(events.setQueryStringInLastRequestOfHistory, setQueryStringInLastRequestOfHistory);
+    eventEmitter.addListener(events.setNumberOfDocumentsInLastRequestOfHistory, setNumberOfDocumentsInLastRequestOfHistory);
+    eventEmitter.addListener(events.setRankingModeInLastRequestOfHistory, setRankingModeInLastRequestOfHistory);
+    eventEmitter.addListener(events.setCompressionLevelInLastRequestOfHistory, setCompressionLevelInLastRequestOfHistory);
+    eventEmitter.addListener(events.setArchiveTypeInLastRequestOfHistory, setArchiveTypeInLastRequestOfHistory);
+    eventEmitter.addListener(events.setSelectedFormatsInLastRequestOfHistory, setSelectedFormatsInLastRequestOfHistory);
+    eventEmitter.addListener(events.setUsageInLastRequestOfHistory, setUsageInLastRequestOfHistory);
+
+    return () => {
+      eventEmitter.removeListener(events.setQueryStringInLastRequestOfHistory, setQueryStringInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setNumberOfDocumentsInLastRequestOfHistory, setNumberOfDocumentsInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setRankingModeInLastRequestOfHistory, setRankingModeInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setCompressionLevelInLastRequestOfHistory, setCompressionLevelInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setArchiveTypeInLastRequestOfHistory, setArchiveTypeInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setSelectedFormatsInLastRequestOfHistory, setSelectedFormatsInLastRequestOfHistory);
+      eventEmitter.removeListener(events.setUsageInLastRequestOfHistory, setUsageInLastRequestOfHistory);
+    };
   }, []);
 
   return (

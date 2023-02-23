@@ -105,6 +105,13 @@ export default function QuerySection () {
     eventEmitter.addListener(events.setRankingMode, rankingModeHandler);
     eventEmitter.addListener(events.resultPreviewResponseReceived, resultPreviewResponseReceivedHandler);
     eventEmitter.addListener(events.resetResultPreview, resetResultPreviewHandler);
+
+    return () => {
+      eventEmitter.removeListener(events.setNumberOfDocuments, numberOfDocumentsHandler);
+      eventEmitter.removeListener(events.setRankingMode, rankingModeHandler);
+      eventEmitter.removeListener(events.resultPreviewResponseReceived, resultPreviewResponseReceivedHandler);
+      eventEmitter.removeListener(events.resetResultPreview, resetResultPreviewHandler);
+    };
   }, []);
 
   const addClick = (value) => {

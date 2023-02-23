@@ -233,6 +233,15 @@ export default function QueryInput () {
     eventEmitter.addListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
     eventEmitter.addListener(events.addFocusOnInput, handleFocusOnInput);
     eventEmitter.addListener(events.resetCurrentIdType, resetCurrentIdTypeName);
+
+    return () => {
+      eventEmitter.removeListener(events.setQueryMode, queryModeHandler);
+      eventEmitter.removeListener(events.setQueryString, queryStringHandler);
+      eventEmitter.removeListener(events.setQId, qIdHandler);
+      eventEmitter.removeListener(events.resetMessageImportCorpus, handleResetMessageImportCorpus);
+      eventEmitter.removeListener(events.addFocusOnInput, handleFocusOnInput);
+      eventEmitter.removeListener(events.resetCurrentIdType, resetCurrentIdTypeName);
+    };
   }, []);
 
   let queryInputUi;

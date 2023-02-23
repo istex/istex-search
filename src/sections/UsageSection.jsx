@@ -82,6 +82,11 @@ export default function UsageSection () {
   useEffect(() => {
     eventEmitter.addListener(events.setSelectedFormats, selectedFormatsHandler);
     eventEmitter.addListener(events.setUsage, usageHandler);
+
+    return () => {
+      eventEmitter.removeListener(events.setSelectedFormats, selectedFormatsHandler);
+      eventEmitter.removeListener(events.setUsage, usageHandler);
+    };
   }, []);
 
   return (

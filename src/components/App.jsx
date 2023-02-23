@@ -39,6 +39,10 @@ export default function App () {
 
   useEffect(() => {
     eventEmitter.addListener(events.displayNotification, displayNotificationHandler);
+
+    return () => {
+      eventEmitter.removeListener(events.displayNotification, displayNotificationHandler);
+    };
   }, []);
 
   return (

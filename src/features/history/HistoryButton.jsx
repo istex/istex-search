@@ -25,6 +25,10 @@ export default function HistoryButton () {
 
   useEffect(() => {
     eventEmitter.addListener(events.historyUpdated, historyUpdatedHandler);
+
+    return () => {
+      eventEmitter.removeListener(events.historyUpdated, historyUpdatedHandler);
+    };
   }, []);
 
   return (

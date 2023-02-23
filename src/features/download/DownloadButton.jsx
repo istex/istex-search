@@ -75,6 +75,10 @@ export default function DownloadButton () {
 
   useEffect(() => {
     eventEmitter.addListener(events.displayDownloadModal, handleDownload);
+
+    return () => {
+      eventEmitter.removeListener(events.displayDownloadModal, handleDownload);
+    };
   }, []);
 
   const isFormIncomplete = queryString === '' ||

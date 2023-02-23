@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 import { Spinner } from 'flowbite-react';
 
 function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
@@ -89,6 +89,7 @@ function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
                 className='mb-4'
                 styles={customStyles}
                 placeholder='YYYY'
+                filterOption={createFilter({ matchFrom: 'start' })}
               />
               )
         }

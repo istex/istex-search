@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Select, { createFilter } from 'react-select';
+import Select, { createFilter, components } from 'react-select';
 import { Spinner } from 'flowbite-react';
+
+const Input = props => <components.Input {...props} maxLength={4} />;
 
 function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
   const [value, setValue] = useState('');
@@ -90,6 +92,7 @@ function DateField ({ data, updateQuery, onChange, onCloseChoiceInputModal }) {
                 styles={customStyles}
                 placeholder='YYYY'
                 filterOption={createFilter({ matchFrom: 'start' })}
+                components={{ Input }}
               />
               )
         }

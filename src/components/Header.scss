@@ -164,13 +164,13 @@
   }
 
   .navigation-main>.nav-button {
-    background: transparent url('../images//menu_burger/cross.svg') no-repeat center center;
+    background: transparent url('../../public/images/menu_burger/cross.svg') no-repeat center center;
     width: 34px;
     height: 34px
   }
 
   .navigation-main.is-closed>.nav-button {
-    background: transparent url('../images/menu_burger/burger.svg') no-repeat center center;
+    background: transparent url('../../public/images/menu_burger/burger.svg') no-repeat center center;
     width: 34px;
     height: 34px
   }

@@ -8,6 +8,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import AdvancedSearchForm from './AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from './ExamplesButton';
+import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import {
   parseCorpusFileContent,
@@ -55,6 +56,7 @@ export default function QueryInput () {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [currentIdTypeName, setCurrentIdTypeName] = useState(Object.keys(supportedIdTypes)[0]);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
+  const [errorMessage, setErrorMessage] = useState('');
   const [inputRef, setInputFocus] = useFocus();
   const resetForm = useResetForm();
   const { eventEmitter, events } = useEventEmitterContext();
@@ -86,6 +88,7 @@ export default function QueryInput () {
 
     if (!newQueryString) {
       eventEmitter.emit(events.resetResultPreview);
+      setErrorMessage('');
       return;
     }
 
@@ -132,16 +135,15 @@ export default function QueryInput () {
   };
 
   const buildQueryStringFromIdList = (idList, idTypeName) => {
+    setErrorMessage('');
+
     const ids = idList.split('\n').filter(id => id.trim() !== '');
     let queryString;
 
     try {
       queryString = buildQueryStringFromIds(supportedIdTypes[idTypeName], ids);
     } catch (err) {
-      eventEmitter.emit(events.displayNotification, {
-        text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-        type: 'error',
-      });
+      setErrorMessage(generateErrorMessage(err));
 
       return;
     }
@@ -168,6 +170,7 @@ export default function QueryInput () {
   const idTypeChangedHandler = event => {
     setCurrentIdTypeName(event.target.value);
     idListHandler('');
+    setErrorMessage('');
   };
 
   const corpusFileHandler = file => {
@@ -184,10 +187,7 @@ export default function QueryInput () {
       try {
         parsingResult = parseCorpusFileContent(result);
       } catch (err) {
-        eventEmitter.emit(events.displayNotification, {
-          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-          type: 'error',
-        });
+        setErrorMessage(generateErrorMessage(err));
 
         return;
       }
@@ -224,6 +224,7 @@ export default function QueryInput () {
 
   const resetCurrentIdTypeName = () => {
     setCurrentIdTypeName(Object.keys(supportedIdTypes)[0]);
+    setErrorMessage('');
   };
 
   useEffect(() => {
@@ -437,6 +438,25 @@ export default function QueryInput () {
       <div className='flex flex-col my-2'>
         {queryInputUi}
       </div>
+      {errorMessage && (
+        <div className='mb-2'>
+          <FeedbackMessage type={FeedbackMessageTypes.Error} message={errorMessage} />
+        </div>
+      )}
     </div>
+  );
+}
+
+/**
+ * Create a well formatted error message from the errors reported by the identifier parser.
+ * @param {Error} err The `Error` instance thrown by the parser.
+ * @returns A JSX element
+ */
+function generateErrorMessage (err) {
+  return (
+    <>
+      Erreurs de syntaxe détectées :<br />
+      {err.ids.map(({ id, line }) => <div key={line}>{line} : <span className='font-normal'>{id}</span></div>)}
+    </>
   );
 }

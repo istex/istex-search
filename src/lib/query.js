@@ -12,7 +12,7 @@ const MAX_NUMBER_OF_ERRORS = 20;
 export function parseCorpusFileContent (corpusFileContent) {
   const lines = corpusFileContent.split('\n');
   const queryString = [];
-  const errorLines = [];
+  const errors = [];
 
   // Build an object that will hold an array for each supported ID type and the functions to validate
   // them and build the query string
@@ -55,13 +55,13 @@ export function parseCorpusFileContent (corpusFileContent) {
     const [idType, idValue] = lineSegments;
 
     // idType needs to be a supported ID type and idValue must be a valid ID of idType
-    if (!ids[idType] || !ids[idType].isValidId(idValue)) {
-      errorLines.push(lineIndex + 1);
+    if (!ids[idType]?.isValidId(idValue)) {
+      errors.push({ id: idValue, line: lineIndex + 1 });
 
       // If the maximum number of errors is reached, throw early
-      if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+      if (errors.length >= MAX_NUMBER_OF_ERRORS) {
         const err = new Error('Syntax errors');
-        err.lines = errorLines;
+        err.ids = errors;
         throw err;
       }
 
@@ -72,9 +72,9 @@ export function parseCorpusFileContent (corpusFileContent) {
   }
 
   // Throw if errors were found
-  if (errorLines.length > 0) {
+  if (errors.length > 0) {
     const err = new Error('Syntax errors');
-    err.lines = errorLines;
+    err.ids = errors;
     throw err;
   }
 
@@ -127,12 +127,12 @@ export function buildQueryStringFromIds (idTypeInfo, ids) {
     .filter(id => id !== '')
     .map((id, lineIndex) => {
       if (!idTypeInfo.isValidId(id)) {
-        errorLines.push(lineIndex + 1);
+        errorLines.push({ id, line: lineIndex + 1 });
 
         // If the maximum number of errors is reached, throw early
         if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
           const err = new Error('Syntax errors');
-          err.lines = errorLines;
+          err.ids = errorLines;
           throw err;
         }
       }
@@ -143,7 +143,7 @@ export function buildQueryStringFromIds (idTypeInfo, ids) {
   // Throw if errors were found
   if (errorLines.length > 0) {
     const err = new Error('Syntax errors');
-    err.lines = errorLines;
+    err.ids = errorLines;
     throw err;
   }
 

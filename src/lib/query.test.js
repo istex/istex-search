@@ -135,19 +135,19 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
 
     const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
     expect(invalidLineError).not.toBe(null);
-    expect(invalidLineError.lines).toEqual([10]);
+    expect(invalidLineError.ids).toEqual([{ id: 'line', line: 10 }]);
 
     const multipleErrorsError = getError(() => Module.parseCorpusFileContent(multipleErrorsCorpusFileContent));
     expect(multipleErrorsError).not.toBe(null);
-    expect(multipleErrorsError.lines).toEqual([9, 11]);
+    expect(multipleErrorsError.ids).toEqual([{ id: 'error', line: 9 }, { id: 'error', line: 11 }]);
 
     const invalidArkError = getError(() => Module.parseCorpusFileContent(invalidArkCorpusFileContent));
     expect(invalidArkError).not.toBe(null);
-    expect(invalidArkError.lines).toEqual([8]);
+    expect(invalidArkError.ids).toEqual([{ id: 'ark:/67375/NVC-S58LP3M2-', line: 8 }]);
 
     const invalidIstexIdError = getError(() => Module.parseCorpusFileContent(invalidIstexIdCorpusFileContent));
     expect(invalidIstexIdError).not.toBe(null);
-    expect(invalidIstexIdError.lines).toEqual([8]);
+    expect(invalidIstexIdError.ids).toEqual([{ id: 'CAE51D9B29CBA1B8C81A136946C75A51055C706', line: 8 }]);
   });
 
   it('getIdTypeInfoFromId', () => {

@@ -455,7 +455,7 @@ export default function QueryInput () {
 function generateErrorMessage (err) {
   return (
     <>
-      Erreurs de syntaxe détectées :<br />
+      Erreurs de syntaxe détectées aux lignes :<br />
       {err.ids.map(({ id, line }) => <div key={line}>{line} : <span className='font-normal'>{id}</span></div>)}
     </>
   );

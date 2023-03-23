@@ -120,19 +120,19 @@ export function getIdTypeInfoFromQueryString (queryString) {
  * @returns A properly formatted query string to request the identifiers in `ids`.
  */
 export function buildQueryStringFromIds (idTypeInfo, ids) {
-  const errorLines = [];
+  const errors = [];
 
   const formattedIds = ids
     .map(id => id.trim())
     .filter(id => id !== '')
     .map((id, lineIndex) => {
       if (!idTypeInfo.isValidId(id)) {
-        errorLines.push({ id, line: lineIndex + 1 });
+        errors.push({ id, line: lineIndex + 1 });
 
         // If the maximum number of errors is reached, throw early
-        if (errorLines.length >= MAX_NUMBER_OF_ERRORS) {
+        if (errors.length >= MAX_NUMBER_OF_ERRORS) {
           const err = new Error('Syntax errors');
-          err.ids = errorLines;
+          err.ids = errors;
           throw err;
         }
       }
@@ -141,9 +141,9 @@ export function buildQueryStringFromIds (idTypeInfo, ids) {
     });
 
   // Throw if errors were found
-  if (errorLines.length > 0) {
+  if (errors.length > 0) {
     const err = new Error('Syntax errors');
-    err.ids = errorLines;
+    err.ids = errors;
     throw err;
   }
 

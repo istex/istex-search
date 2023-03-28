@@ -7,7 +7,7 @@ import * as Module from './query';
 describe('Tests for the function building or parsing query strings', () => {
   it('parseCorpusFileContent', () => {
     const completeCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -28,7 +28,7 @@ doi 10.1016/S0041-1345(00)01436-6  # very cool comment
 doi  10.1111/j.1365-2923.2011.04210.x # very cool comment`;
 
     const onlyArksCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -41,7 +41,7 @@ ark ark:/67375/NVC-RBP335V7-7    # very cool comment
 ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment`;
 
     const onlyIstexIdsCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -53,7 +53,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C7066  # very cool comment
 id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
 
     const onlyDoisCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -65,7 +65,7 @@ doi 10.1016/S0041-1345(00)01436-6  # very cool comment
 doi  10.1111/j.1365-2923.2011.04210.x # very cool comment`;
 
     const invalidLineCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -80,7 +80,7 @@ ark  ark:/67375/NVC-RBP335V7-7
 ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
 
     const multipleErrorsCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -94,7 +94,7 @@ second error
 ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
 
     const invalidArkCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -104,7 +104,7 @@ total        : 1
 ark ark:/67375/NVC-S58LP3M2-    # missing last character`;
 
     const invalidIstexIdCorpusFileContent =
-`#
+      `#
 # Fichier .corpus
 #
 query        : *
@@ -135,19 +135,19 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
 
     const invalidLineError = getError(() => Module.parseCorpusFileContent(invalidLineCorpusFileContent));
     expect(invalidLineError).not.toBe(null);
-    expect(invalidLineError.ids).toEqual([{ id: 'line', line: 10 }]);
+    expect(invalidLineError.ids).toEqual([{ id: 'garbage line', idTypeName: null, line: 10 }]);
 
     const multipleErrorsError = getError(() => Module.parseCorpusFileContent(multipleErrorsCorpusFileContent));
     expect(multipleErrorsError).not.toBe(null);
-    expect(multipleErrorsError.ids).toEqual([{ id: 'error', line: 9 }, { id: 'error', line: 11 }]);
+    expect(multipleErrorsError.ids).toEqual([{ id: 'first error', idTypeName: null, line: 9 }, { id: 'second error', idTypeName: null, line: 11 }]);
 
     const invalidArkError = getError(() => Module.parseCorpusFileContent(invalidArkCorpusFileContent));
     expect(invalidArkError).not.toBe(null);
-    expect(invalidArkError.ids).toEqual([{ id: 'ark:/67375/NVC-S58LP3M2-', line: 8 }]);
+    expect(invalidArkError.ids).toEqual([{ id: 'ark:/67375/NVC-S58LP3M2-', idTypeName: 'ark', line: 8 }]);
 
     const invalidIstexIdError = getError(() => Module.parseCorpusFileContent(invalidIstexIdCorpusFileContent));
     expect(invalidIstexIdError).not.toBe(null);
-    expect(invalidIstexIdError.ids).toEqual([{ id: 'CAE51D9B29CBA1B8C81A136946C75A51055C706', line: 8 }]);
+    expect(invalidIstexIdError.ids).toEqual([{ id: 'CAE51D9B29CBA1B8C81A136946C75A51055C706', idTypeName: 'istexId', line: 8 }]);
   });
 
   it('getIdTypeInfoFromId', () => {

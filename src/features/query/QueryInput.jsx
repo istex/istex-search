@@ -347,7 +347,7 @@ export default function QueryInput () {
                   <div className='max-w-[13rem] text-center'>
                     Cliquez pour basculer en mode “Équation booléenne” et modifier votre requête en toute liberté
                   </div>
-               )}
+                )}
               >
                 <button
                   type='button'
@@ -453,10 +453,34 @@ export default function QueryInput () {
  * @returns A JSX element
  */
 function generateErrorMessage (err) {
+  const createUrl = (id, idTypeName) => {
+    switch (idTypeName) {
+      case supportedIdTypes.doi.typeName:
+        return `https://dx.doi.org/${id}`;
+      case supportedIdTypes.ark.typeName:
+        // The blog article does a better job at documenting ARKs in Istex than the documentation itself...
+        return 'https://www.istex.fr/des-ark-dans-istex';
+      case supportedIdTypes.istexId.typeName:
+        return ''; // There is no good page about the format of Istex IDs in the documentation (TODO: ADD ONE!)
+    }
+  };
+
   return (
     <>
       Erreurs de syntaxe détectées aux lignes :<br />
-      {err.ids.map(({ id, line }) => <div key={line}>{line} : <span className='font-normal'>{id}</span></div>)}
+      {err.ids.map(({ id, idTypeName, line }) => {
+        const url = createUrl(id, idTypeName);
+
+        return (
+          <div key={line}>{line} :&nbsp;
+            <span className='font-normal'>
+              {url
+                ? <a href={url} className='underline' target='_blank' rel='noreferrer'>{id}</a>
+                : id}
+            </span>
+          </div>
+        );
+      })}
     </>
   );
 }

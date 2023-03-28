@@ -20,6 +20,7 @@ export function parseCorpusFileContent (corpusFileContent) {
   for (const idTypeInfo of Object.values(supportedIdTypes)) {
     ids[idTypeInfo.corpusFilePrefix] = {
       list: [],
+      typeName: idTypeInfo.typeName,
       isValidId: idTypeInfo.isValidId,
       buildQueryString: ids => buildQueryStringFromIds(idTypeInfo, ids),
     };
@@ -54,9 +55,23 @@ export function parseCorpusFileContent (corpusFileContent) {
 
     const [idType, idValue] = lineSegments;
 
-    // idType needs to be a supported ID type and idValue must be a valid ID of idType
-    if (!ids[idType]?.isValidId(idValue)) {
-      errors.push({ id: idValue, line: lineIndex + 1 });
+    // idType needs to be a supported ID type
+    if (!ids[idType]) {
+      errors.push({ id: line, idTypeName: null, line: lineIndex + 1 });
+
+      // If the maximum number of errors is reached, throw early
+      if (errors.length >= MAX_NUMBER_OF_ERRORS) {
+        const err = new Error('Syntax errors');
+        err.ids = errors;
+        throw err;
+      }
+
+      continue;
+    }
+
+    // idValue must be a valid ID of idType
+    if (!ids[idType].isValidId(idValue)) {
+      errors.push({ id: idValue, idTypeName: ids[idType]?.typeName, line: lineIndex + 1 });
 
       // If the maximum number of errors is reached, throw early
       if (errors.length >= MAX_NUMBER_OF_ERRORS) {
@@ -127,7 +142,7 @@ export function buildQueryStringFromIds (idTypeInfo, ids) {
     .filter(id => id !== '')
     .map((id, lineIndex) => {
       if (!idTypeInfo.isValidId(id)) {
-        errors.push({ id, line: lineIndex + 1 });
+        errors.push({ id, idTypeName: idTypeInfo.typeName, line: lineIndex + 1 });
 
         // If the maximum number of errors is reached, throw early
         if (errors.length >= MAX_NUMBER_OF_ERRORS) {

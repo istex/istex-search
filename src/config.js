@@ -166,6 +166,7 @@ export const usages = {
 
 export const supportedIdTypes = {
   doi: {
+    typeName: 'doi',
     fieldName: 'doi.raw',
     label: 'DOI',
     corpusFilePrefix: 'doi',
@@ -173,6 +174,7 @@ export const supportedIdTypes = {
     isValidId: isValidDoi,
   },
   ark: {
+    typeName: 'ark',
     fieldName: 'arkIstex.raw',
     label: 'ARK',
     corpusFilePrefix: 'ark',
@@ -180,6 +182,7 @@ export const supportedIdTypes = {
     isValidId: isValidArk,
   },
   istexId: {
+    typeName: 'istexId',
     fieldName: 'id',
     label: 'ID Istex',
     corpusFilePrefix: 'id',

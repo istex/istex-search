@@ -467,7 +467,7 @@ function generateErrorMessage (err) {
 
   return (
     <>
-      Erreurs de syntaxe détectées aux lignes :<br />
+      Erreurs de syntaxe détectées aux lignes suivantes :<br />
       {err.ids.map(({ id, idTypeName, line }) => {
         const url = createUrl(id, idTypeName);
 

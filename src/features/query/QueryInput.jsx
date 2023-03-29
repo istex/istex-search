@@ -8,6 +8,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import AdvancedSearchForm from './AdvancedSearchForm/AdvancedSearchForm';
 import ExamplesButton from './ExamplesButton';
+import FeedbackMessage, { FeedbackMessageTypes } from '@/components/FeedbackMessage';
 
 import {
   parseCorpusFileContent,
@@ -27,24 +28,28 @@ import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import './QueryInput.scss';
 
 const infoText = {
-  [queryModes.modes[0].value]:
-  <p className='text-sm text-white'>
-    Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation Istex</a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur Istex</a>.
-  </p>,
-  [queryModes.modes[1].value]:
-  <p className='text-sm text-white'>
-    Sélectionnez un type d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}), puis copiez/collez votre liste : le formulaire l'interprétera automatiquement. Testez l'échantillon disponible via le bouton "Exemples".<br />
-    En savoir plus sur la syntaxe attendue : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#astuces--' target='_blank' rel='noreferrer'>documentation Istex</a>.
-  </p>,
-  [queryModes.modes[2].value]:
-  <p className='text-sm text-white'>
-    Cliquez sur l'icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
-    Pour disposer d'un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
-  </p>,
-  [queryModes.modes[3].value]:
-  <p className='text-sm text-white'>
-    Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
-  </p>,
+  [queryModes.modes[0].value]: (
+    <p className='text-sm text-white'>
+      Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation Istex</a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[1].value]: (
+    <p className='text-sm text-white'>
+      Sélectionnez un type d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}), puis copiez/collez votre liste : le formulaire l'interprétera automatiquement. Testez l'échantillon disponible via le bouton "Exemples".<br />
+      En savoir plus sur la syntaxe attendue : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#astuces--' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[2].value]: (
+    <p className='text-sm text-white'>
+      Cliquez sur l'icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
+      Pour disposer d'un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[3].value]: (
+    <p className='text-sm text-white'>
+      Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
+    </p>
+  ),
 };
 
 export default function QueryInput () {
@@ -55,6 +60,7 @@ export default function QueryInput () {
   const [shouldDisplaySuccessMsg, setShouldDisplaySuccessMsg] = useState(false);
   const [currentIdTypeName, setCurrentIdTypeName] = useState(Object.keys(supportedIdTypes)[0]);
   const [fileInfo, setFileInfo] = useState({ fileName: '', numberOfIds: 0 });
+  const [errorMessage, setErrorMessage] = useState('');
   const [inputRef, setInputFocus] = useFocus();
   const resetForm = useResetForm();
   const { eventEmitter, events } = useEventEmitterContext();
@@ -86,6 +92,7 @@ export default function QueryInput () {
 
     if (!newQueryString) {
       eventEmitter.emit(events.resetResultPreview);
+      setErrorMessage('');
       return;
     }
 
@@ -132,16 +139,15 @@ export default function QueryInput () {
   };
 
   const buildQueryStringFromIdList = (idList, idTypeName) => {
+    setErrorMessage('');
+
     const ids = idList.split('\n').filter(id => id.trim() !== '');
     let queryString;
 
     try {
       queryString = buildQueryStringFromIds(supportedIdTypes[idTypeName], ids);
     } catch (err) {
-      eventEmitter.emit(events.displayNotification, {
-        text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-        type: 'error',
-      });
+      setErrorMessage(generateErrorMessage(err));
 
       return;
     }
@@ -168,6 +174,7 @@ export default function QueryInput () {
   const idTypeChangedHandler = event => {
     setCurrentIdTypeName(event.target.value);
     idListHandler('');
+    setErrorMessage('');
   };
 
   const corpusFileHandler = file => {
@@ -184,10 +191,7 @@ export default function QueryInput () {
       try {
         parsingResult = parseCorpusFileContent(result);
       } catch (err) {
-        eventEmitter.emit(events.displayNotification, {
-          text: `Erreurs de syntaxe aux lignes : ${err.lines.join(', ')}`,
-          type: 'error',
-        });
+        setErrorMessage(generateErrorMessage(err));
 
         return;
       }
@@ -224,6 +228,7 @@ export default function QueryInput () {
 
   const resetCurrentIdTypeName = () => {
     setCurrentIdTypeName(Object.keys(supportedIdTypes)[0]);
+    setErrorMessage('');
   };
 
   useEffect(() => {
@@ -346,7 +351,7 @@ export default function QueryInput () {
                   <div className='max-w-[13rem] text-center'>
                     Cliquez pour basculer en mode “Équation booléenne” et modifier votre requête en toute liberté
                   </div>
-               )}
+                )}
               >
                 <button
                   type='button'
@@ -437,6 +442,49 @@ export default function QueryInput () {
       <div className='flex flex-col my-2'>
         {queryInputUi}
       </div>
+      {errorMessage && (
+        <div className='mb-2'>
+          <FeedbackMessage type={FeedbackMessageTypes.Error} message={errorMessage} />
+        </div>
+      )}
     </div>
+  );
+}
+
+/**
+ * Create a well formatted error message from the errors reported by the identifier parser.
+ * @param {Error} err The `Error` instance thrown by the parser.
+ * @returns A JSX element
+ */
+function generateErrorMessage (err) {
+  const createUrl = (id, idTypeName) => {
+    switch (idTypeName) {
+      case supportedIdTypes.doi.typeName:
+        return `https://dx.doi.org/${id}`;
+      case supportedIdTypes.ark.typeName:
+        // The blog article does a better job at documenting ARKs in Istex than the documentation itself...
+        return 'https://www.istex.fr/des-ark-dans-istex';
+      case supportedIdTypes.istexId.typeName:
+        return ''; // There is no good page about the format of Istex IDs in the documentation (TODO: ADD ONE!)
+    }
+  };
+
+  return (
+    <>
+      Erreurs de syntaxe détectées aux lignes suivantes :<br />
+      {err.ids.map(({ id, idTypeName, line }) => {
+        const url = createUrl(id, idTypeName);
+
+        return (
+          <div key={line}>{line} :&nbsp;
+            <span className='font-normal'>
+              {url
+                ? <a href={url} className='underline' target='_blank' rel='noreferrer'>{id}</a>
+                : id}
+            </span>
+          </div>
+        );
+      })}
+    </>
   );
 }

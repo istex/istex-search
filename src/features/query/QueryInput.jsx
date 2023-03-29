@@ -34,13 +34,13 @@ const infoText = {
   </p>,
   [queryModes.modes[1].value]:
   <p className='text-sm text-white'>
-    Copiez/collez une liste d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}) et le formulaire l'interprétera automatiquement. Testez l’échantillon disponible via le bouton "Exemples".<br />
-    En savoir plus sur les identifiants ARK : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/api/ark/' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    Sélectionnez un type d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}), puis copiez/collez votre liste : le formulaire l'interprétera automatiquement. Testez l'échantillon disponible via le bouton "Exemples".<br />
+    En savoir plus sur la syntaxe attendue : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#astuces--' target='_blank' rel='noreferrer'>documentation Istex</a>.
   </p>,
   [queryModes.modes[2].value]:
   <p className='text-sm text-white'>
-    Cliquez sur l’icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
-    Pour disposer d’un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    Cliquez sur l'icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
+    Pour disposer d'un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
   </p>,
   [queryModes.modes[3].value]:
   <p className='text-sm text-white'>

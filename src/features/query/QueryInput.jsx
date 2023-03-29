@@ -28,24 +28,28 @@ import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import './QueryInput.scss';
 
 const infoText = {
-  [queryModes.modes[0].value]:
-  <p className='text-sm text-white'>
-    Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation Istex</a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur Istex</a>.
-  </p>,
-  [queryModes.modes[1].value]:
-  <p className='text-sm text-white'>
-    Sélectionnez un type d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}), puis copiez/collez votre liste : le formulaire l'interprétera automatiquement. Testez l'échantillon disponible via le bouton "Exemples".<br />
-    En savoir plus sur la syntaxe attendue : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#astuces--' target='_blank' rel='noreferrer'>documentation Istex</a>.
-  </p>,
-  [queryModes.modes[2].value]:
-  <p className='text-sm text-white'>
-    Cliquez sur l'icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
-    Pour disposer d'un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
-  </p>,
-  [queryModes.modes[3].value]:
-  <p className='text-sm text-white'>
-    Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
-  </p>,
+  [queryModes.modes[0].value]: (
+    <p className='text-sm text-white'>
+      Pour construire votre équation booléenne, vous pouvez vous aider de l'échantillon de requêtes pédagogiques accessibles via le bouton "Exemples", de la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/requetage/' target='_blank' rel='noreferrer'>documentation Istex</a> ou bien du mode de recherche avancée du <a className='font-bold text-istcolor-blue cursor-pointer' href='https://demo.istex.fr/' target='_blank' rel='noreferrer'>démonstrateur Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[1].value]: (
+    <p className='text-sm text-white'>
+      Sélectionnez un type d'identifiants uniques pérennes ({Object.values(supportedIdTypes).map(idType => idType.label).join(', ')}), puis copiez/collez votre liste : le formulaire l'interprétera automatiquement. Testez l'échantillon disponible via le bouton "Exemples".<br />
+      En savoir plus sur la syntaxe attendue : voir la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#astuces--' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[2].value]: (
+    <p className='text-sm text-white'>
+      Cliquez sur l'icône ci-dessous et sélectionnez un fichier de type “.corpus” précisant les identifiants uniques (tels que des identifiants ARK) des documents qui composent votre corpus.<br />
+      Pour disposer d'un fichier ".corpus", consultez la <a className='font-bold text-istcolor-blue cursor-pointer' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#mode-demploi--' target='_blank' rel='noreferrer'>documentation Istex</a>.
+    </p>
+  ),
+  [queryModes.modes[3].value]: (
+    <p className='text-sm text-white'>
+      Cliquez sur la zone avec loupe pour démarrer votre recherche en choisissant dans la liste qui s'ouvre un premier champ à interroger, avant de saisir la valeur souhaitée. <br />Vous pourrez ensuite le combiner avec d’autres champs et construire ainsi pas à pas votre requête.
+    </p>
+  ),
 };
 
 export default function QueryInput () {

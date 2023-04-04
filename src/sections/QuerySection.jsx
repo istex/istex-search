@@ -31,7 +31,6 @@ export default function QuerySection () {
   const [currentPageURI, setCurrentPageURI] = useState('');
   const prevCurrentPageURI = usePrevious(currentPageURI);
   const [isLoading, setLoading] = useState(false);
-  const [showTooltipContent, setShowTooltipContent] = useState(true);
   const docNumberToolTip = useRef(null);
   const docClassedToolTip = useRef(null);
   const [errorMessage, setErrorMessage] = useState('');

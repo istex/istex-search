@@ -18,7 +18,6 @@ export default function UsageSection () {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
-  const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
   const toolTipButton = useRef(null);
   const firstUpdate = useRef(true);

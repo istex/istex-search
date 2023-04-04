@@ -16,7 +16,6 @@ export default function DownloadSection () {
   const numberOfDocuments = useSelector(state => state.istexApi.numberOfDocuments);
   const compressionLevel = useSelector(state => state.istexApi.compressionLevel);
   const archiveType = useSelector(state => state.istexApi.archiveType);
-  const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = useState(0);
   const { eventEmitter, events } = useEventEmitterContext();
 

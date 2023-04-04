@@ -18,7 +18,6 @@ export default function UsageSection () {
   const selectedFormats = useSelector(state => state.istexApi.selectedFormats);
   const usage = useSelector(state => state.istexApi.usage);
   const [shouldDisplayUsage, setShouldDisplayUsage] = useState(true);
-  const [showTooltipContent, setShowTooltipContent] = useState(true);
   const [showLowerTooltipContent, setShowLowerTooltipContent] = useState(true);
   const toolTipButton = useRef(null);
   const firstUpdate = useRef(true);
@@ -94,38 +93,27 @@ export default function UsageSection () {
       <SectionTitle
         title='Usage'
         num='2'
-        infoTextTitle=''
         infoTextContent={
-          <>
-            <div className='flex w-full justify-end relative left-1'>
-              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
-                <span className='sr-only'>Fermer l'info bulle</span>
-                <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
-                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
-                </svg>
-              </button>
-            </div>
-            <p className='text-sm text-white'>
-              Le choix du mode "Usage <br />
-              personnalisé" donne accès à<br />
-              tous les types de fichiers<br />
-              et de formats existants dans<br />
-              Istex.<br />
-              En revanche, le choix d’une<br />
-              plateforme ou d’un outil<br />
-              particuliers induit une<br />
-              sélection automatique des<br />
-              formats et types de fichiers<br />
-              qui seront extraits.<br />
-              Attention : les publications<br />
-              Istex ne possèdent pas toutes<br />
-              l’ensemble des types de fichiers<br />
-              et de formats possibles<br />
-              (notamment annexes,<br />
-              couvertures ou enrichissements).<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage' rel='noreferrer'>documentation Istex</a>.
-            </p>
-          </>
+          <p className='text-sm text-white'>
+            Le choix du mode "Usage <br />
+            personnalisé" donne accès à<br />
+            tous les types de fichiers<br />
+            et de formats existants dans<br />
+            Istex.<br />
+            En revanche, le choix d’une<br />
+            plateforme ou d’un outil<br />
+            particuliers induit une<br />
+            sélection automatique des<br />
+            formats et types de fichiers<br />
+            qui seront extraits.<br />
+            Attention : les publications<br />
+            Istex ne possèdent pas toutes<br />
+            l’ensemble des types de fichiers<br />
+            et de formats possibles<br />
+            (notamment annexes,<br />
+            couvertures ou enrichissements).<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#usage' rel='noreferrer'>documentation Istex</a>.
+          </p>
         }
       />
       <p>Cliquez sur l’usage visé pour votre corpus :</p>

@@ -60,32 +60,22 @@ export default function DownloadSection () {
         title='Téléchargement'
         num='3'
         infoTextContent={
-          <>
-            <div className='flex w-full justify-end relative left-1'>
-              <button type='button' onClick={() => setShowTooltipContent(!showTooltipContent)} className='w-4 h-4 bg-white rounded-full  inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'>
-                <span className='sr-only'>Fermer l'info bulle</span>
-                <svg className='h-6 w-6' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor' aria-hidden='true'>
-                  <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' />
-                </svg>
-              </button>
-            </div>
-            <p className='text-sm text-white'>
-              Une estimation de la taille du corpus<br />
-              s’affiche dans le bouton "télécharger"<br />
-              lorsqu’elle excède 1 Go.<br />
-              Dans le cas d’un corpus volumineux,<br />
-              sélectionnez le niveau de<br />
-              compression approprié à votre<br />
-              bande passante et à l’espace de<br />
-              stockage disponible sur votre disque<br />
-              dur.<br />
-              En cas de difficultés lors de<br />
-              l’ouverture de l’archive ZIP avec les<br />
-              outils Windows natifs, utilisez par<br />
-              exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://www.7-zip.org/' rel='noreferrer'>7-zip</a>.<br />
-              Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement%0D-_1' rel='noreferrer'>documentation Istex</a>.
-            </p>
-          </>
+          <p className='text-sm text-white'>
+            Une estimation de la taille du corpus<br />
+            s’affiche dans le bouton "télécharger"<br />
+            lorsqu’elle excède 1 Go.<br />
+            Dans le cas d’un corpus volumineux,<br />
+            sélectionnez le niveau de<br />
+            compression approprié à votre<br />
+            bande passante et à l’espace de<br />
+            stockage disponible sur votre disque<br />
+            dur.<br />
+            En cas de difficultés lors de<br />
+            l’ouverture de l’archive ZIP avec les<br />
+            outils Windows natifs, utilisez par<br />
+            exemple le logiciel libre <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://www.7-zip.org/' rel='noreferrer'>7-zip</a>.<br />
+            Voir la <a className='font-bold text-istcolor-blue cursor-pointer' target='_blank' href='https://doc.istex.fr/tdm/extraction/istex-dl.html#t%C3%A9l%C3%A9chargement%0D-_1' rel='noreferrer'>documentation Istex</a>.
+          </p>
         }
       />
       <div className='flex flex-col md:flex-row items-center justify-center mt-4'>

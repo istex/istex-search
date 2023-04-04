@@ -9,6 +9,7 @@ import { buildExtractParamsFromFormats } from '@/lib/formats';
 import { getQueryStringFromQId, sendDownloadApiRequest, buildFullApiUrl } from '@/lib/istexApi';
 import { buildFullIstexDlUrl } from '@/lib/utils';
 import useResetForm from '@/features/resetForm/useResetForm';
+import { istexApiConfig } from '@/config';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';
 
@@ -99,33 +100,33 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
 
   return (
     <Table.Row className='bg-white'>
-      <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>
+      <Table.Cell className='!px-3 text-center whitespace-nowrap font-medium text-gray-900 dark:text-white'>
         <span className='font-bold'>{requestInfo.index + 1}</span>
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='!px-3'>
         {format(requestInfo.date, 'dd/MM/yyyy hh:mm:ss')}
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='!px-3'>
         <div
           className={`line-clamp-${idTypeInfo != null ? '3' : '2'}`}
         >
           {idTypeInfo != null ? getIdsFromIdQueryString(idTypeInfo, queryString).slice(0, 4).map(id => <div key={id}>{id}<br /></div>) : queryString}
         </div>
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='!px-3'>
         <div className='flex flex-col'>
           {buildExtractParamsFromFormats(requestInfo.selectedFormats).split(';').map((selectedFormat, index) => (
             <span key={index}>{selectedFormat}</span>
           ))}
         </div>
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='!px-3 text-center'>
         {requestInfo.numberOfDocuments}
       </Table.Cell>
-      <Table.Cell>
-        {requestInfo.rankingMode}
+      <Table.Cell className='!px-3'>
+        {istexApiConfig.rankingModes.modes.find(mode => mode.value === requestInfo.rankingMode).label}
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className='!px-3'>
         <div className='flex'>
           <Tooltip
             content='Editer cette requête'

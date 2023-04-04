@@ -49,42 +49,40 @@ export default function ModalListHistory ({ show, onClose: setOpenModal, request
           </Modal.Header>
         </div>
         <Modal.Body>
-          <div className={`${requests?.length > 4 ? 'h-full' : ''} overflow-auto`}>
-            <Table hoverable>
-              <Table.Head>
-                <Table.HeadCell>
-                  #
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Date
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Requête
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Formats
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Nb. docs
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Tri
-                </Table.HeadCell>
-                <Table.HeadCell>
-                  Actions
-                </Table.HeadCell>
-              </Table.Head>
-              <Table.Body className='divide-y text-2xl md:text-sm'>
-                {requests.map((request, index) => (
-                  <HistoryRequest
-                    key={request.date}
-                    requestInfo={{ ...request, index }}
-                    onClose={onClose}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          </div>
+          <Table hoverable>
+            <Table.Head>
+              <Table.HeadCell>
+                #
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Date
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Requête
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Formats
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Nb. docs
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Tri
+              </Table.HeadCell>
+              <Table.HeadCell>
+                Actions
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body className='divide-y text-2xl md:text-sm'>
+              {requests.map((request, index) => (
+                <HistoryRequest
+                  key={request.date}
+                  requestInfo={{ ...request, index }}
+                  onClose={onClose}
+                />
+              ))}
+            </Table.Body>
+          </Table>
           <div className='flex pt-6 md:pt-4'>
             <button
               type='button'

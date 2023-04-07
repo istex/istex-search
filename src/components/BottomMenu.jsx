@@ -45,19 +45,11 @@ export default function BottomMenu () {
             <ShareButton />
           </div>
         </Tooltip>
-        <Tooltip
-          content={(
-            <div className='max-w-[10rem] text-center'>
-              Accédez à l'historique de vos 30 derniers téléchargements
-            </div>
-          )}
-        >
-          {/* We don't use button here because of bug. the button adds a focus
+        {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
-          <div>
-            <HistoryButton />
-          </div>
-        </Tooltip>
+        <div>
+          <HistoryButton />
+        </div>
       </div>
     </div>
   );

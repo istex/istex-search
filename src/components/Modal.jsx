@@ -51,7 +51,7 @@ export default function Modal ({ onClose, children }) {
 
 function ModalHeader ({ children }) {
   return (
-    <div className='border-b border-solid border-slate-300'>
+    <div className='rounded-t bg-istcolor-blue text-white font-bold text-xl'>
       {children}
     </div>
   );
@@ -67,11 +67,11 @@ function ModalBody ({ children }) {
 
 function ModalFooter ({ children }) {
   return (
-    <div className='border-t border-solid border-slate-300'>
+    <div className='flex flex-col items-end rounded-b border-t border-solid border-slate-300'>
       {/* If children are provided, display them, otherwise display a default close button */}
       {children || (
         <button
-          className='bg-red-400 rounded p-2 text center'
+          className='cta-blue p-2 text-center'
           onClick={closeModal}
         >
           Fermer

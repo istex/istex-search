@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 
 import Modal from '@/components/Modal';
 
+import { useHistoryContext } from '@/contexts/HistoryContext';
+
 export default function ConfirmDeleteHistoryModal ({ onClose }) {
+  const history = useHistoryContext();
+
+  const confirmHandler = () => {
+    history.removeAll();
+    onClose();
+  };
+
   return (
     <Modal onClose={onClose}>
       <Modal.Header>
@@ -22,7 +31,7 @@ export default function ConfirmDeleteHistoryModal ({ onClose }) {
           </button>
           <button
             className='cta-blue'
-            onClick={onClose}
+            onClick={confirmHandler}
           >
             Confirmer
           </button>

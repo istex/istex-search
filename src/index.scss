@@ -65,6 +65,24 @@ input[type=number]::-webkit-outer-spin-button {
   }
 }
 
+.cta-red {
+  @apply p-2;
+
+  background-color: theme('colors.istcolor-red');
+  color: white;
+
+  &:hover, &:focus {
+    &:not([disabled]) {
+      background: linear-gradient(to left, #E27673, theme('colors.istcolor-red'));
+    }
+  }
+
+  &:disabled {
+    background-color: theme('colors.istcolor-grey.medium');
+    cursor: not-allowed;
+  }
+}
+
 textarea {
   font-size: unset;
 }

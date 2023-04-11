@@ -48,6 +48,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .cta-blue {
+  @apply p-2;
+
   background-color: theme('colors.istcolor-blue');
   color: white;
 

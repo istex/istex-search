@@ -37,10 +37,10 @@ export default function Modal ({ onClose, children }) {
   return (
     <>
       <div
-        className='z-50 fixed inset-0 flex justify-center items-center w-full overflow-y-auto py-3'
+        className='z-50 fixed inset-0 flex justify-center items-center w-full overflow-y-auto px-6 py-3'
         onClick={onClick}
       >
-        <div ref={modalContentRef} className='bg-white rounded w-11/12 [&>*]:p-3 m-auto'>
+        <div ref={modalContentRef} className='bg-white rounded [&>*]:p-3 m-auto'>
           {children}
         </div>
       </div>

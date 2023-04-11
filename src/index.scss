@@ -52,7 +52,14 @@ input[type=number]::-webkit-outer-spin-button {
   color: white;
 
   &:hover, &:focus {
-    background: linear-gradient(to left, #51A7C5, theme('colors.istcolor-blue'));
+    &:not([disabled]) {
+      background: linear-gradient(to left, #51A7C5, theme('colors.istcolor-blue'));
+    }
+  }
+
+  &:disabled {
+    background-color: theme('colors.istcolor-grey.medium');
+    cursor: not-allowed;
   }
 }
 

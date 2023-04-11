@@ -71,7 +71,7 @@ function ModalFooter ({ children }) {
       {/* If children are provided, display them, otherwise display a default close button */}
       {children || (
         <button
-          className='cta-blue text-center'
+          className='cta-blue'
           onClick={closeModal}
         >
           Fermer

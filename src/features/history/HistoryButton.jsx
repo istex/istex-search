@@ -4,8 +4,6 @@ import { Tooltip } from 'flowbite-react';
 
 import History from './History';
 
-import './HistoryButton.css';
-
 export default function HistoryButton () {
   const [modalOpen, setModalOpen] = useState(false);
 

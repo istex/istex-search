@@ -121,7 +121,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
       <Table.Cell className='!px-3'>
         <div className='flex flex-col'>
           {buildExtractParamsFromFormats(requestInfo.selectedFormats).split(';').map((selectedFormat, index) => (
-            <span key={index}>{selectedFormat}</span>
+            <span className='max-w-[15rem] truncate' key={index}>{selectedFormat}</span>
           ))}
         </div>
       </Table.Cell>

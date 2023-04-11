@@ -1,52 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'flowbite-react';
 
-import ModalListHistory from './ModalListHistory';
-
-import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
-import { useHistoryContext } from '@/contexts/HistoryContext';
-
-import './HistoryButton.css';
+import History from './History';
 
 export default function HistoryButton () {
-  const { eventEmitter, events } = useEventEmitterContext();
-  const history = useHistoryContext();
-
-  const [requests, setRequests] = useState(history.getAll());
-  const [openHistoryModal, setOpenHistoryModal] = useState(false);
-
-  const setModalVisibility = (visible) => {
-    setOpenHistoryModal(visible);
-  };
-
-  const historyUpdatedHandler = () => {
-    setRequests([...history.getAll()]);
-  };
-
-  useEffect(() => {
-    eventEmitter.addListener(events.historyUpdated, historyUpdatedHandler);
-
-    return () => {
-      eventEmitter.removeListener(events.historyUpdated, historyUpdatedHandler);
-    };
-  }, []);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
-      <div
-        className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
-        onClick={() => setModalVisibility(true)}
+      <Tooltip
+        content={(
+          <div className='max-w-[10rem] text-center'>
+            Accédez à l'historique de vos 30 derniers téléchargements
+          </div>
+        )}
       >
-        <div>
-          <FontAwesomeIcon icon='clock-rotate-left' className='text-3xl md:text-4xl' />
+        <div
+          className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
+          onClick={() => setModalOpen(true)}
+        >
+          <div>
+            <FontAwesomeIcon icon='clock-rotate-left' className='text-3xl md:text-4xl' />
+          </div>
+          <span className='text-center align-top'>Historique</span>
         </div>
-        <span className='text-center align-top'>Historique</span>
-      </div>
-      <ModalListHistory
-        show={openHistoryModal}
-        onClose={() => setOpenHistoryModal(false)}
-        requests={requests}
-      />
+      </Tooltip>
+      {modalOpen && (
+        <History onClose={() => setModalOpen(false)} />
+      )}
     </>
   );
 }

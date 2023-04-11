@@ -32,7 +32,7 @@ export default function Header () {
   }, [screenSize]);
 
   return (
-    <nav className='istex-header bg-white sticky top-0 w-full z-[1000]'>
+    <nav className='istex-header bg-white sticky top-0 w-full z-30'>
       <div className={`${screenSize.dynamicWidth <= 1230 ? 'w-[' + screenSize.dynamicWidth + 'px]' : 'w-header'} mx-auto`}>
         <div className={`${screenSize.dynamicWidth <= 1200 ? 'px-2 py-2' : 'px-10 py-10'} relative flex items-center justify-between  md:pt-[22px] md:pb-[11px]`}>
           <div className='justify-between flex w-full xd'>

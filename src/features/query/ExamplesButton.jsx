@@ -12,14 +12,12 @@ export default function ExamplesButton () {
   return (
     <>
       <button
-        className='font-montserrat font-medium flex items-center px-2 py-2 md:px-7 border-[1px] cta3'
+        className='!px-6 cta-blue-wired font-montserrat font-medium flex gap-2'
         onClick={() => showModal(true)}
       >
         <span>Exemples</span>
-        <div className='pl-2'>
-          <Tooltip
-            content={<div className='min-w-[12rem]'>Testez des exemples de requête</div>}
-          >
+        <div className='m-auto'>
+          <Tooltip content='Testez des exemples de requête'>
             <FontAwesomeIcon icon='circle-info' />
           </Tooltip>
         </div>

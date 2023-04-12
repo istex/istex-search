@@ -2,19 +2,21 @@
 FROM node:lts-alpine AS builder
 LABEL stage=builder
 
-# Copy the source code files needed to generate the production build
+# Set the working directory
 WORKDIR /app/
-COPY ./src/ /app/src/
+
+# Copy the npm config files and install dependancies
+COPY ./package.json /app/package.json
+COPY ./package-lock.json /app/package-lock.json
+RUN npm install
+
+# Copy the source code files and generate the production build
 COPY ./public/ /app/public/
 COPY ./index.html /app/index.html
 COPY ./postcss.config.js /app/postcss.config.js
 COPY ./tailwind.config.js /app/tailwind.config.js
 COPY ./vite.config.js /app/vite.config.js
-COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
-
-# Install dependancies and generate the production build
-RUN npm install
+COPY ./src/ /app/src/
 RUN npm run build
 
 

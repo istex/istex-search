@@ -20,11 +20,6 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
   const { eventEmitter, events } = useEventEmitterContext();
   const history = useHistoryContext();
 
-  const closeHistoryModal = () => {
-    onClose();
-    document.body.style.overflow = 'unset';
-  };
-
   const editHandler = () => {
     if (requestInfo.qId) {
       eventEmitter.emit(events.setQId, requestInfo.qId);
@@ -39,7 +34,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
     eventEmitter.emit(events.setUsage, requestInfo.usage);
     eventEmitter.emit(events.addFocusOnInput, true);
 
-    closeHistoryModal();
+    onClose();
   };
 
   const downloadHandler = () => {
@@ -56,7 +51,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
     });
 
     resetForm();
-    closeHistoryModal();
+    onClose();
   };
 
   const shareHandler = () => {
@@ -64,7 +59,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
 
     eventEmitter.emit(events.displayShareModal, istexDlFullUrl.href);
 
-    closeHistoryModal();
+    onClose();
   };
 
   const deleteHandler = () => {
@@ -184,6 +179,6 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
 }
 
 HistoryRequest.propTypes = {
-  requestInfo: PropTypes.object,
-  onClose: PropTypes.func,
+  requestInfo: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };

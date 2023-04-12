@@ -14,7 +14,7 @@ export default function ConfirmDeleteHistoryModal ({ onClose }) {
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} nested>
       <Modal.Header>
         Confirmation
       </Modal.Header>

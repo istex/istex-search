@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useResetForm from '@/features/resetForm/useResetForm';
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 
-export default function Example ({ info, closeModal }) {
+export default function Example ({ info, onClose }) {
   const resetForm = useResetForm();
   const { eventEmitter, events } = useEventEmitterContext();
 
@@ -15,7 +15,7 @@ export default function Example ({ info, closeModal }) {
 
     eventEmitter.emit(events.setQueryString, info.queryString);
 
-    closeModal();
+    onClose();
   };
 
   return (
@@ -37,5 +37,5 @@ Example.propTypes = {
     label: PropTypes.string.isRequired,
     queryString: PropTypes.string.isRequired,
   }),
-  closeModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };

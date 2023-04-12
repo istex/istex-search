@@ -35,8 +35,7 @@ export default function ExamplesButton () {
               <div className=''>
                 {examples.map(example => (
                   <div key={example.label}>
-                    <Example info={example} closeModal={() => setModalOpen(false)} />
-                    <Example info={example} closeModal={() => setModalOpen(false)} />
+                    <Example info={example} onClose={() => setModalOpen(false)} />
                   </div>
                 ))}
               </div>

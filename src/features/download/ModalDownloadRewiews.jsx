@@ -1,56 +1,26 @@
-import React, { useState } from 'react';
-import { Modal } from 'flowbite-react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ModalDownloadRewiews ({ initOpening = false, setOpenModal }) {
-  const [open, setOpen] = useState(initOpening);
+import Modal from '@/components/Modal';
 
-  const onClose = () => {
-    setOpen(false);
-    setOpenModal(false);
-  };
-
+export default function ModalDownloadRewiews ({ onClose }) {
   return (
-    <>
-      <Modal
-        show={open}
-        onClose={onClose}
-      >
-        <div className='istex-modal__header'>
-          <Modal.Header>
-            <span className='istex-modal__text'>
-              Téléchargement en cours
-            </span>
-          </Modal.Header>
+    <Modal onClose={onClose}>
+      <Modal.Header>Téléchargement en cours</Modal.Header>
+      <Modal.Body>
+        <p className='p-3'>
+          La génération de votre corpus est en cours.<br />
+          Veuillez patienter. L'archive sera bientôt téléchargée...
+        </p>
+        <div>
+          <img className='m-auto' src='/images/loader.gif' alt='loader' />
         </div>
-        <Modal.Body>
-          <div className='flex flex-col justify-between items-center'>
-            <p>
-              La génération de votre corpus est en cours.<br />
-              Veuillez patienter. L'archive sera bientôt téléchargée...
-            </p>
-            <p>
-              <img src='/images/loader.gif' alt='loader' />
-            </p>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <div className='flex w-full justify-end'>
-            <button
-              type='button'
-              onClick={onClose}
-              className='p-2 text-white bg-istcolor-blue border border-istcolor-blue cta1 focus:ring-4 focus:outline-none'
-            >
-              Fermer
-            </button>
-          </div>
-        </Modal.Footer>
-      </Modal>
-    </>
+      </Modal.Body>
+      <Modal.Footer />
+    </Modal>
   );
 }
 
 ModalDownloadRewiews.propTypes = {
-  initOpening: PropTypes.bool,
-  setOpenModal: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };

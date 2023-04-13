@@ -19,13 +19,13 @@ export default function DownloadButton () {
   const archiveType = useSelector(state => state.istexApi.archiveType);
   const usage = useSelector(state => state.istexApi.usage);
 
-  const [openModal, setOpenModal] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const resetForm = useResetForm();
   const { eventEmitter, events } = useEventEmitterContext();
   const history = useHistoryContext();
 
   const handleDownload = (event) => {
-    setOpenModal(true);
+    setModalOpen(true);
 
     if (event) {
       onDownload();
@@ -127,11 +127,8 @@ export default function DownloadButton () {
             <DownloadButtonWrapper disabled={isFormIncomplete} onClick={handleDownload} />
             )}
       </div>
-      {openModal && (
-        <ModalDownloadRewiews
-          initOpening={openModal}
-          setOpenModal={setOpenModal}
-        />
+      {modalOpen && (
+        <ModalDownloadRewiews onClose={() => setModalOpen(false)} />
       )}
     </div>
   );

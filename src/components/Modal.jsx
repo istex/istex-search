@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import useKeyDown from '@/hooks/useKeyDown';
+
 // Reference to onClose function passed to <Modal> to be used by other components such as <ModalFooter>
 let closeModal;
 
@@ -30,6 +32,10 @@ export default function Modal ({ onClose, nested = false, children }) {
       closeModal(event);
     }
   };
+
+  useKeyDown('Escape', () => {
+    closeModal();
+  });
 
   useEffect(() => {
     // Prevent the scroll on the body to avoid having 2 scrollbars

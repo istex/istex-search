@@ -1,13 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-// Reference to onClose function passed to <Modal> to be used by other components such as <ModalFooter>
-let onCloseFromProps;
+import useKeyDown from '@/hooks/useKeyDown';
 
-export default function Modal ({ onClose, children }) {
+// Reference to onClose function passed to <Modal> to be used by other components such as <ModalFooter>
+let closeModal;
+
+export default function Modal ({ onClose, nested = false, children }) {
   const modalContentRef = useRef(null);
 
-  onCloseFromProps = onClose;
+  closeModal = onClose;
 
   const isClickOutsideOfModalContent = event => {
     if (!modalContentRef.current) {
@@ -31,8 +33,22 @@ export default function Modal ({ onClose, children }) {
     }
   };
 
-  // Prevent the scroll on the body to avoid having 2 scrollbars
-  document.body.style.overflow = 'hidden';
+  useKeyDown('Escape', () => {
+    closeModal();
+  });
+
+  useEffect(() => {
+    // Prevent the scroll on the body to avoid having 2 scrollbars
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      // Reset the body overflow to what it was before only if the current modal is not
+      // nested inside of another modal
+      if (!nested) {
+        document.body.style.overflow = 'unset';
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -81,14 +97,9 @@ function ModalFooter ({ children }) {
   );
 }
 
-// Call the onClose prop and reset the body overflow to what it was before
-function closeModal (event) {
-  onCloseFromProps(event);
-  document.body.style.overflow = 'unset';
-}
-
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  nested: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 

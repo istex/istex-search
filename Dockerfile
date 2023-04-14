@@ -5,7 +5,7 @@ LABEL stage=builder
 # Set the working directory
 WORKDIR /app/
 
-# Copy the npm config files and install dependancies
+# Copy the npm config files and install dependencies
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
 RUN npm install

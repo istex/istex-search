@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, Modal } from 'flowbite-react';
+import { Tooltip } from 'flowbite-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import OperatorField from '../../OperatorField/OperatorField';
 import SearchInput from './SearchInput';
 import RetreiveCorrectField from '../../RetreiveCorrectField/RetreiveCorrectField';
 import SearchValue from './SearchValue';
+import Modal from '@/components/Modal';
 
 import { operatorsField } from '@/config';
 
@@ -116,21 +117,11 @@ export default function SearchField ({
           )}
         </div>
 
-        {openIntervalInput && (
-          <Modal
-            show={showModal}
-            onClose={onCloseChoiceInputModal}
-            className='relative h-full w-full p-4 md:h-auto y max-w-2xl'
-          >
-            <div className='istex-modal__header'>
-              <Modal.Header>
-                <span className='istex-modal__text'>
-                  {`Valeur de ${selectField.dataTitle}`}
-                </span>
-              </Modal.Header>
-            </div>
+        {openIntervalInput && showModal && (
+          <Modal onClose={onCloseChoiceInputModal}>
+            <Modal.Header>{`Valeur de ${selectField.dataTitle}`}</Modal.Header>
             <Modal.Body>
-              <div className='flex flex-1 items-center flex-col justify-center bg-white h-[300px] mt-2'>
+              <div className='flex flex-1 items-center flex-col justify-center bg-white mt-2'>
                 {
               operatorSelect.length > 0 && (
                 <OperatorField

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
+import { Tooltip } from 'flowbite-react';
 
 import ModalShareButton from './ModalShareButton';
 
@@ -58,20 +59,28 @@ export default function ShareButton () {
 
   return (
     <>
-      <div
-        className={`flex flex-col justify-center items-center ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black`}
-        onClick={handleShareButton}
+      <Tooltip
+        content={(
+          <div className='max-w-[9rem] text-center'>
+            Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
+          </div>
+          )}
       >
-        <div>
-          <FontAwesomeIcon icon='link' className='text-3xl md:text-4xl' />
-        </div>
-        <span
-          className='text-center align-top'
-          disabled={isFormIncomplete}
+        <div
+          className={`flex flex-col justify-center items-center ${isFormIncomplete ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black`}
+          onClick={handleShareButton}
         >
-          Partager
-        </span>
-      </div>
+          <div>
+            <FontAwesomeIcon icon='link' className='text-3xl md:text-4xl' />
+          </div>
+          <span
+            className='text-center align-top'
+            disabled={isFormIncomplete}
+          >
+            Partager
+          </span>
+        </div>
+      </Tooltip>
       {openModal && (
         <ModalShareButton
           initOpening={openModal}

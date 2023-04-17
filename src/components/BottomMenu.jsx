@@ -32,19 +32,11 @@ export default function BottomMenu () {
             <FetchButton />
           </button>
         </Tooltip>
-        <Tooltip
-          content={(
-            <div className='max-w-[9rem] text-center'>
-              Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
-            </div>
-          )}
-        >
-          {/* We don't use button here because of bug. the button adds a focus
+        {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
-          <div>
-            <ShareButton />
-          </div>
-        </Tooltip>
+        <div>
+          <ShareButton />
+        </div>
         {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
         <div>

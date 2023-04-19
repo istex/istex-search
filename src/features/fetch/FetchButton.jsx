@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from 'flowbite-react';
 
 import { useEventEmitterContext } from '@/contexts/EventEmitterContext';
 import { useHistoryContext } from '@/contexts/HistoryContext';
@@ -59,16 +60,24 @@ export default function FetchButton () {
   }, []);
 
   return (
-    <button
-      className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
-      onClick={updateFormFromLastRequest}
+    <Tooltip
+      content={(
+        <div className='max-w-[10.5rem]'>
+          Récupérez l'état en cours de votre formulaire
+        </div>
+      )}
     >
-      <div>
-        <FontAwesomeIcon icon='repeat' className='text-3xl md:text-4xl' />
-      </div>
-      <span className='text-center align-top'>
-        Récupérer
-      </span>
-    </button>
+      <button
+        className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
+        onClick={updateFormFromLastRequest}
+      >
+        <div>
+          <FontAwesomeIcon icon='repeat' className='text-3xl md:text-4xl' />
+        </div>
+        <span className='text-center align-top'>
+          Récupérer
+        </span>
+      </button>
+    </Tooltip>
   );
 }

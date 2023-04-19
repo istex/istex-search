@@ -18,9 +18,7 @@ export default function BottomMenu () {
             </div>
           )}
         >
-          <button>
-            <FetchButton />
-          </button>
+          <FetchButton />
         </Tooltip>
         <ShareButton />
         <HistoryButton />

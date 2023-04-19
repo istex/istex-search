@@ -59,7 +59,7 @@ export default function FetchButton () {
   }, []);
 
   return (
-    <div
+    <button
       className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
       onClick={updateFormFromLastRequest}
     >
@@ -69,6 +69,6 @@ export default function FetchButton () {
       <span className='text-center align-top'>
         Récupérer
       </span>
-    </div>
+    </button>
   );
 }

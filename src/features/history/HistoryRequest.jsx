@@ -106,7 +106,7 @@ export default function HistoryRequest ({ requestInfo, onClose }) {
       <Table.Cell className='!px-3'>
         {format(requestInfo.date, 'dd/MM/yyyy hh:mm:ss')}
       </Table.Cell>
-      <Table.Cell className='!px-3'>
+      <Table.Cell className='!px-3 max-w-[45ch]'>
         <div
           className={`line-clamp-${idTypeInfo != null ? '3' : '2'}`}
         >

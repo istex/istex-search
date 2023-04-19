@@ -75,11 +75,7 @@ function FormField ({
         numberOfFields={numberOfFields}
         setOpenCatalogList={setOpenCatalogList}
       />
-      <CatalogList
-        setOpenCatalogList={setOpenCatalogList}
-        openCatalogList={openCatalogList}
-        togglePreference={togglePreference}
-      />
+      {openCatalogList && <CatalogList togglePreference={togglePreference} onClose={() => setOpenCatalogList(false)} />}
     </>
   );
 }

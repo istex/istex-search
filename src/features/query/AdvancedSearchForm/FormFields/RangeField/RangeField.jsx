@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, TextInput, Label, Tooltip } from 'flowbite-react';
+import { TextInput, Label, Tooltip } from 'flowbite-react';
 
-import ModalRangeField from './ModalRangeField';
+import Modal from '@/components/Modal';
 
 import './RangeField.scss';
 
@@ -72,10 +72,10 @@ function RangeField ({
   const changeValue = (value) => {
     if (value === 'min') {
       setModalIntervalUpdateValue(minValue);
-      updateValRef.current.value = minValue;
+      if (updateValRef.current) updateValRef.current.value = minValue;
     } else {
       setModalIntervalUpdateValue(maxValue);
-      updateValRef.current.value = maxValue;
+      if (updateValRef.current) updateValRef.current.value = maxValue;
     }
     setOpenModal(true);
     setModalIntervalUpdateType(value);
@@ -189,62 +189,44 @@ function RangeField ({
         </div>
       </div>
 
-      <ModalRangeField
-        openModal={openModal}
-        onCloseModal={onCloseModal}
-        updateIntervalValue={updateIntervalValue}
-        modalIntervalUpdateType={modalIntervalUpdateType}
-        modalIntervalUpdateValue={modalIntervalUpdateValue}
-        minValRef={minValRef}
-        maxValRef={maxValRef}
-        min={min}
-        max={max}
-        updateValRef={updateValRef}
-      />
-
-      <Modal
-        show={openModal}
-        onClose={onCloseModal}
-      >
-        <div className='istex-modal__header'>
-          <Modal.Header>
-            <span className='istex-modal__text'>
-              Choix de l'intervalle
-            </span>
-          </Modal.Header>
-        </div>
-        <Modal.Body>
-          <div>
-            <div className='mb-2 block'>
-              <Label
-                htmlFor='value1'
-                value={`Choisissez la valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
+      {openModal && (
+        <Modal onClose={onCloseModal} nested>
+          <Modal.Header>Choix de l'intervalle</Modal.Header>
+          <Modal.Body>
+            <div>
+              <div className='mb-2 block'>
+                <Label
+                  htmlFor='value1'
+                  value={`Choisissez la valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
+                />
+              </div>
+              <TextInput
+                id='value1'
+                type='number'
+                min={modalIntervalUpdateType === 'max' ? minValRef.current.value : min}
+                max={modalIntervalUpdateType === 'min' ? maxValRef.current.value : max}
+                placeholder={`Choisissez une valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
+                required
+                ref={updateValRef}
+                defaultValue={modalIntervalUpdateValue}
               />
             </div>
-            <TextInput
-              id='value1'
-              type='number'
-              min={modalIntervalUpdateType === 'max' ? minValRef.current.value : min}
-              max={modalIntervalUpdateType === 'min' ? maxValRef.current.value : max}
-              placeholder={`Choisissez une valeur ${modalIntervalUpdateType === 'min' ? 'minimale' : 'maximale'}`}
-              required
-              ref={updateValRef}
-              defaultValue={modalIntervalUpdateValue}
-            />
-          </div>
-        </Modal.Body>
-        <Modal.Footer className='flex justify-end items-center space-x-2 rounded-b border-gray-200 p-6 dark:border-gray-600 border-t'>
-          <Button style={{ backgroundColor: '#458ca5' }} onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
-            Modifier la valeur
-          </Button>
-          <Button
-            color='gray'
-            onClick={onCloseModal}
-          >
-            Fermer
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className='flex gap-2'>
+              <button className='cta-blue' onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
+                Modifier la valeur
+              </button>
+              <button
+                className='cta-blue-wired'
+                onClick={onCloseModal}
+              >
+                Fermer
+              </button>
+            </div>
+          </Modal.Footer>
+        </Modal>
+      )}
     </>
   );
 }

@@ -61,7 +61,7 @@ export default function ShareButton () {
     <>
       <Tooltip
         content={(
-          <div className='max-w-[9rem] text-center'>
+          <div className='max-w-[8rem]'>
             Activez cette fonctionnalité en complétant le formulaire et partagez votre corpus avant de le télécharger
           </div>
           )}

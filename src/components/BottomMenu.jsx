@@ -22,11 +22,7 @@ export default function BottomMenu () {
             <FetchButton />
           </button>
         </Tooltip>
-        {/* We don't use button here because of bug. the button adds a focus
-          to the click which prevents the tooltip from disappearing after opening the modal */}
-        <div>
-          <ShareButton />
-        </div>
+        <ShareButton />
         {/* We don't use button here because of bug. the button adds a focus
           to the click which prevents the tooltip from disappearing after opening the modal */}
         <div>

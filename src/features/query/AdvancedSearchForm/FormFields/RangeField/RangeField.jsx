@@ -190,7 +190,7 @@ function RangeField ({
       </div>
 
       {openModal && (
-        <Modal onClose={onCloseModal}>
+        <Modal onClose={onCloseModal} nested>
           <Modal.Header>Choix de l'intervalle</Modal.Header>
           <Modal.Body>
             <div>

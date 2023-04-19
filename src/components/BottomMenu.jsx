@@ -17,9 +17,7 @@ export default function BottomMenu () {
             </div>
           )}
         >
-          <button>
-            <ResetButton />
-          </button>
+          <ResetButton />
         </Tooltip>
         <Tooltip
           content={(

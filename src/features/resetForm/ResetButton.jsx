@@ -7,7 +7,7 @@ export default function ResetButton () {
   const resetForm = useResetForm();
 
   return (
-    <div
+    <button
       className='flex flex-col justify-between items-center cursor-pointer hover:bg-istcolor-white hover:rounded-md p-2.5 h-[4.75rem] text-istcolor-black'
       onClick={resetForm}
     >
@@ -15,6 +15,6 @@ export default function ResetButton () {
         <FontAwesomeIcon icon='eraser' className='text-3xl md:text-4xl' />
       </div>
       <span className='text-center align-top'>Réinitialiser</span>
-    </div>
+    </button>
   );
 }

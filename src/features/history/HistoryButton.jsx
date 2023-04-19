@@ -11,7 +11,7 @@ export default function HistoryButton () {
     <>
       <Tooltip
         content={(
-          <div className='max-w-[10rem] text-center'>
+          <div className='max-w-[9rem]'>
             Accédez à l'historique de vos 30 derniers téléchargements
           </div>
         )}

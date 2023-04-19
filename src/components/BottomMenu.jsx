@@ -23,11 +23,7 @@ export default function BottomMenu () {
           </button>
         </Tooltip>
         <ShareButton />
-        {/* We don't use button here because of bug. the button adds a focus
-          to the click which prevents the tooltip from disappearing after opening the modal */}
-        <div>
-          <HistoryButton />
-        </div>
+        <HistoryButton />
       </div>
     </div>
   );

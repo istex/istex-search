@@ -10,15 +10,7 @@ export default function BottomMenu () {
   return (
     <div className='!fixed border-0 w-full bottom-0 left-0 bg-istcolor-green-dark py-0.5 h-20 z-10'>
       <div className='flex justify-center gap-2 md:gap-x-14 items-center'>
-        <Tooltip
-          content={(
-            <div className='max-w-[10rem] text-center'>
-              Effacez tout pour redémarrer avec un formulaire vide
-            </div>
-          )}
-        >
-          <ResetButton />
-        </Tooltip>
+        <ResetButton />
         <Tooltip
           content={(
             <div className='max-w-[8rem] text-center'>

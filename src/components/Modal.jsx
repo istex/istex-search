@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import useKeyDown from '@/hooks/useKeyDown';
@@ -7,31 +7,7 @@ import useKeyDown from '@/hooks/useKeyDown';
 let closeModal;
 
 export default function Modal ({ onClose, nested = false, children }) {
-  const modalContentRef = useRef(null);
-
   closeModal = onClose;
-
-  const isClickOutsideOfModalContent = event => {
-    if (!modalContentRef.current) {
-      return false;
-    }
-
-    const { clientX: clickX, clientY: clickY } = event;
-    const { x: modalX, y: modalY, width: modalWidth, height: modalHeight } = modalContentRef.current.getBoundingClientRect();
-
-    return (
-      clickX < modalX || // click is to the left of the content
-      clickX > modalX + modalWidth || // click is to the right of the content
-      clickY < modalY || // click is above the content
-      clickY > modalY + modalHeight // click is below the content
-    );
-  };
-
-  const onClick = event => {
-    if (isClickOutsideOfModalContent(event)) {
-      closeModal(event);
-    }
-  };
 
   useKeyDown('Escape', () => {
     closeModal();
@@ -51,17 +27,15 @@ export default function Modal ({ onClose, nested = false, children }) {
   }, []);
 
   return (
-    <>
-      <div
-        className='z-50 fixed inset-0 flex justify-center items-center w-full overflow-y-auto px-6 py-3'
-        onClick={onClick}
-      >
-        <div ref={modalContentRef} className='bg-white rounded [&>*]:p-3 m-auto'>
-          {children}
-        </div>
+    <div className='z-40 fixed inset-0 flex justify-center items-center w-full overflow-y-auto px-6 py-3'>
+      <div className='z-50 bg-white rounded [&>*]:p-3 m-auto'>
+        {children}
       </div>
-      <div className='bg-gray-900 bg-opacity-50 fixed inset-0 z-40' />
-    </>
+      <div
+        className='bg-gray-900 bg-opacity-50 fixed inset-0 z-40'
+        onClick={closeModal}
+      />
+    </div>
   );
 }
 

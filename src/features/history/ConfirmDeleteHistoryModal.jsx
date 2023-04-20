@@ -22,20 +22,18 @@ export default function ConfirmDeleteHistoryModal ({ onClose }) {
         Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements ?
       </Modal.Body>
       <Modal.Footer>
-        <div className='flex gap-2'>
-          <button
-            className='cta-red'
-            onClick={onClose}
-          >
-            Annuler
-          </button>
-          <button
-            className='cta-blue'
-            onClick={confirmHandler}
-          >
-            Confirmer
-          </button>
-        </div>
+        <button
+          className='cta-red'
+          onClick={onClose}
+        >
+          Annuler
+        </button>
+        <button
+          className='cta-blue'
+          onClick={confirmHandler}
+        >
+          Confirmer
+        </button>
       </Modal.Footer>
     </Modal>
   );

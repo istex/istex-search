@@ -213,17 +213,15 @@ function RangeField ({
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <div className='flex gap-2'>
-              <button className='cta-blue' onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
-                Modifier la valeur
-              </button>
-              <button
-                className='cta-blue-wired'
-                onClick={onCloseModal}
-              >
-                Fermer
-              </button>
-            </div>
+            <button className='cta-blue' onClick={() => { updateIntervalValue(updateValRef.current.value); }}>
+              Modifier la valeur
+            </button>
+            <button
+              className='cta-blue-wired'
+              onClick={onCloseModal}
+            >
+              Fermer
+            </button>
           </Modal.Footer>
         </Modal>
       )}

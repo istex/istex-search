@@ -58,15 +58,17 @@ function ModalBody ({ children }) {
 function ModalFooter ({ children }) {
   return (
     <div className='flex flex-col items-end rounded-b border-t border-solid border-slate-300'>
-      {/* If children are provided, display them, otherwise display a default close button */}
-      {children || (
-        <button
-          className='cta-blue'
-          onClick={closeModal}
-        >
-          Fermer
-        </button>
-      )}
+      <div className='flex gap-2'>
+        {/* If children are provided, display them, otherwise display a default close button */}
+        {children || (
+          <button
+            className='cta-blue'
+            onClick={closeModal}
+          >
+            Fermer
+          </button>
+        )}
+      </div>
     </div>
   );
 }

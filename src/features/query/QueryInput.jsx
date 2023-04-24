@@ -76,6 +76,7 @@ export default function QueryInput () {
       const list = getIdsFromIdQueryString(idTypeInfo, newQueryString).join('\n');
       setIdsInputValue(list);
       setCurrentQueryMode(queryModes.modes.find(queryMode => queryMode.value === 'ids').value);
+      setCurrentIdTypeName(idTypeInfo.typeName);
     } else {
       setCurrentQueryMode(queryModes.getDefault().value);
       setQueryStringInputValue(newQueryString);
@@ -279,6 +280,7 @@ export default function QueryInput () {
           />
           <select
             className='max-h-10 text-sm border border-istcolor-green-dark cursor-pointer'
+            value={currentIdTypeName}
             onChange={idTypeChangedHandler}
           >
             {Object.entries(supportedIdTypes).map(([idTypeName, idType]) => (

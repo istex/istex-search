@@ -426,7 +426,7 @@ export const catalogList = [
         dataInfo: 'Recherche par date détectée dans le texte',
         dataValue: 'namedEntities.unitex.date',
         operatorsField: [
-          { id: 'is_equal', typeField: 'date' },
+          { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
@@ -551,7 +551,7 @@ export const catalogList = [
       {
         dataTitle: 'Noms d\'auteur',
         dataInfo: 'Recherche par noms d\'auteur du document référencé',
-        dataValue: 'rebBibs.author.name',
+        dataValue: 'refBibs.author.name',
         operatorsField: [
           { id: 'contains', typeField: 'text' },
         ],

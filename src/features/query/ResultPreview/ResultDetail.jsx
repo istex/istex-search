@@ -8,31 +8,31 @@ export default function ResultDetail ({ documentResult = {} }) {
   const extensions = [
     {
       id: 'fulltext',
-      title: 'texte integral',
+      title: 'Texte intégral',
       documentFormats: documentResult.fulltext,
       isArray: true,
     },
     {
       id: 'metadata',
-      title: 'métadonnées',
+      title: 'Métadonnées',
       documentFormats: documentResult.metadata,
       isArray: true,
     },
     {
       id: 'enrichments',
-      title: 'enrichissements',
+      title: 'Enrichissements',
       documentFormats: documentResult.enrichments,
       isArray: false,
     },
     {
       id: 'annexes',
-      title: 'annexes',
+      title: 'Annexes',
       documentFormats: documentResult.annexes,
       isArray: true,
     },
     {
       id: 'covers',
-      title: 'couverture',
+      title: 'Couvertures',
       documentFormats: documentResult.covers,
       isArray: true,
     },

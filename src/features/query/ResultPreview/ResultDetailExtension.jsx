@@ -47,7 +47,7 @@ export default function ResultDetailExtension ({
 
   return (
     <div>
-      <h5 className='text-istcolor-grey-dark mb-2 capitalize text-sm'>{title}</h5>
+      <h5 className='text-istcolor-grey-dark mb-2 text-sm'>{title}</h5>
       <div className='grid grid-cols-2 gap-2 w-4/5'>
         {list}
       </div>

@@ -342,8 +342,8 @@ export const catalogList = [
         ],
       },
       {
-        dataTitle: 'Langue',
-        dataInfo: 'Recherche par langue de publication',
+        dataTitle: 'Langue de publication',
+        dataInfo: 'Recherche par code de nom de langue',
         dataValue: 'language',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
@@ -351,7 +351,7 @@ export const catalogList = [
       },
       {
         dataTitle: 'Année de publication',
-        dataInfo: 'Recherche par date de publication papier',
+        dataInfo: 'Recherche par année de publication papier',
         dataValue: 'publicationDate',
         operatorsField: [
           { id: 'is_equal', typeField: 'date' },
@@ -423,14 +423,14 @@ export const catalogList = [
     items: [
       {
         dataTitle: 'Date',
-        dataInfo: 'Recherche par date détectée dans le texte',
+        dataInfo: 'Recherche par date, période, siècle détectés dans le texte',
         dataValue: 'namedEntities.unitex.date',
         operatorsField: [
           { id: 'is_equal', typeField: 'text' },
         ],
       },
       {
-        dataTitle: 'Lieu administratif',
+        dataTitle: 'Toponyme administratif',
         dataInfo: 'Recherche par nom de lieu, géopolitique ou administratif, détecté dans le texte',
         dataValue: 'namedEntities.unitex.placeName',
         operatorsField: [
@@ -438,7 +438,7 @@ export const catalogList = [
         ],
       },
       {
-        dataTitle: 'Lieu géographique',
+        dataTitle: 'Toponyme géographique',
         dataInfo: 'Recherche par nom de lieu, comportant une caractéristique géographique, détecté dans le texte',
         dataValue: 'namedEntities.unitex.geogName',
         operatorsField: [
@@ -446,8 +446,8 @@ export const catalogList = [
         ],
       },
       {
-        dataTitle: 'Personne',
-        dataInfo: 'Recherche par nom de personne détecté dans le texte',
+        dataTitle: 'Nom de personne',
+        dataInfo: 'Recherche par nom propre de personne détecté dans le texte',
         dataValue: 'namedEntities.unitex.persName',
         operatorsField: [
           { id: 'contains', typeField: 'text' },
@@ -520,7 +520,7 @@ export const catalogList = [
         ],
       },
       {
-        dataTitle: 'Issn de la série',
+        dataTitle: 'ISSN de la série',
         dataInfo: 'Recherche par numéro ISSN de la série papier',
         dataValue: 'serie.issn',
         operatorsField: [
@@ -528,7 +528,7 @@ export const catalogList = [
         ],
       },
       {
-        dataTitle: 'e-Issn de la série',
+        dataTitle: 'e-ISSN de la série',
         dataInfo: 'Recherche par numéro ISSN de la série électronique',
         dataValue: 'serie.eissn',
         operatorsField: [
@@ -549,8 +549,8 @@ export const catalogList = [
     title: 'Références bibliographiques',
     items: [
       {
-        dataTitle: 'Noms d\'auteur',
-        dataInfo: 'Recherche par noms d\'auteur du document référencé',
+        dataTitle: 'Nom d\'auteur',
+        dataInfo: 'Recherche par l\'un des auteurs du document référencé',
         dataValue: 'refBibs.author.name',
         operatorsField: [
           { id: 'contains', typeField: 'text' },

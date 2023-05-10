@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-
-  istex-dl:
-    container_name: istex-dl
-    image: istex/istex-dl:${npm_package_version}
-    ports:
-      - 45445:80

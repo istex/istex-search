@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { type Result, results } from './results';
 
 export const metadata = {
@@ -9,7 +10,13 @@ export default function Page (): React.ReactNode {
     <>
       <h1>Results</h1>
       <main>
-        {results.map((result: Result) => <div key={result.id}>{result.name}</div>)}
+        {results.map((result: Result) => (
+          <div key={result.id}>
+            <Link href={`/results/${result.id}`}>
+              {result.name}
+            </Link>
+          </div>
+        ))}
       </main>
     </>
   );

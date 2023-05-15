@@ -13,11 +13,13 @@ const ResultsLayout: Layout = ({ children }) => {
       <div style={{ display: 'flex' }}>
         <section style={{ paddingRight: '2rem' }}>
           {results.map((result: Result) => (
-            <div key={result.id}>
-              <Link href={`/results/${result.id}`}>
-                {result.name}
-              </Link>
-            </div>
+            <Link
+              key={result.id}
+              style={{ display: 'block' }}
+              href={`/results/${result.id}`}
+            >
+              {result.name}
+            </Link>
           ))}
         </section>
 

@@ -1,14 +1,12 @@
-import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { results } from '../results';
+import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
 
 interface RouteParams {
-  params: {
-    id: string;
-  };
+  id: string;
 }
 
-export async function generateMetadata ({ params }: RouteParams): Promise<Metadata> {
+export const generateMetadata: GenerateMetadata<RouteParams> = async ({ params }) => {
   const result = results.find(result => result.id === params.id);
 
   if (result == null) {
@@ -19,9 +17,9 @@ export async function generateMetadata ({ params }: RouteParams): Promise<Metada
     title: `Istex-DL - ${result.name}`,
     description: result.description,
   };
-}
+};
 
-export default function Page ({ params }: RouteParams): React.ReactNode {
+const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
   const result = results.find(result => result.id === params.id);
 
   if (result == null) {
@@ -29,12 +27,12 @@ export default function Page ({ params }: RouteParams): React.ReactNode {
   }
 
   return (
-    <>
+    <main>
       <h1>{result.name}</h1>
-      <main>
-        <div>id: {result.id}</div>
-        <div>description: {result.description}</div>
-      </main>
-    </>
+      <div>id: {result.id}</div>
+      <div>description: {result.description}</div>
+    </main>
   );
-}
+};
+
+export default Page;

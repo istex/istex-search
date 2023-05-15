@@ -1,3 +1,4 @@
+import type { Layout } from '@/lib/helperTypes';
 import pkg from '../../package.json';
 
 export const metadata = {
@@ -5,14 +6,12 @@ export const metadata = {
   description: pkg.description,
 };
 
-export default function RootLayout ({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.ReactNode {
+const RootLayout: Layout = ({ children }) => {
   return (
     <html lang="en">
       <body>{children}</body>
     </html>
   );
-}
+};
+
+export default RootLayout;

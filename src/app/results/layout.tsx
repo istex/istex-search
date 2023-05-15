@@ -1,19 +1,16 @@
 import Link from 'next/link';
 import { type Result, results } from './results';
+import type { Layout } from '@/lib/helperTypes';
 
 export const metadata = {
   title: 'Istex-DL - results',
 };
 
-export default function Layout ({
-  children,
-}: {
-  children: React.ReactNode;
-}): React.ReactNode {
+const ResultsLayout: Layout = ({ children }) => {
   return (
-    <>
+    <main>
       <h1>Results</h1>
-      <main style={{ display: 'flex' }}>
+      <div style={{ display: 'flex' }}>
         <section style={{ paddingRight: '2rem' }}>
           {results.map((result: Result) => (
             <div key={result.id}>
@@ -25,7 +22,9 @@ export default function Layout ({
         </section>
 
         <section>{children}</section>
-      </main>
-    </>
+      </div>
+    </main>
   );
-}
+};
+
+export default ResultsLayout;

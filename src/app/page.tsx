@@ -1,10 +1,12 @@
 import Link from 'next/link';
 
-export default function Home (): React.ReactNode {
+const Home: React.FC = () => {
   return (
-    <>
+    <main>
       <h1>Hello, Istex-DL!</h1>
       <Link href='/results'>Go to results</Link>
-    </>
+    </main>
   );
-}
+};
+
+export default Home;

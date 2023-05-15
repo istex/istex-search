@@ -1,3 +1,5 @@
-export default function Loading (): React.ReactNode {
+const Loading: React.FC = () => {
   return <p>Loading results...</p>;
-}
+};
+
+export default Loading;

@@ -15,10 +15,7 @@ const ResultsLayout: Layout = ({ children }) => {
           <ul>
             {results.map(result => (
               <li key={result.id}>
-                <Link
-                  style={{ display: 'block' }}
-                  href={`/results/${result.id}`}
-                >
+                <Link href={`/results/${result.id}`}>
                   {result.name}
                 </Link>
               </li>

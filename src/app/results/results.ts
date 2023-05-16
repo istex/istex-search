@@ -28,6 +28,6 @@ export const results: Result[] = [
   {
     id: '5',
     name: 'result 5',
-    description: 'description of result 5',
+    description: 'much longer description for result 5',
   },
 ];

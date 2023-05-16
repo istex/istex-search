@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { Card, CardContent, Typography } from '@/components/@mui/material';
 import { results } from '../results';
 import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
 
@@ -27,11 +28,13 @@ const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
   }
 
   return (
-    <section>
-      <h2>{result.name}</h2>
-      <div>id: {result.id}</div>
-      <div>description: {result.description}</div>
-    </section>
+    <Card>
+      <CardContent>
+        <Typography variant='h5'>{result.name}</Typography>
+        <Typography sx={{ mb: 1.5 }} color='text.secondary'>{result.id}</Typography>
+        <Typography>{result.description}</Typography>
+      </CardContent>
+    </Card>
   );
 };
 

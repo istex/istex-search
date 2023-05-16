@@ -27,11 +27,11 @@ const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
   }
 
   return (
-    <main>
-      <h1>{result.name}</h1>
+    <section>
+      <h2>{result.name}</h2>
       <div>id: {result.id}</div>
       <div>description: {result.description}</div>
-    </main>
+    </section>
   );
 };
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { type Result, results } from './results';
+import { results } from './results';
 import type { Layout } from '@/lib/helperTypes';
 
 export const metadata = {
@@ -11,19 +11,21 @@ const ResultsLayout: Layout = ({ children }) => {
     <main>
       <h1>Results</h1>
       <div style={{ display: 'flex' }}>
-        <section style={{ paddingRight: '2rem' }}>
-          {results.map((result: Result) => (
-            <Link
-              key={result.id}
-              style={{ display: 'block' }}
-              href={`/results/${result.id}`}
-            >
-              {result.name}
-            </Link>
-          ))}
-        </section>
-
-        <section>{children}</section>
+        <aside style={{ paddingRight: '2rem' }}>
+          <ul>
+            {results.map(result => (
+              <li key={result.id}>
+                <Link
+                  style={{ display: 'block' }}
+                  href={`/results/${result.id}`}
+                >
+                  {result.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </aside>
+        {children}
       </div>
     </main>
   );

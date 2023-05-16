@@ -1,5 +1,5 @@
 const NotFound: React.FC = () => {
-  return <h1>Not found!</h1>;
+  return <p>Not found!</p>;
 };
 
 export default NotFound;

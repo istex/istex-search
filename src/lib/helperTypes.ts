@@ -15,4 +15,6 @@ interface DynamicRoutePageProps<T> {
 
 export type DynamicRoutePage<T> = React.FC<DynamicRoutePageProps<T>>;
 
-export type Layout = React.FC<Required<PropsWithChildren>>;
+export type RequiredChildrenFC = React.FC<Required<PropsWithChildren>>;
+
+export type Layout = RequiredChildrenFC;

@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import type { Page } from '@/lib/helperTypes';
 
-const Home: React.FC = () => {
+const HomePage: Page = () => {
   return (
     <main>
       <h1>Hello, Istex-DL!</h1>
@@ -9,4 +10,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

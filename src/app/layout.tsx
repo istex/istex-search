@@ -10,7 +10,7 @@ export const metadata = {
 
 const RootLayout: Layout = ({ children }) => {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <MuiSetup>
           <Container>

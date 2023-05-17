@@ -4,6 +4,8 @@ const path = require('path');
 module.exports = {
   extends: [
     'standard-with-typescript',
+    'standard-jsx',
+    'standard-react',
     'next/core-web-vitals',
   ],
   parserOptions: {

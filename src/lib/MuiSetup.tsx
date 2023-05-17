@@ -7,9 +7,9 @@ import { useServerInsertedHTML } from 'next/navigation';
 import { useState } from 'react';
 
 import { theme } from './theme';
-import type { RequiredChildrenFC } from './helperTypes';
+import type { ClientComponent } from './helperTypes';
 
-const EmotionCacheProvider: RequiredChildrenFC = ({ children }) => {
+const EmotionCacheProvider: ClientComponent = ({ children }) => {
   const [cache] = useState(() => {
     const cache = createCache({ key: 'css' });
     cache.compat = true;
@@ -30,7 +30,7 @@ const EmotionCacheProvider: RequiredChildrenFC = ({ children }) => {
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 };
 
-const MuiSetup: RequiredChildrenFC = ({ children }) => {
+const MuiSetup: ClientComponent = ({ children }) => {
   return (
     <EmotionCacheProvider>
       <ThemeProvider theme={theme}>

@@ -7,21 +7,27 @@ export type GenerateMetadata<T> = (props: {
   searchParams: URLSearchParams;
 }) => Promise<Metadata>;
 
-// A client component is a regular React component that can take children
-export type ClientComponent<TProps = unknown> = React.FC<PropsWithChildren<TProps>>;
+export type ClientComponent<TProps = unknown, WithChildren = true> =
+  React.FC<WithChildren extends true ? Required<PropsWithChildren<TProps>> : TProps>;
 
-// A server component is just like a client component but can either return what a
-// client component usually returns or a Promise to what a client component usually returns.
-// Here, `_RetType` is a private generic only used crate a type alias, it is not meant to be
-// used when instanciating a server component.
-export type ServerComponent<TProps = unknown, _RetType = ReturnType<ClientComponent<TProps>>> =
-  ReplaceReturnType<ClientComponent<TProps>, _RetType | Promise<_RetType>>;
+// A ServerComponent is just like a ClientComponent but can either return what a
+// ClientComponent usually returns or a Promise to what a ClientComponent usually returns.
+// Here, `_RetType` is a private generic only used to create a type alias, it is not meant
+// to be used when instanciating a server component.
+export type ServerComponent<
+  TProps = unknown,
+  WithChildren = true,
+  _RetType = ReturnType<ClientComponent<TProps, WithChildren>>,
+> = ReplaceReturnType<ClientComponent<TProps, WithChildren>, _RetType | Promise<_RetType>>;
 
-export type Page = ServerComponent;
+// A Page is a ServerComponent that does take any props (so no children)
+export type Page = ServerComponent<never, false>;
 
-export type DynamicRoutePage<T> = ServerComponent<{ params: T; }>;
+// A DynamicRoutePage is a ServerComponent that takes `params` as props but no children
+export type DynamicRoutePage<T> = ServerComponent<{ params: T; }, false>;
 
-export type Layout = RequiredChildrenFC;
+// A layout is a normal ServerComponent but children are required
+export type Layout = ServerComponent;
 
 /**
  * Utility types
@@ -29,5 +35,3 @@ export type Layout = RequiredChildrenFC;
 
 type ReplaceReturnType<T extends (...args: any) => any, TNewReturn> =
   (...args: Parameters<T>) => TNewReturn;
-
-type RequiredChildrenFC<T = unknown> = React.FC<Required<PropsWithChildren<T>>>;

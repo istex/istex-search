@@ -7,7 +7,7 @@ import { useServerInsertedHTML } from 'next/navigation';
 import { useState } from 'react';
 
 import { theme } from './theme';
-import type { ClientComponent } from './helperTypes';
+import type { ClientComponent } from '../helperTypes';
 
 const EmotionCacheProvider: ClientComponent = ({ children }) => {
   const [cache] = useState(() => {

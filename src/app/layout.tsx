@@ -1,6 +1,6 @@
 import type { Layout } from '@/lib/helperTypes';
 import pkg from '../../package.json';
-import MuiSetup from '@/lib/MuiSetup';
+import MuiSetup from '@/lib/mui/setup';
 import { Container } from '@/components/@mui/material';
 
 export const metadata = {

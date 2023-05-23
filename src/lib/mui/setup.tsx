@@ -6,7 +6,7 @@ import createCache from '@emotion/cache';
 import { useServerInsertedHTML } from 'next/navigation';
 import { useState } from 'react';
 
-import { theme } from './theme';
+import theme from './theme';
 import type { ClientComponent } from '../helperTypes';
 
 const EmotionCacheProvider: ClientComponent = ({ children }) => {

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { Card, CardContent, Typography } from '@/components/@mui/material';
+import { Card, CardActions, CardContent, IconButton, Typography } from '@/components/@mui/material';
+import FavoriteIcon from '@/components/@mui/icons-material/Favorite';
 import { results } from '../results';
 import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
 
@@ -34,6 +35,11 @@ const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
         <Typography sx={{ mb: 1.5 }} color='text.secondary'>{result.id}</Typography>
         <Typography>{result.description}</Typography>
       </CardContent>
+      <CardActions>
+        <IconButton aria-label='add to favorites'>
+          <FavoriteIcon sx={{ color: 'colors.green.dark' }} />
+        </IconButton>
+      </CardActions>
     </Card>
   );
 };

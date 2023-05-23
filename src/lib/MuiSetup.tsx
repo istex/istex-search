@@ -19,6 +19,7 @@ const EmotionCacheProvider: ClientComponent = ({ children }) => {
   useServerInsertedHTML(() => {
     return (
       <style
+        key={cache.key}
         data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(' ')}`}
         dangerouslySetInnerHTML={{
           __html: Object.values(cache.inserted).join(' '),

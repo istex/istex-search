@@ -20,11 +20,13 @@ const ResultsLayout: Layout = ({ children }) => {
         <Box component='aside' sx={{ pr: 2 }}>
           <List>
             {results.map(result => (
-              <ListItemButton key={result.id}>
+              <ListItemButton
+                key={result.id}
+                href={`/results/${result.id}`}
+                LinkComponent={Link}
+              >
                 <ListItemText>
-                  <Link href={`/results/${result.id}`}>
-                    {result.name}
-                  </Link>
+                  {result.name}
                 </ListItemText>
               </ListItemButton>
             ))}

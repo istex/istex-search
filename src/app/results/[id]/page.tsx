@@ -32,7 +32,7 @@ const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
     <Card>
       <CardContent>
         <Typography variant='h5'>{result.name}</Typography>
-        <Typography sx={{ mb: 1.5 }} color='text.secondary'>{result.id}</Typography>
+        <Typography mb={1.5} color='text.secondary'>{result.id}</Typography>
         <Typography>{result.description}</Typography>
       </CardContent>
       <CardActions>

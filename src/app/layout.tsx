@@ -1,7 +1,6 @@
 import type { Layout } from '@/lib/helperTypes';
 import pkg from '../../package.json';
 import MuiSetup from '@/lib/mui/setup';
-import { Container } from '@/components/@mui/material';
 
 export const metadata = {
   title: 'Istex-DL',
@@ -12,11 +11,7 @@ const RootLayout: Layout = ({ children }) => {
   return (
     <html lang='en'>
       <body>
-        <MuiSetup>
-          <Container>
-            {children}
-          </Container>
-        </MuiSetup>
+        <MuiSetup>{children}</MuiSetup>
       </body>
     </html>
   );

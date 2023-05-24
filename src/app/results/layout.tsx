@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Box, List, ListItemButton, ListItemText, Typography } from '@/components/@mui/material';
+import { Box, Container, List, ListItemButton, ListItemText, Typography } from '@/components/@mui/material';
 import { results } from './results';
 import type { Layout } from '@/lib/helperTypes';
 
@@ -9,16 +9,13 @@ export const metadata = {
 
 const ResultsLayout: Layout = ({ children }) => {
   return (
-    <main>
-      <Typography
-        variant='h3'
-        sx={{ py: 3 }}
-      >
+    <Container component='main'>
+      <Typography variant='h3' py={3}>
         Results
       </Typography>
-      <Box sx={{ display: 'flex' }}>
-        <Box component='aside' sx={{ pr: 2 }}>
-          <List sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Box display='flex'>
+        <Box component='aside' pr={2}>
+          <List disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {results.map(result => (
               <ListItemButton
                 key={result.id}
@@ -46,7 +43,7 @@ const ResultsLayout: Layout = ({ children }) => {
 
         <Box width={0.3}>{children}</Box>
       </Box>
-    </main>
+    </Container>
   );
 };
 

@@ -179,7 +179,10 @@ export default function QueryInput () {
   };
 
   const corpusFileHandler = file => {
+    // Reset some things before processing the file
     eventEmitter.emit(events.setNumberOfDocuments, 0);
+    setErrorMessage('');
+    setShouldDisplaySuccessMsg(false);
 
     if (!file) return;
 

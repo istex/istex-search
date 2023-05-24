@@ -3,6 +3,4 @@
 
 'use client';
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-export default FavoriteIcon;
+export { default as FavoriteIcon } from '@mui/icons-material/Favorite';

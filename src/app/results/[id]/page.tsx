@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { Card, CardActions, CardContent, IconButton, Typography } from '@/components/@mui/material';
-import FavoriteIcon from '@/components/@mui/icons-material/Favorite';
+import { FavoriteIcon } from '@/components/@mui/icons-material';
 import { results } from '../results';
 import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
 

@@ -17,4 +17,7 @@ export { default as Link } from '@mui/material/Link';
 export { default as List } from '@mui/material/List';
 export { default as ListItemButton } from '@mui/material/ListItemButton';
 export { default as ListItemText } from '@mui/material/ListItemText';
+export { default as Slide } from '@mui/material/Slide';
 export { default as Typography } from '@mui/material/Typography';
+
+export type { TransitionProps } from '@mui/material/transitions';

@@ -1,15 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from '@/components/@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, type TransitionProps, Typography } from '@/components/@mui/material';
 import { FavoriteIcon } from '@/components/@mui/icons-material';
-import { type ClientComponent } from '@/lib/helperTypes';
+import theme from '@/lib/mui/theme';
+import type { ClientComponent } from '@/lib/helperTypes';
 import type { Result } from '../results';
 
 interface ResultModalProps {
   result: Result;
 }
+
+const Transition = forwardRef(function Transition (
+  props: TransitionProps & { children: React.ReactElement; },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 const ResultModal: ClientComponent<ResultModalProps, false> = ({ result }) => {
   const [open, setOpen] = useState(true);
@@ -17,11 +25,15 @@ const ResultModal: ClientComponent<ResultModalProps, false> = ({ result }) => {
 
   const close = (): void => {
     setOpen(false);
-    router.push('/results');
+
+    // Wait until the leaving screen animation is over to go back to the /results page
+    setTimeout(() => {
+      router.push('/results');
+    }, theme.transitions.duration.leavingScreen);
   };
 
   return (
-    <Dialog open={open} onClose={close}>
+    <Dialog open={open} onClose={close} TransitionComponent={Transition}>
       <DialogTitle>{result.name}</DialogTitle>
       <DialogContent>
         <Typography mb={1.5} color='text.secondary'>{result.id}</Typography>

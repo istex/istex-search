@@ -30,6 +30,9 @@ declare module '@mui/material/styles' {
 export default createTheme({
   palette: {
     colors,
+    primary: {
+      main: colors.blue,
+    },
     text: {
       primary: colors.black,
     },

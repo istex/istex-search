@@ -1,8 +1,8 @@
-import { Typography } from '@/components/@mui/material';
+import { CircularProgress } from '@/components/@mui/material';
 import type { ServerComponent } from '@/lib/helperTypes';
 
 const Loading: ServerComponent = () => {
-  return <Typography>Loading...</Typography>;
+  return <CircularProgress />;
 };
 
 export default Loading;

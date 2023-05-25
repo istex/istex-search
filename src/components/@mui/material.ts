@@ -6,6 +6,7 @@
 export { default as Alert } from '@mui/material/Alert';
 export { default as AlertTitle } from '@mui/material/AlertTitle';
 export { default as Box } from '@mui/material/Box';
+export { default as CircularProgress } from '@mui/material/CircularProgress';
 export { default as Container } from '@mui/material/Container';
 export { default as Dialog } from '@mui/material/Dialog';
 export { default as DialogTitle } from '@mui/material/DialogTitle';

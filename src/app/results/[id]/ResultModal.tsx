@@ -2,9 +2,10 @@
 
 import { forwardRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, type TransitionProps, Typography } from '@/components/@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, Typography } from '@/components/@mui/material';
 import { FavoriteIcon } from '@/components/@mui/icons-material';
-import theme from '@/lib/mui/theme';
+import useTheme from '@mui/material/styles/useTheme';
+import type { TransitionProps } from '@mui/material/transitions';
 import type { ClientComponent } from '@/lib/helperTypes';
 import type { Result } from '../results';
 
@@ -22,6 +23,7 @@ const Transition = forwardRef(function Transition (
 const ResultModal: ClientComponent<ResultModalProps, false> = ({ result }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
+  const theme = useTheme();
 
   const close = (): void => {
     setOpen(false);

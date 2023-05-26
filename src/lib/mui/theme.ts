@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import createTheme from '@mui/material/styles/createTheme';
 import { Montserrat, Open_Sans } from 'next/font/google';
 
 const colors = {
@@ -21,7 +21,7 @@ const openSans = Open_Sans({
 });
 
 // Extend the PaletteOptions definition with our custom colors
-declare module '@mui/material/styles' {
+declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions {
     colors: typeof colors;
   }
@@ -30,8 +30,16 @@ declare module '@mui/material/styles' {
 export default createTheme({
   palette: {
     colors,
+    common: {
+      black: colors.black,
+      white: colors.white,
+    },
     primary: {
       main: colors.blue,
+    },
+    secondary: {
+      light: colors.green.light,
+      main: colors.green.dark,
     },
     text: {
       primary: colors.black,

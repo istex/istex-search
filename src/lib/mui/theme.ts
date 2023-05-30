@@ -7,7 +7,10 @@ const colors = {
     light: '#C4D733',
   },
   blue: '#458CA5',
-  black: '#1D1D1D',
+  black: {
+    dark: '#1D1D1D',
+    light: '#4A4A4A',
+  },
   white: '#F0F0F0',
 } as const;
 
@@ -22,6 +25,10 @@ const openSans = Open_Sans({
 
 // Extend the PaletteOptions definition with our custom colors
 declare module '@mui/material/styles/createPalette' {
+  interface Palette {
+    colors: typeof colors;
+  }
+
   interface PaletteOptions {
     colors: typeof colors;
   }
@@ -31,18 +38,11 @@ export default createTheme({
   palette: {
     colors,
     common: {
-      black: colors.black,
+      black: colors.black.dark,
       white: colors.white,
     },
-    primary: {
-      main: colors.blue,
-    },
-    secondary: {
-      light: colors.green.light,
-      main: colors.green.dark,
-    },
     text: {
-      primary: colors.black,
+      primary: colors.black.light,
     },
   },
   typography: {

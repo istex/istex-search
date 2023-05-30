@@ -9,7 +9,7 @@ import { useState } from 'react';
 import theme from './theme';
 import type { ClientComponent } from '../helperTypes';
 
-const EmotionCacheProvider: ClientComponent = ({ children }) => {
+const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
   const [cache] = useState(() => {
     const cache = createCache({ key: 'css' });
     cache.compat = true;
@@ -31,7 +31,7 @@ const EmotionCacheProvider: ClientComponent = ({ children }) => {
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 };
 
-const MuiSetup: ClientComponent = ({ children }) => {
+const MuiSetup: ClientComponent<unknown, true> = ({ children }) => {
   return (
     <EmotionCacheProvider>
       <ThemeProvider theme={theme}>

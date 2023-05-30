@@ -29,7 +29,7 @@ const pages = [
   },
 ] as const;
 
-const Navbar: ClientComponent<unknown, false> = () => {
+const Navbar: ClientComponent = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>): void => {

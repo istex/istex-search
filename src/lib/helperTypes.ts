@@ -7,7 +7,7 @@ export type GenerateMetadata<T> = (props: {
   searchParams: URLSearchParams;
 }) => Promise<Metadata>;
 
-export type ClientComponent<TProps = unknown, WithChildren = true> =
+export type ClientComponent<TProps = unknown, WithChildren = false> =
   React.FC<WithChildren extends true ? Required<PropsWithChildren<TProps>> : TProps>;
 
 // A ServerComponent is just like a ClientComponent but can either return what a
@@ -16,18 +16,18 @@ export type ClientComponent<TProps = unknown, WithChildren = true> =
 // to be used when instanciating a server component.
 export type ServerComponent<
   TProps = unknown,
-  WithChildren = true,
+  WithChildren = false,
   _RetType = ReturnType<ClientComponent<TProps, WithChildren>>,
 > = ReplaceReturnType<ClientComponent<TProps, WithChildren>, _RetType | Promise<_RetType>>;
 
 // A Page is a ServerComponent that does take any props (so no children)
-export type Page = ServerComponent<never, false>;
+export type Page = ServerComponent<never>;
 
 // A DynamicRoutePage is a ServerComponent that takes `params` as props but no children
-export type DynamicRoutePage<T> = ServerComponent<{ params: T; }, false>;
+export type DynamicRoutePage<T> = ServerComponent<{ params: T; }>;
 
 // A layout is a normal ServerComponent but children are required
-export type Layout = ServerComponent;
+export type Layout = ServerComponent<unknown, true>;
 
 /**
  * Utility types

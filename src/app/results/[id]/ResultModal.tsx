@@ -20,7 +20,7 @@ const Transition = forwardRef(function Transition (
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const ResultModal: ClientComponent<ResultModalProps, false> = ({ result }) => {
+const ResultModal: ClientComponent<ResultModalProps> = ({ result }) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const theme = useTheme();

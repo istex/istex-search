@@ -1,14 +1,17 @@
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import { Container, Link, Typography } from '@/components/@mui/material';
 import type { Page } from '@/lib/helperTypes';
 
 const HomePage: Page = () => {
+  const t = useTranslations('Home');
+
   return (
     <Container component='main'>
       <Typography variant='h3' py={3}>
-        Hello, Istex-DL!
+        {t('title')}
       </Typography>
-      <Link href='/results' component={NextLink}>Go to results</Link>
+      <Link href='/results' component={NextLink}>{t('goToResults')}</Link>
     </Container>
   );
 };

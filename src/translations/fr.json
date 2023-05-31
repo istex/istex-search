@@ -1,0 +1,51 @@
+{
+  "Home": {
+    "title": "Bonjour Istex-DL !",
+    "goToResults": "Aller aux résultats",
+    "Navbar": {
+      "istex": "Accès istex.fr",
+      "a_zJournalsList": "Revue de sommaire",
+      "documentaryDataset": "Référentiels documentaires",
+      "specializedCorpus": "Corpus spécialisés",
+      "objectifTdm": "Objectif TDM",
+      "loterre": "Loterre"
+    }
+  },
+  "results": {
+    "ResultsLayout": {
+      "title": "Résultats"
+    },
+    "ResultsPage": {
+      "selectResult": "Sélectionnez un résultat !"
+    },
+    "ResultsData": [
+      {
+        "name": "Résultat 1",
+        "description": "description de résultat 1"
+      },
+      {
+        "name": "Résultat 2",
+        "description": "description de résultat 2"
+      },
+      {
+        "name": "Résultat 3",
+        "description": "description de résultat 3"
+      },
+      {
+        "name": "Résultat 4",
+        "description": "description de résultat 4"
+      },
+      {
+        "name": "Résultat 5",
+        "description": "description plus longue de résultat 5"
+      }
+    ]
+  },
+  "Metadata": {
+    "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
+  },
+  "NotFound": {
+    "title": "Erreur",
+    "content": "Introuvable !"
+  }
+}

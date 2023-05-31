@@ -4,32 +4,14 @@ import { useState } from 'react';
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@/components/@mui/material';
 import { KeyboardBackspaceIcon, MenuIcon } from '@/components/@mui/icons-material';
 import { alpha } from '@mui/material/styles';
+import type { NavbarLinks } from './NavbarLinks';
 import type { ClientComponent } from '@/lib/helperTypes';
 
-const pages = [
-  {
-    label: 'Revue de sommaire',
-    url: 'https://revue-sommaire.istex.fr/',
-  },
-  {
-    label: 'Référentiels documentaires',
-    url: 'https://documentary-dataset.data.istex.fr/',
-  },
-  {
-    label: 'Corpus spécialisés',
-    url: 'https://corpus-specialises.corpus.istex.fr/',
-  },
-  {
-    label: 'Objectif TDM',
-    url: 'https://objectif-tdm.inist.fr/',
-  },
-  {
-    label: 'Loterre',
-    url: 'https://www.loterre.fr/',
-  },
-] as const;
+interface NavbarProps {
+  links: NavbarLinks;
+}
 
-const Navbar: ClientComponent = () => {
+const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>): void => {
@@ -72,7 +54,7 @@ const Navbar: ClientComponent = () => {
               display: { xs: 'block', md: 'none' },
             }}
           >
-            {pages.map(({ label, url }) => (
+            {links.others.map(({ label, url }) => (
               <MenuItem key={label} onClick={handleCloseNavMenu}>
                 <Typography
                   component='a'
@@ -99,7 +81,7 @@ const Navbar: ClientComponent = () => {
         >
           <Button
             component='a'
-            href='https://istex.fr'
+            href={links.istex.url}
             target='_blank'
             rel='noreferrer'
             sx={(theme) => ({
@@ -113,13 +95,13 @@ const Navbar: ClientComponent = () => {
             })}
           >
             <KeyboardBackspaceIcon />
-            Accès istex.fr
+            {links.istex.label}
           </Button>
         </Box>
 
         {/* External resources that only appear on medium and large screens */}
         <Box sx={{ flexGrow: 1, gap: '1px', justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
-          {pages.map(({ label, url }) => (
+          {links.others.map(({ label, url }) => (
             <Button
               key={label}
               onClick={handleCloseNavMenu}

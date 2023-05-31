@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
-import { results } from '../results';
-import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
+import { useTranslations } from 'next-intl';
+import { results, type Result } from '../results';
 import ResultModal from './ResultModal';
+import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
 
 interface RouteParams {
   id: string;
@@ -21,13 +22,20 @@ export const generateMetadata: GenerateMetadata<RouteParams> = async ({ params }
 };
 
 const Page: DynamicRoutePage<RouteParams> = ({ params }) => {
+  const t = useTranslations('results');
   const result = results.find(result => result.id === params.id);
 
   if (result == null) {
     notFound();
   }
 
-  return <ResultModal result={result} />;
+  const translatedResult: Result = {
+    id: result.id,
+    name: t(result.name),
+    description: t(result.description),
+  };
+
+  return <ResultModal result={translatedResult} />;
 };
 
 export default Page;

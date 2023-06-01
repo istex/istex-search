@@ -2,8 +2,8 @@
 
 import { forwardRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, Typography } from '@/components/@mui/material';
-import { FavoriteIcon } from '@/components/@mui/icons-material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, Typography } from '@/mui/material';
+import { FavoriteIcon } from '@/mui/icons-material';
 import useTheme from '@mui/material/styles/useTheme';
 import type { TransitionProps } from '@mui/material/transitions';
 import type { ClientComponent } from '@/types/next';

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Container, List, ListItem, ListItemButton, ListItemText, Typography } from '@/components/@mui/material';
+import { Box, Container, List, ListItem, ListItemButton, ListItemText, Typography } from '@/mui/material';
 import { results } from './results';
 import type { Layout } from '@/types/next';
 

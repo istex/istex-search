@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@/components/@mui/material';
-import { KeyboardBackspaceIcon, MenuIcon } from '@/components/@mui/icons-material';
+import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@/mui/material';
+import { KeyboardBackspaceIcon, MenuIcon } from '@/mui/icons-material';
 import { alpha } from '@mui/material/styles';
 import type { NavbarLinks } from './NavbarLinks';
 import type { ClientComponent } from '@/types/next';

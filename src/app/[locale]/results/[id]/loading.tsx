@@ -1,4 +1,4 @@
-import { CircularProgress } from '@/components/@mui/material';
+import { CircularProgress } from '@/mui/material';
 import type { ServerComponent } from '@/types/next';
 
 const Loading: ServerComponent = () => {

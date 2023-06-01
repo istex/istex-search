@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Container, Link, Typography } from '@/components/@mui/material';
+import { Container, Link, Typography } from '@/mui/material';
 import type { Page } from '@/types/next';
 
 const HomePage: Page = () => {

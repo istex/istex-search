@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { Alert, AlertTitle, Box } from '@/components/@mui/material';
+import { Alert, AlertTitle, Box } from '@/mui/material';
 import type { ServerComponent } from '@/types/next';
 
 const NotFound: ServerComponent = () => {

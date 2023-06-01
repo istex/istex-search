@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { Typography } from '@/components/@mui/material';
+import { Typography } from '@/mui/material';
 import type { Page } from '@/types/next';
 
 const ResultsPage: Page = () => {

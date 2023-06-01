@@ -1,6 +1,6 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Container, List, ListItem, ListItemButton, ListItemText, Typography } from '@/mui/material';
+import { Box, Container, Link, List, ListItem, ListItemButton, ListItemText, Typography } from '@/mui/material';
 import { results } from './results';
 import type { Layout } from '@/types/next';
 
@@ -23,7 +23,7 @@ const ResultsLayout: Layout = ({ children }) => {
               <ListItem key={result.id} disablePadding>
                 <ListItemButton
                   href={`/results/${result.id}`}
-                  LinkComponent={Link}
+                  LinkComponent={NextLink}
                   sx={{
                     color: 'colors.blue',
                     borderRadius: 1,
@@ -47,6 +47,13 @@ const ResultsLayout: Layout = ({ children }) => {
 
         <Box width={0.3}>{children}</Box>
       </Box>
+      <Link
+        href='/'
+        component={NextLink}
+        sx={{ display: 'inline-block', paddingY: '1.5rem' }}
+      >
+        {t('ResultsLayout.goToHome')}
+      </Link>
     </Container>
   );
 };

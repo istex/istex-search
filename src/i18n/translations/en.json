@@ -13,7 +13,8 @@
   },
   "results": {
     "ResultsLayout": {
-      "title": "Results"
+      "title": "Results",
+      "goToHome": "Go to home"
     },
     "ResultsPage": {
       "selectResult": "Select a result!"

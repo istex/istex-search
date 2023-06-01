@@ -13,7 +13,8 @@
   },
   "results": {
     "ResultsLayout": {
-      "title": "Résultats"
+      "title": "Résultats",
+      "goToHome": "Aller à l'accueil"
     },
     "ResultsPage": {
       "selectResult": "Sélectionnez un résultat !"

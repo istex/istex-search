@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Box, Container, List, ListItem, ListItemButton, ListItemText, Typography } from '@/components/@mui/material';
 import { results } from './results';
-import type { Layout } from '@/lib/helperTypes';
+import type { Layout } from '@/types/next';
 
 export const metadata = {
   title: 'Istex-DL - results',

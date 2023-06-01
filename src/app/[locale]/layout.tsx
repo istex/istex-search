@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import MuiSetup from '@/lib/mui/setup';
 import Navbar from './Navbar';
 import { navbarLinks, type NavbarLinks } from './NavbarLinks';
-import type { GenerateMetadata, Layout } from '@/lib/helperTypes';
+import type { GenerateMetadata, Layout } from '@/types/next';
 
 interface RouteParams {
   locale: string;

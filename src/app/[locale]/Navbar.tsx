@@ -5,7 +5,7 @@ import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography 
 import { KeyboardBackspaceIcon, MenuIcon } from '@/components/@mui/icons-material';
 import { alpha } from '@mui/material/styles';
 import type { NavbarLinks } from './NavbarLinks';
-import type { ClientComponent } from '@/lib/helperTypes';
+import type { ClientComponent } from '@/types/next';
 
 interface NavbarProps {
   links: NavbarLinks;

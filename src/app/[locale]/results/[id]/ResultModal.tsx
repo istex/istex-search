@@ -6,7 +6,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, T
 import { FavoriteIcon } from '@/components/@mui/icons-material';
 import useTheme from '@mui/material/styles/useTheme';
 import type { TransitionProps } from '@mui/material/transitions';
-import type { ClientComponent } from '@/lib/helperTypes';
+import type { ClientComponent } from '@/types/next';
 import type { Result } from '../results';
 
 interface ResultModalProps {

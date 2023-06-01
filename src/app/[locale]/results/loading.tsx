@@ -1,5 +1,5 @@
 import { CircularProgress } from '@/components/@mui/material';
-import type { ServerComponent } from '@/lib/helperTypes';
+import type { ServerComponent } from '@/types/next';
 
 const Loading: ServerComponent = () => {
   return <CircularProgress color='primary' />;

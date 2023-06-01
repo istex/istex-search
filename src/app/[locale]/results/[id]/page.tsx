@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { results, type Result } from '../results';
 import ResultModal from './ResultModal';
-import type { DynamicRoutePage, GenerateMetadata } from '@/lib/helperTypes';
+import type { DynamicRoutePage, GenerateMetadata } from '@/types/next';
 
 interface RouteParams {
   id: string;

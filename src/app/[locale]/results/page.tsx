@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Typography } from '@/components/@mui/material';
-import type { Page } from '@/lib/helperTypes';
+import type { Page } from '@/types/next';
 
 const ResultsPage: Page = () => {
   const t = useTranslations('results.ResultsPage');

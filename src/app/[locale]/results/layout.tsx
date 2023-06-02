@@ -1,11 +1,20 @@
-import NextLink from 'next/link';
+import NextLink from './MyNextLink';
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Box, Container, Link, List, ListItem, ListItemButton, ListItemText, Typography } from '@/mui/material';
 import { results } from './results';
-import type { Layout } from '@/types/next';
+import type { GenerateMetadata, Layout } from '@/types/next';
 
-export const metadata = {
-  title: 'Istex-DL - results',
+interface RouteParams {
+  locale: string;
+}
+
+export const generateMetadata: GenerateMetadata<RouteParams> = async () => {
+  const t = await getTranslations('results');
+
+  return {
+    title: `Istex-DL - ${t('ResultsLayout.title')}`,
+  };
 };
 
 const ResultsLayout: Layout = ({ children }) => {

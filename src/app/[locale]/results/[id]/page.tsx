@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { results, type Result } from '../results';
 import ResultModal from './ResultModal';
 import type { DynamicRoutePage, GenerateMetadata } from '@/types/next';
@@ -9,6 +10,7 @@ interface RouteParams {
 }
 
 export const generateMetadata: GenerateMetadata<RouteParams> = async ({ params }) => {
+  const t = await getTranslations('results');
   const result = results.find(result => result.id === params.id);
 
   if (result == null) {
@@ -16,8 +18,8 @@ export const generateMetadata: GenerateMetadata<RouteParams> = async ({ params }
   }
 
   return {
-    title: `Istex-DL - ${result.name}`,
-    description: result.description,
+    title: `Istex-DL - ${t(result.name)}`,
+    description: t(result.description),
   };
 };
 

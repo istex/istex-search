@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import type { PropsWithChildren } from 'react';
 import type { URLSearchParams } from 'url';
 
-export type GenerateMetadata<T> = (props: {
+export type GenerateMetadata<T = Record<string, never>> = (props: {
   params: T;
   searchParams: URLSearchParams;
 }) => Promise<Metadata>;

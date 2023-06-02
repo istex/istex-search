@@ -5,11 +5,7 @@ import { Box, Container, Link, List, ListItem, ListItemButton, ListItemText, Typ
 import { results } from './results';
 import type { GenerateMetadata, Layout } from '@/types/next';
 
-interface RouteParams {
-  locale: string;
-}
-
-export const generateMetadata: GenerateMetadata<RouteParams> = async () => {
+export const generateMetadata: GenerateMetadata = async () => {
   const t = await getTranslations('results');
 
   return {

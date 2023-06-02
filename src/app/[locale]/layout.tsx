@@ -5,11 +5,7 @@ import Navbar from './Navbar';
 import { navbarLinks, type NavbarLinks } from './NavbarLinks';
 import type { GenerateMetadata, Layout } from '@/types/next';
 
-interface RouteParams {
-  locale: string;
-}
-
-export const generateMetadata: GenerateMetadata<RouteParams> = async () => {
+export const generateMetadata: GenerateMetadata = async () => {
   const t = await getTranslations('Metadata');
 
   return {

@@ -1,7 +1,7 @@
 'use client';
 
 import { forwardRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Slide, Typography } from '@/mui/material';
 import { FavoriteIcon } from '@/mui/icons-material';
 import useTheme from '@mui/material/styles/useTheme';

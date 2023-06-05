@@ -4,14 +4,16 @@ import { useState } from 'react';
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@/mui/material';
 import { KeyboardBackspaceIcon, MenuIcon } from '@/mui/icons-material';
 import { alpha } from '@mui/material/styles';
+import LanguagePicker from './LanguagePicker';
 import type { NavbarLinks } from './NavbarLinks';
 import type { ClientComponent } from '@/types/next';
 
 interface NavbarProps {
   links: NavbarLinks;
+  locale: string;
 }
 
-const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
+const Navbar: ClientComponent<NavbarProps> = ({ links, locale }) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>): void => {
@@ -120,6 +122,8 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
             </Button>
           ))}
         </Box>
+
+        <LanguagePicker locale={locale} />
       </Container>
     </AppBar>
   );

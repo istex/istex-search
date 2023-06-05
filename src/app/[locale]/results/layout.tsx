@@ -1,6 +1,6 @@
-import NextLink from './MyNextLink';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
+import NextIntlLink from '@/i18n/next-intl-link';
 import { Box, Container, Link, List, ListItem, ListItemButton, ListItemText, Typography } from '@/mui/material';
 import { results } from './results';
 import type { GenerateMetadata, Layout } from '@/types/next';
@@ -28,7 +28,7 @@ const ResultsLayout: Layout = ({ children }) => {
               <ListItem key={result.id} disablePadding>
                 <ListItemButton
                   href={`/results/${result.id}`}
-                  LinkComponent={NextLink}
+                  LinkComponent={NextIntlLink}
                   sx={{
                     color: 'colors.blue',
                     borderRadius: 1,
@@ -54,7 +54,7 @@ const ResultsLayout: Layout = ({ children }) => {
       </Box>
       <Link
         href='/'
-        component={NextLink}
+        component={NextIntlLink}
         sx={{ display: 'inline-block', paddingY: '1.5rem' }}
       >
         {t('ResultsLayout.goToHome')}

@@ -33,7 +33,7 @@ const RootLayout: Layout = ({ children }) => {
     <html lang={locale}>
       <body>
         <MuiSetup>
-          <Navbar links={translatedNavbarLinks} locale={locale} />
+          <Navbar links={translatedNavbarLinks} />
           {children}
         </MuiSetup>
       </body>

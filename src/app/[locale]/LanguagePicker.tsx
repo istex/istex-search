@@ -1,3 +1,6 @@
+// This component is not used right now because only one language is supported
+// but we still keep it just in case we support more languages in the future.
+
 'use client';
 
 import { useState } from 'react';

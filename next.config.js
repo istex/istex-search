@@ -1,6 +1,14 @@
-const withNextIntl = require('next-intl/plugin')('./src/i18n/i18n.ts');
+const path = require('path');
+const srcDirPath = path.join(__dirname, 'src');
+
+const withNextIntl = require('next-intl/plugin')(
+  path.join(srcDirPath, 'i18n', 'i18n.ts'),
+);
 
 /** @type {import('next').NextConfig} */
 module.exports = withNextIntl({
   output: 'standalone',
+  sassOptions: {
+    includePaths: [srcDirPath],
+  },
 });

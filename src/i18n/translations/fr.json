@@ -1,15 +1,7 @@
 {
   "Home": {
     "title": "Bonjour Istex-DL !",
-    "goToResults": "Aller aux résultats",
-    "Navbar": {
-      "istex": "Accès istex.fr",
-      "a_zJournalsList": "Revue de sommaire",
-      "documentaryDataset": "Référentiels documentaires",
-      "specializedCorpus": "Corpus spécialisés",
-      "objectifTdm": "Objectif TDM",
-      "loterre": "Loterre"
-    }
+    "goToResults": "Aller aux résultats"
   },
   "results": {
     "ResultsLayout": {
@@ -41,6 +33,17 @@
         "description": "description plus longue de résultat 5"
       }
     ]
+  },
+  "Navbar": {
+    "istex": "Accès istex.fr",
+    "a_zJournalsList": "Revue de sommaire",
+    "documentaryDataset": "Référentiels documentaires",
+    "specializedCorpus": "Corpus spécialisés",
+    "objectifTdm": "Objectif TDM",
+    "loterre": "Loterre"
+  },
+  "Footer": {
+    "funding": "Financement "
   },
   "Metadata": {
     "description": "Application Web dédiée à l'extraction de sous-corpus Istex."

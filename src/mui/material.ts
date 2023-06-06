@@ -16,6 +16,7 @@ export { default as DialogContent } from '@mui/material/DialogContent';
 export { default as DialogContentText } from '@mui/material/DialogContentText';
 export { default as DialogActions } from '@mui/material/DialogActions';
 export { default as FormControl } from '@mui/material/FormControl';
+export { default as Grid } from '@mui/material/Grid';
 export { default as IconButton } from '@mui/material/IconButton';
 export { default as InputLabel } from '@mui/material/InputLabel';
 export { default as Link } from '@mui/material/Link';

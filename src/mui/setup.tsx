@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
-import { useServerInsertedHTML } from 'next/navigation';
-import { useState } from 'react';
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
+import { useServerInsertedHTML } from "next/navigation";
+import { useState } from "react";
 
-import theme from './theme';
-import type { ClientComponent } from '@/types/next';
+import theme from "./theme";
+import type { ClientComponent } from "@/types/next";
 
 const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
   const [cache] = useState(() => {
-    const cache = createCache({ key: 'css' });
+    const cache = createCache({ key: "css" });
     cache.compat = true;
     return cache;
   });
@@ -20,9 +20,9 @@ const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
     return (
       <style
         key={cache.key}
-        data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(' ')}`}
+        data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
         dangerouslySetInnerHTML={{
-          __html: Object.values(cache.inserted).join(' '),
+          __html: Object.values(cache.inserted).join(" "),
         }}
       />
     );

@@ -1,11 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Typography } from '@/mui/material';
-import { KeyboardBackspaceIcon, MenuIcon } from '@/mui/icons-material';
-import { alpha } from '@mui/material/styles';
-import type { NavbarLinks } from './NavbarLinks';
-import type { ClientComponent } from '@/types/next';
+import { useState } from "react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@/mui/material";
+import { KeyboardBackspaceIcon, MenuIcon } from "@/mui/icons-material";
+import { alpha } from "@mui/material/styles";
+import type { NavbarLinks } from "./NavbarLinks";
+import type { ClientComponent } from "@/types/next";
 
 interface NavbarProps {
   links: NavbarLinks;
@@ -23,45 +32,45 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
   };
 
   return (
-    <AppBar sx={{ position: 'sticky', bgcolor: 'colors.white' }}>
-      <Container sx={{ display: 'flex', fontSize: '0.625rem' }}>
+    <AppBar sx={{ position: "sticky", bgcolor: "colors.white" }}>
+      <Container sx={{ display: "flex", fontSize: "0.625rem" }}>
         {/* Burger menu that only appears on small screens */}
-        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
           <IconButton
-            size='small'
-            aria-label='external scientific documentation resources'
-            aria-controls='menu-appbar'
-            aria-haspopup='true'
+            size="small"
+            aria-label="external scientific documentation resources"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
             onClick={handleOpenNavMenu}
           >
             <MenuIcon />
           </IconButton>
           <Menu
-            id='menu-appbar'
+            id="menu-appbar"
             anchorEl={anchorElNav}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: "bottom",
+              horizontal: "left",
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: "top",
+              horizontal: "left",
             }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: 'block', md: 'none' },
+              display: { xs: "block", md: "none" },
             }}
           >
             {links.others.map(({ label, url }) => (
               <MenuItem key={label} onClick={handleCloseNavMenu}>
                 <Typography
-                  component='a'
+                  component="a"
                   href={url}
-                  target='_blank'
-                  rel='noreferrer'
-                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  target="_blank"
+                  rel="noreferrer"
+                  sx={{ color: "text.primary", textDecoration: "none" }}
                 >
                   {label}
                 </Typography>
@@ -74,24 +83,24 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
         <Box
           sx={{
             flexGrow: 1,
-            display: 'flex',
-            alignItems: 'inherit',
-            justifyContent: { xs: 'center', md: 'start' },
+            display: "flex",
+            alignItems: "inherit",
+            justifyContent: { xs: "center", md: "start" },
           }}
         >
           <Button
-            component='a'
+            component="a"
             href={links.istex.url}
-            target='_blank'
-            rel='noreferrer'
+            target="_blank"
+            rel="noreferrer"
             sx={(theme) => ({
               gap: 1,
-              color: 'text.primary',
+              color: "text.primary",
               bgcolor: alpha(theme.palette.colors.blue, 0.2),
               borderRadius: 0,
-              textDecoration: 'none',
-              fontSize: '0.625rem',
-              textTransform: 'uppercase',
+              textDecoration: "none",
+              fontSize: "0.625rem",
+              textTransform: "uppercase",
             })}
           >
             <KeyboardBackspaceIcon />
@@ -100,20 +109,27 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
         </Box>
 
         {/* External resources that only appear on medium and large screens */}
-        <Box sx={{ flexGrow: 1, gap: '1px', justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            gap: "1px",
+            justifyContent: "flex-end",
+            display: { xs: "none", md: "flex" },
+          }}
+        >
           {links.others.map(({ label, url }) => (
             <Button
               key={label}
               onClick={handleCloseNavMenu}
-              component='a'
+              component="a"
               href={url}
-              target='_blank'
-              rel='noreferrer'
+              target="_blank"
+              rel="noreferrer"
               sx={{
-                bgcolor: 'white',
+                bgcolor: "white",
                 borderRadius: 0,
-                color: 'text.primary',
-                fontSize: '0.625rem',
+                color: "text.primary",
+                fontSize: "0.625rem",
               }}
             >
               {label}

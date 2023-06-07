@@ -1,48 +1,48 @@
-import Image from 'next/image';
-import { useTranslations } from 'next-intl';
-import { Box, Container, Grid, Typography } from '@/mui/material';
-import abesLogo from '@/../public/abes.svg';
-import cnrsLogo from '@/../public/cnrs.svg';
-import couperinLogo from '@/../public/couperin.svg';
-import franceUniversitesLogo from '@/../public/france_universites.svg';
-import investissementLogo from '@/../public/investissement.png';
-import mesrLogo from '@/../public/mesr.svg';
-import ulLogo from '@/../public/ul.svg';
-import type { ServerComponent } from '@/types/next';
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { Box, Container, Grid, Typography } from "@/mui/material";
+import abesLogo from "@/../public/abes.svg";
+import cnrsLogo from "@/../public/cnrs.svg";
+import couperinLogo from "@/../public/couperin.svg";
+import franceUniversitesLogo from "@/../public/france_universites.svg";
+import investissementLogo from "@/../public/investissement.png";
+import mesrLogo from "@/../public/mesr.svg";
+import ulLogo from "@/../public/ul.svg";
+import type { ServerComponent } from "@/types/next";
 
-import styles from './Footer.module.scss';
+import styles from "./Footer.module.scss";
 
 const partners = [
   {
     logo: mesrLogo,
-    alt: 'Ministère de l\'Enseignement Supérieur et de la Recherche',
-    url: 'https://www.enseignementsup-recherche.gouv.fr/',
+    alt: "Ministère de l'Enseignement Supérieur et de la Recherche",
+    url: "https://www.enseignementsup-recherche.gouv.fr/",
   },
   {
     logo: cnrsLogo,
-    alt: 'Centre National de la Recherche Scientifique',
-    url: 'https://www.cnrs.fr/',
+    alt: "Centre National de la Recherche Scientifique",
+    url: "https://www.cnrs.fr/",
     width: 64, // The CNRS logo grows more than the others, so it needs to be in a smaller container
   },
   {
     logo: abesLogo,
-    alt: 'Agence Bibliographique de l\'Enseignement Supérieur',
-    url: 'https://www.abes.fr/',
+    alt: "Agence Bibliographique de l'Enseignement Supérieur",
+    url: "https://www.abes.fr/",
   },
   {
     logo: couperinLogo,
-    alt: 'Couperin',
-    url: 'https://www.couperin.org/',
+    alt: "Couperin",
+    url: "https://www.couperin.org/",
   },
   {
     logo: franceUniversitesLogo,
-    alt: 'France Universités',
-    url: 'https://franceuniversites.fr/',
+    alt: "France Universités",
+    url: "https://franceuniversites.fr/",
   },
   {
     logo: ulLogo,
-    alt: 'Université de Lorraine',
-    url: 'https://www.univ-lorraine.fr/',
+    alt: "Université de Lorraine",
+    url: "https://www.univ-lorraine.fr/",
   },
 ];
 
@@ -72,13 +72,13 @@ const Footer: ServerComponent = () => {
               <Box
                 className={styles.partnerLogo}
                 sx={{
-                  margin: 'auto',
-                  position: 'relative',
+                  margin: "auto",
+                  position: "relative",
                   minHeight: 100,
                   maxWidth: width ?? 128,
                 }}
               >
-                <a href={url} target='_blank' rel='noreferrer'>
+                <a href={url} target="_blank" rel="noreferrer">
                   <Image src={logo} alt={alt} fill />
                 </a>
               </Box>
@@ -86,9 +86,12 @@ const Footer: ServerComponent = () => {
           ))}
         </Grid>
 
-        <Box sx={{ textAlign: 'center', paddingY: 3 }}>
-          <Image src={investissementLogo} alt="Programme Investissement d'Avenir" />
-          <Typography>{t('Footer.funding')}: ANR-10-IDEX-0004-02</Typography>
+        <Box sx={{ textAlign: "center", paddingY: 3 }}>
+          <Image
+            src={investissementLogo}
+            alt="Programme Investissement d'Avenir"
+          />
+          <Typography>{t("Footer.funding")}: ANR-10-IDEX-0004-02</Typography>
         </Box>
       </Container>
     </footer>

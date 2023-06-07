@@ -1,8 +1,8 @@
-import { CircularProgress } from '@/mui/material';
-import type { ServerComponent } from '@/types/next';
+import { CircularProgress } from "@/mui/material";
+import type { ServerComponent } from "@/types/next";
 
 const Loading: ServerComponent = () => {
-  return <CircularProgress color='primary' />;
+  return <CircularProgress color="primary" />;
 };
 
 export default Loading;

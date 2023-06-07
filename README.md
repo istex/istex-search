@@ -1,34 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+[![tests](https://github.com/istex/istex-dl/actions/workflows/tests.yml/badge.svg)](https://github.com/istex/istex-dl/actions/workflows/tests.yml)
 
-## Getting Started
+# istex-dl
 
-First, run the development server:
+[Istex-DL](https://dl.istex.fr) is a web application dedicated to Istex sub-corpus extraction. It allows to download several [Istex](https://istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.
 
-```bash
+## Disclaimer
+
+**The version does not reflect what is currently running in production at [dl.istex.fr](https://dl.istex.fr)! We are currently rebuilding the application entirely, if you want to see the code running in production, checkout the [`master` branch](https://github.com/istex/istex-dl/tree/master).**
+
+## Prerequisites
+
+- Development: [Node.js >= 16.8](https://nodejs.org)
+- Production: [docker](https://www.docker.com)
+
+## Development
+
+```
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then the development server is listening on [localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```
+npm run docker:build
+npm run docker:run
+```
 
-## Learn More
+Then the production server is listening on [localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Known limitation**: The `docker-compose.yml` file uses the `npm_package_version` environment variable, which means the docker daemon needs to run in an environment where `npm` is available, which is not ideal.

@@ -31,18 +31,22 @@ export default function ResultDetailExtension ({
       </div>
     ));
   } else {
-    list = Object.entries(documentFormats).map(([itemName, item], index) => (
-      <div className='inline-block relative' key={index}>
-        <a href={item[0].uri} target='_blank' rel='noreferrer'>
-          <img src={`/images/extensions/${item[0].extension}.png`} alt='icone extension' />
-        </a>
-        <span
-          className='absolute italic rotate-[17deg] scale-[0.8] skew-x-[1deg] skew-y-[1deg] translate-x-0 translate-y-0 bg-[#F1DB32] text-istcolor-black text-xs left-0 top-0 -ml-2'
-        >
-          {itemName}
-        </span>
-      </div>
-    ));
+    list = Object.entries(documentFormats).map(([itemName, item], index) => {
+      return item[0]
+        ? (
+          <div className='inline-block relative' key={index}>
+            <a href={item[0].uri} target='_blank' rel='noreferrer'>
+              <img src={`/images/extensions/${item[0].extension}.png`} alt='icone extension' />
+            </a>
+            <span
+              className='absolute italic rotate-[17deg] scale-[0.8] skew-x-[1deg] skew-y-[1deg] translate-x-0 translate-y-0 bg-[#F1DB32] text-istcolor-black text-xs left-0 top-0 -ml-2'
+            >
+              {itemName}
+            </span>
+          </div>
+          )
+        : null;
+    });
   }
 
   return (

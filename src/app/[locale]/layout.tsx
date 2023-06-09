@@ -1,6 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import MuiSetup from "@/mui/setup";
+import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { navbarLinks, type NavbarLinks } from "./NavbarLinks";
@@ -35,6 +36,7 @@ const RootLayout: Layout = ({ children }) => {
       <body>
         <MuiSetup>
           <Navbar links={translatedNavbarLinks} />
+          <Header />
           {children}
           <p>
             Lorem ipsum dolor sit amet, officia excepteur ex fugiat

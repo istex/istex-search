@@ -42,6 +42,14 @@
     "objectifTdm": "Objectif TDM",
     "loterre": "Loterre"
   },
+  "Header": {
+    "subtitle": "<strong>Créez et téléchargez facilement votre corpus scientifique</strong> au sein des collections rétrospectives multilingues et multidisciplinaires de la littérature scientifique mondiale.",
+    "icons": [
+      "Téléchargemet massif de données",
+      "Passerelles vers d'autres outils",
+      "Focus TDM"
+    ]
+  },
   "Footer": {
     "funding": "Financement "
   },

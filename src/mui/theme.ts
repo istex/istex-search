@@ -55,5 +55,8 @@ export default createTheme({
       fontFamily: montserrat.style.fontFamily,
       fontWeight: "bold",
     },
+    subtitle1: {
+      fontFamily: montserrat.style.fontFamily,
+    },
   },
 });

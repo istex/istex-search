@@ -6,6 +6,7 @@
 export { default as Alert } from "@mui/material/Alert";
 export { default as AlertTitle } from "@mui/material/AlertTitle";
 export { default as AppBar } from "@mui/material/AppBar";
+export { default as Avatar } from "@mui/material/Avatar";
 export { default as Box } from "@mui/material/Box";
 export { default as Button } from "@mui/material/Button";
 export { default as CircularProgress } from "@mui/material/CircularProgress";

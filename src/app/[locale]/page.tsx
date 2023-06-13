@@ -7,7 +7,7 @@ const HomePage: Page = () => {
   const t = useTranslations("Home");
 
   return (
-    <Container component="main">
+    <Container>
       <Typography variant="h3" py={3}>
         {t("title")}
       </Typography>

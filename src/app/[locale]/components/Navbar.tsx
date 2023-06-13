@@ -32,7 +32,10 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
   };
 
   return (
-    <AppBar sx={{ position: "sticky", bgcolor: "colors.white" }}>
+    <AppBar
+      component="nav"
+      sx={{ position: "sticky", bgcolor: "colors.white" }}
+    >
       <Container sx={{ display: "flex", fontSize: "0.625rem" }}>
         {/* Burger menu that only appears on small screens */}
         <Box sx={{ display: { xs: "flex", md: "none" } }}>

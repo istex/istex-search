@@ -37,7 +37,7 @@ const RootLayout: Layout = ({ children }) => {
         <MuiSetup>
           <Navbar links={translatedNavbarLinks} />
           <Header />
-          {children}
+          <main>{children}</main>
           <Footer />
         </MuiSetup>
       </body>

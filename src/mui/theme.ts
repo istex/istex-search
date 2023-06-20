@@ -1,5 +1,5 @@
 import createTheme from "@mui/material/styles/createTheme";
-import { Montserrat, Open_Sans } from "next/font/google";
+import { montserrat, openSans } from "./fonts";
 
 const colors = {
   green: {
@@ -13,15 +13,6 @@ const colors = {
   },
   white: "#f0f0f0",
 } as const;
-
-const montserrat = Montserrat({
-  weight: ["400", "500", "600"],
-  subsets: ["latin", "latin-ext"],
-});
-
-const openSans = Open_Sans({
-  subsets: ["latin", "latin-ext"],
-});
 
 // Extend the PaletteOptions definition with our custom colors
 declare module "@mui/material/styles/createPalette" {

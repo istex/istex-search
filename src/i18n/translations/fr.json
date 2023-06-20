@@ -1,7 +1,23 @@
 {
   "Home": {
     "title": "Bonjour Istex-DL !",
-    "goToResults": "Aller aux résultats"
+    "goToResults": "Aller aux résultats",
+    "CorpusSection": {
+      "corpus": {
+        "title": "Gagnez du temps pour vos recherches",
+        "subtitle": "grâce à notre collection de corpus \"prêts-à-l'emploi\"",
+        "seeMoreButton": "TOUT VOIR",
+        "contactButton": "CORPUS À LA DEMANDE, CONTACTEZ-NOUS"
+      },
+      "gateways": {
+        "title": "Adaptez votre téléchargement à votre usage",
+        "subtitle": "À l'aide des passerelles réalisées vers des outils du monde académique",
+        "paragraph": "Actuellement, 2 passerelles sont propsées : Lodex, pour une analyse graphique en vue d'explorer de votre corpus ; CorTexT plateforme d'outils pour une analyse multidimensionnelle...",
+        "buttonTop": "Pour plus d'informations sur ces outils :",
+        "gatewaySuggestion": "Vous souhaitez faire une suggestion de passerelle vers un outil\u00a0?",
+        "contactButton": "CONTACTEZ-NOUS"
+      }
+    }
   },
   "results": {
     "ResultsLayout": {
@@ -55,6 +71,14 @@
   },
   "Metadata": {
     "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
+  },
+  "usages": {
+    "lodex": {
+      "label": "Lodex"
+    },
+    "cortext": {
+      "label": "CorTexT"
+    }
   },
   "NotFound": {
     "title": "Erreur",

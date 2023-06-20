@@ -27,6 +27,7 @@ export { default as ListItemButton } from "@mui/material/ListItemButton";
 export { default as ListItemText } from "@mui/material/ListItemText";
 export { default as Menu } from "@mui/material/Menu";
 export { default as MenuItem } from "@mui/material/MenuItem";
+export { default as Paper } from "@mui/material/Paper";
 export { default as Select } from "@mui/material/Select";
 export { default as Slide } from "@mui/material/Slide";
 export { default as Typography } from "@mui/material/Typography";

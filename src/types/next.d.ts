@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { PropsWithChildren } from "react";
 import type { URLSearchParams } from "url";
+import type { ReplaceReturnType } from "./utility";
 
 export type GenerateMetadata<T = Record<string, never>> = (props: {
   params: T;
@@ -32,11 +33,3 @@ export type DynamicRoutePage<T> = ServerComponent<{ params: T }>;
 
 // A layout is a normal ServerComponent but children are required
 export type Layout = ServerComponent<unknown, true>;
-
-/**
- * Utility types
- */
-
-type ReplaceReturnType<T extends (...args: any) => any, TNewReturn> = (
-  ...args: Parameters<T>
-) => TNewReturn;

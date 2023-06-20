@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { Avatar, Box, Container, Typography } from "@/mui/material";
 import { DownloadIcon } from "@/mui/icons-material";
 import istexDlLogo from "@/../public/istex-dl.svg";
+import headerBackground from "@/../public/header-background.jpg";
 import type { ServerComponent } from "@/types/next";
 
 const icons = [
@@ -31,7 +32,7 @@ const Header: ServerComponent = () => {
     <Box
       component="header"
       sx={{
-        backgroundImage: "url(/header-background.jpg)",
+        backgroundImage: `url(${headerBackground.src})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

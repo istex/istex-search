@@ -10,7 +10,8 @@
     "lint": "next lint",
     "docker:build": "docker build -t istex/istex-dl:$npm_package_version .",
     "docker:run": "docker compose up -d",
-    "docker:stop": "docker compose stop"
+    "docker:stop": "docker compose stop",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -25,6 +26,8 @@
     "sharp": "^0.32.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.6.5",
+    "@commitlint/config-conventional": "^17.6.5",
     "@types/node": "20.1.2",
     "@types/react": "^18.2.8",
     "@types/react-dom": "18.2.4",
@@ -34,6 +37,7 @@
     "eslint-config-standard-jsx": "^11.0.0",
     "eslint-config-standard-react": "^13.0.0",
     "eslint-config-standard-with-typescript": "34.0.1",
+    "husky": "^8.0.0",
     "prettier": "2.8.8",
     "typescript": "^5.1.3"
   }

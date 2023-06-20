@@ -162,6 +162,12 @@ export const usages = {
       formats.enrichments.formats.teeft.value,
     tags: ['TDM'],
   },
+  gargantext: {
+    label: 'Gargantext',
+    description: 'TO BE DETERMINED!!!',
+    selectedFormats: formats.metadata.formats.json.value,
+    tags: ['TDM'],
+  },
 };
 
 export const supportedIdTypes = {

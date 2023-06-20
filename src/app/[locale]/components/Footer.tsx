@@ -10,8 +10,6 @@ import mesrLogo from "@/../public/mesr.svg";
 import ulLogo from "@/../public/ul.svg";
 import type { ServerComponent } from "@/types/next";
 
-import styles from "./Footer.module.scss";
-
 const partners = [
   {
     logo: mesrLogo,
@@ -59,7 +57,18 @@ const Footer: ServerComponent = () => {
   const t = useTranslations();
 
   return (
-    <footer className={styles.footer}>
+    <Box
+      component="footer"
+      sx={{
+        "&:before": {
+          content: '""',
+          display: "block",
+          height: "0.5rem",
+          width: "100%",
+          background: "linear-gradient(to right, #458ca5 50%, #c4d733)",
+        },
+      }}
+    >
       <Container sx={{ paddingY: 3 }}>
         <Grid container spacing={2}>
           {partners.map(({ logo, alt, url, width }) => (
@@ -70,7 +79,6 @@ const Footer: ServerComponent = () => {
               md={MAX_ITEMS_PER_LINE / partners.length}
             >
               <Box
-                className={styles.partnerLogo}
                 sx={{
                   margin: "auto",
                   position: "relative",
@@ -78,8 +86,24 @@ const Footer: ServerComponent = () => {
                   maxWidth: width ?? 128,
                 }}
               >
-                <a href={url} target="_blank" rel="noreferrer">
-                  <Image src={logo} alt={alt} fill />
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <Image
+                    src={logo}
+                    alt={alt}
+                    fill
+                    style={{
+                      objectFit: "contain",
+                    }}
+                  />
                 </a>
               </Box>
             </Grid>
@@ -94,7 +118,7 @@ const Footer: ServerComponent = () => {
           <Typography>{t("Footer.funding")}: ANR-10-IDEX-0004-02</Typography>
         </Box>
       </Container>
-    </footer>
+    </Box>
   );
 };
 

@@ -5,8 +5,6 @@ import { DownloadIcon } from "@/mui/icons-material";
 import istexDlLogo from "@/../public/istex-dl.svg";
 import type { ServerComponent } from "@/types/next";
 
-import styles from "./Header.module.scss";
-
 const icons = [
   {
     component: DownloadIcon,
@@ -30,7 +28,15 @@ const Header: ServerComponent = () => {
   });
 
   return (
-    <header className={styles.header}>
+    <Box
+      component="header"
+      sx={{
+        backgroundImage: "url(/header-background.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <Container sx={{ paddingY: 2 }}>
         <Box
           sx={{
@@ -70,7 +76,7 @@ const Header: ServerComponent = () => {
           </Box>
         </Box>
       </Container>
-    </header>
+    </Box>
   );
 };
 

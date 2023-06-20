@@ -35,7 +35,6 @@
     "eslint-config-standard-react": "^13.0.0",
     "eslint-config-standard-with-typescript": "34.0.1",
     "prettier": "2.8.8",
-    "sass": "^1.62.1",
     "typescript": "^5.1.3"
   }
 }

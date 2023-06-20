@@ -46,7 +46,7 @@ export default function Usage ({ usageInfo }) {
                 {usageInfo.description && (
                   <RadioGroup.Description
                     as='span'
-                    className='text-xs pt-3'
+                    className='text-xs text-center pt-3'
                   >
                     {usageInfo.description}
                   </RadioGroup.Description>

@@ -92,7 +92,6 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
           }}
         >
           <Button
-            component="a"
             href={links.istex.url}
             target="_blank"
             rel="noreferrer"
@@ -124,7 +123,6 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
             <Button
               key={label}
               onClick={handleCloseNavMenu}
-              component="a"
               href={url}
               target="_blank"
               rel="noreferrer"

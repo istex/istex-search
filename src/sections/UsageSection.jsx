@@ -154,13 +154,13 @@ export default function UsageSection () {
           </Tooltip>
         </div>
       )}
-      <div className='flex flex-col md:flex-row mt-4'>
+      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mt-4'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}
           >
             {shouldDisplayUsage && (
-              <div onClick={() => { handleDisplayingOfUsage(usageName); }}>
+              <div className='h-full' onClick={() => { handleDisplayingOfUsage(usageName); }}>
                 <Usage usageInfo={{ name: usageName, ...usages[usageName] }} />
               </div>
             )}

@@ -164,7 +164,7 @@ export const usages = {
   },
   gargantext: {
     label: 'Gargantext',
-    description: 'TO BE DETERMINED!!!',
+    description: 'Plateforme d\'outils / Exploration interactive de corpus',
     selectedFormats: formats.metadata.formats.json.value,
     tags: ['TDM'],
   },

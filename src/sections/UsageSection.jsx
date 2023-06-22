@@ -154,7 +154,7 @@ export default function UsageSection () {
           </Tooltip>
         </div>
       )}
-      <div className='grid grid-cols-2 md:grid-cols-3 gap-3 mt-4'>
+      <div className='grid grid-cols-2 gap-6 lg:gap-3 lg:grid-cols-4 mt-4'>
         {Object.keys(usages).map(usageName => (
           <div
             key={usageName}

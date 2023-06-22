@@ -21,7 +21,7 @@ export default function Usage ({ usageInfo }) {
     <RadioGroup
       value={usage}
       onChange={usageChangedHandler}
-      className='h-full b-2 md:mb-0 md:mr-5 cursor-pointer'
+      className='h-full b-2 md:mb-0 cursor-pointer'
       name='usages'
     >
       <RadioGroup.Option

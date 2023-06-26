@@ -17,6 +17,29 @@
         "gatewaySuggestion": "Vous souhaitez faire une suggestion de passerelle vers un outil\u00a0?",
         "contactButton": "CONTACTEZ-NOUS"
       }
+    },
+    "DownloadSection": {
+      "title": "Téléchargement de vos données en 3 étapes",
+      "body": "Tous les établissements de l'enseignement supérieur et de la recherche française sont ayants droit aux ressources Istex qu'elles soient disponibles sur les sites éditeurs ou sur la plateforme Istex. Ils sont inscrits auprès de l'Abes dès la création de leur compte pour les licenses nationales.",
+      "downloadSteps": [
+        {
+          "title": "Plusieurs modes de recherche",
+          "body": "Recherche simple, recherche assistée, import de corpus... Télécharger en 3 étapes."
+        },
+        {
+          "title": "Exploration des résultats de votre recherche",
+          "body": "Une sélection de facettes et d'indicateurs vous permet d'analyser le contenu de votre corpus et d'affiner votre requête en direct pour obtenir un corpus de qualité."
+        },
+        {
+          "title": "Téléchargement massif de vos données",
+          "body": "Télécharger jusqu'à 100 000 documents pour exploiter leur métadonnées, leurs textes intégraux ou leurs enrichissements."
+        }
+      ]
+    },
+    "CourseSection": {
+      "title": "Besoin de mieux maîtriser l'outil Istex-DL ?",
+      "body": "L'équipe Istex vous propse des formations sur la méthodologie de constitution de corpus en exploitant toute la richesse des services associés à Istex.",
+      "button": "DÉCOUVRIR LES FORMATIONS"
     }
   },
   "results": {

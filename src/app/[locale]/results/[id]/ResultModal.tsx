@@ -53,7 +53,7 @@ const ResultModal: ClientComponent<ResultModalProps> = ({ result }) => {
       </DialogContent>
       <DialogActions>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon sx={{ color: "colors.green.dark" }} />
+          <FavoriteIcon sx={{ color: "colors.darkGreen" }} />
         </IconButton>
       </DialogActions>
     </Dialog>

@@ -1,5 +1,5 @@
-// Hopefully temporary next-intl link custom exporter to make it a client component.
-// This is needed until a fix is pushed for the issue described here: https://github.com/amannn/next-intl/issues/319
+// next-intl link custom exporter to make it a client component.
+// This is needed to pass a next-intl link as a prop to another component (needed for MUI composition).
 
 "use client";
 

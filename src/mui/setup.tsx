@@ -16,30 +16,26 @@ const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
     return cache;
   });
 
-  useServerInsertedHTML(() => {
-    return (
-      <style
-        key={cache.key}
-        data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
-        dangerouslySetInnerHTML={{
-          __html: Object.values(cache.inserted).join(" "),
-        }}
-      />
-    );
-  });
+  useServerInsertedHTML(() => (
+    <style
+      key={cache.key}
+      data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
+      dangerouslySetInnerHTML={{
+        __html: Object.values(cache.inserted).join(" "),
+      }}
+    />
+  ));
 
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 };
 
-const MuiSetup: ClientComponent<unknown, true> = ({ children }) => {
-  return (
-    <EmotionCacheProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </EmotionCacheProvider>
-  );
-};
+const MuiSetup: ClientComponent<unknown, true> = ({ children }) => (
+  <EmotionCacheProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  </EmotionCacheProvider>
+);
 
 export default MuiSetup;

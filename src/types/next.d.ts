@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import type { PropsWithChildren } from "react";
 import type { URLSearchParams } from "url";
-import type { ReplaceReturnType } from "./utility";
+import type { PropsWithRequiredChildren, ReplaceReturnType } from "./utility";
 
 export type GenerateMetadata<T = Record<string, never>> = (props: {
   params: T;
@@ -9,7 +8,7 @@ export type GenerateMetadata<T = Record<string, never>> = (props: {
 }) => Promise<Metadata>;
 
 export type ClientComponent<TProps = unknown, WithChildren = false> = React.FC<
-  WithChildren extends true ? Required<PropsWithChildren<TProps>> : TProps
+  WithChildren extends true ? PropsWithRequiredChildren<TProps> : TProps
 >;
 
 // A ServerComponent is just like a ClientComponent but can either return what a

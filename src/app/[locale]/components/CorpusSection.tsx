@@ -4,8 +4,9 @@ import { Box, Container, Typography } from "@/mui/material";
 import Button from "@/components/Button";
 import CorpusGrid from "./CorpusGrid";
 import { usages } from "@/config";
+import type { BoxProps } from "@mui/material/Box";
+import type { TypographyProps } from "@mui/material/Typography";
 import type { ClientComponent, ServerComponent } from "@/types/next";
-import type { BoxProps, TypographyProps } from "@mui/material";
 
 const CorpusSection: ServerComponent = () => {
   const t = useTranslations("Home.CorpusSection");
@@ -38,7 +39,9 @@ const CorpusSection: ServerComponent = () => {
           </div>
 
           <Box sx={{ display: "flex", gap: 2, pt: 2 }}>
-            <CorpusButton>{t("corpus.seeMoreButton")}</CorpusButton>
+            <CorpusButton href="https://corpus-actualite.corpus.istex.fr/">
+              {t("corpus.seeMoreButton")}
+            </CorpusButton>
             <CorpusButton>{t("corpus.contactButton")}</CorpusButton>
           </Box>
         </Article>
@@ -88,8 +91,18 @@ const Paragraph: ClientComponent<
   Omit<TypographyProps, "variant" | "paragraph">
 > = (props) => <Typography variant="body2" paragraph {...props} />;
 
-const CorpusButton: ClientComponent<unknown, true> = ({ children }) => (
-  <Button mainColor="colors.blue" secondaryColor="colors.white">
+const CorpusButton: ClientComponent<{ href?: string }, true> = ({
+  href,
+  children,
+}) => (
+  <Button
+    variant="outlined"
+    mainColor="blue"
+    secondaryColor="white"
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+  >
     {children}
   </Button>
 );
@@ -99,8 +112,9 @@ const GatewayButton: ClientComponent<{ href: string }, true> = ({
   children,
 }) => (
   <Button
-    mainColor="colors.white"
-    secondaryColor="colors.blue"
+    variant="outlined"
+    mainColor="white"
+    secondaryColor="blue"
     href={href}
     target="_blank"
     rel="noreferrer"

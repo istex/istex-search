@@ -8,4 +8,12 @@ const withNextIntl = require("next-intl/plugin")(
 /** @type {import('next').NextConfig} */
 module.exports = withNextIntl({
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      },
+    ],
+  },
 });

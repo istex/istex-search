@@ -2,6 +2,8 @@ import NextLink from "next/link";
 import { useTranslations } from "next-intl";
 import { Container, Link, Typography } from "@/mui/material";
 import CorpusSection from "./components/CorpusSection";
+import DownloadSection from "./components/DownloadSection";
+import CourseSection from "./components/CourseSection";
 import type { Page } from "@/types/next";
 
 const HomePage: Page = () => {
@@ -20,6 +22,8 @@ const HomePage: Page = () => {
       </Container>
 
       <CorpusSection />
+      <DownloadSection />
+      <CourseSection />
     </>
   );
 };

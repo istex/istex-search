@@ -67,7 +67,7 @@ const Header: ServerComponent = () => {
                   sx={{
                     m: "auto",
                     bgcolor: "colors.white",
-                    color: "colors.black.light",
+                    color: "colors.lightBlack",
                   }}
                 >
                   <icon.component />

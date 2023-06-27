@@ -30,7 +30,7 @@ export default function Usage ({ usageInfo }) {
       >
         {({ active, checked }) => (
           <>
-            <div className={`flex flex-col justify-start items-center w-full h-full p-2 bg-white border-[3px] border-b-0${checked ? ' border-istcolor-green-dark' : ' border-white'}`}>
+            <div className={`flex flex-col justify-start items-center w-full h-full py-2 px-4 bg-white border-[3px] border-b-0${checked ? ' border-istcolor-green-dark' : ' border-white'}`}>
               <div className='w-full flex justify-end gap-1'>
                 {usageInfo.tags.map(tag => (
                   <span key={tag} className='text-xs font-bold p-2 text-center text-istcolor-grey-link bg-istcolor-white'>{tag}</span>

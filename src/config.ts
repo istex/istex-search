@@ -1,13 +1,6 @@
-// TODO: Refactor the usage structure to be like the query modes (array of readonly keys)
+export type Usage = (typeof usages)[number];
 
-export interface Usage {
-  name: "lodex" | "cortext";
-  label: string;
-  isGateway: boolean;
-  url: string;
-}
-
-export const usages: Usage[] = [
+export const usages = [
   {
     name: "lodex",
     label: "lodex.label",
@@ -20,7 +13,7 @@ export const usages: Usage[] = [
     isGateway: true,
     url: "https://cortext.net/",
   },
-];
+] as const;
 
 export type QueryMode = (typeof queryModes)[number];
 

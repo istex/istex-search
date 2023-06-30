@@ -1,58 +1,59 @@
 "use client";
 
 import { Button as MuiButton } from "@/mui/material";
-import { lighten, useTheme } from "@mui/material/styles";
+import { lighten, styled } from "@mui/material/styles";
+import type { HTMLAttributeAnchorTarget } from "react";
 import type { Palette } from "@mui/material/styles";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-import type { HTMLAttributeAnchorTarget } from "react";
 import type { ClientComponent } from "@/types/next";
 import type { KeyOf } from "@/types/utility";
 
-type ButtonProps = Omit<MuiButtonProps, "sx"> & {
+interface CustomButtonProps extends MuiButtonProps {
   mainColor: KeyOf<Palette["colors"]>;
   secondaryColor: KeyOf<Palette["colors"]>;
   target?: HTMLAttributeAnchorTarget;
-};
+}
 
-const Button: ClientComponent<ButtonProps> = (props) => {
-  const theme = useTheme();
-  const { mainColor, secondaryColor, ...rest } = props;
-  let { variant } = props;
+// Wrapper component to change the default value of the 'variant' prop from 'text' to 'contained'
+const CustomButton: ClientComponent<CustomButtonProps> = (props) => {
+  let { variant, mainColor, secondaryColor, ...rest } = props;
 
-  // Change the default value of 'variant' from 'text' to 'contained'
   if (variant == null) {
     variant = "contained";
   }
 
-  // Custom palette colors are under theme.palette.colors
-  const actualMainColor = `colors.${mainColor}`;
-  const actualSecondaryColor = `colors.${secondaryColor}`;
+  return <MuiButton variant={variant} {...rest} />;
+};
 
-  let sxProp: MuiButtonProps["sx"];
-  if (variant === "outlined") {
-    sxProp = {
-      borderColor: actualMainColor,
-      color: actualMainColor,
-      "&:hover": {
-        bgcolor: actualMainColor,
-        color: actualSecondaryColor,
-      },
-    };
-  } else {
-    sxProp = {
-      bgcolor: actualMainColor,
-      color: actualSecondaryColor,
+const Button = styled(CustomButton)<CustomButtonProps>(
+  ({ variant, mainColor, secondaryColor, theme }) => {
+    const _mainColor = theme.palette.colors[mainColor];
+    const _secondaryColor = theme.palette.colors[secondaryColor];
+
+    if (variant === "outlined") {
+      return {
+        borderColor: _mainColor,
+        color: _mainColor,
+        "&:hover": {
+          backgroundColor: _mainColor,
+          borderColor: _mainColor,
+          color: _secondaryColor,
+        },
+      };
+    }
+
+    return {
+      backgroundColor: _mainColor,
+      color: _secondaryColor,
       "&:hover": {
         background: `linear-gradient(to left, ${lighten(
-          theme.palette.colors[mainColor],
+          _mainColor,
           0.15
-        )}, ${theme.palette.colors[mainColor]})`,
-        bgcolor: actualMainColor,
+        )}, ${_mainColor})`,
+        backgroundColor: _mainColor,
       },
     };
   }
-
-  return <MuiButton variant={variant} sx={sxProp} {...rest} />;
-};
+);
 
 export default Button;

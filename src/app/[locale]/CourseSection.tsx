@@ -35,7 +35,6 @@ const CourseSection: ServerComponent = () => {
           {t("body")}
         </Typography>
         <Button
-          variant="contained"
           mainColor="blue"
           secondaryColor="white"
           href="https://www.istex.fr/fouille-de-texte/#ancre6"

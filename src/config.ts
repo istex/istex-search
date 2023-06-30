@@ -1,3 +1,5 @@
+// TODO: Refactor the usage structure to be like the query modes (array of readonly keys)
+
 export interface Usage {
   name: "lodex" | "cortext";
   label: string;
@@ -19,3 +21,11 @@ export const usages: Usage[] = [
     url: "https://cortext.net/",
   },
 ];
+
+export type QueryMode = (typeof queryModes)[number];
+
+export const queryModes = [
+  {
+    name: "search",
+  },
+] as const;

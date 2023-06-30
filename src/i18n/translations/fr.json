@@ -1,7 +1,5 @@
 {
   "Home": {
-    "title": "Bonjour Istex-DL !",
-    "goToResults": "Aller aux résultats",
     "CorpusSection": {
       "corpus": {
         "title": "Gagnez du temps pour vos recherches",
@@ -40,6 +38,21 @@
       "title": "Besoin de mieux maîtriser l'outil Istex-DL ?",
       "body": "L'équipe Istex vous propse des formations sur la méthodologie de constitution de corpus en exploitant toute la richesse des services associés à Istex.",
       "button": "DÉCOUVRIR LES FORMATIONS"
+    }
+  },
+  "SearchForm": {
+    "SearchInput": {
+      "RegularSearchInput": {
+        "placeholder": "Recherche par mot-clé, auteur, nom de revue, requête booléenne...",
+        "button": "RECHERCHER",
+        "emptyQueryError": "Veuillez renseigner une requête"
+      },
+      "switch": "Assistant"
+    },
+    "ImportInput": {
+      "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
+      "button": "RECHERCHER",
+      "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"
     }
   },
   "results": {
@@ -84,7 +97,7 @@
   "Header": {
     "subtitle": "<strong>Créez et téléchargez facilement votre corpus scientifique</strong> au sein des collections rétrospectives multilingues et multidisciplinaires de la littérature scientifique mondiale.",
     "icons": [
-      "Téléchargemet massif de données",
+      "Téléchargement massif de données",
       "Passerelles vers d'autres outils",
       "Focus TDM"
     ]
@@ -101,6 +114,14 @@
     },
     "cortext": {
       "label": "CorTexT"
+    }
+  },
+  "queryModes": {
+    "search": {
+      "label": "Recherche"
+    },
+    "import": {
+      "label": "Import"
     }
   },
   "NotFound": {

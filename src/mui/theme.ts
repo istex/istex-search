@@ -34,6 +34,12 @@ declare module "@mui/material/styles/createPalette" {
 export default createTheme({
   palette: {
     colors,
+    primary: {
+      main: colors.blue,
+    },
+    secondary: {
+      main: colors.lightGreen,
+    },
     common: {
       black: colors.darkBlack,
       white: colors.white,

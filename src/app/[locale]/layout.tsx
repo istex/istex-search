@@ -4,6 +4,7 @@ import MuiSetup from "@/mui/setup";
 import Header from "./Header";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import SearchSection from "./SearchSection";
 import { navbarLinks, type NavbarLinks } from "./Navbar/NavbarLinks";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
@@ -37,7 +38,10 @@ const RootLayout: Layout = ({ children }) => {
         <MuiSetup>
           <Navbar links={translatedNavbarLinks} />
           <Header />
-          <main>{children}</main>
+          <main>
+            <SearchSection />
+            {children}
+          </main>
           <Footer />
         </MuiSetup>
       </body>

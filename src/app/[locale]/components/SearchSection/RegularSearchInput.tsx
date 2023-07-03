@@ -5,6 +5,7 @@ import {
   type FormEventHandler,
   type ChangeEventHandler,
 } from "react";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next-intl/client";
 import { Box, TextField } from "@/mui/material";
 import Button from "@/components/Button";
@@ -19,7 +20,8 @@ export interface RegularSearchInputLabels {
 const RegularSearchInput: ClientComponent<{
   labels: RegularSearchInputLabels;
 }> = ({ labels }) => {
-  const [queryString, setQueryString] = useState("");
+  const searchParams = useSearchParams();
+  const [queryString, setQueryString] = useState(searchParams.get("q") ?? "");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -31,9 +33,9 @@ const RegularSearchInput: ClientComponent<{
       return;
     }
 
-    const searchParams = new URLSearchParams({ q: queryString });
-
-    router.push(`/results?${searchParams.toString()}`);
+    router.push(
+      `/results?${new URLSearchParams({ q: queryString }).toString()}`
+    );
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {

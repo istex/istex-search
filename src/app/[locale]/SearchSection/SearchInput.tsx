@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, type ChangeEventHandler } from "react";
 import { FormControlLabel, Switch } from "@/mui/material";
 import AssistedSearchInput from "./AssistedSearchInput";

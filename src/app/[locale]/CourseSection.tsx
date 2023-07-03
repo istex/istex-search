@@ -24,7 +24,11 @@ const CourseSection: ServerComponent = () => {
           py: 8,
         }}
       >
-        <Typography variant="h4" sx={{ color: "colors.lightGreen", mb: 2 }}>
+        <Typography
+          variant="h4"
+          component="h2"
+          sx={{ color: "colors.lightGreen", mb: 2 }}
+        >
           {t("title")}
         </Typography>
         <Typography

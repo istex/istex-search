@@ -22,3 +22,7 @@ export const queryModes = [
     name: "search",
   },
 ] as const;
+
+export const istexApiConfig = {
+  baseUrl: "https://api.istex.fr",
+} as const;

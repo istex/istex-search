@@ -1,11 +1,75 @@
-import { useTranslations } from "next-intl";
-import { Typography } from "@/mui/material";
-import type { Page } from "@/types/next";
+import { getTranslations } from "next-intl/server";
+import { Box } from "@/mui/material";
+import ResultCard, { type Result } from "./components/ResultCard";
+import { buildResultPreviewUrl } from "@/lib/istexApi";
+import type { GenerateMetadata, Page } from "@/types/next";
 
-const ResultsPage: Page = () => {
-  const t = useTranslations("results.ResultsPage");
+interface IstexApiResponse {
+  total: number;
+  hits: Result[];
+}
 
-  return <Typography>{t("selectResult")}</Typography>;
+async function getResults(queryString: string): Promise<IstexApiResponse> {
+  const t = await getTranslations("results");
+
+  // Create the URL
+  const url = buildResultPreviewUrl({
+    queryString,
+    size: 10,
+    fields: ["title", "host.title", "author", "abstract"],
+  });
+
+  // API call
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`API responded with a ${response.status} status code!`);
+  }
+
+  // Fill some missing fields with placeholder texts
+  const body: IstexApiResponse = await response.json();
+  body.hits.forEach((result) => {
+    result.title ??= t("placeholders.noTitle");
+    result.abstract ??= t("placeholders.noAbstract");
+  });
+
+  return body;
+}
+
+export const generateMetadata: GenerateMetadata = async () => {
+  const t = await getTranslations("results.metadata");
+
+  return {
+    title: `Istex-DL - ${t("title")}`,
+  };
+};
+
+const ResultsPage: Page = async ({ searchParams }) => {
+  const queryString = Array.isArray(searchParams.q)
+    ? searchParams.q[0]
+    : searchParams.q;
+
+  if (queryString == null) {
+    throw new Error(
+      "A query string needs to be provided through the 'q' search parameter!"
+    );
+  }
+
+  const results = await getResults(queryString);
+
+  return (
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+        gridTemplateRows: { xs: "repeat(10, 1fr)", sm: "repeat(5, 1fr)" },
+        gap: 2,
+      }}
+    >
+      {results.hits.map((result) => (
+        <ResultCard key={result.id} info={result} />
+      ))}
+    </Box>
+  );
 };
 
 export default ResultsPage;

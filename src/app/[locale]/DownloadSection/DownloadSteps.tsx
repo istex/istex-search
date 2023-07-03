@@ -15,7 +15,11 @@ const DownloadSteps: ServerComponent = () => {
           .fill(0)
           .map((_, i) => (
             <DownloadStepCard key={t(`${i}.title`)} index={i}>
-              <Typography variant="h6" sx={{ lineHeight: 1.2, mb: 1 }}>
+              <Typography
+                variant="h6"
+                component="h3"
+                sx={{ lineHeight: 1.2, mb: 1 }}
+              >
                 {t(`${i}.title`)}
               </Typography>
               <Typography variant="body2">{t(`${i}.body`)}</Typography>

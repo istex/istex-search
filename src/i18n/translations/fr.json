@@ -56,35 +56,13 @@
     }
   },
   "results": {
-    "ResultsLayout": {
-      "title": "Résultats",
-      "goToHome": "Aller à l'accueil"
+    "metadata": {
+      "title": "Résultats"
     },
-    "ResultsPage": {
-      "selectResult": "Sélectionnez un résultat !"
-    },
-    "ResultsData": [
-      {
-        "name": "Résultat 1",
-        "description": "description de résultat 1"
-      },
-      {
-        "name": "Résultat 2",
-        "description": "description de résultat 2"
-      },
-      {
-        "name": "Résultat 3",
-        "description": "description de résultat 3"
-      },
-      {
-        "name": "Résultat 4",
-        "description": "description de résultat 4"
-      },
-      {
-        "name": "Résultat 5",
-        "description": "description plus longue de résultat 5"
-      }
-    ]
+    "placeholders": {
+      "noTitle": "Sans titre",
+      "noAbstract": "Pas de résumé"
+    }
   },
   "Navbar": {
     "istex": "Accès istex.fr",

@@ -1,11 +1,12 @@
 import createTheme from "@mui/material/styles/createTheme";
 import { montserrat, openSans } from "./fonts";
-import { type TypographyStyleOptions } from "@mui/material/styles/createTypography";
+import type { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 
 const colors = {
   darkGreen: "#a9bb1e",
   lightGreen: "#c4d733",
   blue: "#458ca5",
+  grey: "#8f8f8f",
   darkBlack: "#1d1d1d",
   lightBlack: "#4a4a4a",
   white: "#f0f0f0",

@@ -37,7 +37,7 @@ const DownloadSection: ServerComponent = () => {
             py: 8,
           }}
         >
-          <Typography variant="h5" mb={2}>
+          <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
             {t("title")}
           </Typography>
           <Typography variant="body2" paragraph>

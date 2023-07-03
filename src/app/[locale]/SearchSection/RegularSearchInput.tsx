@@ -1,8 +1,11 @@
+"use client";
+
 import {
   useState,
   type FormEventHandler,
   type ChangeEventHandler,
 } from "react";
+import { useRouter } from "next-intl/client";
 import { Box, TextField } from "@/mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
@@ -18,13 +21,19 @@ const RegularSearchInput: ClientComponent<{
 }> = ({ labels }) => {
   const [queryString, setQueryString] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     if (queryString.trim() === "") {
       setErrorMessage(labels.emptyQueryError);
+      return;
     }
+
+    const searchParams = new URLSearchParams({ q: queryString });
+
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {

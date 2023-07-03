@@ -79,9 +79,9 @@ const CorpusSection: ServerComponent = () => {
   );
 };
 
-const Title: ClientComponent<Omit<TypographyProps, "variant">> = (props) => (
-  <Typography variant="h5" {...props} />
-);
+const Title: ClientComponent<
+  Omit<TypographyProps & { component?: React.ElementType }, "variant">
+> = (props) => <Typography variant="h5" component="h3" {...props} />;
 
 const Article: ClientComponent<Omit<BoxProps, "component" | "pt" | "pb">> = (
   props

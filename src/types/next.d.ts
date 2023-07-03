@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import type { URLSearchParams } from "url";
 import type { PropsWithRequiredChildren, ReplaceReturnType } from "./utility";
 
-export type GenerateMetadata<T = Record<string, never>> = (props: {
-  params: T;
-  searchParams: URLSearchParams;
+export type GenerateMetadata<T = Record<string, unknown>> = (props: {
+  params: T & { locale: string };
+  searchParams: Record<string, string | string[] | undefined>;
 }) => Promise<Metadata>;
 
 export type ClientComponent<TProps = unknown, WithChildren = false> = React.FC<
@@ -24,11 +23,16 @@ export type ServerComponent<
   _RetType | Promise<_RetType>
 >;
 
-// A Page is a ServerComponent that does take any props (so no children)
-export type Page = ServerComponent<never>;
+// A Page is a ServerComponent that takes an object with the dynamic route parameter (if there
+// is one) and the locale but no children.
+// Examples:
+//   /fr/results/123 => { params: { id: "123", locale: "fr" }}
+//   /fr/results     => { params: { locale: "fr" }}
+//   /results        => { params: { locale: "fr" }} (locale is implicit here)
+export type Page<T extends object = Record<string, unknown>> = ServerComponent<{
+  params: T & { locale: string };
+  searchParams: Record<string, string | string[] | undefined>;
+}>;
 
-// A DynamicRoutePage is a ServerComponent that takes `params` as props but no children
-export type DynamicRoutePage<T> = ServerComponent<{ params: T }>;
-
-// A layout is a normal ServerComponent but children are required
+// A Layout is a normal ServerComponent but children are required.
 export type Layout = ServerComponent<unknown, true>;

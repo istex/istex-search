@@ -34,7 +34,11 @@ const SearchInput: ClientComponent<{ labels: SearchInputLabels }> = ({
 
       <FormControlLabel
         control={
-          <Switch value={isAssistedSearch} onChange={toggleAssistedSearch} />
+          <Switch
+            id="assisted-search-toggle"
+            value={isAssistedSearch}
+            onChange={toggleAssistedSearch}
+          />
         }
         label={labels.switch}
         labelPlacement="bottom"

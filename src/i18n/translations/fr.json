@@ -43,7 +43,8 @@
   "SearchForm": {
     "SearchInput": {
       "RegularSearchInput": {
-        "title": "Créez votre requête en quelques clics",
+        "searchTitle": "Créez votre requête en quelques clics",
+        "resultsTitle": "Résultats de votre requête",
         "placeholder": "Recherche par mot-clé, auteur, nom de revue, requête booléenne...",
         "button": "RECHERCHER",
         "emptyQueryError": "Veuillez renseigner une requête"

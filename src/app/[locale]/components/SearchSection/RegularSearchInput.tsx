@@ -5,14 +5,15 @@ import {
   type FormEventHandler,
   type ChangeEventHandler,
 } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { useRouter } from "next-intl/client";
 import { Box, TextField, Typography } from "@/mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
 export interface RegularSearchInputLabels {
-  title: string;
+  searchTitle: string;
+  resultsTitle: string;
   placeholder: string;
   button: string;
   emptyQueryError: string;
@@ -21,10 +22,11 @@ export interface RegularSearchInputLabels {
 const RegularSearchInput: ClientComponent<{
   labels: RegularSearchInputLabels;
 }> = ({ labels }) => {
+  const router = useRouter();
+  const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState(searchParams.get("q") ?? "");
   const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -47,7 +49,7 @@ const RegularSearchInput: ClientComponent<{
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
-        {labels.title}
+        {urlSegment === "results" ? labels.resultsTitle : labels.searchTitle}
       </Typography>
       <Box
         sx={{

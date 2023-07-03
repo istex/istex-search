@@ -8,7 +8,10 @@ const SearchSection: ServerComponent = () => {
   const labels: SearchFormLabels = {
     SearchInput: {
       RegularSearchInput: {
-        title: t("SearchForm.SearchInput.RegularSearchInput.title"),
+        searchTitle: t("SearchForm.SearchInput.RegularSearchInput.searchTitle"),
+        resultsTitle: t(
+          "SearchForm.SearchInput.RegularSearchInput.resultsTitle"
+        ),
         placeholder: t("SearchForm.SearchInput.RegularSearchInput.placeholder"),
         button: t("SearchForm.SearchInput.RegularSearchInput.button"),
         emptyQueryError: t(

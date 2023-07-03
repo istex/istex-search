@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Box } from "@/mui/material";
+import ResultsGrid from "./components/ResultsGrid";
 import ResultCard, { type Result } from "./components/ResultCard";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -57,18 +57,11 @@ const ResultsPage: Page = async ({ searchParams }) => {
   const results = await getResults(queryString);
 
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
-        gridTemplateRows: { xs: "repeat(10, 1fr)", sm: "repeat(5, 1fr)" },
-        gap: 2,
-      }}
-    >
+    <ResultsGrid size={10} columns={2}>
       {results.hits.map((result) => (
         <ResultCard key={result.id} info={result} />
       ))}
-    </Box>
+    </ResultsGrid>
   );
 };
 

@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, type MouseEvent } from "react";
-import { Container, ToggleButton, ToggleButtonGroup } from "@/mui/material";
+import {
+  Box,
+  Container,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@/mui/material";
 import { UploadFileIcon } from "@/mui/icons-material";
 import SearchInput, { type SearchInputLabels } from "./SearchInput";
 import { queryModes, type QueryMode } from "@/config";
@@ -39,20 +44,26 @@ const SearchForm: ClientComponent<{ labels: SearchFormLabels }> = ({
 
   return (
     <Container component="section" sx={{ py: 6 }}>
-      <ToggleButtonGroup
-        color="primary"
-        exclusive
-        value={queryMode}
-        onChange={handleQueryModeChange}
-        sx={{ mb: 2 }}
+      <Box
+        sx={{
+          display: "none", // TODO: change to flex when another query mode is implemented
+          justifyContent: "flex-end",
+        }}
       >
-        {queryModes.map(({ name }) => (
-          <ToggleButton key={name} value={name}>
-            <UploadFileIcon />
-            {labels.queryModes[name]}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
+        <ToggleButtonGroup
+          color="primary"
+          exclusive
+          value={queryMode}
+          onChange={handleQueryModeChange}
+        >
+          {queryModes.map(({ name }) => (
+            <ToggleButton key={name} value={name}>
+              <UploadFileIcon />
+              {labels.queryModes[name]}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </Box>
 
       {currentQueryModeUi}
     </Container>

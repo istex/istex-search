@@ -26,7 +26,7 @@ const CorpusSection: ServerComponent = () => {
       <Container sx={{ display: { xs: "block", md: "flex" }, gap: 8 }}>
         {/* Ready-to-use corpus */}
         <Article sx={{ flex: 1.5 }}>
-          <Title sx={{ mb: 1 }}>{t("corpus.title")}</Title>
+          <Title>{t("corpus.title")}</Title>
           <Typography variant="subtitle1">{t("corpus.subtitle")}</Typography>
 
           {/*
@@ -81,7 +81,9 @@ const CorpusSection: ServerComponent = () => {
 
 const Title: ClientComponent<
   Omit<TypographyProps & { component?: React.ElementType }, "variant">
-> = (props) => <Typography variant="h5" component="h3" {...props} />;
+> = (props) => (
+  <Typography variant="h5" component="h3" gutterBottom {...props} />
+);
 
 const Article: ClientComponent<Omit<BoxProps, "component" | "pt" | "pb">> = (
   props

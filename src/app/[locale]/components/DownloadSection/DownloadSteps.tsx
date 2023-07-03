@@ -18,7 +18,8 @@ const DownloadSteps: ServerComponent = () => {
               <Typography
                 variant="h6"
                 component="h3"
-                sx={{ lineHeight: 1.2, mb: 1 }}
+                gutterBottom
+                sx={{ lineHeight: 1.2 }}
               >
                 {t(`${i}.title`)}
               </Typography>

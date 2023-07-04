@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Box, Grid, Typography } from "@/mui/material";
 import DownloadSteps from "./DownloadSteps";
 import type { ServerComponent } from "@/types/next";

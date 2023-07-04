@@ -1,6 +1,6 @@
 import { getTranslations, redirect } from "next-intl/server";
-import ResultsGrid from "./components/ResultsGrid";
 import ResultCard, { type Result } from "./components/ResultCard";
+import ResultsGrid from "./components/ResultsGrid";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import type { GenerateMetadata, Page } from "@/types/next";
 

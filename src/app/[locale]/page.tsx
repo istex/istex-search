@@ -1,6 +1,6 @@
 import CorpusSection from "./components/CorpusSection";
-import DownloadSection from "./components/DownloadSection";
 import CourseSection from "./components/CourseSection";
+import DownloadSection from "./components/DownloadSection";
 import type { Page } from "@/types/next";
 
 const HomePage: Page = () => (

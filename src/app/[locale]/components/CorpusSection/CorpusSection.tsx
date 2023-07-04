@@ -1,11 +1,11 @@
 import { useTranslations } from "next-intl";
 import { ArrowRightAltIcon } from "@/mui/icons-material";
 import { Box, Container, Typography } from "@/mui/material";
-import Button from "@/components/Button";
-import CorpusGrid from "./CorpusGrid";
-import { usages } from "@/config";
 import type { BoxProps } from "@mui/material/Box";
 import type { TypographyProps } from "@mui/material/Typography";
+import CorpusGrid from "./CorpusGrid";
+import Button from "@/components/Button";
+import { usages } from "@/config";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 const CorpusSection: ServerComponent = () => {

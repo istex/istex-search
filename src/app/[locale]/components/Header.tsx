@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Avatar, Box, Container, Typography } from "@/mui/material";
+import Image from "next/image";
 import { DownloadIcon } from "@/mui/icons-material";
-import istexDlLogo from "@/../public/istex-dl.svg";
+import { Avatar, Box, Container, Typography } from "@/mui/material";
 import headerBackground from "@/../public/header-background.jpg";
+import istexDlLogo from "@/../public/istex-dl.svg";
 import type { ServerComponent } from "@/types/next";
 
 const icons = [

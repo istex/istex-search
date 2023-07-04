@@ -1,11 +1,11 @@
 import { useLocale, useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import MuiSetup from "@/mui/setup";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { type NavbarLinks, navbarLinks } from "./components/Navbar/NavbarLinks";
 import SearchSection from "./components/SearchSection";
-import { navbarLinks, type NavbarLinks } from "./components/Navbar/NavbarLinks";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
 export const generateMetadata: GenerateMetadata = async () => {

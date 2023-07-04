@@ -1,11 +1,10 @@
 "use client";
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
-import { useServerInsertedHTML } from "next/navigation";
 import { useState } from "react";
-
+import { useServerInsertedHTML } from "next/navigation";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 

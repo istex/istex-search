@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { type MouseEvent, useState } from "react";
+import { UploadFileIcon } from "@/mui/icons-material";
 import {
   Box,
   Container,
   ToggleButton,
   ToggleButtonGroup,
 } from "@/mui/material";
-import { UploadFileIcon } from "@/mui/icons-material";
-import SearchInput, { type SearchInputLabels } from "./SearchInput";
-import { queryModes, type QueryMode } from "@/config";
 import type { ImportInputLabels } from "./ImportInput";
+import SearchInput, { type SearchInputLabels } from "./SearchInput";
+import { type QueryMode, queryModes } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
 export interface SearchFormLabels {

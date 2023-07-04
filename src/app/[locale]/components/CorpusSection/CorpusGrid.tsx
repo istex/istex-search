@@ -1,5 +1,5 @@
-import { Grid, Link, Paper, Typography } from "@/mui/material";
 import { montserrat } from "@/mui/fonts";
+import { Grid, Link, Paper, Typography } from "@/mui/material";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 interface LodexApiResponse<T> {

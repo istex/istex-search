@@ -1,24 +1,19 @@
-// This component is not used right now because only one language is supported
-// but we still keep it just in case we support more languages in the future.
-
 "use client";
 
 import { useState } from "react";
 import { useRouter, useSelectedLayoutSegment } from "next/navigation";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@/mui/material";
-import { SUPPORTED_LOCALES } from "@/i18n/constants";
 import type { SelectChangeEvent } from "@mui/material/Select";
+import { SUPPORTED_LOCALES } from "@/i18n/constants";
 import type { ClientComponent } from "@/types/next";
-
-interface LanguagePickerProps {
-  locale: string;
-}
 
 const smallFontSize = {
   fontSize: "0.625rem",
 };
 
-const LanguagePicker: ClientComponent<LanguagePickerProps> = ({ locale }) => {
+// This component is not used right now because only one language is supported
+// but we still keep it just in case we support more languages in the future.
+const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
   const [language, setLanguage] = useState(locale);
   const urlSegment = useSelectedLayoutSegment();
   const router = useRouter();

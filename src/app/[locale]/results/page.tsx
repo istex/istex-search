@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, redirect } from "next-intl/server";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultCard, { type Result } from "./components/ResultCard";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
@@ -49,9 +49,7 @@ const ResultsPage: Page = async ({ searchParams }) => {
     : searchParams.q;
 
   if (queryString == null) {
-    throw new Error(
-      "A query string needs to be provided through the 'q' search parameter!"
-    );
+    redirect("/");
   }
 
   const results = await getResults(queryString);

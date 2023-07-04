@@ -15,6 +15,7 @@ const DownloadStepCard: ClientComponent<{ index: number }, true> = ({
 
   return (
     <Grid
+      component="li"
       item
       xs={12}
       md={4}

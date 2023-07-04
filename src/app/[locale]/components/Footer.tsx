@@ -70,10 +70,11 @@ const Footer: ServerComponent = () => {
       }}
     >
       <Container sx={{ paddingY: 3 }}>
-        <Grid container spacing={2}>
+        <Grid component="ul" container spacing={2}>
           {partners.map(({ logo, alt, url, width }) => (
             <Grid
               key={alt}
+              component="li"
               item
               xs={MAX_ITEMS_PER_LINE / 2}
               md={MAX_ITEMS_PER_LINE / partners.length}

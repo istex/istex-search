@@ -60,4 +60,15 @@ export default createTheme({
     subtitle1: subtitleOptions,
     subtitle2: subtitleOptions,
   },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+      `,
+    },
+  },
 });

@@ -112,6 +112,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
 
         {/* External resources that only appear on medium and large screens */}
         <Box
+          component="ul"
           sx={{
             flexGrow: 1,
             gap: "1px",
@@ -120,21 +121,23 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
           }}
         >
           {links.others.map(({ label, url }) => (
-            <Button
-              key={label}
-              onClick={handleCloseNavMenu}
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              sx={{
-                bgcolor: "white",
-                borderRadius: 0,
-                color: "text.primary",
-                fontSize: "0.625rem",
-              }}
-            >
-              {label}
-            </Button>
+            <li key={label}>
+              <Button
+                onClick={handleCloseNavMenu}
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                sx={{
+                  height: "100%",
+                  bgcolor: "white",
+                  borderRadius: 0,
+                  color: "text.primary",
+                  fontSize: "0.625rem",
+                }}
+              >
+                {label}
+              </Button>
+            </li>
           ))}
         </Box>
       </Container>

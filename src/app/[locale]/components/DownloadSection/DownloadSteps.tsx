@@ -10,7 +10,11 @@ const DownloadSteps: ServerComponent = () => {
 
   return (
     <Container sx={{ transform: "translateY(-3rem)" }}>
-      <Grid container sx={{ color: "colors.white", textAlign: "center" }}>
+      <Grid
+        component="ul"
+        container
+        sx={{ color: "colors.white", textAlign: "center" }}
+      >
         {Array(NUMBER_OF_STEPS)
           .fill(0)
           .map((_, i) => (

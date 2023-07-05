@@ -63,7 +63,7 @@ export default createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: `
-        ul {
+        ul, ol {
           list-style: none;
           margin: 0;
           padding: 0;

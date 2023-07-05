@@ -11,7 +11,7 @@ const DownloadSteps: ServerComponent = () => {
   return (
     <Container sx={{ transform: "translateY(-3rem)" }}>
       <Grid
-        component="ul"
+        component="ol"
         container
         sx={{ color: "colors.white", textAlign: "center" }}
       >

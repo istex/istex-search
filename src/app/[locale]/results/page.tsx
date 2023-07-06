@@ -1,7 +1,9 @@
 import { getTranslations, redirect } from "next-intl/server";
+import { Box } from "@/mui/material";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
-import Link from "@/i18n/next-intl-link";
+import Button from "@/components/Button";
+import NextIntlLink from "@/i18n/next-intl-link";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import type { GenerateMetadata, Page } from "@/types/next";
 
@@ -57,19 +59,33 @@ const ResultsPage: Page = async ({ searchParams }) => {
 
   return (
     <>
-      <Link
-        href={{
-          pathname: "/download",
-          query: searchParams,
-        }}
-      >
-        Download
-      </Link>
       <ResultsGrid size={10} columns={2}>
         {results.hits.map((result) => (
           <ResultCard key={result.id} info={result} />
         ))}
       </ResultsGrid>
+      <Box
+        sx={{
+          position: "fixed",
+          bottom: "3rem",
+          textAlign: "center",
+          width: "100vw",
+          zIndex: 1,
+        }}
+      >
+        <Button
+          mainColor="blue"
+          secondaryColor="white"
+          href={`/download?${new URLSearchParams({
+            q: queryString,
+          }).toString()}`}
+          LinkComponent={NextIntlLink}
+          size="large"
+          sx={{ px: 8, py: 2 }}
+        >
+          Download
+        </Button>
+      </Box>
     </>
   );
 };

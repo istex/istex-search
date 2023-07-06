@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@/mui/material";
 import { alpha } from "@mui/material/styles";
-import type { NavbarLinks } from "./NavbarLinks";
+import type { NavbarLinks } from "./navbarLinks";
 import type { ClientComponent } from "@/types/next";
 
 interface NavbarProps {

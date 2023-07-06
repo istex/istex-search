@@ -4,7 +4,7 @@ import MuiSetup from "@/mui/setup";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import { type NavbarLinks, navbarLinks } from "./components/Navbar/NavbarLinks";
+import { navbarLinks, type NavbarLinks } from "./components/Navbar/navbarLinks";
 import SearchSection from "./components/SearchSection";
 import type { GenerateMetadata, Layout } from "@/types/next";
 

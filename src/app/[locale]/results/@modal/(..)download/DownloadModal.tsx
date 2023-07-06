@@ -2,7 +2,6 @@
 
 import { useState, forwardRef } from "react";
 import { useRouter } from "next-intl/client";
-import { useSearchParams } from "next/navigation";
 import { Dialog, DialogContent, DialogTitle, Slide } from "@/mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 import type { TransitionProps } from "@mui/material/transitions";
@@ -18,7 +17,6 @@ const Transition = forwardRef(function Transition(
 const DownloadModal: ClientComponent = () => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const theme = useTheme();
 
   const close = (): void => {
@@ -26,7 +24,7 @@ const DownloadModal: ClientComponent = () => {
 
     // Wait until the leaving screen animation is over to go back to the /results page
     setTimeout(() => {
-      router.push(`/results?${searchParams.toString()}`);
+      router.back();
     }, theme.transitions.duration.leavingScreen);
   };
 

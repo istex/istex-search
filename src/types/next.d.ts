@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import type { PropsWithRequiredChildren, ReplaceReturnType } from "./utility";
 
-export type GenerateMetadata<T = Record<string, unknown>> = (props: {
-  params: T & { locale: string };
-  searchParams: Record<string, string | string[] | undefined>;
-}) => Promise<Metadata>;
+export type GenerateMetadata<T extends object = Record<string, unknown>> =
+  (props: {
+    params: T & { locale: string };
+    searchParams: Record<string, string | string[] | undefined>;
+  }) => Promise<Metadata>;
 
-export type ClientComponent<TProps = unknown, WithChildren = false> = React.FC<
+export type ClientComponent<
+  TProps extends object = Record<string, unknown>,
+  WithChildren = false
+> = React.FC<
   WithChildren extends true ? PropsWithRequiredChildren<TProps> : TProps
 >;
 
@@ -15,7 +19,7 @@ export type ClientComponent<TProps = unknown, WithChildren = false> = React.FC<
 // Here, `_RetType` is a private generic only used to create a type alias, it is not meant
 // to be used when instanciating a server component.
 export type ServerComponent<
-  TProps = unknown,
+  TProps extends object = Record<string, unknown>,
   WithChildren = false,
   _RetType = ReturnType<ClientComponent<TProps, WithChildren>>
 > = ReplaceReturnType<
@@ -35,4 +39,5 @@ export type Page<T extends object = Record<string, unknown>> = ServerComponent<{
 }>;
 
 // A Layout is a normal ServerComponent but children are required.
-export type Layout = ServerComponent<unknown, true>;
+export type Layout<T extends object = Record<string, unknown>> =
+  ServerComponent<T, true>;

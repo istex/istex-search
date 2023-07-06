@@ -1,6 +1,7 @@
 import { getTranslations, redirect } from "next-intl/server";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
+import Link from "@/i18n/next-intl-link";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import type { GenerateMetadata, Page } from "@/types/next";
 
@@ -55,11 +56,21 @@ const ResultsPage: Page = async ({ searchParams }) => {
   const results = await getResults(queryString);
 
   return (
-    <ResultsGrid size={10} columns={2}>
-      {results.hits.map((result) => (
-        <ResultCard key={result.id} info={result} />
-      ))}
-    </ResultsGrid>
+    <>
+      <Link
+        href={{
+          pathname: "/download",
+          query: searchParams,
+        }}
+      >
+        Download
+      </Link>
+      <ResultsGrid size={10} columns={2}>
+        {results.hits.map((result) => (
+          <ResultCard key={result.id} info={result} />
+        ))}
+      </ResultsGrid>
+    </>
   );
 };
 

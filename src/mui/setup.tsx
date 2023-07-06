@@ -8,7 +8,9 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 
-const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
+const EmotionCacheProvider: ClientComponent<Record<string, unknown>, true> = ({
+  children,
+}) => {
   const [cache] = useState(() => {
     const cache = createCache({ key: "css" });
     cache.compat = true;
@@ -28,7 +30,9 @@ const EmotionCacheProvider: ClientComponent<unknown, true> = ({ children }) => {
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 };
 
-const MuiSetup: ClientComponent<unknown, true> = ({ children }) => (
+const MuiSetup: ClientComponent<Record<string, unknown>, true> = ({
+  children,
+}) => (
   <EmotionCacheProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline />

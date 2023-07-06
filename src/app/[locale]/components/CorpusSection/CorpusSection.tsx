@@ -28,18 +28,9 @@ const CorpusSection: ServerComponent = () => {
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>
           <Typography variant="subtitle1">{t("corpus.subtitle")}</Typography>
-
-          {/*
-           * We wrap the CorpusGrid in a div to remove a children prop validation error
-           * CorpusGrid is a server component, so the parent <Article> sees it as server-rendered
-           * HTML and not a proper ReactNode
-           */}
-          <div>
-            <CorpusGrid />
-          </div>
-
+          <CorpusGrid />
           <Box sx={{ display: "flex", gap: 2, pt: 2 }}>
-            <CorpusButton href="https://corpus-actualite.corpus.istex.fr/">
+            <CorpusButton href="https://corpus-specialises.corpus.istex.fr/">
               {t("corpus.seeMoreButton")}
             </CorpusButton>
             <CorpusButton>{t("corpus.contactButton")}</CorpusButton>

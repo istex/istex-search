@@ -68,6 +68,9 @@
     "downloadButton": "Télécharger le corpus ({numberOfDocuments})"
   },
   "download": {
+    "metadata": {
+      "title": "Téléchargement"
+    },
     "title": "Configurez votre téléchargement"
   },
   "Navbar": {
@@ -107,9 +110,5 @@
     "import": {
       "label": "Import"
     }
-  },
-  "NotFound": {
-    "title": "Erreur",
-    "content": "Introuvable !"
   }
 }

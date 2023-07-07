@@ -5,7 +5,6 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import { navbarLinks, type NavbarLinks } from "./components/Navbar/navbarLinks";
-import SearchSection from "./components/SearchSection";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
 export const generateMetadata: GenerateMetadata = async () => {
@@ -38,10 +37,7 @@ const RootLayout: Layout = ({ children }) => {
         <MuiSetup>
           <Navbar links={translatedNavbarLinks} />
           <Header />
-          <main>
-            <SearchSection />
-            {children}
-          </main>
+          <main>{children}</main>
           <Footer />
         </MuiSetup>
       </body>

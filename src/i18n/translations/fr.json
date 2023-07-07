@@ -67,6 +67,9 @@
     },
     "downloadButton": "Télécharger le corpus ({numberOfDocuments})"
   },
+  "download": {
+    "title": "Configurez votre téléchargement"
+  },
   "Navbar": {
     "istex": "Accès istex.fr",
     "a_zJournalsList": "Revue de sommaire",

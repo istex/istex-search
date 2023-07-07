@@ -2,7 +2,7 @@
 
 import { useState, forwardRef } from "react";
 import { useRouter } from "next-intl/client";
-import { Dialog, DialogContent, DialogTitle, Slide } from "@/mui/material";
+import { Dialog, DialogContent, Slide } from "@/mui/material";
 import useTheme from "@mui/material/styles/useTheme";
 import type { TransitionProps } from "@mui/material/transitions";
 import type { ClientComponent } from "@/types/next";
@@ -14,7 +14,9 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DownloadModal: ClientComponent = () => {
+const DownloadModal: ClientComponent<Record<string, unknown>, true> = ({
+  children,
+}) => {
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const theme = useTheme();
@@ -29,9 +31,13 @@ const DownloadModal: ClientComponent = () => {
   };
 
   return (
-    <Dialog open={open} onClose={close} TransitionComponent={Transition}>
-      <DialogTitle>Configurer votre téléchargement</DialogTitle>
-      <DialogContent>download modal</DialogContent>
+    <Dialog
+      open={open}
+      onClose={close}
+      TransitionComponent={Transition}
+      maxWidth="md"
+    >
+      <DialogContent sx={{ bgcolor: "colors.white" }}>{children}</DialogContent>
     </Dialog>
   );
 };

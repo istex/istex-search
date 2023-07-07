@@ -14,7 +14,6 @@ export { default as CardContent } from "@mui/material/CardContent";
 export { default as Container } from "@mui/material/Container";
 export { default as Dialog } from "@mui/material/Dialog";
 export { default as DialogContent } from "@mui/material/DialogContent";
-export { default as DialogTitle } from "@mui/material/DialogTitle";
 export { default as FormControl } from "@mui/material/FormControl";
 export { default as FormControlLabel } from "@mui/material/FormControlLabel";
 export { default as Grid } from "@mui/material/Grid";

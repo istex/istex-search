@@ -63,7 +63,10 @@ const ResultsPage: Page = async ({ searchParams }) => {
         ))}
       </ResultsGrid>
 
-      <DownloadButton searchParams={searchParams} />
+      <DownloadButton
+        searchParams={searchParams}
+        numberOfDocuments={results.total}
+      />
     </>
   );
 };

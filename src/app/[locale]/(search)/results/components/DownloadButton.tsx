@@ -1,13 +1,20 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Box } from "@/mui/material";
 import Button from "@/components/Button";
 import NextIntlLink from "@/i18n/next-intl-link";
 import type { NextSearchParams, ServerComponent } from "@/types/next";
 
-const DownloadButton: ServerComponent<{ searchParams: NextSearchParams }> = ({
+interface DownloadButtonProps {
+  searchParams: NextSearchParams;
+  numberOfDocuments: number;
+}
+
+const DownloadButton: ServerComponent<DownloadButtonProps> = ({
   searchParams,
+  numberOfDocuments,
 }) => {
   const t = useTranslations("results");
+  const locale = useLocale();
   const queryString = Array.isArray(searchParams.q)
     ? searchParams.q[0]
     : searchParams.q ?? "";
@@ -32,7 +39,9 @@ const DownloadButton: ServerComponent<{ searchParams: NextSearchParams }> = ({
         size="large"
         sx={{ px: 8, py: 2 }}
       >
-        {t("downloadButton")}
+        {t("downloadButton", {
+          numberOfDocuments: numberOfDocuments.toLocaleString(locale),
+        })}
       </Button>
     </Box>
   );

@@ -1,6 +1,11 @@
 import { useTranslations } from "next-intl";
-import { Typography } from "@/mui/material";
-import type { ServerComponent } from "@/types/next";
+import { Grid, Paper, Typography } from "@/mui/material";
+import type { PaperProps } from "@mui/material/Paper";
+import type { ClientComponent, ServerComponent } from "@/types/next";
+
+const Panel: ClientComponent<Omit<PaperProps, "elevation" | "sx">> = (
+  props
+) => <Paper elevation={0} sx={{ p: 2 }} {...props} />;
 
 const DownloadForm: ServerComponent = () => {
   const t = useTranslations("download");
@@ -10,19 +15,31 @@ const DownloadForm: ServerComponent = () => {
       <Typography component="h1" variant="h5" gutterBottom>
         {t("title")}
       </Typography>
-      <div>
-        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
-        enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
-        exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit
-        nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-        minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure
-        elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor
-        Lorem duis laboris cupidatat officia voluptate. Culpa proident
-        adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod.
-        Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
-        Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
-        et culpa duis.
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Panel>
+            Lorem ipsum dolor sit amet, officia excepteur ex fugiat
+            reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
+            ex esse exercitation amet. Nisi anim cupidatat excepteur officia.
+            Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate
+            voluptate dolor minim nulla est proident. Nostrud officia pariatur
+            ut officia. Sit irure elit esse ea nulla sunt ex occaecat
+            reprehenderit commodo officia dolor Lorem duis laboris cupidatat
+            officia voluptate. Culpa proident adipisicing id nulla nisi laboris
+            ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo
+            ex non excepteur duis sunt velit enim. Voluptate laboris sint
+            cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+          </Panel>
+        </Grid>
+        <Grid item xs={4}>
+          <Panel>
+            Lorem ipsum dolor sit amet, officia excepteur ex fugiat
+            reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
+            ex esse exercitation amet. Nisi anim cupidatat excepteur officia.
+            Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate
+          </Panel>
+        </Grid>
+      </Grid>
     </>
   );
 };

@@ -36,6 +36,7 @@ const DownloadModal: ClientComponent<Record<string, unknown>, true> = ({
       onClose={close}
       TransitionComponent={Transition}
       maxWidth="md"
+      scroll="body"
     >
       <DialogContent sx={{ bgcolor: "colors.white" }}>{children}</DialogContent>
     </Dialog>

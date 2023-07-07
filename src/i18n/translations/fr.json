@@ -64,7 +64,8 @@
     "placeholders": {
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
-    }
+    },
+    "downloadButton": "Télécharger le corpus"
   },
   "Navbar": {
     "istex": "Accès istex.fr",

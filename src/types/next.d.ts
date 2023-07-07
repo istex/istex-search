@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import type { PropsWithRequiredChildren, ReplaceReturnType } from "./utility";
 
+export type NextSearchParams = Record<string, string | string[] | undefined>;
+
 export type GenerateMetadata<T extends object = Record<string, unknown>> =
   (props: {
     params: T & { locale: string };
-    searchParams: Record<string, string | string[] | undefined>;
+    searchParams: NextSearchParams;
   }) => Promise<Metadata>;
 
 export type ClientComponent<
@@ -35,7 +37,7 @@ export type ServerComponent<
 //   /results        => { params: { locale: "fr" }} (locale is implicit here)
 export type Page<T extends object = Record<string, unknown>> = ServerComponent<{
   params: T & { locale: string };
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: NextSearchParams;
 }>;
 
 // A Layout is a normal ServerComponent but children are required.

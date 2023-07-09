@@ -1,33 +1,74 @@
-// Hopefully temporary MUI custom export to make all MUI components client-side.
-// This is necessary until MUI adds the "use client" directive to its own components.
-
 "use client";
 
-export { default as Alert } from "@mui/material/Alert";
-export { default as AlertTitle } from "@mui/material/AlertTitle";
-export { default as AppBar } from "@mui/material/AppBar";
-export { default as Avatar } from "@mui/material/Avatar";
-export { default as Box } from "@mui/material/Box";
-export { default as Button } from "@mui/material/Button";
-export { default as Card } from "@mui/material/Card";
-export { default as CardContent } from "@mui/material/CardContent";
-export { default as Container } from "@mui/material/Container";
-export { default as Dialog } from "@mui/material/Dialog";
-export { default as DialogContent } from "@mui/material/DialogContent";
-export { default as FormControl } from "@mui/material/FormControl";
-export { default as FormControlLabel } from "@mui/material/FormControlLabel";
-export { default as Grid } from "@mui/material/Grid";
-export { default as IconButton } from "@mui/material/IconButton";
-export { default as InputLabel } from "@mui/material/InputLabel";
-export { default as Link } from "@mui/material/Link";
-export { default as Menu } from "@mui/material/Menu";
-export { default as MenuItem } from "@mui/material/MenuItem";
-export { default as Paper } from "@mui/material/Paper";
-export { default as Select } from "@mui/material/Select";
-export { default as Skeleton } from "@mui/material/Skeleton";
-export { default as Slide } from "@mui/material/Slide";
-export { default as Switch } from "@mui/material/Switch";
-export { default as TextField } from "@mui/material/TextField";
-export { default as ToggleButton } from "@mui/material/ToggleButton";
-export { default as ToggleButtonGroup } from "@mui/material/ToggleButtonGroup";
-export { default as Typography } from "@mui/material/Typography";
+// Hopefully temporary MUI custom export to make all MUI components client-side.
+// This is necessary until MUI adds the "use client" directive to its own components.
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import AppBar from "@mui/material/AppBar";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Container from "@mui/material/Container";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import InputLabel from "@mui/material/InputLabel";
+import Link from "@mui/material/Link";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+import Select from "@mui/material/Select";
+import Skeleton from "@mui/material/Skeleton";
+import Slide from "@mui/material/Slide";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Typography from "@mui/material/Typography";
+
+export {
+  Alert,
+  AlertTitle,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Dialog,
+  DialogContent,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputLabel,
+  Link,
+  Menu,
+  MenuItem,
+  Paper,
+  Select,
+  Skeleton,
+  Slide,
+  Switch,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+};
+
+// Components that need their children prop type validation removed
+// when server components are passed as children
+[Box, Container, DialogContent].forEach((component) => {
+  // @ts-expect-error ///
+  component.propTypes = {
+    // @ts-expect-error ///
+    ...component.propTypes,
+    children: () => {},
+  };
+});

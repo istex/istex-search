@@ -14,9 +14,7 @@ export const generateMetadata: GenerateMetadata = async () => {
 const DownloadPage: Page = () => {
   return (
     <Container sx={{ py: 6 }}>
-      <div>
-        <DownloadForm />
-      </div>
+      <DownloadForm />
     </Container>
   );
 };

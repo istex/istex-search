@@ -46,9 +46,7 @@ const DownloadSection: ServerComponent = () => {
         </Grid>
       </Grid>
 
-      <article>
-        <DownloadSteps />
-      </article>
+      <DownloadSteps />
     </Box>
   );
 };

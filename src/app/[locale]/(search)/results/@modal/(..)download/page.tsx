@@ -5,9 +5,7 @@ import type { Page } from "@/types/next";
 const DownloadPage: Page = () => {
   return (
     <DownloadModal>
-      <div>
-        <DownloadForm />
-      </div>
+      <DownloadForm />
     </DownloadModal>
   );
 };

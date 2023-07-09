@@ -9,7 +9,7 @@ const DownloadSteps: ServerComponent = () => {
   const t = useTranslations("Home.DownloadSection.downloadSteps");
 
   return (
-    <Container sx={{ transform: "translateY(-3rem)" }}>
+    <Container component="article" sx={{ transform: "translateY(-3rem)" }}>
       <Grid
         component="ol"
         container

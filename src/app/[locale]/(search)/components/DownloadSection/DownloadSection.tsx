@@ -5,7 +5,7 @@ import DownloadSteps from "./DownloadSteps";
 import type { ServerComponent } from "@/types/next";
 
 const DownloadSection: ServerComponent = () => {
-  const t = useTranslations("Home.DownloadSection");
+  const t = useTranslations("home.DownloadSection");
 
   return (
     <Box component="section">

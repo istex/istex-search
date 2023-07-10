@@ -3,30 +3,27 @@ import SearchForm, { type SearchFormLabels } from "./SearchForm";
 import type { ServerComponent } from "@/types/next";
 
 const SearchSection: ServerComponent = () => {
-  const t = useTranslations();
+  const t = useTranslations("home.SearchForm");
+  const tConfig = useTranslations("config");
 
   const labels: SearchFormLabels = {
     SearchInput: {
       RegularSearchInput: {
-        searchTitle: t("SearchForm.SearchInput.RegularSearchInput.searchTitle"),
-        resultsTitle: t(
-          "SearchForm.SearchInput.RegularSearchInput.resultsTitle"
-        ),
-        placeholder: t("SearchForm.SearchInput.RegularSearchInput.placeholder"),
-        button: t("SearchForm.SearchInput.RegularSearchInput.button"),
-        emptyQueryError: t(
-          "SearchForm.SearchInput.RegularSearchInput.emptyQueryError"
-        ),
+        searchTitle: t("SearchInput.RegularSearchInput.searchTitle"),
+        resultsTitle: t("SearchInput.RegularSearchInput.resultsTitle"),
+        placeholder: t("SearchInput.RegularSearchInput.placeholder"),
+        button: t("SearchInput.RegularSearchInput.button"),
+        emptyQueryError: t("SearchInput.RegularSearchInput.emptyQueryError"),
       },
-      switch: t("SearchForm.SearchInput.switch"),
+      switch: t("SearchInput.switch"),
     },
     ImportInput: {
-      placeholder: t("SearchForm.ImportInput.placeholder"),
-      button: t("SearchForm.ImportInput.button"),
-      emptyQueryError: t("SearchForm.ImportInput.emptyQueryError"),
+      placeholder: t("ImportInput.placeholder"),
+      button: t("ImportInput.button"),
+      emptyQueryError: t("ImportInput.emptyQueryError"),
     },
     queryModes: {
-      search: t("queryModes.search.label"),
+      search: tConfig("queryModes.search.label"),
     },
   };
 

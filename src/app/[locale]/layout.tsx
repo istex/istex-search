@@ -8,7 +8,7 @@ import { navbarLinks, type NavbarLinks } from "./components/Navbar/navbarLinks";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
 export const generateMetadata: GenerateMetadata = async () => {
-  const t = await getTranslations("Metadata");
+  const t = await getTranslations("home.metadata");
 
   return {
     title: "Istex-DL",
@@ -18,7 +18,7 @@ export const generateMetadata: GenerateMetadata = async () => {
 
 const RootLayout: Layout = ({ children }) => {
   const locale = useLocale();
-  const t = useTranslations();
+  const t = useTranslations("home.Navbar");
 
   const translatedNavbarLinks: NavbarLinks = {
     istex: {

@@ -1,5 +1,41 @@
 {
-  "Home": {
+  "home": {
+    "metadata": {
+      "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
+    },
+    "Navbar": {
+      "istex": "Accès istex.fr",
+      "a_zJournalsList": "Revue de sommaire",
+      "documentaryDataset": "Référentiels documentaires",
+      "specializedCorpus": "Corpus spécialisés",
+      "objectifTdm": "Objectif TDM",
+      "loterre": "Loterre"
+    },
+    "Header": {
+      "subtitle": "<strong>Créez et téléchargez facilement votre corpus scientifique</strong> au sein des collections rétrospectives multilingues et multidisciplinaires de la littérature scientifique mondiale.",
+      "icons": [
+        "Téléchargement massif de données",
+        "Passerelles vers d'autres outils",
+        "Focus TDM"
+      ]
+    },
+    "SearchForm": {
+      "SearchInput": {
+        "RegularSearchInput": {
+          "searchTitle": "Créez votre requête en quelques clics",
+          "resultsTitle": "Résultats de votre requête",
+          "placeholder": "Recherche par mot-clé, auteur, nom de revue, requête booléenne...",
+          "button": "RECHERCHER",
+          "emptyQueryError": "Veuillez renseigner une requête"
+        },
+        "switch": "Assistant"
+      },
+      "ImportInput": {
+        "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
+        "button": "RECHERCHER",
+        "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"
+      }
+    },
     "CorpusSection": {
       "corpus": {
         "title": "Gagnez du temps pour vos recherches",
@@ -38,23 +74,9 @@
       "title": "Besoin de mieux maîtriser l'outil Istex-DL ?",
       "body": "L'équipe Istex vous propse des formations sur la méthodologie de constitution de corpus en exploitant toute la richesse des services associés à Istex.",
       "button": "DÉCOUVRIR LES FORMATIONS"
-    }
-  },
-  "SearchForm": {
-    "SearchInput": {
-      "RegularSearchInput": {
-        "searchTitle": "Créez votre requête en quelques clics",
-        "resultsTitle": "Résultats de votre requête",
-        "placeholder": "Recherche par mot-clé, auteur, nom de revue, requête booléenne...",
-        "button": "RECHERCHER",
-        "emptyQueryError": "Veuillez renseigner une requête"
-      },
-      "switch": "Assistant"
     },
-    "ImportInput": {
-      "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
-      "button": "RECHERCHER",
-      "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"
+    "Footer": {
+      "funding": "Financement "
     }
   },
   "results": {
@@ -73,42 +95,22 @@
     },
     "title": "Configurez votre téléchargement"
   },
-  "Navbar": {
-    "istex": "Accès istex.fr",
-    "a_zJournalsList": "Revue de sommaire",
-    "documentaryDataset": "Référentiels documentaires",
-    "specializedCorpus": "Corpus spécialisés",
-    "objectifTdm": "Objectif TDM",
-    "loterre": "Loterre"
-  },
-  "Header": {
-    "subtitle": "<strong>Créez et téléchargez facilement votre corpus scientifique</strong> au sein des collections rétrospectives multilingues et multidisciplinaires de la littérature scientifique mondiale.",
-    "icons": [
-      "Téléchargement massif de données",
-      "Passerelles vers d'autres outils",
-      "Focus TDM"
-    ]
-  },
-  "Footer": {
-    "funding": "Financement "
-  },
-  "Metadata": {
-    "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
-  },
-  "usages": {
-    "lodex": {
-      "label": "Lodex"
+  "config": {
+    "usages": {
+      "lodex": {
+        "label": "Lodex"
+      },
+      "cortext": {
+        "label": "CorTexT"
+      }
     },
-    "cortext": {
-      "label": "CorTexT"
-    }
-  },
-  "queryModes": {
-    "search": {
-      "label": "Recherche"
-    },
-    "import": {
-      "label": "Import"
+    "queryModes": {
+      "search": {
+        "label": "Recherche"
+      },
+      "import": {
+        "label": "Import"
+      }
     }
   }
 }

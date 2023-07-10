@@ -51,10 +51,7 @@ const partners = [
 const MAX_ITEMS_PER_LINE = 12;
 
 const Footer: ServerComponent = () => {
-  // It would make more sense to do useTranslations('Footer') and t('...')
-  // but this creates an error with the MUI ThemeProvider, somehow!? The fix I found
-  // was to get the root translations and manually access them with Footer.*
-  const t = useTranslations();
+  const t = useTranslations("home.Footer");
 
   return (
     <Box
@@ -116,7 +113,7 @@ const Footer: ServerComponent = () => {
             src={investissementLogo}
             alt="Programme Investissement d'Avenir"
           />
-          <Typography>{t("Footer.funding")}: ANR-10-IDEX-0004-02</Typography>
+          <Typography>{t("funding")}: ANR-10-IDEX-0004-02</Typography>
         </Box>
       </Container>
     </Box>

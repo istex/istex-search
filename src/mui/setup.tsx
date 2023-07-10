@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useServerInsertedHTML } from "next/navigation";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 
@@ -36,7 +37,9 @@ const MuiSetup: ClientComponent<Record<string, unknown>, true> = ({
   <EmotionCacheProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {children}
+      {/* Wrapping the children in a fragment is a strange hack to remove the
+      children prop type validation error caused by server components */}
+      <>{children}</>
     </ThemeProvider>
   </EmotionCacheProvider>
 );

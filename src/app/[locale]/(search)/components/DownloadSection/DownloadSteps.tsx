@@ -6,7 +6,7 @@ import type { ServerComponent } from "@/types/next";
 const NUMBER_OF_STEPS = 3;
 
 const DownloadSteps: ServerComponent = () => {
-  const t = useTranslations("Home.DownloadSection.downloadSteps");
+  const t = useTranslations("home.DownloadSection.downloadSteps");
 
   return (
     <Container component="article" sx={{ transform: "translateY(-3rem)" }}>

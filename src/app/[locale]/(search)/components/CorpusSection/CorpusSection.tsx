@@ -9,8 +9,8 @@ import { usages } from "@/config";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 const CorpusSection: ServerComponent = () => {
-  const t = useTranslations("Home.CorpusSection");
-  const tUsages = useTranslations("usages");
+  const t = useTranslations("home.CorpusSection");
+  const tUsages = useTranslations("config.usages");
 
   return (
     <Box

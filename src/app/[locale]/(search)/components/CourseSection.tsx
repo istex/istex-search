@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import type { ServerComponent } from "@/types/next";
 
 const CourseSection: ServerComponent = () => {
-  const t = useTranslations("Home.CourseSection");
+  const t = useTranslations("home.CourseSection");
 
   return (
     <Box

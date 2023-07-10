@@ -9,22 +9,22 @@ import type { ServerComponent } from "@/types/next";
 const icons = [
   {
     component: DownloadIcon,
-    title: "Header.icons.0",
+    title: "icons.0",
   },
   {
     component: DownloadIcon,
-    title: "Header.icons.1",
+    title: "icons.1",
   },
   {
     component: DownloadIcon,
-    title: "Header.icons.2",
+    title: "icons.2",
   },
 ];
 
 const Header: ServerComponent = () => {
-  const t = useTranslations();
+  const t = useTranslations("home.Header");
 
-  const subtitle = t.rich("Header.subtitle", {
+  const subtitle = t.rich("subtitle", {
     strong: (chunks) => <strong>{chunks}</strong>,
   });
 

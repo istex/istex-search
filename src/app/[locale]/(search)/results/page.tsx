@@ -3,6 +3,7 @@ import DownloadButton from "./components/DownloadButton";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
+import { nextSearchParamsToUrlSearchParams } from "@/lib/utils";
 import type { GenerateMetadata, Page } from "@/types/next";
 
 interface IstexApiResponse {
@@ -44,10 +45,9 @@ export const generateMetadata: GenerateMetadata = async () => {
   };
 };
 
-const ResultsPage: Page = async ({ searchParams }) => {
-  const queryString = Array.isArray(searchParams.q)
-    ? searchParams.q[0]
-    : searchParams.q;
+const ResultsPage: Page = async ({ searchParams: nextSearchParams }) => {
+  const searchParams = nextSearchParamsToUrlSearchParams(nextSearchParams);
+  const queryString = searchParams.get("q");
 
   if (queryString == null) {
     redirect("/");

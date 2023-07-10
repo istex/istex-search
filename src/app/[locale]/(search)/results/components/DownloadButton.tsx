@@ -2,10 +2,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { Box } from "@/mui/material";
 import Button from "@/components/Button";
 import NextIntlLink from "@/i18n/next-intl-link";
-import type { NextSearchParams, ServerComponent } from "@/types/next";
+import type { ServerComponent } from "@/types/next";
 
 interface DownloadButtonProps {
-  searchParams: NextSearchParams;
+  searchParams: URLSearchParams;
   numberOfDocuments: number;
 }
 
@@ -15,9 +15,6 @@ const DownloadButton: ServerComponent<DownloadButtonProps> = ({
 }) => {
   const t = useTranslations("results");
   const locale = useLocale();
-  const queryString = Array.isArray(searchParams.q)
-    ? searchParams.q[0]
-    : searchParams.q ?? "";
 
   return (
     <Box
@@ -32,9 +29,7 @@ const DownloadButton: ServerComponent<DownloadButtonProps> = ({
       <Button
         mainColor="blue"
         secondaryColor="white"
-        href={`/download?${new URLSearchParams({
-          q: queryString,
-        }).toString()}`}
+        href={`/download?${searchParams.toString()}`}
         LinkComponent={NextIntlLink}
         size="large"
         sx={{ px: 8, py: 2 }}

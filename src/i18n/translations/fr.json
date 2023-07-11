@@ -97,6 +97,9 @@
   },
   "config": {
     "usages": {
+      "custom": {
+        "label": "Usage personnalisé"
+      },
       "lodex": {
         "label": "Lodex"
       },

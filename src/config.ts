@@ -2,6 +2,12 @@ export type Usage = (typeof usages)[number];
 
 export const usages = [
   {
+    name: "custom",
+    label: "custom.label",
+    isGateway: false,
+    url: "",
+  },
+  {
     name: "lodex",
     label: "lodex.label",
     isGateway: true,

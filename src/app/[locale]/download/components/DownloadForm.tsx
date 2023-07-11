@@ -1,18 +1,20 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { redirect } from "next-intl/server";
+import { useSearchParams } from "next/navigation";
 import { Grid, Link, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
 import { lineclamp } from "@/lib/utils";
-import type { ClientComponent, ServerComponent } from "@/types/next";
+import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ServerComponent<{ searchParams: URLSearchParams }> = ({
-  searchParams,
-}) => {
+const DownloadForm: ClientComponent = () => {
   const t = useTranslations("download");
   const tUsages = useTranslations("config.usages");
+  const searchParams = useSearchParams();
   const queryString = searchParams.get("q");
   const currentUsage = usages.find(
     ({ name }) => searchParams.get("usage") === name

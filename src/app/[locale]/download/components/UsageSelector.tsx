@@ -28,7 +28,7 @@ const UsageSelector: ClientComponent = () => {
     const searchParamsCopy = new URLSearchParams(searchParams.toString());
     searchParamsCopy.set("usage", newValue);
 
-    router.push(`${pathname}?${searchParamsCopy.toString()}`);
+    router.replace(`${pathname}?${searchParamsCopy.toString()}`);
   };
 
   return (

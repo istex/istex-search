@@ -1,19 +1,17 @@
+"use client";
+
 import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Box } from "@/mui/material";
 import Button from "@/components/Button";
 import NextIntlLink from "@/i18n/next-intl-link";
 import type { ServerComponent } from "@/types/next";
 
-interface DownloadButtonProps {
-  searchParams: URLSearchParams;
-  numberOfDocuments: number;
-}
-
-const DownloadButton: ServerComponent<DownloadButtonProps> = ({
-  searchParams,
+const DownloadButton: ServerComponent<{ numberOfDocuments: number }> = ({
   numberOfDocuments,
 }) => {
   const t = useTranslations("results");
+  const searchParams = useSearchParams();
   const locale = useLocale();
 
   return (

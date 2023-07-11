@@ -1,14 +1,11 @@
 import DownloadModal from "./DownloadModal";
 import DownloadForm from "@/app/[locale]/download/components/DownloadForm";
-import { nextSearchParamsToUrlSearchParams } from "@/lib/utils";
 import type { Page } from "@/types/next";
 
-const DownloadPage: Page = ({ searchParams }) => {
+const DownloadPage: Page = () => {
   return (
     <DownloadModal>
-      <DownloadForm
-        searchParams={nextSearchParamsToUrlSearchParams(searchParams)}
-      />
+      <DownloadForm />
     </DownloadModal>
   );
 };

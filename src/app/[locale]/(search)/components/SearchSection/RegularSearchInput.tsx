@@ -30,13 +30,7 @@ const RegularSearchInput: ClientComponent = () => {
       return;
     }
 
-    // This way of getting a mutable URLSearchParams instance is recommended
-    // by Next.js but doesn't compile without the casts to unknown then URLSearchParams
-    // which are very ugly...
-    // https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams
-    const searchParamsCopy: URLSearchParams = new URLSearchParams(
-      searchParams as unknown as URLSearchParams
-    );
+    const searchParamsCopy = new URLSearchParams(searchParams.toString());
     searchParamsCopy.set("q", queryString);
 
     router.push(`/results?${searchParamsCopy.toString()}`);

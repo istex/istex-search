@@ -2,11 +2,48 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter, usePathname } from "next-intl/client";
+import { useSearchParams } from "next/navigation";
 import { montserrat } from "@/mui/fonts";
 import { Tab, Tabs } from "@/mui/material";
 import { styled } from "@mui/material/styles";
 import { usages, type Usage } from "@/config";
 import type { ClientComponent } from "@/types/next";
+
+const UsageSelector: ClientComponent = () => {
+  const t = useTranslations("config.usages");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [currentUsage, setCurrentUsage] = useState<Usage["name"]>(
+    (searchParams.get("usage") as Usage["name"]) ?? usages[0].name
+  );
+
+  const handleChange = (
+    _: React.SyntheticEvent,
+    newValue: Usage["name"]
+  ): void => {
+    setCurrentUsage(newValue);
+
+    const searchParamsCopy = new URLSearchParams(searchParams.toString());
+    searchParamsCopy.set("usage", newValue);
+
+    router.push(`${pathname}?${searchParamsCopy.toString()}`);
+  };
+
+  return (
+    <StyledTabs value={currentUsage} onChange={handleChange} centered>
+      {usages.map(({ name, label }) => (
+        <StyledTab
+          key={name}
+          value={name}
+          label={t(label)}
+          disableTouchRipple
+        />
+      ))}
+    </StyledTabs>
+  );
+};
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
   "&.MuiTabs-root": {
@@ -48,32 +85,5 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     zIndex: 1,
   },
 }));
-
-const UsageSelector: ClientComponent = () => {
-  const t = useTranslations("config.usages");
-  const [currentUsage, setCurrentUsage] = useState<Usage["name"]>(
-    usages[0].name
-  );
-
-  const handleChange = (
-    _: React.SyntheticEvent,
-    newValue: Usage["name"]
-  ): void => {
-    setCurrentUsage(newValue);
-  };
-
-  return (
-    <StyledTabs value={currentUsage} onChange={handleChange} centered>
-      {usages.map(({ name, label }) => (
-        <StyledTab
-          key={name}
-          value={name}
-          label={t(label)}
-          disableTouchRipple
-        />
-      ))}
-    </StyledTabs>
-  );
-};
 
 export default UsageSelector;

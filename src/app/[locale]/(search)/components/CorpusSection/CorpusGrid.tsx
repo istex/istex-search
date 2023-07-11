@@ -18,7 +18,6 @@ const CorpusGrid: ServerComponent = () => (
             target="_blank"
             rel="noreferrer"
             sx={{
-              color: "colors.blue",
               fontWeight: "bold",
               fontFamily: montserrat.style.fontFamily,
             }}

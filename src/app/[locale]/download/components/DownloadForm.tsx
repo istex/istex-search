@@ -1,9 +1,10 @@
 import { useTranslations } from "next-intl";
 import { redirect } from "next-intl/server";
-import { Grid, Paper, Typography } from "@/mui/material";
+import { Grid, Link, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import UsageSelector from "./UsageSelector";
+import { usages } from "@/config";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
@@ -11,7 +12,11 @@ const DownloadForm: ServerComponent<{ searchParams: URLSearchParams }> = ({
   searchParams,
 }) => {
   const t = useTranslations("download");
+  const tUsages = useTranslations("config.usages");
   const queryString = searchParams.get("q");
+  const currentUsage = usages.find(
+    ({ name }) => searchParams.get("usage") === name
+  );
 
   if (queryString == null) {
     redirect("/");
@@ -43,16 +48,30 @@ const DownloadForm: ServerComponent<{ searchParams: URLSearchParams }> = ({
           </Panel>
         </Grid>
 
-        <Grid item xs={3} container spacing={2} direction="column">
-          <Grid item>
-            <Panel>
-              <Title>Gateway info</Title>
-              <Typography variant="body2">
-                Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-                reprehenderit enim labore culpa sint ad nisi Lorem pariatur
-              </Typography>
-            </Panel>
-          </Grid>
+        <Grid item xs={4} container spacing={2} direction="column">
+          {currentUsage?.isGateway === true && (
+            <Grid item>
+              <Panel>
+                <Title>{tUsages(currentUsage.label)}</Title>
+                <Typography variant="body2" gutterBottom>
+                  {tUsages.rich(`${currentUsage.name}.description`, {
+                    strong: (chunks) => <strong>{chunks}</strong>,
+                  })}
+                </Typography>
+                <Link
+                  href={currentUsage.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  sx={{
+                    fontSize: "0.875rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {t("seeMoreLink")}
+                </Link>
+              </Panel>
+            </Grid>
+          )}
 
           <Grid item>
             <Panel>

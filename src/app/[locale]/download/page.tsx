@@ -1,6 +1,7 @@
 import { getTranslator } from "next-intl/server";
 import { Container } from "@/mui/material";
 import DownloadForm from "./components/DownloadForm";
+import { nextSearchParamsToUrlSearchParams } from "@/lib/utils";
 import type { GenerateMetadata, Page } from "@/types/next";
 
 export const generateMetadata: GenerateMetadata = async ({
@@ -13,10 +14,12 @@ export const generateMetadata: GenerateMetadata = async ({
   };
 };
 
-const DownloadPage: Page = () => {
+const DownloadPage: Page = ({ searchParams }) => {
   return (
     <Container sx={{ py: 6 }}>
-      <DownloadForm />
+      <DownloadForm
+        searchParams={nextSearchParamsToUrlSearchParams(searchParams)}
+      />
     </Container>
   );
 };

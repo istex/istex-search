@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { redirect } from "next-intl/server";
 import { Grid, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
@@ -6,8 +7,15 @@ import UsageSelector from "./UsageSelector";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
-const DownloadForm: ServerComponent = () => {
+const DownloadForm: ServerComponent<{ searchParams: URLSearchParams }> = ({
+  searchParams,
+}) => {
   const t = useTranslations("download");
+  const queryString = searchParams.get("q");
+
+  if (queryString == null) {
+    redirect("/");
+  }
 
   return (
     <>
@@ -50,12 +58,11 @@ const DownloadForm: ServerComponent = () => {
             <Panel>
               <Title>{t("yourQueryTitle")}</Title>
               <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
-                <Typography variant="body2" sx={lineclamp(6)}>
-                  Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-                  reprehenderit enim labore culpa sint ad nisi Lorem pariatur
-                  mollit ex esse exercitation amet. Nisi anim cupidatat
-                  excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem
-                  est aliquip amet voluptate
+                <Typography
+                  variant="body2"
+                  sx={{ ...lineclamp(6), wordBreak: "break-word" }}
+                >
+                  {queryString}
                 </Typography>
               </Panel>
 

@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 import { Grid, Paper, Typography } from "@/mui/material";
-import { type SxProps } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import UsageSelector from "./UsageSelector";
+import { lineclamp } from "@/lib/utils";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 const DownloadForm: ServerComponent = () => {
@@ -96,15 +96,5 @@ const Title: ClientComponent<
 const Panel: ClientComponent<Omit<PaperProps, "elevation">> = (props) => (
   <Paper elevation={0} sx={{ p: 2 }} {...props} />
 );
-
-function lineclamp(lines: number): SxProps {
-  return {
-    display: "-webkit-box",
-    WebkitLineClamp: lines,
-    WebkitBoxOrient: "vertical",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  };
-}
 
 export default DownloadForm;

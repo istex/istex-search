@@ -1,3 +1,4 @@
+import type { SxProps } from "@mui/system/styleFunctionSx";
 import type { NextSearchParams } from "@/types/next";
 
 export function nextSearchParamsToUrlSearchParams(
@@ -21,4 +22,14 @@ export function nextSearchParamsToUrlSearchParams(
   }
 
   return urlSearchParams;
+}
+
+export function lineclamp(lines: number): SxProps {
+  return {
+    display: "-webkit-box",
+    WebkitLineClamp: lines,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
 }

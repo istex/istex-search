@@ -2,6 +2,7 @@
 
 import { Card, CardContent, Typography } from "@/mui/material";
 import { lighten } from "@mui/material/styles";
+import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
 export interface Result {
@@ -24,17 +25,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
     })}
   >
     <CardContent>
-      <Typography
-        variant="h6"
-        component="div"
-        sx={{
-          display: "-webkit-box",
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: "vertical",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
+      <Typography variant="h6" component="div" sx={lineclamp(3)}>
         {info.title}
       </Typography>
 
@@ -73,13 +64,9 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
       <Typography
         variant="body2"
         sx={{
-          display: "-webkit-box",
-          WebkitLineClamp: 6,
-          WebkitBoxOrient: "vertical",
-          maxHeight: "10em",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+          ...lineclamp(6),
           color: "colors.grey",
+          maxHeight: "10em",
         }}
       >
         {info.abstract}

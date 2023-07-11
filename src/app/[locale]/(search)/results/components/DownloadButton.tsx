@@ -20,9 +20,10 @@ const DownloadButton: ServerComponent<DownloadButtonProps> = ({
     <Box
       sx={{
         position: "fixed",
-        bottom: "3rem",
-        textAlign: "center",
+        inset: 0,
+        top: "85dvh",
         width: "100vw",
+        textAlign: "center",
         zIndex: 1,
       }}
     >

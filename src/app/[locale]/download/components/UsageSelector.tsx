@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Tab, Tabs } from "@/mui/material";
 import { usages, type Usage } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
-export type UsageSelectorLabels = Record<Usage["name"], string>;
-
-const UsageSelector: ClientComponent<{ labels: UsageSelectorLabels }> = ({
-  labels,
-}) => {
+const UsageSelector: ClientComponent = () => {
+  const t = useTranslations("config.usages");
   const [currentUsage, setCurrentUsage] = useState<Usage["name"]>(
     usages[0].name
   );
@@ -23,8 +21,8 @@ const UsageSelector: ClientComponent<{ labels: UsageSelectorLabels }> = ({
 
   return (
     <Tabs value={currentUsage} onChange={handleChange} centered>
-      {usages.map(({ name }) => (
-        <Tab key={name} value={name} label={labels[name]} />
+      {usages.map(({ name, label }) => (
+        <Tab key={name} value={name} label={t(label)} />
       ))}
     </Tabs>
   );

@@ -1,21 +1,14 @@
 "use client";
 
 import { type ChangeEventHandler, useState } from "react";
+import { useTranslations } from "next-intl";
 import { FormControlLabel, Switch } from "@/mui/material";
 import AssistedSearchInput from "./AssistedSearchInput";
-import RegularSearchInput, {
-  type RegularSearchInputLabels,
-} from "./RegularSearchInput";
+import RegularSearchInput from "./RegularSearchInput";
 import type { ClientComponent } from "@/types/next";
 
-export interface SearchInputLabels {
-  RegularSearchInput: RegularSearchInputLabels;
-  switch: string;
-}
-
-const SearchInput: ClientComponent<{ labels: SearchInputLabels }> = ({
-  labels,
-}) => {
+const SearchInput: ClientComponent = () => {
+  const t = useTranslations("home.SearchSection.SearchInput");
   const [isAssistedSearch, setIsAssistedSearch] = useState(false);
 
   const toggleAssistedSearch: ChangeEventHandler<HTMLInputElement> = (
@@ -26,11 +19,7 @@ const SearchInput: ClientComponent<{ labels: SearchInputLabels }> = ({
 
   return (
     <>
-      {isAssistedSearch ? (
-        <AssistedSearchInput />
-      ) : (
-        <RegularSearchInput labels={labels.RegularSearchInput} />
-      )}
+      {isAssistedSearch ? <AssistedSearchInput /> : <RegularSearchInput />}
 
       <FormControlLabel
         control={
@@ -40,7 +29,7 @@ const SearchInput: ClientComponent<{ labels: SearchInputLabels }> = ({
             onChange={toggleAssistedSearch}
           />
         }
-        label={labels.switch}
+        label={t("switch")}
         labelPlacement="bottom"
         sx={{ display: "none" }} // TODO: Remove when the assisted search is implemented
       />

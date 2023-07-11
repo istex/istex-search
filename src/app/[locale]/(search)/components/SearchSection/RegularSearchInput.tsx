@@ -5,23 +5,17 @@ import {
   type FormEventHandler,
   useState,
 } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { Box, TextField, Typography } from "@/mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
-export interface RegularSearchInputLabels {
-  searchTitle: string;
-  resultsTitle: string;
-  placeholder: string;
-  button: string;
-  emptyQueryError: string;
-}
-
-const RegularSearchInput: ClientComponent<{
-  labels: RegularSearchInputLabels;
-}> = ({ labels }) => {
+const RegularSearchInput: ClientComponent = () => {
+  const t = useTranslations(
+    "home.SearchSection.SearchInput.RegularSearchInput"
+  );
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
@@ -32,7 +26,7 @@ const RegularSearchInput: ClientComponent<{
     event.preventDefault();
 
     if (queryString.trim() === "") {
-      setErrorMessage(labels.emptyQueryError);
+      setErrorMessage(t("emptyQueryError"));
       return;
     }
 
@@ -56,7 +50,7 @@ const RegularSearchInput: ClientComponent<{
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
-        {urlSegment === "results" ? labels.resultsTitle : labels.searchTitle}
+        {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
       </Typography>
       <Box
         sx={{
@@ -65,7 +59,7 @@ const RegularSearchInput: ClientComponent<{
         }}
       >
         <TextField
-          placeholder={labels.placeholder}
+          placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}
           helperText={errorMessage}
@@ -94,7 +88,7 @@ const RegularSearchInput: ClientComponent<{
             px: 1.75,
           }}
         >
-          {labels.button}
+          {t("button")}
         </Button>
       </Box>
     </Box>

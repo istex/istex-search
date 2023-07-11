@@ -1,10 +1,9 @@
-import { useLocale, useTranslations } from "next-intl";
+import { NextIntlClientProvider, useLocale, useMessages } from "next-intl";
 import { getTranslator } from "next-intl/server";
 import MuiSetup from "@/mui/setup";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import { navbarLinks, type NavbarLinks } from "./components/Navbar/navbarLinks";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
 export const generateMetadata: GenerateMetadata = async ({
@@ -20,27 +19,18 @@ export const generateMetadata: GenerateMetadata = async ({
 
 const RootLayout: Layout = ({ children }) => {
   const locale = useLocale();
-  const t = useTranslations("home.Navbar");
-
-  const translatedNavbarLinks: NavbarLinks = {
-    istex: {
-      label: t(navbarLinks.istex.label),
-      url: navbarLinks.istex.url,
-    },
-    others: navbarLinks.others.map((link) => ({
-      label: t(link.label),
-      url: link.url,
-    })),
-  };
+  const messages = useMessages();
 
   return (
     <html lang={locale}>
       <body>
         <MuiSetup>
-          <Navbar links={translatedNavbarLinks} />
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Navbar />
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </NextIntlClientProvider>
         </MuiSetup>
       </body>
     </html>

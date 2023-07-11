@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { KeyboardBackspaceIcon, MenuIcon } from "@/mui/icons-material";
 import {
   AppBar,
@@ -13,14 +14,11 @@ import {
   Typography,
 } from "@/mui/material";
 import { alpha } from "@mui/material/styles";
-import type { NavbarLinks } from "./navbarLinks";
+import navbarLinks from "./navbarLinks";
 import type { ClientComponent } from "@/types/next";
 
-interface NavbarProps {
-  links: NavbarLinks;
-}
-
-const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
+const Navbar: ClientComponent = () => {
+  const t = useTranslations("home.Navbar");
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>): void => {
@@ -66,7 +64,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
               display: { xs: "block", md: "none" },
             }}
           >
-            {links.others.map(({ label, url }) => (
+            {navbarLinks.others.map(({ label, url }) => (
               <MenuItem key={label} onClick={handleCloseNavMenu}>
                 <Typography
                   component="a"
@@ -75,7 +73,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
                   rel="noreferrer"
                   sx={{ color: "text.primary", textDecoration: "none" }}
                 >
-                  {label}
+                  {t(label)}
                 </Typography>
               </MenuItem>
             ))}
@@ -92,7 +90,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
           }}
         >
           <Button
-            href={links.istex.url}
+            href={navbarLinks.istex.url}
             target="_blank"
             rel="noreferrer"
             sx={(theme) => ({
@@ -106,7 +104,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
             })}
           >
             <KeyboardBackspaceIcon />
-            {links.istex.label}
+            {t(navbarLinks.istex.label)}
           </Button>
         </Box>
 
@@ -120,7 +118,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
             display: { xs: "none", md: "flex" },
           }}
         >
-          {links.others.map(({ label, url }) => (
+          {navbarLinks.others.map(({ label, url }) => (
             <li key={label}>
               <Button
                 onClick={handleCloseNavMenu}
@@ -135,7 +133,7 @@ const Navbar: ClientComponent<NavbarProps> = ({ links }) => {
                   fontSize: "0.625rem",
                 }}
               >
-                {label}
+                {t(label)}
               </Button>
             </li>
           ))}

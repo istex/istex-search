@@ -1,13 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Grid, Typography } from "@/mui/material";
 import { lighten, useTheme } from "@mui/material/styles";
 import type { ClientComponent } from "@/types/next";
 
-const DownloadStepCard: ClientComponent<{ index: number }, true> = ({
-  index,
-  children,
-}) => {
+const DownloadStepCard: ClientComponent<{ index: number }> = ({ index }) => {
+  const t = useTranslations("home.DownloadSection.downloadSteps");
   const theme = useTheme();
   const lighterBlue = lighten(theme.palette.colors.blue, index * 0.2);
   const { white } = theme.palette.colors;
@@ -38,7 +37,17 @@ const DownloadStepCard: ClientComponent<{ index: number }, true> = ({
       >
         {`0${index + 1}`}
       </Typography>
-      {children}
+
+      <Typography
+        variant="h6"
+        component="h3"
+        gutterBottom
+        sx={{ lineHeight: 1.2 }}
+      >
+        {t(`${index}.title`)}
+      </Typography>
+
+      <Typography variant="body2">{t(`${index}.body`)}</Typography>
     </Grid>
   );
 };

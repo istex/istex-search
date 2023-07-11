@@ -1,8 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Grid, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
-import UsageSelector, { type UsageSelectorLabels } from "./UsageSelector";
-import { usages } from "@/config";
+import UsageSelector from "./UsageSelector";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 const Panel: ClientComponent<Omit<PaperProps, "elevation" | "sx">> = (
@@ -11,13 +10,6 @@ const Panel: ClientComponent<Omit<PaperProps, "elevation" | "sx">> = (
 
 const DownloadForm: ServerComponent = () => {
   const t = useTranslations("download");
-  const tUsages = useTranslations("config.usages");
-
-  const usageSelectorLabels: UsageSelectorLabels = {
-    [usages[0].name]: tUsages(usages[0].label),
-    [usages[1].name]: tUsages(usages[1].label),
-    [usages[2].name]: tUsages(usages[2].label),
-  };
 
   return (
     <>
@@ -27,7 +19,7 @@ const DownloadForm: ServerComponent = () => {
       <Grid container spacing={2}>
         <Grid item xs>
           <Panel>
-            <UsageSelector labels={usageSelectorLabels} />
+            <UsageSelector />
             <Typography variant="body2">
               Lorem ipsum dolor sit amet, officia excepteur ex fugiat
               reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit

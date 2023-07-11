@@ -5,19 +5,13 @@ import {
   type FormEventHandler,
   useState,
 } from "react";
+import { useTranslations } from "next-intl";
 import { Box, TextField } from "@/mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
-export interface ImportInputLabels {
-  placeholder: string;
-  button: string;
-  emptyQueryError: string;
-}
-
-const ImportSearchInput: ClientComponent<{ labels: ImportInputLabels }> = ({
-  labels,
-}) => {
+const ImportInput: ClientComponent = () => {
+  const t = useTranslations("home.SearchSection.ImportInput");
   const [queryString, setQueryString] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -25,7 +19,7 @@ const ImportSearchInput: ClientComponent<{ labels: ImportInputLabels }> = ({
     event.preventDefault();
 
     if (queryString.trim() === "") {
-      setErrorMessage(labels.emptyQueryError);
+      setErrorMessage(t("emptyQueryError"));
     }
   };
 
@@ -46,7 +40,7 @@ const ImportSearchInput: ClientComponent<{ labels: ImportInputLabels }> = ({
       }}
     >
       <TextField
-        placeholder={labels.placeholder}
+        placeholder={t("placeholder")}
         value={queryString}
         onChange={handleChange}
         helperText={errorMessage}
@@ -77,10 +71,10 @@ const ImportSearchInput: ClientComponent<{ labels: ImportInputLabels }> = ({
           px: 1.75,
         }}
       >
-        {labels.button}
+        {t("button")}
       </Button>
     </Box>
   );
 };
 
-export default ImportSearchInput;
+export default ImportInput;

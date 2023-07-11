@@ -1,14 +1,4 @@
-interface NavbarLink {
-  label: string;
-  url: string;
-}
-
-export interface NavbarLinks {
-  istex: NavbarLink;
-  others: NavbarLink[];
-}
-
-export const navbarLinks: NavbarLinks = {
+const navbarLinks = {
   istex: {
     label: "istex",
     url: "https://istex.fr/",
@@ -35,4 +25,6 @@ export const navbarLinks: NavbarLinks = {
       url: "https://www.loterre.fr/",
     },
   ],
-};
+} as const;
+
+export default navbarLinks;

@@ -38,12 +38,12 @@ const Header: ServerComponent = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Container sx={{ paddingY: 2 }}>
+      <Container sx={{ py: 2 }}>
         <Box
           sx={{
             display: { xs: "block", md: "flex" },
             gap: 8,
-            marginTop: 2,
+            mt: 2,
             justifyContent: "space-between",
           }}
         >

@@ -66,7 +66,7 @@ const Footer: ServerComponent = () => {
         },
       }}
     >
-      <Container sx={{ paddingY: 3 }}>
+      <Container sx={{ py: 3 }}>
         <Grid component="ul" container spacing={2}>
           {partners.map(({ logo, alt, url, width }) => (
             <Grid
@@ -78,7 +78,7 @@ const Footer: ServerComponent = () => {
             >
               <Box
                 sx={{
-                  margin: "auto",
+                  m: "auto",
                   position: "relative",
                   minHeight: 100,
                   maxWidth: width ?? 128,
@@ -108,7 +108,7 @@ const Footer: ServerComponent = () => {
           ))}
         </Grid>
 
-        <Box sx={{ textAlign: "center", paddingY: 3 }}>
+        <Box sx={{ textAlign: "center", py: 3 }}>
           <Image
             src={investissementLogo}
             alt="Programme Investissement d'Avenir"

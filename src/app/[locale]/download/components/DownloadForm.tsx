@@ -1,12 +1,10 @@
 import { useTranslations } from "next-intl";
 import { Grid, Paper, Typography } from "@/mui/material";
+import { type SxProps } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
+import type { TypographyProps } from "@mui/material/Typography";
 import UsageSelector from "./UsageSelector";
 import type { ClientComponent, ServerComponent } from "@/types/next";
-
-const Panel: ClientComponent<Omit<PaperProps, "elevation" | "sx">> = (
-  props
-) => <Paper elevation={0} sx={{ p: 2 }} {...props} />;
 
 const DownloadForm: ServerComponent = () => {
   const t = useTranslations("download");
@@ -36,28 +34,41 @@ const DownloadForm: ServerComponent = () => {
             </Typography>
           </Panel>
         </Grid>
+
         <Grid item xs={3} container spacing={2} direction="column">
           <Grid item>
             <Panel>
-              <strong>Gateway info</strong>
-              <br />
+              <Title>Gateway info</Title>
               <Typography variant="body2">
                 Lorem ipsum dolor sit amet, officia excepteur ex fugiat
                 reprehenderit enim labore culpa sint ad nisi Lorem pariatur
               </Typography>
             </Panel>
           </Grid>
+
           <Grid item>
             <Panel>
-              <strong>Query info</strong>
-              <br />
-              <Typography variant="body2">
-                Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-                reprehenderit enim labore culpa sint ad nisi Lorem pariatur
-                mollit ex esse exercitation amet. Nisi anim cupidatat excepteur
-                officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip
-                amet voluptate
-              </Typography>
+              <Title>{t("yourQueryTitle")}</Title>
+              <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
+                <Typography variant="body2" sx={lineclamp(6)}>
+                  Lorem ipsum dolor sit amet, officia excepteur ex fugiat
+                  reprehenderit enim labore culpa sint ad nisi Lorem pariatur
+                  mollit ex esse exercitation amet. Nisi anim cupidatat
+                  excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem
+                  est aliquip amet voluptate
+                </Typography>
+              </Panel>
+
+              <Title>{t("rawRequestTitle")}</Title>
+              <Panel sx={{ bgcolor: "colors.white", p: 2 }}>
+                <Typography variant="body2" sx={lineclamp(4)}>
+                  Lorem ipsum dolor sit amet, officia excepteur ex fugiat
+                  reprehenderit enim labore culpa sint ad nisi Lorem pariatur
+                  mollit ex esse exercitation amet. Nisi anim cupidatat
+                  excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem
+                  est aliquip amet voluptate
+                </Typography>
+              </Panel>
             </Panel>
           </Grid>
         </Grid>
@@ -65,5 +76,35 @@ const DownloadForm: ServerComponent = () => {
     </>
   );
 };
+
+const Title: ClientComponent<
+  Omit<
+    TypographyProps & { component?: React.ElementType },
+    "variant" | "gutterBottom" | "color" | "fontSize"
+  >
+> = (props) => (
+  <Typography
+    component="h2"
+    variant="h6"
+    gutterBottom
+    color="primary"
+    fontSize="0.875rem"
+    {...props}
+  />
+);
+
+const Panel: ClientComponent<Omit<PaperProps, "elevation">> = (props) => (
+  <Paper elevation={0} sx={{ p: 2 }} {...props} />
+);
+
+function lineclamp(lines: number): SxProps {
+  return {
+    display: "-webkit-box",
+    WebkitLineClamp: lines,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+}
 
 export default DownloadForm;

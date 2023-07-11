@@ -93,7 +93,9 @@
     "metadata": {
       "title": "Téléchargement"
     },
-    "title": "Configurez votre téléchargement"
+    "title": "Configurez votre téléchargement",
+    "yourQueryTitle": "Votre recherche",
+    "rawRequestTitle": "Requête brute complète"
   },
   "config": {
     "usages": {

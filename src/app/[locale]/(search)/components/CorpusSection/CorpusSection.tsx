@@ -71,7 +71,10 @@ const CorpusSection: ServerComponent = () => {
 };
 
 const Title: ClientComponent<
-  Omit<TypographyProps & { component?: React.ElementType }, "variant">
+  Omit<
+    TypographyProps & { component?: React.ElementType },
+    "variant" | "gutterBottom"
+  >
 > = (props) => (
   <Typography variant="h5" component="h3" gutterBottom {...props} />
 );

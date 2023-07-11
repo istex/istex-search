@@ -1,5 +1,5 @@
 import { useLocale, useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslator } from "next-intl/server";
 import MuiSetup from "@/mui/setup";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -7,8 +7,10 @@ import Navbar from "./components/Navbar";
 import { navbarLinks, type NavbarLinks } from "./components/Navbar/navbarLinks";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
-export const generateMetadata: GenerateMetadata = async () => {
-  const t = await getTranslations("home.metadata");
+export const generateMetadata: GenerateMetadata = async ({
+  params: { locale },
+}) => {
+  const t = await getTranslator(locale, "home.metadata");
 
   return {
     title: "Istex-DL",

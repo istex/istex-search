@@ -1,4 +1,4 @@
-import { getTranslations, redirect } from "next-intl/server";
+import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
@@ -11,8 +11,11 @@ interface IstexApiResponse {
   hits: Result[];
 }
 
-async function getResults(queryString: string): Promise<IstexApiResponse> {
-  const t = await getTranslations("results");
+async function getResults(
+  queryString: string,
+  locale: string
+): Promise<IstexApiResponse> {
+  const t = await getTranslator(locale, "results");
 
   // Create the URL
   const url = buildResultPreviewUrl({
@@ -37,15 +40,20 @@ async function getResults(queryString: string): Promise<IstexApiResponse> {
   return body;
 }
 
-export const generateMetadata: GenerateMetadata = async () => {
-  const t = await getTranslations("results.metadata");
+export const generateMetadata: GenerateMetadata = async ({
+  params: { locale },
+}) => {
+  const t = await getTranslator(locale, "results.metadata");
 
   return {
     title: `Istex-DL - ${t("title")}`,
   };
 };
 
-const ResultsPage: Page = async ({ searchParams: nextSearchParams }) => {
+const ResultsPage: Page = async ({
+  params: { locale },
+  searchParams: nextSearchParams,
+}) => {
   const searchParams = nextSearchParamsToUrlSearchParams(nextSearchParams);
   const queryString = searchParams.get("q");
 
@@ -53,7 +61,7 @@ const ResultsPage: Page = async ({ searchParams: nextSearchParams }) => {
     redirect("/");
   }
 
-  const results = await getResults(queryString);
+  const results = await getResults(queryString, locale);
 
   return (
     <>

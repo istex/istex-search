@@ -33,11 +33,11 @@ const UsageSelector: ClientComponent = () => {
 
   return (
     <StyledTabs value={currentUsage} onChange={handleChange} centered>
-      {usages.map(({ name, label }) => (
+      {usages.map(({ name }) => (
         <StyledTab
           key={name}
           value={name}
-          label={t(label)}
+          label={t(`${name}.label`)}
           disableTouchRipple
         />
       ))}

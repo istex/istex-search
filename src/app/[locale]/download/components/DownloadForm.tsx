@@ -54,7 +54,7 @@ const DownloadForm: ClientComponent = () => {
           {currentUsage?.isGateway === true && (
             <Grid item>
               <Panel>
-                <Title>{tUsages(currentUsage.label)}</Title>
+                <Title>{tUsages(`${currentUsage.name}.label`)}</Title>
                 <Typography variant="body2" gutterBottom>
                   {tUsages.rich(`${currentUsage.name}.description`, {
                     strong: (chunks) => <strong>{chunks}</strong>,

@@ -50,9 +50,9 @@ const CorpusSection: ServerComponent = () => {
           <Box sx={{ display: "flex", gap: 2, pt: 1, mb: 4 }}>
             {usages
               .filter(({ isGateway }) => isGateway)
-              .map(({ name, label, url }) => (
+              .map(({ name, url }) => (
                 <GatewayButton key={name} href={url}>
-                  {tUsages(label)}
+                  {tUsages(`${name}.label`)}
                 </GatewayButton>
               ))}
           </Box>

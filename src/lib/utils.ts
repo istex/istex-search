@@ -3,7 +3,7 @@ import type { NextSearchParams } from "@/types/next";
 
 export function nextSearchParamsToUrlSearchParams(
   nextSearchParams: NextSearchParams
-): URLSearchParams {
+) {
   const urlSearchParams = new URLSearchParams();
 
   for (const paramName in nextSearchParams) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { type MouseEventHandler, useState } from "react";
 import { useTranslations } from "next-intl";
 import { KeyboardBackspaceIcon, MenuIcon } from "@/mui/icons-material";
 import {
@@ -21,11 +21,11 @@ const Navbar: ClientComponent = () => {
   const t = useTranslations("home.Navbar");
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>): void => {
+  const handleOpenNavMenu: MouseEventHandler<HTMLElement> = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (): void => {
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 

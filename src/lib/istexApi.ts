@@ -10,7 +10,7 @@ export function buildResultPreviewUrl({
   queryString,
   size,
   fields,
-}: BuildResultPreviewUrlOptions): URL {
+}: BuildResultPreviewUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
   url.searchParams.set("q", queryString);
   url.searchParams.set("size", size.toString());

@@ -18,7 +18,7 @@ const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
   const urlSegment = useSelectedLayoutSegment();
   const router = useRouter();
 
-  const onLanguageChange = (event: SelectChangeEvent): void => {
+  const onLanguageChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
     router.push(`${event.target.value}/${urlSegment ?? ""}`);
   };

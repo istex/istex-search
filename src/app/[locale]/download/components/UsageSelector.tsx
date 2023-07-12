@@ -19,10 +19,7 @@ const UsageSelector: ClientComponent = () => {
     (searchParams.get("usage") as Usage["name"]) ?? usages[0].name
   );
 
-  const handleChange = (
-    _: React.SyntheticEvent,
-    newValue: Usage["name"]
-  ): void => {
+  const handleChange = (_: React.SyntheticEvent, newValue: Usage["name"]) => {
     setCurrentUsage(newValue);
 
     const searchParamsCopy = new URLSearchParams(searchParams.toString());

@@ -23,7 +23,7 @@ const SearchSection: ClientComponent = () => {
   const handleQueryModeChange = (
     _: MouseEvent<HTMLElement>,
     newQueryMode: QueryMode["name"] | null
-  ): void => {
+  ) => {
     if (newQueryMode != null) {
       setQueryMode(newQueryMode);
     }

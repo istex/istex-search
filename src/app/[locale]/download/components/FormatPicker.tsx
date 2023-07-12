@@ -1,6 +1,6 @@
 "use client";
 
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEventHandler, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   Box,
@@ -16,7 +16,7 @@ const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
   const [checked, setChecked] = useState(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setChecked(event.target.checked);
   };
 

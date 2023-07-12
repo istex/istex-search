@@ -4,7 +4,7 @@ export const usages = [
   {
     name: "custom",
     isGateway: false,
-    url: "",
+    url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
   },
   {
     name: "lodex",

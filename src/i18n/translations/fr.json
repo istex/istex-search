@@ -101,11 +101,12 @@
   "config": {
     "usages": {
       "custom": {
-        "label": "Usage personnalisé"
+        "label": "Usage personnalisé",
+        "description": "<strong>L'usage personnalisé</strong> c'est cool, blabla..."
       },
       "lodex": {
         "label": "Lodex",
-        "description": "<strong>Lodex</strong> vous permet d'explorer plus finement votre corpus grâce à des tableaux de bord bibliométriques réalisés sur les métadonnées. Tous les champs interrogeables peuvent être visualisés sous forme graphique, textuelle, ou sous forme de facette. En outre, des traitements TDM peuvent être mis en œuvre par des web services afin d'enrichir vos données."
+        "description": "<strong>Lodex</strong> est un outil très sympa, blabla..."
       },
       "cortext": {
         "label": "CorTexT",

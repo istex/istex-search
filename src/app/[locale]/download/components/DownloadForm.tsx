@@ -16,9 +16,8 @@ const DownloadForm: ClientComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const queryString = searchParams.get("q");
-  const currentUsage = usages.find(
-    ({ name }) => searchParams.get("usage") === name
-  );
+  const currentUsage =
+    usages.find(({ name }) => searchParams.get("usage") === name) ?? usages[0];
 
   if (queryString == null) {
     redirect("/");
@@ -51,7 +50,7 @@ const DownloadForm: ClientComponent = () => {
         </Grid>
 
         <Grid item xs={4} container spacing={2} direction="column">
-          {currentUsage?.isGateway === true && (
+          {currentUsage != null && (
             <Grid item>
               <Panel>
                 <Title>{tUsages(`${currentUsage.name}.label`)}</Title>

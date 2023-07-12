@@ -120,6 +120,34 @@
       "import": {
         "label": "Import"
       }
+    },
+    "formats": {
+      "fulltext": {
+        "category": "Texte intégral",
+        "pdf": "PDF",
+        "tei": "TEI",
+        "txt": "TXT",
+        "cleaned": "CLEANED",
+        "zip": "ZIP",
+        "tiff": "TIFF"
+      },
+      "metadata": {
+        "category": "Métadonnées",
+        "json": "JSON",
+        "xml": "XML",
+        "mods": "MODS"
+      },
+      "annexes": "Annexes",
+      "covers": "Couvertures",
+      "enrichments": {
+        "category": "Enrichissements",
+        "multicat": "multicat",
+        "nb": "nb",
+        "grobidFulltext": "grobidFulltext",
+        "refBibs": "refBibs",
+        "teeft": "teeft",
+        "unitex": "unitex"
+      }
     }
   }
 }

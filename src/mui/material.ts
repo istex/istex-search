@@ -10,9 +10,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
@@ -42,9 +44,11 @@ export {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Container,
   Dialog,
   DialogContent,
+  Divider,
   FormControl,
   FormControlLabel,
   Grid,

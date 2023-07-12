@@ -3,9 +3,10 @@
 import { useTranslations } from "next-intl";
 import { redirect } from "next-intl/server";
 import { useSearchParams } from "next/navigation";
-import { Grid, Link, Paper, Typography } from "@/mui/material";
+import { Divider, Grid, Link, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
+import FormatPicker from "./FormatPicker";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
 import { lineclamp } from "@/lib/utils";
@@ -32,20 +33,8 @@ const DownloadForm: ClientComponent = () => {
         <Grid item xs>
           <Panel>
             <UsageSelector />
-            <Typography variant="body2">
-              Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-              reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit
-              ex esse exercitation amet. Nisi anim cupidatat excepteur officia.
-              Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet
-              voluptate voluptate dolor minim nulla est proident. Nostrud
-              officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex
-              occaecat reprehenderit commodo officia dolor Lorem duis laboris
-              cupidatat officia voluptate. Culpa proident adipisicing id nulla
-              nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua
-              reprehenderit commodo ex non excepteur duis sunt velit enim.
-              Voluptate laboris sint cupidatat ullamco ut ea consectetur et est
-              culpa et culpa duis.
-            </Typography>
+            <Divider sx={{ mt: 2, mb: 1 }} />
+            <FormatPicker />
           </Panel>
         </Grid>
 
@@ -63,10 +52,10 @@ const DownloadForm: ClientComponent = () => {
                   href={currentUsage.url}
                   target="_blank"
                   rel="noreferrer"
-                  sx={{
-                    fontSize: "0.875rem",
+                  sx={(theme) => ({
+                    fontSize: theme.typography.body2.fontSize,
                     fontWeight: "bold",
-                  }}
+                  })}
                 >
                   {t("seeMoreLink")}
                 </Link>

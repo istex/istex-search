@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import {
   Box,
   Checkbox,
@@ -14,7 +15,7 @@ import {
   FormControlLabel,
   Grid,
 } from "@/mui/material";
-import { type FormatCategoryName, formats } from "@/config";
+import { type FormatCategoryName, formats, usages } from "@/config";
 import {
   deselectFormat,
   getWholeCategoryFormat,
@@ -25,22 +26,19 @@ import type { ClientComponent } from "@/types/next";
 
 const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
+  const searchParams = useSearchParams();
   const [selectedFormats, setSelectedFormats] = useState(0);
+  const currentUsage = searchParams.get("usage") ?? usages[0].name;
+  const customUsageNotSelected = currentUsage !== usages[0].name;
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={(theme) => ({
-        display: "flex",
-        fontSize: theme.typography.body2.fontSize,
-      })}
-    >
+    <Grid container spacing={2} sx={{ display: "flex" }}>
       <Grid item xs={4}>
         <FormatCategory
           name="fulltext"
           selectedFormats={selectedFormats}
           setSelectedFormats={setSelectedFormats}
+          disabled={customUsageNotSelected}
         />
       </Grid>
 
@@ -50,6 +48,7 @@ const FormatPicker: ClientComponent = () => {
             name="metadata"
             selectedFormats={selectedFormats}
             setSelectedFormats={setSelectedFormats}
+            disabled={customUsageNotSelected}
           />
         </Grid>
 
@@ -60,6 +59,7 @@ const FormatPicker: ClientComponent = () => {
               value={formats.others[category as keyof typeof formats.others]}
               selectedFormats={selectedFormats}
               setSelectedFormats={setSelectedFormats}
+              disabled={customUsageNotSelected}
             />
           </Grid>
         ))}
@@ -70,6 +70,7 @@ const FormatPicker: ClientComponent = () => {
           name="enrichments"
           selectedFormats={selectedFormats}
           setSelectedFormats={setSelectedFormats}
+          disabled={customUsageNotSelected}
         />
       </Grid>
     </Grid>
@@ -79,17 +80,19 @@ const FormatPicker: ClientComponent = () => {
 interface FormatProps {
   label: string;
   value: number;
-  indeterminate?: boolean;
   selectedFormats: number;
   setSelectedFormats: Dispatch<SetStateAction<number>>;
+  indeterminate?: boolean;
+  disabled?: boolean;
 }
 
 const Format: ClientComponent<FormatProps> = ({
   label,
   value,
   selectedFormats,
-  indeterminate,
   setSelectedFormats,
+  indeterminate,
+  disabled,
 }) => {
   const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     setSelectedFormats((prev) =>
@@ -101,7 +104,12 @@ const Format: ClientComponent<FormatProps> = ({
     <FormControlLabel
       key={label}
       label={label}
-      disableTypography
+      disabled={disabled}
+      componentsProps={{
+        typography: {
+          sx: (theme) => ({ fontSize: theme.typography.body2.fontSize }),
+        },
+      }}
       control={
         <Checkbox
           checked={isFormatSelected(selectedFormats, value)}
@@ -117,12 +125,14 @@ interface FormatCategoryProps {
   name: FormatCategoryName;
   selectedFormats: number;
   setSelectedFormats: Dispatch<SetStateAction<number>>;
+  disabled?: boolean;
 }
 
 const FormatCategory: ClientComponent<FormatCategoryProps> = ({
   name,
   selectedFormats,
   setSelectedFormats,
+  disabled,
 }) => {
   const t = useTranslations("config.formats");
   const wholeCategoryFormat = getWholeCategoryFormat(name);
@@ -138,7 +148,7 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
   );
 
   return (
-    <FormControl component="fieldset" variant="standard">
+    <FormControl component="fieldset" variant="standard" disabled={disabled}>
       <Format
         label={t(`${name}.category`)}
         value={wholeCategoryFormat}

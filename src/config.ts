@@ -40,6 +40,9 @@ export const istexApiConfig = {
 //
 // | covers | annexes |  enrichments  |   metadata   |   fulltext    |
 //      0        0       0000000000      0000000000     0000000000
+
+export type FormatCategoryName = keyof typeof formats;
+
 export const formats = {
   fulltext: {
     pdf: 1 << 0,
@@ -54,8 +57,6 @@ export const formats = {
     xml: 1 << 11,
     mods: 1 << 12,
   },
-  annexes: 1 << 30,
-  covers: 1 << 31,
   enrichments: {
     multicat: 1 << 20,
     nb: 1 << 21,
@@ -63,5 +64,9 @@ export const formats = {
     refBibs: 1 << 23,
     teeft: 1 << 24,
     unitex: 1 << 25,
+  },
+  others: {
+    annexes: 1 << 30,
+    covers: 1 << 31,
   },
 } as const;

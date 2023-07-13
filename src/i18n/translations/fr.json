@@ -137,8 +137,6 @@
         "xml": "XML",
         "mods": "MODS"
       },
-      "annexes": "Annexes",
-      "covers": "Couvertures",
       "enrichments": {
         "category": "Enrichissements",
         "multicat": "multicat",
@@ -147,6 +145,10 @@
         "refBibs": "refBibs",
         "teeft": "teeft",
         "unitex": "unitex"
+      },
+      "others": {
+        "annexes": "Annexes",
+        "covers": "Couvertures"
       }
     }
   }

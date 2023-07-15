@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  type ChangeEvent,
-  type Dispatch,
-  type SetStateAction,
-  useState,
-} from "react";
+import type { ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Box,
   Checkbox,
@@ -15,11 +10,17 @@ import {
   FormControlLabel,
   Grid,
 } from "@/mui/material";
-import { type FormatCategoryName, formats, usages } from "@/config";
+import {
+  type FormatCategoryName,
+  formats,
+  usages,
+  NO_FORMAT_SELECTED,
+} from "@/config";
 import {
   deselectFormat,
   getWholeCategoryFormat,
   isFormatSelected,
+  isWholeCategorySelected,
   selectFormat,
 } from "@/lib/formats";
 import type { ClientComponent } from "@/types/next";
@@ -27,29 +28,18 @@ import type { ClientComponent } from "@/types/next";
 const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
   const searchParams = useSearchParams();
-  const [selectedFormats, setSelectedFormats] = useState(0);
   const currentUsage = searchParams.get("usage") ?? usages[0].name;
   const customUsageNotSelected = currentUsage !== usages[0].name;
 
   return (
     <Grid container spacing={2} sx={{ display: "flex" }}>
       <Grid item xs={4}>
-        <FormatCategory
-          name="fulltext"
-          selectedFormats={selectedFormats}
-          setSelectedFormats={setSelectedFormats}
-          disabled={customUsageNotSelected}
-        />
+        <FormatCategory name="fulltext" disabled={customUsageNotSelected} />
       </Grid>
 
       <Grid item xs={4} container>
         <Grid item xs={12}>
-          <FormatCategory
-            name="metadata"
-            selectedFormats={selectedFormats}
-            setSelectedFormats={setSelectedFormats}
-            disabled={customUsageNotSelected}
-          />
+          <FormatCategory name="metadata" disabled={customUsageNotSelected} />
         </Grid>
 
         {Object.keys(formats.others).map((category) => (
@@ -57,8 +47,6 @@ const FormatPicker: ClientComponent = () => {
             <Format
               label={t(`others.${category}`)}
               value={formats.others[category as keyof typeof formats.others]}
-              selectedFormats={selectedFormats}
-              setSelectedFormats={setSelectedFormats}
               disabled={customUsageNotSelected}
             />
           </Grid>
@@ -66,12 +54,7 @@ const FormatPicker: ClientComponent = () => {
       </Grid>
 
       <Grid item xs={4}>
-        <FormatCategory
-          name="enrichments"
-          selectedFormats={selectedFormats}
-          setSelectedFormats={setSelectedFormats}
-          disabled={customUsageNotSelected}
-        />
+        <FormatCategory name="enrichments" disabled={customUsageNotSelected} />
       </Grid>
     </Grid>
   );
@@ -80,8 +63,6 @@ const FormatPicker: ClientComponent = () => {
 interface FormatProps {
   label: string;
   value: number;
-  selectedFormats: number;
-  setSelectedFormats: Dispatch<SetStateAction<number>>;
   indeterminate?: boolean;
   disabled?: boolean;
 }
@@ -89,15 +70,30 @@ interface FormatProps {
 const Format: ClientComponent<FormatProps> = ({
   label,
   value,
-  selectedFormats,
-  setSelectedFormats,
   indeterminate,
   disabled,
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // The Number constructor can return NaN but it's fine because NaN turns into
+  // 0 when used with bitwise operators
+  const selectedFormats = Number(searchParams.get("formats"));
+
   const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    setSelectedFormats((prev) =>
-      checked ? selectFormat(prev, value) : deselectFormat(prev, value)
-    );
+    const searchParamsCopy = new URLSearchParams(searchParams.toString());
+    const newFormats = checked
+      ? selectFormat(selectedFormats, value)
+      : deselectFormat(selectedFormats, value);
+
+    if (newFormats !== NO_FORMAT_SELECTED) {
+      searchParamsCopy.set("formats", newFormats.toString());
+    } else {
+      searchParamsCopy.delete("formats");
+    }
+
+    router.push(`${pathname}?${searchParamsCopy.toString()}`);
   };
 
   return (
@@ -123,28 +119,24 @@ const Format: ClientComponent<FormatProps> = ({
 
 interface FormatCategoryProps {
   name: FormatCategoryName;
-  selectedFormats: number;
-  setSelectedFormats: Dispatch<SetStateAction<number>>;
   disabled?: boolean;
 }
 
 const FormatCategory: ClientComponent<FormatCategoryProps> = ({
   name,
-  selectedFormats,
-  setSelectedFormats,
   disabled,
 }) => {
   const t = useTranslations("config.formats");
+  const searchParams = useSearchParams();
   const wholeCategoryFormat = getWholeCategoryFormat(name);
+
+  // The Number constructor can return NaN but it's fine because NaN turns into
+  // 0 when used with bitwise operators
+  const selectedFormats = Number(searchParams.get("formats"));
 
   const isFormatFromCategorySelected = isFormatSelected(
     wholeCategoryFormat,
     selectedFormats
-  );
-
-  const isWholeCategorySelected = isFormatSelected(
-    selectedFormats,
-    wholeCategoryFormat
   );
 
   return (
@@ -152,9 +144,10 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
       <Format
         label={t(`${name}.category`)}
         value={wholeCategoryFormat}
-        indeterminate={isFormatFromCategorySelected && !isWholeCategorySelected}
-        selectedFormats={selectedFormats}
-        setSelectedFormats={setSelectedFormats}
+        indeterminate={
+          isFormatFromCategorySelected &&
+          !isWholeCategorySelected(selectedFormats, name)
+        }
       />
       <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
         {Object.entries(formats[name]).map(([formatName, formatValue]) => (
@@ -162,8 +155,6 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
             key={formatName}
             label={t(`${name}.${formatName}`)}
             value={formatValue}
-            selectedFormats={selectedFormats}
-            setSelectedFormats={setSelectedFormats}
           />
         ))}
       </Box>

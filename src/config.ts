@@ -1,23 +1,3 @@
-export type Usage = (typeof usages)[number];
-
-export const usages = [
-  {
-    name: "custom",
-    isGateway: false,
-    url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
-  },
-  {
-    name: "lodex",
-    isGateway: true,
-    url: "https://lodex.inist.fr/",
-  },
-  {
-    name: "cortext",
-    isGateway: true,
-    url: "https://cortext.net/",
-  },
-] as const;
-
 export type QueryMode = (typeof queryModes)[number];
 
 export const queryModes = [
@@ -42,6 +22,7 @@ export const istexApiConfig = {
 //      0        0       0000000000      0000000000     0000000000
 
 export type FormatCategoryName = keyof typeof formats;
+export const NO_FORMAT_SELECTED = 0;
 
 export const formats = {
   fulltext: {
@@ -70,3 +51,29 @@ export const formats = {
     covers: 1 << 31,
   },
 } as const;
+
+export type Usage = (typeof usages)[number];
+
+export const usages = [
+  {
+    name: "custom",
+    isGateway: false,
+    url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
+    formats: NO_FORMAT_SELECTED,
+  },
+  {
+    name: "lodex",
+    isGateway: true,
+    url: "https://lodex.inist.fr/",
+    formats: formats.metadata.json,
+  },
+  {
+    name: "cortext",
+    isGateway: true,
+    url: "https://cortext.net/",
+    formats:
+      formats.fulltext.tei |
+      formats.fulltext.cleaned |
+      formats.enrichments.teeft,
+  },
+] as const;

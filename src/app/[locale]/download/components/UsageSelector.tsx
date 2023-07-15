@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { montserrat } from "@/mui/fonts";
 import { Tab, Tabs } from "@/mui/material";
 import { styled } from "@mui/material/styles";
-import { usages, type Usage } from "@/config";
+import { type Usage, usages, NO_FORMAT_SELECTED } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
 const UsageSelector: ClientComponent = () => {
@@ -24,6 +24,17 @@ const UsageSelector: ClientComponent = () => {
 
     const searchParamsCopy = new URLSearchParams(searchParams.toString());
     searchParamsCopy.set("usage", newValue);
+
+    const formatToSelect = usages.find(
+      ({ name }) => name === newValue
+    )?.formats;
+    if (formatToSelect != null) {
+      if (formatToSelect === NO_FORMAT_SELECTED) {
+        searchParamsCopy.delete("formats");
+      } else {
+        searchParamsCopy.set("formats", formatToSelect.toString());
+      }
+    }
 
     router.replace(`${pathname}?${searchParamsCopy.toString()}`);
   };

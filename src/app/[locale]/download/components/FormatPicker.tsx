@@ -10,7 +10,7 @@ import {
   FormControlLabel,
   Grid,
 } from "@/mui/material";
-import { type FormatCategoryName, formats, usages } from "@/config";
+import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
 import {
   deselectFormat,
   getWholeCategoryFormat,
@@ -24,8 +24,8 @@ import type { ClientComponent } from "@/types/next";
 const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
   const searchParams = useSearchParams();
-  const currentUsage = searchParams.getUsage();
-  const customUsageNotSelected = currentUsage !== usages[0].name;
+  const currentUsageName = searchParams.getUsageName();
+  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
 
   return (
     <Grid container spacing={2} sx={{ display: "flex" }}>

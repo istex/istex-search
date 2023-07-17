@@ -48,9 +48,9 @@ const CorpusSection: ServerComponent = () => {
           <Paragraph>{t("gateways.paragraph")}</Paragraph>
           <Paragraph>{t("gateways.buttonTop")}</Paragraph>
           <Box sx={{ display: "flex", gap: 2, pt: 1, mb: 4 }}>
-            {usages
-              .filter(({ isGateway }) => isGateway)
-              .map(({ name, url }) => (
+            {Object.entries(usages)
+              .filter(([_, { isGateway }]) => isGateway)
+              .map(([name, { url }]) => (
                 <GatewayButton key={name} href={url}>
                   {tUsages(`${name}.label`)}
                 </GatewayButton>

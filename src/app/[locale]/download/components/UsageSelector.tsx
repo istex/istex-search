@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next-intl/client";
 import { montserrat } from "@/mui/fonts";
 import { Tab, Tabs } from "@/mui/material";
 import { styled } from "@mui/material/styles";
-import { type Usage, usages } from "@/config";
+import { type UsageName, usages } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -15,27 +15,23 @@ const UsageSelector: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [currentUsage, setCurrentUsage] = useState<Usage["name"]>(
-    searchParams.getUsage()
+  const [currentUsageName, setCurrentUsageName] = useState<UsageName>(
+    searchParams.getUsageName()
   );
 
-  const handleChange = (_: React.SyntheticEvent, newValue: Usage["name"]) => {
-    setCurrentUsage(newValue);
-    searchParams.setUsage(newValue);
+  const handleChange = (_: React.SyntheticEvent, newValue: UsageName) => {
+    setCurrentUsageName(newValue);
+    searchParams.setUsageName(newValue);
 
-    const formatToSelect = usages.find(
-      ({ name }) => name === newValue
-    )?.formats;
-    if (formatToSelect != null) {
-      searchParams.setFormats(formatToSelect);
-    }
+    const formatToSelect = usages[newValue].formats;
+    searchParams.setFormats(formatToSelect);
 
     router.replace(`${pathname}?${searchParams.toString()}`);
   };
 
   return (
-    <StyledTabs value={currentUsage} onChange={handleChange} centered>
-      {usages.map(({ name }) => (
+    <StyledTabs value={currentUsageName} onChange={handleChange} centered>
+      {Object.keys(usages).map((name) => (
         <StyledTab
           key={name}
           value={name}

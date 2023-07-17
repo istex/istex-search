@@ -2,7 +2,12 @@ import {
   ReadonlyURLSearchParams,
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
-import { type Usage, NO_FORMAT_SELECTED, usages } from "@/config";
+import {
+  type UsageName,
+  NO_FORMAT_SELECTED,
+  DEFAULT_USAGE_NAME,
+  usages,
+} from "@/config";
 import { type NextSearchParams } from "@/types/next";
 
 // Wrapper class around URLSearchParams with stricter getters and setters
@@ -53,18 +58,21 @@ class SearchParams {
     this.searchParams.set("formats", value.toString());
   }
 
-  getUsage(): Usage["name"] {
+  getUsageName(): UsageName {
     const value = this.searchParams.get("usage");
-    const usage = usages.find(({ name }) => name === value);
-    if (value == null || usage == null) {
-      return usages[0].name;
+    if (value == null) {
+      return DEFAULT_USAGE_NAME;
     }
 
-    return usage.name;
+    if (!Object.keys(usages).includes(value)) {
+      return DEFAULT_USAGE_NAME;
+    }
+
+    return value as UsageName;
   }
 
-  setUsage(value: Usage["name"]): void {
-    if (value === usages[0].name) {
+  setUsageName(value: UsageName): void {
+    if (value === DEFAULT_USAGE_NAME) {
       this.searchParams.delete("usage");
       return;
     }

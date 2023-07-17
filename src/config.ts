@@ -52,23 +52,21 @@ export const formats = {
   },
 } as const;
 
-export type Usage = (typeof usages)[number];
+export type UsageName = keyof typeof usages;
+export const DEFAULT_USAGE_NAME: UsageName = "custom";
 
-export const usages = [
-  {
-    name: "custom",
+export const usages = {
+  custom: {
     isGateway: false,
     url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
     formats: NO_FORMAT_SELECTED,
   },
-  {
-    name: "lodex",
+  lodex: {
     isGateway: true,
     url: "https://lodex.inist.fr/",
     formats: formats.metadata.json,
   },
-  {
-    name: "cortext",
+  cortext: {
     isGateway: true,
     url: "https://cortext.net/",
     formats:
@@ -76,4 +74,4 @@ export const usages = [
       formats.fulltext.cleaned |
       formats.enrichments.teeft,
   },
-] as const;
+} as const;

@@ -17,9 +17,8 @@ const DownloadForm: ClientComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();
-  const currentUsage = usages.find(
-    ({ name }) => searchParams.getUsage() === name
-  );
+  const currentUsageName = searchParams.getUsageName();
+  const currentUsage = usages[currentUsageName];
 
   if (queryString === "") {
     redirect("/");
@@ -43,9 +42,9 @@ const DownloadForm: ClientComponent = () => {
           {currentUsage != null && (
             <Grid item>
               <Panel>
-                <Title>{tUsages(`${currentUsage.name}.label`)}</Title>
+                <Title>{tUsages(`${currentUsageName}.label`)}</Title>
                 <Typography variant="body2" gutterBottom>
-                  {tUsages.rich(`${currentUsage.name}.description`, {
+                  {tUsages.rich(`${currentUsageName}.description`, {
                     strong: (chunks) => <strong>{chunks}</strong>,
                   })}
                 </Typography>

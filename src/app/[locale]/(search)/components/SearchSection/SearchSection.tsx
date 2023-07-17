@@ -10,19 +10,16 @@ import {
   ToggleButtonGroup,
 } from "@/mui/material";
 import SearchInput from "./SearchInput";
-import { type QueryMode, queryModes } from "@/config";
+import { type QueryMode, DEFAULT_QUERY_MODE, queryModes } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
 const SearchSection: ClientComponent = () => {
   const t = useTranslations("config.queryModes");
-
-  const [queryMode, setQueryMode] = useState<QueryMode["name"]>(
-    queryModes[0].name
-  );
+  const [queryMode, setQueryMode] = useState<QueryMode>(DEFAULT_QUERY_MODE);
 
   const handleQueryModeChange = (
     _: MouseEvent<HTMLElement>,
-    newQueryMode: QueryMode["name"] | null
+    newQueryMode: QueryMode | null
   ) => {
     if (newQueryMode != null) {
       setQueryMode(newQueryMode);
@@ -31,7 +28,7 @@ const SearchSection: ClientComponent = () => {
 
   let currentQueryModeUi;
   switch (queryMode) {
-    case queryModes[0].name:
+    case queryModes[0]:
       currentQueryModeUi = <SearchInput />;
       break;
   }
@@ -50,10 +47,10 @@ const SearchSection: ClientComponent = () => {
           value={queryMode}
           onChange={handleQueryModeChange}
         >
-          {queryModes.map(({ name }) => (
-            <ToggleButton key={name} value={name}>
+          {queryModes.map((mode) => (
+            <ToggleButton key={mode} value={mode}>
               <UploadFileIcon />
-              {t(`${name}.label`)}
+              {t(`${mode}.label`)}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>

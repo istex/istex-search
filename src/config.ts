@@ -1,10 +1,7 @@
 export type QueryMode = (typeof queryModes)[number];
+export const DEFAULT_QUERY_MODE: QueryMode = "search";
 
-export const queryModes = [
-  {
-    name: "search",
-  },
-] as const;
+export const queryModes = ["search"] as const;
 
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",

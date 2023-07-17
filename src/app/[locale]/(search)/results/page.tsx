@@ -3,7 +3,7 @@ import DownloadButton from "./components/DownloadButton";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
-import { nextSearchParamsToUrlSearchParams } from "@/lib/utils";
+import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
 
 interface IstexApiResponse {
@@ -54,10 +54,10 @@ const ResultsPage: Page = async ({
   params: { locale },
   searchParams: nextSearchParams,
 }) => {
-  const searchParams = nextSearchParamsToUrlSearchParams(nextSearchParams);
-  const queryString = searchParams.get("q");
+  const searchParams = useSearchParams(nextSearchParams);
+  const queryString = searchParams.getQueryString();
 
-  if (queryString == null) {
+  if (queryString === "") {
     redirect("/");
   }
 

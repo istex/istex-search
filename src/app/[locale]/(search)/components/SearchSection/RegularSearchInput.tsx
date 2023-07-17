@@ -7,9 +7,10 @@ import {
 } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
-import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { Box, TextField, Typography } from "@/mui/material";
 import Button from "@/components/Button";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const RegularSearchInput: ClientComponent = () => {
@@ -19,7 +20,7 @@ const RegularSearchInput: ClientComponent = () => {
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
-  const [queryString, setQueryString] = useState(searchParams.get("q") ?? "");
+  const [queryString, setQueryString] = useState(searchParams.getQueryString());
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
@@ -30,10 +31,9 @@ const RegularSearchInput: ClientComponent = () => {
       return;
     }
 
-    const searchParamsCopy = new URLSearchParams(searchParams.toString());
-    searchParamsCopy.set("q", queryString);
+    searchParams.setQueryString(queryString);
 
-    router.push(`/results?${searchParamsCopy.toString()}`);
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {

@@ -2,7 +2,7 @@
 
 import type { ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Box,
   Checkbox,
@@ -10,12 +10,7 @@ import {
   FormControlLabel,
   Grid,
 } from "@/mui/material";
-import {
-  type FormatCategoryName,
-  formats,
-  usages,
-  NO_FORMAT_SELECTED,
-} from "@/config";
+import { type FormatCategoryName, formats, usages } from "@/config";
 import {
   deselectFormat,
   getWholeCategoryFormat,
@@ -23,12 +18,13 @@ import {
   isWholeCategorySelected,
   selectFormat,
 } from "@/lib/formats";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
   const searchParams = useSearchParams();
-  const currentUsage = searchParams.get("usage") ?? usages[0].name;
+  const currentUsage = searchParams.getUsage();
   const customUsageNotSelected = currentUsage !== usages[0].name;
 
   return (
@@ -76,24 +72,16 @@ const Format: ClientComponent<FormatProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
-  // The Number constructor can return NaN but it's fine because NaN turns into
-  // 0 when used with bitwise operators
-  const selectedFormats = Number(searchParams.get("formats"));
+  const selectedFormats = searchParams.getFormats();
 
   const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    const searchParamsCopy = new URLSearchParams(searchParams.toString());
     const newFormats = checked
       ? selectFormat(selectedFormats, value)
       : deselectFormat(selectedFormats, value);
 
-    if (newFormats !== NO_FORMAT_SELECTED) {
-      searchParamsCopy.set("formats", newFormats.toString());
-    } else {
-      searchParamsCopy.delete("formats");
-    }
+    searchParams.setFormats(newFormats);
 
-    router.push(`${pathname}?${searchParamsCopy.toString()}`);
+    router.push(`${pathname}?${searchParams.toString()}`);
   };
 
   return (
@@ -129,10 +117,7 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
   const t = useTranslations("config.formats");
   const searchParams = useSearchParams();
   const wholeCategoryFormat = getWholeCategoryFormat(name);
-
-  // The Number constructor can return NaN but it's fine because NaN turns into
-  // 0 when used with bitwise operators
-  const selectedFormats = Number(searchParams.get("formats"));
+  const selectedFormats = searchParams.getFormats();
 
   const isFormatFromCategorySelected = isFormatSelected(
     wholeCategoryFormat,

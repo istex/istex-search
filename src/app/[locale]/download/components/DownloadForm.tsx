@@ -2,13 +2,13 @@
 
 import { useTranslations } from "next-intl";
 import { redirect } from "next-intl/server";
-import { useSearchParams } from "next/navigation";
 import { Divider, Grid, Link, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import FormatPicker from "./FormatPicker";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
+import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
@@ -16,11 +16,12 @@ const DownloadForm: ClientComponent = () => {
   const t = useTranslations("download");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
-  const queryString = searchParams.get("q");
-  const currentUsage =
-    usages.find(({ name }) => searchParams.get("usage") === name) ?? usages[0];
+  const queryString = searchParams.getQueryString();
+  const currentUsage = usages.find(
+    ({ name }) => searchParams.getUsage() === name
+  );
 
-  if (queryString == null) {
+  if (queryString === "") {
     redirect("/");
   }
 

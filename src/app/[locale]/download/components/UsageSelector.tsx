@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next-intl/client";
-import { useSearchParams } from "next/navigation";
 import { montserrat } from "@/mui/fonts";
 import { Tab, Tabs } from "@/mui/material";
 import { styled } from "@mui/material/styles";
-import { type Usage, usages, NO_FORMAT_SELECTED } from "@/config";
+import { type Usage, usages } from "@/config";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const UsageSelector: ClientComponent = () => {
@@ -16,27 +16,21 @@ const UsageSelector: ClientComponent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [currentUsage, setCurrentUsage] = useState<Usage["name"]>(
-    (searchParams.get("usage") as Usage["name"]) ?? usages[0].name
+    searchParams.getUsage()
   );
 
   const handleChange = (_: React.SyntheticEvent, newValue: Usage["name"]) => {
     setCurrentUsage(newValue);
-
-    const searchParamsCopy = new URLSearchParams(searchParams.toString());
-    searchParamsCopy.set("usage", newValue);
+    searchParams.setUsage(newValue);
 
     const formatToSelect = usages.find(
       ({ name }) => name === newValue
     )?.formats;
     if (formatToSelect != null) {
-      if (formatToSelect === NO_FORMAT_SELECTED) {
-        searchParamsCopy.delete("formats");
-      } else {
-        searchParamsCopy.set("formats", formatToSelect.toString());
-      }
+      searchParams.setFormats(formatToSelect);
     }
 
-    router.replace(`${pathname}?${searchParamsCopy.toString()}`);
+    router.replace(`${pathname}?${searchParams.toString()}`);
   };
 
   return (

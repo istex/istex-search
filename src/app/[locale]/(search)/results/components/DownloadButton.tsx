@@ -1,10 +1,10 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
 import { Box } from "@/mui/material";
 import Button from "@/components/Button";
 import NextIntlLink from "@/i18n/next-intl-link";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ServerComponent } from "@/types/next";
 
 const DownloadButton: ServerComponent<{ numberOfDocuments: number }> = ({

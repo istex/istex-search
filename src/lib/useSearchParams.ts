@@ -2,6 +2,7 @@ import {
   ReadonlyURLSearchParams,
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
+import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import {
   type UsageName,
   NO_FORMAT_SELECTED,
@@ -40,22 +41,21 @@ class SearchParams {
   }
 
   getFormats(): number {
-    const value = this.searchParams.get("formats");
-    const valueAsNumber = Number(value);
-    if (value == null || Number.isNaN(valueAsNumber)) {
+    const extractParams = this.searchParams.get("extract");
+    if (extractParams == null) {
       return NO_FORMAT_SELECTED;
     }
 
-    return valueAsNumber;
+    return parseExtractParams(extractParams);
   }
 
   setFormats(value: number): void {
     if (value === NO_FORMAT_SELECTED) {
-      this.searchParams.delete("formats");
+      this.searchParams.delete("extract");
       return;
     }
 
-    this.searchParams.set("formats", value.toString());
+    this.searchParams.set("extract", buildExtractParamsFromFormats(value));
   }
 
   getUsageName(): UsageName {

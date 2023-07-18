@@ -71,7 +71,7 @@ const ResultsPage: Page = async ({
         ))}
       </ResultsGrid>
 
-      <DownloadButton numberOfDocuments={results.total} />
+      <DownloadButton size={results.total} />
     </>
   );
 };

@@ -9,3 +9,7 @@ export function lineclamp(lines: number): SxProps {
     textOverflow: "ellipsis",
   };
 }
+
+export function clamp(number: number, min: number, max: number) {
+  return Math.max(min, Math.min(number, max));
+}

@@ -5,6 +5,7 @@ import { redirect } from "next-intl/server";
 import { Divider, Grid, Link, Paper, Typography } from "@/mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
+import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
@@ -19,8 +20,9 @@ const DownloadForm: ClientComponent = () => {
   const queryString = searchParams.getQueryString();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
+  const size = searchParams.getSize();
 
-  if (queryString === "") {
+  if (queryString === "" || size === 0) {
     redirect("/");
   }
 
@@ -35,6 +37,8 @@ const DownloadForm: ClientComponent = () => {
             <UsageSelector />
             <Divider sx={{ mt: 2, mb: 1 }} />
             <FormatPicker />
+            <Divider sx={{ mt: 1, mb: 2 }} />
+            <DownloadButton />
           </Panel>
         </Grid>
 

@@ -7,12 +7,12 @@ import NextIntlLink from "@/i18n/next-intl-link";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ServerComponent } from "@/types/next";
 
-const DownloadButton: ServerComponent<{ numberOfDocuments: number }> = ({
-  numberOfDocuments,
-}) => {
+const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
   const t = useTranslations("results");
-  const searchParams = useSearchParams();
   const locale = useLocale();
+  const searchParams = useSearchParams();
+
+  searchParams.setSize(size);
 
   return (
     <Box
@@ -34,7 +34,7 @@ const DownloadButton: ServerComponent<{ numberOfDocuments: number }> = ({
         sx={{ px: 8, py: 2 }}
       >
         {t("downloadButton", {
-          numberOfDocuments: numberOfDocuments.toLocaleString(locale),
+          size: size.toLocaleString(locale),
         })}
       </Button>
     </Box>

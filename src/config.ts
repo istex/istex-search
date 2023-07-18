@@ -5,6 +5,7 @@ export const queryModes = ["search"] as const;
 
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
+  maxSize: 100_000,
 } as const;
 
 // The selected formats are stored in an integer divided in five sections,

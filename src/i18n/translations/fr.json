@@ -87,7 +87,7 @@
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
     },
-    "downloadButton": "Télécharger le corpus ({numberOfDocuments})"
+    "downloadButton": "Télécharger le corpus ({size})"
   },
   "download": {
     "metadata": {
@@ -96,7 +96,8 @@
     "title": "Configurez votre téléchargement",
     "yourQueryTitle": "Votre recherche",
     "rawRequestTitle": "Requête brute complète",
-    "seeMoreLink": "EN SAVOIR PLUS"
+    "seeMoreLink": "EN SAVOIR PLUS",
+    "downloadButton": "Télécharger le corpus"
   },
   "config": {
     "usages": {

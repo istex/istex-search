@@ -3,11 +3,13 @@ import {
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
+import { clamp } from "./utils";
 import {
   type UsageName,
   NO_FORMAT_SELECTED,
   DEFAULT_USAGE_NAME,
   usages,
+  istexApiConfig,
 } from "@/config";
 import { type NextSearchParams } from "@/types/next";
 
@@ -78,6 +80,25 @@ class SearchParams {
     }
 
     this.searchParams.set("usage", value);
+  }
+
+  getSize(): number {
+    const value = this.searchParams.get("size");
+    const valueAsNumber = Number(value);
+    if (value == null || Number.isNaN(valueAsNumber)) {
+      return 0;
+    }
+
+    return clamp(valueAsNumber, 0, istexApiConfig.maxSize);
+  }
+
+  setSize(value: number): void {
+    if (value === 0) {
+      this.searchParams.delete("size");
+      return;
+    }
+
+    this.searchParams.set("size", value.toString());
   }
 
   toString(): string {

@@ -97,6 +97,7 @@ const Format: ClientComponent<FormatProps> = ({
       }}
       control={
         <Checkbox
+          id={label}
           name={label}
           checked={isFormatSelected(selectedFormats, value)}
           indeterminate={indeterminate}

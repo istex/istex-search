@@ -1,5 +1,5 @@
 import { buildExtractParamsFromFormats } from "./formats";
-import { NO_FORMAT_SELECTED, istexApiConfig } from "@/config";
+import { istexApiConfig } from "@/config";
 
 interface BuildResultPreviewUrlOptions {
   queryString: string;
@@ -32,17 +32,14 @@ export function buildFullApiUrl({
   selectedFormats,
   size,
 }: BuildFullApiUrlOptions) {
-  if (selectedFormats === NO_FORMAT_SELECTED) {
-    return null;
-  }
-
-  const extractParams = buildExtractParamsFromFormats(selectedFormats);
-
   const url = new URL("document", istexApiConfig.baseUrl);
   url.searchParams.set("q", queryString);
-  url.searchParams.set("extract", extractParams);
   url.searchParams.set("size", size.toString());
   url.searchParams.set("sid", "istex-dl");
+  url.searchParams.set(
+    "extract",
+    buildExtractParamsFromFormats(selectedFormats)
+  );
 
   return url;
 }

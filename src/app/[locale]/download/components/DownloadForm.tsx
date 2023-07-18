@@ -9,6 +9,7 @@ import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
+import { buildFullApiUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
@@ -18,9 +19,15 @@ const DownloadForm: ClientComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();
+  const selectedFormats = searchParams.getFormats();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const size = searchParams.getSize();
+  const fullApiUrl = buildFullApiUrl({
+    queryString,
+    selectedFormats,
+    size,
+  }).toString();
 
   if (queryString === "" || size === 0) {
     redirect("/");
@@ -79,12 +86,15 @@ const DownloadForm: ClientComponent = () => {
 
               <Title>{t("rawRequestTitle")}</Title>
               <Panel sx={{ bgcolor: "colors.white", p: 2 }}>
-                <Typography variant="body2" sx={lineclamp(4)}>
-                  Lorem ipsum dolor sit amet, officia excepteur ex fugiat
-                  reprehenderit enim labore culpa sint ad nisi Lorem pariatur
-                  mollit ex esse exercitation amet. Nisi anim cupidatat
-                  excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem
-                  est aliquip amet voluptate
+                <Typography
+                  variant="body2"
+                  component={Link}
+                  href={fullApiUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  sx={{ ...lineclamp(4), wordBreak: "break-word" }}
+                >
+                  {fullApiUrl}
                 </Typography>
               </Panel>
             </Panel>

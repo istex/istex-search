@@ -18,9 +18,6 @@ const DownloadButton: ClientComponent = () => {
 
   const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
     const url = buildFullApiUrl({ queryString, selectedFormats, size });
-    if (url == null) {
-      return;
-    }
 
     // Hack to download the archive and see the progression in the download bar built in browsers
     // We create a fake 'a' tag that points to the URL we just built and simulate a click on it

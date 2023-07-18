@@ -33,13 +33,15 @@ export function buildFullApiUrl({
   size,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
+
   url.searchParams.set("q", queryString);
   url.searchParams.set("size", size.toString());
   url.searchParams.set("sid", "istex-dl");
-  url.searchParams.set(
-    "extract",
-    buildExtractParamsFromFormats(selectedFormats)
-  );
+
+  const extractParams = buildExtractParamsFromFormats(selectedFormats);
+  if (extractParams !== "") {
+    url.searchParams.set("extract", extractParams);
+  }
 
   return url;
 }

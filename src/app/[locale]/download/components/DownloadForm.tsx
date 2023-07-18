@@ -39,29 +39,27 @@ const DownloadForm: ClientComponent = () => {
         </Grid>
 
         <Grid item xs={4} container spacing={2} direction="column">
-          {currentUsage != null && (
-            <Grid item>
-              <Panel>
-                <Title>{tUsages(`${currentUsageName}.label`)}</Title>
-                <Typography variant="body2" gutterBottom>
-                  {tUsages.rich(`${currentUsageName}.description`, {
-                    strong: (chunks) => <strong>{chunks}</strong>,
-                  })}
-                </Typography>
-                <Link
-                  href={currentUsage.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  sx={(theme) => ({
-                    fontSize: theme.typography.body2.fontSize,
-                    fontWeight: "bold",
-                  })}
-                >
-                  {t("seeMoreLink")}
-                </Link>
-              </Panel>
-            </Grid>
-          )}
+          <Grid item>
+            <Panel>
+              <Title>{tUsages(`${currentUsageName}.label`)}</Title>
+              <Typography variant="body2" gutterBottom>
+                {tUsages.rich(`${currentUsageName}.description`, {
+                  strong: (chunks) => <strong>{chunks}</strong>,
+                })}
+              </Typography>
+              <Link
+                href={currentUsage.url}
+                target="_blank"
+                rel="noreferrer"
+                sx={(theme) => ({
+                  fontSize: theme.typography.body2.fontSize,
+                  fontWeight: "bold",
+                })}
+              >
+                {t("seeMoreLink")}
+              </Link>
+            </Panel>
+          </Grid>
 
           <Grid item>
             <Panel>

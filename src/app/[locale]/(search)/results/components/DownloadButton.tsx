@@ -26,8 +26,6 @@ const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
       }}
     >
       <Button
-        mainColor="blue"
-        secondaryColor="white"
         href={`/download?${searchParams.toString()}`}
         LinkComponent={NextIntlLink}
         size="large"

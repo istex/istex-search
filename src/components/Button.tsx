@@ -9,8 +9,8 @@ import type { ClientComponent } from "@/types/next";
 import type { KeyOf } from "@/types/utility";
 
 interface CustomButtonProps extends MuiButtonProps {
-  mainColor: KeyOf<Palette["colors"]>;
-  secondaryColor: KeyOf<Palette["colors"]>;
+  mainColor?: KeyOf<Palette["colors"]>;
+  secondaryColor?: KeyOf<Palette["colors"]>;
   target?: HTMLAttributeAnchorTarget;
 }
 
@@ -27,8 +27,8 @@ const CustomButton: ClientComponent<CustomButtonProps> = (props) => {
 
 const Button = styled(CustomButton)<CustomButtonProps>(
   ({ variant, mainColor, secondaryColor, theme }) => {
-    const _mainColor = theme.palette.colors[mainColor];
-    const _secondaryColor = theme.palette.colors[secondaryColor];
+    const _mainColor = theme.palette.colors[mainColor ?? "blue"];
+    const _secondaryColor = theme.palette.colors[secondaryColor ?? "white"];
 
     if (variant === "outlined") {
       return {

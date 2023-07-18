@@ -91,14 +91,7 @@ const CorpusButton: ClientComponent<{ href?: string }, true> = ({
   href,
   children,
 }) => (
-  <Button
-    variant="outlined"
-    mainColor="blue"
-    secondaryColor="white"
-    href={href}
-    target="_blank"
-    rel="noreferrer"
-  >
+  <Button variant="outlined" href={href} target="_blank" rel="noreferrer">
     {children}
   </Button>
 );

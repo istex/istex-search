@@ -34,8 +34,6 @@ const DownloadButton: ClientComponent = () => {
 
   return (
     <Button
-      mainColor="blue"
-      secondaryColor="white"
       size="large"
       fullWidth
       disabled={!isFormComplete}

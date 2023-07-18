@@ -61,8 +61,6 @@ const ImportInput: ClientComponent = () => {
       />
       <Button
         type="submit"
-        mainColor="blue"
-        secondaryColor="white"
         sx={{
           borderTopLeftRadius: { xs: 4, sm: 0 },
           borderBottomLeftRadius: { xs: 4, sm: 0 },

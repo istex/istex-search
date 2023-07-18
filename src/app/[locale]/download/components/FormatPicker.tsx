@@ -88,6 +88,7 @@ const Format: ClientComponent<FormatProps> = ({
     <FormControlLabel
       key={label}
       label={label}
+      htmlFor={label}
       disabled={disabled}
       componentsProps={{
         typography: {
@@ -96,6 +97,7 @@ const Format: ClientComponent<FormatProps> = ({
       }}
       control={
         <Checkbox
+          name={label}
           checked={isFormatSelected(selectedFormats, value)}
           indeterminate={indeterminate}
           onChange={handleChange}

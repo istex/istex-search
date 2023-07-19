@@ -9,7 +9,7 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-} from "@/mui/material";
+} from "@mui/material";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
 import {
   deselectFormat,

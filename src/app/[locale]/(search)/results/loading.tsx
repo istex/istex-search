@@ -1,4 +1,4 @@
-import { Skeleton } from "@/mui/material";
+import { Skeleton } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
 import type { ServerComponent } from "@/types/next";
 

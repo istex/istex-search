@@ -4,7 +4,6 @@ module.exports = {
     "^react(.*)$",
     "^next(.*)$",
     "<THIRD_PARTY_MODULES>",
-    "^@/mui/(.*)$",
     "^@mui/(.*)$",
     "^[./]",
     "^@/(.*)$",

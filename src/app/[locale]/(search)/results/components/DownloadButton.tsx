@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Box } from "@/mui/material";
+import { Box } from "@mui/material";
 import Button from "@/components/Button";
 import NextIntlLink from "@/i18n/next-intl-link";
 import useSearchParams from "@/lib/useSearchParams";

@@ -1,4 +1,4 @@
-import { Container } from "@/mui/material";
+import { Container } from "@mui/material";
 import type { Layout } from "@/types/next";
 
 const ResultsLayout: Layout<{ modal: React.ReactNode }> = ({

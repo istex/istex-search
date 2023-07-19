@@ -1,7 +1,7 @@
 "use client";
 
 import type { HTMLAttributeAnchorTarget } from "react";
-import { Button as MuiButton } from "@/mui/material";
+import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
 import { lighten, styled } from "@mui/material/styles";
 import type { Palette } from "@mui/material/styles";

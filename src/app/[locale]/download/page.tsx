@@ -1,5 +1,5 @@
 import { getTranslator } from "next-intl/server";
-import { Container } from "@/mui/material";
+import { Container } from "@mui/material";
 import DownloadForm from "./components/DownloadForm";
 import type { GenerateMetadata, Page } from "@/types/next";
 

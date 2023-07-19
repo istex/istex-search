@@ -16,4 +16,10 @@ module.exports = withNextIntl({
       },
     ],
   },
+  modularizeImports: {
+    "@mui/material": {
+      transform: "@mui/material/{{member}}",
+      preventFullImport: true,
+    },
+  },
 });

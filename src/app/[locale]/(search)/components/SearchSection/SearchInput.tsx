@@ -2,7 +2,7 @@
 
 import { type ChangeEventHandler, useState } from "react";
 import { useTranslations } from "next-intl";
-import { FormControlLabel, Switch } from "@/mui/material";
+import { FormControlLabel, Switch } from "@mui/material";
 import AssistedSearchInput from "./AssistedSearchInput";
 import RegularSearchInput from "./RegularSearchInput";
 import type { ClientComponent } from "@/types/next";

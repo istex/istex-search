@@ -1,6 +1,6 @@
-import { montserrat } from "@/mui/fonts";
-import { Grid, Link, Paper, Typography } from "@/mui/material";
+import { Grid, Link, Paper, Typography } from "@mui/material";
 import corpus from "./corpus";
+import { montserrat } from "@/mui/fonts";
 import type { ServerComponent } from "@/types/next";
 
 const CorpusGrid: ServerComponent = () => (

@@ -2,13 +2,8 @@
 
 import { type MouseEvent, useState } from "react";
 import { useTranslations } from "next-intl";
-import { UploadFileIcon } from "@/mui/icons-material";
-import {
-  Box,
-  Container,
-  ToggleButton,
-  ToggleButtonGroup,
-} from "@/mui/material";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import SearchInput from "./SearchInput";
 import { type QueryMode, DEFAULT_QUERY_MODE, queryModes } from "@/config";
 import type { ClientComponent } from "@/types/next";

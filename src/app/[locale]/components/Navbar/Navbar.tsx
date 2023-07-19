@@ -2,7 +2,8 @@
 
 import { type MouseEventHandler, useState } from "react";
 import { useTranslations } from "next-intl";
-import { KeyboardBackspaceIcon, MenuIcon } from "@/mui/icons-material";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Box,
@@ -12,7 +13,7 @@ import {
   Menu,
   MenuItem,
   Typography,
-} from "@/mui/material";
+} from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import navbarLinks from "./navbarLinks";
 import type { ClientComponent } from "@/types/next";

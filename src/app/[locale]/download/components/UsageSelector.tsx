@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next-intl/client";
-import { montserrat } from "@/mui/fonts";
-import { Tab, Tabs } from "@/mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { type UsageName, usages } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
+import { montserrat } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
 
 const UsageSelector: ClientComponent = () => {

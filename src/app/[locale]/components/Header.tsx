@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { DownloadIcon } from "@/mui/icons-material";
-import { Avatar, Box, Container, Typography } from "@/mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import { Avatar, Box, Container, Typography } from "@mui/material";
 import headerBackground from "@/../public/header-background.jpg";
 import istexDlLogo from "@/../public/istex-dl.svg";
 import type { ServerComponent } from "@/types/next";

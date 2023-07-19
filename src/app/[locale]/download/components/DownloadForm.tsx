@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { redirect } from "next-intl/server";
-import { Divider, Grid, Link, Paper, Typography } from "@/mui/material";
+import { Divider, Grid, Link, Paper, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import DownloadButton from "./DownloadButton";

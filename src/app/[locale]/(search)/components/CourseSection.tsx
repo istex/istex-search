@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Box, Container, Typography } from "@/mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import type { ServerComponent } from "@/types/next";
 

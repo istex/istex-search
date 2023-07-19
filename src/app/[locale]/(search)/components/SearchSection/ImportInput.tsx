@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { Box, TextField } from "@/mui/material";
+import { Box, TextField } from "@mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 

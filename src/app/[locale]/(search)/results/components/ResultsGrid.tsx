@@ -1,4 +1,4 @@
-import { Box } from "@/mui/material";
+import { Box } from "@mui/material";
 import type { ServerComponent } from "@/types/next";
 
 interface ResultsGridProps {

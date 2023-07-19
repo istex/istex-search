@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, AlertTitle } from "@/mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsError: ClientComponent<{ error: Error }> = ({ error }) => (

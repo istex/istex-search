@@ -8,7 +8,7 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, TextField, Typography } from "@/mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";

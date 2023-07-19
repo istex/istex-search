@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, Typography } from "@/mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";

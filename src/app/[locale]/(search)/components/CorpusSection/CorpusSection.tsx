@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
-import { ArrowRightAltIcon } from "@/mui/icons-material";
-import { Box, Container, Typography } from "@/mui/material";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { Box, Container, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material/Box";
 import type { TypographyProps } from "@mui/material/Typography";
 import CorpusGrid from "./CorpusGrid";

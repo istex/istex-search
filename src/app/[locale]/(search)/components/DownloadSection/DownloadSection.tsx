@@ -1,10 +1,8 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, Container, Grid, Typography } from "@/mui/material";
-import DownloadStepCard from "./DownloadStepCard";
+import { Box, Grid, Typography } from "@mui/material";
+import DownloadSteps from "./DownloadSteps";
 import type { ServerComponent } from "@/types/next";
-
-const NUMBER_OF_STEPS = 3;
 
 const DownloadSection: ServerComponent = () => {
   const t = useTranslations("home.DownloadSection");
@@ -48,20 +46,7 @@ const DownloadSection: ServerComponent = () => {
         </Grid>
       </Grid>
 
-      {/* Download steps */}
-      <Container component="article" sx={{ transform: "translateY(-3rem)" }}>
-        <Grid
-          component="ol"
-          container
-          sx={{ color: "colors.white", textAlign: "center" }}
-        >
-          {Array(NUMBER_OF_STEPS)
-            .fill(0)
-            .map((_, i) => (
-              <DownloadStepCard key={i} index={i} />
-            ))}
-        </Grid>
-      </Container>
+      <DownloadSteps />
     </Box>
   );
 };

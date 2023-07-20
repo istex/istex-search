@@ -55,7 +55,7 @@ const CorpusSection: ServerComponent = () => {
           </Paragraph>
           <Paragraph>{t("gateways.paragraph")}</Paragraph>
           <Paragraph>{t("gateways.buttonTop")}</Paragraph>
-          <Box sx={{ display: "flex", gap: 2, pt: 1, mb: 4 }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, pt: 1, mb: 4 }}>
             {Object.entries(usages)
               .filter(([_, { isGateway }]) => isGateway)
               .map(([name, { url }]) => (

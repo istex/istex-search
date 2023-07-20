@@ -112,6 +112,10 @@
       "cortext": {
         "label": "CorTexT",
         "description": "<strong>CorTexT</strong> est un outil très sympa, blabla..."
+      },
+      "gargantext": {
+        "label": "GarganText",
+        "description": "<strong>GarganText</strong> est un outil très sympa, blabla..."
       }
     },
     "queryModes": {

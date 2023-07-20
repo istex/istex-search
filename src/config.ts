@@ -72,4 +72,9 @@ export const usages = {
       formats.fulltext.cleaned |
       formats.enrichments.teeft,
   },
+  gargantext: {
+    isGateway: true,
+    url: "https://gargantext.org/",
+    formats: formats.metadata.json,
+  },
 } as const;

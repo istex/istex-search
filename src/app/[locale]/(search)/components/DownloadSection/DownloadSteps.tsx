@@ -1,14 +1,16 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Container, Grid, Typography } from "@mui/material";
 import { lighten, useTheme } from "@mui/material/styles";
+import { istexApiConfig } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
 const NUMBER_OF_STEPS = 3;
 
 const DownloadSteps: ClientComponent = () => {
   const t = useTranslations("home.DownloadSection.downloadSteps");
+  const locale = useLocale();
   const theme = useTheme();
   const { white } = theme.palette.colors;
   const length = "0.0382rem";
@@ -39,6 +41,7 @@ const DownloadSteps: ClientComponent = () => {
               >
                 <Typography
                   variant="h5"
+                  gutterBottom
                   sx={{
                     fontSize: "3rem",
                     fontWeight: "bold",
@@ -61,7 +64,11 @@ const DownloadSteps: ClientComponent = () => {
                   {t(`${i}.title`)}
                 </Typography>
 
-                <Typography variant="body2">{t(`${i}.body`)}</Typography>
+                <Typography variant="body2">
+                  {t(`${i}.body`, {
+                    maxSize: istexApiConfig.maxSize.toLocaleString(locale),
+                  })}
+                </Typography>
               </Grid>
             );
           })}

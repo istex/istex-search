@@ -11,7 +11,7 @@ const CorpusGrid: ServerComponent = () => (
           elevation={0}
           sx={{ p: 2, bgcolor: "colors.white", height: "100%" }}
         >
-          <Typography variant="body2">{collection}</Typography>
+          <Typography variant="body2">Collection {collection}</Typography>
           <Link
             underline="hover"
             href={url}

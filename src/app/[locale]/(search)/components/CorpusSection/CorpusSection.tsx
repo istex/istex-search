@@ -4,6 +4,7 @@ import { Box, Container, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material/Box";
 import type { TypographyProps } from "@mui/material/Typography";
 import CorpusGrid from "./CorpusGrid";
+import corpus from "./corpus";
 import Button from "@/components/Button";
 import { usages } from "@/config";
 import type { ClientComponent, ServerComponent } from "@/types/next";
@@ -27,7 +28,9 @@ const CorpusSection: ServerComponent = () => {
         {/* Ready-to-use corpus */}
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>
-          <Typography variant="subtitle1">{t("corpus.subtitle")}</Typography>
+          <Typography variant="subtitle1">
+            {t("corpus.subtitle", { corpusLength: corpus.length })}
+          </Typography>
           <CorpusGrid />
           <Box sx={{ display: "flex", gap: 2, pt: 2 }}>
             <CorpusButton href="https://corpus-specialises.corpus.istex.fr/">

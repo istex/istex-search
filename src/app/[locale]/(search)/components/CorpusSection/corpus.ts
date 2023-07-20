@@ -20,12 +20,12 @@ const corpus = [
     url: "https://traduction-machinetranslation.corpus.istex.fr/",
   },
   {
-    title: "Corpus Systématique Animale",
+    title: "Systématique Animale",
     collection: "Systématique",
     url: "https://systematique-animale.corpus.istex.fr/",
   },
   {
-    title: "Corpus Systématique Végétale",
+    title: "Systématique Végétale",
     collection: "Systématique",
     url: "https://systematique-vegetalcsv.corpus.istex.fr/",
   },

@@ -24,10 +24,6 @@ const icons = [
 const Header: ServerComponent = () => {
   const t = useTranslations("home.Header");
 
-  const subtitle = t.rich("subtitle", {
-    strong: (chunks) => <strong>{chunks}</strong>,
-  });
-
   return (
     <Box
       component="header"
@@ -52,9 +48,13 @@ const Header: ServerComponent = () => {
             <Typography
               color="white"
               variant="subtitle1"
-              sx={{ fontSize: "0.875rem", lineHeight: 1.25 }}
+              sx={{
+                fontSize: "0.875rem",
+                fontWeight: "bold",
+                lineHeight: 1.25,
+              }}
             >
-              {subtitle}
+              {t("subtitle")}
             </Typography>
           </Box>
           <Box sx={{ display: "flex", gap: 2, mt: { xs: 2, md: 0 } }}>

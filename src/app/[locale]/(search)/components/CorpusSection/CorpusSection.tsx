@@ -21,10 +21,15 @@ const CorpusSection: ServerComponent = () => {
         backgroundPosition: "bottom left",
         backgroundRepeat: "no-repeat",
         bgcolor: "#f6f9fa",
-        mb: { xs: 6, md: 0 },
+        mb: { xs: 6, sm: 0 },
       }}
     >
-      <Container sx={{ display: { xs: "block", md: "flex" }, gap: 8 }}>
+      <Container
+        sx={{
+          display: { xs: "block", sm: "flex" },
+          gap: { xs: 0, sm: 3, md: 8 },
+        }}
+      >
         {/* Ready-to-use corpus */}
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>

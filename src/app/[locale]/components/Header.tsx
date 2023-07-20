@@ -37,7 +37,7 @@ const Header: ServerComponent = () => {
       <Container sx={{ py: 2 }}>
         <Box
           sx={{
-            display: { xs: "block", md: "flex" },
+            display: { xs: "block", sm: "flex" },
             gap: 8,
             mt: 2,
             justifyContent: "space-between",
@@ -57,7 +57,7 @@ const Header: ServerComponent = () => {
               {t("subtitle")}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: 2, mt: { xs: 2, md: 0 } }}>
+          <Box sx={{ display: "flex", gap: 2, mt: { xs: 2, sm: 0 } }}>
             {icons.map((icon) => {
               const title = t(icon.title);
               return (

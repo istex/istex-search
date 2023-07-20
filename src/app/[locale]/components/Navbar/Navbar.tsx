@@ -37,7 +37,7 @@ const Navbar: ClientComponent = () => {
     >
       <Container sx={{ display: "flex", fontSize: "0.625rem" }}>
         {/* Burger menu that only appears on small screens */}
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+        <Box sx={{ display: { xs: "flex", sm: "none" } }}>
           <IconButton
             size="small"
             aria-label="external scientific documentation resources"
@@ -62,7 +62,7 @@ const Navbar: ClientComponent = () => {
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", md: "none" },
+              display: { xs: "block", sm: "none" },
             }}
           >
             {navbarLinks.others.map(({ label, url }) => (
@@ -87,7 +87,7 @@ const Navbar: ClientComponent = () => {
             flexGrow: 1,
             display: "flex",
             alignItems: "inherit",
-            justifyContent: { xs: "center", md: "start" },
+            justifyContent: { xs: "center", sm: "start" },
           }}
         >
           <Button
@@ -116,7 +116,7 @@ const Navbar: ClientComponent = () => {
             flexGrow: 1,
             gap: "1px",
             justifyContent: "flex-end",
-            display: { xs: "none", md: "flex" },
+            display: { xs: "none", sm: "flex" },
           }}
         >
           {navbarLinks.others.map(({ label, url }) => (

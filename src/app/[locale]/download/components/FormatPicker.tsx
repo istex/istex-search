@@ -29,17 +29,22 @@ const FormatPicker: ClientComponent = () => {
 
   return (
     <Grid container spacing={2} sx={{ display: "flex" }}>
-      <Grid item xs={4}>
+      <Grid item xs={6} sm={4}>
         <FormatCategory name="fulltext" disabled={customUsageNotSelected} />
       </Grid>
 
-      <Grid item xs={4} container>
-        <Grid item xs={12}>
+      <Grid item xs={6} sm={4} container>
+        <Grid item sm={12}>
           <FormatCategory name="metadata" disabled={customUsageNotSelected} />
         </Grid>
 
         {Object.keys(formats.others).map((category) => (
-          <Grid key={category} item xs={12}>
+          <Grid
+            key={category}
+            item
+            sm={12}
+            sx={{ display: { xs: "none", sm: "flex" } }}
+          >
             <Format
               label={t(`others.${category}`)}
               value={formats.others[category as keyof typeof formats.others]}
@@ -49,8 +54,25 @@ const FormatPicker: ClientComponent = () => {
         ))}
       </Grid>
 
-      <Grid item xs={4}>
+      <Grid item xs={6} sm={4}>
         <FormatCategory name="enrichments" disabled={customUsageNotSelected} />
+      </Grid>
+
+      <Grid
+        item
+        xs={6}
+        container
+        sx={{ display: { xs: "flex", sm: "none" }, alignContent: "start" }}
+      >
+        {Object.keys(formats.others).map((category) => (
+          <Grid key={category} item xs={12}>
+            <Format
+              label={t(`others.${category}`)}
+              value={formats.others[category as keyof typeof formats.others]}
+              disabled={customUsageNotSelected}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Grid>
   );
@@ -101,6 +123,7 @@ const Format: ClientComponent<FormatProps> = ({
           name={label}
           checked={isFormatSelected(selectedFormats, value)}
           indeterminate={indeterminate}
+          size="small"
           onChange={handleChange}
         />
       }
@@ -137,7 +160,7 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
           !isWholeCategorySelected(selectedFormats, name)
         }
       />
-      <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", ml: 2 }}>
         {Object.entries(formats[name]).map(([formatName, formatValue]) => (
           <Format
             key={formatName}

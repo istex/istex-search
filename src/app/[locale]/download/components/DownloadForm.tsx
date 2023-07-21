@@ -39,7 +39,7 @@ const DownloadForm: ClientComponent = () => {
         {t("title")}
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs>
+        <Grid item xs={12} md>
           <Panel>
             <UsageSelector />
             <Divider sx={{ mt: 2, mb: 1 }} />
@@ -49,7 +49,7 @@ const DownloadForm: ClientComponent = () => {
           </Panel>
         </Grid>
 
-        <Grid item xs={4} container spacing={2} direction="column">
+        <Grid item xs={12} md={4} container spacing={2} direction="column">
           <Grid item>
             <Panel>
               <Title>{tUsages(`${currentUsageName}.label`)}</Title>

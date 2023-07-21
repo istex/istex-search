@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next-intl/client";
-import { Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { type UsageName, usages } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
@@ -30,16 +30,24 @@ const UsageSelector: ClientComponent = () => {
   };
 
   return (
-    <StyledTabs value={currentUsageName} onChange={handleChange} centered>
-      {Object.keys(usages).map((name) => (
-        <StyledTab
-          key={name}
-          value={name}
-          label={t(`${name}.label`)}
-          disableTouchRipple
-        />
-      ))}
-    </StyledTabs>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <StyledTabs
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
+        value={currentUsageName}
+        onChange={handleChange}
+      >
+        {Object.keys(usages).map((name) => (
+          <StyledTab
+            key={name}
+            value={name}
+            label={t(`${name}.label`)}
+            disableTouchRipple
+          />
+        ))}
+      </StyledTabs>
+    </Box>
   );
 };
 
@@ -71,6 +79,11 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
       backgroundColor: "white",
       boxShadow: "0 4px 5px 0 rgba(0, 0, 0, 0.1)",
     },
+  },
+  "& .MuiTabs-scrollButtons": {
+    width: "unset",
+    paddingLeft: theme.spacing(0.5),
+    paddingRight: theme.spacing(0.5),
   },
 }));
 

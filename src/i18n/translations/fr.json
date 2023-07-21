@@ -12,12 +12,7 @@
       "loterre": "Loterre"
     },
     "Header": {
-      "subtitle": "Créez et téléchargez votre corpus scientifique",
-      "icons": [
-        "Téléchargement massif de données",
-        "Passerelles vers des outils du monde académique",
-        "Corpus optimisé pour la fouille de textes"
-      ]
+      "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>optimisé pour la fouille de textes dans des outils d’analyse"
     },
     "SearchSection": {
       "SearchInput": {

@@ -29,7 +29,7 @@ const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
         href={`/download?${searchParams.toString()}`}
         LinkComponent={NextIntlLink}
         size="large"
-        sx={{ px: 8, py: 2 }}
+        sx={{ px: { xs: 4, sm: 8 }, py: 2, mx: 2 }}
       >
         {t("downloadButton", {
           size: size.toLocaleString(locale),

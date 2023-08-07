@@ -9,7 +9,7 @@ import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import UsageSelector from "./UsageSelector";
 import { usages } from "@/config";
-import { buildFullApiUrl } from "@/lib/istexApi";
+import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
@@ -19,14 +19,11 @@ const DownloadForm: ClientComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();
-  const selectedFormats = searchParams.getFormats();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const size = searchParams.getSize();
-  const fullApiUrl = buildFullApiUrl({
+  const resultsApiUrl = buildResultPreviewUrl({
     queryString,
-    selectedFormats,
-    size,
   }).toString();
 
   if (queryString === "" || size === 0) {
@@ -89,12 +86,12 @@ const DownloadForm: ClientComponent = () => {
                 <Typography
                   variant="body2"
                   component={Link}
-                  href={fullApiUrl}
+                  href={resultsApiUrl}
                   target="_blank"
                   rel="noreferrer"
                   sx={{ ...lineclamp(4), wordBreak: "break-word" }}
                 >
-                  {fullApiUrl}
+                  {resultsApiUrl}
                 </Typography>
               </Panel>
             </Panel>

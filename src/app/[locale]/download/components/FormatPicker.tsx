@@ -3,13 +3,9 @@
 import type { ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  Grid,
-} from "@mui/material";
+import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import Checkbox from "@/components/Checkbox";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
 import {
   deselectFormat,
@@ -23,6 +19,8 @@ import type { ClientComponent } from "@/types/next";
 
 const FormatPicker: ClientComponent = () => {
   const t = useTranslations("config.formats");
+  const theme = useTheme();
+  const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const searchParams = useSearchParams();
   const currentUsageName = searchParams.getUsageName();
   const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
@@ -38,42 +36,35 @@ const FormatPicker: ClientComponent = () => {
           <FormatCategory name="metadata" disabled={customUsageNotSelected} />
         </Grid>
 
-        {Object.keys(formats.others).map((category) => (
-          <Grid
-            key={category}
-            item
-            sm={12}
-            sx={{ display: { xs: "none", sm: "flex" } }}
-          >
-            <Format
-              label={t(`others.${category}`)}
-              value={formats.others[category as keyof typeof formats.others]}
-              disabled={customUsageNotSelected}
-            />
-          </Grid>
-        ))}
+        {!onSmallScreen &&
+          Object.keys(formats.others).map((category) => (
+            <Grid key={category} item sm={12}>
+              <Format
+                label={t(`others.${category}`)}
+                value={formats.others[category as keyof typeof formats.others]}
+                disabled={customUsageNotSelected}
+              />
+            </Grid>
+          ))}
       </Grid>
 
       <Grid item xs={6} sm={4}>
         <FormatCategory name="enrichments" disabled={customUsageNotSelected} />
       </Grid>
 
-      <Grid
-        item
-        xs={6}
-        container
-        sx={{ display: { xs: "flex", sm: "none" }, alignContent: "start" }}
-      >
-        {Object.keys(formats.others).map((category) => (
-          <Grid key={category} item xs={12}>
-            <Format
-              label={t(`others.${category}`)}
-              value={formats.others[category as keyof typeof formats.others]}
-              disabled={customUsageNotSelected}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      {onSmallScreen && (
+        <Grid item xs={6} container sx={{ alignContent: "start" }}>
+          {Object.keys(formats.others).map((category) => (
+            <Grid key={category} item xs={12}>
+              <Format
+                label={t(`others.${category}`)}
+                value={formats.others[category as keyof typeof formats.others]}
+                disabled={customUsageNotSelected}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Grid>
   );
 };
@@ -107,26 +98,12 @@ const Format: ClientComponent<FormatProps> = ({
   };
 
   return (
-    <FormControlLabel
-      key={label}
+    <Checkbox
       label={label}
-      htmlFor={label}
+      indeterminate={indeterminate}
       disabled={disabled}
-      componentsProps={{
-        typography: {
-          sx: (theme) => ({ fontSize: theme.typography.body2.fontSize }),
-        },
-      }}
-      control={
-        <Checkbox
-          id={label}
-          name={label}
-          checked={isFormatSelected(selectedFormats, value)}
-          indeterminate={indeterminate}
-          size="small"
-          onChange={handleChange}
-        />
-      }
+      checked={isFormatSelected(selectedFormats, value)}
+      onChange={handleChange}
     />
   );
 };

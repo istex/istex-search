@@ -3,8 +3,8 @@ import { istexApiConfig } from "@/config";
 
 interface BuildResultPreviewUrlOptions {
   queryString: string;
-  size: number;
-  fields: string[];
+  size?: number;
+  fields?: string[];
 }
 
 export function buildResultPreviewUrl({
@@ -14,8 +14,8 @@ export function buildResultPreviewUrl({
 }: BuildResultPreviewUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
   url.searchParams.set("q", queryString);
-  url.searchParams.set("size", size.toString());
-  url.searchParams.set("output", fields.join(","));
+  url.searchParams.set("size", size?.toString() ?? "10");
+  url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-dl");
 
   return url;

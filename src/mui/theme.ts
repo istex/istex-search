@@ -12,15 +12,6 @@ const colors = {
   white: "#f0f0f0",
 } as const;
 
-const headingOptions: TypographyStyleOptions = {
-  fontFamily: montserrat.style.fontFamily,
-  fontWeight: "bold",
-};
-
-const subtitleOptions: TypographyStyleOptions = {
-  fontFamily: montserrat.style.fontFamily,
-};
-
 // Extend the PaletteOptions definition with our custom colors
 declare module "@mui/material/styles/createPalette" {
   interface Palette {
@@ -31,6 +22,15 @@ declare module "@mui/material/styles/createPalette" {
     colors: typeof colors;
   }
 }
+
+const headingOptions: TypographyStyleOptions = {
+  fontFamily: montserrat.style.fontFamily,
+  fontWeight: "bold",
+};
+
+const subtitleOptions: TypographyStyleOptions = {
+  fontFamily: montserrat.style.fontFamily,
+};
 
 export default createTheme({
   palette: {

@@ -5,6 +5,7 @@ import type { BoxProps } from "@mui/material/Box";
 import type { TypographyProps } from "@mui/material/Typography";
 import CorpusGrid from "./CorpusGrid";
 import corpus from "./corpus";
+import wires from "@/../public/wires.svg";
 import Button from "@/components/Button";
 import { usages } from "@/config";
 import type { ClientComponent, ServerComponent } from "@/types/next";
@@ -17,7 +18,7 @@ const CorpusSection: ServerComponent = () => {
     <Box
       component="section"
       sx={{
-        backgroundImage: "url(/wires.svg)",
+        backgroundImage: `url(${wires.src as string})`,
         backgroundPosition: "bottom left",
         backgroundRepeat: "no-repeat",
         bgcolor: "#f6f9fa",

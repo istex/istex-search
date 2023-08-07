@@ -53,6 +53,7 @@ const RegularSearchInput: ClientComponent = () => {
         }}
       >
         <TextField
+          id="regular-search-input"
           placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}

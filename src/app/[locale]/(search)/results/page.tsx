@@ -1,8 +1,8 @@
 import { getTranslator, redirect } from "next-intl/server";
-import { Alert, AlertTitle } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
+import ErrorCard from "@/components/ErrorCard";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -28,7 +28,11 @@ async function getResults(
   // API call
   const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) {
-    throw new Error(`API responded with a ${response.status} status code!`);
+    const error = new Error(
+      `API responded with a ${response.status} status code!`
+    );
+    error.cause = response.status;
+    throw error;
   }
 
   // Fill some missing fields with placeholder texts
@@ -78,12 +82,8 @@ const ResultsPage: Page = async ({
     );
   } catch (error) {
     return (
-      error instanceof Error && (
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {error.message}
-        </Alert>
-      )
+      error instanceof Error &&
+      typeof error.cause === "number" && <ErrorCard code={error.cause} />
     );
   }
 };

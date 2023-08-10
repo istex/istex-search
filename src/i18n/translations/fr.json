@@ -94,6 +94,11 @@
     "seeMoreLink": "EN SAVOIR PLUS",
     "downloadButton": "Télécharger le corpus"
   },
+  "ErrorCard": {
+    "title": "Erreur",
+    "400": "Une erreur de syntaxe a été détectée.",
+    "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
+  },
   "config": {
     "usages": {
       "custom": {

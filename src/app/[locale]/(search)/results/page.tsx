@@ -61,6 +61,7 @@ const ResultsPage: Page = async ({
 }) => {
   const searchParams = useSearchParams(nextSearchParams);
   const queryString = searchParams.getQueryString();
+  const size = searchParams.getSize();
 
   if (queryString === "") {
     redirect("/");
@@ -77,7 +78,7 @@ const ResultsPage: Page = async ({
           ))}
         </ResultsGrid>
 
-        <DownloadButton size={results.total} />
+        <DownloadButton size={size !== 0 ? size : results.total} />
       </>
     );
   } catch (error) {

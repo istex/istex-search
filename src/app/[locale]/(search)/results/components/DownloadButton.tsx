@@ -19,13 +19,14 @@ const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
       sx={{
         position: "fixed",
         inset: 0,
-        top: "85dvh",
+        top: "85vh",
         width: "100vw",
         textAlign: "center",
         zIndex: 1,
       }}
     >
       <Button
+        id="download-button"
         href={`/download?${searchParams.toString()}`}
         LinkComponent={NextIntlLink}
         size="large"

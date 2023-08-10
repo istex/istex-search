@@ -12,6 +12,7 @@ const ResultsGrid: ServerComponent<ResultsGridProps, true> = ({
   children,
 }) => (
   <Box
+    id="results-grid"
     sx={{
       display: "grid",
       gridTemplateColumns: { xs: "1fr", sm: `repeat(${columns}, 1fr)` },

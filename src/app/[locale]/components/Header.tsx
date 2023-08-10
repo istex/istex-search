@@ -29,7 +29,7 @@ const Header: ServerComponent = () => {
           }}
         >
           <Box>
-            <Link href="/">
+            <Link href="/" id="home-link">
               <Image src={istexDlLogo} alt="Istex-DL" />
             </Link>
             <Typography

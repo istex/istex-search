@@ -13,12 +13,13 @@ interface CustomCheckboxProps extends MuiCheckboxProps {
 }
 
 const CustomCheckbox: ClientComponent<CustomCheckboxProps> = (props) => {
-  const { label, checked, disabled, indeterminate, onChange, ...rest } = props;
+  const { name, label, checked, disabled, indeterminate, onChange, ...rest } =
+    props;
 
   return (
     <FormControlLabel
       label={label}
-      htmlFor={label}
+      htmlFor={name ?? label}
       disabled={disabled}
       componentsProps={{
         typography: {
@@ -27,8 +28,8 @@ const CustomCheckbox: ClientComponent<CustomCheckboxProps> = (props) => {
       }}
       control={
         <MuiCheckbox
-          id={label}
-          name={label}
+          id={name ?? label}
+          name={name ?? label}
           checked={checked}
           indeterminate={indeterminate}
           size="small"

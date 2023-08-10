@@ -50,7 +50,11 @@ const DownloadForm: ClientComponent = () => {
           <Grid item>
             <Panel>
               <Title>{tUsages(`${currentUsageName}.label`)}</Title>
-              <Typography variant="body2" gutterBottom>
+              <Typography
+                data-testid={`${currentUsageName}-usage-description`}
+                variant="body2"
+                gutterBottom
+              >
                 {tUsages.rich(`${currentUsageName}.description`, {
                   strong: (chunks) => <strong>{chunks}</strong>,
                 })}
@@ -74,6 +78,7 @@ const DownloadForm: ClientComponent = () => {
               <Title>{t("yourQueryTitle")}</Title>
               <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
                 <Typography
+                  data-testid="query-string"
                   variant="body2"
                   sx={{ ...lineclamp(6), wordBreak: "break-word" }}
                 >
@@ -84,6 +89,7 @@ const DownloadForm: ClientComponent = () => {
               <Title>{t("rawRequestTitle")}</Title>
               <Panel sx={{ bgcolor: "colors.white", p: 2 }}>
                 <Typography
+                  data-testid="raw-request"
                   variant="body2"
                   component={Link}
                   href={resultsApiUrl}

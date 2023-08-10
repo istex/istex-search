@@ -1,7 +1,7 @@
 import { buildExtractParamsFromFormats } from "./formats";
 import { istexApiConfig } from "@/config";
 
-interface BuildResultPreviewUrlOptions {
+export interface BuildResultPreviewUrlOptions {
   queryString: string;
   size?: number;
   fields?: string[];
@@ -21,7 +21,7 @@ export function buildResultPreviewUrl({
   return url;
 }
 
-interface BuildFullApiUrlOptions {
+export interface BuildFullApiUrlOptions {
   queryString: string;
   selectedFormats: number;
   size: number;

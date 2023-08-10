@@ -40,6 +40,7 @@ const UsageSelector: ClientComponent = () => {
       >
         {Object.keys(usages).map((name) => (
           <StyledTab
+            data-testid={name}
             key={name}
             value={name}
             label={t(`${name}.label`)}

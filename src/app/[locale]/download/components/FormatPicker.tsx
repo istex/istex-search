@@ -18,38 +18,33 @@ import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const FormatPicker: ClientComponent = () => {
-  const t = useTranslations("config.formats");
   const theme = useTheme();
   const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const searchParams = useSearchParams();
-  const currentUsageName = searchParams.getUsageName();
-  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
 
   return (
     <Grid container spacing={2} sx={{ display: "flex" }}>
       <Grid item xs={6} sm={4}>
-        <FormatCategory name="fulltext" disabled={customUsageNotSelected} />
+        <FormatCategory name="fulltext" />
       </Grid>
 
       <Grid item xs={6} sm={4} container>
         <Grid item sm={12}>
-          <FormatCategory name="metadata" disabled={customUsageNotSelected} />
+          <FormatCategory name="metadata" />
         </Grid>
 
         {!onSmallScreen &&
           Object.keys(formats.others).map((category) => (
             <Grid key={category} item sm={12}>
               <Format
-                label={t(`others.${category}`)}
+                name={`others.${category}`}
                 value={formats.others[category as keyof typeof formats.others]}
-                disabled={customUsageNotSelected}
               />
             </Grid>
           ))}
       </Grid>
 
       <Grid item xs={6} sm={4}>
-        <FormatCategory name="enrichments" disabled={customUsageNotSelected} />
+        <FormatCategory name="enrichments" />
       </Grid>
 
       {onSmallScreen && (
@@ -57,9 +52,8 @@ const FormatPicker: ClientComponent = () => {
           {Object.keys(formats.others).map((category) => (
             <Grid key={category} item xs={12}>
               <Format
-                label={t(`others.${category}`)}
+                name={`others.${category}`}
                 value={formats.others[category as keyof typeof formats.others]}
-                disabled={customUsageNotSelected}
               />
             </Grid>
           ))}
@@ -70,22 +64,23 @@ const FormatPicker: ClientComponent = () => {
 };
 
 interface FormatProps {
-  label: string;
+  name: string;
   value: number;
   indeterminate?: boolean;
-  disabled?: boolean;
 }
 
 const Format: ClientComponent<FormatProps> = ({
-  label,
+  name,
   value,
   indeterminate,
-  disabled,
 }) => {
+  const t = useTranslations("config.formats");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const selectedFormats = searchParams.getFormats();
+  const currentUsageName = searchParams.getUsageName();
+  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
 
   const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
     const newFormats = checked
@@ -99,28 +94,24 @@ const Format: ClientComponent<FormatProps> = ({
 
   return (
     <Checkbox
-      label={label}
+      name={name}
+      label={t(name)}
       indeterminate={indeterminate}
-      disabled={disabled}
+      disabled={customUsageNotSelected}
       checked={isFormatSelected(selectedFormats, value)}
       onChange={handleChange}
     />
   );
 };
 
-interface FormatCategoryProps {
-  name: FormatCategoryName;
-  disabled?: boolean;
-}
-
-const FormatCategory: ClientComponent<FormatCategoryProps> = ({
+const FormatCategory: ClientComponent<{ name: FormatCategoryName }> = ({
   name,
-  disabled,
 }) => {
-  const t = useTranslations("config.formats");
   const searchParams = useSearchParams();
   const wholeCategoryFormat = getWholeCategoryFormat(name);
   const selectedFormats = searchParams.getFormats();
+  const currentUsageName = searchParams.getUsageName();
+  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
 
   const isFormatFromCategorySelected = isFormatSelected(
     wholeCategoryFormat,
@@ -128,9 +119,13 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
   );
 
   return (
-    <FormControl component="fieldset" variant="standard" disabled={disabled}>
+    <FormControl
+      component="fieldset"
+      variant="standard"
+      disabled={customUsageNotSelected}
+    >
       <Format
-        label={t(`${name}.category`)}
+        name={`${name}.category`}
         value={wholeCategoryFormat}
         indeterminate={
           isFormatFromCategorySelected &&
@@ -141,7 +136,7 @@ const FormatCategory: ClientComponent<FormatCategoryProps> = ({
         {Object.entries(formats[name]).map(([formatName, formatValue]) => (
           <Format
             key={formatName}
-            label={t(`${name}.${formatName}`)}
+            name={`${name}.${formatName}`}
             value={formatValue}
           />
         ))}

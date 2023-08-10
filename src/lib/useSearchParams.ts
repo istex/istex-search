@@ -98,7 +98,10 @@ class SearchParams {
       return;
     }
 
-    this.searchParams.set("size", value.toString());
+    this.searchParams.set(
+      "size",
+      clamp(value, 0, istexApiConfig.maxSize).toString()
+    );
   }
 
   toString(): string {

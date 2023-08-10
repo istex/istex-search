@@ -1,4 +1,5 @@
 import { getTranslator, redirect } from "next-intl/server";
+import { Alert, AlertTitle } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import ResultCard, { type Result } from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
@@ -61,19 +62,30 @@ const ResultsPage: Page = async ({
     redirect("/");
   }
 
-  const results = await getResults(queryString, locale);
+  try {
+    const results = await getResults(queryString, locale);
 
-  return (
-    <>
-      <ResultsGrid size={10} columns={2}>
-        {results.hits.map((result) => (
-          <ResultCard key={result.id} info={result} />
-        ))}
-      </ResultsGrid>
+    return (
+      <>
+        <ResultsGrid size={10} columns={2}>
+          {results.hits.map((result) => (
+            <ResultCard key={result.id} info={result} />
+          ))}
+        </ResultsGrid>
 
-      <DownloadButton size={results.total} />
-    </>
-  );
+        <DownloadButton size={results.total} />
+      </>
+    );
+  } catch (error) {
+    return (
+      error instanceof Error && (
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {error.message}
+        </Alert>
+      )
+    );
+  }
 };
 
 export default ResultsPage;

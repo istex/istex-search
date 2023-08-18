@@ -7,11 +7,14 @@ import { styled } from "@mui/material/styles";
 import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import InfoPanels from "./InfoPanels";
+import ResultsSettings from "./ResultsSettings";
 import UsageSelector from "./UsageSelector";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ClientComponent = () => {
+const DownloadForm: ClientComponent<{ actualSize: number }> = ({
+  actualSize,
+}) => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();
@@ -32,6 +35,8 @@ const DownloadForm: ClientComponent = () => {
             <UsageSelector />
             <Divider />
             <FormatPicker />
+            <Divider />
+            <ResultsSettings actualSize={actualSize} />
             <Divider />
             <DownloadButton />
           </Paper>

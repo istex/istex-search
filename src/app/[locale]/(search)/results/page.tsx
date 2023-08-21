@@ -1,42 +1,21 @@
 import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
-import ResultCard, { type Result } from "./components/ResultCard";
+import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
-import { buildResultPreviewUrl } from "@/lib/istexApi";
+import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
 
-interface IstexApiResponse {
-  total: number;
-  hits: Result[];
-}
-
-async function getResults(
+async function getTranslatedResults(
   queryString: string,
   locale: string
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
 
-  // Create the URL
-  const url = buildResultPreviewUrl({
-    queryString,
-    size: 10,
-    fields: ["title", "host.title", "author", "abstract"],
-  });
-
-  // API call
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) {
-    const error = new Error(
-      `API responded with a ${response.status} status code!`
-    );
-    error.cause = response.status;
-    throw error;
-  }
+  const body = await getResults(queryString);
 
   // Fill some missing fields with placeholder texts
-  const body: IstexApiResponse = await response.json();
   body.hits.forEach((result) => {
     result.title ??= t("placeholders.noTitle");
     result.abstract ??= t("placeholders.noAbstract");
@@ -68,7 +47,7 @@ const ResultsPage: Page = async ({
   }
 
   try {
-    const results = await getResults(queryString, locale);
+    const results = await getTranslatedResults(queryString, locale);
 
     return (
       <>

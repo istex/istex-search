@@ -12,16 +12,15 @@ async function getTranslatedResults(
   locale: string
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
-
-  const body = await getResults(queryString);
+  const response = await getResults(queryString);
 
   // Fill some missing fields with placeholder texts
-  body.hits.forEach((result) => {
+  response.hits.forEach((result) => {
     result.title ??= t("placeholders.noTitle");
     result.abstract ??= t("placeholders.noAbstract");
   });
 
-  return body;
+  return response;
 }
 
 export const generateMetadata: GenerateMetadata = async ({

@@ -97,7 +97,8 @@
     },
     "ResultsSettings": {
       "download": "Télécharger",
-      "allButton": "Tout"
+      "allButton": "Tout",
+      "warningTooltip": "Votre requête ramène {actualSize} résultats mais la limite autorisée est {maxSize}."
     }
   },
   "ErrorCard": {

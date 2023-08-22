@@ -1,8 +1,10 @@
 "use client";
 
+import type { ChangeEventHandler } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
-import { Box, TextField } from "@mui/material";
+import WarningIcon from "@mui/icons-material/Warning";
+import { Box, IconButton, TextField, Tooltip } from "@mui/material";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
@@ -25,6 +27,15 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const newValue = parseInt(event.target.value);
+    if (isNaN(newValue)) {
+      return;
+    }
+
+    setSize(newValue);
+  };
+
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}>
       <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
@@ -39,11 +50,24 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
           max: maxSize,
         }}
         value={size}
-        onChange={(event) => {
-          setSize(parseInt(event.target.value));
-        }}
+        onChange={handleChange}
       />
-      <Box component="span">/&nbsp;{actualSize.toLocaleString()}</Box>
+      <span>/&nbsp;{maxSize.toLocaleString()}</span>
+      {actualSize > maxSize && (
+        <Tooltip
+          title={t("warningTooltip", {
+            actualSize: actualSize.toLocaleString(),
+            maxSize: istexApiConfig.maxSize.toLocaleString(),
+          })}
+          placement="top"
+          arrow
+          enterTouchDelay={1}
+        >
+          <IconButton size="small" color="warning" sx={{ p: 0 }}>
+            <WarningIcon />
+          </IconButton>
+        </Tooltip>
+      )}
       <Button
         variant="outlined"
         sx={{ ml: "auto" }}

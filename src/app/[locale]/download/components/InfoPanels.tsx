@@ -9,7 +9,7 @@ import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
 const InfoPanels: ClientComponent = () => {
-  const t = useTranslations("download");
+  const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();

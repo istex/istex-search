@@ -89,10 +89,16 @@
       "title": "Téléchargement"
     },
     "title": "Configurez votre téléchargement",
-    "yourQueryTitle": "Votre recherche",
-    "rawRequestTitle": "Requête brute complète",
-    "seeMoreLink": "EN SAVOIR PLUS",
-    "downloadButton": "Télécharger le corpus"
+    "downloadButton": "Télécharger le corpus",
+    "InfoPanels": {
+      "yourQueryTitle": "Votre recherche",
+      "rawRequestTitle": "Requête brute complète",
+      "seeMoreLink": "EN SAVOIR PLUS"
+    },
+    "ResultsSettings": {
+      "download": "Télécharger",
+      "allButton": "Tout"
+    }
   },
   "ErrorCard": {
     "title": "Erreur",

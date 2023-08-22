@@ -14,10 +14,9 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const size = searchParams.getSize();
 
-  const maxSizeToUse = clamp(actualSize, 0, istexApiConfig.maxSize);
-  const sizeToUse = clamp(size, 0, maxSizeToUse);
+  const maxSize = clamp(actualSize, 0, istexApiConfig.maxSize);
+  const size = clamp(searchParams.getSize(), 0, maxSize);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     searchParams.setSize(parseInt(event.target.value));
@@ -32,9 +31,9 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
         size="small"
         inputProps={{
           min: 0,
-          max: maxSizeToUse,
+          max: maxSize,
         }}
-        value={sizeToUse}
+        value={size}
         onChange={handleChange}
       />
     </Box>

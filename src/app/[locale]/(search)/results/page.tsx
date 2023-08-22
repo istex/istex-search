@@ -49,8 +49,11 @@ const ResultsPage: Page = async ({
 
   try {
     const results = await getTranslatedResults(queryString, locale);
-    const maxSizeToUse = clamp(results.total, 0, istexApiConfig.maxSize);
-    const sizeToUse = clamp(size, 0, maxSizeToUse);
+    const maxSize = clamp(results.total, 0, istexApiConfig.maxSize);
+
+    // If the size is 0, take maxSize even if it's technically greater than 0 so
+    // that users get maxSize by default and not 0
+    const sizeToUse = size !== 0 ? clamp(size, 0, maxSize) : maxSize;
 
     return (
       <>

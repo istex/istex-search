@@ -1,28 +1,17 @@
 import { getTranslator } from "next-intl/server";
 import { Container } from "@mui/material";
 import DownloadForm from "./components/DownloadForm";
-import { istexApiConfig } from "@/config";
+import { getResults } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
 
-interface IstexApiResponse {
-  total: number;
-}
-
 async function getActualSize(queryString: string) {
-  const url = new URL("document", istexApiConfig.baseUrl);
-  url.searchParams.set("q", queryString);
-  url.searchParams.set("size", "0");
-  url.searchParams.set("sid", "istex-dl");
+  // We send the same request as the results even thought we
+  // just need the total to hit the Next.js cache went we were
+  // on the results page before
+  const response = await getResults(queryString);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`API responded with a ${response.status} status code!`);
-  }
-
-  const body: IstexApiResponse = await response.json();
-
-  return body.total;
+  return response.total;
 }
 
 export const generateMetadata: GenerateMetadata = async ({

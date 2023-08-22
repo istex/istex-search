@@ -45,7 +45,7 @@ export async function getResults(queryString: string) {
   });
 
   // API call
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, { next: { revalidate: 10 } });
   if (!response.ok) {
     const error = new Error(
       `API responded with a ${response.status} status code!`

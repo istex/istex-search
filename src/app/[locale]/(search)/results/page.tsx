@@ -3,8 +3,10 @@ import DownloadButton from "./components/DownloadButton";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
+import { istexApiConfig } from "@/config";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
+import { clamp } from "@/lib/utils";
 import type { GenerateMetadata, Page } from "@/types/next";
 
 async function getTranslatedResults(
@@ -47,6 +49,8 @@ const ResultsPage: Page = async ({
 
   try {
     const results = await getTranslatedResults(queryString, locale);
+    const maxSizeToUse = clamp(results.total, 0, istexApiConfig.maxSize);
+    const sizeToUse = clamp(size, 0, maxSizeToUse);
 
     return (
       <>
@@ -56,7 +60,7 @@ const ResultsPage: Page = async ({
           ))}
         </ResultsGrid>
 
-        <DownloadButton size={size !== 0 ? size : results.total} />
+        <DownloadButton size={sizeToUse} />
       </>
     );
   } catch (error) {

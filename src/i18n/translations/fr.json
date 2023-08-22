@@ -1,0 +1,160 @@
+{
+  "home": {
+    "metadata": {
+      "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
+    },
+    "Navbar": {
+      "istex": "Accès istex.fr",
+      "a_zJournalsList": "Revue de sommaire",
+      "documentaryDataset": "Référentiels documentaires",
+      "specializedCorpus": "Corpus spécialisés",
+      "objectifTdm": "Objectif TDM",
+      "loterre": "Loterre"
+    },
+    "Header": {
+      "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>optimisé pour la fouille de textes dans des outils d’analyse"
+    },
+    "SearchSection": {
+      "SearchInput": {
+        "RegularSearchInput": {
+          "searchTitle": "Créez votre requête",
+          "resultsTitle": "Résultats de votre requête",
+          "placeholder": "\"physique nucléaire\" AND language:fre",
+          "button": "RECHERCHER",
+          "emptyQueryError": "Veuillez renseigner une requête"
+        },
+        "switch": "Assistant"
+      },
+      "ImportInput": {
+        "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
+        "button": "RECHERCHER",
+        "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"
+      }
+    },
+    "CorpusSection": {
+      "corpus": {
+        "title": "Explorez des corpus prêts-à-l'emploi",
+        "subtitle": "Découvrez nos {corpusLength} derniers corpus spécialisés",
+        "seeMoreButton": "TOUT VOIR",
+        "contactButton": "CORPUS À LA DEMANDE"
+      },
+      "gateways": {
+        "title": "Adaptez votre téléchargement à votre usage",
+        "subtitle": "Istex-DL propose des passerelles vers des outils d'analyse de corpus.",
+        "paragraph": "Quel que soit votre besoin, curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc., Istex-DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
+        "buttonTop": "Pour plus d'informations sur ces outils :",
+        "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00a0?",
+        "contactButton": "CONTACTEZ-NOUS"
+      }
+    },
+    "DownloadSection": {
+      "title": "Téléchargez vos données en 3 étapes",
+      "body": "Les métadonnées des publications présentes dans Istex sont accessibles à tous. Les textes intégraux et les enrichissements produits par Istex sont accessibles aux membres des établissements de l'enseignement supérieur et de la recherche française.",
+      "downloadSteps": [
+        {
+          "title": "Construire une requête",
+          "body": "Plusieurs modes de recherche vous permettent d'interroger Istex : la recherche simple, la recherche assistée et l'import d'une liste d'identifiants."
+        },
+        {
+          "title": "Explorer des résultats",
+          "body": "Différents filtres et indicateurs sont à votre disposition pour analyser le contenu du corpus et affiner votre requête pour obtenir un corpus de qualité."
+        },
+        {
+          "title": "Télécharger massivement",
+          "body": "Istex-DL propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
+        }
+      ]
+    },
+    "CourseSection": {
+      "title": "Besoin de mieux maîtriser l'outil Istex-DL ?",
+      "body": "L'équipe Istex vous propose des formations sur la méthodologie de constitution de corpus.",
+      "button": "Découvrir les formations"
+    },
+    "Footer": {
+      "funding": "Financement "
+    }
+  },
+  "results": {
+    "metadata": {
+      "title": "Résultats"
+    },
+    "placeholders": {
+      "noTitle": "Sans titre",
+      "noAbstract": "Pas de résumé"
+    },
+    "downloadButton": "Télécharger le corpus ({size})"
+  },
+  "download": {
+    "metadata": {
+      "title": "Téléchargement"
+    },
+    "title": "Configurez votre téléchargement",
+    "yourQueryTitle": "Votre recherche",
+    "rawRequestTitle": "Requête brute complète",
+    "seeMoreLink": "EN SAVOIR PLUS",
+    "downloadButton": "Télécharger le corpus"
+  },
+  "ErrorCard": {
+    "title": "Erreur",
+    "400": "Une erreur de syntaxe a été détectée.",
+    "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
+  },
+  "config": {
+    "usages": {
+      "custom": {
+        "label": "Usage personnalisé",
+        "description": "<strong>L'usage personnalisé</strong> c'est cool, blabla..."
+      },
+      "lodex": {
+        "label": "Lodex",
+        "description": "<strong>Lodex</strong> est un outil très sympa, blabla..."
+      },
+      "cortext": {
+        "label": "CorTexT",
+        "description": "<strong>CorTexT</strong> est un outil très sympa, blabla..."
+      },
+      "gargantext": {
+        "label": "GarganText",
+        "description": "<strong>GarganText</strong> est un outil très sympa, blabla..."
+      }
+    },
+    "queryModes": {
+      "search": {
+        "label": "Recherche"
+      },
+      "import": {
+        "label": "Import"
+      }
+    },
+    "formats": {
+      "fulltext": {
+        "category": "Texte intégral",
+        "pdf": "PDF",
+        "tei": "TEI",
+        "txt": "TXT",
+        "cleaned": "CLEANED",
+        "zip": "ZIP",
+        "tiff": "TIFF"
+      },
+      "metadata": {
+        "category": "Métadonnées",
+        "json": "JSON",
+        "xml": "XML",
+        "mods": "MODS"
+      },
+      "enrichments": {
+        "category": "Enrichissements",
+        "multicat": "multicat",
+        "nb": "nb",
+        "grobidFulltext": "grobidFulltext",
+        "refBibs": "refBibs",
+        "teeft": "teeft",
+        "unitex": "unitex"
+      },
+      "others": {
+        "annexes": "Annexes",
+        "covers": "Couvertures"
+      }
+    }
+  }
+}

@@ -162,6 +162,12 @@ export const usages = {
       formats.enrichments.formats.teeft.value,
     tags: ['TDM'],
   },
+  gargantext: {
+    label: 'GarganText',
+    description: 'Plateforme collaborative / Exploration graphique de corpus textuels',
+    selectedFormats: formats.metadata.formats.json.value,
+    tags: ['TDM'],
+  },
 };
 
 export const supportedIdTypes = {

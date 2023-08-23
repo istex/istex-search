@@ -33,7 +33,7 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
       return;
     }
 
-    setSize(newValue);
+    setSize(clamp(newValue, 0, maxSize));
   };
 
   return (
@@ -52,7 +52,9 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
         value={size}
         onChange={handleChange}
       />
-      <span>/&nbsp;{maxSize.toLocaleString()}</span>
+      <span data-testid="max-size-label">
+        /&nbsp;{maxSize.toLocaleString()}
+      </span>
       {actualSize > maxSize && (
         <Tooltip
           title={t("warningTooltip", {

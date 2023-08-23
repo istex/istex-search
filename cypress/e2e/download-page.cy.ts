@@ -114,6 +114,7 @@ describe("The Download Page", () => {
 
     it("Changing the size", () => {
       cy.visit("/download", { qs: { q: queryString, size } });
+      cy.wait(500);
 
       const inputSelector = "input#size-input";
       cy.get(inputSelector).type("3");

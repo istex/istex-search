@@ -3,7 +3,7 @@
 describe("The Download Page", () => {
   describe("Valid", () => {
     const queryString = "hello";
-    const size = 2;
+    const size = 1000;
 
     it("Default state of the page", () => {
       cy.visit("/download", { qs: { q: queryString, size } });
@@ -110,6 +110,25 @@ describe("The Download Page", () => {
       cy.get('input[name="metadata.json"]').should("be.checked");
       cy.get(`p[data-testid=${usage}-usage-description]`).should("exist");
       cy.url().should("include", `extract=${encodeURIComponent(extract)}`);
+    });
+
+    it("Changing the size", () => {
+      cy.visit("/download", { qs: { q: queryString, size } });
+
+      const inputSelector = "input#size-input";
+      cy.get(inputSelector).type("3");
+      cy.get(inputSelector).should("have.value", `${size}3`);
+      cy.url().should("include", `size=${size}3`);
+
+      cy.get("span[data-testid=max-size-label]")
+        .invoke("text")
+        .then((text) => {
+          // Extract the size from the label by removing everything that is not a digit
+          const maxSize = text.replace(/[^0-9]/g, "");
+          cy.get(inputSelector).type("99");
+          cy.get(inputSelector).should("have.value", maxSize);
+          cy.url().should("include", `size=${maxSize}`);
+        });
     });
   });
 

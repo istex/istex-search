@@ -21,6 +21,42 @@ export function buildResultPreviewUrl({
   return url;
 }
 
+export interface Result {
+  id: string;
+  title?: string;
+  abstract?: string;
+  author?: Array<{ name?: string }>;
+  host?: {
+    title?: string;
+  };
+}
+
+export interface IstexApiResponse {
+  total: number;
+  hits: Result[];
+}
+
+export async function getResults(queryString: string) {
+  // Create the URL
+  const url = buildResultPreviewUrl({
+    queryString,
+    size: 10,
+    fields: ["title", "host.title", "author", "abstract"],
+  });
+
+  // API call
+  const response = await fetch(url, { next: { revalidate: 10 } });
+  if (!response.ok) {
+    const error = new Error(
+      `API responded with a ${response.status} status code!`
+    );
+    error.cause = response.status;
+    throw error;
+  }
+
+  return (await response.json()) as IstexApiResponse;
+}
+
 export interface BuildFullApiUrlOptions {
   queryString: string;
   selectedFormats: number;

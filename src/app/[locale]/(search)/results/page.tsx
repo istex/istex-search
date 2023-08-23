@@ -1,48 +1,28 @@
 import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
-import ResultCard, { type Result } from "./components/ResultCard";
+import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
-import { buildResultPreviewUrl } from "@/lib/istexApi";
+import { istexApiConfig } from "@/config";
+import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
+import { clamp } from "@/lib/utils";
 import type { GenerateMetadata, Page } from "@/types/next";
 
-interface IstexApiResponse {
-  total: number;
-  hits: Result[];
-}
-
-async function getResults(
+async function getTranslatedResults(
   queryString: string,
   locale: string
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
-
-  // Create the URL
-  const url = buildResultPreviewUrl({
-    queryString,
-    size: 10,
-    fields: ["title", "host.title", "author", "abstract"],
-  });
-
-  // API call
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) {
-    const error = new Error(
-      `API responded with a ${response.status} status code!`
-    );
-    error.cause = response.status;
-    throw error;
-  }
+  const response = await getResults(queryString);
 
   // Fill some missing fields with placeholder texts
-  const body: IstexApiResponse = await response.json();
-  body.hits.forEach((result) => {
+  response.hits.forEach((result) => {
     result.title ??= t("placeholders.noTitle");
     result.abstract ??= t("placeholders.noAbstract");
   });
 
-  return body;
+  return response;
 }
 
 export const generateMetadata: GenerateMetadata = async ({
@@ -68,7 +48,12 @@ const ResultsPage: Page = async ({
   }
 
   try {
-    const results = await getResults(queryString, locale);
+    const results = await getTranslatedResults(queryString, locale);
+    const maxSize = clamp(results.total, 0, istexApiConfig.maxSize);
+
+    // If the size is 0, take maxSize even if it's technically greater than 0 so
+    // that users get maxSize by default and not 0
+    const sizeToUse = size !== 0 ? clamp(size, 0, maxSize) : maxSize;
 
     return (
       <>
@@ -78,7 +63,7 @@ const ResultsPage: Page = async ({
           ))}
         </ResultsGrid>
 
-        <DownloadButton size={size !== 0 ? size : results.total} />
+        <DownloadButton size={sizeToUse} />
       </>
     );
   } catch (error) {

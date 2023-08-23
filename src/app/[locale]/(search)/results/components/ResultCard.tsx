@@ -2,18 +2,9 @@
 
 import { Card, CardContent, Typography } from "@mui/material";
 import { lighten } from "@mui/material/styles";
+import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
-
-export interface Result {
-  id: string;
-  title?: string;
-  abstract?: string;
-  author?: Array<{ name?: string }>;
-  host?: {
-    title?: string;
-  };
-}
 
 const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
   <Card

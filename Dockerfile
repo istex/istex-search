@@ -16,6 +16,7 @@ COPY next-env.d.ts ./
 COPY next.config.js ./
 COPY package.json ./
 COPY public ./public
+COPY scripts ./scripts
 COPY src ./src
 
 # Leave us alone with your telemetry

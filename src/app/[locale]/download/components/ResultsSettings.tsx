@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEventHandler } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
@@ -15,6 +15,7 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
   actualSize,
 }) => {
   const t = useTranslations("download.ResultsSettings");
+  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -53,13 +54,13 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
         onChange={handleChange}
       />
       <span data-testid="max-size-label">
-        /&nbsp;{maxSize.toLocaleString()}
+        /&nbsp;{maxSize.toLocaleString(locale)}
       </span>
       {actualSize > maxSize && (
         <Tooltip
           title={t("warningTooltip", {
-            actualSize: actualSize.toLocaleString(),
-            maxSize: istexApiConfig.maxSize.toLocaleString(),
+            actualSize: actualSize.toLocaleString(locale),
+            maxSize: istexApiConfig.maxSize.toLocaleString(locale),
           })}
           placement="top"
           arrow

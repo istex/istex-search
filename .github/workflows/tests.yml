@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+          cache: npm
 
       - name: Install dependencies and run tests
         run: npm ci && npm run test:unit
@@ -27,6 +28,15 @@ jobs:
     steps:
       - name: Check out files
         uses: actions/checkout@v3
+
+        # Taken from https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#github-actions
+      - name: Cache nextjs build directory
+        uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Cypress run
         uses: cypress-io/github-action@v5

@@ -1,5 +1,3 @@
-/* eslint-disable cypress/no-unnecessary-waiting */
-
 describe("The Download Page", () => {
   describe("Valid", () => {
     const queryString = "hello";
@@ -24,22 +22,24 @@ describe("The Download Page", () => {
     });
 
     it("Selecting formats", () => {
-      // Adding arbitrary wait times to wait until the page is fully loaded is the only
-      // way I found to make this test pass on all browsers. The initial page load is a
-      // little bit long and each click on a checkbox re-renders the whole view and it
-      // takes some time.
-
       cy.visit("/download", { qs: { q: queryString, size } });
-      cy.wait(2000);
+      cy.get("h1").should("be.visible");
 
-      cy.get('input[name="fulltext.pdf"]').check();
-      cy.wait(1000);
-      cy.get('input[name="metadata.json"]').check();
-      cy.wait(1000);
-      cy.get('input[name="metadata.xml"]').check();
-      cy.wait(1000);
-      cy.get('input[name="metadata.mods"]').check();
-      cy.wait(1000);
+      let inputSelector = 'input[name="fulltext.pdf"]';
+      cy.get(inputSelector).check();
+      cy.get(inputSelector).should("be.checked");
+
+      inputSelector = 'input[name="metadata.json"]';
+      cy.get(inputSelector).check();
+      cy.get(inputSelector).should("be.checked");
+
+      inputSelector = 'input[name="metadata.xml"]';
+      cy.get(inputSelector).check();
+      cy.get(inputSelector).should("be.checked");
+
+      inputSelector = 'input[name="metadata.mods"]';
+      cy.get(inputSelector).check();
+      cy.get(inputSelector).should("be.checked");
 
       cy.get('input[name="fulltext.category"]')
         .invoke("attr", "data-indeterminate")
@@ -114,7 +114,6 @@ describe("The Download Page", () => {
 
     it("Changing the size", () => {
       cy.visit("/download", { qs: { q: queryString, size } });
-      cy.wait(500);
 
       const inputSelector = "input#size-input";
       cy.get(inputSelector).type("3");

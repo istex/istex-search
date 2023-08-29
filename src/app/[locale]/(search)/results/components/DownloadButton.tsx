@@ -17,7 +17,7 @@ const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
   searchParams.setSize(size);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
-    router.push(`/download?${searchParams.toString()}`, { scroll: false });
+    router.push(`/download?${searchParams.toString()}`);
   };
 
   return (

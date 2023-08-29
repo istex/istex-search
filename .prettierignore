@@ -6,3 +6,10 @@ next-env.d.ts
 # (These files are managed by npm and can be quite large and long to parse)
 package.json
 package-lock.json
+
+# Files prettier doesn't support
+.husky/
+.editorconfig
+.gitignore
+.prettierignore
+Dockerfile

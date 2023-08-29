@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSelectedLayoutSegment } from "next/navigation";
+import { useRouter } from "next-intl/client";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import { SUPPORTED_LOCALES } from "@/i18n/constants";

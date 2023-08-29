@@ -2,7 +2,7 @@
 
 import type { ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next-intl/client";
 import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@/components/Checkbox";

@@ -7,8 +7,18 @@ next-env.d.ts
 package.json
 package-lock.json
 
-# Files prettier doesn't support
-.husky/
+# Files not supported by prettier
+
+# shell scripts
+*.sh
+
+# images
+*.ico
+*.jpg
+*.png
+*.svg
+
+# config files
 .editorconfig
 .gitignore
 .prettierignore

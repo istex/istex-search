@@ -2,7 +2,7 @@
 
 import type { ChangeEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next-intl/client";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
 import Button from "@/components/Button";

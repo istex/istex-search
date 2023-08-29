@@ -7,13 +7,13 @@ describe("The Results Page", () => {
     });
 
     it("Search", () => {
-      cy.get("a#download-button").should("exist");
+      cy.get("button#download-button").should("exist");
       cy.get("input#regular-search-input").should("have.value", queryString);
       cy.get("#results-grid").children().should("have.length.gt", 0);
     });
 
     it("Going to download page", () => {
-      cy.get("a#download-button").click();
+      cy.get("button#download-button").click();
       cy.url().should("include", "/download");
     });
 

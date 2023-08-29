@@ -1,4 +1,4 @@
 module.exports = {
   "*": "prettier --write",
-  "*.js": "eslint",
+  "*.[jt]s(x)?": "eslint",
 };

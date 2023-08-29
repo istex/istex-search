@@ -26,7 +26,7 @@ const UsageSelector: ClientComponent = () => {
     const formatToSelect = usages[newValue].formats;
     searchParams.setFormats(formatToSelect);
 
-    router.replace(`${pathname}?${searchParams.toString()}`);
+    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   return (

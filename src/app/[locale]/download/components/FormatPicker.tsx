@@ -89,7 +89,7 @@ const Format: ClientComponent<FormatProps> = ({
 
     searchParams.setFormats(newFormats);
 
-    router.replace(`${pathname}?${searchParams.toString()}`);
+    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   return (

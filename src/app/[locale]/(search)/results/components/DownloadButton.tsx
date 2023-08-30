@@ -22,19 +22,18 @@ const DownloadButton: ServerComponent<{ size: number }> = ({ size }) => {
 
   return (
     <Box
-      sx={{
-        position: "fixed",
+      sx={(theme) => ({
+        position: "sticky",
         inset: 0,
-        top: "85vh",
-        width: "100vw",
+        bottom: theme.spacing(8),
         textAlign: "center",
         zIndex: 1,
-      }}
+      })}
     >
       <Button
         id="download-button"
         size="large"
-        sx={{ px: { xs: 4, sm: 8 }, py: 2, mx: 2 }}
+        sx={{ px: { xs: 4, sm: 8 }, py: 2 }}
         onClick={handleClick}
       >
         {t("downloadButton", {

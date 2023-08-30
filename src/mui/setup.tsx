@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 import { useServerInsertedHTML } from "next/navigation";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
+import * as locales from "@mui/material/locale";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 
@@ -33,13 +36,27 @@ const EmotionCacheProvider: ClientComponent<Record<string, unknown>, true> = ({
 
 const MuiSetup: ClientComponent<Record<string, unknown>, true> = ({
   children,
-}) => (
-  <EmotionCacheProvider>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
-  </EmotionCacheProvider>
-);
+}) => {
+  const locale = useLocale();
+  const themeWithLocale = useMemo(
+    () => createTheme(theme, locales[localeToMuiImportName(locale)]),
+    [locale]
+  );
+
+  return (
+    <EmotionCacheProvider>
+      <ThemeProvider theme={themeWithLocale}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </EmotionCacheProvider>
+  );
+};
+
+function localeToMuiImportName(locale: string) {
+  // locales follow the format '<lang>-<country>' and the MUI import name have
+  // the same format but without the hyphen
+  return locale.replace("-", "") as keyof typeof locales;
+}
 
 export default MuiSetup;

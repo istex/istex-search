@@ -109,10 +109,16 @@ const Footer: ServerComponent = () => {
         </Grid>
 
         <Box sx={{ textAlign: "center", py: 3 }}>
-          <Image
-            src={investissementLogo}
-            alt="Programme Investissement d'Avenir"
-          />
+          <a
+            href="https://anr.fr/ProjetIA-10-IDEX-0004"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image
+              src={investissementLogo}
+              alt="Programme Investissement d'Avenir"
+            />
+          </a>
           <Typography>{t("funding")}: ANR-10-IDEX-0004-02</Typography>
         </Box>
       </Container>

@@ -1,3 +1,5 @@
+/* eslint-disable cypress/no-unnecessary-waiting */
+
 describe("The Home Page", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -8,6 +10,7 @@ describe("The Home Page", () => {
 
     cy.get("input#regular-search-input").type(queryString);
     cy.get("form").submit();
+    cy.wait(500);
     cy.url().should("include", `/results?q=${queryString}`);
   });
 

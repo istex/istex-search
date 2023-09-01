@@ -98,7 +98,7 @@
     "ResultsSettings": {
       "download": "Télécharger",
       "allButton": "Tout",
-      "warningTooltip": "Votre requête ramène {actualSize} résultats mais la limite autorisée est {maxSize}."
+      "warningTooltip": "Votre requête ramène {resultsCount} résultats mais la limite autorisée est {maxSize}."
     }
   },
   "ErrorCard": {

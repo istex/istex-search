@@ -1,4 +1,4 @@
-import createTheme from "@mui/material/styles/createTheme";
+import { createTheme } from "@mui/material/styles";
 import type { TypographyStyleOptions } from "@mui/material/styles/createTypography";
 import { montserrat, openSans } from "./fonts";
 

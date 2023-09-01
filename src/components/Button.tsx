@@ -3,8 +3,9 @@
 import type { HTMLAttributeAnchorTarget } from "react";
 import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-import { lighten, styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import type { Palette } from "@mui/material/styles";
+import { lighten } from "@mui/system/colorManipulator";
 import type { ClientComponent } from "@/types/next";
 import type { KeyOf } from "@/types/utility";
 

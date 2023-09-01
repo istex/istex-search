@@ -7,8 +7,7 @@ import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as locales from "@mui/material/locale";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import createTheme from "@mui/material/styles/createTheme";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 

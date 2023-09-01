@@ -2,7 +2,8 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { Container, Grid, Typography } from "@mui/material";
-import { lighten, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
+import { lighten } from "@mui/system/colorManipulator";
 import { istexApiConfig } from "@/config";
 import type { ClientComponent } from "@/types/next";
 

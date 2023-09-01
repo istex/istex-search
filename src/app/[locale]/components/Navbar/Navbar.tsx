@@ -14,7 +14,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { alpha } from "@mui/system/colorManipulator";
 import navbarLinks from "./navbarLinks";
 import type { ClientComponent } from "@/types/next";
 

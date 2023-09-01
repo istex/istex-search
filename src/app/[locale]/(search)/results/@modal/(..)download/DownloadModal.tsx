@@ -3,7 +3,7 @@
 import { useState, forwardRef } from "react";
 import { useRouter } from "next-intl/client";
 import { Dialog, DialogContent, Slide } from "@mui/material";
-import useTheme from "@mui/material/styles/useTheme";
+import { useTheme } from "@mui/material/styles";
 import type { TransitionProps } from "@mui/material/transitions";
 import type { ClientComponent } from "@/types/next";
 

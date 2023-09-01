@@ -21,5 +21,9 @@ module.exports = withNextIntl({
       transform: "@mui/material/{{member}}",
       preventFullImport: true,
     },
+    "@mui/material/styles": {
+      transform: "@mui/material/styles/{{member}}",
+      preventFullImport: true,
+    },
   },
 });

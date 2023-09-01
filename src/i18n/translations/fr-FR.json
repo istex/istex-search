@@ -82,7 +82,7 @@
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
     },
-    "downloadButton": "Télécharger le corpus ({size})"
+    "downloadButton": "Télécharger le corpus"
   },
   "download": {
     "metadata": {

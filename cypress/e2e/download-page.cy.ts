@@ -129,6 +129,7 @@ describe("The Download Page", () => {
           cy.get(inputSelector).type("99");
           cy.get(inputSelector).should("have.value", maxSize);
           cy.url().should("include", `size=${maxSize}`);
+          cy.get("button#all-button").should("be.disabled");
         });
     });
   });

@@ -72,11 +72,13 @@ const ResultsSettings: ClientComponent<{ resultsCount: number }> = ({
         </Tooltip>
       )}
       <Button
+        id="all-button"
         variant="outlined"
-        sx={{ ml: "auto" }}
+        disabled={size === maxSize}
         onClick={() => {
           setSize(maxSize);
         }}
+        sx={{ ml: "auto" }}
       >
         {t("allButton")}
       </Button>

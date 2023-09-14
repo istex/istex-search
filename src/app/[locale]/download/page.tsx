@@ -22,7 +22,7 @@ const DownloadPage: Page = async ({ searchParams: nextSearchParams }) => {
 
   return (
     <Container sx={{ py: 6 }}>
-      <DownloadForm resultsCount={resultsCount} />
+      <DownloadForm resultsCount={resultsCount} displayTitle />
     </Container>
   );
 };

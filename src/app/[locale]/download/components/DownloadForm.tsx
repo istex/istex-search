@@ -12,8 +12,14 @@ import UsageSelector from "./UsageSelector";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ClientComponent<{ resultsCount: number }> = ({
+interface DownloadFormProps {
+  resultsCount: number;
+  displayTitle?: boolean;
+}
+
+const DownloadForm: ClientComponent<DownloadFormProps> = ({
   resultsCount,
+  displayTitle,
 }) => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
@@ -26,9 +32,11 @@ const DownloadForm: ClientComponent<{ resultsCount: number }> = ({
 
   return (
     <>
-      <Typography component="h1" variant="h5" gutterBottom>
-        {t("title")}
-      </Typography>
+      {displayTitle === true && (
+        <Typography component="h1" variant="h5" gutterBottom>
+          {t("title")}
+        </Typography>
+      )}
       <Grid container spacing={2}>
         <Grid item xs={12} md={8}>
           <Paper elevation={0} sx={{ p: 2 }}>

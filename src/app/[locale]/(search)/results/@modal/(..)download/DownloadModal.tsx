@@ -1,8 +1,16 @@
 "use client";
 
 import { useState, forwardRef } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
-import { Dialog, DialogContent, Slide } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Slide,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import type { TransitionProps } from "@mui/material/transitions";
 import type { ClientComponent } from "@/types/next";
@@ -17,11 +25,12 @@ const Transition = forwardRef(function Transition(
 const DownloadModal: ClientComponent<Record<string, unknown>, true> = ({
   children,
 }) => {
+  const t = useTranslations("download");
   const [open, setOpen] = useState(true);
   const router = useRouter();
   const theme = useTheme();
 
-  const close = (): void => {
+  const close = () => {
     setOpen(false);
 
     // Wait until the leaving screen animation is over to go back to the /results page
@@ -38,7 +47,20 @@ const DownloadModal: ClientComponent<Record<string, unknown>, true> = ({
       maxWidth="xl"
       scroll="body"
     >
-      <DialogContent sx={{ bgcolor: "colors.white" }}>{children}</DialogContent>
+      <DialogTitle sx={{ bgcolor: "colors.white" }}>{t("title")}</DialogTitle>
+      <IconButton
+        onClick={close}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: 8,
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <DialogContent dividers sx={{ bgcolor: "colors.white" }}>
+        {children}
+      </DialogContent>
     </Dialog>
   );
 };

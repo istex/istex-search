@@ -54,7 +54,7 @@ const ResultsSettings: ClientComponent<{ resultsCount: number }> = ({
         onChange={handleChange}
       />
       <span data-testid="max-size-label">
-        /&nbsp;{maxSize.toLocaleString(locale)}
+        /&nbsp;{resultsCount.toLocaleString(locale)}
       </span>
       {resultsCount > maxSize && (
         <Tooltip
@@ -72,11 +72,13 @@ const ResultsSettings: ClientComponent<{ resultsCount: number }> = ({
         </Tooltip>
       )}
       <Button
+        id="all-button"
         variant="outlined"
-        sx={{ ml: "auto" }}
+        disabled={size === maxSize}
         onClick={() => {
           setSize(maxSize);
         }}
+        sx={{ ml: "auto" }}
       >
         {t("allButton")}
       </Button>

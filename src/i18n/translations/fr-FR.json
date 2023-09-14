@@ -82,6 +82,7 @@
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
     },
+    "resultsCount": "{count, plural, =0 {<strong>#</strong> document trouvé} =1 {<strong>#</strong> document trouvé} other {<strong>#</strong> documents trouvés}}",
     "downloadButton": "Télécharger le corpus"
   },
   "download": {

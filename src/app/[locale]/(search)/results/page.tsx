@@ -1,6 +1,7 @@
 import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
 import ResultCard from "./components/ResultCard";
+import ResultsCount from "./components/ResultsCount";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
@@ -54,6 +55,7 @@ const ResultsPage: Page = async ({
 
     return (
       <>
+        <ResultsCount count={results.total} />
         <ResultsGrid size={10} columns={2}>
           {results.hits.map((result) => (
             <ResultCard key={result.id} info={result} />

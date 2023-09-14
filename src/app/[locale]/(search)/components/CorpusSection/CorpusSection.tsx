@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material/Box";
 import type { TypographyProps } from "@mui/material/Typography";
 import CorpusGrid from "./CorpusGrid";
@@ -42,7 +41,9 @@ const CorpusSection: ServerComponent = () => {
             <CorpusButton href="https://corpus-specialises.corpus.istex.fr/">
               {t("corpus.seeMoreButton")}
             </CorpusButton>
-            <CorpusButton>{t("corpus.contactButton")}</CorpusButton>
+            <CorpusButton href="https://www.istex.fr/contactez-nous/">
+              {t("corpus.contactButton")}
+            </CorpusButton>
           </Box>
         </Article>
 
@@ -68,11 +69,15 @@ const CorpusSection: ServerComponent = () => {
           <Paragraph sx={{ fontWeight: "bold" }}>
             {t("gateways.gatewaySuggestion")}
           </Paragraph>
-          <Typography
-            sx={{ fontWeight: "bold", display: "inline-flex", gap: 1 }}
+          <Link
+            color="colors.white"
+            fontWeight="bold"
+            href="https://www.istex.fr/contactez-nous/"
+            target="_blank"
+            rel="noreferrer"
           >
-            {t("gateways.contactButton")} <ArrowRightAltIcon />
-          </Typography>
+            {t("gateways.contactButton")}
+          </Link>
         </Article>
       </Container>
     </Box>
@@ -96,7 +101,7 @@ const Paragraph: ClientComponent<
   Omit<TypographyProps, "variant" | "paragraph">
 > = (props) => <Typography variant="body2" paragraph {...props} />;
 
-const CorpusButton: ClientComponent<{ href?: string }, true> = ({
+const CorpusButton: ClientComponent<{ href: string }, true> = ({
   href,
   children,
 }) => (

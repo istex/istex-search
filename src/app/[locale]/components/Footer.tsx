@@ -119,7 +119,9 @@ const Footer: ServerComponent = () => {
               alt="Programme Investissement d'Avenir"
             />
           </a>
-          <Typography>{t("funding")}: ANR-10-IDEX-0004-02</Typography>
+          <Typography variant="body2" color="colors.grey">
+            {t("funding")}: ANR-10-IDEX-0004-02
+          </Typography>
         </Box>
       </Container>
     </Box>

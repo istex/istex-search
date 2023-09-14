@@ -4,7 +4,7 @@
       "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
     },
     "Navbar": {
-      "istex": "Accès istex.fr",
+      "istex": "istex.fr",
       "a_zJournalsList": "Revue de sommaire",
       "documentaryDataset": "Référentiels documentaires",
       "specializedCorpus": "Corpus spécialisés",

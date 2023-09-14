@@ -49,7 +49,7 @@ const InfoPanels: ClientComponent = () => {
 
       <Grid item>
         <Panel>
-          <Title>{t("yourQueryTitle")}</Title>
+          <Title>{t("queryTitle")}</Title>
           <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
             <Typography
               data-testid="query-string"

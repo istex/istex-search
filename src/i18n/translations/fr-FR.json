@@ -92,7 +92,7 @@
     "title": "Configurez votre téléchargement",
     "downloadButton": "Télécharger le corpus",
     "InfoPanels": {
-      "yourQueryTitle": "Votre recherche",
+      "queryTitle": "Requête",
       "rawRequestTitle": "Requête brute complète",
       "seeMoreLink": "EN SAVOIR PLUS"
     },

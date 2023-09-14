@@ -41,7 +41,7 @@
       "gateways": {
         "title": "Adaptez votre téléchargement à votre usage",
         "subtitle": "Istex-DL propose des passerelles vers des outils d'analyse de corpus.",
-        "paragraph": "Quel que soit votre besoin, curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc., Istex-DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
+        "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex-DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
         "buttonTop": "Pour plus d'informations sur ces outils :",
         "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00a0?",
         "contactButton": "CONTACTEZ-NOUS"

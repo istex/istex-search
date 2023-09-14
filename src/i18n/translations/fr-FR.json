@@ -82,7 +82,8 @@
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
     },
-    "downloadButton": "Télécharger le corpus ({size})"
+    "resultsCount": "{count, plural, =0 {<strong>#</strong> document trouvé} =1 {<strong>#</strong> document trouvé} other {<strong>#</strong> documents trouvés}}",
+    "downloadButton": "Télécharger le corpus"
   },
   "download": {
     "metadata": {
@@ -98,7 +99,7 @@
     "ResultsSettings": {
       "download": "Télécharger",
       "allButton": "Tout",
-      "warningTooltip": "Votre requête ramène {actualSize} résultats mais la limite autorisée est {maxSize}."
+      "warningTooltip": "Votre requête ramène {resultsCount} résultats mais la limite autorisée est {maxSize}."
     }
   },
   "ErrorCard": {

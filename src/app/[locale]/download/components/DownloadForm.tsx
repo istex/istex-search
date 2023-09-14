@@ -12,8 +12,8 @@ import UsageSelector from "./UsageSelector";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ClientComponent<{ actualSize: number }> = ({
-  actualSize,
+const DownloadForm: ClientComponent<{ resultsCount: number }> = ({
+  resultsCount,
 }) => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ const DownloadForm: ClientComponent<{ actualSize: number }> = ({
             <Divider />
             <FormatPicker />
             <Divider />
-            <ResultsSettings actualSize={actualSize} />
+            <ResultsSettings resultsCount={resultsCount} />
             <Divider />
             <DownloadButton />
           </Paper>

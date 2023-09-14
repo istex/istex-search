@@ -11,8 +11,8 @@ import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
-const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
-  actualSize,
+const ResultsSettings: ClientComponent<{ resultsCount: number }> = ({
+  resultsCount,
 }) => {
   const t = useTranslations("download.ResultsSettings");
   const locale = useLocale();
@@ -20,7 +20,7 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const maxSize = clamp(actualSize, 0, istexApiConfig.maxSize);
+  const maxSize = clamp(resultsCount, 0, istexApiConfig.maxSize);
   const size = clamp(searchParams.getSize(), 0, maxSize);
 
   const setSize = (size: number) => {
@@ -56,10 +56,10 @@ const ResultsSettings: ClientComponent<{ actualSize: number }> = ({
       <span data-testid="max-size-label">
         /&nbsp;{maxSize.toLocaleString(locale)}
       </span>
-      {actualSize > maxSize && (
+      {resultsCount > maxSize && (
         <Tooltip
           title={t("warningTooltip", {
-            actualSize: actualSize.toLocaleString(locale),
+            resultsCount: resultsCount.toLocaleString(locale),
             maxSize: istexApiConfig.maxSize.toLocaleString(locale),
           })}
           placement="top"

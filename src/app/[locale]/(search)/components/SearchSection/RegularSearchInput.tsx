@@ -43,7 +43,7 @@ const RegularSearchInput: ClientComponent = () => {
   };
 
   return (
-    <Box component="form" noValidate autoCorrect="off">
+    <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
         {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
       </Typography>

@@ -4,13 +4,13 @@ import {
   type ChangeEventHandler,
   type FormEventHandler,
   useState,
-  type KeyboardEventHandler,
 } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Button from "@/components/Button";
+import MultilineTextField from "@/components/MultilineTextField";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -42,17 +42,8 @@ const RegularSearchInput: ClientComponent = () => {
     setQueryString(event.target.value);
   };
 
-  const handleKeyDown: KeyboardEventHandler = (event) => {
-    // textarea elements don't submit the form when pressing Enter by default
-    // so we recreate this behavior but still allow to insert new lines by
-    // pressing Shift+Enter
-    if (event.code === "Enter" && !event.shiftKey) {
-      handleSubmit(event);
-    }
-  };
-
   return (
-    <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
+    <Box component="form" noValidate autoCorrect="off">
       <Typography variant="h5" component="h1" gutterBottom>
         {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
       </Typography>
@@ -62,25 +53,19 @@ const RegularSearchInput: ClientComponent = () => {
           textAlign: { xs: "center", sm: "inherit" },
         }}
       >
-        <TextField
+        <MultilineTextField
           id="regular-search-input"
           placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}
-          onKeyDown={handleKeyDown}
+          onSubmit={handleSubmit}
           helperText={errorMessage}
           required
           autoFocus
           error={errorMessage !== ""}
           fullWidth
-          multiline
           minRows={1}
           maxRows={8}
-          inputProps={{
-            // Dirty hack to avoid a flicker with the input height, explained here
-            // https://github.com/mui/material-ui/issues/23031
-            style: { minHeight: 23 },
-          }}
           sx={{
             mb: { xs: 2, sm: 0 },
             // This targets the fieldset around the input

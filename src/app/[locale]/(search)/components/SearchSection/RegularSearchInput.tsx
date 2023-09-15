@@ -8,8 +8,9 @@ import {
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Button from "@/components/Button";
+import MultilineTextField from "@/components/MultilineTextField";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -23,7 +24,7 @@ const RegularSearchInput: ClientComponent = () => {
   const [queryString, setQueryString] = useState(searchParams.getQueryString());
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
     if (queryString.trim() === "") {
@@ -52,16 +53,19 @@ const RegularSearchInput: ClientComponent = () => {
           textAlign: { xs: "center", sm: "inherit" },
         }}
       >
-        <TextField
+        <MultilineTextField
           id="regular-search-input"
           placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}
+          onSubmit={handleSubmit}
           helperText={errorMessage}
           required
           autoFocus
           error={errorMessage !== ""}
           fullWidth
+          minRows={1}
+          maxRows={8}
           sx={{
             mb: { xs: 2, sm: 0 },
             // This targets the fieldset around the input

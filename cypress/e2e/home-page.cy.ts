@@ -8,8 +8,8 @@ describe("The Home Page", () => {
   it("Valid search", () => {
     const queryString = "hello";
 
-    cy.get("input#regular-search-input").type(queryString);
-    cy.get("form").submit();
+    cy.get("textarea#regular-search-input").type(queryString);
+    cy.get("button[type=submit]").click();
     cy.wait(500);
     cy.url().should("include", `/results?q=${queryString}`);
   });

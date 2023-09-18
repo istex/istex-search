@@ -1,6 +1,6 @@
 services:
   istex-dl:
     container_name: istex-dl
-    image: istex/istex-dl:${npm_package_version}
+    build: .
     ports:
       - 3000:3000

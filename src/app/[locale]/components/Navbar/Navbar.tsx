@@ -31,10 +31,7 @@ const Navbar: ClientComponent = () => {
   };
 
   return (
-    <AppBar
-      component="nav"
-      sx={{ position: "sticky", bgcolor: "colors.white" }}
-    >
+    <AppBar position="sticky" component="nav" sx={{ bgcolor: "colors.white" }}>
       <Container sx={{ display: "flex", fontSize: "0.625rem" }}>
         {/* Burger menu that only appears on small screens */}
         <Box sx={{ display: { xs: "flex", sm: "none" } }}>

@@ -13,9 +13,6 @@
     "test:unit:watch": "jest --watch",
     "test:e2e": "cypress run",
     "test:e2e:watch": "cypress open",
-    "docker:build": "docker build -t istex/istex-dl:$npm_package_version .",
-    "docker:run": "docker compose up -d",
-    "docker:stop": "docker compose stop",
     "prepare": "husky install"
   },
   "dependencies": {

@@ -90,7 +90,7 @@
       "title": "Téléchargement"
     },
     "title": "Configurez votre téléchargement",
-    "downloadButton": "Télécharger le corpus",
+    "downloadButton": "Télécharger",
     "InfoPanels": {
       "queryTitle": "Requête",
       "rawRequestTitle": "Requête brute complète",

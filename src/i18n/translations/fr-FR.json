@@ -33,7 +33,7 @@
     },
     "CorpusSection": {
       "corpus": {
-        "title": "Explorez des corpus prêts-à-l'emploi",
+        "title": "Explorez des corpus prêts à l'emploi",
         "subtitle": "Découvrez nos {corpusLength} derniers corpus spécialisés",
         "seeMoreButton": "TOUT VOIR",
         "contactButton": "CORPUS À LA DEMANDE"

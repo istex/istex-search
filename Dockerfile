@@ -12,7 +12,6 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY tsconfig.json ./
-COPY next-env.d.ts ./
 COPY next.config.js ./
 COPY package.json ./
 COPY public ./public

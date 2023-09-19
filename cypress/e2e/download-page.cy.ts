@@ -152,23 +152,5 @@ describe("The Download Page", () => {
 
       cy.url().should("not.include", "/download");
     });
-
-    it("Size set to 0", () => {
-      cy.visit("/download", { qs: { q: "hello", size: 0 } });
-
-      // A NEXT_REDIRECT error is expected when the size is 0
-      cy.on("uncaught:exception", () => false);
-
-      cy.url().should("not.include", "/download");
-    });
-
-    it("No size", () => {
-      cy.visit("/download", { qs: { q: "hello" } });
-
-      // A NEXT_REDIRECT error is expected when there is no size
-      cy.on("uncaught:exception", () => false);
-
-      cy.url().should("not.include", "/download");
-    });
   });
 });

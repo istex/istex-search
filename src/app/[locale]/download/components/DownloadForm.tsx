@@ -24,9 +24,8 @@ const DownloadForm: ClientComponent<DownloadFormProps> = ({
   const t = useTranslations("download");
   const searchParams = useSearchParams();
   const queryString = searchParams.getQueryString();
-  const size = searchParams.getSize();
 
-  if (queryString === "" || size === 0) {
+  if (queryString === "") {
     redirect("/");
   }
 

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Node
         uses: actions/setup-node@v3
@@ -27,7 +27,7 @@ jobs:
     container: cypress/browsers:latest
     steps:
       - name: Check out files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
         # Taken from https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching#github-actions
       - name: Cache nextjs build directory
@@ -39,7 +39,7 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           build: npm run build
           start: npm start

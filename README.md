@@ -25,10 +25,7 @@ Then the development server is listening on [localhost:3000](http://localhost:30
 ## Production
 
 ```
-npm run docker:build
-npm run docker:run
+docker compose up -d
 ```
 
 Then the production server is listening on [localhost:3000](http://localhost:3000).
-
-**Known limitation**: The `docker-compose.yml` file uses the `npm_package_version` environment variable, which means the docker daemon needs to run in an environment where `npm` is available, which is not ideal.

@@ -23,3 +23,6 @@ package-lock.json
 .gitignore
 .prettierignore
 Dockerfile
+
+# License
+LICENSE

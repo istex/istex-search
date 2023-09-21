@@ -1,0 +1,39 @@
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm/"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress/"
+
+default:
+  image:
+    name: node:20-alpine
+  tags:
+    - docker
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules/
+      - $npm_config_cache
+      - $CYPRESS_CACHE_FOLDER
+  before_script:
+    - npm ci --prefer-offline
+
+stages:
+  - test
+
+test:unit:
+  stage: test
+  script:
+    - npm run test:unit
+
+test:e2e:
+  image: cypress/browsers:latest
+  stage: test
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .next/cache/
+  script:
+    - npm run build
+    - npm start &
+    - npm run test:e2e -- -b chrome

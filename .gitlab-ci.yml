@@ -8,13 +8,13 @@ default:
   tags:
     - docker
   cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - node_modules/
-      - $npm_config_cache
-      - $CYPRESS_CACHE_FOLDER
+    - &global_cache
+      key:
+        files:
+          - package-lock.json
+      paths:
+        - $npm_config_cache
+        - $CYPRESS_CACHE_FOLDER
   before_script:
     - npm ci --prefer-offline
 
@@ -30,9 +30,10 @@ test:e2e:
   image: cypress/browsers:latest
   stage: test
   cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - .next/cache/
+    - *global_cache
+    - key: ${CI_COMMIT_REF_SLUG}
+      paths:
+        - .next/cache/
   script:
     - npm run build
     - npm start &

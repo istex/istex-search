@@ -4,6 +4,7 @@ import { type MouseEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import ImportInput from "./ImportInput";
 import SearchInput from "./SearchInput";
 import { type QueryMode, DEFAULT_QUERY_MODE, queryModes } from "@/config";
 import type { ClientComponent } from "@/types/next";
@@ -23,8 +24,11 @@ const SearchSection: ClientComponent = () => {
 
   let currentQueryModeUi;
   switch (queryMode) {
-    case queryModes[0]:
+    case "search":
       currentQueryModeUi = <SearchInput />;
+      break;
+    case "import":
+      currentQueryModeUi = <ImportInput />;
       break;
   }
 
@@ -42,7 +46,7 @@ const SearchSection: ClientComponent = () => {
           value={queryMode}
           onChange={handleQueryModeChange}
         >
-          {queryModes.map((mode) => (
+          {Object.keys(queryModes).map((mode) => (
             <ToggleButton key={mode} value={mode}>
               <UploadFileIcon />
               {t(`${mode}.label`)}

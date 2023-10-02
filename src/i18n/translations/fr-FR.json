@@ -26,6 +26,8 @@
         "switch": "Assistant"
       },
       "ImportInput": {
+        "searchTitle": "Importez vos identifiants",
+        "resultsTitle": "Résultats de votre import",
         "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
         "button": "RECHERCHER",
         "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"

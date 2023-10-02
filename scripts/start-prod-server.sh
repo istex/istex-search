@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 export NEXT_TELEMETRY_DISABLED=1
 

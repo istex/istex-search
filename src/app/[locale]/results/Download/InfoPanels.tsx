@@ -29,9 +29,7 @@ const InfoPanels: ClientComponent = () => {
             variant="body2"
             gutterBottom
           >
-            {tUsages.rich(`${currentUsageName}.description`, {
-              strong: (chunks) => <strong>{chunks}</strong>,
-            })}
+            {tUsages.rich(`${currentUsageName}.description`)}
           </Typography>
           <Link
             href={currentUsage.url}

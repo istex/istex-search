@@ -7,18 +7,18 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
+import { useResultsContext } from "@/contexts/ResultsContext";
 import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
-const ResultsSettings: ClientComponent<{ resultsCount: number }> = ({
-  resultsCount,
-}) => {
+const ResultsSettings: ClientComponent = () => {
   const t = useTranslations("download.ResultsSettings");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { resultsCount } = useResultsContext();
 
   const maxSize = clamp(resultsCount, 0, istexApiConfig.maxSize);
   const size = clamp(searchParams.getSize(), 0, maxSize);

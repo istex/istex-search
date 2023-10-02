@@ -42,6 +42,8 @@ export type Page<T extends object = Record<string, never>> = ServerComponent<{
 
 // A Layout is a normal ServerComponent but children are required.
 export type Layout<T extends object = Record<string, never>> = ServerComponent<
-  T,
+  {
+    params: T & { locale: string };
+  },
   true
 >;

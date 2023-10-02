@@ -4,6 +4,7 @@ import ResultCard from "./components/ResultCard";
 import ResultsCount from "./components/ResultsCount";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
+import ResultsProvider from "@/contexts/ResultsContext";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -40,7 +41,6 @@ const ResultsPage: Page = async ({
 }) => {
   const searchParams = useSearchParams(nextSearchParams);
   const queryString = searchParams.getQueryString();
-  const size = searchParams.getSize();
 
   if (queryString === "") {
     redirect("/");
@@ -48,10 +48,6 @@ const ResultsPage: Page = async ({
 
   try {
     const results = await getTranslatedResults(queryString, locale);
-
-    // If the size is 0, take maxSize even if it's technically greater than 0 so
-    // that users get maxSize by default and not 0
-    const sizeToUse = size !== 0 ? size : results.total;
 
     return (
       <>
@@ -62,7 +58,9 @@ const ResultsPage: Page = async ({
           ))}
         </ResultsGrid>
 
-        <DownloadButton size={sizeToUse} />
+        <ResultsProvider resultsCount={results.total}>
+          <DownloadButton />
+        </ResultsProvider>
       </>
     );
   } catch (error) {

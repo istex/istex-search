@@ -57,12 +57,6 @@ export async function getResults(queryString: string) {
   return (await response.json()) as IstexApiResponse;
 }
 
-export async function getResultsCount(queryString: string) {
-  const { total } = await getResults(queryString);
-
-  return total;
-}
-
 export interface BuildFullApiUrlOptions {
   queryString: string;
   selectedFormats: number;

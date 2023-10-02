@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, forwardRef } from "react";
+import { forwardRef } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -11,7 +10,6 @@ import {
   IconButton,
   Slide,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import type { TransitionProps } from "@mui/material/transitions";
 import type { ClientComponent } from "@/types/next";
 
@@ -22,34 +20,30 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DownloadModal: ClientComponent<Record<string, unknown>, true> = ({
+interface DownloadModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const DownloadModal: ClientComponent<DownloadModalProps, true> = ({
+  open,
+  onClose,
   children,
 }) => {
   const t = useTranslations("download");
-  const [open, setOpen] = useState(true);
-  const router = useRouter();
-  const theme = useTheme();
-
-  const close = () => {
-    setOpen(false);
-
-    // Wait until the leaving screen animation is over to go back to the /results page
-    setTimeout(() => {
-      router.back();
-    }, theme.transitions.duration.leavingScreen);
-  };
 
   return (
     <Dialog
       open={open}
-      onClose={close}
+      onClose={onClose}
       TransitionComponent={Transition}
       maxWidth="xl"
       scroll="body"
+      data-testid="download-modal"
     >
       <DialogTitle sx={{ bgcolor: "colors.white" }}>{t("title")}</DialogTitle>
       <IconButton
-        onClick={close}
+        onClick={onClose}
         sx={{
           position: "absolute",
           right: 8,

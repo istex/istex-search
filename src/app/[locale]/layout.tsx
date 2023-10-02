@@ -1,8 +1,10 @@
-import { NextIntlClientProvider, useLocale, useMessages } from "next-intl";
+import { useMessages } from "next-intl";
 import { getTranslator } from "next-intl/server";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
+import SearchSection from "./components/SearchSection";
+import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadata, Layout } from "@/types/next";
 
@@ -17,20 +19,25 @@ export const generateMetadata: GenerateMetadata = async ({
   };
 };
 
-const RootLayout: Layout = ({ children }) => {
-  const locale = useLocale();
+const RootLayout: Layout = ({ children, params: { locale } }) => {
   const messages = useMessages();
+  if (messages == null) {
+    throw new Error("Missing translations");
+  }
 
   return (
     <html lang={locale}>
       <body>
         <MuiSetup>
-          <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextIntlProvider messages={messages}>
             <Navbar />
             <Header />
-            <main>{children}</main>
+            <main>
+              <SearchSection />
+              {children}
+            </main>
             <Footer />
-          </NextIntlClientProvider>
+          </NextIntlProvider>
         </MuiSetup>
       </body>
     </html>

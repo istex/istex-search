@@ -41,10 +41,7 @@ const Header: ServerComponent = () => {
                 lineHeight: 1.25,
               }}
             >
-              {t.rich("baseline", {
-                strong: (chunks) => <strong>{chunks}</strong>,
-                br: () => <br />,
-              })}
+              {t.rich("baseline")}
             </Typography>
           </Box>
         </Box>

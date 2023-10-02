@@ -12,9 +12,9 @@ describe("The Results Page", () => {
       cy.get("#results-grid").children().should("have.length.gt", 0);
     });
 
-    it("Going to download page", () => {
+    it("Opening the download page", () => {
       cy.get("button#download-button").click();
-      cy.url().should("include", "/download");
+      cy.get("div[data-testid=download-modal]").should("be.visible");
     });
 
     it("Going back to home page", () => {

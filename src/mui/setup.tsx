@@ -11,9 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
 
-const EmotionCacheProvider: ClientComponent<Record<string, unknown>, true> = ({
-  children,
-}) => {
+const EmotionCacheProvider: ClientComponent<{}, true> = ({ children }) => {
   const [cache] = useState(() => {
     const cache = createCache({ key: "css" });
     cache.compat = true;
@@ -33,9 +31,7 @@ const EmotionCacheProvider: ClientComponent<Record<string, unknown>, true> = ({
   return <CacheProvider value={cache}>{children}</CacheProvider>;
 };
 
-const MuiSetup: ClientComponent<Record<string, unknown>, true> = ({
-  children,
-}) => {
+const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
   const locale = useLocale();
   const themeWithLocale = useMemo(
     () => createTheme(theme, locales[localeToMuiImportName(locale)]),

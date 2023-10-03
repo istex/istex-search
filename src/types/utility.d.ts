@@ -13,3 +13,5 @@ export type KeyOf<T> = {
 export type PropsWithRequiredChildren<P = unknown> = P & {
   children: React.ReactNode;
 };
+
+export type EmptyObj = Record<string, never>;

@@ -17,4 +17,20 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-function-return-type": "off",
   },
+  overrides: [
+    {
+      files: ["*.tsx"],
+      rules: {
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            extendDefaults: true,
+            types: {
+              "{}": false,
+            },
+          },
+        ],
+      },
+    },
+  ],
 };

@@ -30,7 +30,7 @@ const MultilineTextField: ClientComponent<TextFieldProps> = forwardRef(
         {...rest}
       />
     );
-  }
+  },
 );
 
 export default MultilineTextField;

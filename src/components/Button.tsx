@@ -26,35 +26,38 @@ const CustomButton: ClientComponent<CustomButtonProps> = (props) => {
   return <MuiButton variant={variant} {...rest} />;
 };
 
-const Button = styled(CustomButton)<CustomButtonProps>(
-  ({ variant, mainColor, secondaryColor, theme }) => {
-    const _mainColor = theme.palette.colors[mainColor ?? "blue"];
-    const _secondaryColor = theme.palette.colors[secondaryColor ?? "white"];
+const Button = styled(CustomButton)<CustomButtonProps>(({
+  variant,
+  mainColor,
+  secondaryColor,
+  theme,
+}) => {
+  const _mainColor = theme.palette.colors[mainColor ?? "blue"];
+  const _secondaryColor = theme.palette.colors[secondaryColor ?? "white"];
 
-    if (variant === "outlined") {
-      return {
-        borderColor: _mainColor,
-        color: _mainColor,
-        "&:hover": {
-          backgroundColor: _mainColor,
-          borderColor: _mainColor,
-          color: _secondaryColor,
-        },
-      };
-    }
-
+  if (variant === "outlined") {
     return {
-      backgroundColor: _mainColor,
-      color: _secondaryColor,
+      borderColor: _mainColor,
+      color: _mainColor,
       "&:hover": {
-        background: `linear-gradient(to left, ${lighten(
-          _mainColor,
-          0.15
-        )}, ${_mainColor})`,
         backgroundColor: _mainColor,
+        borderColor: _mainColor,
+        color: _secondaryColor,
       },
     };
   }
-);
+
+  return {
+    backgroundColor: _mainColor,
+    color: _secondaryColor,
+    "&:hover": {
+      background: `linear-gradient(to left, ${lighten(
+        _mainColor,
+        0.15,
+      )}, ${_mainColor})`,
+      backgroundColor: _mainColor,
+    },
+  };
+});
 
 export default Button;

@@ -16,7 +16,7 @@ const UsageSelector: ClientComponent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [currentUsageName, setCurrentUsageName] = useState<UsageName>(
-    searchParams.getUsageName()
+    searchParams.getUsageName(),
   );
 
   const handleChange = (_: React.SyntheticEvent, newValue: UsageName) => {

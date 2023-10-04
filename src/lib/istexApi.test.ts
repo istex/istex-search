@@ -14,11 +14,11 @@ describe("Tests for the Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&output=*&sid=istex-dl"
+      "https://api.istex.fr/document?q=hello&size=10&output=*&sid=istex-dl",
     );
 
     expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&output=abstract%2Ctitle&sid=istex-dl"
+      "https://api.istex.fr/document?q=hello&size=2&output=abstract%2Ctitle&sid=istex-dl",
     );
   });
 
@@ -35,11 +35,11 @@ describe("Tests for the Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D"
+      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
 
     expect(Module.buildFullApiUrl(noSelectFormatsParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl"
+      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl",
     );
   });
 });

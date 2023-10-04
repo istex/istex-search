@@ -16,7 +16,7 @@ import type { ClientComponent } from "@/types/next";
 
 const RegularSearchInput: ClientComponent = () => {
   const t = useTranslations(
-    "home.SearchSection.SearchInput.RegularSearchInput"
+    "home.SearchSection.SearchInput.RegularSearchInput",
   );
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();

@@ -115,7 +115,7 @@ const FormatCategory: ClientComponent<{ name: FormatCategoryName }> = ({
 
   const isFormatFromCategorySelected = isFormatSelected(
     wholeCategoryFormat,
-    selectedFormats
+    selectedFormats,
   );
 
   return (

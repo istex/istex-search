@@ -48,7 +48,7 @@ export async function getResults(queryString: string) {
   const response = await fetch(url, { next: { revalidate: 60 } });
   if (!response.ok) {
     const error = new Error(
-      `API responded with a ${response.status} status code!`
+      `API responded with a ${response.status} status code!`,
     );
     error.cause = response.status;
     throw error;

@@ -11,7 +11,7 @@ import type { GenerateMetadata, Page } from "@/types/next";
 
 async function getTranslatedResults(
   queryString: string,
-  locale: string
+  locale: string,
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
   const response = await getResults(queryString);

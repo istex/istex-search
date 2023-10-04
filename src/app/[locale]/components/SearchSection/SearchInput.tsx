@@ -12,7 +12,7 @@ const SearchInput: ClientComponent = () => {
   const [isAssistedSearch, setIsAssistedSearch] = useState(false);
 
   const toggleAssistedSearch: ChangeEventHandler<HTMLInputElement> = (
-    event
+    event,
   ) => {
     setIsAssistedSearch(event.target.checked);
   };

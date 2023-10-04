@@ -8,7 +8,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       openDownloadModal: (
-        searchParams: object
+        searchParams: object,
       ) => Chainable<JQuery<HTMLElement>>;
     }
   }

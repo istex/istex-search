@@ -94,7 +94,7 @@ const Title: ClientComponent<
 );
 
 const Article: ClientComponent<Omit<BoxProps, "component" | "pt" | "pb">> = (
-  props
+  props,
 ) => <Box component="article" pt={8} pb={6} {...props} />;
 
 const Paragraph: ClientComponent<

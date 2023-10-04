@@ -18,7 +18,7 @@ describe("The Download Modal", () => {
     cy.get("p[data-testid=query-string]").should("have.text", queryString);
     cy.get("a[data-testid=raw-request]").should(
       "include.text",
-      `q=${queryString}`
+      `q=${queryString}`,
     );
   });
 
@@ -45,7 +45,7 @@ describe("The Download Modal", () => {
     cy.get("button#download-button").should("be.enabled");
     cy.url().should(
       "include",
-      `extract=${encodeURIComponent("fulltext[pdf]")}`
+      `extract=${encodeURIComponent("fulltext[pdf]")}`,
     );
   });
 

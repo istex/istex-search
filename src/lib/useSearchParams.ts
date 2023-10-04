@@ -100,7 +100,7 @@ class SearchParams {
 
     this.searchParams.set(
       "size",
-      clamp(value, 0, istexApiConfig.maxSize).toString()
+      clamp(value, 0, istexApiConfig.maxSize).toString(),
     );
   }
 
@@ -109,7 +109,7 @@ class SearchParams {
   }
 
   private _nextSearchParamsToUrlSearchParams(
-    searchParams: NextSearchParams
+    searchParams: NextSearchParams,
   ): URLSearchParams {
     const urlSearchParams = new URLSearchParams();
 

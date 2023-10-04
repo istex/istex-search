@@ -35,7 +35,7 @@ const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
   const locale = useLocale();
   const themeWithLocale = useMemo(
     () => createTheme(theme, locales[localeToMuiImportName(locale)]),
-    [locale]
+    [locale],
   );
 
   return (

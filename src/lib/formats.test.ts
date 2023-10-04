@@ -5,7 +5,7 @@ import { NO_FORMAT_SELECTED, formats } from "@/config";
 describe("Tests for the functions manipulating the available download formats", () => {
   it("selectFormat", () => {
     expect(
-      Module.selectFormat(formats.fulltext.pdf, formats.fulltext.txt)
+      Module.selectFormat(formats.fulltext.pdf, formats.fulltext.txt),
     ).toBe(formats.fulltext.pdf | formats.fulltext.txt);
   });
 
@@ -13,8 +13,8 @@ describe("Tests for the functions manipulating the available download formats", 
     expect(
       Module.deselectFormat(
         formats.fulltext.pdf | formats.fulltext.txt,
-        formats.fulltext.txt
-      )
+        formats.fulltext.txt,
+      ),
     ).toBe(formats.fulltext.pdf);
   });
 
@@ -23,11 +23,11 @@ describe("Tests for the functions manipulating the available download formats", 
     const formatsWithoutTxt = formats.fulltext.pdf;
 
     expect(Module.toggleFormat(formatsWithoutTxt, formats.fulltext.txt)).toBe(
-      formatsWithTxt
+      formatsWithTxt,
     );
 
     expect(Module.toggleFormat(formatsWithTxt, formats.fulltext.txt)).toBe(
-      formatsWithoutTxt
+      formatsWithoutTxt,
     );
   });
 
@@ -36,11 +36,11 @@ describe("Tests for the functions manipulating the available download formats", 
     const formatsWithoutTxt = formats.fulltext.pdf;
 
     expect(Module.isFormatSelected(formatsWithTxt, formats.fulltext.txt)).toBe(
-      true
+      true,
     );
 
     expect(
-      Module.isFormatSelected(formatsWithoutTxt, formats.fulltext.txt)
+      Module.isFormatSelected(formatsWithoutTxt, formats.fulltext.txt),
     ).toBe(false);
   });
 
@@ -49,18 +49,18 @@ describe("Tests for the functions manipulating the available download formats", 
       formats.metadata.json | formats.metadata.xml | formats.metadata.mods;
 
     expect(Module.isWholeCategorySelected(metadataFormats, "metadata")).toBe(
-      true
+      true,
     );
 
     expect(
-      Module.isWholeCategorySelected(formats.metadata.json, "metadata")
+      Module.isWholeCategorySelected(formats.metadata.json, "metadata"),
     ).toBe(false);
 
     expect(
       Module.isWholeCategorySelected(
         metadataFormats | formats.fulltext.pdf,
-        "metadata"
-      )
+        "metadata",
+      ),
     ).toBe(true);
   });
 
@@ -87,7 +87,7 @@ describe("Tests for the functions manipulating the available download formats", 
     expect(Module.getWholeCategoryFormat("fulltext")).toBe(fulltextFormats);
     expect(Module.getWholeCategoryFormat("metadata")).toBe(metadataFormats);
     expect(Module.getWholeCategoryFormat("enrichments")).toBe(
-      enrichmentsFormats
+      enrichmentsFormats,
     );
   });
 
@@ -131,26 +131,26 @@ describe("Tests for the functions manipulating the available download formats", 
         formats.enrichments.grobidFulltext |
         formats.metadata.json |
         formats.others.annexes |
-        formats.others.covers
+        formats.others.covers,
     );
 
     expect(Module.parseExtractParams(wrongFormatExtractParams)).toBe(
-      formats.metadata.json
+      formats.metadata.json,
     );
 
     expect(Module.parseExtractParams(wrongCategoryExtractParams)).toBe(
-      formats.fulltext.pdf
+      formats.fulltext.pdf,
     );
 
     expect(Module.parseExtractParams(missingCommaExtractParams)).toBe(
       formats.fulltext.pdf |
         formats.fulltext.txt |
         formats.enrichments.teeft |
-        formats.enrichments.nb
+        formats.enrichments.nb,
     );
 
     expect(Module.parseExtractParams(missingSemiColonExtractParams)).toBe(
-      formats.fulltext.pdf | formats.fulltext.txt
+      formats.fulltext.pdf | formats.fulltext.txt,
     );
   });
 });

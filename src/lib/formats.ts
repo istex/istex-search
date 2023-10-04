@@ -21,7 +21,7 @@ export function isFormatSelected(baseFormat: number, formatToCheck: number) {
 
 export function isWholeCategorySelected(
   baseFormat: number,
-  categoryName: FormatCategoryName
+  categoryName: FormatCategoryName,
 ) {
   const wholeCategoryFormat = getWholeCategoryFormat(categoryName);
   const res = baseFormat & wholeCategoryFormat;
@@ -62,7 +62,7 @@ export function buildExtractParamsFromFormats(selectedFormats: number) {
         extractParams.push(currentCategoryParams.join(";"));
       } else {
         extractParams.push(
-          `${formatCategoryName}[${currentCategoryParams.join(",")}]`
+          `${formatCategoryName}[${currentCategoryParams.join(",")}]`,
         );
       }
     }
@@ -82,7 +82,7 @@ export function parseExtractParams(extractParams: string) {
     // internally in Istex-DL (behavior coming from legacy versions of Istex-DL and that
     // is still in the API)
     return [...Object.keys(formats), "annexes", "covers"].some(
-      (supportedFormatCategory) => category.startsWith(supportedFormatCategory)
+      (supportedFormatCategory) => category.startsWith(supportedFormatCategory),
     );
   });
 
@@ -96,7 +96,7 @@ export function parseExtractParams(extractParams: string) {
       if (formats.others[formatCategoryName] != null) {
         selectedFormats = selectFormat(
           selectedFormats,
-          formats.others[formatCategoryName]
+          formats.others[formatCategoryName],
         );
       }
       continue;
@@ -105,7 +105,7 @@ export function parseExtractParams(extractParams: string) {
     // Get the format category name (e.g. for 'fulltext[txt,pdf]' get 'fulltext')
     const formatCategoryName = formatCategory.substring(
       0,
-      indexOfOpeningBracket
+      indexOfOpeningBracket,
     ) as FormatCategoryName;
 
     // Get the formats within formatCategoryName and only keep the supported formats
@@ -113,7 +113,7 @@ export function parseExtractParams(extractParams: string) {
       .substring(indexOfOpeningBracket + 1, indexOfClosingBracket)
       .split(",")
       .filter((categoryFormat) =>
-        Object.keys(formats[formatCategoryName]).includes(categoryFormat)
+        Object.keys(formats[formatCategoryName]).includes(categoryFormat),
       );
 
     for (const currentCategoryFormat of currentCategoryFormats) {
@@ -122,7 +122,7 @@ export function parseExtractParams(extractParams: string) {
         // @ts-expect-error TypeScript is not happy here because currentCategoryFormat is
         // just a regular string but the filter above makes sure currentCategoryFormat is
         // in formats[formatCategoryName]
-        formats[formatCategoryName][currentCategoryFormat]
+        formats[formatCategoryName][currentCategoryFormat],
       );
     }
   }

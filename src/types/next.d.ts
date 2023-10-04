@@ -14,7 +14,7 @@ export type GenerateMetadata<T extends object = EmptyObj> = (props: {
 
 export type ClientComponent<
   TProps extends object = EmptyObj,
-  WithChildren = false
+  WithChildren = false,
 > = React.FC<
   WithChildren extends true ? PropsWithRequiredChildren<TProps> : TProps
 >;
@@ -26,7 +26,7 @@ export type ClientComponent<
 export type ServerComponent<
   TProps extends object = EmptyObj,
   WithChildren = false,
-  _RetType = ReturnType<ClientComponent<TProps, WithChildren>>
+  _RetType = ReturnType<ClientComponent<TProps, WithChildren>>,
 > = ReplaceReturnType<
   ClientComponent<TProps, WithChildren>,
   _RetType | Promise<_RetType>

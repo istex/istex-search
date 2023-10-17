@@ -9,15 +9,27 @@ import {
 
 describe("RegularSearchInput", () => {
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
-    render(<RegularSearchInput />);
-
     const router = useRouter();
     const queryString = "hello";
-    const input = screen.getByRole("textbox");
-    const button = screen.getByRole("button");
-    await userEvent.type(input, queryString);
-    await userEvent.click(button);
+    render(<RegularSearchInput />);
 
+    await search(queryString);
+
+    expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
+  });
+
+  it("resets the size when searching", async () => {
+    const router = useRouter();
+    const queryString = "hello";
+    const size = 3;
+    mockSearchParams({
+      size: size.toString(),
+    });
+    render(<RegularSearchInput />);
+
+    await search(queryString);
+
+    // router.push is only called with the queryString, not the size
     expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
   });
 
@@ -33,3 +45,10 @@ describe("RegularSearchInput", () => {
     expect(input).toHaveValue(queryString);
   });
 });
+
+async function search(queryString: string) {
+  const input = screen.getByRole("textbox");
+  const button = screen.getByRole("button");
+  await userEvent.type(input, queryString);
+  await userEvent.click(button);
+}

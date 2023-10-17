@@ -78,7 +78,7 @@ describe("DownloadButton (download modal)", () => {
 });
 
 function testButtonState(
-  searchParams: Record<string, unknown>,
+  searchParams: Parameters<typeof mockSearchParams>[0],
   enabled: boolean,
 ) {
   mockSearchParams(searchParams);

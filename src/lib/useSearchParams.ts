@@ -35,11 +35,15 @@ class SearchParams {
 
   setQueryString(value: string): void {
     if (value === "") {
-      this.searchParams.delete("q");
+      this.deleteQueryString();
       return;
     }
 
     this.searchParams.set("q", value);
+  }
+
+  deleteQueryString(): void {
+    this.searchParams.delete("q");
   }
 
   getFormats(): number {
@@ -53,11 +57,15 @@ class SearchParams {
 
   setFormats(value: number): void {
     if (value === NO_FORMAT_SELECTED) {
-      this.searchParams.delete("extract");
+      this.deleteFormats();
       return;
     }
 
     this.searchParams.set("extract", buildExtractParamsFromFormats(value));
+  }
+
+  deleteFormats(): void {
+    this.searchParams.delete("extract");
   }
 
   getUsageName(): UsageName {
@@ -75,11 +83,15 @@ class SearchParams {
 
   setUsageName(value: UsageName): void {
     if (value === DEFAULT_USAGE_NAME) {
-      this.searchParams.delete("usage");
+      this.deleteUsageName();
       return;
     }
 
     this.searchParams.set("usage", value);
+  }
+
+  deleteUsageName(): void {
+    this.searchParams.delete("usage");
   }
 
   getSize(): number {
@@ -94,7 +106,7 @@ class SearchParams {
 
   setSize(value: number): void {
     if (value === 0) {
-      this.searchParams.delete("size");
+      this.deleteSize();
       return;
     }
 
@@ -104,8 +116,19 @@ class SearchParams {
     );
   }
 
+  deleteSize(): void {
+    this.searchParams.delete("size");
+  }
+
   toString(): string {
     return this.searchParams.toString();
+  }
+
+  clear(): void {
+    const keys = Array.from(this.searchParams.keys());
+    for (const key of keys) {
+      this.searchParams.delete(key);
+    }
   }
 
   private _nextSearchParamsToUrlSearchParams(

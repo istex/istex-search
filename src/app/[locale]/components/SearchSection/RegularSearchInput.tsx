@@ -32,6 +32,7 @@ const RegularSearchInput: ClientComponent = () => {
       return;
     }
 
+    searchParams.deleteSize();
     searchParams.setQueryString(queryString);
 
     router.push(`/results?${searchParams.toString()}`);

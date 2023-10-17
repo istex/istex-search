@@ -1,5 +1,10 @@
 import useSearchParams from "./useSearchParams";
-import { NO_FORMAT_SELECTED, formats, istexApiConfig } from "@/config";
+import {
+  DEFAULT_USAGE_NAME,
+  NO_FORMAT_SELECTED,
+  formats,
+  istexApiConfig,
+} from "@/config";
 
 describe("SearchParams class", () => {
   it("getQueryString", () => {
@@ -13,6 +18,13 @@ describe("SearchParams class", () => {
 
     searchParams.setQueryString("world");
     expect(searchParams.getQueryString()).toBe("world");
+  });
+
+  it("deleteQueryString", () => {
+    const searchParams = useSearchParams({ q: "hello" });
+
+    searchParams.deleteQueryString();
+    expect(searchParams.getQueryString()).toBe("");
   });
 
   it("getFormats", () => {
@@ -30,12 +42,19 @@ describe("SearchParams class", () => {
     expect(searchParams.getFormats()).toBe(formats.metadata.json);
   });
 
+  it("deleteFormats", () => {
+    const searchParams = useSearchParams({ extract: "fulltext[pdf]" });
+
+    searchParams.deleteFormats();
+    expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
+  });
+
   it("getUsageName", () => {
     const validSearchParams = useSearchParams({ usage: "lodex" });
     expect(validSearchParams.getUsageName()).toBe("lodex");
 
     const invalidSearchParams = useSearchParams({ usage: "hello" });
-    expect(invalidSearchParams.getUsageName()).toBe("custom");
+    expect(invalidSearchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
   });
 
   it("setUsageName", () => {
@@ -43,6 +62,13 @@ describe("SearchParams class", () => {
 
     searchParams.setUsageName("custom");
     expect(searchParams.getUsageName()).toBe("custom");
+  });
+
+  it("deleteUsageName", () => {
+    const searchParams = useSearchParams({ usage: "lodex" });
+
+    searchParams.deleteUsageName();
+    expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
   });
 
   it("getSize", () => {
@@ -72,5 +98,28 @@ describe("SearchParams class", () => {
 
     searchParams.setSize(-1);
     expect(searchParams.getSize()).toBe(0);
+  });
+
+  it("deleteSize", () => {
+    const searchParams = useSearchParams({ size: "2" });
+
+    searchParams.deleteSize();
+    expect(searchParams.getSize()).toBe(0);
+  });
+
+  it("clear", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      extract: "metadata[json]",
+      size: "2",
+      usage: "lodex",
+    });
+
+    searchParams.clear();
+
+    expect(searchParams.getQueryString()).toBe("");
+    expect(searchParams.getSize()).toBe(0);
+    expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
+    expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
   });
 });

@@ -36,7 +36,7 @@ export async function renderAsync<T extends object = {}>(
 export function mockSearchParams(searchParams: {
   q?: string;
   extract?: string;
-  size?: number;
+  size?: string;
   usage?: UsageName;
 }) {
   (useSearchParams as jest.Mock).mockReturnValue(searchParams);

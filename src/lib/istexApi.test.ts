@@ -1,8 +1,7 @@
-import { describe, expect, it } from "@jest/globals";
 import * as Module from "./istexApi";
 import { NO_FORMAT_SELECTED, formats } from "@/config";
 
-describe("Tests for the Istex API related functions", () => {
+describe("Istex API related functions", () => {
   it("buildResultPreviewUrl", () => {
     const minimalParams: Module.BuildResultPreviewUrlOptions = {
       queryString: "hello",

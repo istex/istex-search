@@ -29,7 +29,7 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
     <html lang={locale}>
       <body>
         <MuiSetup>
-          <NextIntlProvider messages={messages}>
+          <NextIntlProvider messages={messages} locale={locale}>
             <Navbar />
             <Header />
             <main>

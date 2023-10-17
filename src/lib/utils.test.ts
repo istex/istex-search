@@ -1,7 +1,6 @@
-import { describe, expect, it } from "@jest/globals";
 import * as Module from "./utils";
 
-describe("Tests for the utility functions", () => {
+describe("Utility functions", () => {
   it("clamp", () => {
     const min = 5;
     const max = 10;

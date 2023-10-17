@@ -6,9 +6,9 @@ import { usages } from "@/config";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
-import type { ClientComponent } from "@/types/next";
+import type { ServerComponent } from "@/types/next";
 
-const InfoPanels: ClientComponent = () => {
+const InfoPanels: ServerComponent = () => {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
@@ -24,11 +24,7 @@ const InfoPanels: ClientComponent = () => {
       <Grid item>
         <Panel>
           <Title>{tUsages(`${currentUsageName}.label`)}</Title>
-          <Typography
-            data-testid={`${currentUsageName}-usage-description`}
-            variant="body2"
-            gutterBottom
-          >
+          <Typography variant="body2" gutterBottom>
             {tUsages.rich(`${currentUsageName}.description`)}
           </Typography>
           <Link
@@ -78,7 +74,7 @@ const InfoPanels: ClientComponent = () => {
   );
 };
 
-const Title: ClientComponent<
+const Title: ServerComponent<
   Omit<
     TypographyProps & { component?: React.ElementType },
     "variant" | "gutterBottom" | "color" | "fontSize"
@@ -94,7 +90,7 @@ const Title: ClientComponent<
   />
 );
 
-const Panel: ClientComponent<Omit<PaperProps, "elevation">> = (props) => (
+const Panel: ServerComponent<Omit<PaperProps, "elevation">> = (props) => (
   <Paper elevation={0} sx={{ p: 2 }} {...props} />
 );
 

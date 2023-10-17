@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next-intl/client";
 import { Box, Tab, Tabs } from "@mui/material";
@@ -15,12 +14,8 @@ const UsageSelector: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [currentUsageName, setCurrentUsageName] = useState<UsageName>(
-    searchParams.getUsageName(),
-  );
 
   const handleChange = (_: React.SyntheticEvent, newValue: UsageName) => {
-    setCurrentUsageName(newValue);
     searchParams.setUsageName(newValue);
 
     const formatToSelect = usages[newValue].formats;
@@ -35,12 +30,11 @@ const UsageSelector: ClientComponent = () => {
         variant="scrollable"
         scrollButtons
         allowScrollButtonsMobile
-        value={currentUsageName}
+        value={searchParams.getUsageName()}
         onChange={handleChange}
       >
         {Object.keys(usages).map((name) => (
           <StyledTab
-            data-testid={name}
             key={name}
             value={name}
             label={t(`${name}.label`)}

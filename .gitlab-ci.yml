@@ -1,6 +1,5 @@
 variables:
-  npm_config_cache: "$CI_PROJECT_DIR/.npm/"
-  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress/"
+  npm_config_cache: $CI_PROJECT_DIR/.npm
 
 default:
   image:
@@ -14,27 +13,28 @@ default:
           - package-lock.json
       paths:
         - $npm_config_cache
-        - $CYPRESS_CACHE_FOLDER
   before_script:
     - npm ci --prefer-offline
 
 stages:
+  - build
   - test
 
-test:unit:
-  stage: test
-  script:
-    - npm run test:unit
-
-test:e2e:
-  image: cypress/browsers:latest
-  stage: test
+build:
+  stage: build
   cache:
     - *global_cache
-    - key: ${CI_COMMIT_REF_SLUG}
+    - key: $CI_COMMIT_REF_SLUG
       paths:
         - .next/cache/
   script:
     - npm run build
-    - npm start &
-    - npm run test:e2e -- -b chrome
+
+test:
+  stage: test
+  script:
+    - npm run test:ci
+  artifacts:
+    when: always
+    reports:
+      junit: junit.xml

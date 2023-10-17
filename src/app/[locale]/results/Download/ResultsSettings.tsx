@@ -53,9 +53,7 @@ const ResultsSettings: ClientComponent = () => {
         value={size}
         onChange={handleChange}
       />
-      <span data-testid="max-size-label">
-        /&nbsp;{resultsCount.toLocaleString(locale)}
-      </span>
+      <span>/&nbsp;{resultsCount.toLocaleString(locale)}</span>
       {resultsCount > maxSize && (
         <Tooltip
           title={t("warningTooltip", {

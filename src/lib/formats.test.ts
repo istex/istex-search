@@ -1,8 +1,7 @@
-import { describe, expect, it } from "@jest/globals";
 import * as Module from "./formats";
 import { NO_FORMAT_SELECTED, formats } from "@/config";
 
-describe("Tests for the functions manipulating the available download formats", () => {
+describe("Functions manipulating the available download formats", () => {
   it("selectFormat", () => {
     expect(
       Module.selectFormat(formats.fulltext.pdf, formats.fulltext.txt),
@@ -117,15 +116,16 @@ describe("Tests for the functions manipulating the available download formats", 
   });
 
   it("parseExtractParams", () => {
-    const correctExtractParams =
+    const correct =
       "fulltext[pdf,txt];metadata[json];enrichments[grobidFulltext];covers;annexes";
-    const wrongFormatExtractParams = "fulltext[incorrect];metadata[json]";
-    const wrongCategoryExtractParams = "fulltext[pdf];incorrect[json]";
-    const missingCommaExtractParams =
+    const wrongFormat = "fulltext[incorrect];metadata[json]";
+    const wrongCategory = "fulltext[pdf];incorrect[json]";
+    const missingComma =
       "fulltext[pdf,txt];metadata[jsonxml];enrichments[teeft,nb]";
-    const missingSemiColonExtractParams = "fulltext[pdf,txt]metadata[json]";
+    const missingSemiColon = "fulltext[pdf,txt]metadata[json]";
+    const almostCorrectCategory = "fulltextERROR[pdf];metadata[json]";
 
-    expect(Module.parseExtractParams(correctExtractParams)).toBe(
+    expect(Module.parseExtractParams(correct)).toBe(
       formats.fulltext.pdf |
         formats.fulltext.txt |
         formats.enrichments.grobidFulltext |
@@ -134,23 +134,23 @@ describe("Tests for the functions manipulating the available download formats", 
         formats.others.covers,
     );
 
-    expect(Module.parseExtractParams(wrongFormatExtractParams)).toBe(
-      formats.metadata.json,
-    );
+    expect(Module.parseExtractParams(wrongFormat)).toBe(formats.metadata.json);
 
-    expect(Module.parseExtractParams(wrongCategoryExtractParams)).toBe(
-      formats.fulltext.pdf,
-    );
+    expect(Module.parseExtractParams(wrongCategory)).toBe(formats.fulltext.pdf);
 
-    expect(Module.parseExtractParams(missingCommaExtractParams)).toBe(
+    expect(Module.parseExtractParams(missingComma)).toBe(
       formats.fulltext.pdf |
         formats.fulltext.txt |
         formats.enrichments.teeft |
         formats.enrichments.nb,
     );
 
-    expect(Module.parseExtractParams(missingSemiColonExtractParams)).toBe(
+    expect(Module.parseExtractParams(missingSemiColon)).toBe(
       formats.fulltext.pdf | formats.fulltext.txt,
+    );
+
+    expect(Module.parseExtractParams(almostCorrectCategory)).toBe(
+      formats.metadata.json,
     );
   });
 });

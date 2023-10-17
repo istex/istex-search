@@ -11,7 +11,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
-// NOTE: This component is very similar to ImportInput. When the import input needs to be fully
+// NOTE: This component is very similar to RegularSearchInput. When the import input needs to be fully
 // implemented, it would be worth trying to create a single component that handles both types
 
 const ImportInput: ClientComponent = () => {

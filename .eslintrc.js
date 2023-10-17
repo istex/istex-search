@@ -2,14 +2,12 @@ const path = require("path");
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  plugins: ["cypress"],
   extends: [
     "standard-with-typescript",
     "standard-jsx",
     "standard-react",
     "next/core-web-vitals",
     "prettier",
-    "plugin:cypress/recommended",
   ],
   parserOptions: {
     project: path.join(__dirname, "tsconfig.json"),
@@ -19,7 +17,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.tsx"],
+      files: ["*.ts", "*.tsx"],
       rules: {
         "@typescript-eslint/ban-types": [
           "error",

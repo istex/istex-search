@@ -1,8 +1,7 @@
-import { describe, expect, it } from "@jest/globals";
 import useSearchParams from "./useSearchParams";
 import { NO_FORMAT_SELECTED, formats, istexApiConfig } from "@/config";
 
-describe("Tests for the SearchParams class", () => {
+describe("SearchParams class", () => {
   it("getQueryString", () => {
     const searchParams = useSearchParams({ q: "hello" });
 

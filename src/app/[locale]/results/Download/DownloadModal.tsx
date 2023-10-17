@@ -39,10 +39,10 @@ const DownloadModal: ClientComponent<DownloadModalProps, true> = ({
       TransitionComponent={Transition}
       maxWidth="xl"
       scroll="body"
-      data-testid="download-modal"
     >
       <DialogTitle sx={{ bgcolor: "colors.white" }}>{t("title")}</DialogTitle>
       <IconButton
+        data-testid="close-modal-button"
         onClick={onClose}
         sx={{
           position: "absolute",

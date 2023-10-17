@@ -14,7 +14,8 @@ const DownloadButton: ClientComponent = () => {
   const queryString = searchParams.getQueryString();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
-  const isFormComplete = selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
+  const isFormComplete =
+    queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
   const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
     const url = buildFullApiUrl({ queryString, selectedFormats, size });

@@ -77,12 +77,20 @@ export function parseExtractParams(extractParams: string) {
   // Get the categories by splitting with ';' and only keep the supported format categories
   const formatCategories = extractParams.split(";").filter((category) => {
     // category would look like this: 'fulltext[txt,pdf]' so we
-    // need to make sure supportedFormatCategory is at the beginning of category.
+    // need to make sure supportedFormatCategory is the string before "[" in category.
     // Annexes and covers are formatted differently and look like categories but are not
     // internally in Istex-DL (behavior coming from legacy versions of Istex-DL and that
     // is still in the API)
+
+    let endOfCategoryNameIndex = category.indexOf("[");
+    if (endOfCategoryNameIndex === -1) {
+      endOfCategoryNameIndex = category.length;
+    }
+
     return [...Object.keys(formats), "annexes", "covers"].some(
-      (supportedFormatCategory) => category.startsWith(supportedFormatCategory),
+      (supportedFormatCategory) =>
+        category.substring(0, endOfCategoryNameIndex) ===
+        supportedFormatCategory,
     );
   });
 

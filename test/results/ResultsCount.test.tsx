@@ -1,5 +1,5 @@
-import ResultsCount from "./ResultsCount";
-import { customRender as render, screen } from "@/test-utils";
+import { customRender as render, screen } from "../test-utils";
+import ResultsCount from "@/app/[locale]/results/components/ResultsCount";
 
 describe("ResultsCount", () => {
   it("displays the results count", () => {

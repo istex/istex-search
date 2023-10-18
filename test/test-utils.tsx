@@ -1,12 +1,12 @@
 import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { render } from "@testing-library/react";
-import type { UsageName } from "./config";
-import { DEFAULT_LOCALE } from "./i18n/constants";
-import NextIntlProvider from "./i18n/provider";
-import messages from "./i18n/translations/fr-FR.json";
-import MuiSetup from "./mui/setup";
-import type { ClientComponent, ServerComponent } from "./types/next";
+import type { UsageName } from "@/config";
+import { DEFAULT_LOCALE } from "@/i18n/constants";
+import NextIntlProvider from "@/i18n/provider";
+import messages from "@/i18n/translations/fr-FR.json";
+import MuiSetup from "@/mui/setup";
+import type { ClientComponent, ServerComponent } from "@/types/next";
 
 export function customRender(ui: Parameters<typeof render>[0]) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (

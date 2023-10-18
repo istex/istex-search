@@ -1,5 +1,9 @@
-import DownloadButton from "./DownloadButton";
-import { mockSearchParams, customRender as render, screen } from "@/test-utils";
+import {
+  mockSearchParams,
+  customRender as render,
+  screen,
+} from "../test-utils";
+import DownloadButton from "@/app/[locale]/results/Download/DownloadButton";
 
 describe("DownloadButton (download modal)", () => {
   it("disables the button when the query string is missing", () => {

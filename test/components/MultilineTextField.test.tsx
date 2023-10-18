@@ -1,10 +1,10 @@
-import MultilineTextField from "./MultilineTextField";
 import {
   customRender as render,
   screen,
   userEvent,
   waitFor,
-} from "@/test-utils";
+} from "../test-utils";
+import MultilineTextField from "@/components/MultilineTextField";
 
 describe("MultilineTextField", () => {
   it("submits the form on Enter", async () => {

@@ -1,11 +1,11 @@
 import { useRouter } from "next-intl/client";
-import RegularSearchInput from "./RegularSearchInput";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
-} from "@/test-utils";
+} from "../test-utils";
+import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 
 describe("RegularSearchInput", () => {
   beforeEach(jest.resetAllMocks);

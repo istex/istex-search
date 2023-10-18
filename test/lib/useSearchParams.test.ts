@@ -1,10 +1,10 @@
-import useSearchParams from "./useSearchParams";
 import {
   DEFAULT_USAGE_NAME,
   NO_FORMAT_SELECTED,
   formats,
   istexApiConfig,
 } from "@/config";
+import useSearchParams from "@/lib/useSearchParams";
 
 describe("SearchParams class", () => {
   it("getQueryString", () => {

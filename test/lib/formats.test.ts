@@ -1,5 +1,5 @@
-import * as Module from "./formats";
 import { NO_FORMAT_SELECTED, formats } from "@/config";
+import * as Module from "@/lib/formats";
 
 describe("Functions manipulating the available download formats", () => {
   it("selectFormat", () => {

@@ -1,4 +1,4 @@
-import * as Module from "./utils";
+import * as Module from "@/lib/utils";
 
 describe("Utility functions", () => {
   it("clamp", () => {

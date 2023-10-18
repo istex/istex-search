@@ -1,13 +1,13 @@
 import { useRouter } from "next-intl/client";
-import FormatPicker from "./FormatPicker";
-import { formats } from "@/config";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
-} from "@/test-utils";
+} from "../test-utils";
+import FormatPicker from "@/app/[locale]/results/Download/FormatPicker";
+import { formats } from "@/config";
+import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("FormatPicker", () => {
   it("inserts the extract params in the URL when selecting a format", async () => {

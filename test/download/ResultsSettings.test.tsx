@@ -1,13 +1,13 @@
 import { useRouter } from "next-intl/client";
-import ResultsSettings from "./ResultsSettings";
-import { istexApiConfig } from "@/config";
-import ResultsProvider from "@/contexts/ResultsContext";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
-} from "@/test-utils";
+} from "../test-utils";
+import ResultsSettings from "@/app/[locale]/results/Download/ResultsSettings";
+import { istexApiConfig } from "@/config";
+import ResultsProvider from "@/contexts/ResultsContext";
 
 describe("ResultsSettings", () => {
   it("changes the size in the URL when changing the input value", async () => {

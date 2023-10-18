@@ -1,13 +1,13 @@
 import { useRouter } from "next-intl/client";
-import UsageSelector from "./UsageSelector";
-import { usages } from "@/config";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
-} from "@/test-utils";
+} from "../test-utils";
+import UsageSelector from "@/app/[locale]/results/Download/UsageSelector";
+import { usages } from "@/config";
+import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("UsageSelector", () => {
   it("automatically selects formats when selecting a usage", async () => {

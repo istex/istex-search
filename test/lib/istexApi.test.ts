@@ -1,5 +1,5 @@
-import * as Module from "./istexApi";
 import { NO_FORMAT_SELECTED, formats } from "@/config";
+import * as Module from "@/lib/istexApi";
 
 describe("Istex API related functions", () => {
   it("buildResultPreviewUrl", () => {

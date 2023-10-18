@@ -1,5 +1,5 @@
-import DownloadModal from "./DownloadModal";
-import { customRender as render, screen, userEvent } from "@/test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
+import DownloadModal from "@/app/[locale]/results/Download/DownloadModal";
 
 describe("DownloadModal", () => {
   it("doesn't open the modal when open is set to false", () => {

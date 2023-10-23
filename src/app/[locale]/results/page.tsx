@@ -2,7 +2,6 @@ import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
-import ResultsCount from "./components/ResultsCount";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
@@ -61,19 +60,16 @@ const ResultsPage: Page = async ({
     );
 
     return (
-      <>
-        <ResultsCount count={results.total} />
+      <ResultsProvider resultsCount={results.total}>
         <ResultsGrid>
           {results.hits.map((result) => (
             <ResultCard key={result.id} info={result} />
           ))}
         </ResultsGrid>
 
-        <ResultsProvider resultsCount={results.total}>
-          <Pagination />
-          <DownloadButton />
-        </ResultsProvider>
-      </>
+        <Pagination />
+        <DownloadButton />
+      </ResultsProvider>
     );
   } catch (error) {
     return (

@@ -84,7 +84,14 @@
       "noTitle": "Sans titre",
       "noAbstract": "Pas de résumé"
     },
-    "resultsCount": "{count, plural, =0 {<strong>#</strong> document trouvé} =1 {<strong>#</strong> document trouvé} other {<strong>#</strong> documents trouvés}}",
+    "ResultsGrid": {
+      "resultsCount": "{count, plural, =0 {<strong>#</strong> document trouvé} =1 {<strong>#</strong> document trouvé} other {<strong>#</strong> documents trouvés}}",
+      "layouts": {
+        "groupAriaLabel": "Modes d'affichage des résultats",
+        "gridAriaLabel": "Affichage en grille",
+        "listAriaLabel": "Affichage en liste"
+      }
+    },
     "downloadButton": "Télécharger",
     "Pagination": {
       "resultsPerPage": "par page"

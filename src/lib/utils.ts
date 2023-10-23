@@ -13,3 +13,9 @@ export function lineclamp(lines: number): SxProps {
 export function clamp(number: number, min: number, max: number) {
   return Math.max(min, Math.min(number, max));
 }
+
+export function closest(number: number, values: number[] | readonly number[]) {
+  return values.reduce((prev, curr) =>
+    Math.abs(curr - number) < Math.abs(prev - number) ? curr : prev,
+  );
+}

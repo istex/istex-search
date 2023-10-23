@@ -1,20 +1,34 @@
 import { buildExtractParamsFromFormats } from "./formats";
-import { istexApiConfig } from "@/config";
+import { type PerPageOption, istexApiConfig, MIN_PER_PAGE } from "@/config";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
-  size?: number;
+  perPage?: PerPageOption;
+  page?: number;
   fields?: string[];
 }
 
 export function buildResultPreviewUrl({
   queryString,
-  size,
+  perPage,
+  page,
   fields,
 }: BuildResultPreviewUrlOptions) {
+  const actualPage = page ?? 1;
+  let actualPerPage: number = perPage ?? MIN_PER_PAGE;
+
+  const from = (actualPage - 1) * actualPerPage;
+
+  // The API returns a 404 if the offset + the size exceeds the limit
+  // so we have to decrease the size if it's about to go beyond the limit
+  if (from + actualPerPage >= istexApiConfig.maxPaginationOffset) {
+    actualPerPage = istexApiConfig.maxPaginationOffset - from;
+  }
+
   const url = new URL("document", istexApiConfig.baseUrl);
   url.searchParams.set("q", queryString);
-  url.searchParams.set("size", size?.toString() ?? "10");
+  url.searchParams.set("size", actualPerPage.toString());
+  url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-dl");
 
@@ -36,11 +50,16 @@ export interface IstexApiResponse {
   hits: Result[];
 }
 
-export async function getResults(queryString: string) {
+export async function getResults(
+  queryString: string,
+  perPage: PerPageOption,
+  page: number,
+) {
   // Create the URL
   const url = buildResultPreviewUrl({
     queryString,
-    size: 10,
+    perPage,
+    page,
     fields: ["title", "host.title", "author", "abstract"],
   });
 

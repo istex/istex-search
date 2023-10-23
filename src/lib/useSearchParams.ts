@@ -3,13 +3,16 @@ import {
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
-import { clamp } from "./utils";
+import { clamp, closest } from "./utils";
 import {
   type UsageName,
   NO_FORMAT_SELECTED,
   DEFAULT_USAGE_NAME,
   usages,
   istexApiConfig,
+  MIN_PER_PAGE,
+  perPageOptions,
+  type PerPageOption,
 } from "@/config";
 import { type NextSearchParams } from "@/types/next";
 
@@ -101,7 +104,7 @@ class SearchParams {
       return 0;
     }
 
-    return clamp(valueAsNumber, 0, istexApiConfig.maxSize);
+    return clamp(Math.round(valueAsNumber), 0, istexApiConfig.maxSize);
   }
 
   setSize(value: number): void {
@@ -112,12 +115,69 @@ class SearchParams {
 
     this.searchParams.set(
       "size",
-      clamp(value, 0, istexApiConfig.maxSize).toString(),
+      clamp(Math.round(value), 0, istexApiConfig.maxSize).toString(),
     );
   }
 
   deleteSize(): void {
     this.searchParams.delete("size");
+  }
+
+  getPage(): number {
+    const value = this.searchParams.get("page");
+    const valueAsNumber = Number(value);
+    if (value == null || Number.isNaN(valueAsNumber)) {
+      return 1;
+    }
+
+    return clamp(
+      Math.round(valueAsNumber),
+      1,
+      Math.ceil(istexApiConfig.maxPaginationOffset / this.getPerPage()),
+    );
+  }
+
+  setPage(value: number): void {
+    if (value === 1) {
+      this.deletePage();
+      return;
+    }
+
+    this.searchParams.set(
+      "page",
+      clamp(
+        Math.round(value),
+        1,
+        Math.ceil(istexApiConfig.maxPaginationOffset / this.getPerPage()),
+      ).toString(),
+    );
+  }
+
+  deletePage(): void {
+    this.searchParams.delete("page");
+  }
+
+  getPerPage(): PerPageOption {
+    const value = this.searchParams.get("perPage");
+    const valueAsNumber = Number(value);
+    if (value == null || Number.isNaN(valueAsNumber)) {
+      return MIN_PER_PAGE;
+    }
+
+    return closest(valueAsNumber, perPageOptions) as PerPageOption;
+  }
+
+  setPerPage(value: PerPageOption): void {
+    if (value === MIN_PER_PAGE) {
+      this.deletePerPage();
+      return;
+    }
+
+    this.searchParams.set("perPage", value.toString());
+  }
+
+  deletePerPage(): void {
+    this.searchParams.delete("perPage");
   }
 
   toString(): string {

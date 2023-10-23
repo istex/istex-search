@@ -1,12 +1,11 @@
 import { Skeleton } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
+import { MIN_PER_PAGE } from "@/config";
 import type { ServerComponent } from "@/types/next";
 
-const SIZE = 10;
-
 const Loading: ServerComponent = () => (
-  <ResultsGrid size={SIZE} columns={2}>
-    {Array(SIZE)
+  <ResultsGrid>
+    {Array(MIN_PER_PAGE)
       .fill(0)
       .map((_, i) => (
         <Skeleton

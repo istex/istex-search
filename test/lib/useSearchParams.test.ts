@@ -1,8 +1,11 @@
 import {
   DEFAULT_USAGE_NAME,
+  MAX_PER_PAGE,
+  MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
   formats,
   istexApiConfig,
+  perPageOptions,
 } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
 
@@ -78,13 +81,19 @@ describe("SearchParams class", () => {
     const invalidSearchParams = useSearchParams({ size: "hello" });
     expect(invalidSearchParams.getSize()).toBe(0);
 
-    const tooBigSize = useSearchParams({
+    const tooBig = useSearchParams({
       size: (istexApiConfig.maxSize + 2).toString(),
     });
-    expect(tooBigSize.getSize()).toBe(istexApiConfig.maxSize);
+    expect(tooBig.getSize()).toBe(istexApiConfig.maxSize);
 
-    const tooSmallSize = useSearchParams({ size: "-1" });
-    expect(tooSmallSize.getSize()).toBe(0);
+    const tooSmall = useSearchParams({ size: "-1" });
+    expect(tooSmall.getSize()).toBe(0);
+
+    const decimalRoundDown = useSearchParams({ size: "1.2" });
+    expect(decimalRoundDown.getSize()).toBe(1);
+
+    const decimalRowndUp = useSearchParams({ size: "1.7" });
+    expect(decimalRowndUp.getSize()).toBe(2);
   });
 
   it("setSize", () => {
@@ -98,6 +107,12 @@ describe("SearchParams class", () => {
 
     searchParams.setSize(-1);
     expect(searchParams.getSize()).toBe(0);
+
+    searchParams.setSize(1.2);
+    expect(searchParams.getSize()).toBe(1);
+
+    searchParams.setSize(1.7);
+    expect(searchParams.getSize()).toBe(2);
   });
 
   it("deleteSize", () => {
@@ -105,6 +120,106 @@ describe("SearchParams class", () => {
 
     searchParams.deleteSize();
     expect(searchParams.getSize()).toBe(0);
+  });
+
+  it("getPage", () => {
+    const perPage = MIN_PER_PAGE;
+    const minPage = 1;
+    const maxPage = Math.ceil(istexApiConfig.maxPaginationOffset / perPage);
+    const validSearchParams = useSearchParams({
+      page: "2",
+      perPage: perPage.toString(),
+    });
+    expect(validSearchParams.getPage()).toBe(2);
+
+    const invalidSearchParams = useSearchParams({ size: "hello" });
+    expect(invalidSearchParams.getPage()).toBe(minPage);
+
+    const tooBig = useSearchParams({
+      page: (maxPage + 2).toString(),
+    });
+    expect(tooBig.getPage()).toBe(maxPage);
+
+    const tooSmall = useSearchParams({ page: "-1" });
+    expect(tooSmall.getPage()).toBe(minPage);
+
+    const decimalRoundDown = useSearchParams({ page: "1.2" });
+    expect(decimalRoundDown.getPage()).toBe(1);
+
+    const decimalRowndUp = useSearchParams({ page: "1.7" });
+    expect(decimalRowndUp.getPage()).toBe(2);
+  });
+
+  it("setPage", () => {
+    const perPage = MIN_PER_PAGE;
+    const minPage = 1;
+    const maxPage = Math.ceil(istexApiConfig.maxPaginationOffset / perPage);
+    const searchParams = useSearchParams({
+      page: "2",
+      perPage: perPage.toString(),
+    });
+
+    searchParams.setPage(3);
+    expect(searchParams.getPage()).toBe(3);
+
+    searchParams.setPage(maxPage + 2);
+    expect(searchParams.getPage()).toBe(maxPage);
+
+    searchParams.setPage(-1);
+    expect(searchParams.getPage()).toBe(minPage);
+
+    searchParams.setPage(1.2);
+    expect(searchParams.getPage()).toBe(1);
+
+    searchParams.setPage(1.7);
+    expect(searchParams.getPage()).toBe(2);
+  });
+
+  it("deletePage", () => {
+    const minPage = 1;
+    const searchParams = useSearchParams({ page: "2" });
+
+    searchParams.deletePage();
+    expect(searchParams.getPage()).toBe(minPage);
+  });
+
+  it("getPerPage", () => {
+    const validSearchParams = useSearchParams({
+      perPage: perPageOptions[1].toString(),
+    });
+    expect(validSearchParams.getPerPage()).toBe(perPageOptions[1]);
+
+    const invalidSearchParams = useSearchParams({ perPage: "hello" });
+    expect(invalidSearchParams.getPerPage()).toBe(MIN_PER_PAGE);
+
+    const tooBig = useSearchParams({
+      perPage: (MAX_PER_PAGE + 2).toString(),
+    });
+    expect(tooBig.getPerPage()).toBe(MAX_PER_PAGE);
+
+    const tooSmall = useSearchParams({
+      perPage: (MIN_PER_PAGE - 2).toString(),
+    });
+    expect(tooSmall.getPerPage()).toBe(MIN_PER_PAGE);
+
+    const inBetween = useSearchParams({
+      perPage: (perPageOptions[1] + 2).toString(),
+    });
+    expect(inBetween.getPerPage()).toBe(perPageOptions[1]);
+  });
+
+  it("setPerPage", () => {
+    const searchParams = useSearchParams({ perPage: MIN_PER_PAGE.toString() });
+
+    searchParams.setPerPage(perPageOptions[1]);
+    expect(searchParams.getPerPage()).toBe(perPageOptions[1]);
+  });
+
+  it("deletePerPage", () => {
+    const searchParams = useSearchParams({ perPage: MAX_PER_PAGE.toString() });
+
+    searchParams.deletePerPage();
+    expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
   });
 
   it("clear", () => {

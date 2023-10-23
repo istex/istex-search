@@ -1,9 +1,11 @@
 import { getTranslator, redirect } from "next-intl/server";
 import DownloadButton from "./components/DownloadButton";
+import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsCount from "./components/ResultsCount";
 import ResultsGrid from "./components/ResultsGrid";
 import ErrorCard from "@/components/ErrorCard";
+import type { PerPageOption } from "@/config";
 import ResultsProvider from "@/contexts/ResultsContext";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
@@ -11,10 +13,12 @@ import type { GenerateMetadata, Page } from "@/types/next";
 
 async function getTranslatedResults(
   queryString: string,
+  perPage: PerPageOption,
+  page: number,
   locale: string,
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
-  const response = await getResults(queryString);
+  const response = await getResults(queryString, perPage, page);
 
   // Fill some missing fields with placeholder texts
   response.hits.forEach((result) => {
@@ -41,24 +45,32 @@ const ResultsPage: Page = async ({
 }) => {
   const searchParams = useSearchParams(nextSearchParams);
   const queryString = searchParams.getQueryString();
+  const page = searchParams.getPage();
+  const perPage = searchParams.getPerPage();
 
   if (queryString === "") {
     redirect("/");
   }
 
   try {
-    const results = await getTranslatedResults(queryString, locale);
+    const results = await getTranslatedResults(
+      queryString,
+      perPage,
+      page,
+      locale,
+    );
 
     return (
       <>
         <ResultsCount count={results.total} />
-        <ResultsGrid size={10} columns={2}>
+        <ResultsGrid>
           {results.hits.map((result) => (
             <ResultCard key={result.id} info={result} />
           ))}
         </ResultsGrid>
 
         <ResultsProvider resultsCount={results.total}>
+          <Pagination />
           <DownloadButton />
         </ResultsProvider>
       </>

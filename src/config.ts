@@ -9,7 +9,13 @@ export const queryModes = {
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
   maxSize: 100_000,
+  maxPaginationOffset: 10_000,
 } as const;
+
+export type PerPageOption = (typeof perPageOptions)[number];
+export const perPageOptions = [10, 20, 30] as const;
+export const MIN_PER_PAGE = perPageOptions[0];
+export const MAX_PER_PAGE = perPageOptions[2];
 
 // The selected formats are stored in an integer divided in five sections,
 // the first three represent format categories and are 10 bits long. The last

@@ -1,4 +1,4 @@
-import { NO_FORMAT_SELECTED, formats } from "@/config";
+import { MIN_PER_PAGE, NO_FORMAT_SELECTED, formats } from "@/config";
 import * as Module from "@/lib/istexApi";
 
 describe("Istex API related functions", () => {
@@ -8,16 +8,17 @@ describe("Istex API related functions", () => {
     };
     const completeParams: Module.BuildResultPreviewUrlOptions = {
       queryString: "hello",
-      size: 2,
+      perPage: MIN_PER_PAGE,
+      page: 3,
       fields: ["abstract", "title"],
     };
 
     expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&output=*&sid=istex-dl",
+      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl",
     );
 
     expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&output=abstract%2Ctitle&sid=istex-dl",
+      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl",
     );
   });
 

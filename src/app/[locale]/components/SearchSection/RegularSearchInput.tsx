@@ -33,6 +33,7 @@ const RegularSearchInput: ClientComponent = () => {
     }
 
     searchParams.deleteSize();
+    searchParams.deletePage();
     searchParams.setQueryString(queryString);
 
     router.push(`/results?${searchParams.toString()}`);

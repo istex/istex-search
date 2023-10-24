@@ -19,17 +19,19 @@ describe("RegularSearchInput", () => {
     expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
   });
 
-  it("resets the size when searching", async () => {
+  it("resets the size and the page when searching", async () => {
     const router = useRouter();
     const queryString = "hello";
     const size = 3;
+    const page = 2;
     mockSearchParams({
       size: size.toString(),
+      page: page.toString(),
     });
 
     await search(queryString);
 
-    // router.push is only called with the queryString, not the size
+    // router.push is only called with the queryString, not the size nor the page
     expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
   });
 

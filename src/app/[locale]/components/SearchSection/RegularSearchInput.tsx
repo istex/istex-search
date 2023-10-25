@@ -3,6 +3,8 @@
 import {
   type ChangeEventHandler,
   type FormEventHandler,
+  useEffect,
+  useRef,
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
@@ -23,6 +25,8 @@ const RegularSearchInput: ClientComponent = () => {
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState(searchParams.getQueryString());
   const [errorMessage, setErrorMessage] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const fullUri = `${urlSegment ?? ""}?${searchParams.toString()}`;
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
@@ -44,6 +48,13 @@ const RegularSearchInput: ClientComponent = () => {
     setQueryString(event.target.value);
   };
 
+  useEffect(() => {
+    // When keyboard navigating, the focus doesn't reset when changing route,
+    // when going to the next page for example. Which means we need to manually
+    // set the focus on the input when the URI changes.
+    inputRef.current?.focus();
+  }, [fullUri]);
+
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
@@ -57,6 +68,7 @@ const RegularSearchInput: ClientComponent = () => {
       >
         <MultilineTextField
           id="regular-search-input"
+          inputRef={inputRef}
           placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}

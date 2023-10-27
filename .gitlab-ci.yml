@@ -19,6 +19,7 @@ default:
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -26,7 +27,7 @@ build:
     - *global_cache
     - key: $CI_COMMIT_REF_SLUG
       paths:
-        - .next/cache/
+        - .next/cache
   script:
     - npm run build
 
@@ -38,3 +39,15 @@ test:
     when: always
     reports:
       junit: junit.xml
+
+deploy:dev:
+  stage: deploy
+  tags:
+    - shell
+    - runner-dev
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "dev"
+  cache: []
+  before_script: []
+  script:
+    - ./scripts/deploy-dev.sh

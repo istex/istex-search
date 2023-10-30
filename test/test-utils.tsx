@@ -1,5 +1,5 @@
 import type { AbstractIntlMessages } from "next-intl";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
 import type { UsageName } from "@/config";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
@@ -42,6 +42,10 @@ export function mockSearchParams(searchParams: {
   usage?: UsageName;
 }) {
   (useSearchParams as jest.Mock).mockReturnValue(searchParams);
+}
+
+export function mockSelectedLayoutSegment(segment: string) {
+  (useSelectedLayoutSegment as jest.Mock).mockReturnValue(segment);
 }
 
 export * from "@testing-library/react";

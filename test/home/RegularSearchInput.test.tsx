@@ -1,6 +1,7 @@
 import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
+  mockSelectedLayoutSegment,
   customRender as render,
   screen,
   userEvent,
@@ -37,7 +38,6 @@ describe("RegularSearchInput", () => {
 
   it("doesn't go to the results page when the input is empty and displays an error", async () => {
     const router = useRouter();
-
     const inputId = "regular-search-input";
     const helperTextId = `${inputId}-helper-text`;
     const { container } = await search();
@@ -61,13 +61,42 @@ describe("RegularSearchInput", () => {
 
     expect(input).toHaveValue(queryString);
   });
+
+  it("only displays the examples when on the home page", () => {
+    {
+      const { container } = render(<RegularSearchInput />);
+      const examples = container.querySelector("#examples-grid");
+
+      expect(examples).toBeVisible();
+    }
+    {
+      mockSelectedLayoutSegment("results");
+      const { container } = render(<RegularSearchInput />);
+      const examples = container.querySelector("#examples-grid");
+
+      expect(examples).not.toBeInTheDocument();
+    }
+  });
+
+  it("fills the input and goes to the results page when clicking on an example", async () => {
+    const router = useRouter();
+    render(<RegularSearchInput />);
+    const firstExample = screen.getByRole("button", {
+      name: "Réchauffement climatique",
+    });
+    await userEvent.click(firstExample);
+    const input = screen.getByRole("textbox");
+
+    expect(input).not.toHaveValue("");
+    expect(router.push).toBeCalled();
+  });
 });
 
 async function search(queryString?: string) {
   const renderResult = render(<RegularSearchInput />);
 
   const input = screen.getByRole("textbox");
-  const button = screen.getByRole("button");
+  const button = screen.getByRole("button", { name: "RECHERCHER" });
 
   if (queryString != null) {
     await userEvent.type(input, queryString);

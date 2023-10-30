@@ -33,7 +33,7 @@ const CorpusSection: ServerComponent = () => {
         {/* Ready-to-use corpus */}
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" paragraph>
             {t("corpus.subtitle", { corpusLength: corpus.length })}
           </Typography>
           <CorpusGrid />
@@ -90,7 +90,7 @@ const Title: ClientComponent<
     "variant" | "gutterBottom"
   >
 > = (props) => (
-  <Typography variant="h5" component="h3" gutterBottom {...props} />
+  <Typography variant="h5" component="h2" gutterBottom {...props} />
 );
 
 const Article: ClientComponent<Omit<BoxProps, "component" | "pt" | "pb">> = (

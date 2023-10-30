@@ -3,16 +3,15 @@
 import {
   type ChangeEventHandler,
   type FormEventHandler,
-  useEffect,
-  useRef,
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import MultilineTextField from "@/components/MultilineTextField";
+import { examples } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -20,27 +19,32 @@ const RegularSearchInput: ClientComponent = () => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
+  const tExamples = useTranslations("config.examples");
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState(searchParams.getQueryString());
   const [errorMessage, setErrorMessage] = useState("");
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const fullUri = `${urlSegment ?? ""}?${searchParams.toString()}`;
+  const onHomePage = urlSegment == null;
 
-  const handleSubmit: FormEventHandler = (event) => {
-    event.preventDefault();
-
-    if (queryString.trim() === "") {
+  const goToResultsPage = (_queryString: string) => {
+    if (_queryString.trim() === "") {
       setErrorMessage(t("emptyQueryError"));
       return;
     }
 
+    setQueryString(_queryString);
+
     searchParams.deleteSize();
     searchParams.deletePage();
-    searchParams.setQueryString(queryString);
+    searchParams.setQueryString(_queryString);
 
     router.push(`/results?${searchParams.toString()}`);
+  };
+
+  const handleSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+    goToResultsPage(queryString);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -48,18 +52,12 @@ const RegularSearchInput: ClientComponent = () => {
     setQueryString(event.target.value);
   };
 
-  useEffect(() => {
-    // When keyboard navigating, the focus doesn't reset when changing route,
-    // when going to the next page for example. Which means we need to manually
-    // set the focus on the input when the URI changes.
-    inputRef.current?.focus();
-  }, [fullUri]);
-
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
-        {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
+        {onHomePage ? t("searchTitle") : t("resultsTitle")}
       </Typography>
+
       <Box
         sx={{
           display: { xs: "block", sm: "flex" },
@@ -68,7 +66,6 @@ const RegularSearchInput: ClientComponent = () => {
       >
         <MultilineTextField
           id="regular-search-input"
-          inputRef={inputRef}
           placeholder={t("placeholder")}
           value={queryString}
           onChange={handleChange}
@@ -102,6 +99,33 @@ const RegularSearchInput: ClientComponent = () => {
           {t("button")}
         </Button>
       </Box>
+
+      {onHomePage && (
+        <>
+          <Typography variant="subtitle2" paragraph sx={{ mt: 2, mb: 1 }}>
+            {t("examplesTitle")}
+          </Typography>
+
+          <Grid id="examples-grid" container rowSpacing={1} columnSpacing={2}>
+            {Object.entries(examples).map(([name, _queryString]) => (
+              <Grid key={name} item>
+                <Button
+                  mainColor="white"
+                  secondaryColor="darkBlack"
+                  variant="text"
+                  size="small"
+                  onClick={() => {
+                    goToResultsPage(_queryString);
+                  }}
+                  sx={{ textTransform: "none" }}
+                >
+                  {tExamples(name)}
+                </Button>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      )}
     </Box>
   );
 };

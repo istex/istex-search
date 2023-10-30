@@ -21,7 +21,8 @@
           "resultsTitle": "Résultats de votre requête",
           "placeholder": "\"physique nucléaire\" AND language:fre",
           "button": "RECHERCHER",
-          "emptyQueryError": "Veuillez renseigner une requête"
+          "emptyQueryError": "Veuillez renseigner une requête",
+          "examplesTitle": "Testez des exemples de requêtes"
         },
         "switch": "Assistant"
       },
@@ -120,24 +121,6 @@
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "config": {
-    "usages": {
-      "custom": {
-        "label": "Usage personnalisé",
-        "description": "<strong>L'usage personnalisé</strong> c'est cool, blabla..."
-      },
-      "lodex": {
-        "label": "Lodex",
-        "description": "<strong>Lodex</strong> est un outil très sympa, blabla..."
-      },
-      "cortext": {
-        "label": "CorTexT",
-        "description": "<strong>CorTexT</strong> est un outil très sympa, blabla..."
-      },
-      "gargantext": {
-        "label": "GarganText",
-        "description": "<strong>GarganText</strong> est un outil très sympa, blabla..."
-      }
-    },
     "queryModes": {
       "search": {
         "label": "Recherche"
@@ -145,6 +128,14 @@
       "import": {
         "label": "Import"
       }
+    },
+    "examples": {
+      "globalWarming": "Réchauffement climatique",
+      "emileDurkheim": "Émile Durkheim",
+      "translationAndAI": "Traduction & IA",
+      "ephedrineToxicity": "Toxicité des l'Éphédrine ",
+      "fridaKahlo": "Frida Kahlo : une icône",
+      "normandyLandings": "Débarquement en Normandie"
     },
     "formats": {
       "fulltext": {
@@ -174,6 +165,24 @@
       "others": {
         "annexes": "Annexes",
         "covers": "Couvertures"
+      }
+    },
+    "usages": {
+      "custom": {
+        "label": "Usage personnalisé",
+        "description": "<strong>L'usage personnalisé</strong> c'est cool, blabla..."
+      },
+      "lodex": {
+        "label": "Lodex",
+        "description": "<strong>Lodex</strong> est un outil très sympa, blabla..."
+      },
+      "cortext": {
+        "label": "CorTexT",
+        "description": "<strong>CorTexT</strong> est un outil très sympa, blabla..."
+      },
+      "gargantext": {
+        "label": "GarganText",
+        "description": "<strong>GarganText</strong> est un outil très sympa, blabla..."
       }
     }
   }

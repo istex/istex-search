@@ -3,6 +3,7 @@ import { Grid, Link, Paper, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import { usages } from "@/config";
+import { externalLink } from "@/i18n/i18n";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
@@ -25,7 +26,7 @@ const InfoPanels: ServerComponent = () => {
         <Panel>
           <Title>{tUsages(`${currentUsageName}.label`)}</Title>
           <Typography variant="body2" gutterBottom>
-            {tUsages.rich(`${currentUsageName}.description`)}
+            {tUsages.rich(`${currentUsageName}.description`, links)}
           </Typography>
           <Link
             href={currentUsage.url}
@@ -93,5 +94,14 @@ const Title: ServerComponent<
 const Panel: ServerComponent<Omit<PaperProps, "elevation">> = (props) => (
   <Paper elevation={0} sx={{ p: 2 }} {...props} />
 );
+
+const links = {
+  inistLink: externalLink("https://www.inist.fr/"),
+  wsLink: externalLink("https://services.istex.fr/category/services/"),
+  lisisLink: externalLink("http://umr-lisis.fr/"),
+  ifrisLink: externalLink("https://ifris.org"),
+  inraeLink: externalLink("https://www.inrae.fr/"),
+  iscpifLink: externalLink("https://iscpif.fr/"),
+};
 
 export default InfoPanels;

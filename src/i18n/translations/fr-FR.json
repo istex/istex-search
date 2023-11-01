@@ -170,19 +170,19 @@
     "usages": {
       "custom": {
         "label": "Usage personnalisé",
-        "description": "<strong>L'usage personnalisé</strong> c'est cool, blabla..."
+        "description": "<strong>L'usage personnalisé</strong> vous permet de choisir le type de données à télécharger (textes intégraux, métadonnées, enrichissements, annexes ou couvertures) et le format de ces données."
       },
       "lodex": {
         "label": "Lodex",
-        "description": "<strong>Lodex</strong> est un outil très sympa, blabla..."
+        "description": "<strong>Lodex</strong> est une application web open-source dédiée aux données structurées qui permet de visualiser enrichir et de transformer ses données en site web."
       },
       "cortext": {
         "label": "CorTexT",
-        "description": "<strong>CorTexT</strong> est un outil très sympa, blabla..."
+        "description": "<strong>CorTexT</strong> est un logiciel libre (<lisisLink>LISIS</lisisLink>-<ifrisLink>IFRIS</ifrisLink>-<inraeLink>INRAE</inraeLink>.) destiné à la fouille et l’analyse de corpus textuels hétérogènes. Il propose plusieurs traitements automatiques, depuis les simples traitements de la langue, jusqu’à des analyses plus poussées telles que le clustering ou la visualisation de données temporelles."
       },
       "gargantext": {
         "label": "GarganText",
-        "description": "<strong>GarganText</strong> est un outil très sympa, blabla..."
+        "description": "<strong>GarganText</strong> est un logiciel libre (<iscpifLink>ISC-PIF</iscpifLink>) dédié à l’exploration collaborative d’ensembles de documents non structurés. Il combine des outils de traitement du langage naturel, d’exploration de texte, d’analyse de réseaux complexes et de visualisation interactive de données."
       }
     }
   }

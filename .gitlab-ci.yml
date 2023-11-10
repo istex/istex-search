@@ -1,6 +1,9 @@
 variables:
   npm_config_cache: $CI_PROJECT_DIR/.npm
 
+.is-version-tag: &is-version-tag
+  - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+/
+
 default:
   image:
     name: node:20-alpine
@@ -51,3 +54,20 @@ deploy:dev:
   before_script: []
   script:
     - ./scripts/deploy-dev.sh
+
+build:docker:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
+  rules:
+    - *is-version-tag
+  cache: []
+  before_script:
+    - cat $NEXUS_AUTH_CONFIG > /kaniko/.docker/config.json
+  script:
+    - VERSION_NUM=$(echo $CI_COMMIT_TAG | cut -c 2-)
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-dl:${VERSION_NUM}"

@@ -63,8 +63,19 @@ export async function getResults(
     fields: ["title", "host.title", "author", "abstract"],
   });
 
-  // API call
-  const response = await fetch(url, { next: { revalidate: 60 } });
+  // If the query string is too long some browsers won't accept to send a GET request
+  // so we send a POST request instead and pass the query string in the body
+  const fetchOptions: RequestInit = { next: { revalidate: 60 } };
+  if (queryString.length > istexApiConfig.queryStringMaxLength) {
+    url.searchParams.delete("q");
+    fetchOptions.method = "POST";
+    fetchOptions.headers = {
+      "Content-Type": "application/json",
+    };
+    fetchOptions.body = JSON.stringify({ qString: queryString });
+  }
+
+  const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     const error = new Error(
       `API responded with a ${response.status} status code!`,

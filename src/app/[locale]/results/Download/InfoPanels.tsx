@@ -3,6 +3,7 @@ import { Grid, Link, Paper, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
 import { usages } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { externalLink } from "@/i18n/i18n";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
@@ -13,7 +14,7 @@ const InfoPanels: ServerComponent = () => {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
-  const queryString = searchParams.getQueryString();
+  const { queryString } = useQueryContext();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const resultsApiUrl = buildResultPreviewUrl({

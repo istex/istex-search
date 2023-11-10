@@ -11,12 +11,12 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useResultsContext } from "@/contexts/ResultsContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
   const t = useTranslations("results.ResultsGrid");
-  const { resultsCount } = useResultsContext();
+  const { resultsCount } = useQueryContext();
   const [columns, setColumns] = useState(2);
 
   const handleLayout = (_: MouseEvent, newColumns: number | null) => {

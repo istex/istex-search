@@ -7,17 +7,12 @@ import {
 } from "../test-utils";
 import Pagination from "@/app/[locale]/results/components/Pagination";
 import { MIN_PER_PAGE, istexApiConfig, perPageOptions } from "@/config";
-import ResultsProvider from "@/contexts/ResultsContext";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 
 describe("Pagination", () => {
   it("changes the number of results per page when using the dropdown", async () => {
     const router = useRouter();
-    render(
-      <ResultsProvider resultsCount={3}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    render(<Pagination />);
 
     const dropdown = screen.getByRole("button", {
       name: `par page ${MIN_PER_PAGE}`,
@@ -35,11 +30,7 @@ describe("Pagination", () => {
   // We only test the next page button because the same logic is applied to all buttons
   it("goes to the next page when clicking the next page button", async () => {
     const router = useRouter();
-    render(
-      <ResultsProvider resultsCount={20}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    render(<Pagination />, { resultsCount: 20 });
 
     const button = screen.getByRole("button", {
       name: "Aller à la page suivante",
@@ -54,11 +45,7 @@ describe("Pagination", () => {
     mockSearchParams({
       perPage,
     });
-    const { container } = render(
-      <ResultsProvider resultsCount={3}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    const { container } = render(<Pagination />);
 
     const dropdown = container.getElementsByTagName("input")[0];
 
@@ -70,11 +57,7 @@ describe("Pagination", () => {
     mockSearchParams({
       page,
     });
-    const { container } = render(
-      <ResultsProvider resultsCount={100}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    const { container } = render(<Pagination />, { resultsCount: 100 });
 
     const pageLabel = container.getElementsByClassName(
       "MuiTablePagination-displayedRows",
@@ -86,11 +69,7 @@ describe("Pagination", () => {
   it("limits the last page when the results count is greater than the max pagination offset", async () => {
     const router = useRouter();
     const resultsCount = istexApiConfig.maxPaginationOffset + 1000;
-    render(
-      <ResultsProvider resultsCount={resultsCount}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    render(<Pagination />, { resultsCount });
 
     // The last page is based on the maxPaginationOffset because resultsCount is too large
     const lastPage = Math.ceil(
@@ -111,11 +90,7 @@ describe("Pagination", () => {
     mockSearchParams({
       page: (lastPage + 2).toString(),
     });
-    const { container } = render(
-      <ResultsProvider resultsCount={resultsCount}>
-        <Pagination />
-      </ResultsProvider>,
-    );
+    const { container } = render(<Pagination />, { resultsCount });
 
     const pageLabel = container.getElementsByClassName(
       "MuiTablePagination-displayedRows",

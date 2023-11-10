@@ -47,10 +47,7 @@ function testPanelContent(
   testId: string,
   expectedContent: string,
 ) {
-  mockSearchParams({
-    q: queryString,
-  });
-  render(<InfoPanels />);
+  render(<InfoPanels />, { queryString });
 
   const panel = screen.getByTestId(testId);
 

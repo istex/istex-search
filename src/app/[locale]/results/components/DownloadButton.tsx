@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 import DownloadForm from "../Download/DownloadForm";
 import DownloadModal from "../Download/DownloadModal";
 import Button from "@/components/Button";
-import { useResultsContext } from "@/contexts/ResultsContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -17,7 +17,7 @@ const DownloadButton: ClientComponent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const size = searchParams.getSize();
-  const { resultsCount } = useResultsContext();
+  const { resultsCount } = useQueryContext();
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal: MouseEventHandler<HTMLButtonElement> = () => {

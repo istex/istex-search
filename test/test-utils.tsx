@@ -2,19 +2,30 @@ import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
 import type { UsageName } from "@/config";
+import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 import NextIntlProvider from "@/i18n/provider";
 import messages from "@/i18n/translations/fr-FR.json";
 import MuiSetup from "@/mui/setup";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
-export function customRender(ui: Parameters<typeof render>[0]) {
+export function customRender(
+  ui: Parameters<typeof render>[0],
+  context?: Partial<QueryContextValue>,
+) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (
     <NextIntlProvider
       messages={messages as unknown as AbstractIntlMessages}
       locale={DEFAULT_LOCALE}
     >
-      <MuiSetup>{children}</MuiSetup>
+      <MuiSetup>
+        <QueryProvider
+          queryString={context?.queryString ?? ""}
+          resultsCount={context?.resultsCount ?? 0}
+        >
+          {children}
+        </QueryProvider>
+      </MuiSetup>
     </NextIntlProvider>
   );
 

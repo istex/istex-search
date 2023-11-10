@@ -2,8 +2,9 @@ import {
   ReadonlyURLSearchParams,
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
+import { md5 } from "js-md5";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
-import { clamp, closest } from "./utils";
+import { clamp, closest, isValidMd5 } from "./utils";
 import {
   type UsageName,
   NO_FORMAT_SELECTED,
@@ -14,7 +15,7 @@ import {
   perPageOptions,
   type PerPageOption,
 } from "@/config";
-import { type NextSearchParams } from "@/types/next";
+import type { NextSearchParams } from "@/types/next";
 
 // Wrapper class around URLSearchParams with stricter getters and setters
 class SearchParams {
@@ -27,26 +28,71 @@ class SearchParams {
         : this._nextSearchParamsToUrlSearchParams(searchParams);
   }
 
-  getQueryString(): string {
-    const value = this.searchParams.get("q");
-    if (value == null || value === "") {
-      return "";
+  async getQueryString(): Promise<string> {
+    const queryString = this.searchParams.get("q")?.trim();
+    const qId = this.searchParams.get("q_id");
+    const isQueryStringPresent = queryString != null && queryString !== "";
+    const isQIdPresent = qId != null && isValidMd5(qId);
+
+    if (isQueryStringPresent) {
+      return queryString;
     }
 
-    return value;
+    if (isQIdPresent) {
+      const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        const error = new Error(`Error with status ${response.status}`);
+        error.cause = response.status;
+        throw error;
+      }
+
+      return (await response.json()).req as string;
+    }
+
+    return "";
   }
 
-  setQueryString(value: string): void {
-    if (value === "") {
+  async setQueryString(queryString: string): Promise<void> {
+    queryString = queryString.trim();
+
+    if (queryString === "") {
       this.deleteQueryString();
       return;
     }
 
-    this.searchParams.set("q", value);
+    if (queryString.length > istexApiConfig.queryStringMaxLength) {
+      const qId = md5(queryString);
+      const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ qString: queryString }),
+      });
+
+      // 409 responses are expected because, in some scenarios, the q_id will
+      // already be saved the in the redis base
+      if (!response.ok && response.status !== 409) {
+        const error = new Error(`Error with status ${response.status}`);
+        error.cause = response.status;
+        throw error;
+      }
+
+      this.deleteQueryString();
+      this.searchParams.set("q_id", qId);
+
+      return;
+    }
+
+    this.searchParams.set("q", queryString);
   }
 
   deleteQueryString(): void {
     this.searchParams.delete("q");
+    this.searchParams.delete("q_id");
   }
 
   getFormats(): number {

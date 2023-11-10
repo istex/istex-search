@@ -7,7 +7,6 @@ import {
 } from "../test-utils";
 import ResultsSettings from "@/app/[locale]/results/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
-import ResultsProvider from "@/contexts/ResultsContext";
 
 describe("ResultsSettings", () => {
   it("changes the size in the URL when changing the input value", async () => {
@@ -45,11 +44,7 @@ async function testModification(
   wishValue: number,
   expectedValue: number,
 ) {
-  render(
-    <ResultsProvider resultsCount={resultsCount}>
-      <ResultsSettings />
-    </ResultsProvider>,
-  );
+  render(<ResultsSettings />, { resultsCount });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
@@ -68,11 +63,7 @@ function testInitialization(resultsCount: number, expectedValue: number) {
   mockSearchParams({
     size: resultsCount.toString(),
   });
-  render(
-    <ResultsProvider resultsCount={resultsCount}>
-      <ResultsSettings />
-    </ResultsProvider>,
-  );
+  render(<ResultsSettings />, { resultsCount });
 
   const input = screen.getByRole("spinbutton");
 

@@ -10,24 +10,24 @@ import {
 import useSearchParams from "@/lib/useSearchParams";
 
 describe("SearchParams class", () => {
-  it("getQueryString", () => {
+  it("getQueryString", async () => {
     const searchParams = useSearchParams({ q: "hello" });
 
-    expect(searchParams.getQueryString()).toBe("hello");
+    expect(await searchParams.getQueryString()).toBe("hello");
   });
 
-  it("setQueryString", () => {
+  it("setQueryString", async () => {
     const searchParams = useSearchParams({ q: "hello" });
 
-    searchParams.setQueryString("world");
-    expect(searchParams.getQueryString()).toBe("world");
+    await searchParams.setQueryString("world");
+    expect(await searchParams.getQueryString()).toBe("world");
   });
 
-  it("deleteQueryString", () => {
+  it("deleteQueryString", async () => {
     const searchParams = useSearchParams({ q: "hello" });
 
     searchParams.deleteQueryString();
-    expect(searchParams.getQueryString()).toBe("");
+    expect(await searchParams.getQueryString()).toBe("");
   });
 
   it("getFormats", () => {
@@ -222,7 +222,7 @@ describe("SearchParams class", () => {
     expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
   });
 
-  it("clear", () => {
+  it("clear", async () => {
     const searchParams = useSearchParams({
       q: "hello",
       extract: "metadata[json]",
@@ -232,7 +232,7 @@ describe("SearchParams class", () => {
 
     searchParams.clear();
 
-    expect(searchParams.getQueryString()).toBe("");
+    expect(await searchParams.getQueryString()).toBe("");
     expect(searchParams.getSize()).toBe(0);
     expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
     expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);

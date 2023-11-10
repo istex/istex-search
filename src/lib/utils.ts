@@ -19,3 +19,7 @@ export function closest(number: number, values: number[] | readonly number[]) {
     Math.abs(curr - number) < Math.abs(prev - number) ? curr : prev,
   );
 }
+
+export function isValidMd5(hash: string) {
+  return /^[a-f0-9]{32}$/gi.test(hash);
+}

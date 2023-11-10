@@ -5,6 +5,7 @@ export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
   maxSize: 100_000,
   maxPaginationOffset: 10_000,
+  queryStringMaxLength: 2_000,
 } as const;
 
 export const queryModes = {

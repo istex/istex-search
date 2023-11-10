@@ -86,7 +86,7 @@ function testButtonState(
   enabled: boolean,
 ) {
   mockSearchParams(searchParams);
-  render(<DownloadButton />);
+  render(<DownloadButton />, { queryString: searchParams.q });
 
   const button = screen.getByRole("button");
 

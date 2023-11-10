@@ -4,6 +4,7 @@ import type { MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { NO_FORMAT_SELECTED } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { buildFullApiUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
@@ -11,7 +12,7 @@ import type { ClientComponent } from "@/types/next";
 const DownloadButton: ClientComponent = () => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
-  const queryString = searchParams.getQueryString();
+  const { queryString } = useQueryContext();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
   const isFormComplete =

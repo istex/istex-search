@@ -7,7 +7,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
-import { useResultsContext } from "@/contexts/ResultsContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
@@ -18,7 +18,7 @@ const ResultsSettings: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { resultsCount } = useResultsContext();
+  const { resultsCount } = useQueryContext();
 
   const maxSize = clamp(resultsCount, 0, istexApiConfig.maxSize);
   const size = clamp(searchParams.getSize(), 0, maxSize);

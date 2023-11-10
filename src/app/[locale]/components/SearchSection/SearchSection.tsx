@@ -33,7 +33,7 @@ const SearchSection: ClientComponent = () => {
   }
 
   return (
-    <Container component="section" sx={{ pt: 3, pb: 2 }}>
+    <Container component="section" sx={{ py: 3 }}>
       <Box
         sx={{
           display: "none", // TODO: change to flex when another query mode is implemented

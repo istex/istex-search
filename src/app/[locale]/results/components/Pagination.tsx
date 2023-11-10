@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
 import { TablePagination } from "@mui/material";
 import { type PerPageOption, istexApiConfig, perPageOptions } from "@/config";
-import { useResultsContext } from "@/contexts/ResultsContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
@@ -13,7 +13,7 @@ import type { ClientComponent } from "@/types/next";
 const Pagination: ClientComponent = () => {
   const t = useTranslations("results.Pagination");
   const locale = useLocale();
-  const { resultsCount } = useResultsContext();
+  const { resultsCount } = useQueryContext();
   const maxResults = clamp(resultsCount, 0, istexApiConfig.maxPaginationOffset);
   const router = useRouter();
   const pathname = usePathname();

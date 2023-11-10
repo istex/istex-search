@@ -52,10 +52,7 @@ describe("RegularSearchInput", () => {
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    mockSearchParams({
-      q: queryString,
-    });
-    render(<RegularSearchInput />);
+    render(<RegularSearchInput />, { queryString });
 
     const input = screen.getByRole("textbox");
 

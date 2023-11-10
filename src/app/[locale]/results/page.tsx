@@ -3,9 +3,9 @@ import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
+import ResultsPageShell from "./components/ResultsPageShell";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
-import ResultsProvider from "@/contexts/ResultsContext";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -43,9 +43,16 @@ const ResultsPage: Page = async ({
   searchParams: nextSearchParams,
 }) => {
   const searchParams = useSearchParams(nextSearchParams);
-  const queryString = searchParams.getQueryString();
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
+
+  let queryString: string;
+  try {
+    queryString = await searchParams.getQueryString();
+  } catch (err) {
+    // TODO: let the user know the q_id was not found
+    redirect("/");
+  }
 
   if (queryString === "") {
     redirect("/");
@@ -60,7 +67,7 @@ const ResultsPage: Page = async ({
     );
 
     return (
-      <ResultsProvider resultsCount={results.total}>
+      <ResultsPageShell queryString={queryString} resultsCount={results.total}>
         <ResultsGrid>
           {results.hits.map((result) => (
             <ResultCard key={result.id} info={result} />
@@ -69,12 +76,18 @@ const ResultsPage: Page = async ({
 
         <Pagination />
         <DownloadButton />
-      </ResultsProvider>
+      </ResultsPageShell>
     );
   } catch (error) {
+    const errorCode =
+      error instanceof Error && typeof error.cause === "number"
+        ? error.cause
+        : undefined;
+
     return (
-      error instanceof Error &&
-      typeof error.cause === "number" && <ErrorCard code={error.cause} />
+      <ResultsPageShell queryString={queryString} resultsCount={0}>
+        <ErrorCard code={errorCode} />
+      </ResultsPageShell>
     );
   }
 };

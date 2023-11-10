@@ -22,4 +22,16 @@ describe("Utility functions", () => {
     expect(Module.closest(22, values)).toBe(20);
     expect(Module.closest(37, values)).toBe(30);
   });
+
+  it("isValidMd5", () => {
+    const valid = "0123456789ABCDEF0123456789ABCDEF";
+    const lessThan32Characters = "0123456789ABCDEF";
+    const moreThan32Characters = "0123456789ABCDEF0123456789ABCDEF1234";
+    const nonHexaCharacters = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
+
+    expect(Module.isValidMd5(valid)).toBe(true);
+    expect(Module.isValidMd5(lessThan32Characters)).toBe(false);
+    expect(Module.isValidMd5(moreThan32Characters)).toBe(false);
+    expect(Module.isValidMd5(nonHexaCharacters)).toBe(false);
+  });
 });

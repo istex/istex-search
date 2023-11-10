@@ -3,7 +3,6 @@ import { getTranslator } from "next-intl/server";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
-import SearchSection from "./components/SearchSection";
 import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadata, Layout } from "@/types/next";
@@ -32,10 +31,7 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
           <NextIntlProvider messages={messages} locale={locale}>
             <Navbar />
             <Header />
-            <main>
-              <SearchSection />
-              {children}
-            </main>
+            <main>{children}</main>
             <Footer />
           </NextIntlProvider>
         </MuiSetup>

@@ -12,6 +12,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import MultilineTextField from "@/components/MultilineTextField";
 import { examples } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -23,23 +24,26 @@ const RegularSearchInput: ClientComponent = () => {
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
-  const [queryString, setQueryString] = useState(searchParams.getQueryString());
+  const [queryString, setQueryString] = useState(useQueryContext().queryString);
   const [errorMessage, setErrorMessage] = useState("");
   const onHomePage = urlSegment == null;
 
-  const goToResultsPage = (_queryString: string) => {
-    if (_queryString.trim() === "") {
+  const goToResultsPage = (newQueryString: string) => {
+    if (newQueryString.trim() === "") {
       setErrorMessage(t("emptyQueryError"));
       return;
     }
 
-    setQueryString(_queryString);
+    setQueryString(newQueryString);
 
     searchParams.deleteSize();
     searchParams.deletePage();
-    searchParams.setQueryString(_queryString);
-
-    router.push(`/results?${searchParams.toString()}`);
+    searchParams
+      .setQueryString(newQueryString)
+      .then(() => {
+        router.push(`/results?${searchParams.toString()}`);
+      })
+      .catch(console.error); // TODO: handle errors in a better way
   };
 
   const handleSubmit: FormEventHandler = (event) => {

@@ -1,11 +1,11 @@
 import { Skeleton } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
+import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
-import ResultsProvider from "@/contexts/ResultsContext";
 import type { ServerComponent } from "@/types/next";
 
 const Loading: ServerComponent = () => (
-  <ResultsProvider resultsCount={0}>
+  <ResultsPageShell queryString="" resultsCount={0}>
     <ResultsGrid>
       {Array(MIN_PER_PAGE)
         .fill(0)
@@ -19,7 +19,7 @@ const Loading: ServerComponent = () => (
           />
         ))}
     </ResultsGrid>
-  </ResultsProvider>
+  </ResultsPageShell>
 );
 
 export default Loading;

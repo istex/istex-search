@@ -14,8 +14,10 @@ const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
   try {
     queryString = await searchParams.getQueryString();
   } catch (err) {
-    // TODO: let the user know the q_id was not found
-    redirect("/");
+    // Getting on the home page with an invalid q_id could be a mistake
+    // so we just delete it and refresh the page
+    searchParams.deleteQueryString();
+    redirect(`/?${searchParams.toString()}`);
   }
 
   return (

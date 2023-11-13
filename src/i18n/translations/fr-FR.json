@@ -21,7 +21,6 @@
           "resultsTitle": "Résultats de votre requête",
           "placeholder": "\"physique nucléaire\" AND language:fre",
           "button": "RECHERCHER",
-          "emptyQueryError": "Veuillez renseigner une requête",
           "examplesTitle": "Testez des exemples de requêtes"
         },
         "switch": "Assistant"
@@ -30,8 +29,7 @@
         "searchTitle": "Importez vos identifiants",
         "resultsTitle": "Résultats de votre import",
         "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
-        "button": "RECHERCHER",
-        "emptyQueryError": "Veuillez renseigner un ou plusieurs identifiants"
+        "button": "RECHERCHER"
       }
     },
     "CorpusSection": {
@@ -116,8 +114,14 @@
     }
   },
   "ErrorCard": {
-    "title": "Erreur",
-    "400": "Une erreur de syntaxe a été détectée.",
+    "title": "Erreur"
+  },
+  "errors": {
+    "SyntaxError": "Une erreur de syntaxe a été détectée.",
+    "QIdNotFoundError": "Aucune requête ne correspond à {qId}",
+    "QIdSaveError": "Erreur lors de la sauvegarde de {qId}",
+    "emptyQueryError": "Veuillez renseigner une requête",
+    "emptyIdsError": "Veuillez renseigner un ou plusieurs identifiants",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "config": {

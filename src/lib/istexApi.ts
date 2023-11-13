@@ -1,3 +1,4 @@
+import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats } from "./formats";
 import { type PerPageOption, istexApiConfig, MIN_PER_PAGE } from "@/config";
 
@@ -77,11 +78,9 @@ export async function getResults(
 
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
-    const error = new Error(
-      `API responded with a ${response.status} status code!`,
+    throw new CustomError(
+      response.status === 400 ? { name: "SyntaxError" } : { name: "default" },
     );
-    error.cause = response.status;
-    throw error;
   }
 
   return (await response.json()) as IstexApiResponse;

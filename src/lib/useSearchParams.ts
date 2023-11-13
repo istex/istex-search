@@ -3,6 +3,7 @@ import {
   useSearchParams as nextUseSearchParams,
 } from "next/navigation";
 import { md5 } from "js-md5";
+import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import { clamp, closest, isValidMd5 } from "./utils";
 import {
@@ -43,9 +44,11 @@ class SearchParams {
 
       const response = await fetch(url);
       if (!response.ok) {
-        const error = new Error(`Error with status ${response.status}`);
-        error.cause = response.status;
-        throw error;
+        throw new CustomError(
+          response.status === 404
+            ? { name: "QIdNotFoundError", qId }
+            : { name: "default" },
+        );
       }
 
       return (await response.json()).req as string;
@@ -57,8 +60,11 @@ class SearchParams {
   async setQueryString(queryString: string): Promise<void> {
     queryString = queryString.trim();
 
+    // Remove q_id and q params to start fresh and make sure
+    // q_id and q are never set at the same time
+    this.deleteQueryString();
+
     if (queryString === "") {
-      this.deleteQueryString();
       return;
     }
 
@@ -76,12 +82,9 @@ class SearchParams {
       // 409 responses are expected because, in some scenarios, the q_id will
       // already be saved the in the redis base
       if (!response.ok && response.status !== 409) {
-        const error = new Error(`Error with status ${response.status}`);
-        error.cause = response.status;
-        throw error;
+        throw new CustomError({ name: "QIdSaveError", qId });
       }
 
-      this.deleteQueryString();
       this.searchParams.set("q_id", qId);
 
       return;

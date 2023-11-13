@@ -13,6 +13,7 @@ import Button from "@/components/Button";
 import MultilineTextField from "@/components/MultilineTextField";
 import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
+import type CustomError from "@/lib/CustomError";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -21,6 +22,7 @@ const RegularSearchInput: ClientComponent = () => {
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
   const tExamples = useTranslations("config.examples");
+  const tErrors = useTranslations("errors");
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
@@ -30,7 +32,7 @@ const RegularSearchInput: ClientComponent = () => {
 
   const goToResultsPage = (newQueryString: string) => {
     if (newQueryString.trim() === "") {
-      setErrorMessage(t("emptyQueryError"));
+      setErrorMessage(tErrors("emptyQueryError"));
       return;
     }
 
@@ -43,7 +45,9 @@ const RegularSearchInput: ClientComponent = () => {
       .then(() => {
         router.push(`/results?${searchParams.toString()}`);
       })
-      .catch(console.error); // TODO: handle errors in a better way
+      .catch((err: CustomError) => {
+        setErrorMessage(tErrors(err.info.name));
+      });
   };
 
   const handleSubmit: FormEventHandler = (event) => {

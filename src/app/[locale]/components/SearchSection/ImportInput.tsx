@@ -16,6 +16,7 @@ import type { ClientComponent } from "@/types/next";
 
 const ImportInput: ClientComponent = () => {
   const t = useTranslations("home.SearchSection.ImportInput");
+  const tErrors = useTranslations("errors");
   const urlSegment = useSelectedLayoutSegment();
   const [queryString, setQueryString] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,7 +25,7 @@ const ImportInput: ClientComponent = () => {
     event.preventDefault();
 
     if (queryString.trim() === "") {
-      setErrorMessage(t("emptyQueryError"));
+      setErrorMessage(tErrors("emptyIdsError"));
     }
   };
 

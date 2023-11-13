@@ -6,6 +6,7 @@ import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
+import CustomError from "@/lib/CustomError";
 import { getResults, type IstexApiResponse } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -50,8 +51,11 @@ const ResultsPage: Page = async ({
   try {
     queryString = await searchParams.getQueryString();
   } catch (err) {
-    // TODO: let the user know the q_id was not found
-    redirect("/");
+    return err instanceof CustomError ? (
+      <ResultsPageShell queryString="" resultsCount={0}>
+        <ErrorCard {...err.info} />
+      </ResultsPageShell>
+    ) : null;
   }
 
   if (queryString === "") {
@@ -78,17 +82,12 @@ const ResultsPage: Page = async ({
         <DownloadButton />
       </ResultsPageShell>
     );
-  } catch (error) {
-    const errorCode =
-      error instanceof Error && typeof error.cause === "number"
-        ? error.cause
-        : undefined;
-
-    return (
+  } catch (err) {
+    return err instanceof CustomError ? (
       <ResultsPageShell queryString={queryString} resultsCount={0}>
-        <ErrorCard code={errorCode} />
+        <ErrorCard {...err.info} />
       </ResultsPageShell>
-    );
+    ) : null;
   }
 };
 

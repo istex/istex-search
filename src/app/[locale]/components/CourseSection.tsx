@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Box, Container, Typography } from "@mui/material";
+import courseImage from "@/../public/courses.jpg";
 import Button from "@/components/Button";
 import type { ServerComponent } from "@/types/next";
 
@@ -10,7 +11,7 @@ const CourseSection: ServerComponent = () => {
     <Box
       component="section"
       sx={{
-        backgroundImage: "url(/courses.jpg)",
+        backgroundImage: `url(${courseImage.src})`,
         backgroundSize: "cover",
         backgroundPosition: "center 27%",
         backgroundRepeat: "no-repeat",

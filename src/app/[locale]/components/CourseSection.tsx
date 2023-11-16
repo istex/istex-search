@@ -10,9 +10,9 @@ const CourseSection: ServerComponent = () => {
     <Box
       component="section"
       sx={{
-        backgroundImage: "url(https://placehold.co/1280x500/png)",
+        backgroundImage: "url(/courses.jpg)",
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center 27%",
         backgroundRepeat: "no-repeat",
       }}
     >

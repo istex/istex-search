@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, Grid, Typography } from "@mui/material";
 import DownloadSteps from "./DownloadSteps";
+import downloadImage from "@/../public/download.jpg";
 import type { ServerComponent } from "@/types/next";
 
 const DownloadSection: ServerComponent = () => {
@@ -17,7 +18,7 @@ const DownloadSection: ServerComponent = () => {
           sx={{ position: "relative", minHeight: "15rem" }}
         >
           <Image
-            src="https://placehold.co/960x500/png"
+            src={downloadImage}
             alt=""
             fill
             sizes="(min-width: 900px) 50vw, 100vw"

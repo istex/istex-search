@@ -12,7 +12,7 @@
       "loterre": "Loterre"
     },
     "Header": {
-      "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>optimisé pour la fouille de textes dans des outils d’analyse"
+      "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>Première étape de votre projet de fouille de textes"
     },
     "SearchSection": {
       "SearchInput": {
@@ -41,10 +41,10 @@
       },
       "gateways": {
         "title": "Adaptez votre téléchargement à votre usage",
-        "subtitle": "Istex-DL propose des passerelles vers des outils d'analyse de corpus.",
-        "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex-DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
-        "buttonTop": "Pour plus d'informations sur ces outils :",
-        "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00a0?",
+        "subtitle": "Istex\u2011DL propose des passerelles vers des outils d'analyse de corpus.",
+        "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex\u2011DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
+        "buttonTop": "Pour plus d'informations sur ces outils\u00A0:",
+        "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00A0?",
         "contactButton": "CONTACTEZ-NOUS"
       }
     },
@@ -54,7 +54,7 @@
       "downloadSteps": [
         {
           "title": "Construire une requête",
-          "body": "Plusieurs modes de recherche vous permettent d'interroger Istex : la recherche simple, la recherche assistée et l'import d'une liste d'identifiants."
+          "body": "Plusieurs modes de recherche vous permettent d'interroger Istex\u00A0: la recherche simple, la recherche assistée et l'import d'une liste d'identifiants."
         },
         {
           "title": "Explorer des résultats",
@@ -62,12 +62,12 @@
         },
         {
           "title": "Télécharger massivement",
-          "body": "Istex-DL propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
+          "body": "Istex\u2011DL propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
         }
       ]
     },
     "CourseSection": {
-      "title": "Besoin de mieux maîtriser l'outil Istex-DL ?",
+      "title": "Besoin de mieux maîtriser l'outil Istex\u2011DL\u00A0?",
       "body": "L'équipe Istex vous propose des formations sur la méthodologie de constitution de corpus.",
       "button": "Découvrir les formations"
     },
@@ -137,9 +137,9 @@
       "globalWarming": "Réchauffement climatique",
       "emileDurkheim": "Émile Durkheim",
       "translationAndAI": "Traduction & IA",
-      "ephedrineToxicity": "Toxicité des l'Éphédrine ",
+      "ephedrineToxicity": "Toxicité de l'éphédrine",
       "fridaKahlo": "Frida Kahlo : une icône",
-      "normandyLandings": "Débarquement en Normandie"
+      "normandyLandings": "Débarquement de Normandie"
     },
     "formats": {
       "fulltext": {
@@ -174,19 +174,19 @@
     "usages": {
       "custom": {
         "label": "Usage personnalisé",
-        "description": "<strong>L'usage personnalisé</strong> vous permet de choisir le type de données à télécharger (textes intégraux, métadonnées, enrichissements, annexes ou couvertures) et le format de ces données."
+        "description": "Choisissez le type de données à télécharger (textes intégraux, métadonnées, enrichissements, annexes ou couvertures) et le format de ces données."
       },
       "lodex": {
         "label": "Lodex",
-        "description": "<strong>Lodex</strong> est une application web open-source dédiée aux données structurées qui permet de visualiser enrichir et de transformer ses données en site web."
+        "description": "Application web open\u2011source dédiée aux données structurées qui permet de visualiser et d’enrichir ses données puis de les transformer en site web."
       },
       "cortext": {
         "label": "CorTexT",
-        "description": "<strong>CorTexT</strong> est un logiciel libre (<lisisLink>LISIS</lisisLink>-<ifrisLink>IFRIS</ifrisLink>-<inraeLink>INRAE</inraeLink>.) destiné à la fouille et l’analyse de corpus textuels hétérogènes. Il propose plusieurs traitements automatiques, depuis les simples traitements de la langue, jusqu’à des analyses plus poussées telles que le clustering ou la visualisation de données temporelles."
+        "description": "Logiciel libre destiné à la fouille et l’analyse de corpus textuels hétérogènes proposant plusieurs traitements automatiques (clustering, visualisation de données temporelles, etc.)."
       },
       "gargantext": {
         "label": "GarganText",
-        "description": "<strong>GarganText</strong> est un logiciel libre (<iscpifLink>ISC-PIF</iscpifLink>) dédié à l’exploration collaborative d’ensembles de documents non structurés. Il combine des outils de traitement du langage naturel, d’exploration de texte, d’analyse de réseaux complexes et de visualisation interactive de données."
+        "description": "Logiciel libre dédié à l’exploration collaborative d’ensembles de documents combinant des outils de traitement du langage naturel, d’analyse de réseaux complexes et de visualisation interactive de données."
       }
     }
   }

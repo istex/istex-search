@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
 import SearchSection from "../../components/SearchSection";
+import RawRequest from "./RawRequest";
 import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
 import type { ServerComponent } from "@/types/next";
 
@@ -13,6 +14,7 @@ const ResultsPageShell: ServerComponent<QueryContextValue, true> = ({
 }) => (
   <QueryProvider queryString={queryString} resultsCount={resultsCount}>
     <SearchSection />
+    <RawRequest />
 
     <Container component="section" sx={{ pb: 6 }}>
       {children}

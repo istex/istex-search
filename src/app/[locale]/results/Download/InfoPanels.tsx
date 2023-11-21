@@ -15,10 +15,14 @@ const InfoPanels: ServerComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
+  const perPage = searchParams.getPerPage();
+  const page = searchParams.getPage();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
+    perPage,
+    page,
   }).toString();
 
   return (

@@ -4,6 +4,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
 import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
+import { montserrat } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
 
 const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
@@ -16,7 +17,16 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
     })}
   >
     <CardContent>
-      <Typography variant="h6" component="div" sx={lineclamp(3)}>
+      <Typography
+        component="div"
+        sx={{
+          fontFamily: montserrat.style.fontFamily,
+          fontWeight: "bold",
+          fontSize: "1.1rem",
+          lineHeight: 1.4,
+          ...lineclamp(3),
+        }}
+      >
         {info.title}
       </Typography>
 
@@ -38,7 +48,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
       )}
 
       <Typography
-        variant="body1"
+        variant="body2"
         sx={{
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -55,9 +65,10 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => (
       <Typography
         variant="body2"
         sx={{
-          ...lineclamp(6),
+          fontSize: "0.8rem",
           color: "colors.grey",
           maxHeight: "10em",
+          ...lineclamp(6),
         }}
       >
         {info.abstract}

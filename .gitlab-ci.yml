@@ -48,6 +48,8 @@ deploy:dev:
   tags:
     - shell
     - runner-dev
+  environment: development
+  resource_group: development
   rules:
     - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "dev"
   cache: []

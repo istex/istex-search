@@ -38,12 +38,19 @@ const DownloadSection: ServerComponent = () => {
             py: 8,
           }}
         >
-          <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-            {t("title")}
-          </Typography>
-          <Typography variant="body2" paragraph>
-            {t("body")}
-          </Typography>
+          {/*
+           * Setting a max width in pixels is not the best practice but I couldn't
+           * a way to align the text with the Container of other sections but keep
+           * the background color and image on the entire screen width.
+           */}
+          <Box sx={{ maxWidth: { md: "unset", lg: "525px" } }}>
+            <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
+              {t("title")}
+            </Typography>
+            <Typography variant="body2" paragraph>
+              {t("body")}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
 

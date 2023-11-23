@@ -1,33 +1,8 @@
-import { getTranslator, redirect } from "next-intl/server";
-import DownloadButton from "./components/DownloadButton";
-import Pagination from "./components/Pagination";
-import ResultCard from "./components/ResultCard";
-import ResultsGrid from "./components/ResultsGrid";
-import ResultsPageShell from "./components/ResultsPageShell";
-import ErrorCard from "@/components/ErrorCard";
-import type { PerPageOption } from "@/config";
-import CustomError from "@/lib/CustomError";
-import { getResults, type IstexApiResponse } from "@/lib/istexApi";
-import useSearchParams from "@/lib/useSearchParams";
+import { Suspense } from "react";
+import { getTranslator } from "next-intl/server";
+import ResultsPage from "./_page";
+import Loading from "./loading";
 import type { GenerateMetadata, Page } from "@/types/next";
-
-async function getTranslatedResults(
-  queryString: string,
-  perPage: PerPageOption,
-  page: number,
-  locale: string,
-): Promise<IstexApiResponse> {
-  const t = await getTranslator(locale, "results");
-  const response = await getResults(queryString, perPage, page);
-
-  // Fill some missing fields with placeholder texts
-  response.hits.forEach((result) => {
-    result.title ??= t("placeholders.noTitle");
-    result.abstract ??= t("placeholders.noAbstract");
-  });
-
-  return response;
-}
 
 export const generateMetadata: GenerateMetadata = async ({
   params: { locale },
@@ -39,56 +14,15 @@ export const generateMetadata: GenerateMetadata = async ({
   };
 };
 
-const ResultsPage: Page = async ({
-  params: { locale },
-  searchParams: nextSearchParams,
-}) => {
-  const searchParams = useSearchParams(nextSearchParams);
-  const page = searchParams.getPage();
-  const perPage = searchParams.getPerPage();
+// We can't entirely rely on the automatic Suspense wrapping provided by Next.js through
+// the loading.tsx file because a change in the URLSearchParams only isn't consireded
+// actual page change. We have to wrap ResultsPage in Suspense ourselves and make sure it
+// invalidated when the search params change.
+// More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189
+const _ResultsPage: Page = (props) => (
+  <Suspense key={JSON.stringify(props.searchParams)} fallback={<Loading />}>
+    <ResultsPage {...props} />
+  </Suspense>
+);
 
-  let queryString: string;
-  try {
-    queryString = await searchParams.getQueryString();
-  } catch (err) {
-    return err instanceof CustomError ? (
-      <ResultsPageShell queryString="" resultsCount={0}>
-        <ErrorCard {...err.info} />
-      </ResultsPageShell>
-    ) : null;
-  }
-
-  if (queryString === "") {
-    redirect("/");
-  }
-
-  try {
-    const results = await getTranslatedResults(
-      queryString,
-      perPage,
-      page,
-      locale,
-    );
-
-    return (
-      <ResultsPageShell queryString={queryString} resultsCount={results.total}>
-        <ResultsGrid>
-          {results.hits.map((result) => (
-            <ResultCard key={result.id} info={result} />
-          ))}
-        </ResultsGrid>
-
-        <Pagination />
-        <DownloadButton />
-      </ResultsPageShell>
-    );
-  } catch (err) {
-    return err instanceof CustomError ? (
-      <ResultsPageShell queryString={queryString} resultsCount={0}>
-        <ErrorCard {...err.info} />
-      </ResultsPageShell>
-    ) : null;
-  }
-};
-
-export default ResultsPage;
+export default _ResultsPage;

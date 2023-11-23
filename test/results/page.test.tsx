@@ -1,6 +1,6 @@
 import { redirect } from "next-intl/server";
 import { renderAsync, screen } from "../test-utils";
-import ResultsPage from "@/app/[locale]/results/page";
+import ResultsPage from "@/app/[locale]/results/_page";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 
 describe("Results page", () => {

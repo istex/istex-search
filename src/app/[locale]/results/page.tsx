@@ -19,10 +19,20 @@ export const generateMetadata: GenerateMetadata = async ({
 // actual page change. We have to wrap ResultsPage in Suspense ourselves and make sure it
 // invalidated when the search params change.
 // More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189
-const _ResultsPage: Page = (props) => (
-  <Suspense key={JSON.stringify(props.searchParams)} fallback={<Loading />}>
-    <ResultsPage {...props} />
-  </Suspense>
-);
+const _ResultsPage: Page = (props) => {
+  // We want to trigger the Suspense only when search params that require
+  // a new API call are changed
+  const key = JSON.stringify({
+    q: props.searchParams.q,
+    page: props.searchParams.page,
+    perPage: props.searchParams.perPage,
+  });
+
+  return (
+    <Suspense key={key} fallback={<Loading />}>
+      <ResultsPage {...props} />
+    </Suspense>
+  );
+};
 
 export default _ResultsPage;

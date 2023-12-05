@@ -70,6 +70,7 @@ const RegularSearchInput: ClientComponent = () => {
         sx={{
           display: { xs: "block", sm: "flex" },
           textAlign: { xs: "center", sm: "inherit" },
+          py: 2,
         }}
       >
         <MultilineTextField

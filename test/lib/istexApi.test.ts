@@ -2,7 +2,7 @@ import { MIN_PER_PAGE, NO_FORMAT_SELECTED, formats } from "@/config";
 import * as Module from "@/lib/istexApi";
 
 describe("Istex API related functions", () => {
-  it("buildResultPreviewUrl", () => {
+  it("should correctly build result preview url", () => {
     const minimalParams: Module.BuildResultPreviewUrlOptions = {
       queryString: "hello",
     };
@@ -14,15 +14,15 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl",
+      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D",
     );
 
     expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl",
+      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl&facet=corpusName%5B*%5D",
     );
   });
 
-  it("buildFullApiUrl", () => {
+  it("should correctly build full api url", () => {
     const params: Module.BuildFullApiUrlOptions = {
       queryString: "hello",
       selectedFormats: formats.fulltext.pdf,

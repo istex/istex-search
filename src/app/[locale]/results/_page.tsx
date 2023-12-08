@@ -1,9 +1,12 @@
 import { getTranslator, redirect } from "next-intl/server";
+import { Box, Stack } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
+import type { FacetList } from "./facets/FacetContext";
+import FacetsContainer from "./facets/FacetsContainer";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
 import CustomError from "@/lib/CustomError";
@@ -60,15 +63,33 @@ const ResultsPage: Page = async ({
       locale,
     );
 
-    return (
-      <ResultsPageShell queryString={queryString} resultsCount={results.total}>
-        <ResultsGrid>
-          {results.hits.map((result) => (
-            <ResultCard key={result.id} info={result} />
-          ))}
-        </ResultsGrid>
+    const facets: FacetList = {};
+    for (const facetTitle in results.aggregations) {
+      facets[facetTitle] = results.aggregations[facetTitle].buckets;
+    }
 
-        <Pagination />
+    return (
+      <ResultsPageShell
+        queryString={queryString}
+        resultsCount={results.total}
+        facets={facets}
+      >
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={4}
+          alignItems="start"
+        >
+          <FacetsContainer />
+          <Box>
+            <ResultsGrid>
+              {results.hits.map((result) => (
+                <ResultCard key={result.id} info={result} />
+              ))}
+            </ResultsGrid>
+
+            <Pagination />
+          </Box>
+        </Stack>
         <DownloadButton />
       </ResultsPageShell>
     );

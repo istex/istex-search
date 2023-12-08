@@ -1,6 +1,7 @@
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats } from "./formats";
-import { type PerPageOption, istexApiConfig, MIN_PER_PAGE } from "@/config";
+import { FACETS } from "@/app/[locale]/results/facets/constants";
+import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
@@ -32,6 +33,7 @@ export function buildResultPreviewUrl({
   url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-dl");
+  url.searchParams.set("facet", FACETS.join(","));
 
   return url;
 }
@@ -49,6 +51,10 @@ export interface Result {
 export interface IstexApiResponse {
   total: number;
   hits: Result[];
+  aggregations: Record<
+    string,
+    { buckets: Array<{ key: string; docCount: number }> }
+  >;
 }
 
 export async function getResults(

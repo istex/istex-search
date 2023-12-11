@@ -72,4 +72,4 @@ build:docker:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-dl:${VERSION_NUM}"
+      --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-search:${VERSION_NUM}"

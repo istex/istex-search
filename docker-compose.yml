@@ -1,8 +1,8 @@
 version: "3"
 
 services:
-  istex-dl:
-    container_name: istex-dl
+  istex-search:
+    container_name: istex-search
     build: .
     ports:
       - 3000:3000

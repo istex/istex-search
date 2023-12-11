@@ -125,10 +125,13 @@ describe("FacetCheckboxList", () => {
     await userEvent.type(autocomplete, "2");
     await userEvent.keyboard("{ArrowDown}");
     await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard("{Escape}");
 
     let labelElements = screen.getAllByText(/Option \d/);
-    expect(labelElements).toHaveLength(1);
-    expect(labelElements[0]).toHaveTextContent("Option 2");
+    expect(labelElements).toHaveLength(2);
+    labelElements.forEach((labelElement) => {
+      expect(labelElement).toHaveTextContent("Option 2");
+    });
 
     const clearButton = screen.getByLabelText("Vider");
     await userEvent.click(clearButton);

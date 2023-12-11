@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
@@ -29,7 +29,7 @@ const FacetLayout: ClientComponent<
       }}
     >
       <AccordionSummary
-        expandIcon={<ArrowDropDownIcon />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls={`${facetTitle}-content`}
         id={`${facetTitle}-header`}
         sx={{

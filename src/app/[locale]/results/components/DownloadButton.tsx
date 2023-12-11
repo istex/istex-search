@@ -1,8 +1,8 @@
 "use client";
 
-import { type MouseEventHandler, useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next-intl/client";
+import { usePathname, useRouter } from "next-intl/client";
 import { Box } from "@mui/material";
 import DownloadForm from "../Download/DownloadForm";
 import DownloadModal from "../Download/DownloadModal";
@@ -43,7 +43,9 @@ const DownloadButton: ClientComponent = () => {
       <Box
         sx={(theme) => ({
           position: "sticky",
-          inset: 0,
+          display: "inline-block",
+          left: "50%",
+          transform: "translateX(-50%)",
           bottom: theme.spacing(8),
           textAlign: "center",
           zIndex: 1,

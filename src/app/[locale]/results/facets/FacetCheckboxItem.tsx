@@ -16,6 +16,7 @@ const FacetCheckboxItem: ClientComponent<{
   return (
     <FormControlLabel
       sx={{
+        marginLeft: 0,
         "& .MuiFormControlLabel-label": {
           width: "100%",
           display: "flex",
@@ -29,6 +30,9 @@ const FacetCheckboxItem: ClientComponent<{
           size="small"
           color="primary"
           checkedIcon={<IncludeIcon />}
+          sx={{
+            p: 0.5,
+          }}
         />
       }
       label={
@@ -40,13 +44,14 @@ const FacetCheckboxItem: ClientComponent<{
         >
           <Typography
             component="span"
+            variant="body2"
             sx={{
               fontWeight: checked === true ? 700 : 400,
             }}
           >
             {value}
           </Typography>
-          <Typography component="span">
+          <Typography component="span" variant="body2">
             {count.toLocaleString(locale)}
           </Typography>
         </Box>

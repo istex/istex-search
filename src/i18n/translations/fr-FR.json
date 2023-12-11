@@ -101,8 +101,8 @@
     },
     "Facets": {
       "corpusName": {
-        "title": "Corpus",
-        "inputPlaceholder": "Rechercher un éditeur"
+        "title": "Bouquet",
+        "inputPlaceholder": "Rechercher dans un bouquet éditeur"
       },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",

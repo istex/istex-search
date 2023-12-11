@@ -19,9 +19,7 @@ const FacetCheckboxList: ClientComponent<{
   const { toggleFacet } = useFacetContext();
 
   const [displayedFacets, setDisplayedFacets] = useState(facetItems);
-  const [searchFacetItem, setSearchFacetItem] = useState<FacetItem | null>(
-    null,
-  );
+  const [searchFacetItem, setSearchFacetItem] = useState<FacetItem[]>([]);
 
   const handleSort = (
     field: "key" | "docCount",
@@ -54,6 +52,8 @@ const FacetCheckboxList: ClientComponent<{
         options={[...displayedFacets].sort((a, b) =>
           a.key.localeCompare(b.key),
         )}
+        multiple
+        disableCloseOnSelect
         size="small"
         fullWidth
         getOptionLabel={(option) => option.key}
@@ -62,6 +62,17 @@ const FacetCheckboxList: ClientComponent<{
             {...params}
             variant="filled"
             label={t(`${facetTitle}.inputPlaceholder`)}
+            InputLabelProps={{
+              sx: {
+                fontSize: "0.8rem",
+              },
+            }}
+            InputProps={{
+              ...params.InputProps,
+              sx: {
+                fontSize: "0.8rem",
+              },
+            }}
           />
         )}
         renderOption={(props, option) => (
@@ -125,17 +136,17 @@ const FacetCheckboxList: ClientComponent<{
         </Box>
       </Box>
       <Box
-        maxHeight={150}
+        maxHeight={140}
         display="flex"
         flexDirection="column"
         overflow="auto"
       >
         {displayedFacets
           .filter((facetItem) => {
-            if (searchFacetItem == null) {
+            if (searchFacetItem.length === 0) {
               return true;
             }
-            return facetItem.key === searchFacetItem.key;
+            return searchFacetItem.includes(facetItem);
           })
           .map((facetItem) => (
             <FacetCheckboxItem

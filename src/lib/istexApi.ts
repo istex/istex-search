@@ -40,12 +40,36 @@ export function buildResultPreviewUrl({
 
 export interface Result {
   id: string;
+  corpusName?: string;
   title?: string;
   abstract?: string;
   author?: Array<{ name?: string }>;
   host?: {
     title?: string;
+    genre?: string[];
   };
+  genre?: string[];
+  publicationDate?: string;
+  arkIstex?: string;
+  fulltext?: Array<{
+    extension: string;
+    uri: string;
+  }>;
+  metadata?: Array<{
+    extension: string;
+    uri: string;
+  }>;
+  annexes?: Array<{
+    extension: string;
+    uri: string;
+  }>;
+  enrichments?: Record<
+    string,
+    {
+      extension: string;
+      uri: string;
+    }
+  >;
 }
 
 export interface IstexApiResponse {
@@ -67,7 +91,21 @@ export async function getResults(
     queryString,
     perPage,
     page,
-    fields: ["title", "host.title", "author", "abstract"],
+    fields: [
+      "corpusName",
+      "title",
+      "host.title",
+      "host.genre",
+      "author",
+      "abstract",
+      "genre",
+      "publicationDate",
+      "arkIstex",
+      "fulltext",
+      "metadata",
+      "annexes",
+      "enrichments",
+    ],
   });
 
   // If the query string is too long some browsers won't accept to send a GET request

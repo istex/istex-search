@@ -1,6 +1,6 @@
 "use client";
 
-import { type MouseEvent, useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { useTranslations } from "next-intl";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import WindowIcon from "@mui/icons-material/Window";
@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import DocumentDetail from "../Document/DocumentDetail";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
 
@@ -69,6 +70,7 @@ const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
       >
         {children}
       </Box>
+      <DocumentDetail />
     </>
   );
 };

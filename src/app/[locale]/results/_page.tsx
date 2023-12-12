@@ -73,6 +73,7 @@ const ResultsPage: Page = async ({
         queryString={queryString}
         resultsCount={results.total}
         facets={facets}
+        results={results}
       >
         <Stack
           direction={{ xs: "column", md: "row" }}

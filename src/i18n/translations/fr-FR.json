@@ -110,6 +110,17 @@
       "clear": "Effacer",
       "sortAsc": "Trier par ordre croissant",
       "sortDesc": "Trier par ordre décroissant"
+    },
+    "Document": {
+      "backToResults": "Revenir aux résultats",
+      "share": "Partager l'article",
+      "docInfos": "Informations sur ce document",
+      "seeDoc": "Consulter ce document",
+      "fullText": "Texte intégral",
+      "metadata": "Méta-données",
+      "annexes": "Annexes",
+      "enrichments": "Enrichissements",
+      "selectDocument": "Sélectionner ce document"
     }
   },
   "download": {

@@ -35,14 +35,18 @@ describe("DocumentDetail", () => {
     ],
     annexes: [{ extension: "jpg", uri: "jpgUri" }],
     enrichments: {
-      nb: {
-        extension: "tei",
-        uri: "nbUri",
-      },
-      teeft: {
-        extension: "tei",
-        uri: "teeftUri",
-      },
+      nb: [
+        {
+          extension: "tei",
+          uri: "nbUri",
+        },
+      ],
+      teeft: [
+        {
+          extension: "tei",
+          uri: "teeftUri",
+        },
+      ],
     },
   };
 
@@ -73,40 +77,61 @@ describe("DocumentDetail", () => {
     expect(screen.getByText("Corpus name")).toBeInTheDocument();
     expect(screen.getByText("2021")).toBeInTheDocument();
     expect(screen.getByText("arkIstex")).toBeInTheDocument();
+
     expect(screen.getByText("pdf")).toBeInTheDocument();
-    expect(screen.getByText("pdf").closest("a")).toHaveAttribute(
-      "href",
-      "pdfUri",
+    const pdfLink = screen.getByText("pdf").closest("a");
+    expect(pdfLink).toHaveAttribute("href", "pdfUri");
+    expect(pdfLink).toHaveAttribute(
+      "title",
+      "Accéder au texte intégral au format pdf",
     );
+
     expect(screen.getByText("zip")).toBeInTheDocument();
-    expect(screen.getByText("zip").closest("a")).toHaveAttribute(
-      "href",
-      "zipUri",
+    const zipLink = screen.getByText("zip").closest("a");
+    expect(zipLink).toHaveAttribute("href", "zipUri");
+    expect(zipLink).toHaveAttribute(
+      "title",
+      "Accéder au texte intégral au format zip",
     );
+
     expect(screen.getByText("xml")).toBeInTheDocument();
-    expect(screen.getByText("xml").closest("a")).toHaveAttribute(
-      "href",
-      "xmlUri",
+    const xmlLink = screen.getByText("xml").closest("a");
+    expect(xmlLink).toHaveAttribute("href", "xmlUri");
+    expect(xmlLink).toHaveAttribute(
+      "title",
+      "Accéder aux métadonnées au format xml",
     );
+
     expect(screen.getByText("json")).toBeInTheDocument();
-    expect(screen.getByText("json").closest("a")).toHaveAttribute(
-      "href",
-      "jsonUri",
+    const jsonLink = screen.getByText("json").closest("a");
+    expect(jsonLink).toHaveAttribute("href", "jsonUri");
+    expect(jsonLink).toHaveAttribute(
+      "title",
+      "Accéder aux métadonnées au format json",
     );
+
     expect(screen.getByText("jpg")).toBeInTheDocument();
-    expect(screen.getByText("jpg").closest("a")).toHaveAttribute(
-      "href",
-      "jpgUri",
+    const jpgLink = screen.getByText("jpg").closest("a");
+    expect(jpgLink).toHaveAttribute("href", "jpgUri");
+    expect(jpgLink).toHaveAttribute(
+      "title",
+      "Accéder à l'annexe au format jpg",
     );
+
     expect(screen.getByText("nb")).toBeInTheDocument();
-    expect(screen.getByText("nb").closest("a")).toHaveAttribute(
-      "href",
-      "nbUri",
+    const nbLink = screen.getByText("nb").closest("a");
+    expect(nbLink).toHaveAttribute("href", "nbUri");
+    expect(nbLink).toHaveAttribute(
+      "title",
+      "Accéder à l'enrichissement nb au format tei",
     );
+
     expect(screen.getByText("teeft")).toBeInTheDocument();
-    expect(screen.getByText("teeft").closest("a")).toHaveAttribute(
-      "href",
-      "teeftUri",
+    const teeftLink = screen.getByText("teeft").closest("a");
+    expect(teeftLink).toHaveAttribute("href", "teeftUri");
+    expect(teeftLink).toHaveAttribute(
+      "title",
+      "Accéder à l'enrichissement teeft au format tei",
     );
   });
 

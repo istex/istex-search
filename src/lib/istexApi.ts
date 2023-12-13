@@ -78,10 +78,10 @@ export interface Result {
   }>;
   enrichments?: Record<
     string,
-    {
+    Array<{
       extension: string;
       uri: string;
-    }
+    }>
   >;
 }
 

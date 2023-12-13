@@ -114,14 +114,27 @@
     },
     "Document": {
       "backToResults": "Revenir aux résultats",
-      "share": "Partager l'article",
+      "share": "Partager le document",
       "docInfos": "Informations sur ce document",
       "seeDoc": "Consulter ce document",
       "fullText": "Texte intégral",
-      "metadata": "Méta-données",
+      "metadata": "Métadonnées",
       "annexes": "Annexes",
       "enrichments": "Enrichissements",
-      "selectDocument": "Sélectionner ce document"
+      "selectDocument": "Sélectionner ce document",
+      "tags": {
+        "hostGenre": "Type de publication",
+        "genre": "Type de contenu",
+        "corpusName": "Éditeur",
+        "publicationDate": "Année de publication",
+        "arkIstex": "Identifiant ARK"
+      },
+      "formatsLinks": {
+        "fulltext": "Accéder au texte intégral au format {extension}",
+        "metadata": "Accéder aux métadonnées au format {extension}",
+        "annexes": "Accéder à l'annexe au format {extension}",
+        "enrichments": "Accéder à l'enrichissement {key} au format {extension}"
+      }
     },
     "Panel": {
       "indicators": "Indicateurs sur votre corpus",

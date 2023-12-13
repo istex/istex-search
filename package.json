@@ -11,7 +11,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --verbose --reporters=default --reporters=jest-junit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "genparser": "./scripts/gen-parser.sh"
   },
   "dependencies": {
     "@emotion/cache": "11.11.0",
@@ -22,6 +23,7 @@
     "js-md5": "^0.8.3",
     "next": "13.5.4",
     "next-intl": "3.0.0-beta.19",
+    "peggy": "^3.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sharp": "0.32.6"
@@ -34,6 +36,7 @@
     "@testing-library/user-event": "^14.5.1",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/jest": "^29.5.5",
+    "@types/lucene": "^2.1.7",
     "@types/node": "^20.8.2",
     "@types/react": "^18.2.24",
     "@types/react-dom": "^18.2.8",

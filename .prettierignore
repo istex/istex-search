@@ -9,6 +9,9 @@ package-lock.json
 
 # Files not supported by prettier
 
+# PEG grammars
+*.grammar
+
 # shell scripts
 *.sh
 

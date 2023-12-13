@@ -4,20 +4,18 @@ import { useState, type MouseEvent } from "react";
 import { useTranslations } from "next-intl";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import WindowIcon from "@mui/icons-material/Window";
-import {
-  Box,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DocumentDetail from "../Document/DocumentDetail";
-import { useQueryContext } from "@/contexts/QueryContext";
+import IndicatorPanel from "../Panel/IndicatorPanel";
+import type { Aggregation } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
-const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
+const ResultsGrid: ClientComponent<{ indicators?: Aggregation }, true> = ({
+  indicators,
+  children,
+}) => {
   const t = useTranslations("results.ResultsGrid");
-  const { resultsCount } = useQueryContext();
   const [columns, setColumns] = useState(2);
 
   const handleLayout = (_: MouseEvent, newColumns: number | null) => {
@@ -27,19 +25,13 @@ const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
   };
 
   return (
-    <>
+    <Stack gap={1}>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "end",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="body2">
-            {t.rich("resultsCount", { count: resultsCount })}
-          </Typography>
-        </Box>
-
         <StyledToggleButtonGroup
           size="small"
           value={columns}
@@ -58,7 +50,7 @@ const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
           </ToggleButton>
         </StyledToggleButtonGroup>
       </Box>
-
+      {indicators != null && <IndicatorPanel indicators={indicators} />}
       <Box
         id="results-grid"
         sx={{
@@ -71,7 +63,7 @@ const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
         {children}
       </Box>
       <DocumentDetail />
-    </>
+    </Stack>
   );
 };
 

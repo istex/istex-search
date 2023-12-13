@@ -7,10 +7,15 @@ import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import type { FacetList } from "./facets/FacetContext";
 import FacetsContainer from "./facets/FacetsContainer";
+import { FACETS, INDICATORS_FACETS } from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
 import CustomError from "@/lib/CustomError";
-import { getResults, type IstexApiResponse } from "@/lib/istexApi";
+import {
+  getResults,
+  type Aggregation,
+  type IstexApiResponse,
+} from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { Page } from "@/types/next";
 
@@ -64,8 +69,14 @@ const ResultsPage: Page = async ({
     );
 
     const facets: FacetList = {};
+    const indicators: Aggregation = {};
     for (const facetTitle in results.aggregations) {
-      facets[facetTitle] = results.aggregations[facetTitle].buckets;
+      if (FACETS.some((facet) => facet.name === facetTitle)) {
+        facets[facetTitle] = results.aggregations[facetTitle].buckets;
+      }
+      if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
+        indicators[facetTitle] = results.aggregations[facetTitle];
+      }
     }
 
     return (
@@ -82,7 +93,7 @@ const ResultsPage: Page = async ({
         >
           <FacetsContainer />
           <Box>
-            <ResultsGrid>
+            <ResultsGrid indicators={indicators}>
               {results.hits.map((result) => (
                 <ResultCard key={result.id} info={result} />
               ))}

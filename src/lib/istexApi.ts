@@ -1,6 +1,9 @@
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats } from "./formats";
-import { FACETS } from "@/app/[locale]/results/facets/constants";
+import {
+  FACETS,
+  INDICATORS_FACETS,
+} from "@/app/[locale]/results/facets/constants";
 import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
 
 export interface BuildResultPreviewUrlOptions {
@@ -33,7 +36,17 @@ export function buildResultPreviewUrl({
   url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-dl");
-  url.searchParams.set("facet", FACETS.join(","));
+  url.searchParams.set(
+    "facet",
+    [...FACETS, ...INDICATORS_FACETS]
+      .map(
+        (facet) =>
+          `${facet.name}${
+            facet.requestOption != null ? facet.requestOption : ""
+          }`,
+      )
+      .join(","),
+  );
 
   return url;
 }
@@ -72,13 +85,18 @@ export interface Result {
   >;
 }
 
+export type Aggregation = Record<
+  string,
+  {
+    sumOtherDocCount?: number;
+    buckets: Array<{ key: string; keyAsString?: string; docCount: number }>;
+  }
+>;
+
 export interface IstexApiResponse {
   total: number;
   hits: Result[];
-  aggregations: Record<
-    string,
-    { buckets: Array<{ key: string; docCount: number }> }
-  >;
+  aggregations: Aggregation;
 }
 
 export async function getResults(

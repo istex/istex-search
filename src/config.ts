@@ -17,7 +17,7 @@ export const examples = {
   globalWarming:
     '(title:("global warming" "réchauffement climatique") abstract:("global warming" "réchauffement climatique") subject.value:("global warming" "réchauffement climatique")) AND publicationDate:[2010 TO *]',
   emileDurkheim:
-    'title.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR namedEntities.unitex.persName.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR refBibs.author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ NOT doi:"10.1016/0008-6223(84)90184-2"',
+    '(title.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR namedEntities.unitex.persName.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR refBibs.author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ NOT doi:"10.1016/0008-6223(84)90184-2")',
   translationAndAI:
     '("traduction automatique" "machine translation") AND language:("fre" "eng") AND (categories.scienceMetrix:"artificial intelligence" OR categories.wos:"artificial intelligence" OR categories.scopus:"artificial intelligence")',
   ephedrineToxicity:

@@ -121,19 +121,16 @@ describe("FacetCheckboxList", () => {
         <FacetCheckboxList facetTitle={facetTitle} facetItems={facetItems} />
       </FacetProvider>,
     );
-    const autocomplete = screen.getByLabelText(/rechercher/i);
-    await userEvent.type(autocomplete, "2");
-    await userEvent.keyboard("{ArrowDown}");
-    await userEvent.keyboard("{Enter}");
-    await userEvent.keyboard("{Escape}");
+    const searchInput = screen.getByLabelText(/rechercher/i);
+    await userEvent.type(searchInput, "2");
 
     let labelElements = screen.getAllByText(/Option \d/);
-    expect(labelElements).toHaveLength(2);
-    labelElements.forEach((labelElement) => {
-      expect(labelElement).toHaveTextContent("Option 2");
-    });
+    expect(labelElements).toHaveLength(1);
+    expect(labelElements[0]).toHaveTextContent("Option 2");
 
-    const clearButton = screen.getByLabelText("Vider");
+    const clearButton = screen.getByLabelText(
+      "Effacer le contenu de la zone de recherche",
+    );
     await userEvent.click(clearButton);
     labelElements = screen.getAllByText(/Option \d/);
     expect(labelElements).toHaveLength(3);

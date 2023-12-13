@@ -4,7 +4,9 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import { Autocomplete, Box, IconButton, TextField } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
 import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
 import { ASC, DESC } from "./constants";
@@ -19,7 +21,7 @@ const FacetCheckboxList: ClientComponent<{
   const { toggleFacet } = useFacetContext();
 
   const [displayedFacets, setDisplayedFacets] = useState(facetItems);
-  const [searchFacetItem, setSearchFacetItem] = useState<FacetItem[]>([]);
+  const [searchFacetItem, setSearchFacetItem] = useState<string>("");
 
   const handleSort = (
     field: "key" | "docCount",
@@ -48,40 +50,40 @@ const FacetCheckboxList: ClientComponent<{
 
   return (
     <>
-      <Autocomplete
-        options={[...displayedFacets].sort((a, b) =>
-          a.key.localeCompare(b.key),
-        )}
-        multiple
-        disableCloseOnSelect
-        size="small"
+      <TextField
         fullWidth
-        getOptionLabel={(option) => option.key}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="filled"
-            label={t(`${facetTitle}.inputPlaceholder`)}
-            InputLabelProps={{
-              sx: {
-                fontSize: "0.8rem",
-              },
-            }}
-            InputProps={{
-              ...params.InputProps,
-              sx: {
-                fontSize: "0.8rem",
-              },
-            }}
-          />
-        )}
-        renderOption={(props, option) => (
-          <li {...props} key={option.key}>
-            {option.key}
-          </li>
-        )}
-        onChange={(event, newValue) => {
-          setSearchFacetItem(newValue);
+        size="small"
+        variant="filled"
+        label={t(`${facetTitle}.inputPlaceholder`)}
+        InputLabelProps={{
+          sx: {
+            fontSize: "0.8rem",
+          },
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              {searchFacetItem !== "" && (
+                <IconButton
+                  size="small"
+                  aria-label={t("clearInput")}
+                  onClick={() => {
+                    setSearchFacetItem("");
+                  }}
+                >
+                  <ClearIcon />
+                </IconButton>
+              )}
+              <SearchIcon />
+            </InputAdornment>
+          ),
+          sx: {
+            fontSize: "0.8rem",
+          },
+        }}
+        value={searchFacetItem}
+        onChange={(event) => {
+          setSearchFacetItem(event.target.value);
         }}
       />
       <Box
@@ -146,7 +148,7 @@ const FacetCheckboxList: ClientComponent<{
             if (searchFacetItem.length === 0) {
               return true;
             }
-            return searchFacetItem.includes(facetItem);
+            return facetItem.key.includes(searchFacetItem);
           })
           .map((facetItem) => (
             <FacetCheckboxItem

@@ -109,7 +109,8 @@
       "apply": "Appliquer",
       "clear": "Effacer",
       "sortAsc": "Trier par ordre croissant",
-      "sortDesc": "Trier par ordre décroissant"
+      "sortDesc": "Trier par ordre décroissant",
+      "clearInput": "Effacer le contenu de la zone de recherche"
     },
     "Document": {
       "backToResults": "Revenir aux résultats",

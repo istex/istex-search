@@ -3,59 +3,100 @@
 import {
   type ChangeEventHandler,
   type FormEventHandler,
+  type ReactNode,
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next-intl/client";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, TextField, Typography } from "@mui/material";
-import Button from "@/components/Button";
+import { Box, Typography } from "@mui/material";
+import MultilineTextField from "@/components/MultilineTextField";
+import { useQueryContext } from "@/contexts/QueryContext";
+import type CustomError from "@/lib/CustomError";
+import useSearchParams from "@/lib/useSearchParams";
+import {
+  buildQueryFromIds,
+  getIdsFromQuery,
+  isValidDoi,
+  isValidIstexId,
+} from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
-// NOTE: This component is very similar to RegularSearchInput. When the import input needs to be fully
-// implemented, it would be worth trying to create a single component that handles both types
-
-const ImportInput: ClientComponent = () => {
-  const t = useTranslations("home.SearchSection.ImportInput");
+const ImportInput: ClientComponent<{
+  searchBar: (child: ReactNode) => ReactNode;
+}> = ({ searchBar }) => {
+  const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const tErrors = useTranslations("errors");
+  const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
-  const [queryString, setQueryString] = useState("");
+  const searchParams = useSearchParams();
+  const [queryStringById, setQueryStringById] = useState(
+    getIdsFromQuery(useQueryContext().queryString),
+  );
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const goToResultsPage = (newQueryString: string) => {
+    if (newQueryString.trim() === "") {
+      setErrorMessage(tErrors("emptyIdsError"));
+      return;
+    }
+
+    searchParams.deleteSize();
+    searchParams.deletePage();
+    searchParams
+      .setQueryString(newQueryString)
+      .then(() => {
+        router.push(`/results?${searchParams.toString()}`);
+      })
+      .catch((err: CustomError) => {
+        setErrorMessage(tErrors(err.info.name));
+      });
+  };
+
+  const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
-    if (queryString.trim() === "") {
-      setErrorMessage(tErrors("emptyIdsError"));
+    const firstLine = queryStringById.split("\n")[0];
+    let columnToSearch;
+    if (isValidDoi(firstLine)) {
+      columnToSearch = "doi";
+    } else if (isValidIstexId(firstLine)) {
+      columnToSearch = "arkIstex";
+    } else {
+      setErrorMessage(tErrors("invalidIdError"));
+      return;
     }
+
+    const buildIdsQuery = buildQueryFromIds(queryStringById);
+
+    goToResultsPage(`${columnToSearch}:${buildIdsQuery}`);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setErrorMessage("");
-    setQueryString(event.target.value);
+    setQueryStringById(event.target.value);
   };
 
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
+        {/*  fix urlSegment */}
         {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
       </Typography>
-      <Box
-        sx={{
-          display: { xs: "block", sm: "flex" },
-          textAlign: { xs: "center", sm: "inherit" },
-        }}
-      >
-        <TextField
-          placeholder={t("placeholder")}
-          value={queryString}
+      {searchBar(
+        <MultilineTextField
+          id="import-search-input"
           onChange={handleChange}
+          onSubmit={handleSubmit}
           helperText={errorMessage}
           required
           autoFocus
           error={errorMessage !== ""}
           fullWidth
-          multiline
-          rows={8}
+          maxRows={8}
+          minRows={5}
+          placeholder={t("placeholder")}
+          value={queryStringById}
           sx={{
             mb: { xs: 2, sm: 0 },
             // This targets the fieldset around the input
@@ -64,20 +105,8 @@ const ImportInput: ClientComponent = () => {
               borderBottomRightRadius: { xs: 4, sm: 0 },
             },
           }}
-        />
-        <Button
-          type="submit"
-          sx={{
-            borderTopLeftRadius: { xs: 4, sm: 0 },
-            borderBottomLeftRadius: { xs: 4, sm: 0 },
-            height: "fit-content",
-            py: 1.95,
-            px: 1.75,
-          }}
-        >
-          {t("button")}
-        </Button>
-      </Box>
+        />,
+      )}
     </Box>
   );
 };

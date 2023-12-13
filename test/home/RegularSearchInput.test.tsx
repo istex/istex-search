@@ -1,12 +1,22 @@
+import { type ReactNode } from "react";
 import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
-  mockSelectedLayoutSegment,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
+import SearchBar from "@/app/[locale]/components/SearchSection/SearchBar";
+import { examples } from "@/config";
+
+const searchBar = (child: ReactNode) => {
+  return (
+    <SearchBar isSearchById={false} switchSearchMode={() => {}}>
+      {child}
+    </SearchBar>
+  );
+};
 
 describe("RegularSearchInput", () => {
   beforeEach(jest.resetAllMocks);
@@ -52,32 +62,16 @@ describe("RegularSearchInput", () => {
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    render(<RegularSearchInput />, { queryString });
+    render(<RegularSearchInput searchBar={searchBar} />, { queryString });
 
     const input = screen.getByRole("textbox");
 
     expect(input).toHaveValue(queryString);
   });
 
-  it("only displays the examples when on the home page", () => {
-    {
-      const { container } = render(<RegularSearchInput />);
-      const examples = container.querySelector("#examples-grid");
-
-      expect(examples).toBeVisible();
-    }
-    {
-      mockSelectedLayoutSegment("results");
-      const { container } = render(<RegularSearchInput />);
-      const examples = container.querySelector("#examples-grid");
-
-      expect(examples).not.toBeInTheDocument();
-    }
-  });
-
   it("fills the input and goes to the results page when clicking on an example", async () => {
     const router = useRouter();
-    render(<RegularSearchInput />);
+    render(<RegularSearchInput searchBar={searchBar} />);
     const firstExample = screen.getByRole("button", {
       name: "Réchauffement climatique",
     });
@@ -87,10 +81,41 @@ describe("RegularSearchInput", () => {
     expect(input).not.toHaveValue("");
     expect(router.push).toBeCalled();
   });
+
+  it("should render the entire examples list", () => {
+    render(
+      <RegularSearchInput
+        searchBar={(child: ReactNode) => {
+          return <></>;
+        }}
+      />,
+    );
+    expect(screen.getAllByRole("button")).toHaveLength(
+      Object.keys(examples).length,
+    );
+  });
+
+  it("should set research with the pre-written query when clicking on an example", async () => {
+    const router = useRouter();
+    render(
+      <RegularSearchInput
+        searchBar={(child: ReactNode) => {
+          return <></>;
+        }}
+      />,
+    );
+
+    const button = screen.getByText("Débarquement de Normandie");
+    await userEvent.click(button);
+
+    expect(router.push).toBeCalledWith(
+      "/results?q=%28%22D%C3%A9barquement+de+Normandie%22%22Debarquement+de+Normandie%22%22Normandy+landing%22%29+AND+1944",
+    );
+  });
 });
 
 async function search(queryString?: string) {
-  const renderResult = render(<RegularSearchInput />);
+  const renderResult = render(<RegularSearchInput searchBar={searchBar} />);
 
   const input = screen.getByRole("textbox");
   const button = screen.getByRole("button", { name: "RECHERCHER" });

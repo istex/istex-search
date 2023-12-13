@@ -1,38 +1,34 @@
 "use client";
 
-import { type ChangeEventHandler, useState } from "react";
-import { useTranslations } from "next-intl";
-import { FormControlLabel, Switch } from "@mui/material";
-import AssistedSearchInput from "./AssistedSearchInput";
+import { type ReactNode, useState } from "react";
+import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
+import SearchBar from "./SearchBar";
 import type { ClientComponent } from "@/types/next";
 
 const SearchInput: ClientComponent = () => {
-  const t = useTranslations("home.SearchSection.SearchInput");
-  const [isAssistedSearch, setIsAssistedSearch] = useState(false);
+  const [isSearchById, setIsSearchById] = useState(false);
 
-  const toggleAssistedSearch: ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    setIsAssistedSearch(event.target.checked);
+  const searchBar = (child: ReactNode) => {
+    return (
+      <SearchBar
+        isSearchById={isSearchById}
+        switchSearchMode={() => {
+          setIsSearchById(!isSearchById);
+        }}
+      >
+        {child}
+      </SearchBar>
+    );
   };
 
   return (
     <>
-      {isAssistedSearch ? <AssistedSearchInput /> : <RegularSearchInput />}
-
-      <FormControlLabel
-        control={
-          <Switch
-            id="assisted-search-toggle"
-            value={isAssistedSearch}
-            onChange={toggleAssistedSearch}
-          />
-        }
-        label={t("switch")}
-        labelPlacement="bottom"
-        sx={{ display: "none" }} // TODO: Remove when the assisted search is implemented
-      />
+      {isSearchById ? (
+        <ImportInput searchBar={searchBar} />
+      ) : (
+        <RegularSearchInput searchBar={searchBar} />
+      )}
     </>
   );
 };

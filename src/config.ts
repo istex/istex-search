@@ -1,16 +1,8 @@
-export type QueryMode = keyof typeof queryModes;
-export const DEFAULT_QUERY_MODE: QueryMode = "search";
-
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
   maxSize: 100_000,
   maxPaginationOffset: 10_000,
   queryStringMaxLength: 2_000,
-} as const;
-
-export const queryModes = {
-  search: {},
-  import: {},
 } as const;
 
 export const examples = {

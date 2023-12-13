@@ -16,20 +16,21 @@
     },
     "SearchSection": {
       "SearchInput": {
+        "button": "RECHERCHER",
+        "importButton": "IMPORT\nLIST (ARK, DOI...)",
+        "switch": "Assistant",
         "RegularSearchInput": {
           "searchTitle": "Créez votre requête",
           "resultsTitle": "Résultats de votre requête",
           "placeholder": "\"physique nucléaire\" AND language:fre",
-          "button": "RECHERCHER",
           "examplesTitle": "Testez des exemples de requêtes"
         },
-        "switch": "Assistant"
-      },
-      "ImportInput": {
-        "searchTitle": "Importez vos identifiants",
-        "resultsTitle": "Résultats de votre import",
-        "placeholder": "Insérez votre liste d'identifiants ou importez votre fichier .corpus",
-        "button": "RECHERCHER"
+        "ImportInput": {
+          "searchTitle": "Importez vos identifiants",
+          "resultsTitle": "Résultats de votre import",
+          "placeholder": "Copiez/collez dans la zone de recherche votre liste d'identifiants (ARK, DOI, ID istex) ou importez votre fichier .corpus\n* un seul format à la fois",
+          "button": "RECHERCHER"
+        }
       }
     },
     "CorpusSection": {
@@ -150,17 +151,10 @@
     "QIdSaveError": "Erreur lors de la sauvegarde de {qId}",
     "emptyQueryError": "Veuillez renseigner une requête",
     "emptyIdsError": "Veuillez renseigner un ou plusieurs identifiants",
+    "invalidIdError": "Veuillez renseigner un(des) identifiant(s) valide(s)",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "config": {
-    "queryModes": {
-      "search": {
-        "label": "Recherche"
-      },
-      "import": {
-        "label": "Import"
-      }
-    },
     "examples": {
       "globalWarming": "Réchauffement climatique",
       "emileDurkheim": "Émile Durkheim",

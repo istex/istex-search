@@ -14,6 +14,8 @@ const DocumentDetail: ClientComponent = () => {
   const t = useTranslations("results.Document");
   const tTags = useTranslations("results.Document.tags");
 
+  const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
+
   return (
     <Drawer
       anchor="right"
@@ -27,6 +29,7 @@ const DocumentDetail: ClientComponent = () => {
           width: { xs: "100%", md: "70%" },
         },
       }}
+      transitionDuration={400}
     >
       <Stack direction={{ xs: "column", md: "row" }}>
         <Stack flexGrow={1} p={7} gap={0.5}>
@@ -127,43 +130,22 @@ const DocumentDetail: ClientComponent = () => {
                 size="small"
                 sx={{ borderRadius: "3px" }}
                 title={tTags("hostGenre")}
+                color="info"
               />
             )}
-            {displayedDocument?.genre != null && (
-              <Chip
-                label={displayedDocument.genre}
-                variant="filled"
-                size="small"
-                sx={{ borderRadius: "3px" }}
-                title={tTags("genre")}
-              />
-            )}
-            {displayedDocument?.corpusName != null && (
-              <Chip
-                label={displayedDocument.corpusName}
-                variant="filled"
-                size="small"
-                sx={{ borderRadius: "3px" }}
-                title={tTags("corpusName")}
-              />
-            )}
-            {displayedDocument?.publicationDate != null && (
-              <Chip
-                label={displayedDocument.publicationDate}
-                variant="filled"
-                size="small"
-                sx={{ borderRadius: "3px" }}
-                title={tTags("publicationDate")}
-              />
-            )}
-            {displayedDocument?.arkIstex != null && (
-              <Chip
-                label={displayedDocument.arkIstex}
-                variant="filled"
-                size="small"
-                sx={{ borderRadius: "3px" }}
-                title={tTags("arkIstex")}
-              />
+            {tags.map(
+              (tag) =>
+                displayedDocument?.[tag] != null && (
+                  <Chip
+                    key={tag}
+                    label={displayedDocument[tag]}
+                    variant="filled"
+                    size="small"
+                    sx={{ borderRadius: "3px" }}
+                    title={tTags(tag)}
+                    color="info"
+                  />
+                ),
             )}
           </Stack>
           <Stack spacing={1} alignItems="start">

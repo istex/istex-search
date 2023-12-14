@@ -7,6 +7,7 @@ const colors = {
   lightGreen: "#c4d733",
   blue: "#458ca5",
   lightBlue: "#edf3f6",
+  veryLightBlue: "#f6f9fa",
   grey: "#8f8f8f",
   darkBlack: "#1d1d1d",
   lightBlack: "#4a4a4a",
@@ -49,6 +50,9 @@ export default createTheme({
     },
     text: {
       primary: colors.lightBlack,
+    },
+    info: {
+      main: colors.blue,
     },
   },
   typography: {

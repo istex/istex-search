@@ -102,7 +102,7 @@
     "Facets": {
       "corpusName": {
         "title": "Bouquet",
-        "inputPlaceholder": "Rechercher dans un bouquet éditeur"
+        "inputPlaceholder": "Rechercher"
       },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",

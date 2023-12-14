@@ -121,7 +121,7 @@ describe("FacetCheckboxList", () => {
         <FacetCheckboxList facetTitle={facetTitle} facetItems={facetItems} />
       </FacetProvider>,
     );
-    const searchInput = screen.getByLabelText(/rechercher/i);
+    const searchInput = screen.getByPlaceholderText(/rechercher/i);
     await userEvent.type(searchInput, "2");
 
     let labelElements = screen.getAllByText(/Option \d/);

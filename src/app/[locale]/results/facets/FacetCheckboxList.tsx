@@ -6,7 +6,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+import { Box, IconButton, InputAdornment, InputBase } from "@mui/material";
 import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
 import { ASC, DESC } from "./constants";
@@ -48,38 +48,43 @@ const FacetCheckboxList: ClientComponent<{
     setDisplayedFacets(sortedFacets);
   };
 
+  const sortButtonCommonProps = {
+    size: "small" as const,
+    color: "inherit" as const,
+    disableRipple: true,
+    sx: {
+      p: 0,
+    },
+  };
+
   return (
     <>
-      <TextField
+      <InputBase
         fullWidth
         size="small"
-        variant="filled"
-        label={t(`${facetTitle}.inputPlaceholder`)}
-        InputLabelProps={{
-          sx: {
-            fontSize: "0.8rem",
-          },
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              {searchFacetItem !== "" && (
-                <IconButton
-                  size="small"
-                  aria-label={t("clearInput")}
-                  onClick={() => {
-                    setSearchFacetItem("");
-                  }}
-                >
-                  <ClearIcon />
-                </IconButton>
-              )}
-              <SearchIcon />
-            </InputAdornment>
-          ),
-          sx: {
-            fontSize: "0.8rem",
-          },
+        placeholder={t(`${facetTitle}.inputPlaceholder`)}
+        endAdornment={
+          <InputAdornment position="end">
+            {searchFacetItem !== "" && (
+              <IconButton
+                size="small"
+                aria-label={t("clearInput")}
+                disableRipple
+                onClick={() => {
+                  setSearchFacetItem("");
+                }}
+              >
+                <ClearIcon />
+              </IconButton>
+            )}
+            <SearchIcon />
+          </InputAdornment>
+        }
+        sx={{
+          fontSize: "0.8rem",
+          backgroundColor: "common.white",
+          borderRadius: 1,
+          padding: "5px 20px",
         }}
         value={searchFacetItem}
         onChange={(event) => {
@@ -91,15 +96,16 @@ const FacetCheckboxList: ClientComponent<{
         justifyContent="space-between"
         alignItems="center"
         py={0.5}
+        color="colors.darkBlack"
       >
-        <Box display="flex" alignItems="center" gap={0.5}>
+        <Box display="flex" alignItems="center" ml="20px">
           <IconButton
             title={t("sortAsc")}
             aria-label={t("sortAsc")}
             onClick={() => {
               handleSort("key", ASC);
             }}
-            size="small"
+            {...sortButtonCommonProps}
           >
             <ArrowDropUpIcon />
           </IconButton>
@@ -109,19 +115,19 @@ const FacetCheckboxList: ClientComponent<{
             onClick={() => {
               handleSort("key", DESC);
             }}
-            size="small"
+            {...sortButtonCommonProps}
           >
             <ArrowDropDownIcon />
           </IconButton>
         </Box>
-        <Box display="flex" alignItems="center" gap={0.5}>
+        <Box display="flex" alignItems="center" mr="12px">
           <IconButton
             title={t("sortAsc")}
             aria-label={t("sortAsc")}
             onClick={() => {
               handleSort("docCount", ASC);
             }}
-            size="small"
+            {...sortButtonCommonProps}
           >
             <ArrowDropUpIcon />
           </IconButton>
@@ -131,7 +137,7 @@ const FacetCheckboxList: ClientComponent<{
             onClick={() => {
               handleSort("docCount", DESC);
             }}
-            size="small"
+            {...sortButtonCommonProps}
           >
             <ArrowDropDownIcon />
           </IconButton>

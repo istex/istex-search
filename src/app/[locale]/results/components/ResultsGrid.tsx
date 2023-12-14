@@ -7,14 +7,16 @@ import WindowIcon from "@mui/icons-material/Window";
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DocumentDetail from "../Document/DocumentDetail";
-import IndicatorPanel from "../Panel/IndicatorPanel";
+import CompatibilityPanelContent from "../Panel/CompatibilityPanelContent";
+import IndicatorPanelContent from "../Panel/IndicatorPanelContent";
+import Panel from "../Panel/Panel";
 import type { Aggregation } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
-const ResultsGrid: ClientComponent<{ indicators?: Aggregation }, true> = ({
-  indicators,
-  children,
-}) => {
+const ResultsGrid: ClientComponent<
+  { indicators?: Aggregation; compatibility?: Aggregation },
+  true
+> = ({ indicators, compatibility, children }) => {
   const t = useTranslations("results.ResultsGrid");
   const [columns, setColumns] = useState(2);
 
@@ -50,7 +52,16 @@ const ResultsGrid: ClientComponent<{ indicators?: Aggregation }, true> = ({
           </ToggleButton>
         </StyledToggleButtonGroup>
       </Box>
-      {indicators != null && <IndicatorPanel indicators={indicators} />}
+      {indicators != null && (
+        <Panel title="indicators">
+          <IndicatorPanelContent indicators={indicators} />
+        </Panel>
+      )}
+      {compatibility != null && (
+        <Panel title="compatibility">
+          <CompatibilityPanelContent compatibility={compatibility} />
+        </Panel>
+      )}
       <Box
         id="results-grid"
         sx={{

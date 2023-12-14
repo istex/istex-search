@@ -14,3 +14,9 @@ export const INDICATORS_FACETS = [
   { name: "qualityIndicators.tdmReady" },
   { name: "language", requestOption: "[3]" },
 ];
+
+export const COMPATIBILITY_FACETS = [
+  { name: "qualityIndicators.teiSource" },
+  { name: "qualityIndicators.tdmReady" },
+  { name: "enrichments.type", requestOption: "[*]" },
+];

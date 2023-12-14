@@ -1,8 +1,8 @@
 import { customRender as render, screen } from "../test-utils";
-import IndicatorPanel from "@/app/[locale]/results/Panel/IndicatorPanel";
+import IndicatorPanelContent from "@/app/[locale]/results/Panel/IndicatorPanelContent";
 import type { Aggregation } from "@/lib/istexApi";
 
-describe("IndicatorPanel", () => {
+describe("IndicatorPanelContent", () => {
   const indicators: Aggregation = {
     "qualityIndicators.abstractCharCount": {
       buckets: [{ key: "", docCount: 10 }],
@@ -32,7 +32,7 @@ describe("IndicatorPanel", () => {
   const resultsCount = 50;
 
   beforeEach(() => {
-    render(<IndicatorPanel indicators={indicators} />, { resultsCount });
+    render(<IndicatorPanelContent indicators={indicators} />, { resultsCount });
   });
 
   it("should render the summary presence indicator", () => {

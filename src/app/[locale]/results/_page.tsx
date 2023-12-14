@@ -7,7 +7,11 @@ import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import type { FacetList } from "./facets/FacetContext";
 import FacetsContainer from "./facets/FacetsContainer";
-import { FACETS, INDICATORS_FACETS } from "./facets/constants";
+import {
+  COMPATIBILITY_FACETS,
+  FACETS,
+  INDICATORS_FACETS,
+} from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption } from "@/config";
 import CustomError from "@/lib/CustomError";
@@ -70,12 +74,16 @@ const ResultsPage: Page = async ({
 
     const facets: FacetList = {};
     const indicators: Aggregation = {};
+    const compatibility: Aggregation = {};
     for (const facetTitle in results.aggregations) {
       if (FACETS.some((facet) => facet.name === facetTitle)) {
         facets[facetTitle] = results.aggregations[facetTitle].buckets;
       }
       if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
         indicators[facetTitle] = results.aggregations[facetTitle];
+      }
+      if (COMPATIBILITY_FACETS.some((facet) => facet.name === facetTitle)) {
+        compatibility[facetTitle] = results.aggregations[facetTitle];
       }
     }
 
@@ -93,7 +101,7 @@ const ResultsPage: Page = async ({
         >
           <FacetsContainer />
           <Box>
-            <ResultsGrid indicators={indicators}>
+            <ResultsGrid indicators={indicators} compatibility={compatibility}>
               {results.hits.map((result) => (
                 <ResultCard key={result.id} info={result} />
               ))}

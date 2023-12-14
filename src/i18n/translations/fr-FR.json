@@ -144,7 +144,8 @@
       "cleanedTextPresence": "Présence de texte nettoyé",
       "publicationLanguage": "Langue de publication",
       "docCount": "{count, plural, =0 {# doc} =1 {# doc} other {# docs}}",
-      "languageCount": "{count, plural, =0 {{language} : # doc ({percentage} %)} =1 {{language} : # doc ({percentage} %)} other {{language} : # docs ({percentage} %)}}"
+      "languageCount": "{count, plural, =0 {{language} : # doc ({percentage} %)} =1 {{language} : # doc ({percentage} %)} other {{language} : # docs ({percentage} %)}}",
+      "compatibility": "Compatibilité avec les passerelles"
     }
   },
   "download": {

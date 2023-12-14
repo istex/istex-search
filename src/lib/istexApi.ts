@@ -1,10 +1,11 @@
-import CustomError from "./CustomError";
-import { buildExtractParamsFromFormats } from "./formats";
 import {
+  COMPATIBILITY_FACETS,
   FACETS,
   INDICATORS_FACETS,
 } from "@/app/[locale]/results/facets/constants";
 import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
+import CustomError from "./CustomError";
+import { buildExtractParamsFromFormats } from "./formats";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
@@ -38,13 +39,13 @@ export function buildResultPreviewUrl({
   url.searchParams.set("sid", "istex-dl");
   url.searchParams.set(
     "facet",
-    [...FACETS, ...INDICATORS_FACETS]
+    [...FACETS, ...INDICATORS_FACETS, ...COMPATIBILITY_FACETS]
       .map(
         (facet) =>
-          `${facet.name}${
-            facet.requestOption != null ? facet.requestOption : ""
+          `${facet.name}${facet.requestOption != null ? facet.requestOption : ""
           }`,
       )
+      .filter((facet, i, arr) => arr.indexOf(facet) === i)
       .join(","),
   );
 

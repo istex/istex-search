@@ -1,4 +1,5 @@
 import type { SxProps } from "@mui/system/styleFunctionSx";
+import type { ColumnId } from "@/types/next";
 
 export function lineclamp(lines: number): SxProps {
   return {
@@ -48,22 +49,36 @@ export function isValidIstexId(istexId: string) {
  * Function to build a query from a list of ids written in the searchBar (when "import list" option is selected)
  * @param column column to search in
  * @param ids search bar content who contains the list of ids
- * @returns ids query separated by "OR"
+ * @returns an Object with the query (who contains ids separated by "OR") and the error lines (if there is any)
  */
-export function buildQueryFromIds(column: string, ids: string) {
+export function buildQueryFromIds(column: ColumnId, ids: string) {
   let queryPart = "";
   let isFirst = true;
+  const errorLines: number[] = [];
+  let lineIndex = 1;
   ids.split("\n").forEach((line) => {
     if (line.trim() !== "") {
+      // add the line to the query
       if (isFirst) {
         queryPart = queryPart.concat(`"${line}"`);
         isFirst = false;
       } else {
         queryPart = queryPart.concat(" OR ", `"${line}"`);
       }
+      // check if the line is valid
+      if (
+        (column === "doi" && !isValidDoi(line)) ||
+        (column === "arkIstex" && !isValidIstexId(line))
+      ) {
+        errorLines.push(lineIndex);
+      }
+      lineIndex++;
     }
   });
-  return `${column}:${queryPart}`;
+  return {
+    errorLines,
+    query: `${column}:${queryPart}`,
+  };
 }
 
 /**

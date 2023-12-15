@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -23,7 +23,7 @@ import {
   isValidIstexId,
   parseCorpusFileContent,
 } from "@/lib/utils";
-import type { ClientComponent } from "@/types/next";
+import type { ClientComponent, ColumnId } from "@/types/next";
 
 const ImportInput: ClientComponent<{
   searchBar: (child: ReactNode) => ReactNode;
@@ -33,10 +33,12 @@ const ImportInput: ClientComponent<{
   const router = useRouter();
   const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [columnToSearch, setColumnToSearch] = useState("");
+  const [errorLines, setErrorLines] = useState<number[]>([]);
   const [queryStringById, setQueryStringById] = useState(
     getIdsFromQuery(useQueryContext().queryString),
   );
-  const [errorMessage, setErrorMessage] = useState("");
 
   const goToResultsPage = (newQueryString: string) => {
     if (newQueryString.trim() === "") {
@@ -78,7 +80,7 @@ const ImportInput: ClientComponent<{
     event.preventDefault();
 
     const firstLine = queryStringById.split("\n")[0];
-    let columnToSearch;
+    let columnToSearch: ColumnId;
     if (isValidDoi(firstLine)) {
       columnToSearch = "doi";
     } else if (isValidIstexId(firstLine)) {
@@ -88,11 +90,20 @@ const ImportInput: ClientComponent<{
       return;
     }
 
-    goToResultsPage(buildQueryFromIds(columnToSearch, queryStringById));
+    const { query, errorLines } = buildQueryFromIds(
+      columnToSearch,
+      queryStringById,
+    );
+    setColumnToSearch(columnToSearch);
+    setErrorLines(errorLines);
+
+    goToResultsPage(query);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setErrorMessage("");
+    setColumnToSearch("");
+    setErrorLines([]);
     setQueryStringById(event.target.value);
   };
 
@@ -150,6 +161,34 @@ const ImportInput: ClientComponent<{
             }}
           />
         </>,
+      )}
+      {errorLines.length > 0 && (
+        <Paper
+          elevation={0}
+          sx={(theme) => ({
+            mt: 2,
+            mb: -2,
+            bgcolor: theme.palette.colors.lightRed,
+            p: 2,
+          })}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <strong>
+              {t("errorsSyntaxCount", {
+                count: errorLines.length,
+                type: columnToSearch,
+                errorLines: errorLines.join(", "),
+              })}
+            </strong>
+          </Typography>
+        </Paper>
       )}
     </Box>
   );

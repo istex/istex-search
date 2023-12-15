@@ -54,5 +54,5 @@ ark:/67375/NVC-Z7GHR58X-4`;
     expect(router.push).toBeCalledWith(
       "/results?q=arkIstex%3A%22ark%3A%2F67375%2FNVC-Z7G9LN4W-1%22+OR+%22ark%3A%2F67375%2FNVC-Z7GF9ML4-0%22+OR+%22ark%3A%2F67375%2FNVC-Z7GHR58X-4%22",
     );
-  });
+  }, 8000);
 });

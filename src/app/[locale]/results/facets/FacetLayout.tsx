@@ -9,13 +9,22 @@ import {
   Typography,
 } from "@mui/material";
 import FacetActions from "./FacetActions";
+import type { FacetItem } from "./FacetContext";
+import { FACETS } from "./constants";
 import type { ClientComponent } from "@/types/next";
 
-const FacetLayout: ClientComponent<
-  { facetTitle: string; count: number },
-  true
-> = ({ facetTitle, count, children }) => {
-  const t = useTranslations("results.Facets");
+const FacetLayout: ClientComponent<{
+  facetTitle: string;
+  facetItems: FacetItem[];
+}> = ({ facetTitle, facetItems }) => {
+  const t = useTranslations(`results.Facets.${facetTitle}`);
+
+  const Component = FACETS.find((facet) => facet.name === facetTitle)
+    ?.component;
+
+  if (Component == null) {
+    return null;
+  }
 
   return (
     <Accordion
@@ -49,12 +58,12 @@ const FacetLayout: ClientComponent<
           }}
           component="span"
         >
-          {t(`${facetTitle}.title`)}
+          {t("title")}
         </Typography>
-        <Typography component="span">({count})</Typography>
+        <Typography component="span">({facetItems.length})</Typography>
       </AccordionSummary>
       <AccordionDetails sx={{ backgroundColor: "white" }}>
-        {children}
+        <Component facetTitle={facetTitle} facetItems={facetItems} />
         <FacetActions facetTitle={facetTitle} />
       </AccordionDetails>
     </Accordion>

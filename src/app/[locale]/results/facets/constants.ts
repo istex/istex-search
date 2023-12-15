@@ -1,10 +1,10 @@
-export const ASC = "asc";
-export const DESC = "desc";
+import FacetCheckboxList from "./FacetCheckboxList";
 
 export const FACETS = [
   {
     name: "corpusName",
     requestOption: "[*]",
+    component: FacetCheckboxList,
   },
 ];
 

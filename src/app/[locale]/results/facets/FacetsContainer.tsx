@@ -3,7 +3,6 @@
 import { useTranslations } from "next-intl";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Stack } from "@mui/material";
-import FacetCheckboxList from "./FacetCheckboxList";
 import { useFacetContext } from "./FacetContext";
 import FacetLayout from "./FacetLayout";
 import Button from "@/components/Button";
@@ -32,13 +31,8 @@ const FacetsContainer: ClientComponent = () => {
         <FacetLayout
           key={facetTitle}
           facetTitle={facetTitle}
-          count={facetsList[facetTitle].length}
-        >
-          <FacetCheckboxList
-            facetTitle={facetTitle}
-            facetItems={facetsList[facetTitle]}
-          />
-        </FacetLayout>
+          facetItems={facetsList[facetTitle]}
+        />
       ))}
       <Button
         startIcon={<DeleteIcon />}

@@ -9,8 +9,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputAdornment, InputBase } from "@mui/material";
 import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
-import { ASC, DESC } from "./constants";
 import type { ClientComponent } from "@/types/next";
+
+const ASC = "asc";
+const DESC = "desc";
 
 const FacetCheckboxList: ClientComponent<{
   facetTitle: string;

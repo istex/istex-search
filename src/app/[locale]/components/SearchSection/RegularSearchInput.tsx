@@ -7,8 +7,7 @@ import {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { usePathname, useRouter } from "next-intl/client";
 import { Box, Typography } from "@mui/material";
 import QueryExamplesList from "./QueryExamplesList";
 import MultilineTextField from "@/components/MultilineTextField";
@@ -25,10 +24,10 @@ const RegularSearchInput: ClientComponent<{
   );
   const tErrors = useTranslations("errors");
   const router = useRouter();
-  const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
   const [queryString, setQueryString] = useState(useQueryContext().queryString);
   const [errorMessage, setErrorMessage] = useState("");
+  const onHomePage = usePathname() === "/";
 
   const goToResultsPage = (newQueryString: string) => {
     if (newQueryString.trim() === "") {
@@ -63,7 +62,7 @@ const RegularSearchInput: ClientComponent<{
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
-        {urlSegment == null ? t("searchTitle") : t("resultsTitle")}
+        {onHomePage ? t("searchTitle") : t("resultsTitle")}
       </Typography>
       {searchBar(
         <MultilineTextField

@@ -7,9 +7,8 @@ import {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
+import { usePathname, useRouter } from "next-intl/client";
 import Image from "next/image";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
@@ -31,7 +30,6 @@ const ImportInput: ClientComponent<{
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const tErrors = useTranslations("errors");
   const router = useRouter();
-  const urlSegment = useSelectedLayoutSegment();
   const searchParams = useSearchParams();
   const [errorMessage, setErrorMessage] = useState("");
   const [columnToSearch, setColumnToSearch] = useState("");
@@ -39,6 +37,7 @@ const ImportInput: ClientComponent<{
   const [queryStringById, setQueryStringById] = useState(
     getIdsFromQuery(useQueryContext().queryString),
   );
+  const onHomePage = usePathname() === "/";
 
   const goToResultsPage = (newQueryString: string) => {
     if (newQueryString.trim() === "") {
@@ -110,8 +109,7 @@ const ImportInput: ClientComponent<{
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <Typography variant="h5" component="h1" gutterBottom>
-        {/*  fix urlSegment */}
-        {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
+        {onHomePage ? t("searchTitle") : t("resultsTitle")}
       </Typography>
       {searchBar(
         <>

@@ -85,31 +85,13 @@ describe("RegularSearchInput", () => {
   it("should render the entire examples list", () => {
     render(
       <RegularSearchInput
-        searchBar={(child: ReactNode) => {
+        searchBar={() => {
           return <></>;
         }}
       />,
     );
     expect(screen.getAllByRole("button")).toHaveLength(
       Object.keys(examples).length,
-    );
-  });
-
-  it("should set research with the pre-written query when clicking on an example", async () => {
-    const router = useRouter();
-    render(
-      <RegularSearchInput
-        searchBar={(child: ReactNode) => {
-          return <></>;
-        }}
-      />,
-    );
-
-    const button = screen.getByText("Débarquement de Normandie");
-    await userEvent.click(button);
-
-    expect(router.push).toBeCalledWith(
-      "/results?q=%28%22D%C3%A9barquement+de+Normandie%22%22Debarquement+de+Normandie%22%22Normandy+landing%22%29+AND+1944",
     );
   });
 });

@@ -46,10 +46,11 @@ export function isValidIstexId(istexId: string) {
 
 /**
  * Function to build a query from a list of ids written in the searchBar (when "import list" option is selected)
+ * @param column column to search in
  * @param ids search bar content who contains the list of ids
  * @returns ids query separated by "OR"
  */
-export function buildQueryFromIds(ids: string) {
+export function buildQueryFromIds(column: string, ids: string) {
   let queryPart = "";
   let isFirst = true;
   ids.split("\n").forEach((line) => {
@@ -62,7 +63,7 @@ export function buildQueryFromIds(ids: string) {
       }
     }
   });
-  return queryPart;
+  return `${column}:${queryPart}`;
 }
 
 /**
@@ -71,9 +72,39 @@ export function buildQueryFromIds(ids: string) {
  * @returns {string} ids query separated by a line break or query if not possible
  */
 export function getIdsFromQuery(query: string) {
-  const ids = query.match(/"([^"]+)"/g);
+  const ids = query.split("AND")[0].match(/"([^"]+)"/g);
   if (ids != null) {
     return ids.join("\n").replaceAll('"', "");
   }
   return query;
+}
+
+/**
+ * Parse `corpusFileContent` to build the corresponding query string to send to the API.
+ * @param {string} corpusFileContent The .corpus file content
+ * @returns The query string to send to the API.
+ */
+export function parseCorpusFileContent(corpusFileContent: string) {
+  const lines = corpusFileContent.split("\n");
+  const ids = [];
+  let lineIndex = 0;
+
+  while (lines[lineIndex].trim() !== "[ISTEX]") {
+    lineIndex++;
+  }
+
+  for (; lineIndex < lines.length; lineIndex++) {
+    const line = lines[lineIndex].trim();
+
+    if (line === "") continue;
+
+    const lineSegments = line
+      .split("#")[0] // Only keep what is before the potential comment
+      .split(" ") // Separate the words
+      .filter((token) => token !== ""); // Remove the empty strings
+
+    lineSegments.length > 1 && ids.push(lineSegments[1]);
+  }
+
+  return ids.join("\n");
 }

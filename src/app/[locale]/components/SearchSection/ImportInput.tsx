@@ -8,8 +8,10 @@ import {
 } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
+import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
+import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type CustomError from "@/lib/CustomError";
@@ -19,6 +21,7 @@ import {
   getIdsFromQuery,
   isValidDoi,
   isValidIstexId,
+  parseCorpusFileContent,
 } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
@@ -53,6 +56,24 @@ const ImportInput: ClientComponent<{
       });
   };
 
+  const corpusFileHandler = (file: Blob) => {
+    if (!file.name.endsWith(".corpus")) {
+      setErrorMessage(tErrors("fileExtensionError"));
+      return;
+    }
+    setErrorMessage("");
+    const reader = new window.FileReader();
+    reader.readAsText(file, "utf-8");
+    reader.onload = (event) => {
+      const result = event.target?.result;
+      const query = parseCorpusFileContent(result as string);
+      setQueryStringById(query);
+    };
+    reader.onerror = () => {
+      setErrorMessage(tErrors("fileReadError"));
+    };
+  };
+
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
 
@@ -67,9 +88,7 @@ const ImportInput: ClientComponent<{
       return;
     }
 
-    const buildIdsQuery = buildQueryFromIds(queryStringById);
-
-    goToResultsPage(`${columnToSearch}:${buildIdsQuery}`);
+    goToResultsPage(buildQueryFromIds(columnToSearch, queryStringById));
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -84,28 +103,53 @@ const ImportInput: ClientComponent<{
         {urlSegment === "results" ? t("resultsTitle") : t("searchTitle")}
       </Typography>
       {searchBar(
-        <MultilineTextField
-          id="import-search-input"
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          helperText={errorMessage}
-          required
-          autoFocus
-          error={errorMessage !== ""}
-          fullWidth
-          maxRows={8}
-          minRows={5}
-          placeholder={t("placeholder")}
-          value={queryStringById}
-          sx={{
-            mb: { xs: 2, sm: 0 },
-            // This targets the fieldset around the input
-            "& .MuiOutlinedInput-notchedOutline": {
-              borderTopRightRadius: { xs: 4, sm: 0 },
-              borderBottomRightRadius: { xs: 4, sm: 0 },
-            },
-          }}
-        />,
+        <>
+          <MultilineTextField
+            id="import-search-input"
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            helperText={errorMessage}
+            required
+            autoFocus
+            error={errorMessage !== ""}
+            fullWidth
+            maxRows={8}
+            minRows={5}
+            placeholder={t("placeholder")}
+            value={queryStringById}
+            sx={{
+              mb: { xs: 2, sm: 0 },
+              // This targets the fieldset around the input
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderTopRightRadius: { xs: 4, sm: 0 },
+                borderBottomRightRadius: { xs: 4, sm: 0 },
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  onClick={() => {
+                    document.getElementById("dropzone-file")?.click();
+                  }}
+                >
+                  <Image src={SearchLogoUpload} alt="Upload .corpus file" />
+                </IconButton>
+              ),
+              sx: { alignItems: "flex-start" },
+            }}
+          />
+          <input
+            id="dropzone-file"
+            type="file"
+            accept=".corpus"
+            value=""
+            style={{ display: "none" }}
+            onChange={(event) => {
+              event.target.files !== null &&
+                corpusFileHandler(event.target.files[0]);
+            }}
+          />
+        </>,
       )}
     </Box>
   );

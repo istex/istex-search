@@ -175,6 +175,8 @@
     "emptyQueryError": "Veuillez renseigner une requête",
     "emptyIdsError": "Veuillez renseigner un ou plusieurs identifiants",
     "invalidIdError": "Veuillez renseigner un(des) identifiant(s) valide(s)",
+    "fileExtensionError": "Veuillez utiliser le format de fichier .corpus",
+    "fileReadError": "Erreur lors de la lecture du fichier",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "config": {

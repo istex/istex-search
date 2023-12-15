@@ -34,7 +34,7 @@ describe("CompatibilityPanelContent", () => {
   });
 
   it("should render the lodex compatibility progress", () => {
-    expect(screen.getByText("lodex (100%)")).toBeInTheDocument();
+    expect(screen.getByText("lodex (100 %)")).toBeInTheDocument();
 
     expect(screen.getByText("json")).toBeInTheDocument();
     expect(screen.getAllByRole("progressbar")[0]).toHaveAttribute(
@@ -45,7 +45,7 @@ describe("CompatibilityPanelContent", () => {
   });
 
   it("should render the cortext compatibility progress", () => {
-    expect(screen.getByText("cortext (80%)")).toBeInTheDocument();
+    expect(screen.getByText("cortext (80 %)")).toBeInTheDocument();
 
     expect(screen.getByText("tei")).toBeInTheDocument();
     expect(screen.getAllByRole("progressbar")[1]).toHaveAttribute(

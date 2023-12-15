@@ -1,5 +1,5 @@
 import { getTranslator, redirect } from "next-intl/server";
-import { Box, Stack } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
@@ -48,6 +48,7 @@ const ResultsPage: Page = async ({
   const searchParams = useSearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
+  const t = await getTranslator(locale, "results");
 
   let queryString: string;
   try {
@@ -94,23 +95,42 @@ const ResultsPage: Page = async ({
         facets={facets}
         results={results}
       >
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={4}
-          alignItems="start"
-        >
-          <FacetsContainer />
-          <Box>
-            <ResultsGrid indicators={indicators} compatibility={compatibility}>
-              {results.hits.map((result) => (
-                <ResultCard key={result.id} info={result} />
-              ))}
-            </ResultsGrid>
+        {results.total > 0 ? (
+          <>
+            <Stack
+              direction={{ xs: "column", md: "row" }}
+              spacing={4}
+              alignItems="start"
+            >
+              <FacetsContainer />
+              <Box flexGrow={1}>
+                <ResultsGrid
+                  indicators={indicators}
+                  compatibility={compatibility}
+                >
+                  {results.hits.map((result) => (
+                    <ResultCard key={result.id} info={result} />
+                  ))}
+                </ResultsGrid>
 
-            <Pagination />
-          </Box>
-        </Stack>
-        <DownloadButton />
+                <Pagination />
+              </Box>
+            </Stack>
+            <DownloadButton />
+          </>
+        ) : (
+          <Paper
+            elevation={0}
+            sx={{
+              bgcolor: "colors.lightRed",
+              p: 2,
+            }}
+          >
+            <Typography variant="body1" sx={{ fontWeight: 700 }}>
+              {t("noResults")}
+            </Typography>
+          </Paper>
+        )}
       </ResultsPageShell>
     );
   } catch (err) {

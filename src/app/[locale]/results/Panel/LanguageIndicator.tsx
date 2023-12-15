@@ -13,8 +13,8 @@ const LanguageIndicator: ClientComponent<{
   const t = useTranslations("results.Panel");
   const theme = useTheme();
   const mainPercentage = Math.round((data[0].docCount * 100) / total);
-  const CHART_SIZE = 70;
-  const CIRCLE_WIDTH = 8;
+  const CHART_SIZE = 60;
+  const CIRCLE_WIDTH = 10;
   const COLORS = [
     theme.palette.colors.lightGreen,
     theme.palette.colors.red,
@@ -60,6 +60,7 @@ const LanguageIndicator: ClientComponent<{
         fontWeight={700}
         borderRadius="100%"
         position="relative"
+        fontSize="0.8rem"
         sx={{
           "&:before": {
             content: "''",
@@ -79,34 +80,36 @@ const LanguageIndicator: ClientComponent<{
         {mainPercentage} %
       </Box>
       <Stack>
-        {data.map(({ key, docCount }, index) => {
-          const percentage = Math.round((docCount * 100) / total);
-          return (
-            <Stack key={key} direction="row" gap={0.5} alignItems="center">
-              <Box
-                component="span"
-                bgcolor={COLORS[index]}
-                width={10}
-                height={10}
-                borderRadius="100%"
-              />
-              <Typography
-                variant="subtitle2"
-                component="span"
-                sx={{
-                  fontStyle: "italic",
-                  fontSize: "0.7rem",
-                }}
-              >
-                {t("languageCount", {
-                  count: docCount,
-                  language: key,
-                  percentage,
-                })}
-              </Typography>
-            </Stack>
-          );
-        })}
+        {data
+          .filter(({ docCount }) => docCount > 0)
+          .map(({ key, docCount }, index) => {
+            const percentage = Math.round((docCount * 100) / total);
+            return (
+              <Stack key={key} direction="row" gap={0.5} alignItems="center">
+                <Box
+                  component="span"
+                  bgcolor={COLORS[index]}
+                  width={10}
+                  height={10}
+                  borderRadius="100%"
+                />
+                <Typography
+                  variant="subtitle2"
+                  component="span"
+                  sx={{
+                    fontStyle: "italic",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  {t("languageCount", {
+                    count: docCount,
+                    language: key,
+                    percentage,
+                  })}
+                </Typography>
+              </Stack>
+            );
+          })}
       </Stack>
     </Stack>
   );

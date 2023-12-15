@@ -78,6 +78,7 @@
     }
   },
   "results": {
+    "noResults": "Votre requête ne ramène aucun résultat.",
     "metadata": {
       "title": "Résultats"
     },
@@ -140,7 +141,7 @@
       "indicators": "Indicateurs sur votre corpus",
       "resultsCount": "{count, plural, =0 {(# document)} =1 {(# document)} other {(# documents)}}",
       "summaryPresence": "Présence de résumé",
-      "pdfPresence": "Présence de pdf texte",
+      "pdfPresence": "Présence de PDF texte",
       "cleanedTextPresence": "Présence de texte nettoyé",
       "publicationLanguage": "Langue de publication",
       "docCount": "{count, plural, =0 {# doc} =1 {# doc} other {# docs}}",

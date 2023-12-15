@@ -34,12 +34,12 @@ const CompatibilityPanelContent: ClientComponent<{
   return (
     <Stack direction={{ xs: "column", sm: "row" }}>
       <CompatibilityProgress
-        title={`lodex (${lodexPercentage}%)`}
+        title={`lodex (${lodexPercentage}\u00A0%)`}
         data={[{ label: "json", count: jsonCount }]}
         total={resultsCount}
       />
       <CompatibilityProgress
-        title={`cortext (${cortextPercentage}%)`}
+        title={`cortext (${cortextPercentage}\u00A0%)`}
         data={[
           { label: "tei", count: teiCount },
           { label: "cleaned", count: cleanedCount },

@@ -42,7 +42,7 @@ describe("IndicatorPanelContent", () => {
   });
 
   it("should render the PDF presence indicator", () => {
-    expect(screen.getByText("Présence de pdf texte")).toBeInTheDocument();
+    expect(screen.getByText("Présence de PDF texte")).toBeInTheDocument();
     expect(screen.getByText("90 %")).toBeInTheDocument();
     expect(screen.getByText("45 docs")).toBeInTheDocument();
   });

@@ -14,15 +14,15 @@ const Indicator: ClientComponent<{
   const t = useTranslations("results.Panel");
   const theme = useTheme();
   const percentage = Math.round((count * 100) / total);
-  const CHART_SIZE = 70;
-  const CIRCLE_WIDTH = 8;
+  const CHART_SIZE = 60;
+  const CIRCLE_WIDTH = 10;
 
   return (
     <Stack width="100%" alignItems="center" gap={1}>
       <Typography
         variant="body2"
         sx={{
-          fontSize: "0.8rem",
+          fontSize: "0.75rem",
         }}
       >
         {label}
@@ -39,6 +39,7 @@ const Indicator: ClientComponent<{
         border={`${CIRCLE_WIDTH / 2}px solid`}
         borderColor={alpha(theme.palette.colors.lightGreen, 0.2)}
         position="relative"
+        fontSize="0.8rem"
       >
         {percentage} %
         <Box

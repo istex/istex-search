@@ -11,6 +11,11 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
+  {
+    name: "enrichments.type",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
 ];
 
 export const INDICATORS_FACETS = [

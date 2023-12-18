@@ -112,6 +112,12 @@
           "inputPlaceholder": "Rechercher une catégorie"
         }
       },
+      "enrichments": {
+        "type": {
+          "title": "Enrichissement",
+          "inputPlaceholder": "Rechercher"
+        }
+      },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",
       "apply": "Appliquer",

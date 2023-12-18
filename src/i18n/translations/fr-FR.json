@@ -106,6 +106,12 @@
         "title": "Bouquet",
         "inputPlaceholder": "Rechercher"
       },
+      "categories": {
+        "wos": {
+          "title": "Catégorie WOS",
+          "inputPlaceholder": "Rechercher une catégorie"
+        }
+      },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",
       "apply": "Appliquer",

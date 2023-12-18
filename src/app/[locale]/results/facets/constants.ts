@@ -6,6 +6,11 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
+  {
+    name: "categories.wos",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
 ];
 
 export const INDICATORS_FACETS = [

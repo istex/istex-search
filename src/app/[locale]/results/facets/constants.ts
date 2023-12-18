@@ -1,3 +1,4 @@
+import FacetAutocomplete from "./FacetAutocomplete";
 import FacetCheckboxList from "./FacetCheckboxList";
 
 export const FACETS = [
@@ -16,13 +17,18 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
+  {
+    name: "language",
+    requestOption: "[*]",
+    component: FacetAutocomplete,
+  },
 ];
 
 export const INDICATORS_FACETS = [
   { name: "qualityIndicators.abstractCharCount", requestOption: "[1-1000000]" },
   { name: "qualityIndicators.pdfText" },
   { name: "qualityIndicators.tdmReady" },
-  { name: "language", requestOption: "[3]" },
+  { name: "language", requestOption: "[*]" },
 ];
 
 export const COMPATIBILITY_FACETS = [

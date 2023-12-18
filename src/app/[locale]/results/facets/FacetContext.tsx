@@ -14,11 +14,11 @@ export interface FacetItem {
 export type FacetList = Record<string, FacetItem[]>;
 
 export interface FacetContextValue {
-  facetsList: FacetList | undefined;
+  facetsList?: FacetList;
   clearOneFacet: (facetTitle: string) => void;
   clearAllFacets: () => void;
   applyOneFacet: (facetTitle: string) => void;
-  toggleFacet: (facetTitle: string, facetItemValue: string) => void;
+  toggleFacet: (facetTitle: string, facetItemValue?: string) => void;
 }
 
 const FacetContext = createContext<FacetContextValue | null>(null);
@@ -63,7 +63,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     }
   };
 
-  const toggleFacet = (facetTitle: string, facetItemValue: string) => {
+  const toggleFacet = (facetTitle: string, facetItemValue?: string) => {
     const newFacetsList = { ...facetsList };
     newFacetsList[facetTitle].forEach((facetItem) => {
       if (facetItem.key === facetItemValue) {

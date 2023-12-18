@@ -8,16 +8,17 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputAdornment, InputBase } from "@mui/material";
 import FacetCheckboxItem from "./FacetCheckboxItem";
-import { useFacetContext, type FacetItem } from "./FacetContext";
+import { useFacetContext } from "./FacetContext";
+import type { FacetLayoutProps } from "./FacetLayout";
 import type { ClientComponent } from "@/types/next";
 
 const ASC = "asc";
 const DESC = "desc";
 
-const FacetCheckboxList: ClientComponent<{
-  facetTitle: string;
-  facetItems: FacetItem[];
-}> = ({ facetTitle, facetItems }) => {
+const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
+  facetTitle,
+  facetItems,
+}) => {
   const t = useTranslations("results.Facets");
 
   const { toggleFacet } = useFacetContext();

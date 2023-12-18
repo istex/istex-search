@@ -14,6 +14,17 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
 
+  const [
+    mostUsedLanguage,
+    secondMostUsedLanguage,
+    thirdMostUsedLanguage,
+    ...otherLanguages
+  ] = indicators.language.buckets;
+  const otherLanguagesCount = otherLanguages.reduce(
+    (acc, language) => acc + language.docCount,
+    0,
+  );
+
   return (
     <Stack direction={{ xs: "column", sm: "row" }}>
       <Indicator
@@ -44,12 +55,14 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
       <LanguageIndicator
         label={t("publicationLanguage")}
         data={[
-          ...indicators.language.buckets,
+          mostUsedLanguage,
+          secondMostUsedLanguage,
+          thirdMostUsedLanguage,
           {
             key: "other",
-            docCount: indicators.language.sumOtherDocCount ?? 0,
+            docCount: otherLanguagesCount,
           },
-        ]}
+        ].filter((language) => language?.docCount > 0)}
         total={resultsCount}
       />
     </Stack>

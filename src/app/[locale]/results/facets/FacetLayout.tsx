@@ -13,10 +13,15 @@ import type { FacetItem } from "./FacetContext";
 import { FACETS } from "./constants";
 import type { ClientComponent } from "@/types/next";
 
-const FacetLayout: ClientComponent<{
+export interface FacetLayoutProps {
   facetTitle: string;
   facetItems: FacetItem[];
-}> = ({ facetTitle, facetItems }) => {
+}
+
+const FacetLayout: ClientComponent<FacetLayoutProps> = ({
+  facetTitle,
+  facetItems,
+}) => {
   const t = useTranslations(`results.Facets.${facetTitle}`);
 
   const Component = FACETS.find((facet) => facet.name === facetTitle)

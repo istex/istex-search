@@ -80,36 +80,34 @@ const LanguageIndicator: ClientComponent<{
         {mainPercentage} %
       </Box>
       <Stack>
-        {data
-          .filter(({ docCount }) => docCount > 0)
-          .map(({ key, docCount }, index) => {
-            const percentage = Math.round((docCount * 100) / total);
-            return (
-              <Stack key={key} direction="row" gap={0.5} alignItems="center">
-                <Box
-                  component="span"
-                  bgcolor={COLORS[index]}
-                  width={10}
-                  height={10}
-                  borderRadius="100%"
-                />
-                <Typography
-                  variant="subtitle2"
-                  component="span"
-                  sx={{
-                    fontStyle: "italic",
-                    fontSize: "0.7rem",
-                  }}
-                >
-                  {t("languageCount", {
-                    count: docCount,
-                    language: key,
-                    percentage,
-                  })}
-                </Typography>
-              </Stack>
-            );
-          })}
+        {data.map(({ key, docCount }, index) => {
+          const percentage = Math.round((docCount * 100) / total);
+          return (
+            <Stack key={key} direction="row" gap={0.5} alignItems="center">
+              <Box
+                component="span"
+                bgcolor={COLORS[index]}
+                width={10}
+                height={10}
+                borderRadius="100%"
+              />
+              <Typography
+                variant="subtitle2"
+                component="span"
+                sx={{
+                  fontStyle: "italic",
+                  fontSize: "0.7rem",
+                }}
+              >
+                {t("languageCount", {
+                  count: docCount,
+                  language: key,
+                  percentage,
+                })}
+              </Typography>
+            </Stack>
+          );
+        })}
       </Stack>
     </Stack>
   );

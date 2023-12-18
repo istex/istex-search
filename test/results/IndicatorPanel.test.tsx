@@ -24,8 +24,9 @@ describe("IndicatorPanelContent", () => {
         { key: "eng", docCount: 20 },
         { key: "fre", docCount: 18 },
         { key: "ger", docCount: 7 },
+        { key: "spa", docCount: 3 },
+        { key: "rus", docCount: 2 },
       ],
-      sumOtherDocCount: 5,
     },
   };
 

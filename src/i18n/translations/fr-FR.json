@@ -118,6 +118,11 @@
           "inputPlaceholder": "Rechercher"
         }
       },
+      "language": {
+        "title": "Langue",
+        "inputLabel": "Entrez la langue désirée",
+        "inputPlaceholder": "ex: eng, fre ..."
+      },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",
       "apply": "Appliquer",

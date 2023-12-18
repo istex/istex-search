@@ -52,19 +52,10 @@ export function isValidIstexId(istexId: string) {
  * @returns an Object with the query (who contains ids separated by "OR") and the error lines (if there is any)
  */
 export function buildQueryFromIds(column: ColumnId, ids: string) {
-  let queryPart = "";
-  let isFirst = true;
   const errorLines: number[] = [];
   let lineIndex = 1;
   ids.split("\n").forEach((line) => {
     if (line.trim() !== "") {
-      // add the line to the query
-      if (isFirst) {
-        queryPart = queryPart.concat(`"${line}"`);
-        isFirst = false;
-      } else {
-        queryPart = queryPart.concat(" OR ", `"${line}"`);
-      }
       // check if the line is valid
       if (
         (column === "doi" && !isValidDoi(line)) ||
@@ -77,7 +68,11 @@ export function buildQueryFromIds(column: ColumnId, ids: string) {
   });
   return {
     errorLines,
-    query: `${column}:${queryPart}`,
+    query: `${column}:(${ids
+      .split("\n")
+      .filter((id) => id.length > 0)
+      .map((id) => `"${id}"`)
+      .join(",")})`,
   };
 }
 

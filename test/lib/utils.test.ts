@@ -62,27 +62,27 @@ describe("isValidIstexId", () => {
 });
 
 describe("buildQueryFromIds", () => {
-  it(`should identify errors, replace '\n' by ' OR ' and put each items in quotes`, () => {
+  it(`should identify errors, replace '\n' by ',' and put each items in quotes`, () => {
     const ids = "id1\nid2\nid3";
     expect(Module.buildQueryFromIds("doi", ids)).toStrictEqual({
       errorLines: [1, 2, 3],
-      query: 'doi:"id1" OR "id2" OR "id3"',
+      query: 'doi:("id1","id2","id3")',
     });
   });
-  it(`should identify any error but still replace '\n' by ' OR ' and put each items in quotes`, () => {
+  it(`should identify any error but still replace '\n' by ',' and put each items in quotes`, () => {
     const ids =
       "10.1136/bmj.2.2760.1392-a\n10.1136/jech.20.3.127\n10.1136/bmj.1.2091.212-a";
     expect(Module.buildQueryFromIds("doi", ids)).toStrictEqual({
       errorLines: [],
       query:
-        'doi:"10.1136/bmj.2.2760.1392-a" OR "10.1136/jech.20.3.127" OR "10.1136/bmj.1.2091.212-a"',
+        'doi:("10.1136/bmj.2.2760.1392-a","10.1136/jech.20.3.127","10.1136/bmj.1.2091.212-a")',
     });
   });
 });
 
 describe("getIdsFromQuery", () => {
-  it(`should replace ' OR ' by '\n' and remove quotes`, () => {
-    const query = '"id1" OR "id2" OR "id3"';
+  it(`should replace ',' by '\n' and remove quotes`, () => {
+    const query = 'arkIstex:("id1","id2","id3")';
     expect(Module.getIdsFromQuery(query)).toBe("id1\nid2\nid3");
   });
 

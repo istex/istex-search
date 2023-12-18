@@ -16,7 +16,7 @@ describe("ImportInput", () => {
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveAttribute(
       "placeholder",
-      "Copiez/collez dans la zone de recherche votre liste d'identifiants (ARK, DOI, ID istex) ou importez votre fichier .corpus\n* un seul format à la fois",
+      "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importer votre fichier .corpus\n* un seul format à la fois",
     );
     expect(
       screen.getByRole("button", { name: "RECHERCHER" }),

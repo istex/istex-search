@@ -52,7 +52,11 @@ ark:/67375/NVC-Z7GHR58X-4`;
     await userEvent.click(button);
 
     expect(router.push).toBeCalledWith(
-      "/results?q=arkIstex%3A%22ark%3A%2F67375%2FNVC-Z7G9LN4W-1%22+OR+%22ark%3A%2F67375%2FNVC-Z7GF9ML4-0%22+OR+%22ark%3A%2F67375%2FNVC-Z7GHR58X-4%22",
+      `/results?q=${encodeURIComponent(
+        'arkIstex:("ark:/67375/NVC-Z7G9LN4W-1","ark:/67375/NVC-Z7GF9ML4-0","ark:/67375/NVC-Z7GHR58X-4")',
+      )
+        .replace("(", "%28")
+        .replace(")", "%29")}`,
     );
   }, 8000);
 });

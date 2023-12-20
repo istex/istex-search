@@ -22,6 +22,16 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetAutocomplete,
   },
+  {
+    name: "categories.scienceMetrix",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "categories.scopus",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
 ];
 
 export const INDICATORS_FACETS = [

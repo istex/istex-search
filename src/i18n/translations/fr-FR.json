@@ -110,6 +110,14 @@
         "wos": {
           "title": "Catégorie WOS",
           "inputPlaceholder": "Rechercher une catégorie"
+        },
+        "scienceMetrix": {
+          "title": "Catégorie science-Metrix",
+          "inputPlaceholder": "Rechercher une catégorie"
+        },
+        "scopus": {
+          "title": "Catégorie scopus",
+          "inputPlaceholder": "Rechercher une catégorie"
         }
       },
       "enrichments": {

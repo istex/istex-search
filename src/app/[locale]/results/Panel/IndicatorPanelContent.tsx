@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import Indicator from "./Indicator";
 import LanguageIndicator from "./LanguageIndicator";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -26,7 +26,12 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
   );
 
   return (
-    <Stack direction={{ xs: "column", sm: "row" }}>
+    <Box
+      display="grid"
+      gridTemplateColumns={{ xs: "1fr", sm: "repeat(4, 1fr)" }}
+      rowGap={1}
+      justifyItems="center"
+    >
       <Indicator
         label={t("summaryPresence")}
         count={
@@ -65,7 +70,7 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
         ].filter((language) => language?.docCount > 0)}
         total={resultsCount}
       />
-    </Stack>
+    </Box>
   );
 };
 

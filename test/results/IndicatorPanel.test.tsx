@@ -5,32 +5,32 @@ import type { Aggregation } from "@/lib/istexApi";
 describe("IndicatorPanelContent", () => {
   const indicators: Aggregation = {
     "qualityIndicators.abstractCharCount": {
-      buckets: [{ key: "", docCount: 10 }],
+      buckets: [{ key: "", docCount: 100 }],
     },
     "qualityIndicators.pdfText": {
       buckets: [
-        { docCount: 45, keyAsString: "true", key: "" },
-        { docCount: 5, keyAsString: "false", key: "" },
+        { docCount: 450, keyAsString: "true", key: "" },
+        { docCount: 50, keyAsString: "false", key: "" },
       ],
     },
     "qualityIndicators.tdmReady": {
       buckets: [
-        { docCount: 15, keyAsString: "true", key: "" },
-        { docCount: 35, keyAsString: "false", key: "" },
+        { docCount: 150, keyAsString: "true", key: "" },
+        { docCount: 350, keyAsString: "false", key: "" },
       ],
     },
     language: {
       buckets: [
-        { key: "eng", docCount: 20 },
-        { key: "fre", docCount: 18 },
-        { key: "ger", docCount: 7 },
-        { key: "spa", docCount: 3 },
-        { key: "rus", docCount: 2 },
+        { key: "eng", docCount: 200 },
+        { key: "fre", docCount: 180 },
+        { key: "ger", docCount: 117 },
+        { key: "spa", docCount: 2 },
+        { key: "rus", docCount: 1 },
       ],
     },
   };
 
-  const resultsCount = 50;
+  const resultsCount = 500;
 
   beforeEach(() => {
     render(<IndicatorPanelContent indicators={indicators} />, { resultsCount });
@@ -39,26 +39,26 @@ describe("IndicatorPanelContent", () => {
   it("should render the summary presence indicator", () => {
     expect(screen.getByText("Présence de résumé")).toBeInTheDocument();
     expect(screen.getByText("20 %")).toBeInTheDocument();
-    expect(screen.getByText("10 docs")).toBeInTheDocument();
+    expect(screen.getByText("100 doc.")).toBeInTheDocument();
   });
 
   it("should render the PDF presence indicator", () => {
     expect(screen.getByText("Présence de PDF texte")).toBeInTheDocument();
     expect(screen.getByText("90 %")).toBeInTheDocument();
-    expect(screen.getByText("45 docs")).toBeInTheDocument();
+    expect(screen.getByText("450 doc.")).toBeInTheDocument();
   });
 
   it("should render the cleaned text presence indicator", () => {
     expect(screen.getByText("Présence de texte nettoyé")).toBeInTheDocument();
     expect(screen.getByText("30 %")).toBeInTheDocument();
-    expect(screen.getByText("15 docs")).toBeInTheDocument();
+    expect(screen.getByText("150 doc.")).toBeInTheDocument();
   });
 
   it("should render the language indicator", () => {
     expect(screen.getByText("Langue de publication")).toBeInTheDocument();
-    expect(screen.getByText("eng : 20 docs (40 %)")).toBeInTheDocument();
-    expect(screen.getByText("fre : 18 docs (36 %)")).toBeInTheDocument();
-    expect(screen.getByText("ger : 7 docs (14 %)")).toBeInTheDocument();
-    expect(screen.getByText("other : 5 docs (10 %)")).toBeInTheDocument();
+    expect(screen.getByText("eng : 200 doc. (40 %)")).toBeInTheDocument();
+    expect(screen.getByText("fre : 180 doc. (36 %)")).toBeInTheDocument();
+    expect(screen.getByText("ger : 117 doc. (23 %)")).toBeInTheDocument();
+    expect(screen.getByText("other : 3 doc. (0,6 %)")).toBeInTheDocument();
   });
 });

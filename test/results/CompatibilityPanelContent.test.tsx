@@ -41,7 +41,7 @@ describe("CompatibilityPanelContent", () => {
       "aria-valuenow",
       "100",
     );
-    expect(screen.getByText("50 docs")).toBeInTheDocument();
+    expect(screen.getByText("50 doc.")).toBeInTheDocument();
   });
 
   it("should render the cortext compatibility progress", () => {
@@ -52,20 +52,20 @@ describe("CompatibilityPanelContent", () => {
       "aria-valuenow",
       "80",
     );
-    expect(screen.getByText("40 docs")).toBeInTheDocument();
+    expect(screen.getByText("40 doc.")).toBeInTheDocument();
 
     expect(screen.getByText("cleaned")).toBeInTheDocument();
     expect(screen.getAllByRole("progressbar")[2]).toHaveAttribute(
       "aria-valuenow",
       "30",
     );
-    expect(screen.getByText("15 docs")).toBeInTheDocument();
+    expect(screen.getByText("15 doc.")).toBeInTheDocument();
 
     expect(screen.getByText("teeft")).toBeInTheDocument();
     expect(screen.getAllByRole("progressbar")[3]).toHaveAttribute(
       "aria-valuenow",
       "36",
     );
-    expect(screen.getByText("18 docs")).toBeInTheDocument();
+    expect(screen.getByText("18 doc.")).toBeInTheDocument();
   });
 });

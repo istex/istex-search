@@ -195,8 +195,8 @@
       "pdfPresence": "Présence de PDF texte",
       "cleanedTextPresence": "Présence de texte nettoyé",
       "publicationLanguage": "Langue de publication",
-      "docCount": "{count, plural, =0 {# doc} =1 {# doc} other {# docs}}",
-      "languageCount": "{count, plural, =0 {{language} : # doc ({percentage} %)} =1 {{language} : # doc ({percentage} %)} other {{language} : # docs ({percentage} %)}}",
+      "docCount": "{count, plural, =0 {# doc.} =1 {# doc.} other {# doc.}}",
+      "languageCount": "{count, plural, =0 {{language} : # doc. ({percentage}\u00A0%)} =1 {{language} : # doc. ({percentage}\u00A0%)} other {{language} : # doc. ({percentage}\u00A0%)}}",
       "compatibility": "Compatibilité avec les passerelles"
     }
   },

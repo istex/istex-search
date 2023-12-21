@@ -1,7 +1,7 @@
 "use client";
 
-import { useQueryContext } from "@/contexts/QueryContext";
-import type { ClientComponent } from "@/types/next";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
@@ -10,9 +10,8 @@ import {
   AccordionSummary,
   Typography,
 } from "@mui/material";
-import { lighten } from "@mui/system/colorManipulator";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useQueryContext } from "@/contexts/QueryContext";
+import type { ClientComponent } from "@/types/next";
 
 const Panel: ClientComponent<{ title: string }, true> = ({
   title,
@@ -30,19 +29,20 @@ const Panel: ClientComponent<{ title: string }, true> = ({
       }}
       disableGutters
       elevation={0}
-      sx={(theme) => ({
+      sx={{
         borderRadius: 1,
-        bgcolor: lighten(theme.palette.colors.blue, 0.9),
+        bgcolor: "colors.veryLightBlue",
         "&:before": {
           display: "none",
         },
-      })}
+      }}
     >
       <AccordionSummary
         expandIcon={expanded ? <VisibilityOffIcon /> : <VisibilityIcon />}
         aria-controls={`${title}-panel-content`}
         id={`${title}-panel-header`}
         sx={{
+          color: "colors.darkBlack",
           "& .MuiAccordionSummary-content": {
             gap: 1,
             alignItems: "center",
@@ -77,7 +77,9 @@ const Panel: ClientComponent<{ title: string }, true> = ({
           {t("resultsCount", { count: resultsCount })}
         </Typography>
       </AccordionSummary>
-      <AccordionDetails>{children}</AccordionDetails>
+      <AccordionDetails sx={{ color: "colors.grey" }}>
+        {children}
+      </AccordionDetails>
     </Accordion>
   );
 };

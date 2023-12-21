@@ -18,6 +18,7 @@ const CompatibilityProgress: ClientComponent<{
         variant="body2"
         textAlign="center"
         sx={{
+          color: "colors.lightBlack",
           fontSize: "0.8rem",
           textTransform: "uppercase",
           fontWeight: 700,
@@ -39,7 +40,7 @@ const CompatibilityProgress: ClientComponent<{
               component="span"
               sx={{
                 fontStyle: "italic",
-                fontSize: "0.7rem",
+                fontSize: "0.5rem",
                 textTransform: "uppercase",
               }}
             >
@@ -64,7 +65,7 @@ const CompatibilityProgress: ClientComponent<{
               component="span"
               sx={{
                 fontStyle: "italic",
-                fontSize: "0.7rem",
+                fontSize: "0.5rem",
               }}
             >
               {t("docCount", { count })}

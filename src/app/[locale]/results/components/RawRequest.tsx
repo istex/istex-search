@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { Box, Container, Link, Paper, Typography } from "@mui/material";
-import { lighten } from "@mui/system/colorManipulator";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
@@ -27,7 +26,7 @@ const RawRequest: ClientComponent = () => {
       <Paper
         elevation={0}
         sx={(theme) => ({
-          bgcolor: lighten(theme.palette.colors.blue, 0.9),
+          bgcolor: "colors.veryLightBlue",
           p: 2,
         })}
       >

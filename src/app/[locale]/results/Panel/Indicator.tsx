@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/system/colorManipulator";
 import type { ClientComponent } from "@/types/next";
@@ -18,18 +18,23 @@ const Indicator: ClientComponent<{
   const CIRCLE_WIDTH = 10;
 
   return (
-    <Stack width="100%" alignItems="center" gap={1}>
+    <>
       <Typography
         variant="body2"
+        align="center"
+        gridRow={{ sm: 1 }}
         sx={{
+          color: "colors.lightBlack",
           fontSize: "0.75rem",
         }}
       >
         {label}
       </Typography>
       <Box
+        gridRow={{ sm: 2 }}
         width={CHART_SIZE - CIRCLE_WIDTH}
         height={CHART_SIZE - CIRCLE_WIDTH}
+        margin={`${CIRCLE_WIDTH / 2}px`}
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -41,7 +46,7 @@ const Indicator: ClientComponent<{
         position="relative"
         fontSize="0.8rem"
       >
-        {percentage} %
+        {`${percentage}\u00A0%`}
         <Box
           component="div"
           position="absolute"
@@ -66,15 +71,16 @@ const Indicator: ClientComponent<{
       </Box>
       <Typography
         variant="subtitle2"
+        gridRow={{ sm: 3 }}
         paragraph
         sx={{
           fontStyle: "italic",
-          fontSize: "0.7rem",
+          fontSize: "0.5rem",
         }}
       >
         {t("docCount", { count })}
       </Typography>
-    </Stack>
+    </>
   );
 };
 

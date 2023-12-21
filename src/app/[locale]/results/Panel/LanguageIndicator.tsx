@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import type { ClientComponent } from "@/types/next";
@@ -12,7 +12,8 @@ const LanguageIndicator: ClientComponent<{
 }> = ({ label, data, total }) => {
   const t = useTranslations("results.Panel");
   const theme = useTheme();
-  const mainPercentage = Math.round((data[0].docCount * 100) / total);
+  const locale = useLocale();
+  const mainPercentage = Math.floor((data[0].docCount * 100) / total);
   const CHART_SIZE = 60;
   const CIRCLE_WIDTH = 10;
   const COLORS = [
@@ -41,16 +42,20 @@ const LanguageIndicator: ClientComponent<{
   };
 
   return (
-    <Stack width="100%" alignItems="center" gap={1}>
+    <>
       <Typography
         variant="body2"
+        align="center"
+        gridRow={{ sm: 1 }}
         sx={{
+          color: "colors.lightBlack",
           fontSize: "0.8rem",
         }}
       >
         {label}
       </Typography>
       <Box
+        gridRow={{ sm: 2 }}
         width={CHART_SIZE}
         height={CHART_SIZE}
         display="flex"
@@ -77,11 +82,15 @@ const LanguageIndicator: ClientComponent<{
           },
         }}
       >
-        {mainPercentage} %
+        {`${mainPercentage}\u00A0%`}
       </Box>
-      <Stack>
+      <Stack gridRow={{ sm: 3 }}>
         {data.map(({ key, docCount }, index) => {
-          const percentage = Math.round((docCount * 100) / total);
+          const rawPercentage = (docCount * 100) / total;
+          const percentage = rawPercentage.toLocaleString(locale, {
+            maximumFractionDigits:
+              rawPercentage < 1 || rawPercentage > 99 ? 1 : 0,
+          });
           return (
             <Stack key={key} direction="row" gap={0.5} alignItems="center">
               <Box
@@ -96,7 +105,7 @@ const LanguageIndicator: ClientComponent<{
                 component="span"
                 sx={{
                   fontStyle: "italic",
-                  fontSize: "0.7rem",
+                  fontSize: "0.5rem",
                 }}
               >
                 {t("languageCount", {
@@ -109,7 +118,7 @@ const LanguageIndicator: ClientComponent<{
           );
         })}
       </Stack>
-    </Stack>
+    </>
   );
 };
 

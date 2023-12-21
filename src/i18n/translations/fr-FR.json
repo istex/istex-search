@@ -149,6 +149,13 @@
         "title": "Type de contenu",
         "inputPlaceholder": "Rechercher un type"
       },
+      "publicationDate": {
+        "title": "Date(s) de publication",
+        "inputLabel": "Année (de {min} à {max})",
+        "inputPlaceholderMin": "Minimum",
+        "to": "à",
+        "inputPlaceholderMax": "Maximum"
+      },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",
       "apply": "Appliquer",

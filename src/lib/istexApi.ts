@@ -34,10 +34,13 @@ export function buildResultPreviewUrl({
   }
 
   const filtersQueryString = Object.entries(filters ?? {})
-    .map(
-      ([facetName, values]) =>
-        `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`,
-    )
+    .map(([facetName, values]) => {
+      if (facetName === "publicationDate") {
+        return `${facetName}:[${values[0].replace("-", " TO ")}]`;
+      } else {
+        return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
+      }
+    })
     .join(" AND ");
 
   const url = new URL("document", istexApiConfig.baseUrl);
@@ -142,6 +145,7 @@ export async function getResults(
       "metadata",
       "annexes",
       "enrichments",
+      "publicationDate",
     ],
     filters,
   });

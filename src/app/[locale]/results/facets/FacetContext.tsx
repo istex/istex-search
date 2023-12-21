@@ -9,6 +9,8 @@ export interface FacetItem {
   key: string;
   docCount: number;
   selected: boolean;
+  fromAsString?: string;
+  toAsString?: string;
 }
 
 export type FacetList = Record<string, FacetItem[]>;
@@ -19,6 +21,7 @@ export interface FacetContextValue {
   clearAllFacets: () => void;
   applyOneFacet: (facetTitle: string) => void;
   toggleFacet: (facetTitle: string, facetItemValue?: string) => void;
+  setRangeFacet: (facetRangeValue: string) => void;
 }
 
 const FacetContext = createContext<FacetContextValue | null>(null);
@@ -79,12 +82,20 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     setFacetsList(newFacetsList);
   };
 
+  const setRangeFacet = (facetRangeValue: string) => {
+    const newFacetsList = { ...facetsList };
+    newFacetsList.publicationDate[0].selected = true;
+    newFacetsList.publicationDate[0].key = facetRangeValue;
+    setFacetsList(newFacetsList);
+  };
+
   const context = {
     facetsList,
     clearOneFacet,
     clearAllFacets,
     applyOneFacet,
     toggleFacet,
+    setRangeFacet,
   };
   return (
     <FacetContext.Provider value={context}>{children}</FacetContext.Provider>

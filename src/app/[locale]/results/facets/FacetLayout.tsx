@@ -77,7 +77,9 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
         >
           {t("title")}
         </Typography>
-        <Typography component="span">({facetItems.length})</Typography>
+        {facetTitle !== "publicationDate" && (
+          <Typography component="span">({facetItems.length})</Typography>
+        )}
       </AccordionSummary>
       <AccordionDetails sx={{ backgroundColor: "white" }}>
         <Component facetTitle={facetTitle} facetItems={facetItems} />

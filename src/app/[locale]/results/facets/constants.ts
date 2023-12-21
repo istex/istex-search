@@ -1,5 +1,6 @@
 import FacetAutocomplete from "./FacetAutocomplete";
 import FacetCheckboxList from "./FacetCheckboxList";
+import FacetRange from "./FacetRange";
 
 export const FACETS = [
   {
@@ -46,6 +47,10 @@ export const FACETS = [
     name: "categories.inist",
     requestOption: "[*]",
     component: FacetCheckboxList,
+  },
+  {
+    name: "publicationDate",
+    component: FacetRange,
   },
 ];
 

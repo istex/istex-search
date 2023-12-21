@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
@@ -8,12 +8,19 @@ import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, IconButton, InputAdornment, InputBase } from "@mui/material";
 import FacetCheckboxItem from "./FacetCheckboxItem";
-import { useFacetContext } from "./FacetContext";
+import { useFacetContext, type FacetItem } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
+import { sortFacets } from "./utils";
 import type { ClientComponent } from "@/types/next";
 
-const ASC = "asc";
-const DESC = "desc";
+export const ASC = "asc";
+export const DESC = "desc";
+
+export const KEY = "key";
+export const DOC_COUNT = "docCount";
+
+export type SortOrder = typeof ASC | typeof DESC;
+export type SortField = typeof KEY | typeof DOC_COUNT;
 
 const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
@@ -23,33 +30,19 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
 
   const { toggleFacet } = useFacetContext();
 
-  const [displayedFacets, setDisplayedFacets] = useState(facetItems);
+  const [displayedFacets, setDisplayedFacets] =
+    useState<FacetItem[]>(facetItems);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(DESC);
+  const [sortField, setSortField] = useState<SortField>(DOC_COUNT);
   const [searchFacetItem, setSearchFacetItem] = useState<string>("");
 
-  const handleSort = (
-    field: "key" | "docCount",
-    order: typeof ASC | typeof DESC,
-  ) => {
-    const sortedFacets = [...displayedFacets].sort((a, b) => {
-      switch (field) {
-        case "key":
-          if (order === ASC) {
-            return a[field].localeCompare(b[field]);
-          } else {
-            return b[field].localeCompare(a[field]);
-          }
-        case "docCount":
-          if (order === ASC) {
-            return a[field] - b[field];
-          } else {
-            return b[field] - a[field];
-          }
-        default:
-          return 0;
-      }
-    });
-    setDisplayedFacets(sortedFacets);
-  };
+  useEffect(() => {
+    const sortedFacets = sortFacets(facetItems, sortField, sortOrder);
+    const filteredFacets = sortedFacets.filter((facetItem) =>
+      facetItem.key.toLowerCase().includes(searchFacetItem.toLowerCase()),
+    );
+    setDisplayedFacets(filteredFacets);
+  }, [sortOrder, sortField, searchFacetItem, facetItems]);
 
   const sortButtonCommonProps = {
     size: "small" as const,
@@ -106,7 +99,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             title={t("sortAsc")}
             aria-label={t("sortAsc")}
             onClick={() => {
-              handleSort("key", ASC);
+              setSortField(KEY);
+              setSortOrder(ASC);
             }}
             {...sortButtonCommonProps}
           >
@@ -116,7 +110,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             title={t("sortDesc")}
             aria-label={t("sortDesc")}
             onClick={() => {
-              handleSort("key", DESC);
+              setSortField(KEY);
+              setSortOrder(DESC);
             }}
             {...sortButtonCommonProps}
           >
@@ -128,7 +123,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             title={t("sortAsc")}
             aria-label={t("sortAsc")}
             onClick={() => {
-              handleSort("docCount", ASC);
+              setSortField(DOC_COUNT);
+              setSortOrder(ASC);
             }}
             {...sortButtonCommonProps}
           >
@@ -138,7 +134,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             title={t("sortDesc")}
             aria-label={t("sortDesc")}
             onClick={() => {
-              handleSort("docCount", DESC);
+              setSortField(DOC_COUNT);
+              setSortOrder(DESC);
             }}
             {...sortButtonCommonProps}
           >
@@ -152,24 +149,17 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
         flexDirection="column"
         overflow="auto"
       >
-        {displayedFacets
-          .filter((facetItem) => {
-            if (searchFacetItem.length === 0) {
-              return true;
-            }
-            return facetItem.key.includes(searchFacetItem);
-          })
-          .map((facetItem) => (
-            <FacetCheckboxItem
-              key={facetItem.key}
-              value={facetItem.key}
-              count={facetItem.docCount}
-              checked={facetItem.selected}
-              onChange={() => {
-                toggleFacet(facetTitle, facetItem.key);
-              }}
-            />
-          ))}
+        {displayedFacets.map((facetItem) => (
+          <FacetCheckboxItem
+            key={facetItem.key}
+            value={facetItem.key}
+            count={facetItem.docCount}
+            checked={facetItem.selected}
+            onChange={() => {
+              toggleFacet(facetTitle, facetItem.key);
+            }}
+          />
+        ))}
       </Box>
     </>
   );

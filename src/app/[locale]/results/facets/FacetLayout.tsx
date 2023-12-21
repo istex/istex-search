@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -22,10 +23,19 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
 }) => {
+  const [expanded, setExpanded] = useState<string | false>(
+    facetItems.some((facetItem) => facetItem.selected) ? facetTitle : false,
+  );
+
   const t = useTranslations(`results.Facets.${facetTitle}`);
 
   const Component = FACETS.find((facet) => facet.name === facetTitle)
     ?.component;
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   if (Component == null) {
     return null;
@@ -33,8 +43,10 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
 
   return (
     <Accordion
+      expanded={expanded === facetTitle}
       disableGutters
       elevation={0}
+      onChange={handleChange(facetTitle)}
       sx={{
         backgroundColor: "transparent",
         "&:before": {

@@ -228,6 +228,7 @@ describe("SearchParams class", () => {
       extract: "metadata[json]",
       size: "2",
       usage: "lodex",
+      filters: '{"language":["fre","eng"]}',
     });
 
     searchParams.clear();
@@ -236,5 +237,42 @@ describe("SearchParams class", () => {
     expect(searchParams.getSize()).toBe(0);
     expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
     expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
+    expect(searchParams.getFilters()).toEqual({});
+  });
+
+  it("should get filters", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      filter: '{"language":["fre","eng"]}',
+    });
+
+    expect(searchParams.getFilters()).toEqual({
+      language: ["fre", "eng"],
+    });
+  });
+
+  it("should set filters", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setFilters({
+      language: ["fre", "eng"],
+    });
+
+    expect(searchParams.getFilters()).toEqual({
+      language: ["fre", "eng"],
+    });
+  });
+
+  it("should delete filters", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      filter: '{"language":["fre","eng"]}',
+    });
+
+    searchParams.deleteFilters();
+
+    expect(searchParams.getFilters()).toEqual({});
   });
 });

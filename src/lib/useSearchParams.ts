@@ -5,16 +5,17 @@ import {
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
+import type { Filter } from "./istexApi";
 import { clamp, closest, isValidMd5 } from "./utils";
 import {
-  type UsageName,
-  NO_FORMAT_SELECTED,
   DEFAULT_USAGE_NAME,
-  usages,
-  istexApiConfig,
   MIN_PER_PAGE,
+  NO_FORMAT_SELECTED,
+  istexApiConfig,
   perPageOptions,
+  usages,
   type PerPageOption,
+  type UsageName,
 } from "@/config";
 import type { NextSearchParams } from "@/types/next";
 
@@ -227,6 +228,28 @@ class SearchParams {
 
   deletePerPage(): void {
     this.searchParams.delete("perPage");
+  }
+
+  getFilters(): Filter {
+    const value = this.searchParams.get("filter");
+    if (value == null) {
+      return {};
+    }
+
+    return JSON.parse(value);
+  }
+
+  setFilters(value: Filter): void {
+    if (Object.keys(value).length === 0) {
+      this.deleteFilters();
+      return;
+    }
+
+    this.searchParams.set("filter", JSON.stringify(value));
+  }
+
+  deleteFilters(): void {
+    this.searchParams.delete("filter");
   }
 
   toString(): string {

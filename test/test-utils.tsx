@@ -51,6 +51,7 @@ export function mockSearchParams(searchParams: {
   page?: string;
   perPage?: string;
   usage?: UsageName;
+  filter?: string;
 }) {
   (useSearchParams as jest.Mock).mockReturnValue(searchParams);
 }

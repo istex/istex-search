@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next-intl/client";
 import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
@@ -8,7 +8,7 @@ import { type ClientComponent } from "@/types/next";
 export interface FacetItem {
   key: string;
   docCount: number;
-  selected?: boolean;
+  selected: boolean;
 }
 
 export type FacetList = Record<string, FacetItem[]>;
@@ -31,36 +31,42 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  useEffect(() => {
+    if (facets == null) {
+      return;
+    }
+    setFacetsList(facets);
+  }, [facets, searchParams]);
+
   const clearOneFacet = (facetTitle: string) => {
-    const newFacetsList = { ...facetsList };
-    newFacetsList[facetTitle].forEach((facetItem) => {
-      facetItem.selected = false;
-    });
-    setFacetsList(newFacetsList);
+    const filters = searchParams.getFilters();
+    const { [facetTitle]: _, ...updatedFilters } = filters;
+    searchParams.setFilters(updatedFilters);
+    searchParams.setPage(1);
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const clearAllFacets = () => {
-    const newFacetsList = { ...facetsList };
-    Object.keys(newFacetsList).forEach((facetTitle) => {
-      newFacetsList[facetTitle].forEach((facetItem) => {
-        facetItem.selected = false;
-      });
-    });
-    setFacetsList(newFacetsList);
+    searchParams.deleteFilters();
+    searchParams.setPage(1);
+    router.push(`/results?${searchParams.toString()}`);
   };
 
-  const applyOneFacet = async (facetTitle: string) => {
-    const queryString = await searchParams.getQueryString();
-    if (facetsList != null) {
-      const appliedFacets = facetsList[facetTitle]
-        .filter((facetItem) => facetItem.selected)
-        .map((facetItem) => `"${facetItem.key}"`);
-      const newQueryString = `${queryString} AND ${facetTitle}:(${appliedFacets.join(
-        " OR ",
-      )})`;
-      await searchParams.setQueryString(newQueryString);
-      router.push(`/results?${searchParams.toString()}`);
+  const applyOneFacet = (facetTitle: string) => {
+    let filters = searchParams.getFilters();
+    filters[facetTitle] = [];
+    facetsList?.[facetTitle]?.forEach((facetItem) => {
+      if (facetItem.selected) {
+        filters[facetTitle].push(facetItem.key);
+      }
+    });
+    if (filters[facetTitle].length === 0) {
+      const { [facetTitle]: _, ...updatedFilters } = filters;
+      filters = updatedFilters;
     }
+    searchParams.setFilters(filters);
+    searchParams.setPage(1);
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {

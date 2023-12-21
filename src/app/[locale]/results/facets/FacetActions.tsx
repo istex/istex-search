@@ -16,7 +16,7 @@ const FacetActions: ClientComponent<{ facetTitle: string }> = ({
 
   const isApplyDisabled =
     facetsList == null ||
-    facetsList[facetTitle].every((facetItem) => facetItem.selected !== true);
+    facetsList[facetTitle].every((facetItem) => !facetItem.selected);
 
   return (
     <Stack direction="row" spacing={1} mt={1}>

@@ -101,6 +101,10 @@
     "Pagination": {
       "resultsPerPage": "par page"
     },
+    "filters": {
+      "title": "Vos filtres actifs :",
+      "clear": "Supprimer le filtre «{value}»"
+    },
     "Facets": {
       "corpusName": {
         "title": "Bouquet",

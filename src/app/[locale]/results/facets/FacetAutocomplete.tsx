@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import type { ClientComponent } from "@/types/next";
 import {
   Autocomplete,
   Chip,
@@ -8,9 +8,9 @@ import {
   InputLabel,
   ListItem,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
-import type { ClientComponent } from "@/types/next";
 
 const FacetAutocomplete: ClientComponent<FacetLayoutProps> = ({
   facetTitle,

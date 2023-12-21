@@ -1,11 +1,11 @@
+import FacetAutocomplete from "@/app/[locale]/results/facets/FacetAutocomplete";
+import { useFacetContext } from "@/app/[locale]/results/facets/FacetContext";
 import {
   customRender as render,
   screen,
   userEvent,
   within,
 } from "../test-utils";
-import FacetAutocomplete from "@/app/[locale]/results/facets/FacetAutocomplete";
-import { useFacetContext } from "@/app/[locale]/results/facets/FacetContext";
 
 jest.mock("@/app/[locale]/results/facets/FacetContext", () => ({
   useFacetContext: jest.fn(),

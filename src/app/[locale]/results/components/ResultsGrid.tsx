@@ -7,6 +7,7 @@ import WindowIcon from "@mui/icons-material/Window";
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DocumentDetail from "../Document/DocumentDetail";
+import Filters from "../Filters/Filters";
 import CompatibilityPanelContent from "../Panel/CompatibilityPanelContent";
 import IndicatorPanelContent from "../Panel/IndicatorPanelContent";
 import Panel from "../Panel/Panel";
@@ -62,6 +63,7 @@ const ResultsGrid: ClientComponent<
           <CompatibilityPanelContent compatibility={compatibility} />
         </Panel>
       )}
+      <Filters />
       <Box
         id="results-grid"
         sx={{

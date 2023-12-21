@@ -18,6 +18,7 @@ import CustomError from "@/lib/CustomError";
 import {
   getResults,
   type Aggregation,
+  type Filter,
   type IstexApiResponse,
 } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
@@ -27,10 +28,11 @@ async function getTranslatedResults(
   queryString: string,
   perPage: PerPageOption,
   page: number,
+  filters: Filter,
   locale: string,
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
-  const response = await getResults(queryString, perPage, page);
+  const response = await getResults(queryString, perPage, page, filters);
 
   // Fill some missing fields with placeholder texts
   response.hits.forEach((result) => {
@@ -48,6 +50,7 @@ const ResultsPage: Page = async ({
   const searchParams = useSearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
+  const filters = searchParams.getFilters();
   const t = await getTranslator(locale, "results");
 
   let queryString: string;
@@ -70,6 +73,7 @@ const ResultsPage: Page = async ({
       queryString,
       perPage,
       page,
+      filters,
       locale,
     );
 
@@ -78,7 +82,12 @@ const ResultsPage: Page = async ({
     const compatibility: Aggregation = {};
     for (const facetTitle in results.aggregations) {
       if (FACETS.some((facet) => facet.name === facetTitle)) {
-        facets[facetTitle] = results.aggregations[facetTitle].buckets;
+        facets[facetTitle] = results.aggregations[facetTitle].buckets.map(
+          (facetItem) => ({
+            ...facetItem,
+            selected: filters[facetTitle]?.includes(facetItem.key) ?? false,
+          }),
+        );
       }
       if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
         indicators[facetTitle] = results.aggregations[facetTitle];

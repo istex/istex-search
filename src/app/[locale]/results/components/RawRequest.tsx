@@ -14,10 +14,12 @@ const RawRequest: ClientComponent = () => {
   const { queryString } = useQueryContext();
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
+  const filters = searchParams.getFilters();
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
     page,
+    filters,
   });
 
   return (

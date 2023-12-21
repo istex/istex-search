@@ -1,17 +1,18 @@
+import CustomError from "./CustomError";
+import { buildExtractParamsFromFormats } from "./formats";
 import {
   COMPATIBILITY_FACETS,
   FACETS,
   INDICATORS_FACETS,
 } from "@/app/[locale]/results/facets/constants";
 import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
-import CustomError from "./CustomError";
-import { buildExtractParamsFromFormats } from "./formats";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
   perPage?: PerPageOption;
   page?: number;
   fields?: string[];
+  filters?: Filter;
 }
 
 export function buildResultPreviewUrl({
@@ -19,6 +20,7 @@ export function buildResultPreviewUrl({
   perPage,
   page,
   fields,
+  filters,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -31,8 +33,20 @@ export function buildResultPreviewUrl({
     actualPerPage = istexApiConfig.maxPaginationOffset - from;
   }
 
+  const filtersQueryString = Object.entries(filters ?? {})
+    .map(
+      ([facetName, values]) =>
+        `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`,
+    )
+    .join(" AND ");
+
   const url = new URL("document", istexApiConfig.baseUrl);
-  url.searchParams.set("q", queryString);
+  url.searchParams.set(
+    "q",
+    filtersQueryString !== ""
+      ? `(${queryString}) AND ${filtersQueryString}`
+      : queryString,
+  );
   url.searchParams.set("size", actualPerPage.toString());
   url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
@@ -42,7 +56,8 @@ export function buildResultPreviewUrl({
     [...FACETS, ...INDICATORS_FACETS, ...COMPATIBILITY_FACETS]
       .map(
         (facet) =>
-          `${facet.name}${facet.requestOption != null ? facet.requestOption : ""
+          `${facet.name}${
+            facet.requestOption != null ? facet.requestOption : ""
           }`,
       )
       .filter((facet, i, arr) => arr.indexOf(facet) === i)
@@ -100,10 +115,13 @@ export interface IstexApiResponse {
   aggregations: Aggregation;
 }
 
+export type Filter = Record<string, string[]>;
+
 export async function getResults(
   queryString: string,
   perPage: PerPageOption,
   page: number,
+  filters: Filter,
 ) {
   // Create the URL
   const url = buildResultPreviewUrl({
@@ -125,6 +143,7 @@ export async function getResults(
       "annexes",
       "enrichments",
     ],
+    filters,
   });
 
   // If the query string is too long some browsers won't accept to send a GET request

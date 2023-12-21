@@ -42,6 +42,11 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
+  {
+    name: "categories.inist",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
 ];
 
 export const INDICATORS_FACETS = [

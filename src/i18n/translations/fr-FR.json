@@ -118,6 +118,10 @@
         "scopus": {
           "title": "Catégorie scopus",
           "inputPlaceholder": "Rechercher une catégorie"
+        },
+        "inist": {
+          "title": "Catégorie inist",
+          "inputPlaceholder": "Rechercher une catégorie"
         }
       },
       "enrichments": {

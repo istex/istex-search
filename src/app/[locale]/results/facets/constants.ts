@@ -32,6 +32,16 @@ export const FACETS = [
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
+  {
+    name: "host.genre",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "genre",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
 ];
 
 export const INDICATORS_FACETS = [

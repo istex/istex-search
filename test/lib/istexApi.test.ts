@@ -14,11 +14,11 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Ccategories.wos%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Ccategories.wos%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
 
     expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl&facet=corpusName%5B*%5D%2Ccategories.wos%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl&facet=corpusName%5B*%5D%2Ccategories.wos%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 

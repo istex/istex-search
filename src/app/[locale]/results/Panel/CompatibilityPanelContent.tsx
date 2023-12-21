@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { Aggregation } from "@/lib/istexApi";
@@ -32,11 +32,20 @@ const CompatibilityPanelContent: ClientComponent<{
   const cortextPercentage = Math.round((teiCount * 100) / resultsCount);
 
   return (
-    <Stack direction={{ xs: "column", sm: "row" }}>
+    <Box
+      display="grid"
+      gridTemplateColumns={{
+        xs: "auto 1fr auto",
+        sm: "repeat(2, auto 1fr auto)",
+      }}
+      alignItems="center"
+      columnGap={0.625}
+    >
       <CompatibilityProgress
         title={`lodex (${lodexPercentage}\u00A0%)`}
         data={[{ label: "json", count: jsonCount }]}
         total={resultsCount}
+        gridColumn={1}
       />
       <CompatibilityProgress
         title={`cortext (${cortextPercentage}\u00A0%)`}
@@ -46,8 +55,9 @@ const CompatibilityPanelContent: ClientComponent<{
           { label: "teeft", count: teeftCount },
         ]}
         total={resultsCount}
+        gridColumn={2}
       />
-    </Stack>
+    </Box>
   );
 };
 

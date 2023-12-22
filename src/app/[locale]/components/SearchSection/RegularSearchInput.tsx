@@ -1,10 +1,10 @@
 "use client";
 
 import {
+  useState,
   type ChangeEventHandler,
   type FormEventHandler,
   type ReactNode,
-  useState,
 } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
@@ -79,7 +79,10 @@ const RegularSearchInput: ClientComponent<{
           placeholder={t("placeholder")}
           value={queryString}
           inputProps={{
-            style: { minHeight: "32px" },
+            style: {
+              minHeight: "32px",
+              lineHeight: "32px",
+            },
           }}
           sx={{
             mb: { xs: 2, sm: 0 },

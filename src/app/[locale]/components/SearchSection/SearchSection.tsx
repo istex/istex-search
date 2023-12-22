@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Box, Container, FormControlLabel, Switch } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import AssistedSearchInput from "./AssistedSearchInput";
 import SearchInput from "./SearchInput";
 import type { ClientComponent } from "@/types/next";
@@ -16,30 +16,17 @@ const SearchSection: ClientComponent = () => {
           justifyContent: "flex-end",
         }}
       >
-        <FormControlLabel
-          control={
-            <Switch
-              id="assisted-search-toggle"
-              value={isAssistedSearch}
-              onChange={() => {
-                setIsAssistedSearch(!isAssistedSearch);
-              }}
-            />
-          }
-          label="assistedSearchInput <=> regularSearchInput"
-          sx={{ display: "none" }} // TODO: Remove when the assisted search is implemented
-        />
         {isAssistedSearch ? (
           <AssistedSearchInput
-          // switchSearchMode={() => {
-          //   setIsAssistedSearch(false);
-          // }}
+            switchAssistedSearch={() => {
+              setIsAssistedSearch(false);
+            }}
           />
         ) : (
           <SearchInput
-          // switchSearchMode={() => {
-          //   setIsAssistedSearch(false);
-          // }}
+            switchAssistedSearch={() => {
+              setIsAssistedSearch(true);
+            }}
           />
         )}
       </Box>

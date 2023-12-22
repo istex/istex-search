@@ -10,6 +10,7 @@ describe("SearchBar", () => {
     );
     expect(screen.getByText("RECHERCHER")).toBeInTheDocument();
     expect(screen.getByTestId("search-by-id-button")).toBeInTheDocument();
+    expect(screen.getByTestId("assist-search-button")).toBeInTheDocument();
   });
   it("should render the searchBar in searchById mode", async () => {
     render(

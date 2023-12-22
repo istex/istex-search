@@ -6,14 +6,17 @@ import RegularSearchInput from "./RegularSearchInput";
 import SearchBar from "./SearchBar";
 import type { ClientComponent } from "@/types/next";
 
-const SearchInput: ClientComponent = () => {
+const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
+  switchAssistedSearch,
+}) => {
   const [isSearchById, setIsSearchById] = useState(false);
 
   const searchBar = (child: ReactNode) => {
     return (
       <SearchBar
+        switchAssistedSearch={switchAssistedSearch}
         isSearchById={isSearchById}
-        switchSearchMode={() => {
+        switchSearchById={() => {
           setIsSearchById(!isSearchById);
         }}
       >

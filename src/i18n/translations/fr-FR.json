@@ -18,6 +18,7 @@
       "SearchInput": {
         "button": "RECHERCHER",
         "importButton": "IMPORT\nD'IDENTIFIANTS",
+        "assistedButton": "Recherche\nassistée",
         "switch": "Assistant",
         "RegularSearchInput": {
           "searchTitle": "Créez votre requête",
@@ -31,6 +32,32 @@
           "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importer votre fichier .corpus\n* un seul format à la fois",
           "button": "RECHERCHER",
           "errorsSyntaxCount": "{count, plural, =1 {Un identifiants qui n'est pas du {type} a été identifié à la ligne {errorLines}} other {Des identifiants qui ne sont pas des {type} ont été identifiés aux lignes: {errorLines}}}"
+        },
+        "AssistedInput": {
+          "title": "Assistant à la construction de requête",
+          "editionButton": "édition experte",
+          "regularSearch": "< recherche simple",
+          "button": "RECHERCHER",
+          "addRule": "Ajouter une règle",
+          "addGroup": "Ajouter un groupe",
+          "remove": "Supprimer",
+          "reset": "Réinitialiser",
+          "Dropdown": {
+            "field": "Champ",
+            "comparator": "Comparateur",
+            "value": "Valeur",
+            "valueMin": "Valeur mini",
+            "valueMax": "Valeur maxi",
+            "equal": "égal",
+            "notEqual": "différent",
+            "contains": "contient",
+            "notContains": "ne contient pas",
+            "isBetween": "entre",
+            "isGreaterThan": "supérieur à",
+            "isLessThan": "inférieur à",
+            "true": "vrai",
+            "false": "faux"
+          }
         }
       }
     },

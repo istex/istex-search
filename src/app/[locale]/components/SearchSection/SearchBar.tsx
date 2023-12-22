@@ -2,18 +2,21 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box } from "@mui/material";
-import SearchLogoSelected from "@/../public/id-search-selected.svg";
-import SearchLogoUnselected from "@/../public/id-search-unselected.svg";
+import AssistedSearchIcon from "@/../public/assisted-search.svg";
+import SearchByIdSelectedIcon from "@/../public/id-search-selected.svg";
+import SearchByIdUnselectedIcon from "@/../public/id-search-unselected.svg";
 import Button from "@/components/Button";
 
 const SearchBar = ({
   children,
+  switchAssistedSearch,
   isSearchById,
-  switchSearchMode,
+  switchSearchById,
 }: {
   children: React.ReactNode;
+  switchAssistedSearch: () => void;
   isSearchById: boolean;
-  switchSearchMode: () => void;
+  switchSearchById: () => void;
 }) => {
   const t = useTranslations("home.SearchSection.SearchInput");
   return (
@@ -55,14 +58,39 @@ const SearchBar = ({
             gap: 1,
             color: isSearchById ? "white" : "black",
           }}
-          onClick={switchSearchMode}
+          onClick={switchSearchById}
           data-testid="search-by-id-button"
         >
           <Image
-            src={isSearchById ? SearchLogoSelected : SearchLogoUnselected}
+            src={
+              isSearchById ? SearchByIdSelectedIcon : SearchByIdUnselectedIcon
+            }
             alt="Search-by-Id"
           />
           {t("importButton")}
+        </Button>
+        <Button
+          mainColor="white"
+          secondaryColor="darkBlack"
+          variant="text"
+          size="small"
+          sx={{
+            height: "65px",
+            borderRadius: "5px",
+            width: "85px",
+            padding: "10px",
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "0.4rem",
+            lineHeight: "0.5rem",
+            ml: 1,
+            gap: 1,
+          }}
+          onClick={switchAssistedSearch}
+          data-testid="assist-search-button"
+        >
+          <Image src={AssistedSearchIcon} alt="Assisted-search" />
+          {t("assistedButton")}
         </Button>
       </Box>
     </Box>

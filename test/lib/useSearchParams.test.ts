@@ -275,4 +275,34 @@ describe("SearchParams class", () => {
 
     expect(searchParams.getFilters()).toEqual({});
   });
+
+  it("should get last applied facet", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      lastAppliedFacet: "corpusName",
+    });
+
+    expect(searchParams.getLastAppliedFacet()).toBe("corpusName");
+  });
+
+  it("should set last applied facet", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setLastAppliedFacet("corpusName");
+
+    expect(searchParams.getLastAppliedFacet()).toBe("corpusName");
+  });
+
+  it("should delete last applied facet", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      lastAppliedFacet: "corpusName",
+    });
+
+    searchParams.deleteLastAppliedFacet();
+
+    expect(searchParams.getLastAppliedFacet()).toBe("");
+  });
 });

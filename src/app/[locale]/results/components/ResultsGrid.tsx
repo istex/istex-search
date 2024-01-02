@@ -53,16 +53,12 @@ const ResultsGrid: ClientComponent<
           </ToggleButton>
         </StyledToggleButtonGroup>
       </Box>
-      {indicators != null && (
-        <Panel title="indicators">
-          <IndicatorPanelContent indicators={indicators} />
-        </Panel>
-      )}
-      {compatibility != null && (
-        <Panel title="compatibility">
-          <CompatibilityPanelContent compatibility={compatibility} />
-        </Panel>
-      )}
+      <Panel title="indicators">
+        <IndicatorPanelContent indicators={indicators} />
+      </Panel>
+      <Panel title="compatibility">
+        <CompatibilityPanelContent compatibility={compatibility} />
+      </Panel>
       <Filters />
       <Box
         id="results-grid"

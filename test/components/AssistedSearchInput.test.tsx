@@ -38,7 +38,6 @@ describe("AssistedSearchInput", () => {
     const ast =
       '[[ {{ "nodeType": "node", "fieldType": "text", "field": "corpusName", "value": "elsevier", "comparator": "equal" } ]';
     await userEvent.type(textbox, ast);
-    screen.debug();
     const submitButton = screen.getByRole("button", { name: "Transformer" });
     await userEvent.click(submitButton);
     expect(

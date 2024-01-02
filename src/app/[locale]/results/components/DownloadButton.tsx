@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type MouseEventHandler } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
 import { Box } from "@mui/material";
 import DownloadForm from "../Download/DownloadForm";
@@ -16,6 +16,7 @@ const DownloadButton: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const locale = useLocale();
   const size = searchParams.getSize();
   const { resultsCount } = useQueryContext();
   const [modalOpen, setModalOpen] = useState(false);
@@ -57,7 +58,9 @@ const DownloadButton: ClientComponent = () => {
           sx={{ px: { xs: 4, sm: 8 }, py: 2 }}
           onClick={openModal}
         >
-          {t("downloadButton")}
+          {t("downloadButton", {
+            resultsCount: resultsCount.toLocaleString(locale),
+          })}
         </Button>
       </Box>
 

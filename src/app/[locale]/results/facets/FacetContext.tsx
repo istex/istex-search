@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { useRouter } from "next-intl/client";
 import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
@@ -34,31 +34,26 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  useEffect(() => {
-    if (facets == null) {
-      return;
-    }
-    setFacetsList(facets);
-  }, [facets, searchParams]);
-
   const clearOneFacet = (facetTitle: string) => {
     const filters = searchParams.getFilters();
     const { [facetTitle]: _, ...updatedFilters } = filters;
     searchParams.setFilters(updatedFilters);
     searchParams.setPage(1);
+    searchParams.deleteLastAppliedFacet();
     router.push(`/results?${searchParams.toString()}`);
   };
 
   const clearAllFacets = () => {
     searchParams.deleteFilters();
     searchParams.setPage(1);
+    searchParams.deleteLastAppliedFacet();
     router.push(`/results?${searchParams.toString()}`);
   };
 
   const applyOneFacet = (facetTitle: string) => {
     let filters = searchParams.getFilters();
     filters[facetTitle] = [];
-    facetsList?.[facetTitle]?.forEach((facetItem) => {
+    facetsList?.[facetTitle].forEach((facetItem) => {
       if (facetItem.selected) {
         filters[facetTitle].push(facetItem.key);
       }
@@ -69,6 +64,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     }
     searchParams.setFilters(filters);
     searchParams.setPage(1);
+    searchParams.setLastAppliedFacet(facetTitle);
     router.push(`/results?${searchParams.toString()}`);
   };
 

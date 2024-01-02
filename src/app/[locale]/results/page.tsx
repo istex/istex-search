@@ -26,6 +26,7 @@ const _ResultsPage: Page = (props) => {
     q: props.searchParams.q,
     page: props.searchParams.page,
     perPage: props.searchParams.perPage,
+    filter: props.searchParams.filter,
   });
 
   return (

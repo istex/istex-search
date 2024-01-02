@@ -67,15 +67,17 @@ const Panel: ClientComponent<{ title: string }, true> = ({
         >
           {t(title)}
         </Typography>
-        <Typography
-          variant="body2"
-          component="span"
-          sx={{
-            fontSize: "0.8rem",
-          }}
-        >
-          {t("resultsCount", { count: resultsCount })}
-        </Typography>
+        {resultsCount > 0 && (
+          <Typography
+            variant="body2"
+            component="span"
+            sx={{
+              fontSize: "0.8rem",
+            }}
+          >
+            {t("resultsCount", { count: resultsCount })}
+          </Typography>
+        )}
       </AccordionSummary>
       <AccordionDetails sx={{ color: "colors.grey" }}>
         {children}

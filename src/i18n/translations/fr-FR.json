@@ -124,7 +124,7 @@
         "listAriaLabel": "Affichage en liste"
       }
     },
-    "downloadButton": "Télécharger",
+    "downloadButton": "Télécharger le corpus ({resultsCount})",
     "Pagination": {
       "resultsPerPage": "par page"
     },

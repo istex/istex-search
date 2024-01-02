@@ -252,6 +252,28 @@ class SearchParams {
     this.searchParams.delete("filter");
   }
 
+  getLastAppliedFacet(): string {
+    const value = this.searchParams.get("lastAppliedFacet");
+    if (value == null) {
+      return "";
+    }
+
+    return value;
+  }
+
+  setLastAppliedFacet(value: string): void {
+    if (value === "") {
+      this.deleteLastAppliedFacet();
+      return;
+    }
+
+    this.searchParams.set("lastAppliedFacet", value);
+  }
+
+  deleteLastAppliedFacet(): void {
+    this.searchParams.delete("lastAppliedFacet");
+  }
+
   toString(): string {
     return this.searchParams.toString();
   }

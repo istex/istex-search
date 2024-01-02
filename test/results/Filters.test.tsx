@@ -63,7 +63,7 @@ describe("Filters", () => {
     fireEvent.click(clearIcon);
 
     expect(router.push).toHaveBeenCalledWith(
-      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%2C%22corpus2%22%5D%2C%22language%22%3A%5B%22fre%22%5D%7D",
+      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%2C%22corpus2%22%5D%2C%22language%22%3A%5B%22fre%22%5D%7D&lastAppliedFacet=language",
     );
   });
 
@@ -84,7 +84,7 @@ describe("Filters", () => {
     fireEvent.click(clearIcon);
 
     expect(router.push).toHaveBeenCalledWith(
-      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%5D%7D",
+      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%5D%7D&lastAppliedFacet=language",
     );
   });
 });

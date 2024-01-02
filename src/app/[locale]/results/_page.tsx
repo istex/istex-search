@@ -51,6 +51,7 @@ const ResultsPage: Page = async ({
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
   const filters = searchParams.getFilters();
+  const lastAppliedFacet = searchParams.getLastAppliedFacet();
   const t = await getTranslator(locale, "results");
 
   let queryString: string;
@@ -77,17 +78,33 @@ const ResultsPage: Page = async ({
       locale,
     );
 
+    let resultsWithoutLastAppliedFacet: IstexApiResponse | undefined;
+
+    if (lastAppliedFacet !== "") {
+      const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } =
+        filters;
+      resultsWithoutLastAppliedFacet = await getResults(
+        queryString,
+        perPage,
+        page,
+        filtersWithoutLastAppliedFacet,
+      );
+    }
+
     const facets: FacetList = {};
     const indicators: Aggregation = {};
     const compatibility: Aggregation = {};
     for (const facetTitle in results.aggregations) {
       if (FACETS.some((facet) => facet.name === facetTitle)) {
-        facets[facetTitle] = results.aggregations[facetTitle].buckets.map(
-          (facetItem) => ({
-            ...facetItem,
-            selected: filters[facetTitle]?.includes(facetItem.key) ?? false,
-          }),
-        );
+        const facetItemList =
+          facetTitle === lastAppliedFacet &&
+          resultsWithoutLastAppliedFacet !== undefined
+            ? resultsWithoutLastAppliedFacet.aggregations[facetTitle].buckets
+            : results.aggregations[facetTitle].buckets;
+        facets[facetTitle] = facetItemList.map((facetItem) => ({
+          ...facetItem,
+          selected: filters[facetTitle]?.includes(facetItem.key) ?? false,
+        }));
       }
       if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
         indicators[facetTitle] = results.aggregations[facetTitle];

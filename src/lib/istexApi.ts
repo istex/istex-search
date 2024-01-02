@@ -15,6 +15,25 @@ export interface BuildResultPreviewUrlOptions {
   filters?: Filter;
 }
 
+export const mergeFiltersToQueryString = (
+  queryString: string,
+  filters?: Filter,
+) => {
+  const filtersQueryString = Object.entries(filters ?? {})
+    .map(([facetName, values]) => {
+      if (facetName === "publicationDate") {
+        return `${facetName}:[${values[0].replace("-", " TO ")}]`;
+      } else {
+        return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
+      }
+    })
+    .join(" AND ");
+
+  return filtersQueryString !== ""
+    ? `(${queryString}) AND ${filtersQueryString}`
+    : queryString;
+};
+
 export function buildResultPreviewUrl({
   queryString,
   perPage,
@@ -33,23 +52,8 @@ export function buildResultPreviewUrl({
     actualPerPage = istexApiConfig.maxPaginationOffset - from;
   }
 
-  const filtersQueryString = Object.entries(filters ?? {})
-    .map(([facetName, values]) => {
-      if (facetName === "publicationDate") {
-        return `${facetName}:[${values[0].replace("-", " TO ")}]`;
-      } else {
-        return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
-      }
-    })
-    .join(" AND ");
-
   const url = new URL("document", istexApiConfig.baseUrl);
-  url.searchParams.set(
-    "q",
-    filtersQueryString !== ""
-      ? `(${queryString}) AND ${filtersQueryString}`
-      : queryString,
-  );
+  url.searchParams.set("q", mergeFiltersToQueryString(queryString, filters));
   url.searchParams.set("size", actualPerPage.toString());
   url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
@@ -176,16 +180,18 @@ export interface BuildFullApiUrlOptions {
   queryString: string;
   selectedFormats: number;
   size: number;
+  filters?: Filter;
 }
 
 export function buildFullApiUrl({
   queryString,
   selectedFormats,
   size,
+  filters,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
-  url.searchParams.set("q", queryString);
+  url.searchParams.set("q", mergeFiltersToQueryString(queryString, filters));
   url.searchParams.set("size", size.toString());
   url.searchParams.set("sid", "istex-dl");
 

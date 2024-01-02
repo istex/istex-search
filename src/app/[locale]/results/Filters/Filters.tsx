@@ -26,6 +26,7 @@ const Filters: ClientComponent = () => {
     }
     searchParams.setFilters(newFilters);
     searchParams.setPage(1);
+    searchParams.setLastAppliedFacet(filterKey);
     router.push(`/results?${searchParams.toString()}`);
   };
 

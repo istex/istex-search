@@ -15,11 +15,17 @@ const DownloadButton: ClientComponent = () => {
   const { queryString } = useQueryContext();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
+  const filters = searchParams.getFilters();
   const isFormComplete =
     queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
   const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
-    const url = buildFullApiUrl({ queryString, selectedFormats, size });
+    const url = buildFullApiUrl({
+      queryString,
+      selectedFormats,
+      size,
+      filters,
+    });
 
     // Hack to download the archive and see the progression in the download bar built in browsers
     // We create a fake 'a' tag that points to the URL we just built and simulate a click on it

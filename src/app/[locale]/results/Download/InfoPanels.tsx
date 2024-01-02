@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import { Grid, Link, Paper, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
+import HighlightedUrl from "../components/HighlightedUrl";
 import { usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { externalLink } from "@/i18n/i18n";
@@ -17,13 +18,15 @@ const InfoPanels: ServerComponent = () => {
   const { queryString } = useQueryContext();
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
+  const filters = searchParams.getFilters();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
     page,
-  }).toString();
+    filters,
+  });
 
   return (
     <>
@@ -66,12 +69,12 @@ const InfoPanels: ServerComponent = () => {
               data-testid="raw-request"
               variant="body2"
               component={Link}
-              href={resultsApiUrl}
+              href={resultsApiUrl.toString()}
               target="_blank"
               rel="noreferrer"
               sx={{ ...lineclamp(4), wordBreak: "break-word" }}
             >
-              {resultsApiUrl}
+              <HighlightedUrl url={resultsApiUrl} />
             </Typography>
           </Panel>
         </Panel>

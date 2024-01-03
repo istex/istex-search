@@ -46,7 +46,11 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       sortedFacets = sortFacets(facetItems, sortField, sortOrder);
     }
     const filteredFacets = sortedFacets.filter((facetItem) =>
-      facetItem.key.toLowerCase().includes(searchFacetItem.toLowerCase()),
+      typeof facetItem.key === "string"
+        ? facetItem.key.toLowerCase().includes(searchFacetItem.toLowerCase())
+        : t(`${facetTitle}.${Boolean(facetItem.key).toString()}`)
+            .toLowerCase()
+            .includes(searchFacetItem.toLowerCase()),
     );
     setDisplayedFacets(filteredFacets);
   }, [sortOrder, sortField, searchFacetItem, facetItems]);
@@ -63,8 +67,10 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
     if (facetTitle === "language") {
       const isoFacet = displayedFacets;
       isoFacet.forEach((facetItem) => {
-        facetItem.isoCode = facetItem.key;
-        facetItem.key = getLanguageLabel(facetItem.key);
+        if (facetItem.isoCode === undefined) {
+          facetItem.isoCode = facetItem.key;
+          facetItem.key = getLanguageLabel(facetItem.key);
+        }
       });
       setDisplayedFacets(isoFacet);
     }
@@ -206,11 +212,15 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
         {displayedFacets.map((facetItem) => (
           <FacetCheckboxItem
             key={facetItem.key}
-            value={facetItem.key}
+            value={
+              typeof facetItem.key === "number"
+                ? t(`${facetTitle}.${Boolean(facetItem.key).toString()}`)
+                : facetItem.key
+            }
             count={facetItem.docCount}
             checked={facetItem.selected}
             onChange={() => {
-              toggleFacet(facetTitle, facetItem.isoCode ?? facetItem.key);
+              toggleFacet(facetTitle, facetItem.key);
             }}
           />
         ))}

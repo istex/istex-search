@@ -10,7 +10,9 @@ export interface FacetItem {
   docCount: number;
   selected: boolean;
   fromAsString?: string;
+  from?: string;
   toAsString?: string;
+  to?: string;
   isoCode?: string;
 }
 
@@ -22,7 +24,7 @@ export interface FacetContextValue {
   clearAllFacets: () => void;
   applyOneFacet: (facetTitle: string) => void;
   toggleFacet: (facetTitle: string, facetItemValue?: string) => void;
-  setRangeFacet: (facetRangeValue: string) => void;
+  setRangeFacet: (facetTitle: string, facetRangeValue: string) => void;
 }
 
 const FacetContext = createContext<FacetContextValue | null>(null);
@@ -56,7 +58,11 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     filters[facetTitle] = [];
     facetsList?.[facetTitle].forEach((facetItem) => {
       if (facetItem.selected) {
-        filters[facetTitle].push(facetItem.key);
+        if (facetTitle === "language" && facetItem.isoCode !== undefined) {
+          filters[facetTitle].push(facetItem.isoCode);
+        } else {
+          filters[facetTitle].push(facetItem.key);
+        }
       }
     });
     if (filters[facetTitle].length === 0) {
@@ -79,10 +85,10 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     setFacetsList(newFacetsList);
   };
 
-  const setRangeFacet = (facetRangeValue: string) => {
+  const setRangeFacet = (facetTitle: string, facetRangeValue: string) => {
     const newFacetsList = { ...facetsList };
-    newFacetsList.publicationDate[0].selected = true;
-    newFacetsList.publicationDate[0].key = facetRangeValue;
+    newFacetsList[facetTitle][0].selected = true;
+    newFacetsList[facetTitle][0].key = facetRangeValue;
     setFacetsList(newFacetsList);
   };
 

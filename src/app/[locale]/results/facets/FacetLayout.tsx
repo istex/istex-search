@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import FacetActions from "./FacetActions";
 import type { FacetItem } from "./FacetContext";
-import { DEFAULT_OPEN_FACETS, FACETS } from "./constants";
+import { DEFAULT_OPEN_FACETS, FACETS, FACETS_WITH_RANGE } from "./constants";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -27,13 +27,15 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
 
-  const isExpanded =
-    (Object.keys(filters).length === 0 &&
-      DEFAULT_OPEN_FACETS.includes(facetTitle)) ||
-    (Object.keys(filters).length > 0 &&
-      facetItems.some((facetItem) => facetItem.selected))
+  const isExpanded = () => {
+    if (Object.keys(filters).length === 0) {
+      return DEFAULT_OPEN_FACETS.includes(facetTitle) ? facetTitle : false;
+    }
+    return facetItems.some((facetItem) => facetItem.selected) ||
+      Object.keys(filters).includes(facetTitle)
       ? facetTitle
       : false;
+  };
 
   const [expanded, setExpanded] = useState<string | false>(isExpanded);
 
@@ -87,7 +89,7 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
         >
           {t("title")}
         </Typography>
-        {facetTitle !== "publicationDate" && (
+        {!FACETS_WITH_RANGE.includes(facetTitle) && (
           <Typography component="span">({facetItems.length})</Typography>
         )}
       </AccordionSummary>

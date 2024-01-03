@@ -56,6 +56,9 @@ describe("FaceRange", () => {
     const maxInput = screen.getAllByRole("textbox")[1];
     fireEvent.change(maxInput, { target: { value: "2010" } });
     expect(setRangeFacetMock).toHaveBeenCalledTimes(1);
-    expect(setRangeFacetMock).toHaveBeenCalledWith("2000-2010");
+    expect(setRangeFacetMock).toHaveBeenCalledWith(
+      "publicationDate",
+      "2000-2010",
+    );
   });
 });

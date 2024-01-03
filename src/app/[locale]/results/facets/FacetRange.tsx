@@ -6,12 +6,23 @@ import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
 import type { ClientComponent } from "@/types/next";
 
+const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
+
 const FacetRange: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
 }) => {
   const { setRangeFacet } = useFacetContext();
   const t = useTranslations(`results.Facets.${facetTitle}`);
+
+  const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
+
+  let min = withDecimal
+    ? facetItems[0].key.split("-")[0]
+    : parseInt(facetItems[0].key.split("-")[0]);
+  let max = withDecimal
+    ? facetItems[0].key.split("-")[1]
+    : parseInt(facetItems[0].key.split("-")[1]);
 
   return (
     <Box sx={{ m: 2 }}>
@@ -24,8 +35,14 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
         }}
       >
         {t("inputLabel", {
-          min: facetItems[0].fromAsString,
-          max: facetItems[0].toAsString,
+          min:
+            facetItems[0].fromAsString === undefined
+              ? facetItems[0].from
+              : facetItems[0].fromAsString,
+          max:
+            facetItems[0].toAsString === undefined
+              ? facetItems[0].to
+              : facetItems[0].toAsString,
         })}
       </Typography>
       <Stack direction="row" alignItems="center" spacing={2}>
@@ -36,11 +53,17 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           focused
           placeholder={t("inputPlaceholderMin")}
           fullWidth
-          value={facetItems[0].key.split("-")[0]}
+          value={min}
           onChange={(event) => {
-            setRangeFacet(
-              `${event.target.value}-${facetItems[0].key.split("-")[1]}`,
-            );
+            if (withDecimal) {
+              min = event.target.value;
+              setRangeFacet(facetTitle, `${min}-${max}`);
+            } else {
+              if (!isNaN(parseInt(event.target.value))) {
+                min = parseInt(event.target.value);
+                setRangeFacet(facetTitle, `${min}-${max}`);
+              }
+            }
           }}
         />
         <Typography
@@ -59,11 +82,17 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           focused
           placeholder={t("inputPlaceholderMax")}
           fullWidth
-          value={facetItems[0].key.split("-")[1]}
+          value={max}
           onChange={(event) => {
-            setRangeFacet(
-              `${facetItems[0].key.split("-")[0]}-${event.target.value}`,
-            );
+            if (withDecimal) {
+              max = event.target.value;
+              setRangeFacet(facetTitle, `${min}-${max}`);
+            } else {
+              if (!isNaN(parseInt(event.target.value))) {
+                max = parseInt(event.target.value);
+                setRangeFacet(facetTitle, `${min}-${max}`);
+              }
+            }
           }}
         />
       </Stack>

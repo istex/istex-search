@@ -13,6 +13,27 @@ export const FACETS = [
     component: FacetCheckboxList,
   },
   {
+    name: "publicationDate",
+    component: FacetRange,
+  },
+  {
+    name: "qualityIndicators.pdfWordCount",
+    component: FacetRange,
+  },
+  {
+    name: "qualityIndicators.pdfCharCount",
+    component: FacetRange,
+  },
+  {
+    name: "qualityIndicators.score",
+    component: FacetRange,
+  },
+  {
+    name: "qualityIndicators.pdfVersion",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
     name: "enrichments.type",
     requestOption: "[*]",
     component: FacetCheckboxList,
@@ -48,8 +69,8 @@ export const FACETS = [
     component: FacetCheckboxList,
   },
   {
-    name: "publicationDate",
-    component: FacetRange,
+    name: "qualityIndicators.refBibsNative",
+    component: FacetCheckboxList,
   },
 ];
 
@@ -73,4 +94,10 @@ export const DEFAULT_OPEN_FACETS = [
   "publicationDate",
   "host.genre",
   "genre",
+];
+export const FACETS_WITH_RANGE = [
+  "publicationDate",
+  "qualityIndicators.pdfWordCount",
+  "qualityIndicators.pdfCharCount",
+  "qualityIndicators.score",
 ];

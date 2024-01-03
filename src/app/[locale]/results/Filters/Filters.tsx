@@ -10,6 +10,9 @@ import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {
   const t = useTranslations("results.filters");
+  const tRefBibsNative = useTranslations(
+    "results.Facets.qualityIndicators.refBibsNative",
+  );
   const router = useRouter();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
@@ -34,6 +37,18 @@ const Filters: ClientComponent = () => {
     return null;
   }
 
+  const getFilterLabel = (filterKey: string, filterValue: string | number) => {
+    if (filterKey === "qualityIndicators.refBibsNative") {
+      switch (filterValue) {
+        case 1:
+          return tRefBibsNative("true");
+        case 0:
+          return tRefBibsNative("false");
+      }
+    }
+    return filterValue;
+  };
+
   return (
     <Stack spacing={0.625}>
       <Typography
@@ -50,7 +65,7 @@ const Filters: ClientComponent = () => {
           filters[filterKey].map((value) => (
             <Chip
               key={value}
-              label={value}
+              label={getFilterLabel(filterKey, value)}
               variant="filled"
               size="small"
               onDelete={() => {

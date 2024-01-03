@@ -3,6 +3,7 @@ import { buildExtractParamsFromFormats } from "./formats";
 import {
   COMPATIBILITY_FACETS,
   FACETS,
+  FACETS_WITH_RANGE,
   INDICATORS_FACETS,
 } from "@/app/[locale]/results/facets/constants";
 import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
@@ -21,7 +22,7 @@ export const mergeFiltersToQueryString = (
 ) => {
   const filtersQueryString = Object.entries(filters ?? {})
     .map(([facetName, values]) => {
-      if (facetName === "publicationDate") {
+      if (FACETS_WITH_RANGE.includes(facetName)) {
         return `${facetName}:[${values[0].replace("-", " TO ")}]`;
       } else {
         return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
@@ -149,7 +150,6 @@ export async function getResults(
       "metadata",
       "annexes",
       "enrichments",
-      "publicationDate",
     ],
     filters,
   });

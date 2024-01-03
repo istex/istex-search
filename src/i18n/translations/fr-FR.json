@@ -184,6 +184,39 @@
         "to": "à",
         "inputPlaceholderMax": "Maximum"
       },
+      "qualityIndicators": {
+        "pdfVersion": {
+          "title": "Version du PDF",
+          "inputPlaceholder": "Rechercher"
+        },
+        "refBibsNative": {
+          "title": "Références bibliographiques",
+          "inputPlaceholder": "Rechercher",
+          "true": "Recherchées via GROBID",
+          "false": "Fournies par l'éditeur"
+        },
+        "pdfWordCount": {
+          "title": "Nombre de mots du PDF",
+          "inputLabel": "Nombre de mots (de {min} à {max})",
+          "inputPlaceholderMin": "Minimum",
+          "to": "à",
+          "inputPlaceholderMax": "Maximum"
+        },
+        "score": {
+          "title": "Score",
+          "inputLabel": "Score ({min} à {max})",
+          "inputPlaceholderMin": "Minimum",
+          "to": "à",
+          "inputPlaceholderMax": "Maximum"
+        },
+        "pdfCharCount": {
+          "title": "Nombre de caractères du PDF",
+          "inputLabel": "Nombre de caractères (de {min} à {max})",
+          "inputPlaceholderMin": "Minimum",
+          "to": "à",
+          "inputPlaceholderMax": "Maximum"
+        }
+      },
       "search": "Rechercher",
       "deleteAll": "Effacer tout",
       "apply": "Appliquer",

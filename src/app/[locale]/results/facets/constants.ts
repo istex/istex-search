@@ -1,4 +1,3 @@
-import FacetAutocomplete from "./FacetAutocomplete";
 import FacetCheckboxList from "./FacetCheckboxList";
 import FacetRange from "./FacetRange";
 
@@ -21,7 +20,7 @@ export const FACETS = [
   {
     name: "language",
     requestOption: "[*]",
-    component: FacetAutocomplete,
+    component: FacetCheckboxList,
   },
   {
     name: "categories.scienceMetrix",

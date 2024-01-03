@@ -118,3 +118,18 @@ export function parseCorpusFileContent(corpusFileContent: string) {
 
   return ids.join("\n");
 }
+
+/**
+ * Function to get the language name from the iso code in the user language given
+ * @param language user language to use to translate the iso code
+ * @param iso iso code of the language
+ * @returns the iso language name in the user language given
+ */
+export function isoToLanguage(language: string, iso: string) {
+  const dictionary = new Intl.DisplayNames([language], { type: "language" });
+  try {
+    return dictionary.of(iso);
+  } catch {
+    return iso;
+  }
+}

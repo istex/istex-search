@@ -11,6 +11,7 @@ export interface FacetItem {
   selected: boolean;
   fromAsString?: string;
   toAsString?: string;
+  isoCode?: string;
 }
 
 export type FacetList = Record<string, FacetItem[]>;

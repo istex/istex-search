@@ -1,7 +1,7 @@
 "use client";
 
 import { createRef, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, InputBase, Stack } from "@mui/material";
@@ -11,6 +11,7 @@ import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
 import { sortFacets } from "./utils";
+import { isoToLanguage } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
 export const ASC = "asc";
@@ -37,6 +38,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
   const [sortField, setSortField] = useState<SortField>();
   const [searchFacetItem, setSearchFacetItem] = useState<string>("");
   const [isScrollable, setIsScrollable] = useState<boolean>(false);
+  const locale = useLocale();
 
   useEffect(() => {
     let sortedFacets: FacetItem[] = facetItems;
@@ -57,6 +59,17 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
     }
   }, [listRef]);
 
+  useEffect(() => {
+    if (facetTitle === "language") {
+      const isoFacet = displayedFacets;
+      isoFacet.forEach((facetItem) => {
+        facetItem.isoCode = facetItem.key;
+        facetItem.key = getLanguageLabel(facetItem.key);
+      });
+      setDisplayedFacets(isoFacet);
+    }
+  }, []);
+
   const sortButtonCommonProps = {
     size: "small" as const,
     disableRipple: true,
@@ -66,6 +79,13 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
         fontSize: "0.625rem",
       },
     },
+  };
+
+  const getLanguageLabel = (iso: string) => {
+    if (iso === "unknown") return t("language.unknown");
+    const languageName = isoToLanguage(locale, iso);
+    if (languageName !== undefined) return languageName;
+    return iso;
   };
 
   return (
@@ -190,7 +210,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             count={facetItem.docCount}
             checked={facetItem.selected}
             onChange={() => {
-              toggleFacet(facetTitle, facetItem.key);
+              toggleFacet(facetTitle, facetItem.isoCode ?? facetItem.key);
             }}
           />
         ))}

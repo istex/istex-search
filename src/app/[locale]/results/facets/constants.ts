@@ -65,3 +65,12 @@ export const COMPATIBILITY_FACETS = [
   { name: "qualityIndicators.tdmReady" },
   { name: "enrichments.type", requestOption: "[*]" },
 ];
+
+export const DEFAULT_OPEN_FACETS = [
+  "corpusName",
+  "language",
+  "enrichments.type",
+  "publicationDate",
+  "host.genre",
+  "genre",
+];

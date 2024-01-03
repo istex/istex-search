@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import FacetActions from "./FacetActions";
 import type { FacetItem } from "./FacetContext";
-import { FACETS } from "./constants";
+import { DEFAULT_OPEN_FACETS, FACETS } from "./constants";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 export interface FacetLayoutProps {
@@ -23,9 +24,18 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
 }) => {
-  const [expanded, setExpanded] = useState<string | false>(
-    facetItems.some((facetItem) => facetItem.selected) ? facetTitle : false,
-  );
+  const searchParams = useSearchParams();
+  const filters = searchParams.getFilters();
+
+  const isExpanded =
+    (Object.keys(filters).length === 0 &&
+      DEFAULT_OPEN_FACETS.includes(facetTitle)) ||
+    (Object.keys(filters).length > 0 &&
+      facetItems.some((facetItem) => facetItem.selected))
+      ? facetTitle
+      : false;
+
+  const [expanded, setExpanded] = useState<string | false>(isExpanded);
 
   const t = useTranslations(`results.Facets.${facetTitle}`);
 

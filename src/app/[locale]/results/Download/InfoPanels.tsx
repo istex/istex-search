@@ -6,7 +6,10 @@ import HighlightedUrl from "../components/HighlightedUrl";
 import { usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { externalLink } from "@/i18n/i18n";
-import { buildResultPreviewUrl } from "@/lib/istexApi";
+import {
+  buildResultPreviewUrl,
+  mergeFiltersToQueryString,
+} from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ServerComponent } from "@/types/next";
@@ -59,7 +62,7 @@ const InfoPanels: ServerComponent = () => {
               variant="body2"
               sx={{ ...lineclamp(6), wordBreak: "break-word" }}
             >
-              {queryString}
+              {mergeFiltersToQueryString(queryString, filters)}
             </Typography>
           </Panel>
 

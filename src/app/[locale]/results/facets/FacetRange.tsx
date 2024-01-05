@@ -17,12 +17,45 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
 
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
 
-  let min = withDecimal
+  let min: string = withDecimal
     ? facetItems[0].key.split("-")[0]
-    : parseInt(facetItems[0].key.split("-")[0]);
+    : facetItems[0].key.split("-")[0].split(".")[0];
   let max = withDecimal
     ? facetItems[0].key.split("-")[1]
-    : parseInt(facetItems[0].key.split("-")[1]);
+    : facetItems[0].key.split("-")[1].split(".")[0];
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    isMin: boolean,
+  ) => {
+    if (
+      // Bridle the score input to the range
+      ((facetTitle === "qualityIndicators.score" &&
+        +event.target.value >= 0 &&
+        +event.target.value <= 10) ||
+        facetTitle !== "qualityIndicators.score") &&
+      // Accept empty string
+      ((!withDecimal && event.target.value === "") ||
+        // Accept entire number (5)
+        (!withDecimal &&
+          !isNaN(parseInt(event.target.value)) &&
+          /^[\d.]+$/.test(event.target.value)) ||
+        // Accept decimal number (5.3)
+        (withDecimal && !isNaN(+event.target.value)) ||
+        // Accept decimal number being written (5.)
+        (withDecimal &&
+          !isNaN(parseInt(event.target.value.slice(0, -1))) &&
+          event.target.value.slice(-1) === "." &&
+          Number.isInteger(event.target.value.slice(0, -1))))
+    ) {
+      if (isMin) {
+        min = event.target.value;
+      } else {
+        max = event.target.value;
+      }
+      setRangeFacet(facetTitle, `${min}-${max}`);
+    }
+  };
 
   return (
     <Box sx={{ m: 2 }}>
@@ -55,15 +88,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           fullWidth
           value={min}
           onChange={(event) => {
-            if (withDecimal) {
-              min = event.target.value;
-              setRangeFacet(facetTitle, `${min}-${max}`);
-            } else {
-              if (!isNaN(parseInt(event.target.value))) {
-                min = parseInt(event.target.value);
-                setRangeFacet(facetTitle, `${min}-${max}`);
-              }
-            }
+            handleChange(event, true);
           }}
         />
         <Typography
@@ -84,15 +109,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           fullWidth
           value={max}
           onChange={(event) => {
-            if (withDecimal) {
-              max = event.target.value;
-              setRangeFacet(facetTitle, `${min}-${max}`);
-            } else {
-              if (!isNaN(parseInt(event.target.value))) {
-                max = parseInt(event.target.value);
-                setRangeFacet(facetTitle, `${min}-${max}`);
-              }
-            }
+            handleChange(event, false);
           }}
         />
       </Stack>

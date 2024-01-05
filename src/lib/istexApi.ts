@@ -23,7 +23,25 @@ export const mergeFiltersToQueryString = (
   const filtersQueryString = Object.entries(filters ?? {})
     .map(([facetName, values]) => {
       if (FACETS_WITH_RANGE.includes(facetName)) {
-        return `${facetName}:[${values[0].replace("-", " TO ")}]`;
+        const range = values[0].split("-");
+        if (range[0].slice(-1) === ".") {
+          range[0] = range[0].slice(0, -1);
+        }
+        if (range[1].slice(-1) === ".") {
+          range[1] = range[1].slice(0, -1);
+        }
+        if (range[0] !== "" && range[1] !== "" && +range[0] > +range[1]) {
+          const tmp = range[0];
+          range[0] = range[1];
+          range[1] = tmp;
+        }
+        if (range[0] === "") {
+          range[0] = "*";
+        }
+        if (range[1] === "") {
+          range[1] = "*";
+        }
+        return `${facetName}:[${range.join(" TO ")}]`;
       } else {
         return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
       }

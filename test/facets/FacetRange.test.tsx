@@ -53,12 +53,12 @@ describe("FaceRange", () => {
       setRangeFacet: setRangeFacetMock,
     });
     render(<FacetRange facetTitle={facetTitle} facetItems={facetItems} />);
-    const maxInput = screen.getAllByRole("textbox")[1];
-    fireEvent.change(maxInput, { target: { value: "2010" } });
+    const maxInput = screen.getByPlaceholderText("Maximum");
+    fireEvent.change(maxInput, { target: { value: "2005" } });
     expect(setRangeFacetMock).toHaveBeenCalledTimes(1);
     expect(setRangeFacetMock).toHaveBeenCalledWith(
       "publicationDate",
-      "2000-2010",
+      "2000-2005",
     );
   });
 });

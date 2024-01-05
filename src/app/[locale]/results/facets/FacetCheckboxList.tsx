@@ -65,7 +65,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
 
   useEffect(() => {
     if (facetTitle === "language") {
-      const isoFacet = displayedFacets;
+      const isoFacet = [...displayedFacets];
       isoFacet.forEach((facetItem) => {
         if (facetItem.isoCode === undefined) {
           facetItem.isoCode = facetItem.key;

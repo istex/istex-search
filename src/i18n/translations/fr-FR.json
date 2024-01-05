@@ -165,7 +165,7 @@
         "title": "Langue",
         "inputLabel": "Entrez la langue désirée",
         "inputPlaceholder": "ex: eng, fre ...",
-        "unknown": "Inconnue"
+        "unknown": "inconnue"
       },
       "host": {
         "genre": {

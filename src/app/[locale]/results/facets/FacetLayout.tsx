@@ -61,6 +61,8 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
       onChange={handleChange(facetTitle)}
       sx={{
         backgroundColor: "transparent",
+        borderBottom:
+          expanded === false ? "1px solid rgba(143, 143, 143, 0.30)" : "none",
         "&:before": {
           display: "none",
         },

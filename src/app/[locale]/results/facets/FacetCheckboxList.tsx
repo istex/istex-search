@@ -99,7 +99,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       <InputBase
         fullWidth
         size="small"
-        placeholder={t(`${facetTitle}.inputPlaceholder`)}
+        placeholder={t("search")}
         endAdornment={
           <InputAdornment position="end">
             {searchFacetItem !== "" && (

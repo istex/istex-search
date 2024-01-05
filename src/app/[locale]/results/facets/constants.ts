@@ -8,13 +8,48 @@ export const FACETS = [
     component: FacetCheckboxList,
   },
   {
-    name: "categories.wos",
+    name: "language",
     requestOption: "[*]",
     component: FacetCheckboxList,
   },
   {
     name: "publicationDate",
     component: FacetRange,
+  },
+  {
+    name: "host.genre",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "genre",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "enrichments.type",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "categories.wos",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "categories.scienceMetrix",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "categories.scopus",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
+  },
+  {
+    name: "categories.inist",
+    requestOption: "[*]",
+    component: FacetCheckboxList,
   },
   {
     name: "qualityIndicators.pdfWordCount",
@@ -30,41 +65,6 @@ export const FACETS = [
   },
   {
     name: "qualityIndicators.pdfVersion",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "enrichments.type",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "language",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "categories.scienceMetrix",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "categories.scopus",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "host.genre",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "genre",
-    requestOption: "[*]",
-    component: FacetCheckboxList,
-  },
-  {
-    name: "categories.inist",
     requestOption: "[*]",
     component: FacetCheckboxList,
   },

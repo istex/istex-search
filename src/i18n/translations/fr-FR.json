@@ -134,31 +134,25 @@
     },
     "Facets": {
       "corpusName": {
-        "title": "Bouquet",
-        "inputPlaceholder": "Rechercher"
+        "title": "Bouquet"
       },
       "categories": {
         "wos": {
-          "title": "Catégorie WOS",
-          "inputPlaceholder": "Rechercher une catégorie"
+          "title": "Catégorie WOS"
         },
         "scienceMetrix": {
-          "title": "Catégorie science-Metrix",
-          "inputPlaceholder": "Rechercher une catégorie"
+          "title": "Catégorie science-Metrix"
         },
         "scopus": {
-          "title": "Catégorie scopus",
-          "inputPlaceholder": "Rechercher une catégorie"
+          "title": "Catégorie scopus"
         },
         "inist": {
-          "title": "Catégorie inist",
-          "inputPlaceholder": "Rechercher une catégorie"
+          "title": "Catégorie inist"
         }
       },
       "enrichments": {
         "type": {
-          "title": "Enrichissement",
-          "inputPlaceholder": "Rechercher"
+          "title": "Enrichissement"
         }
       },
       "language": {
@@ -169,17 +163,15 @@
       },
       "host": {
         "genre": {
-          "title": "Type de publication",
-          "inputPlaceholder": "Rechercher un type"
+          "title": "Type de publication"
         }
       },
       "genre": {
-        "title": "Type de contenu",
-        "inputPlaceholder": "Rechercher un type"
+        "title": "Type de contenu"
       },
       "publicationDate": {
         "title": "Date(s) de publication",
-        "inputLabel": "Année (de {min} à {max})",
+        "inputLabel": "Année",
         "inputPlaceholderMin": "Minimum",
         "to": "à",
         "inputPlaceholderMax": "Maximum"
@@ -197,7 +189,7 @@
         },
         "pdfWordCount": {
           "title": "Nombre de mots du PDF",
-          "inputLabel": "Nombre de mots (de {min} à {max})",
+          "inputLabel": "Nombre de mots",
           "inputPlaceholderMin": "Minimum",
           "to": "à",
           "inputPlaceholderMax": "Maximum"
@@ -211,7 +203,7 @@
         },
         "pdfCharCount": {
           "title": "Nombre de caractères du PDF",
-          "inputLabel": "Nombre de caractères (de {min} à {max})",
+          "inputLabel": "Nombre de caractères",
           "inputPlaceholderMin": "Minimum",
           "to": "à",
           "inputPlaceholderMax": "Maximum"

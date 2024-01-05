@@ -67,16 +67,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           mb: 0.5,
         }}
       >
-        {t("inputLabel", {
-          min:
-            facetItems[0].fromAsString === undefined
-              ? facetItems[0].from
-              : facetItems[0].fromAsString,
-          max:
-            facetItems[0].toAsString === undefined
-              ? facetItems[0].to
-              : facetItems[0].toAsString,
-        })}
+        {t("inputLabel")}
       </Typography>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField

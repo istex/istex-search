@@ -37,7 +37,8 @@ const FacetCheckboxItem: ClientComponent<{
       }
       label={
         <Box
-          display="inline-flex"
+          display="grid"
+          gridTemplateColumns="auto auto"
           justifyContent="space-between"
           flexGrow={1}
           color={checked === true ? "primary.main" : "text.primary"}
@@ -45,8 +46,14 @@ const FacetCheckboxItem: ClientComponent<{
           <Typography
             component="span"
             variant="body2"
+            title={value}
             sx={{
               fontWeight: checked === true ? 700 : 400,
+              textOverflow: "ellipsis",
+              OTextOverflow: "ellipsis" /* Opera < 10 */,
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              mr: 1,
             }}
           >
             {value}

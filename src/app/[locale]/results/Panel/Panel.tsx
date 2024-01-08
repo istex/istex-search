@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
@@ -18,7 +17,7 @@ const Panel: ClientComponent<{ title: string }, true> = ({
   children,
 }) => {
   const t = useTranslations("results.Panel");
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const { resultsCount } = useQueryContext();
 
   return (
@@ -38,7 +37,7 @@ const Panel: ClientComponent<{ title: string }, true> = ({
       }}
     >
       <AccordionSummary
-        expandIcon={expanded ? <VisibilityOffIcon /> : <VisibilityIcon />}
+        expandIcon={<ExpandMoreIcon />}
         aria-controls={`${title}-panel-content`}
         id={`${title}-panel-header`}
         sx={{
@@ -49,12 +48,8 @@ const Panel: ClientComponent<{ title: string }, true> = ({
           },
           "& .MuiAccordionSummary-expandIconWrapper": {
             color: "primary.main",
-            bgcolor: "white",
             p: 0.5,
             borderRadius: "100%",
-          },
-          "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-            transform: "none",
           },
         }}
       >

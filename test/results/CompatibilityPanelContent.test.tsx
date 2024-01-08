@@ -35,13 +35,22 @@ describe("CompatibilityPanelContent", () => {
 
   it("should render the lodex compatibility progress", () => {
     expect(screen.getByText("lodex (100 %)")).toBeInTheDocument();
-
-    expect(screen.getByText("json")).toBeInTheDocument();
+    expect(screen.getAllByText("json")).toHaveLength(2);
     expect(screen.getAllByRole("progressbar")[0]).toHaveAttribute(
       "aria-valuenow",
       "100",
     );
-    expect(screen.getByText("50 doc.")).toBeInTheDocument();
+    expect(screen.getAllByText("50 doc.")).toHaveLength(2);
+  });
+
+  it("should render the gargantext compatibility progress", () => {
+    expect(screen.getByText("gargantext (100 %)")).toBeInTheDocument();
+    expect(screen.getAllByText("json")).toHaveLength(2);
+    expect(screen.getAllByRole("progressbar")[4]).toHaveAttribute(
+      "aria-valuenow",
+      "100",
+    );
+    expect(screen.getAllByText("50 doc.")).toHaveLength(2);
   });
 
   it("should render the cortext compatibility progress", () => {

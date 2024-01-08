@@ -75,11 +75,15 @@ export const usages = {
     isGateway: false,
     url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
     formats: NO_FORMAT_SELECTED,
+    column: 0,
+    row: 0,
   },
   lodex: {
     isGateway: true,
     url: "https://lodex.inist.fr/",
     formats: formats.metadata.json,
+    column: 1,
+    row: 0,
   },
   cortext: {
     isGateway: true,
@@ -88,10 +92,14 @@ export const usages = {
       formats.fulltext.tei |
       formats.fulltext.cleaned |
       formats.enrichments.teeft,
+    column: 2,
+    row: 0,
   },
   gargantext: {
     isGateway: true,
     url: "https://gargantext.org/",
     formats: formats.metadata.json,
+    column: 1,
+    row: 2,
   },
 } as const;

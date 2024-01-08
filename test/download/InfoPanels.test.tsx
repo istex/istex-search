@@ -24,7 +24,11 @@ describe("InfoPanels", () => {
   it("displays the raw request in the raw request panel", () => {
     const queryString = "hello";
     const resultPreviewUrl = buildResultPreviewUrl({ queryString }).toString();
-    testPanelContent(queryString, "raw-request", resultPreviewUrl);
+    testPanelContent(
+      queryString,
+      "raw-request",
+      decodeURIComponent(resultPreviewUrl),
+    );
   });
 });
 

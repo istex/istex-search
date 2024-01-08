@@ -24,7 +24,7 @@ const HighlightedUrl: ClientComponent<{ url: URL }> = ({ url }) => {
           }}
         >
           {i !== 0 ? "&" : ""}
-          {encodeURIComponent(name)}={encodeURIComponent(value)}
+          {name}={value}
         </Box>
       ))}
     </>

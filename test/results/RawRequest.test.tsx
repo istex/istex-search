@@ -23,7 +23,13 @@ describe("RawRequest", () => {
     render(<RawRequest />, { queryString: options.queryString });
 
     const url = screen.getByRole("link");
-    expect(url).toHaveTextContent(buildResultPreviewUrl(options).toString());
+    expect(url).toHaveAttribute(
+      "href",
+      buildResultPreviewUrl(options).toString(),
+    );
+    expect(url).toHaveTextContent(
+      decodeURIComponent(buildResultPreviewUrl(options).toString()),
+    );
   });
 
   it("applies a different background color to consecutive search params", () => {

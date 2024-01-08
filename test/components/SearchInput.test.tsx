@@ -58,11 +58,9 @@ ark:/67375/NVC-Z7GHR58X-4`;
     await userEvent.click(button);
 
     expect(router.push).toBeCalledWith(
-      `/results?q=${encodeURIComponent(
-        'arkIstex:("ark:/67375/NVC-Z7G9LN4W-1","ark:/67375/NVC-Z7GF9ML4-0","ark:/67375/NVC-Z7GHR58X-4")',
-      )
-        .replace("(", "%28")
-        .replace(")", "%29")}`,
+      `/results?${new URLSearchParams({
+        q: 'arkIstex:("ark:/67375/NVC-Z7G9LN4W-1" OR "ark:/67375/NVC-Z7GF9ML4-0" OR "ark:/67375/NVC-Z7GHR58X-4")',
+      }).toString()}`,
     );
   }, 8000);
 });

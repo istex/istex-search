@@ -72,7 +72,7 @@ export function buildQueryFromIds(column: ColumnId, ids: string) {
       .split("\n")
       .filter((id) => id.length > 0)
       .map((id) => `"${id}"`)
-      .join(",")})`,
+      .join(" OR ")})`,
   };
 }
 

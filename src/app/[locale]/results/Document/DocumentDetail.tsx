@@ -32,7 +32,7 @@ const DocumentDetail: ClientComponent = () => {
       transitionDuration={400}
     >
       <Stack direction={{ xs: "column", md: "row" }}>
-        <Stack flexGrow={1} p={7} gap={0.5}>
+        <Stack flexGrow={1} p={{ xs: 7, md: 4, lg: 7 }} gap={0.5}>
           {displayedDocument?.title != null && (
             <Typography variant="h6" component="h2" color="common.black">
               {displayedDocument.title}
@@ -110,8 +110,8 @@ const DocumentDetail: ClientComponent = () => {
         </Stack>
         <Stack
           bgcolor="colors.lightBlue"
-          p={7}
-          width={{ xs: "100%", md: 360 }}
+          p={{ xs: 7, md: 4, lg: 7 }}
+          width={{ xs: "100%", md: 240, lg: 360 }}
           minHeight={{ xs: "unset", md: "100vh" }}
           flexShrink={0}
           spacing={3}

@@ -7,14 +7,12 @@ import {
   useState,
 } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
+import { usePathname } from "next-intl/client";
 import Image from "next/image";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type CustomError from "@/lib/CustomError";
-import useSearchParams from "@/lib/useSearchParams";
 import {
   buildQueryFromIds,
   getIdsFromQuery,
@@ -26,11 +24,13 @@ import type { ClientComponent, ColumnId } from "@/types/next";
 
 const ImportInput: ClientComponent<{
   searchBar: (child: ReactNode) => ReactNode;
-}> = ({ searchBar }) => {
+  goToResultsPage: (
+    newQueryString: string,
+    setErrorMessage: (errorMessage: string) => void,
+  ) => void;
+}> = ({ searchBar, goToResultsPage }) => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const tErrors = useTranslations("errors");
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [errorMessage, setErrorMessage] = useState("");
   const [columnToSearch, setColumnToSearch] = useState("");
   const [errorLines, setErrorLines] = useState<number[]>([]);
@@ -38,24 +38,6 @@ const ImportInput: ClientComponent<{
     getIdsFromQuery(useQueryContext().queryString),
   );
   const onHomePage = usePathname() === "/";
-
-  const goToResultsPage = (newQueryString: string) => {
-    if (newQueryString.trim() === "") {
-      setErrorMessage(tErrors("emptyIdsError"));
-      return;
-    }
-
-    searchParams.deleteSize();
-    searchParams.deletePage();
-    searchParams
-      .setQueryString(newQueryString)
-      .then(() => {
-        router.push(`/results?${searchParams.toString()}`);
-      })
-      .catch((err: CustomError) => {
-        setErrorMessage(tErrors(err.info.name));
-      });
-  };
 
   const corpusFileHandler = (file: Blob) => {
     if (!file.name.endsWith(".corpus")) {
@@ -96,7 +78,7 @@ const ImportInput: ClientComponent<{
     setColumnToSearch(columnToSearch);
     setErrorLines(errorLines);
 
-    goToResultsPage(query);
+    goToResultsPage(query, setErrorMessage);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {

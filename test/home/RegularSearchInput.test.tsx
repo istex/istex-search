@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
@@ -7,18 +6,27 @@ import {
   userEvent,
 } from "../test-utils";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
-import SearchBar from "@/app/[locale]/components/SearchSection/SearchBar";
+import SearchInput from "@/app/[locale]/components/SearchSection/SearchInput";
 import { examples } from "@/config";
 
-const searchBar = (child: ReactNode) => {
-  return (
-    <SearchBar isSearchById={false} switchSearchMode={() => {}}>
-      {child}
-    </SearchBar>
-  );
-};
-
 describe("RegularSearchInput", () => {
+  async function search(queryString?: string) {
+    const renderResult = render(
+      <SearchInput switchAssistedSearch={() => {}} />,
+    );
+
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", { name: "RECHERCHER" });
+
+    if (queryString != null) {
+      await userEvent.type(input, queryString);
+    }
+
+    await userEvent.click(button);
+
+    return renderResult;
+  }
+
   beforeEach(jest.resetAllMocks);
 
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
@@ -62,7 +70,7 @@ describe("RegularSearchInput", () => {
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    render(<RegularSearchInput searchBar={searchBar} />, { queryString });
+    render(<SearchInput switchAssistedSearch={() => {}} />, { queryString });
 
     const input = screen.getByRole("textbox");
 
@@ -71,7 +79,7 @@ describe("RegularSearchInput", () => {
 
   it("fills the input and goes to the results page when clicking on an example", async () => {
     const router = useRouter();
-    render(<RegularSearchInput searchBar={searchBar} />);
+    render(<SearchInput switchAssistedSearch={() => {}} />);
     const firstExample = screen.getByRole("button", {
       name: "Réchauffement climatique",
     });
@@ -88,6 +96,7 @@ describe("RegularSearchInput", () => {
         searchBar={() => {
           return <></>;
         }}
+        goToResultsPage={() => {}}
       />,
     );
     expect(screen.getAllByRole("button")).toHaveLength(
@@ -95,18 +104,3 @@ describe("RegularSearchInput", () => {
     );
   });
 });
-
-async function search(queryString?: string) {
-  const renderResult = render(<RegularSearchInput searchBar={searchBar} />);
-
-  const input = screen.getByRole("textbox");
-  const button = screen.getByRole("button", { name: "RECHERCHER" });
-
-  if (queryString != null) {
-    await userEvent.type(input, queryString);
-  }
-
-  await userEvent.click(button);
-
-  return renderResult;
-}

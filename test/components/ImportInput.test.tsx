@@ -7,12 +7,16 @@ describe("ImportInput", () => {
   it("should render the ImportInput component", () => {
     const searchBar = (child: ReactNode) => {
       return (
-        <SearchBar isSearchById={false} switchSearchMode={() => {}}>
+        <SearchBar
+          isSearchById={false}
+          switchSearchById={() => {}}
+          switchAssistedSearch={() => {}}
+        >
           {child}
         </SearchBar>
       );
     };
-    render(<ImportInput searchBar={searchBar} />);
+    render(<ImportInput searchBar={searchBar} goToResultsPage={() => {}} />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveAttribute(
       "placeholder",

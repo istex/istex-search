@@ -1,10 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import type { ClientComponent } from "@/types/next";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
-import type { ClientComponent } from "@/types/next";
 
 const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
 
@@ -18,11 +18,11 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
 
   let min: string = withDecimal
-    ? facetItems[0].key.split("-")[0]
-    : facetItems[0].key.split("-")[0].split(".")[0];
+    ? facetItems[0].key.toString().split("-")[0]
+    : facetItems[0].key.toString().split("-")[0].split(".")[0];
   let max = withDecimal
-    ? facetItems[0].key.split("-")[1]
-    : facetItems[0].key.split("-")[1].split(".")[0];
+    ? facetItems[0].key.toString().split("-")[1]
+    : facetItems[0].key.toString().split("-")[1].split(".")[0];
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

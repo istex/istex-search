@@ -5,9 +5,9 @@ import { FacetProvider } from "@/app/[locale]/results/facets/FacetContext";
 describe("FacetCheckboxList", () => {
   const facetTitle = "corpusName";
   const facetItems = [
-    { key: "Option 1", docCount: 10, selected: false },
-    { key: "Option 2", docCount: 5, selected: true },
-    { key: "Option 3", docCount: 3, selected: false },
+    { key: "Option 1", docCount: 10, selected: false, excluded: false },
+    { key: "Option 2", docCount: 5, selected: true, excluded: false },
+    { key: "Option 3", docCount: 3, selected: false, excluded: true },
   ];
 
   const facets = {
@@ -134,5 +134,19 @@ describe("FacetCheckboxList", () => {
     await userEvent.click(clearButton);
     labelElements = screen.getAllByText(/Option \d/);
     expect(labelElements).toHaveLength(3);
+  });
+
+  it("should correctly display excluded facet items", async () => {
+    render(
+      <FacetProvider facets={facets}>
+        <FacetCheckboxList facetTitle={facetTitle} facetItems={facetItems} />
+      </FacetProvider>,
+    );
+
+    const facetItemElement = screen.getAllByRole("checkbox")[2];
+    const label = screen.getByText(facetItems[2].key).closest("div");
+
+    expect(facetItemElement).toBeChecked();
+    expect(label).toHaveStyle("color: #d32f2f");
   });
 });

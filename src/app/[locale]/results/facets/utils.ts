@@ -11,9 +11,9 @@ export const sortFacets = (
     switch (sortField) {
       case KEY:
         if (sortOrder === ASC) {
-          return a[sortField].localeCompare(b[sortField]);
+          return a[sortField].toString().localeCompare(b[sortField].toString());
         } else {
-          return b[sortField].localeCompare(a[sortField]);
+          return b[sortField].toString().localeCompare(a[sortField].toString());
         }
       case DOC_COUNT:
         if (sortOrder === ASC) {

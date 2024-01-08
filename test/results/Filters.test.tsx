@@ -87,4 +87,34 @@ describe("Filters", () => {
       "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%5D%7D&lastAppliedFacet=language",
     );
   });
+
+  it("should display chip with NOT prefix when filter value is excluded", () => {
+    const mockedFilter: Filter = {
+      corpusName: ["corpus1", "!corpus2"],
+    };
+    mockSearchParams({
+      filter: JSON.stringify(mockedFilter),
+    });
+    render(<Filters />);
+    const tag = screen.getByText("corpus2", { selector: ".MuiChip-label" });
+    expect(tag.textContent).toBe("NOTcorpus2");
+  });
+
+  it("should handle filter toggle correctly", () => {
+    const router = useRouter();
+    const mockedFilter: Filter = {
+      corpusName: ["corpus1"],
+    };
+    mockSearchParams({
+      filter: JSON.stringify(mockedFilter),
+    });
+    render(<Filters />);
+    const tag = screen.getByText("corpus1", { selector: ".MuiChip-label" });
+    expect(tag.textContent).toBe("corpus1");
+    fireEvent.click(tag);
+
+    expect(router.push).toHaveBeenCalledWith(
+      "/results?filter=%7B%22corpusName%22%3A%5B%22%21corpus1%22%5D%7D",
+    );
+  });
 });

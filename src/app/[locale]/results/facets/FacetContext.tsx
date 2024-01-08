@@ -6,9 +6,11 @@ import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
 
 export interface FacetItem {
-  key: string;
+  key: string | number;
+  keyAsString?: string;
   docCount: number;
   selected: boolean;
+  excluded: boolean;
   fromAsString?: string;
   from?: string;
   toAsString?: string;
@@ -61,7 +63,9 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
         if (facetTitle === "language" && facetItem.isoCode !== undefined) {
           filters[facetTitle].push(facetItem.isoCode);
         } else {
-          filters[facetTitle].push(facetItem.key);
+          filters[facetTitle].push(
+            facetItem.keyAsString ?? facetItem.key.toString(),
+          );
         }
       }
     });
@@ -78,8 +82,14 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {
     const newFacetsList = { ...facetsList };
     newFacetsList[facetTitle].forEach((facetItem) => {
-      if (facetItem.key === facetItemValue) {
-        facetItem.selected = !(facetItem.selected ?? false);
+      if (
+        facetItem.key === facetItemValue ||
+        facetItem.keyAsString === facetItemValue
+      ) {
+        facetItem.selected = facetItem.excluded
+          ? facetItem.selected
+          : !facetItem.selected;
+        facetItem.excluded = false;
       }
     });
     setFacetsList(newFacetsList);

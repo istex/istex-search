@@ -103,7 +103,14 @@ const ResultsPage: Page = async ({
             : results.aggregations[facetTitle].buckets;
         facets[facetTitle] = facetItemList.map((facetItem) => ({
           ...facetItem,
-          selected: filters[facetTitle]?.includes(facetItem.key) ?? false,
+          selected:
+            filters[facetTitle]?.includes(
+              facetItem.keyAsString ?? facetItem.key.toString(),
+            ) ?? false,
+          excluded:
+            filters[facetTitle]?.includes(
+              `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
+            ) ?? false,
         }));
       }
       if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {

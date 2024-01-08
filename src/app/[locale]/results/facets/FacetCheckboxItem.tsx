@@ -1,16 +1,17 @@
 "use client";
 
-import { useLocale } from "next-intl";
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import IncludeIcon from "./IncludeIcon";
 import type { ClientComponent } from "@/types/next";
+import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { useLocale } from "next-intl";
+import IncludeIcon from "./IncludeIcon";
 
 const FacetCheckboxItem: ClientComponent<{
   value: string;
   count: number;
-  checked?: boolean;
+  checked: boolean;
+  excluded: boolean;
   onChange: () => void;
-}> = ({ value, count, checked, onChange }) => {
+}> = ({ value, count, checked, excluded, onChange }) => {
   const locale = useLocale();
 
   return (
@@ -25,10 +26,10 @@ const FacetCheckboxItem: ClientComponent<{
       }}
       control={
         <Checkbox
-          checked={checked ?? false}
+          checked={checked || excluded}
           onChange={onChange}
           size="small"
-          color="primary"
+          color={excluded ? "error" : "primary"}
           checkedIcon={<IncludeIcon />}
           sx={{
             p: 0.5,
@@ -41,14 +42,16 @@ const FacetCheckboxItem: ClientComponent<{
           gridTemplateColumns="auto auto"
           justifyContent="space-between"
           flexGrow={1}
-          color={checked === true ? "primary.main" : "text.primary"}
+          color={
+            checked ? "primary.main" : excluded ? "error.main" : "text.primary"
+          }
         >
           <Typography
             component="span"
             variant="body2"
             title={value}
             sx={{
-              fontWeight: checked === true ? 700 : 400,
+              fontWeight: checked || excluded ? 700 : 400,
               textOverflow: "ellipsis",
               OTextOverflow: "ellipsis" /* Opera < 10 */,
               overflow: "hidden",

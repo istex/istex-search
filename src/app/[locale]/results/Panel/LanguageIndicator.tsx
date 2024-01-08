@@ -7,7 +7,7 @@ import type { ClientComponent } from "@/types/next";
 
 const LanguageIndicator: ClientComponent<{
   label: string;
-  data: Array<{ key: string; docCount: number }>;
+  data: Array<{ key: string | number; docCount: number }>;
   total: number;
 }> = ({ label, data, total }) => {
   const t = useTranslations("results.Panel");

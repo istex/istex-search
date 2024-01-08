@@ -31,8 +31,9 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
     if (Object.keys(filters).length === 0) {
       return DEFAULT_OPEN_FACETS.includes(facetTitle) ? facetTitle : false;
     }
-    return facetItems.some((facetItem) => facetItem.selected) ||
-      Object.keys(filters).includes(facetTitle)
+    return facetItems.some(
+      (facetItem) => facetItem.selected || facetItem.excluded,
+    ) || Object.keys(filters).includes(facetTitle)
       ? facetTitle
       : false;
   };

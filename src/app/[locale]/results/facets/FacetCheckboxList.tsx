@@ -1,7 +1,7 @@
 "use client";
 
 import { createRef, useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, InputAdornment, InputBase, Stack } from "@mui/material";
@@ -68,8 +68,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       const isoFacet = [...displayedFacets];
       isoFacet.forEach((facetItem) => {
         if (facetItem.isoCode === undefined) {
-          facetItem.isoCode = facetItem.key;
-          facetItem.key = getLanguageLabel(facetItem.key);
+          facetItem.isoCode = facetItem.key.toString();
+          facetItem.key = getLanguageLabel(facetItem.key.toString());
         }
       });
       setDisplayedFacets(isoFacet);
@@ -219,8 +219,12 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             }
             count={facetItem.docCount}
             checked={facetItem.selected}
+            excluded={facetItem.excluded}
             onChange={() => {
-              toggleFacet(facetTitle, facetItem.key);
+              toggleFacet(
+                facetTitle,
+                facetItem.keyAsString ?? facetItem.key.toString(),
+              );
             }}
           />
         ))}

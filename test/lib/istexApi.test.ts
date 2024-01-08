@@ -56,6 +56,33 @@ describe("Istex API related functions", () => {
     );
   });
 
+  it("should correctly merge filters with NOT to query string", () => {
+    const queryString = "hello";
+    const filters: Module.Filter = {
+      corpusName: ["springer", "!elsevier"],
+      language: ["eng"],
+      genre: ["article", "book"],
+    };
+
+    expect(Module.mergeFiltersToQueryString(queryString, filters)).toBe(
+      '(hello) AND corpusName:("springer" OR (NOT "elsevier")) AND language:("eng") AND genre:("article" OR "book")',
+    );
+  });
+
+  it("should correctly merge filters with NOT and range values to query string", () => {
+    const queryString = "hello";
+    const filters: Module.Filter = {
+      corpusName: ["springer", "elsevier"],
+      language: ["eng"],
+      genre: ["article", "book"],
+      publicationDate: ["!2010-2020"],
+    };
+
+    expect(Module.mergeFiltersToQueryString(queryString, filters)).toBe(
+      '(hello) AND corpusName:("springer" OR "elsevier") AND language:("eng") AND genre:("article" OR "book") AND (NOT publicationDate:[2010 TO 2020])',
+    );
+  });
+
   it("should correctly build result preview url with filters", () => {
     const params: Module.BuildResultPreviewUrlOptions = {
       queryString: "hello",

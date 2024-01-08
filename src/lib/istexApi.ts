@@ -24,6 +24,10 @@ export const mergeFiltersToQueryString = (
     .map(([facetName, values]) => {
       if (FACETS_WITH_RANGE.includes(facetName)) {
         const range = values[0].split("-");
+        const isNot = range[0].startsWith("!");
+        if (isNot) {
+          range[0] = range[0].slice(1);
+        }
         if (range[0].slice(-1) === ".") {
           range[0] = range[0].slice(0, -1);
         }
@@ -41,9 +45,13 @@ export const mergeFiltersToQueryString = (
         if (range[1] === "") {
           range[1] = "*";
         }
-        return `${facetName}:[${range.join(" TO ")}]`;
+        return isNot
+          ? `(NOT ${facetName}:[${range.join(" TO ")}])`
+          : `${facetName}:[${range.join(" TO ")}]`;
       } else {
-        return `${facetName}:(${values.map((v) => `"${v}"`).join(" OR ")})`;
+        return `${facetName}:(${values
+          .map((v) => (v.startsWith("!") ? `(NOT "${v.slice(1)}")` : `"${v}"`))
+          .join(" OR ")})`;
       }
     })
     .join(" AND ");
@@ -131,7 +139,11 @@ export type Aggregation = Record<
   string,
   {
     sumOtherDocCount?: number;
-    buckets: Array<{ key: string; keyAsString?: string; docCount: number }>;
+    buckets: Array<{
+      key: string | number;
+      keyAsString?: string;
+      docCount: number;
+    }>;
   }
 >;
 

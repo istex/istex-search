@@ -130,6 +130,7 @@
     },
     "filters": {
       "title": "Vos filtres actifs :",
+      "tooltip": "Cliquer sur les filtres ci-dessous pour les exclure",
       "clear": "Supprimer le filtre «{value}»"
     },
     "Facets": {

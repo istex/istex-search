@@ -1,17 +1,19 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
+import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {
   const t = useTranslations("results.filters");
+  const tFacets = useTranslations("results.Facets");
   const tRefBibsNative = useTranslations(
     "results.Facets.qualityIndicators.refBibsNative",
   );
@@ -19,6 +21,7 @@ const Filters: ClientComponent = () => {
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
   const theme = useTheme();
+  const locale = useLocale();
 
   const handleDelete = (filterKey: string, filterValue: string) => {
     let newFilters = { ...filters };
@@ -55,8 +58,19 @@ const Filters: ClientComponent = () => {
     return null;
   }
 
+  const translateFilterLabel = (filterKey: string, filterValue: string) => {
+    if (filterKey === "qualityIndicators.refBibsNative") {
+      return tRefBibsNative(filterValue);
+    }
+    if (filterKey === "language") {
+      return getLanguageLabel(filterValue, locale, tFacets);
+    }
+    return filterValue;
+  };
+
   const getFilterLabel = (filterKey: string, filterValue: string) => {
-    if (filterValue.startsWith("!")) {
+    const isNot = filterValue.startsWith("!");
+    if (isNot) {
       return (
         <>
           <Typography
@@ -69,30 +83,19 @@ const Filters: ClientComponent = () => {
           >
             NOT
           </Typography>
-          {filterKey === "qualityIndicators.refBibsNative"
-            ? tRefBibsNative(filterValue.slice(1))
-            : filterValue.slice(1)}
+          {translateFilterLabel(filterKey, filterValue.slice(1))}
         </>
       );
     }
-    if (filterKey === "qualityIndicators.refBibsNative") {
-      return tRefBibsNative(filterValue);
-    }
-    return filterValue;
+    return translateFilterLabel(filterKey, filterValue);
   };
 
   const getClearIconLabel = (filterKey: string, filterValue: string) => {
-    if (filterValue.startsWith("!")) {
-      return `NOT ${
-        filterKey === "qualityIndicators.refBibsNative"
-          ? tRefBibsNative(filterValue.slice(1))
-          : filterValue.slice(1)
-      }`;
-    }
-    if (filterKey === "qualityIndicators.refBibsNative") {
-      return tRefBibsNative(filterValue);
-    }
-    return filterValue;
+    const isNot = filterValue.startsWith("!");
+    return `${isNot ? "NOT " : ""}${translateFilterLabel(
+      filterKey,
+      isNot ? filterValue.slice(1) : filterValue,
+    )}`;
   };
 
   return (
@@ -141,6 +144,7 @@ const Filters: ClientComponent = () => {
             <Chip
               key={value}
               label={getFilterLabel(filterKey, value)}
+              title={tFacets(`${filterKey}.title`)}
               variant="filled"
               size="small"
               onClick={() => {

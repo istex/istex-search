@@ -26,7 +26,7 @@ describe("Filters", () => {
   it("should render a chip for each filter value", () => {
     const mockedFilter: Filter = {
       corpusName: ["corpus1", "corpus2"],
-      language: ["eng", "fre"],
+      genre: ["article", "chapter"],
     };
     mockSearchParams({
       filter: JSON.stringify(mockedFilter),
@@ -39,10 +39,10 @@ describe("Filters", () => {
       screen.getByText("corpus2", { selector: ".MuiChip-label" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("eng", { selector: ".MuiChip-label" }),
+      screen.getByText("article", { selector: ".MuiChip-label" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("fre", { selector: ".MuiChip-label" }),
+      screen.getByText("chapter", { selector: ".MuiChip-label" }),
     ).toBeInTheDocument();
   });
 
@@ -50,20 +50,20 @@ describe("Filters", () => {
     const router = useRouter();
     const mockedFilter: Filter = {
       corpusName: ["corpus1", "corpus2"],
-      language: ["eng", "fre"],
+      genre: ["article", "chapter"],
     };
     mockSearchParams({
       filter: JSON.stringify(mockedFilter),
     });
     render(<Filters />);
-    const filterChip = screen.getByText("eng").closest("div");
+    const filterChip = screen.getByText("article").closest("div");
     const clearIcon = within(filterChip as HTMLElement).getByTitle(
-      "Supprimer le filtre «eng»",
+      "Supprimer le filtre «article»",
     );
     fireEvent.click(clearIcon);
 
     expect(router.push).toHaveBeenCalledWith(
-      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%2C%22corpus2%22%5D%2C%22language%22%3A%5B%22fre%22%5D%7D&lastAppliedFacet=language",
+      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%2C%22corpus2%22%5D%2C%22genre%22%3A%5B%22chapter%22%5D%7D&lastAppliedFacet=genre",
     );
   });
 
@@ -71,20 +71,20 @@ describe("Filters", () => {
     const router = useRouter();
     const mockedFilter: Filter = {
       corpusName: ["corpus1"],
-      language: ["eng"],
+      genre: ["article"],
     };
     mockSearchParams({
       filter: JSON.stringify(mockedFilter),
     });
     render(<Filters />);
-    const filterChip = screen.getByText("eng").closest("div");
+    const filterChip = screen.getByText("article").closest("div");
     const clearIcon = within(filterChip as HTMLElement).getByTitle(
-      "Supprimer le filtre «eng»",
+      "Supprimer le filtre «article»",
     );
     fireEvent.click(clearIcon);
 
     expect(router.push).toHaveBeenCalledWith(
-      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%5D%7D&lastAppliedFacet=language",
+      "/results?filter=%7B%22corpusName%22%3A%5B%22corpus1%22%5D%7D&lastAppliedFacet=genre",
     );
   });
 
@@ -116,5 +116,18 @@ describe("Filters", () => {
     expect(router.push).toHaveBeenCalledWith(
       "/results?filter=%7B%22corpusName%22%3A%5B%22%21corpus1%22%5D%7D",
     );
+  });
+
+  it("should display language filter tag with translation of ISO code", () => {
+    const mockedFilter: Filter = {
+      language: ["eng"],
+    };
+    mockSearchParams({
+      filter: JSON.stringify(mockedFilter),
+    });
+    render(<Filters />);
+    expect(
+      screen.getByText("anglais", { selector: ".MuiChip-label" }),
+    ).toBeInTheDocument();
   });
 });

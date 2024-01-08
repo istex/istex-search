@@ -2,9 +2,9 @@
 
 import { Box } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
-import { usages } from "@/config";
+import { usages, formats } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
+import { isFormatSelected } from "@/lib/formats";
 import type { Aggregation } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
@@ -47,44 +47,31 @@ const CompatibilityPanelContent: ClientComponent<{
       {Object.entries(usages)
         .filter(([_, { isGateway }]) => isGateway)
         .map(([name, usage]) => {
-          let compatibilityCount = 0;
-          const formats: string[] = [];
-          buildExtractParamsFromFormats(usage.formats)
-            .split(";")
-            .forEach((category) => {
-              formats.push(...category.split(/[[\]]/)[1].split(","));
-            });
           const data: Array<{ label: string; count: number }> = [];
-          formats.forEach((format) => {
-            switch (format) {
-              case "tei":
-                data.push({ label: "tei", count: teiCount });
-                compatibilityCount =
-                  teiCount > compatibilityCount ? teiCount : compatibilityCount;
-                break;
-              case "cleaned":
-                data.push({ label: "cleaned", count: cleanedCount });
-                compatibilityCount =
-                  cleanedCount > compatibilityCount
-                    ? cleanedCount
-                    : compatibilityCount;
-                break;
-              case "teeft":
-                data.push({ label: "teeft", count: teeftCount });
-                compatibilityCount =
-                  teeftCount > compatibilityCount
-                    ? teeftCount
-                    : compatibilityCount;
-                break;
-              case "json":
-                data.push({ label: "json", count: jsonCount });
-                compatibilityCount =
-                  jsonCount > compatibilityCount
-                    ? jsonCount
-                    : compatibilityCount;
-                break;
-            }
-          });
+          let compatibilityCount = 0;
+
+          if (isFormatSelected(usage.formats, formats.fulltext.tei)) {
+            data.push({ label: "tei", count: teiCount });
+            compatibilityCount =
+              teiCount > compatibilityCount ? teiCount : compatibilityCount;
+          }
+          if (isFormatSelected(usage.formats, formats.fulltext.cleaned)) {
+            data.push({ label: "cleaned", count: cleanedCount });
+            compatibilityCount =
+              cleanedCount > compatibilityCount
+                ? cleanedCount
+                : compatibilityCount;
+          }
+          if (isFormatSelected(usage.formats, formats.enrichments.teeft)) {
+            data.push({ label: "teeft", count: teeftCount });
+            compatibilityCount =
+              teeftCount > compatibilityCount ? teeftCount : compatibilityCount;
+          }
+          if (isFormatSelected(usage.formats, formats.metadata.json)) {
+            data.push({ label: "json", count: jsonCount });
+            compatibilityCount =
+              jsonCount > compatibilityCount ? jsonCount : compatibilityCount;
+          }
 
           return (
             <CompatibilityProgress

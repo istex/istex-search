@@ -1,10 +1,10 @@
 "use client";
 
-import type { ClientComponent } from "@/types/next";
-import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
+import type { ClientComponent } from "@/types/next";
 
 const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
 
@@ -67,7 +67,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           mb: 0.5,
         }}
       >
-        {t("inputLabel")}
+        {t("inputLabel", { min, max })}
       </Typography>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField

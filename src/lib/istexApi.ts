@@ -49,9 +49,13 @@ export const mergeFiltersToQueryString = (
           ? `(NOT ${facetName}:[${range.join(" TO ")}])`
           : `${facetName}:[${range.join(" TO ")}]`;
       } else {
-        return `${facetName}:(${values
-          .map((v) => (v.startsWith("!") ? `(NOT "${v.slice(1)}")` : `"${v}"`))
-          .join(" OR ")})`;
+        return `${facetName}:(${`${values
+          .filter((v) => !v.startsWith("!"))
+          .map((v) => `"${v}"`)
+          .join(" OR ")}${values
+          .filter((v) => v.startsWith("!"))
+          .map((v) => ` NOT "${v.slice(1)}"`)
+          .join("")}`.trim()})`;
       }
     })
     .join(" AND ");

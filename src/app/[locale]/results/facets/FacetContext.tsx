@@ -68,6 +68,15 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
           );
         }
       }
+      if (facetItem.excluded) {
+        if (facetTitle === "language" && facetItem.isoCode !== undefined) {
+          filters[facetTitle].push(`!${facetItem.isoCode}`);
+        } else {
+          filters[facetTitle].push(
+            `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
+          );
+        }
+      }
     });
     if (filters[facetTitle].length === 0) {
       const { [facetTitle]: _, ...updatedFilters } = filters;

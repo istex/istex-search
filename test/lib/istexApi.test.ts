@@ -65,7 +65,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.mergeFiltersToQueryString(queryString, filters)).toBe(
-      '(hello) AND corpusName:("springer" OR (NOT "elsevier")) AND language:("eng") AND genre:("article" OR "book")',
+      '(hello) AND corpusName:("springer" NOT "elsevier") AND language:("eng") AND genre:("article" OR "book")',
     );
   });
 

@@ -68,11 +68,11 @@ export function buildQueryFromIds(column: ColumnId, ids: string) {
   });
   return {
     errorLines,
-    query: `${column}:(${ids
+    query: `${column}.raw:(${ids
       .split("\n")
       .filter((id) => id.length > 0)
       .map((id) => `"${id}"`)
-      .join(" OR ")})`,
+      .join(" ")})`,
   };
 }
 

@@ -124,6 +124,12 @@
         "listAriaLabel": "Affichage en liste"
       }
     },
+    "ResultsCard": {
+      "select": "Sélectionner",
+      "unselect": "Dé-sélectionner",
+      "include": "Inclure",
+      "exclude": "Exclure"
+    },
     "downloadButton": "Télécharger le corpus ({resultsCount})",
     "Pagination": {
       "resultsPerPage": "par page"
@@ -228,6 +234,9 @@
       "annexes": "Annexes",
       "enrichments": "Enrichissements",
       "selectDocument": "Sélectionner ce document",
+      "unselectDocument": "Dé-sélectionner ce document",
+      "excludeDocument": "Exclure ce document",
+      "includeDocument": "Inclure ce document",
       "tags": {
         "hostGenre": "Type de publication",
         "genre": "Type de contenu",

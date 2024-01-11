@@ -3,6 +3,7 @@ import CorpusSection from "./components/CorpusSection";
 import CourseSection from "./components/CourseSection";
 import DownloadSection from "./components/DownloadSection";
 import SearchSection from "./components/SearchSection";
+import { DocumentProvider } from "./results/Document/DocumentContext";
 import { QueryProvider } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import type { Page } from "@/types/next";
@@ -22,10 +23,12 @@ const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
 
   return (
     <QueryProvider queryString={queryString} resultsCount={0}>
-      <SearchSection />
-      <CorpusSection />
-      <DownloadSection />
-      <CourseSection />
+      <DocumentProvider>
+        <SearchSection />
+        <CorpusSection />
+        <DownloadSection />
+        <CourseSection />
+      </DocumentProvider>
     </QueryProvider>
   );
 };

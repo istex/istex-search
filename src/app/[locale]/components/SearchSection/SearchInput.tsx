@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next-intl/client";
+import { useDocumentContext } from "../../results/Document/DocumentContext";
 import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
 import SearchBar from "./SearchBar";
@@ -17,6 +18,7 @@ const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
   const tErrors = useTranslations("errors");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const searchBar = (child: ReactNode) => {
     return (
@@ -51,6 +53,7 @@ const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
       .setQueryString(newQueryString)
       .then(() => {
         router.push(`/results?${searchParams.toString()}`);
+        resetSelectedExcludedDocuments();
       })
       .catch((err: CustomError) => {
         setErrorMessage(tErrors(err.info.name));

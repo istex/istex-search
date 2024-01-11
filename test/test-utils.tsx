@@ -1,17 +1,19 @@
 import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
+import { DocumentProvider } from "@/app/[locale]/results/Document/DocumentContext";
 import type { UsageName } from "@/config";
 import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 import NextIntlProvider from "@/i18n/provider";
 import messages from "@/i18n/translations/fr-FR.json";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
 import type { ClientComponent, ServerComponent } from "@/types/next";
 
 export function customRender(
   ui: Parameters<typeof render>[0],
-  context?: Partial<QueryContextValue>,
+  context?: Partial<QueryContextValue & { results?: IstexApiResponse }>,
 ) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (
     <NextIntlProvider
@@ -23,7 +25,9 @@ export function customRender(
           queryString={context?.queryString ?? ""}
           resultsCount={context?.resultsCount ?? 0}
         >
-          {children}
+          <DocumentProvider results={context?.results}>
+            {children}
+          </DocumentProvider>
         </QueryProvider>
       </MuiSetup>
     </NextIntlProvider>

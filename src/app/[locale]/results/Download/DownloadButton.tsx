@@ -2,6 +2,7 @@
 
 import type { MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
+import { useDocumentContext } from "../Document/DocumentContext";
 import Button from "@/components/Button";
 import { NO_FORMAT_SELECTED } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -13,6 +14,7 @@ const DownloadButton: ClientComponent = () => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
   const filters = searchParams.getFilters();
@@ -25,6 +27,8 @@ const DownloadButton: ClientComponent = () => {
       selectedFormats,
       size,
       filters,
+      selectedDocuments,
+      excludedDocuments,
     });
 
     // Hack to download the archive and see the progression in the download bar built in browsers

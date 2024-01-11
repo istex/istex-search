@@ -1,15 +1,16 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
+import useSearchParams from "@/lib/useSearchParams";
+import type { ClientComponent } from "@/types/next";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next-intl/client";
+import { useDocumentContext } from "../Document/DocumentContext";
 import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
-import useSearchParams from "@/lib/useSearchParams";
-import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {
   const t = useTranslations("results.filters");
@@ -22,6 +23,8 @@ const Filters: ClientComponent = () => {
   const filters = searchParams.getFilters();
   const theme = useTheme();
   const locale = useLocale();
+
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const handleDelete = (filterKey: string, filterValue: string) => {
     let newFilters = { ...filters };
@@ -36,6 +39,7 @@ const Filters: ClientComponent = () => {
     searchParams.setPage(1);
     searchParams.setLastAppliedFacet(filterKey);
     router.push(`/results?${searchParams.toString()}`);
+    resetSelectedExcludedDocuments();
   };
 
   const handleToggleExcluded = (filterKey: string, filterValue: string) => {
@@ -52,6 +56,7 @@ const Filters: ClientComponent = () => {
     searchParams.setFilters(newFilters);
     searchParams.setPage(1);
     router.push(`/results?${searchParams.toString()}`);
+    resetSelectedExcludedDocuments();
   };
 
   if (Object.keys(filters).length === 0) {

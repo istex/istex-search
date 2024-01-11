@@ -4,6 +4,7 @@ import { useState, type MouseEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
 import { Box } from "@mui/material";
+import { useDocumentContext } from "../Document/DocumentContext";
 import DownloadForm from "../Download/DownloadForm";
 import DownloadModal from "../Download/DownloadModal";
 import Button from "@/components/Button";
@@ -19,14 +20,20 @@ const DownloadButton: ClientComponent = () => {
   const locale = useLocale();
   const size = searchParams.getSize();
   const { resultsCount } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const [modalOpen, setModalOpen] = useState(false);
+
+  const documentsCount =
+    selectedDocuments.length > 0
+      ? selectedDocuments.length
+      : resultsCount - excludedDocuments.length;
 
   const openModal: MouseEventHandler<HTMLButtonElement> = () => {
     // If the size is not set, make it the result count by default
     // NOTE: It's not the best solution in terms of performance because it implies
     // re-rendering the whole /results page just to change the size
     if (size === 0) {
-      searchParams.setSize(resultsCount);
+      searchParams.setSize(documentsCount);
       router.replace(`${pathname}?${searchParams.toString()}`, {
         scroll: false,
       });
@@ -59,7 +66,7 @@ const DownloadButton: ClientComponent = () => {
           onClick={openModal}
         >
           {t("downloadButton", {
-            resultsCount: resultsCount.toLocaleString(locale),
+            resultsCount: documentsCount.toLocaleString(locale),
           })}
         </Button>
       </Box>

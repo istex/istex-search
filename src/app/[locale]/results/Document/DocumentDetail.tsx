@@ -10,7 +10,14 @@ import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
 const DocumentDetail: ClientComponent = () => {
-  const { displayedDocument, closeDocument } = useDocumentContext();
+  const {
+    displayedDocument,
+    closeDocument,
+    toggleSelectedDocument,
+    toggleExcludedDocument,
+    selectedDocuments,
+    excludedDocuments,
+  } = useDocumentContext();
   const t = useTranslations("results.Document");
   const tTags = useTranslations("results.Document.tags");
 
@@ -228,7 +235,36 @@ const DocumentDetail: ClientComponent = () => {
               </>
             )}
           </Stack>
-          <Button variant="outlined">{t("selectDocument")}</Button>
+          {displayedDocument != null && (
+            <>
+              <Button
+                variant="outlined"
+                disabled={excludedDocuments.length > 0}
+                onClick={() => {
+                  toggleSelectedDocument(displayedDocument.id);
+                }}
+              >
+                {t(
+                  selectedDocuments.includes(displayedDocument.id)
+                    ? "unselectDocument"
+                    : "selectDocument",
+                )}
+              </Button>
+              <Button
+                variant="outlined"
+                disabled={selectedDocuments.length > 0}
+                onClick={() => {
+                  toggleExcludedDocument(displayedDocument.id);
+                }}
+              >
+                {t(
+                  excludedDocuments.includes(displayedDocument.id)
+                    ? "includeDocument"
+                    : "excludeDocument",
+                )}
+              </Button>
+            </>
+          )}
         </Stack>
       </Stack>
     </Drawer>

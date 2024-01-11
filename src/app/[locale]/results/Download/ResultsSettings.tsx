@@ -2,9 +2,10 @@
 
 import type { ChangeEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next-intl/client";
+import { usePathname, useRouter } from "next-intl/client";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, TextField, Tooltip } from "@mui/material";
+import { useDocumentContext } from "../Document/DocumentContext";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -19,8 +20,14 @@ const ResultsSettings: ClientComponent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { resultsCount } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
 
-  const maxSize = clamp(resultsCount, 0, istexApiConfig.maxSize);
+  const documentsCount =
+    selectedDocuments.length > 0
+      ? selectedDocuments.length
+      : resultsCount - excludedDocuments.length;
+
+  const maxSize = clamp(documentsCount, 0, istexApiConfig.maxSize);
   const size = clamp(searchParams.getSize(), 0, maxSize);
 
   const setSize = (size: number) => {
@@ -53,11 +60,11 @@ const ResultsSettings: ClientComponent = () => {
         value={size}
         onChange={handleChange}
       />
-      <span>/&nbsp;{resultsCount.toLocaleString(locale)}</span>
-      {resultsCount > maxSize && (
+      <span>/&nbsp;{documentsCount.toLocaleString(locale)}</span>
+      {documentsCount > maxSize && (
         <Tooltip
           title={t("warningTooltip", {
-            resultsCount: resultsCount.toLocaleString(locale),
+            resultsCount: documentsCount.toLocaleString(locale),
             maxSize: istexApiConfig.maxSize.toLocaleString(locale),
           })}
           placement="top"

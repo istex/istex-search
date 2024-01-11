@@ -1,11 +1,13 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
-import { useDocumentContext } from "@/app/[locale]/results/Document/DocumentContext";
+import {
+  customRender as render,
+  screen,
+  userEvent,
+  waitFor,
+  within,
+} from "../test-utils";
 import DocumentDetail from "@/app/[locale]/results/Document/DocumentDetail";
-import type { Result } from "@/lib/istexApi";
-
-jest.mock("@/app/[locale]/results/Document/DocumentContext", () => ({
-  useDocumentContext: jest.fn(),
-}));
+import ResultCard from "@/app/[locale]/results/components/ResultCard";
+import type { IstexApiResponse, Result } from "@/lib/istexApi";
 
 describe("DocumentDetail", () => {
   const document: Result = {
@@ -50,84 +52,92 @@ describe("DocumentDetail", () => {
     },
   };
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  const results: IstexApiResponse = {
+    total: 1,
+    hits: [document],
+    aggregations: {},
+  };
 
   it("should not render the document details when the displayedDocument is not defined", () => {
-    (useDocumentContext as jest.Mock).mockReturnValue({
-      displayedDocument: undefined,
-    });
     const { container } = render(<DocumentDetail />);
     const drawer = container.querySelector(".MuiDrawer-root");
     expect(drawer).not.toBeInTheDocument();
   });
 
-  it("should render the document details correctly", () => {
-    (useDocumentContext as jest.Mock).mockReturnValue({
-      displayedDocument: document,
-    });
-    render(<DocumentDetail />);
-    expect(screen.getByText("Document title")).toBeInTheDocument();
-    expect(screen.getByText("Host title")).toBeInTheDocument();
-    expect(screen.getByText("Author name")).toBeInTheDocument();
-    expect(screen.getByText("Genre")).toBeInTheDocument();
-    expect(screen.getByText("Abstract")).toBeInTheDocument();
-    expect(screen.getByText("Host genre")).toBeInTheDocument();
-    expect(screen.getByText("Corpus name")).toBeInTheDocument();
-    expect(screen.getByText("2021")).toBeInTheDocument();
-    expect(screen.getByText("arkIstex")).toBeInTheDocument();
+  it("should render the document details correctly", async () => {
+    render(
+      <>
+        <ResultCard info={document} />
+        <DocumentDetail />
+      </>,
+      { results },
+    );
+    const card = screen.getByText("Document title").closest("button");
+    if (card != null) {
+      await userEvent.click(card);
+    }
+    const drawer = screen.getByRole("presentation");
+    expect(drawer).toBeInTheDocument();
+    expect(within(drawer).getByText("Document title")).toBeInTheDocument();
+    expect(within(drawer).getByText("Host title")).toBeInTheDocument();
+    expect(within(drawer).getByText("Author name")).toBeInTheDocument();
+    expect(within(drawer).getByText("Genre")).toBeInTheDocument();
+    expect(within(drawer).getByText("Abstract")).toBeInTheDocument();
+    expect(within(drawer).getByText("Host genre")).toBeInTheDocument();
+    expect(within(drawer).getByText("Corpus name")).toBeInTheDocument();
+    expect(within(drawer).getByText("2021")).toBeInTheDocument();
+    expect(within(drawer).getByText("arkIstex")).toBeInTheDocument();
 
-    expect(screen.getByText("pdf")).toBeInTheDocument();
-    const pdfLink = screen.getByText("pdf").closest("a");
+    expect(within(drawer).getByText("pdf")).toBeInTheDocument();
+    const pdfLink = within(drawer).getByText("pdf").closest("a");
     expect(pdfLink).toHaveAttribute("href", "pdfUri");
     expect(pdfLink).toHaveAttribute(
       "title",
       "Accéder au texte intégral au format pdf",
     );
 
-    expect(screen.getByText("zip")).toBeInTheDocument();
-    const zipLink = screen.getByText("zip").closest("a");
+    expect(within(drawer).getByText("zip")).toBeInTheDocument();
+    const zipLink = within(drawer).getByText("zip").closest("a");
     expect(zipLink).toHaveAttribute("href", "zipUri");
     expect(zipLink).toHaveAttribute(
       "title",
       "Accéder au texte intégral au format zip",
     );
 
-    expect(screen.getByText("xml")).toBeInTheDocument();
-    const xmlLink = screen.getByText("xml").closest("a");
+    expect(within(drawer).getByText("xml")).toBeInTheDocument();
+    const xmlLink = within(drawer).getByText("xml").closest("a");
     expect(xmlLink).toHaveAttribute("href", "xmlUri");
     expect(xmlLink).toHaveAttribute(
       "title",
       "Accéder aux métadonnées au format xml",
     );
 
-    expect(screen.getByText("json")).toBeInTheDocument();
-    const jsonLink = screen.getByText("json").closest("a");
+    expect(within(drawer).getByText("json")).toBeInTheDocument();
+    const jsonLink = within(drawer).getByText("json").closest("a");
     expect(jsonLink).toHaveAttribute("href", "jsonUri");
     expect(jsonLink).toHaveAttribute(
       "title",
       "Accéder aux métadonnées au format json",
     );
 
-    expect(screen.getByText("jpg")).toBeInTheDocument();
-    const jpgLink = screen.getByText("jpg").closest("a");
+    expect(within(drawer).getByText("jpg")).toBeInTheDocument();
+    const jpgLink = within(drawer).getByText("jpg").closest("a");
     expect(jpgLink).toHaveAttribute("href", "jpgUri");
     expect(jpgLink).toHaveAttribute(
       "title",
       "Accéder à l'annexe au format jpg",
     );
 
-    expect(screen.getByText("nb")).toBeInTheDocument();
-    const nbLink = screen.getByText("nb").closest("a");
+    expect(within(drawer).getByText("nb")).toBeInTheDocument();
+    const nbLink = within(drawer).getByText("nb").closest("a");
     expect(nbLink).toHaveAttribute("href", "nbUri");
     expect(nbLink).toHaveAttribute(
       "title",
       "Accéder à l'enrichissement nb au format tei",
     );
 
-    expect(screen.getByText("teeft")).toBeInTheDocument();
-    const teeftLink = screen.getByText("teeft").closest("a");
+    expect(within(drawer).getByText("teeft")).toBeInTheDocument();
+    const teeftLink = within(drawer).getByText("teeft").closest("a");
     expect(teeftLink).toHaveAttribute("href", "teeftUri");
     expect(teeftLink).toHaveAttribute(
       "title",
@@ -136,14 +146,71 @@ describe("DocumentDetail", () => {
   });
 
   it("should call handleCloseDocument when the close button is clicked", async () => {
-    const closeDocumentMock = jest.fn();
-    (useDocumentContext as jest.Mock).mockReturnValue({
-      displayedDocument: document,
-      closeDocument: closeDocumentMock,
-    });
-    render(<DocumentDetail />);
-    const closeButton = screen.getByText("Revenir aux résultats");
+    render(
+      <>
+        <ResultCard info={document} />
+        <DocumentDetail />
+      </>,
+      { results },
+    );
+    const card = screen.getByText("Document title").closest("button");
+    if (card != null) {
+      await userEvent.click(card);
+    }
+    const drawer = screen.getByRole("presentation");
+    expect(drawer).toBeInTheDocument();
+    const closeButton = within(drawer).getByText("Revenir aux résultats");
     await userEvent.click(closeButton);
-    expect(closeDocumentMock).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(drawer).not.toBeInTheDocument();
+    });
+  });
+
+  it("should toggle the selection when the select button is clicked", async () => {
+    render(
+      <>
+        <ResultCard info={document} />
+        <DocumentDetail />
+      </>,
+      { results },
+    );
+    const card = screen.getByText("Document title").closest("button");
+    if (card != null) {
+      await userEvent.click(card);
+    }
+    const drawer = screen.getByRole("presentation");
+    expect(drawer).toBeInTheDocument();
+    const selectButton = within(drawer).getByText("Sélectionner ce document");
+    const excludeButton = within(drawer).getByText("Exclure ce document");
+    await userEvent.click(selectButton);
+    expect(selectButton).toHaveTextContent("Dé-sélectionner ce document");
+    expect(excludeButton).toBeDisabled();
+    await userEvent.click(selectButton);
+    expect(selectButton).toHaveTextContent("Sélectionner ce document");
+    expect(excludeButton).not.toBeDisabled();
+  });
+
+  it("should toggle the exclusion when the exclude button is clicked", async () => {
+    render(
+      <>
+        <ResultCard info={document} />
+        <DocumentDetail />
+      </>,
+      { results },
+    );
+    const card = screen.getByText("Document title").closest("button");
+    if (card != null) {
+      await userEvent.click(card);
+    }
+    const drawer = screen.getByRole("presentation");
+    expect(drawer).toBeInTheDocument();
+    const selectButton = within(drawer).getByText("Sélectionner ce document");
+    const excludeButton = within(drawer).getByText("Exclure ce document");
+    await userEvent.click(excludeButton);
+    expect(excludeButton).toHaveTextContent("Inclure ce document");
+    expect(selectButton).toBeDisabled();
+    await userEvent.click(excludeButton);
+    expect(excludeButton).toHaveTextContent("Exclure ce document");
+    expect(selectButton).not.toBeDisabled();
   });
 });

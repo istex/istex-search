@@ -2,14 +2,12 @@ import { useTranslations } from "next-intl";
 import { Grid, Link, Paper, Typography } from "@mui/material";
 import type { PaperProps } from "@mui/material/Paper";
 import type { TypographyProps } from "@mui/material/Typography";
+import { useDocumentContext } from "../Document/DocumentContext";
 import HighlightedUrl from "../components/HighlightedUrl";
 import { usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { externalLink } from "@/i18n/i18n";
-import {
-  buildResultPreviewUrl,
-  mergeFiltersToQueryString,
-} from "@/lib/istexApi";
+import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ServerComponent } from "@/types/next";
@@ -19,6 +17,7 @@ const InfoPanels: ServerComponent = () => {
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
   const filters = searchParams.getFilters();
@@ -29,6 +28,8 @@ const InfoPanels: ServerComponent = () => {
     perPage,
     page,
     filters,
+    selectedDocuments,
+    excludedDocuments,
   });
 
   return (
@@ -62,7 +63,12 @@ const InfoPanels: ServerComponent = () => {
               variant="body2"
               sx={{ ...lineclamp(6), wordBreak: "break-word" }}
             >
-              {mergeFiltersToQueryString(queryString, filters)}
+              {createCompleteQuery(
+                queryString,
+                filters,
+                selectedDocuments,
+                excludedDocuments,
+              )}
             </Typography>
           </Panel>
 

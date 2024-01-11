@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import { useRouter } from "next-intl/client";
+import { useDocumentContext } from "../Document/DocumentContext";
 import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
 
@@ -38,6 +39,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const [facetsList, setFacetsList] = useState<FacetList | undefined>(facets);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const clearOneFacet = (facetTitle: string) => {
     const filters = searchParams.getFilters();
@@ -46,6 +48,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     searchParams.setPage(1);
     searchParams.deleteLastAppliedFacet();
     router.push(`/results?${searchParams.toString()}`);
+    resetSelectedExcludedDocuments();
   };
 
   const clearAllFacets = () => {
@@ -53,6 +56,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     searchParams.setPage(1);
     searchParams.deleteLastAppliedFacet();
     router.push(`/results?${searchParams.toString()}`);
+    resetSelectedExcludedDocuments();
   };
 
   const applyOneFacet = (facetTitle: string) => {
@@ -86,6 +90,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     searchParams.setPage(1);
     searchParams.setLastAppliedFacet(facetTitle);
     router.push(`/results?${searchParams.toString()}`);
+    resetSelectedExcludedDocuments();
   };
 
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {

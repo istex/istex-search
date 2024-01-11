@@ -12,6 +12,7 @@ describe("FacetCheckboxItem", () => {
         value={value}
         count={count}
         checked={checked}
+        excluded={false}
         onChange={() => {}}
       />,
     );
@@ -33,6 +34,7 @@ describe("FacetCheckboxItem", () => {
         value={value}
         count={count}
         checked={checked}
+        excluded={false}
         onChange={onChange}
       />,
     );
@@ -51,6 +53,7 @@ describe("FacetCheckboxItem", () => {
         value={value}
         count={count}
         checked={checked}
+        excluded={false}
         onChange={() => {}}
       />,
     );

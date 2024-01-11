@@ -14,11 +14,15 @@ export interface BuildResultPreviewUrlOptions {
   page?: number;
   fields?: string[];
   filters?: Filter;
+  selectedDocuments?: string[];
+  excludedDocuments?: string[];
 }
 
-export const mergeFiltersToQueryString = (
+export const createCompleteQuery = (
   queryString: string,
   filters?: Filter,
+  selectedDocuments?: string[],
+  excludedDocuments?: string[],
 ) => {
   const filtersQueryString = Object.entries(filters ?? {})
     .map(([facetName, values]) => {
@@ -60,9 +64,30 @@ export const mergeFiltersToQueryString = (
     })
     .join(" AND ");
 
-  return filtersQueryString !== ""
-    ? `(${queryString}) AND ${filtersQueryString}`
-    : queryString;
+  const selectedDocumentsQueryString =
+    selectedDocuments != null && selectedDocuments.length > 0
+      ? `id:(${selectedDocuments.map((id) => `"${id}"`).join(" OR ")})`
+      : "";
+  const excludedDocumentsQueryString =
+    excludedDocuments != null && excludedDocuments.length > 0
+      ? `(NOT id:(${excludedDocuments.map((id) => `"${id}"`).join(" OR ")}))`
+      : "";
+
+  return `${
+    filtersQueryString !== "" ||
+    selectedDocumentsQueryString !== "" ||
+    excludedDocumentsQueryString !== ""
+      ? `(${queryString})`
+      : queryString
+  }${filtersQueryString !== "" ? ` AND ${filtersQueryString}` : ""}${
+    selectedDocumentsQueryString !== ""
+      ? ` AND ${selectedDocumentsQueryString}`
+      : ""
+  }${
+    excludedDocumentsQueryString !== ""
+      ? ` AND ${excludedDocumentsQueryString}`
+      : ""
+  }`;
 };
 
 export function buildResultPreviewUrl({
@@ -71,6 +96,8 @@ export function buildResultPreviewUrl({
   page,
   fields,
   filters,
+  selectedDocuments,
+  excludedDocuments,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -84,7 +111,15 @@ export function buildResultPreviewUrl({
   }
 
   const url = new URL("document", istexApiConfig.baseUrl);
-  url.searchParams.set("q", mergeFiltersToQueryString(queryString, filters));
+  url.searchParams.set(
+    "q",
+    createCompleteQuery(
+      queryString,
+      filters,
+      selectedDocuments,
+      excludedDocuments,
+    ),
+  );
   url.searchParams.set("size", actualPerPage.toString());
   url.searchParams.set("from", from.toString());
   url.searchParams.set("output", fields?.join(",") ?? "*");
@@ -215,6 +250,8 @@ export interface BuildFullApiUrlOptions {
   selectedFormats: number;
   size: number;
   filters?: Filter;
+  selectedDocuments?: string[];
+  excludedDocuments?: string[];
 }
 
 export function buildFullApiUrl({
@@ -222,10 +259,20 @@ export function buildFullApiUrl({
   selectedFormats,
   size,
   filters,
+  selectedDocuments,
+  excludedDocuments,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
-  url.searchParams.set("q", mergeFiltersToQueryString(queryString, filters));
+  url.searchParams.set(
+    "q",
+    createCompleteQuery(
+      queryString,
+      filters,
+      selectedDocuments,
+      excludedDocuments,
+    ),
+  );
   url.searchParams.set("size", size.toString());
   url.searchParams.set("sid", "istex-dl");
 

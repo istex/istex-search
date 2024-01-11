@@ -7,7 +7,10 @@ import { MIN_PER_PAGE } from "@/config";
 import type { ClientComponent } from "@/types/next";
 
 const Loading: ClientComponent = () => {
-  const lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
+  let lastSavedQueryString = "";
+  if (typeof window !== "undefined") {
+    lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
+  }
 
   return (
     <ResultsPageShell

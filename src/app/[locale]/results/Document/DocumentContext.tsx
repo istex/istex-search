@@ -25,33 +25,19 @@ export const DocumentProvider: ClientComponent<
     Result | undefined
   >(undefined);
 
-  const initialSelectedDocuments = localStorage.getItem("selectedDocuments");
-  const initialExcludedDocuments = localStorage.getItem("excludedDocuments");
-
-  const [selectedDocuments, setSelectedDocuments] = useState<string[]>(
-    initialSelectedDocuments != null
-      ? JSON.parse(initialSelectedDocuments)
-      : [],
-  );
-  const [excludedDocuments, setExcludedDocuments] = useState<string[]>(
-    initialExcludedDocuments != null
-      ? JSON.parse(initialExcludedDocuments)
-      : [],
-  );
-
   useEffect(() => {
-    localStorage.setItem(
-      "selectedDocuments",
-      JSON.stringify(selectedDocuments),
-    );
-  }, [selectedDocuments]);
+    const selectedDocumentsString = localStorage.getItem("selectedDocuments");
+    if (selectedDocumentsString !== null) {
+      setSelectedDocuments(JSON.parse(selectedDocumentsString));
+    }
+    const excludedDocumentsString = localStorage.getItem("excludedDocuments");
+    if (excludedDocumentsString !== null) {
+      setExcludedDocuments(JSON.parse(excludedDocumentsString));
+    }
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem(
-      "excludedDocuments",
-      JSON.stringify(excludedDocuments),
-    );
-  }, [excludedDocuments]);
+  const [selectedDocuments, setSelectedDocuments] = useState<string[]>([]);
+  const [excludedDocuments, setExcludedDocuments] = useState<string[]>([]);
 
   const displayDocument = async (documentId: string) => {
     const newDocument = results?.hits.find(
@@ -65,19 +51,35 @@ export const DocumentProvider: ClientComponent<
   };
 
   const toggleSelectedDocument = (documentId: string) => {
+    let newSelectedDocuments: string[];
     if (selectedDocuments.includes(documentId)) {
-      setSelectedDocuments(selectedDocuments.filter((id) => id !== documentId));
+      newSelectedDocuments = selectedDocuments.filter(
+        (id) => id !== documentId,
+      );
     } else {
-      setSelectedDocuments([...selectedDocuments, documentId]);
+      newSelectedDocuments = [...selectedDocuments, documentId];
     }
+    setSelectedDocuments(newSelectedDocuments);
+    localStorage.setItem(
+      "selectedDocuments",
+      JSON.stringify(newSelectedDocuments),
+    );
   };
 
   const toggleExcludedDocument = (documentId: string) => {
+    let newExcludedDocuments: string[];
     if (excludedDocuments.includes(documentId)) {
-      setExcludedDocuments(excludedDocuments.filter((id) => id !== documentId));
+      newExcludedDocuments = excludedDocuments.filter(
+        (id) => id !== documentId,
+      );
     } else {
-      setExcludedDocuments([...excludedDocuments, documentId]);
+      newExcludedDocuments = [...excludedDocuments, documentId];
     }
+    setExcludedDocuments(newExcludedDocuments);
+    localStorage.setItem(
+      "excludedDocuments",
+      JSON.stringify(newExcludedDocuments),
+    );
   };
 
   const resetSelectedExcludedDocuments = () => {

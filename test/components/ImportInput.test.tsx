@@ -4,18 +4,18 @@ import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
 import SearchBar from "@/app/[locale]/components/SearchSection/SearchBar";
 
 describe("ImportInput", () => {
+  const searchBar = (child: ReactNode) => {
+    return (
+      <SearchBar
+        isSearchById={false}
+        switchSearchById={() => {}}
+        switchAssistedSearch={() => {}}
+      >
+        {child}
+      </SearchBar>
+    );
+  };
   it("should render the ImportInput component", () => {
-    const searchBar = (child: ReactNode) => {
-      return (
-        <SearchBar
-          isSearchById={false}
-          switchSearchById={() => {}}
-          switchAssistedSearch={() => {}}
-        >
-          {child}
-        </SearchBar>
-      );
-    };
     render(<ImportInput searchBar={searchBar} goToResultsPage={() => {}} />);
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveAttribute(
@@ -26,5 +26,12 @@ describe("ImportInput", () => {
       screen.getByRole("button", { name: "RECHERCHER" }),
     ).toBeInTheDocument();
     expect(screen.getByTestId("search-by-id-button")).toBeInTheDocument();
+  });
+
+  it("should display a spinner when loading", () => {
+    render(
+      <ImportInput searchBar={searchBar} goToResultsPage={() => {}} loading />,
+    );
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

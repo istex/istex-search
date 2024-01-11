@@ -103,4 +103,9 @@ describe("RegularSearchInput", () => {
       Object.keys(examples).length,
     );
   });
+
+  it("should display a spinner when loading", () => {
+    render(<SearchInput switchAssistedSearch={() => {}} loading />);
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  });
 });

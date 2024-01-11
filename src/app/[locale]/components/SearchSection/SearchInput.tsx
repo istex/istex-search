@@ -11,9 +11,10 @@ import type CustomError from "@/lib/CustomError";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
-  switchAssistedSearch,
-}) => {
+const SearchInput: ClientComponent<{
+  switchAssistedSearch: () => void;
+  loading?: boolean;
+}> = ({ switchAssistedSearch, loading }) => {
   const [isSearchById, setIsSearchById] = useState(false);
   const tErrors = useTranslations("errors");
   const router = useRouter();
@@ -45,6 +46,7 @@ const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
     }
 
     if (setQueryString !== undefined) setQueryString(newQueryString);
+    localStorage.setItem("lastQueryString", newQueryString);
 
     searchParams.deleteSize();
     searchParams.deletePage();
@@ -63,11 +65,16 @@ const SearchInput: ClientComponent<{ switchAssistedSearch: () => void }> = ({
   return (
     <>
       {isSearchById ? (
-        <ImportInput searchBar={searchBar} goToResultsPage={goToResultsPage} />
+        <ImportInput
+          searchBar={searchBar}
+          goToResultsPage={goToResultsPage}
+          loading={loading}
+        />
       ) : (
         <RegularSearchInput
           searchBar={searchBar}
           goToResultsPage={goToResultsPage}
+          loading={loading}
         />
       )}
     </>

@@ -6,7 +6,7 @@ import AssistedSearchInput from "./AssistedSearchInput";
 import SearchInput from "./SearchInput";
 import type { ClientComponent } from "@/types/next";
 
-const SearchSection: ClientComponent = () => {
+const SearchSection: ClientComponent<{ loading?: boolean }> = ({ loading }) => {
   const [isAssistedSearch, setIsAssistedSearch] = useState(false);
 
   return (
@@ -24,6 +24,7 @@ const SearchSection: ClientComponent = () => {
           />
         ) : (
           <SearchInput
+            loading={loading}
             switchAssistedSearch={() => {
               setIsAssistedSearch(true);
             }}

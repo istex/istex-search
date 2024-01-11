@@ -1,15 +1,21 @@
 "use client";
 
 import {
+  useState,
   type ChangeEventHandler,
   type FormEventHandler,
   type ReactNode,
-  useState,
 } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import Image from "next/image";
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -28,7 +34,8 @@ const ImportInput: ClientComponent<{
     newQueryString: string,
     setErrorMessage: (errorMessage: string) => void,
   ) => void;
-}> = ({ searchBar, goToResultsPage }) => {
+  loading?: boolean;
+}> = ({ searchBar, goToResultsPage, loading }) => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const tErrors = useTranslations("errors");
   const [errorMessage, setErrorMessage] = useState("");
@@ -117,15 +124,18 @@ const ImportInput: ClientComponent<{
               },
             }}
             InputProps={{
-              endAdornment: (
-                <IconButton
-                  onClick={() => {
-                    document.getElementById("dropzone-file")?.click();
-                  }}
-                >
-                  <Image src={SearchLogoUpload} alt="Upload .corpus file" />
-                </IconButton>
-              ),
+              endAdornment:
+                loading === true ? (
+                  <CircularProgress size={20} sx={{ m: 1 }} />
+                ) : (
+                  <IconButton
+                    onClick={() => {
+                      document.getElementById("dropzone-file")?.click();
+                    }}
+                  >
+                    <Image src={SearchLogoUpload} alt="Upload .corpus file" />
+                  </IconButton>
+                ),
               sx: { alignItems: "flex-start" },
             }}
           />

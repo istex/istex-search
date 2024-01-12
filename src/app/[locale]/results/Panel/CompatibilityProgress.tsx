@@ -59,7 +59,7 @@ const CompatibilityProgress: ClientComponent<{
               width: "100%",
               height: 5,
               borderRadius: 2.5,
-              bgcolor: "colors.grey",
+              bgcolor: "colors.lightGrey",
               "& .MuiLinearProgress-bar": {
                 bgcolor: "colors.lightGreen",
               },

@@ -4,7 +4,11 @@ import SearchBar from "@/app/[locale]/components/SearchSection/SearchBar";
 describe("SearchBar", () => {
   it("should render the searchBar in regular mode", () => {
     render(
-      <SearchBar isSearchById={false} switchSearchMode={() => {}}>
+      <SearchBar
+        isSearchById={false}
+        switchAssistedSearch={() => {}}
+        switchSearchById={() => {}}
+      >
         <></>
       </SearchBar>,
     );
@@ -14,7 +18,11 @@ describe("SearchBar", () => {
   });
   it("should render the searchBar in searchById mode", async () => {
     render(
-      <SearchBar isSearchById={false} switchSearchMode={() => {}}>
+      <SearchBar
+        isSearchById={false}
+        switchAssistedSearch={() => {}}
+        switchSearchById={() => {}}
+      >
         <></>
       </SearchBar>,
     );
@@ -27,7 +35,11 @@ describe("SearchBar", () => {
   });
   it("should render the blue 'IMPORT LIST' button when isSearchById is true ", async () => {
     render(
-      <SearchBar isSearchById switchSearchMode={() => {}}>
+      <SearchBar
+        isSearchById
+        switchAssistedSearch={() => {}}
+        switchSearchById={() => {}}
+      >
         <></>
       </SearchBar>,
     );

@@ -7,7 +7,7 @@ export type Operator = (typeof operators)[number];
 export const fieldTypes = ["text", "number", "range", "boolean"] as const;
 export type FieldType = (typeof fieldTypes)[number];
 
-export const baseComparators = ["equals", "notEquals"] as const;
+export const baseComparators = ["equals", "notEquals", ""] as const;
 export type BaseComparator = (typeof baseComparators)[number];
 
 export const textComparators = [
@@ -77,20 +77,20 @@ export interface TextNode extends FieldNode {
 
 export interface NumberNode extends FieldNode {
   fieldType: "number";
-  value: number;
+  value: number | null | "*";
   comparator: NumberComparator;
 }
 
 export interface RangeNode extends FieldNode {
   fieldType: "range";
-  min: number;
-  max: number;
+  min: number | null | "*";
+  max: number | null | "*";
   comparator: RangeComparator;
 }
 
 export interface BooleanNode extends FieldNode {
   fieldType: "boolean";
-  value: boolean;
+  value: boolean | null;
   comparator: BooleanComparator;
 }
 
@@ -170,11 +170,11 @@ function numberNodeToString(node: NumberNode): string {
 
   // Check if an inequality symbol is required
   if (node.comparator === "smaller") {
-    result += `<${node.value}`;
+    result += `<${node.value ?? 0}`;
   } else if (node.comparator === "greater") {
-    result += `>${node.value}`;
+    result += `>${node.value ?? 0}`;
   } else {
-    result += node.value.toString();
+    result += node.value?.toString() ?? "0";
   }
 
   result = addNotPrefixIfNeeded(result, node.comparator);
@@ -183,7 +183,7 @@ function numberNodeToString(node: NumberNode): string {
 }
 
 function rangeNodeToString(node: RangeNode): string {
-  let result = `${node.field}:[${node.min} TO ${node.max}]`;
+  let result = `${node.field}:[${node.min ?? 0} TO ${node.max ?? 0}]`;
 
   result = addNotPrefixIfNeeded(result, node.comparator);
 
@@ -191,7 +191,7 @@ function rangeNodeToString(node: RangeNode): string {
 }
 
 function booleanNodeToString(node: BooleanNode): string {
-  let result = `${node.field}:${node.value.toString()}`;
+  let result = `${node.field}:${node.value?.toString() ?? "false"}`;
 
   result = addNotPrefixIfNeeded(result, node.comparator);
 

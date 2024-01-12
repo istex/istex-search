@@ -1,12 +1,57 @@
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { IconButton, MenuItem, Stack, TextField } from "@mui/material";
+import {
+  textComparators,
+  numberComparators,
+  type FieldNode,
+  booleanComparators,
+  rangeComparators,
+  type Comparator,
+} from "@/lib/queryAst";
 
-// TODO: remove "any" type when the structure is defined by Clement
-const Rule = ({ node }: { node: any }) => {
+const Rule = ({
+  node,
+  displayError,
+  setField,
+  setComparator,
+  setValue,
+  setRangeValue,
+  remove,
+}: {
+  node: FieldNode;
+  displayError: boolean;
+  setField: (newField: string) => void;
+  setComparator: (newComparator: Comparator) => void;
+  setValue: (newValue: string | number | boolean | null) => void;
+  setRangeValue: ({
+    min,
+    max,
+  }: {
+    min?: number | null | "*";
+    max?: number | null | "*";
+  }) => void;
+  remove: () => void;
+}) => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.AssistedInput.Dropdown",
   );
+  const operatorsList = [
+    ...textComparators,
+    ...numberComparators,
+    ...rangeComparators,
+    ...booleanComparators,
+  ]
+    .filter(
+      (value, index) =>
+        [
+          ...textComparators,
+          ...numberComparators,
+          ...rangeComparators,
+          ...booleanComparators,
+        ].indexOf(value) === index,
+    )
+    .filter((word) => word !== "");
   const fieldsList = [
     "corpusName",
     "publicationDate",
@@ -16,15 +61,7 @@ const Rule = ({ node }: { node: any }) => {
     "qualityIndicators.tdmReady",
     "abstract",
   ];
-  const operatorsList = [
-    "equal",
-    "notEqual",
-    "contains",
-    "notContains",
-    "isBetween",
-    "isGreaterThan",
-    "isLessThan",
-  ];
+
   const getAllFields = fieldsList.map((field, index) => {
     return (
       <MenuItem value={field} key={index}>
@@ -39,18 +76,25 @@ const Rule = ({ node }: { node: any }) => {
       </MenuItem>
     );
   });
-  const getRightValueField = (node: any) => {
+  const getRightValueField = (node: FieldNode) => {
     switch (node.fieldType) {
       case "boolean":
         return (
           <TextField
             size="small"
             fullWidth
-            sx={{ mr: 2 }}
             select
-            disabled
-            value={node.value}
-            label={node.value === undefined && t("value")}
+            value={"value" in node && node.value}
+            label={"value" in node && node.value === null ? t("value") : null}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+            sx={{ mr: 2 }}
+            error={
+              displayError &&
+              "value" in node &&
+              (node.value === "" || node.value === null)
+            }
           >
             <MenuItem value="true">{t("true")}</MenuItem>
             <MenuItem value="false">{t("false")}</MenuItem>
@@ -66,30 +110,84 @@ const Rule = ({ node }: { node: any }) => {
           >
             <TextField
               placeholder={t("valueMin")}
-              value={node.min}
+              value={"min" in node && node.min}
               size="small"
               fullWidth
-              disabled
+              onChange={(event) => {
+                try {
+                  if (!isNaN(+event.target.value)) {
+                    setRangeValue({ min: +event.target.value });
+                  } else if (event.target.value === "*") {
+                    setRangeValue({ min: "*" });
+                  } else if (event.target.value === "") {
+                    setRangeValue({ min: null });
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              error={
+                displayError &&
+                "min" in node &&
+                (node.min === "" || node.min === null)
+              }
             />
             <p>-</p>
             <TextField
               placeholder={t("valueMax")}
-              value={node.max}
+              value={"max" in node && node.max}
               size="small"
               fullWidth
-              disabled
+              onChange={(event) => {
+                try {
+                  if (!isNaN(+event.target.value)) {
+                    setRangeValue({ max: +event.target.value });
+                  } else if (event.target.value === "*") {
+                    setRangeValue({ max: "*" });
+                  } else if (event.target.value === "") {
+                    setRangeValue({ max: null });
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+              error={
+                displayError &&
+                "max" in node &&
+                (node.max === "" || node.max === null)
+              }
             />
           </Stack>
         );
-      default: // case text
+      default: // case text or number
         return (
           <TextField
-            label={t("value")}
+            label={
+              "value" in node && (node.value === "" || node.value === null)
+                ? t("value")
+                : null
+            }
             variant="outlined"
-            value={node.value}
+            value={"value" in node && (node.value === null ? "" : node.value)}
             size="small"
             fullWidth
-            disabled
+            onChange={(e) => {
+              if (
+                node.fieldType === "text" ||
+                (node.fieldType === "number" &&
+                  (!isNaN(+e.target.value) || // Accept number
+                    e.target.value === "*")) // Accept '*'
+              ) {
+                setValue(e.target.value);
+              } else if (node.fieldType === "number" && e.target.value === "") {
+                setValue(null);
+              }
+            }}
+            error={
+              displayError &&
+              "value" in node &&
+              (node.value === "" || node.value === null)
+            }
           />
         );
     }
@@ -113,9 +211,12 @@ const Rule = ({ node }: { node: any }) => {
         fullWidth
         sx={{ mr: 2 }}
         select
-        disabled
         value={node.field}
-        label={node.field === undefined && t("field")}
+        label={node.field === "" ? t("field") : null}
+        onChange={(e) => {
+          setField(e.target.value);
+        }}
+        error={displayError && node.field === ""}
       >
         {getAllFields}
       </TextField>
@@ -126,9 +227,12 @@ const Rule = ({ node }: { node: any }) => {
         fullWidth
         sx={{ mr: 2 }}
         select
-        disabled
         value={node.comparator}
-        label={node.comparator === undefined && t("comparator")}
+        label={node.comparator === "" ? t("comparator") : null}
+        onChange={(e) => {
+          setComparator(e.target.value as Comparator);
+        }}
+        error={displayError && node.comparator === ""}
       >
         {getAllOperators}
       </TextField>
@@ -137,7 +241,7 @@ const Rule = ({ node }: { node: any }) => {
       {getRightValueField(node)}
 
       {/* REMOVE BUTTON */}
-      <IconButton>
+      <IconButton onClick={remove}>
         <CancelIcon color="error" />
       </IconButton>
     </Stack>

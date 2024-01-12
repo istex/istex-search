@@ -1,11 +1,15 @@
 import { useRouter } from "next-intl/client";
 import { customRender as render, screen, userEvent } from "../test-utils";
+import SearchSection from "@/app/[locale]/components/SearchSection";
 import SearchInput from "@/app/[locale]/components/SearchSection/SearchInput";
 
 describe("SearchInput", () => {
   it("should render the regular search input", () => {
     const { container } = render(
-      <SearchInput switchAssistedSearch={() => {}} />,
+      <SearchInput
+        switchAssistedSearch={() => {}}
+        goToResultsPage={() => {}}
+      />,
     );
     expect(
       container.querySelector("#regular-search-input"),
@@ -14,7 +18,10 @@ describe("SearchInput", () => {
 
   it("should render the import search input when clicking on 'IMPORT LIST' button", async () => {
     const { container } = render(
-      <SearchInput switchAssistedSearch={() => {}} />,
+      <SearchInput
+        switchAssistedSearch={() => {}}
+        goToResultsPage={() => {}}
+      />,
     );
     const switchSearchMode = screen.getByTestId("search-by-id-button");
     await userEvent.click(switchSearchMode);
@@ -26,7 +33,10 @@ describe("SearchInput", () => {
 
   it("should render again the regular search input when clicking two times on 'IMPORT LIST' button", async () => {
     const { container } = render(
-      <SearchInput switchAssistedSearch={() => {}} />,
+      <SearchInput
+        switchAssistedSearch={() => {}}
+        goToResultsPage={() => {}}
+      />,
     );
     await userEvent.click(screen.getByTestId("search-by-id-button"));
     expect(
@@ -44,7 +54,7 @@ describe("SearchInput", () => {
 
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
     const router = useRouter();
-    render(<SearchInput switchAssistedSearch={() => {}} />);
+    render(<SearchSection />);
     const queryString = `ark:/67375/NVC-Z7G9LN4W-1
 ark:/67375/NVC-Z7GF9ML4-0
 ark:/67375/NVC-Z7GHR58X-4`;

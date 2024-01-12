@@ -5,15 +5,14 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
+import SearchSection from "@/app/[locale]/components/SearchSection";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 import SearchInput from "@/app/[locale]/components/SearchSection/SearchInput";
 import { examples } from "@/config";
 
 describe("RegularSearchInput", () => {
   async function search(queryString?: string) {
-    const renderResult = render(
-      <SearchInput switchAssistedSearch={() => {}} />,
-    );
+    const renderResult = render(<SearchSection />);
 
     const input = screen.getByRole("textbox");
     const button = screen.getByRole("button", { name: "RECHERCHER" });
@@ -70,7 +69,13 @@ describe("RegularSearchInput", () => {
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    render(<SearchInput switchAssistedSearch={() => {}} />, { queryString });
+    render(
+      <SearchInput
+        goToResultsPage={() => {}}
+        switchAssistedSearch={() => {}}
+      />,
+      { queryString },
+    );
 
     const input = screen.getByRole("textbox");
 
@@ -79,7 +84,7 @@ describe("RegularSearchInput", () => {
 
   it("fills the input and goes to the results page when clicking on an example", async () => {
     const router = useRouter();
-    render(<SearchInput switchAssistedSearch={() => {}} />);
+    render(<SearchSection />);
     const firstExample = screen.getByRole("button", {
       name: "Réchauffement climatique",
     });
@@ -105,7 +110,13 @@ describe("RegularSearchInput", () => {
   });
 
   it("should display a spinner when loading", () => {
-    render(<SearchInput switchAssistedSearch={() => {}} loading />);
+    render(
+      <SearchInput
+        goToResultsPage={() => {}}
+        switchAssistedSearch={() => {}}
+        loading
+      />,
+    );
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

@@ -1,9 +1,17 @@
 import { customRender as render, screen } from "../test-utils";
 import Group from "@/app/[locale]/components/SearchSection/AssistedSearch/Group";
+import type { AST } from "@/lib/queryAst";
 
 describe("Group", () => {
   it("should render an empty Group", () => {
-    render(<Group nodes={[]} />);
+    render(
+      <Group
+        nodes={[]}
+        displayError={false}
+        updateData={() => {}}
+        remove={() => {}}
+      />,
+    );
     expect(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     ).toBeInTheDocument();
@@ -16,16 +24,23 @@ describe("Group", () => {
   });
 
   it("should render a simple Group", () => {
-    const nodes = [
+    const nodes: AST = [
       {
         nodeType: "node",
         fieldType: "text",
         field: "corpusName",
         value: "elsevier",
-        comparator: "equal",
+        comparator: "equals",
       },
     ];
-    render(<Group nodes={nodes} />);
+    render(
+      <Group
+        nodes={nodes}
+        displayError={false}
+        updateData={() => {}}
+        remove={() => {}}
+      />,
+    );
     expect(
       screen.getByRole("button", { name: "corpusName" }),
     ).toBeInTheDocument();
@@ -35,13 +50,13 @@ describe("Group", () => {
   });
 
   it("should render a Group with other nested Groups", () => {
-    const nodes = [
+    const nodes: AST = [
       {
         nodeType: "node",
         fieldType: "text",
         field: "corpusName",
         value: "elsevier",
-        comparator: "equal",
+        comparator: "equals",
       },
       {
         nodeType: "operator",
@@ -60,7 +75,14 @@ describe("Group", () => {
         ],
       },
     ];
-    render(<Group nodes={nodes} />);
+    render(
+      <Group
+        nodes={nodes}
+        displayError={false}
+        updateData={() => {}}
+        remove={() => {}}
+      />,
+    );
     expect(
       screen.getAllByRole("button", { name: "Ajouter une règle" }),
     ).toHaveLength(2);

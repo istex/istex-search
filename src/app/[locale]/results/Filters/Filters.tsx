@@ -1,16 +1,16 @@
 "use client";
 
-import useSearchParams from "@/lib/useSearchParams";
-import type { ClientComponent } from "@/types/next";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next-intl/client";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
-import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
 import { useDocumentContext } from "../Document/DocumentContext";
 import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
+import useSearchParams from "@/lib/useSearchParams";
+import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {
   const t = useTranslations("results.filters");

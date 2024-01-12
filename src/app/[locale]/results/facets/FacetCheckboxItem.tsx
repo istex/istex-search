@@ -1,9 +1,9 @@
 "use client";
 
-import type { ClientComponent } from "@/types/next";
-import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import { useLocale } from "next-intl";
+import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
+import type { ClientComponent } from "@/types/next";
 
 const FacetCheckboxItem: ClientComponent<{
   value: string;

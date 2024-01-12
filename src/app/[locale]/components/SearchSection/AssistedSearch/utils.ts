@@ -78,33 +78,28 @@ export const emptyRule: Node = {
   comparator: "",
 };
 
-export const addRule = (setFunction: (array: AST) => void, array: AST) => {
-  setFunction([
-    ...array,
-    { nodeType: "operator", value: "AND" },
-    { ...emptyRule },
-  ]);
+export const addRule = (setAst: (ast: AST) => void, ast: AST) => {
+  setAst([...ast, { nodeType: "operator", value: "AND" }, { ...emptyRule }]);
 };
 
-export const addGroup = (setFunction: (array: AST) => void, array: AST) => {
-  setFunction([
-    ...array,
+export const addGroup = (setAst: (ast: AST) => void, ast: AST) => {
+  setAst([
+    ...ast,
     { nodeType: "operator", value: "AND" },
     { nodeType: "group", nodes: [{ ...emptyRule }] },
   ]);
 };
 
 export function setField(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   newField: string,
 ) {
-  const newParsedAst = [...array];
-  const changeFieldType =
-    newField !==
-    (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
-      .fieldType;
+  const newParsedAst = [...ast];
+  const oldFieldType = (
+    newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
+  ).fieldType;
   (
     newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
   ).field = newField;
@@ -127,21 +122,25 @@ export function setField(
       newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
     ).fieldType = "text";
   }
-  if (changeFieldType)
+  if (
+    oldFieldType !==
+    (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
+      .fieldType
+  )
     newParsedAst[index] = transformNode(
       newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode,
     );
 
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export function setComparator(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   newComparator: Comparator,
 ) {
-  const newParsedAst = [...array];
+  const newParsedAst = [...ast];
   const oldFieldType = (
     newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
   ).fieldType;
@@ -176,70 +175,70 @@ export function setComparator(
       newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode,
     );
 
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export function setValue(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   newValue: string | number | boolean | null,
 ) {
-  const newParsedAst = [...array];
+  const newParsedAst = [...ast];
   (newParsedAst[index] as TextNode | NumberNode | BooleanNode).value = newValue;
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export function setRangeValue(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   min?: number | null | "*",
   max?: number | null | "*",
 ) {
-  const newParsedAst = [...array];
+  const newParsedAst = [...ast];
   if (min !== undefined) (newParsedAst[index] as RangeNode).min = min;
   if (max !== undefined) (newParsedAst[index] as RangeNode).max = max;
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export function setGroup(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   newGroup: Node[],
 ) {
-  const newParsedAst = [...array];
+  const newParsedAst = [...ast];
   (newParsedAst[index] as GroupNode).nodes = newGroup;
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export function setOperator(
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
   newOperator: Operator,
 ) {
-  const newParsedAst = [...array];
+  const newParsedAst = [...ast];
   (newParsedAst[index] as OperatorNode).value = newOperator;
-  setFunction(newParsedAst);
+  setAst(newParsedAst);
 }
 
 export const removeNode = (
-  setFunction: (array: AST) => void,
-  array: AST,
+  setAst: (ast: AST) => void,
+  ast: AST,
   index: number,
 ) => {
-  if (array.length === 1) {
-    reset(setFunction);
+  if (ast.length === 1) {
+    reset(setAst);
   } else {
-    const newParsedAst = [...array];
+    const newParsedAst = [...ast];
     if (index === 0) newParsedAst.splice(0, 2);
     else newParsedAst.splice(index - 1, 2);
-    setFunction(newParsedAst);
+    setAst(newParsedAst);
   }
 };
 
-export const reset = (setFunction: (array: AST) => void) => {
-  setFunction([{ ...emptyRule }]);
+export const reset = (setAst: (ast: AST) => void) => {
+  setAst([{ ...emptyRule }]);
 };

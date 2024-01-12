@@ -15,7 +15,7 @@ import {
   setComparator,
   setValue,
   setRangeValue,
-} from "./functions";
+} from "./utils";
 import type {
   AST,
   Comparator,

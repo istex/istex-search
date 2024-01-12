@@ -26,7 +26,7 @@ import {
   setComparator,
   setValue,
   setRangeValue,
-} from "./AssistedSearch/functions";
+} from "./AssistedSearch/utils";
 import Button from "@/components/Button";
 import {
   astToString,
@@ -51,7 +51,7 @@ const AssistedSearchInput: ClientComponent<{
   const initializeParsedAst = () => {
     const parsedAst = sessionStorage.getItem("assistedAST");
     if (parsedAst === null) {
-      return [emptyRule];
+      return [{ ...emptyRule }];
     } else {
       return JSON.parse(parsedAst);
     }
@@ -117,20 +117,14 @@ const AssistedSearchInput: ClientComponent<{
     }
   };
 
-  const checkAstEmptyEntry = (element: any) => {
-    let isError = false;
-    if (element === null) isError = true;
-    if (typeof element === "object" && !isError) {
-      Object.values(element).forEach((value) => {
-        if (!isError) {
-          if (value === null || value === "") isError = true;
-          if (typeof value === "object" && !isError) {
-            if (checkAstEmptyEntry(value)) isError = true;
-          }
-        }
-      });
-    }
-    return isError;
+  const checkAstEmptyEntry = (element: any): boolean => {
+    return Object.values(element).some((value) => {
+      if (value === null || value === "") return true;
+      if (typeof value === "object") {
+        return checkAstEmptyEntry(value);
+      }
+      return false;
+    });
   };
 
   const search = () => {

@@ -122,9 +122,7 @@ const Rule = ({
                   } else if (event.target.value === "") {
                     setRangeValue({ min: null });
                   }
-                } catch (error) {
-                  console.log(error);
-                }
+                } catch (e) {}
               }}
               error={
                 displayError &&
@@ -147,9 +145,7 @@ const Rule = ({
                   } else if (event.target.value === "") {
                     setRangeValue({ max: null });
                   }
-                } catch (error) {
-                  console.log(error);
-                }
+                } catch (e) {}
               }}
               error={
                 displayError &&

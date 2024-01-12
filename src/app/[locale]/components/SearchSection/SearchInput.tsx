@@ -29,6 +29,7 @@ const SearchInput: ClientComponent<{
         switchSearchById={() => {
           setIsSearchById(!isSearchById);
         }}
+        loading={loading}
       >
         {child}
       </SearchBar>

@@ -20,6 +20,7 @@
         "importButton": "IMPORT\nD'IDENTIFIANTS",
         "assistedButton": "Recherche\nassistée",
         "switch": "Assistant",
+        "resultsCount": "{count, plural, =0 {<resultsSpan>#</resultsSpan> document trouvé} =1 {<resultsSpan>#</resultsSpan> document trouvé} other {<resultsSpan>#</resultsSpan> documents trouvés}}",
         "RegularSearchInput": {
           "searchTitle": "Créez votre requête",
           "resultsTitle": "Résultats de votre requête",

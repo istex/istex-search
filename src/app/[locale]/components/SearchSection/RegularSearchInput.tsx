@@ -80,11 +80,13 @@ const RegularSearchInput: ClientComponent<{
         />,
       )}
 
-      <QueryExamplesList
-        goToResultsPage={(newQueryString) => {
-          goToResultsPage(newQueryString, setErrorMessage, setQueryString);
-        }}
-      />
+      {onHomePage && (
+        <QueryExamplesList
+          goToResultsPage={(newQueryString) => {
+            goToResultsPage(newQueryString, setErrorMessage, setQueryString);
+          }}
+        />
+      )}
     </Box>
   );
 };

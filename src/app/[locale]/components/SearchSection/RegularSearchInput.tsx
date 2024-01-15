@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import QueryExamplesList from "./QueryExamplesList";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -21,8 +21,7 @@ const RegularSearchInput: ClientComponent<{
     setErrorMessage: (errorMessage: string) => void,
     setQueryString: (queryString: string) => void,
   ) => void;
-  loading?: boolean;
-}> = ({ searchBar, goToResultsPage, loading }) => {
+}> = ({ searchBar, goToResultsPage }) => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
@@ -72,10 +71,6 @@ const RegularSearchInput: ClientComponent<{
               borderTopRightRadius: { xs: 4, sm: 0 },
               borderBottomRightRadius: { xs: 4, sm: 0 },
             },
-          }}
-          InputProps={{
-            endAdornment:
-              loading === true ? <CircularProgress size={20} /> : undefined,
           }}
         />,
       )}

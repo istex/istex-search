@@ -50,4 +50,17 @@ describe("SearchBar", () => {
       "color: white",
     );
   });
+  it("should display a spinner when loading", () => {
+    render(
+      <SearchBar
+        isSearchById
+        switchAssistedSearch={() => {}}
+        switchSearchById={() => {}}
+        loading
+      >
+        <></>
+      </SearchBar>,
+    );
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  });
 });

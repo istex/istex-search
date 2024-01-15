@@ -27,11 +27,4 @@ describe("ImportInput", () => {
     ).toBeInTheDocument();
     expect(screen.getByTestId("search-by-id-button")).toBeInTheDocument();
   });
-
-  it("should display a spinner when loading", () => {
-    render(
-      <ImportInput searchBar={searchBar} goToResultsPage={() => {}} loading />,
-    );
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
-  });
 });

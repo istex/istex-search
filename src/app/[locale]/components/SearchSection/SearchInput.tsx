@@ -34,16 +34,11 @@ const SearchInput: ClientComponent<{
   return (
     <>
       {isSearchById ? (
-        <ImportInput
-          searchBar={searchBar}
-          goToResultsPage={goToResultsPage}
-          loading={loading}
-        />
+        <ImportInput searchBar={searchBar} goToResultsPage={goToResultsPage} />
       ) : (
         <RegularSearchInput
           searchBar={searchBar}
           goToResultsPage={goToResultsPage}
-          loading={loading}
         />
       )}
     </>

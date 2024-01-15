@@ -2,7 +2,13 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import Image from "next/image";
-import { Box, Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import SearchByIdSelectedIcon from "@/../public/id-search-selected.svg";
 import SearchByIdUnselectedIcon from "@/../public/id-search-unselected.svg";
@@ -63,18 +69,34 @@ const SearchBar = ({
       >
         {children}
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            type="submit"
-            sx={{
-              borderTopLeftRadius: { xs: 4, sm: 0 },
-              borderBottomLeftRadius: { xs: 4, sm: 0 },
-              height: "65px",
-              py: 1.95,
-              px: 1.75,
-            }}
-          >
-            {t("button")}
-          </Button>
+          <Box sx={{ position: "relative" }}>
+            <Button
+              type="submit"
+              disabled={loading}
+              sx={{
+                borderTopLeftRadius: { xs: 4, sm: 0 },
+                borderBottomLeftRadius: { xs: 4, sm: 0 },
+                height: "65px",
+                py: 1.95,
+                px: 1.75,
+              }}
+            >
+              {t("button")}
+            </Button>
+            {loading === true && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  color: "colors.blue",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  marginTop: "-12px",
+                  marginLeft: "-12px",
+                }}
+              />
+            )}
+          </Box>
           <Button
             mainColor={isSearchById ? undefined : "white"}
             secondaryColor="darkBlack"

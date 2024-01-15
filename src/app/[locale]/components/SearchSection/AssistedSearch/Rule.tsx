@@ -82,6 +82,7 @@ const Rule = ({
         return (
           <TextField
             size="small"
+            focused={false}
             fullWidth
             select
             value={"value" in node && node.value}
@@ -89,7 +90,6 @@ const Rule = ({
             onChange={(e) => {
               setValue(e.target.value);
             }}
-            sx={{ mr: 2 }}
             error={
               displayError &&
               "value" in node &&
@@ -105,7 +105,7 @@ const Rule = ({
           <Stack
             direction="row"
             alignItems="center"
-            spacing={1}
+            spacing="10px"
             sx={{ width: "100%" }}
           >
             <TextField
@@ -129,6 +129,12 @@ const Rule = ({
                 "min" in node &&
                 (node.min === "" || node.min === null)
               }
+              sx={{
+                "input::placeholder": {
+                  fontWeight: 400,
+                  opacity: 0.8,
+                },
+              }}
             />
             <p>-</p>
             <TextField
@@ -152,12 +158,19 @@ const Rule = ({
                 "max" in node &&
                 (node.max === "" || node.max === null)
               }
+              sx={{
+                "input::placeholder": {
+                  fontWeight: 400,
+                  opacity: 0.8,
+                },
+              }}
             />
           </Stack>
         );
       default: // case text or number
         return (
           <TextField
+            focused={false}
             label={
               "value" in node && (node.value === "" || node.value === null)
                 ? t("value")
@@ -192,20 +205,23 @@ const Rule = ({
   return (
     <Stack
       ml={11}
-      my={1.5}
       direction="row"
-      p={0.5}
+      gap="10px"
+      p="5px"
+      pr="14px"
       sx={(theme) => ({
         border: `1px ${theme.palette.primary.light} solid`,
-        borderRadius: "10px",
+        borderRadius: "5px",
+        p: "5px 14px 5px 5px",
+        mt: "10px",
         position: "relative",
       })}
     >
       {/* FIELD */}
       <TextField
         size="small"
+        focused={false}
         fullWidth
-        sx={{ mr: 2 }}
         select
         value={node.field}
         label={node.field === "" ? t("field") : null}
@@ -220,8 +236,8 @@ const Rule = ({
       {/* COMPARATOR */}
       <TextField
         size="small"
+        focused={false}
         fullWidth
-        sx={{ mr: 2 }}
         select
         value={node.comparator}
         label={node.comparator === "" ? t("comparator") : null}
@@ -237,7 +253,7 @@ const Rule = ({
       {getRightValueField(node)}
 
       {/* REMOVE BUTTON */}
-      <IconButton onClick={remove}>
+      <IconButton onClick={remove} sx={{ width: "16px", p: 0 }}>
         <CancelIcon color="error" />
       </IconButton>
     </Stack>

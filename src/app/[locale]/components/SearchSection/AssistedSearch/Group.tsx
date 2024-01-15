@@ -15,6 +15,7 @@ import {
   setComparator,
   setValue,
   setRangeValue,
+  getHeight,
 } from "./utils";
 import type {
   AST,
@@ -91,6 +92,10 @@ const Group = ({
             setEntry={(newOperator: OperatorType) => {
               setOperator(setGroup, group, index, newOperator);
             }}
+            isFirstOperator={index === 1}
+            isLastOperator={index === group.length - 2}
+            precedentNodeHeight={getHeight(group[index - 1])}
+            nextNodeHeight={getHeight(group[index + 1])}
           />
         );
     }
@@ -103,13 +108,18 @@ const Group = ({
   return (
     <Box
       ml={11}
-      mt={1}
       sx={(theme) => ({
         border: `1px ${theme.palette.primary.light} solid`,
         borderRadius: "10px",
+        mt: "10px",
       })}
     >
-      <Stack direction="row" justifyContent="flex-end" spacing={2}>
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        spacing="10px"
+        mb="-15px"
+      >
         <MuiButton
           sx={{ color: "colors.lightGreen" }}
           startIcon={<AddCircleIcon />}

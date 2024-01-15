@@ -1,35 +1,70 @@
 import React from "react";
-import { MenuItem, TextField } from "@mui/material";
+import { Box, MenuItem, Stack, TextField } from "@mui/material";
+import { spacing } from "./utils";
 import type { Operator as OperatorType } from "@/lib/queryAst";
+
+const operatorHeight = 40;
 
 const Operator = ({
   operator,
   setEntry,
+  isFirstOperator,
+  isLastOperator,
+  precedentNodeHeight,
+  nextNodeHeight,
 }: {
   operator: OperatorType;
   setEntry: (newOperator: OperatorType) => void;
+  isFirstOperator?: boolean;
+  isLastOperator?: boolean;
+  precedentNodeHeight: number;
+  nextNodeHeight: number;
 }) => {
+  const marginTop = precedentNodeHeight / 2 - operatorHeight / 2;
+  const height = spacing + precedentNodeHeight / 2 + nextNodeHeight / 2;
   return (
-    <TextField
-      select
-      value={operator}
-      size="small"
-      sx={(theme) => ({
-        "& .MuiOutlinedInput-notchedOutline": {
-          border: `1px solid ${theme.palette.primary.light} !important`,
-          borderRadius: "25px",
-        },
-        position: "absolute",
-        marginTop: "-20px",
-        width: "80px",
-      })}
-      onChange={(e) => {
-        setEntry(e.target.value as OperatorType);
-      }}
-    >
-      <MenuItem value="AND">AND</MenuItem>
-      <MenuItem value="OR">OR</MenuItem>
-    </TextField>
+    <Stack direction="row" sx={{ position: "absolute", marginTop: "-20px" }}>
+      <TextField
+        select
+        value={operator}
+        size="small"
+        sx={(theme) => ({
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: `1px solid ${theme.palette.primary.light} !important`,
+            borderRadius: "85px",
+          },
+          "& .MuiSelect-select": {
+            pr: "0 !important",
+          },
+          width: "78px",
+          height: `${operatorHeight}px`,
+          mt: "5px",
+          backgroundColor: "white",
+        })}
+        onChange={(e) => {
+          setEntry(e.target.value as OperatorType);
+        }}
+      >
+        <MenuItem value="AND">AND</MenuItem>
+        <MenuItem value="OR">OR</MenuItem>
+      </TextField>
+      <Box
+        sx={(theme) => ({
+          width: "50px",
+          height: `${height}px`,
+          marginTop: `-${marginTop}px`,
+          marginLeft: "-39px",
+          border: `1px solid ${theme.palette.primary.light}`,
+          borderRight: "none",
+          borderBottom:
+            isLastOperator === true
+              ? `1px solid ${theme.palette.primary.light}`
+              : "none",
+          borderTopLeftRadius: isFirstOperator === true ? "10px" : "",
+          borderBottomLeftRadius: isLastOperator === true ? "10px" : "",
+        })}
+      />
+    </Stack>
   );
 };
 

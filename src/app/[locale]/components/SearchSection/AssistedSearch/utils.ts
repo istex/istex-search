@@ -242,3 +242,22 @@ export const removeNode = (
 export const reset = (setAst: (ast: AST) => void) => {
   setAst([{ ...emptyRule }]);
 };
+
+export const spacing = 10;
+const ruleHeight = 52;
+const buttonsHeight = 36.5;
+export const getHeight = (node: Node) => {
+  let height = buttonsHeight;
+  switch (node.nodeType) {
+    case "group":
+      node.nodes.forEach((node: Node) => {
+        height += getHeight(node) + spacing;
+      });
+      height -= spacing;
+      return height;
+    case "node":
+      return ruleHeight;
+    default: // case "operator"
+      return 0;
+  }
+};

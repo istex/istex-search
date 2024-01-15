@@ -26,6 +26,7 @@ import {
   setComparator,
   setValue,
   setRangeValue,
+  getHeight,
 } from "./AssistedSearch/utils";
 import Button from "@/components/Button";
 import {
@@ -47,9 +48,9 @@ const AssistedSearchInput: ClientComponent<{
   const t = useTranslations("home.SearchSection.SearchInput.AssistedInput");
   const [isError, setIsError] = useState(false);
 
-  // TODO: when triple url search modes is implemented, initialize with url istead of sessionStorage
+  // TODO: when triple url search modes is implemented, initialize with url istead of localStorage
   const initializeParsedAst = () => {
-    const parsedAst = sessionStorage.getItem("assistedAST");
+    const parsedAst = localStorage?.getItem("assistedAST") ?? null;
     if (parsedAst === null) {
       return [{ ...emptyRule }];
     } else {
@@ -112,6 +113,10 @@ const AssistedSearchInput: ClientComponent<{
             setEntry={(newOperator: OperatorType) => {
               setOperator(setParsedAst, parsedAst, index, newOperator);
             }}
+            isFirstOperator={index === 1}
+            isLastOperator={index === parsedAst.length - 2}
+            precedentNodeHeight={getHeight(parsedAst[index - 1])}
+            nextNodeHeight={getHeight(parsedAst[index + 1])}
           />
         );
     }
@@ -137,7 +142,7 @@ const AssistedSearchInput: ClientComponent<{
     if (checkAstEmptyEntry(parsedAst)) {
       setIsError(true);
     } else {
-      sessionStorage.setItem("assistedAST", JSON.stringify(parsedAst));
+      localStorage.setItem("assistedAST", JSON.stringify(parsedAst));
       search();
     }
   };
@@ -149,7 +154,12 @@ const AssistedSearchInput: ClientComponent<{
       </Typography>
 
       <Box py={5}>
-        <Stack direction="row" justifyContent="flex-end" spacing={2}>
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          spacing="10px"
+          mb="-10px"
+        >
           <MuiButton
             sx={{ color: "colors.lightGreen" }}
             startIcon={<AddCircleIcon />}
@@ -174,7 +184,7 @@ const AssistedSearchInput: ClientComponent<{
               startIcon={<RestartAltIcon />}
               onClick={() => {
                 reset(setParsedAst);
-                sessionStorage.removeItem("assistedAST");
+                localStorage.removeItem("assistedAST");
                 setIsError(false);
               }}
             >
@@ -182,6 +192,7 @@ const AssistedSearchInput: ClientComponent<{
             </MuiButton>
           )}
         </Stack>
+
         {parsedAst.length > 0 &&
           parsedAst.map((node, index) => getNodeComponent(node, index))}
       </Box>

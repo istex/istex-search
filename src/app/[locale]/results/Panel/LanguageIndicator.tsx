@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { getLanguageLabel } from "../facets/utils";
 import type { ClientComponent } from "@/types/next";
 
 const LanguageIndicator: ClientComponent<{
@@ -11,6 +12,7 @@ const LanguageIndicator: ClientComponent<{
   total: number;
 }> = ({ label, data, total }) => {
   const t = useTranslations("results.Panel");
+  const tFacets = useTranslations("results.Facets");
   const theme = useTheme();
   const locale = useLocale();
   const mainPercentage = Math.floor((data[0].docCount * 100) / total);
@@ -88,8 +90,7 @@ const LanguageIndicator: ClientComponent<{
         {data.map(({ key, docCount }, index) => {
           const rawPercentage = (docCount * 100) / total;
           const percentage = rawPercentage.toLocaleString(locale, {
-            maximumFractionDigits:
-              rawPercentage < 1 || rawPercentage > 99 ? 1 : 0,
+            maximumFractionDigits: 1,
           });
           return (
             <Stack key={key} direction="row" gap={0.5} alignItems="center">
@@ -110,7 +111,7 @@ const LanguageIndicator: ClientComponent<{
               >
                 {t("languageCount", {
                   count: docCount,
-                  language: key,
+                  language: getLanguageLabel(key as string, locale, tFacets),
                   percentage,
                 })}
               </Typography>

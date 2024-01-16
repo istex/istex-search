@@ -29,6 +29,8 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
     isMin: boolean,
   ) => {
     if (
+      // Bridle the number of characters
+      event.target.value.length < 5 &&
       // Bridle the score input to the range
       ((facetTitle === "qualityIndicators.score" &&
         +event.target.value >= 0 &&

@@ -1,27 +1,44 @@
-import { customRender as render, screen } from "../test-utils";
+import { useState } from "react";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
-import type { BooleanNode, RangeNode, TextNode } from "@/lib/queryAst";
+import type {
+  BooleanNode,
+  RangeNode,
+  TextComparator,
+  TextNode,
+} from "@/lib/queryAst";
 
 describe("Rule", () => {
-  it("should render an empty Rule", () => {
+  const RuleComponentTest = () => {
+    const [comparator, setComparator] = useState<TextComparator>("");
+    const [field, setField] = useState("");
     const node: TextNode = {
       nodeType: "node",
       fieldType: "text",
       value: "",
-      comparator: "",
-      field: "",
+      comparator,
+      field,
     };
-    render(
+
+    return (
       <Rule
         node={node}
         displayError={false}
-        setField={() => {}}
-        setComparator={() => {}}
+        setField={(newField) => {
+          setField(newField);
+        }}
+        setComparator={(newComparator) => {
+          setComparator(newComparator as TextComparator);
+        }}
         setValue={() => {}}
         setRangeValue={() => {}}
         remove={() => {}}
-      />,
+      />
     );
+  };
+
+  it("should render an empty Rule", () => {
+    render(<RuleComponentTest />);
     expect(screen.getByLabelText("Champ")).toBeInTheDocument();
     expect(screen.getByLabelText("Comparateur")).toBeInTheDocument();
     expect(screen.getByLabelText("Valeur")).toBeInTheDocument();
@@ -106,13 +123,22 @@ describe("Rule", () => {
     expect(screen.getAllByRole("textbox")[0]).toHaveValue("2010");
     expect(screen.getAllByRole("textbox")[1]).toHaveValue("2020");
   });
-  it("should display an empty boolean field on hasFormula selection", () => {
-    /* TODO */
+  it("should toggle field", async () => {
+    render(<RuleComponentTest />);
+    await userEvent.click(screen.getByLabelText("Champ"));
+    expect(screen.getAllByRole("option").length).toBe(7);
+    await userEvent.click(screen.getAllByRole("option")[4]);
+    expect(
+      screen.getByRole("button", { name: "fulltext" }),
+    ).toBeInTheDocument();
   });
-  it("should display an empty range field on publicationDate selection", () => {
-    /* TODO */
-  });
-  it("should display an text range field on corpusName selection", () => {
-    /* TODO */
+  it("should toggle comparator", async () => {
+    render(<RuleComponentTest />);
+    await userEvent.click(screen.getByLabelText("Comparateur"));
+    expect(screen.getAllByRole("option").length).toBe(12);
+    await userEvent.click(screen.getAllByRole("option")[4]);
+    expect(
+      screen.getByRole("button", { name: "commence par" }),
+    ).toBeInTheDocument();
   });
 });

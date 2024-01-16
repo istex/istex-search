@@ -35,6 +35,7 @@
           "errorsSyntaxCount": "{count, plural, =1 {Un identifiants qui n'est pas du {type} a été identifié à la ligne {errorLines}} other {Des identifiants qui ne sont pas des {type} ont été identifiés aux lignes: {errorLines}}}"
         },
         "AssistedInput": {
+          "error": "Veuillez remplir tous les champs",
           "title": "Assistant à la construction de requête",
           "editionButton": "édition experte",
           "regularSearch": "< recherche simple",

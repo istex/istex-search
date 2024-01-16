@@ -197,6 +197,7 @@ const AssistedSearchInput: ClientComponent<{
           parsedAst.map((node, index) => getNodeComponent(node, index))}
       </Box>
 
+      {isError && <Typography color="error">{t("error")}</Typography>}
       <Grid container>
         <Grid item xs={4} display="flex">
           <MuiButton

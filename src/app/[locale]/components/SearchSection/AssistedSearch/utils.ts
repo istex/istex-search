@@ -244,8 +244,8 @@ export const reset = (setAst: (ast: AST) => void) => {
 };
 
 export const spacing = 10;
-const ruleHeight = 52;
-const buttonsHeight = 36.5;
+export const ruleHeight = 52;
+export const buttonsHeight = 36.5;
 export const getHeight = (node: Node) => {
   let height = buttonsHeight;
   switch (node.nodeType) {

@@ -1,4 +1,4 @@
-import { customRender as render, screen } from "../test-utils";
+import { customRender as render, screen } from "../../test-utils";
 import Group from "@/app/[locale]/components/SearchSection/AssistedSearch/Group";
 import type { AST } from "@/lib/queryAst";
 

@@ -18,6 +18,8 @@ const DownloadButton: ClientComponent = () => {
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
   const filters = searchParams.getFilters();
+  const sortBy = searchParams.getSortBy();
+  const sortDir = searchParams.getSortDirection();
   const isFormComplete =
     queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
@@ -29,6 +31,8 @@ const DownloadButton: ClientComponent = () => {
       filters,
       selectedDocuments,
       excludedDocuments,
+      sortBy,
+      sortDir,
     });
 
     // Hack to download the archive and see the progression in the download bar built in browsers

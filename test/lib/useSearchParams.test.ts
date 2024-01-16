@@ -1,4 +1,6 @@
 import {
+  DEFAULT_SORT_BY,
+  DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
   MAX_PER_PAGE,
   MIN_PER_PAGE,
@@ -304,5 +306,65 @@ describe("SearchParams class", () => {
     searchParams.deleteLastAppliedFacet();
 
     expect(searchParams.getLastAppliedFacet()).toBe("");
+  });
+
+  it("should get sort by", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      sortBy: "publicationDate",
+    });
+
+    expect(searchParams.getSortBy()).toBe("publicationDate");
+  });
+
+  it("should set sort by", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setSortBy("publicationDate");
+
+    expect(searchParams.getSortBy()).toBe("publicationDate");
+  });
+
+  it("should delete sort by", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      sortBy: "publicationDate",
+    });
+
+    searchParams.deleteSortBy();
+
+    expect(searchParams.getSortBy()).toBe(DEFAULT_SORT_BY);
+  });
+
+  it("should get sort direction", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      sortDirection: "asc",
+    });
+
+    expect(searchParams.getSortDirection()).toBe("asc");
+  });
+
+  it("should set sort direction", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setSortDirection("asc");
+
+    expect(searchParams.getSortDirection()).toBe("asc");
+  });
+
+  it("should delete sort direction", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      sortDirection: "desc",
+    });
+
+    searchParams.deleteSortDirection();
+
+    expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
   });
 });

@@ -103,3 +103,14 @@ export const usages = {
     row: 2,
   },
 } as const;
+
+export const rankValues = ["qualityOverRelevance", "random"] as const;
+
+export const sortFields = ["publicationDate", "title.raw"] as const;
+
+const sortDir = ["asc", "desc"] as const;
+
+export type SortBy = (typeof sortFields)[number] | (typeof rankValues)[number];
+export type SortDir = (typeof sortDir)[number];
+export const DEFAULT_SORT_BY: SortBy = "qualityOverRelevance";
+export const DEFAULT_SORT_DIR: SortDir = "asc";

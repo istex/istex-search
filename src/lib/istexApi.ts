@@ -6,7 +6,16 @@ import {
   FACETS_WITH_RANGE,
   INDICATORS_FACETS,
 } from "@/app/[locale]/results/facets/constants";
-import { MIN_PER_PAGE, istexApiConfig, type PerPageOption } from "@/config";
+import {
+  DEFAULT_SORT_BY,
+  DEFAULT_SORT_DIR,
+  MIN_PER_PAGE,
+  istexApiConfig,
+  rankValues,
+  type PerPageOption,
+  type SortBy,
+  type SortDir,
+} from "@/config";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
@@ -16,6 +25,8 @@ export interface BuildResultPreviewUrlOptions {
   filters?: Filter;
   selectedDocuments?: string[];
   excludedDocuments?: string[];
+  sortBy?: SortBy;
+  sortDir?: SortDir;
 }
 
 export const createCompleteQuery = (
@@ -90,6 +101,25 @@ export const createCompleteQuery = (
   }`;
 };
 
+export function setSearchParamsSorting(
+  searchParams: URLSearchParams,
+  sortBy: SortBy,
+  sortDir: SortDir,
+) {
+  const sortParams = rankValues.some(
+    (value) => value === (sortBy ?? DEFAULT_SORT_BY),
+  )
+    ? "rankBy"
+    : "sortBy";
+
+  searchParams.set(
+    sortParams,
+    `${sortBy ?? DEFAULT_SORT_BY}${
+      sortParams === "sortBy" ? `[${sortDir ?? DEFAULT_SORT_DIR}]` : ""
+    }`,
+  );
+}
+
 export function buildResultPreviewUrl({
   queryString,
   perPage,
@@ -98,6 +128,8 @@ export function buildResultPreviewUrl({
   filters,
   selectedDocuments,
   excludedDocuments,
+  sortBy,
+  sortDir,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -122,6 +154,11 @@ export function buildResultPreviewUrl({
   );
   url.searchParams.set("size", actualPerPage.toString());
   url.searchParams.set("from", from.toString());
+  setSearchParamsSorting(
+    url.searchParams,
+    sortBy ?? DEFAULT_SORT_BY,
+    sortDir ?? DEFAULT_SORT_DIR,
+  );
   url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-dl");
   url.searchParams.set(
@@ -199,6 +236,8 @@ export async function getResults(
   perPage: PerPageOption,
   page: number,
   filters: Filter,
+  sortBy: SortBy,
+  sortDir: SortDir,
 ) {
   // Create the URL
   const url = buildResultPreviewUrl({
@@ -221,6 +260,8 @@ export async function getResults(
       "enrichments",
     ],
     filters,
+    sortBy,
+    sortDir,
   });
 
   // If the query string is too long some browsers won't accept to send a GET request
@@ -252,6 +293,8 @@ export interface BuildFullApiUrlOptions {
   filters?: Filter;
   selectedDocuments?: string[];
   excludedDocuments?: string[];
+  sortBy?: SortBy;
+  sortDir?: SortDir;
 }
 
 export function buildFullApiUrl({
@@ -261,6 +304,8 @@ export function buildFullApiUrl({
   filters,
   selectedDocuments,
   excludedDocuments,
+  sortBy,
+  sortDir,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
@@ -274,6 +319,11 @@ export function buildFullApiUrl({
     ),
   );
   url.searchParams.set("size", size.toString());
+  setSearchParamsSorting(
+    url.searchParams,
+    sortBy ?? DEFAULT_SORT_BY,
+    sortDir ?? DEFAULT_SORT_DIR,
+  );
   url.searchParams.set("sid", "istex-dl");
 
   const extractParams = buildExtractParamsFromFormats(selectedFormats);

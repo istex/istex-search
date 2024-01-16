@@ -125,6 +125,17 @@
       "prefix": "Votre requête brute : "
     },
     "ResultsGrid": {
+      "sorting": {
+        "sortBy": "Trier par : ",
+        "asc": "ordre croissant",
+        "desc": "ordre décroissant",
+        "qualityOverRelevance": "pertinence & qualité",
+        "random": "aléatoire",
+        "publicationDate": "date de publication",
+        "title": {
+          "raw": "titre"
+        }
+      },
       "layouts": {
         "groupAriaLabel": "Modes d'affichage des résultats",
         "gridAriaLabel": "Affichage en grille",

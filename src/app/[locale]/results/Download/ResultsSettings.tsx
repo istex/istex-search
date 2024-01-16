@@ -4,8 +4,9 @@ import type { ChangeEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Box, IconButton, TextField, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack, TextField, Tooltip } from "@mui/material";
 import { useDocumentContext } from "../Document/DocumentContext";
+import Sorting from "../components/Sorting";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -45,49 +46,58 @@ const ResultsSettings: ClientComponent = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}>
-      <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
-        {t("download")}
-      </Box>
-      <TextField
-        id="size-input"
-        type="number"
-        size="small"
-        inputProps={{
-          min: 0,
-          max: maxSize,
-        }}
-        value={size}
-        onChange={handleChange}
+    <Stack spacing={1.875}>
+      <Sorting
+        fontSize="0.875rem"
+        labelColor="colors.lightBlack"
+        selectColor="colors.lightBlack"
       />
-      <span>/&nbsp;{documentsCount.toLocaleString(locale)}</span>
-      {documentsCount > maxSize && (
-        <Tooltip
-          title={t("warningTooltip", {
-            resultsCount: documentsCount.toLocaleString(locale),
-            maxSize: istexApiConfig.maxSize.toLocaleString(locale),
-          })}
-          placement="top"
-          arrow
-          enterTouchDelay={1}
-        >
-          <IconButton size="small" color="warning" sx={{ p: 0 }}>
-            <WarningIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-      <Button
-        id="all-button"
-        variant="outlined"
-        disabled={size === maxSize}
-        onClick={() => {
-          setSize(maxSize);
-        }}
-        sx={{ ml: "auto" }}
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}
       >
-        {t("allButton")}
-      </Button>
-    </Box>
+        <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+          {t("download")}
+        </Box>
+        <TextField
+          id="size-input"
+          type="number"
+          size="small"
+          inputProps={{
+            min: 0,
+            max: maxSize,
+          }}
+          value={size}
+          onChange={handleChange}
+        />
+        <span>/&nbsp;{documentsCount.toLocaleString(locale)}</span>
+        {documentsCount > maxSize && (
+          <Tooltip
+            title={t("warningTooltip", {
+              resultsCount: documentsCount.toLocaleString(locale),
+              maxSize: istexApiConfig.maxSize.toLocaleString(locale),
+            })}
+            placement="top"
+            arrow
+            enterTouchDelay={1}
+          >
+            <IconButton size="small" color="warning" sx={{ p: 0 }}>
+              <WarningIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+        <Button
+          id="all-button"
+          variant="outlined"
+          disabled={size === maxSize}
+          onClick={() => {
+            setSize(maxSize);
+          }}
+          sx={{ ml: "auto" }}
+        >
+          {t("allButton")}
+        </Button>
+      </Box>
+    </Stack>
   );
 };
 

@@ -13,7 +13,7 @@ import {
   INDICATORS_FACETS,
 } from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
-import type { PerPageOption } from "@/config";
+import type { PerPageOption, SortBy, SortDir } from "@/config";
 import CustomError from "@/lib/CustomError";
 import {
   getResults,
@@ -29,10 +29,19 @@ async function getTranslatedResults(
   perPage: PerPageOption,
   page: number,
   filters: Filter,
+  sortBy: SortBy,
+  sortDir: SortDir,
   locale: string,
 ): Promise<IstexApiResponse> {
   const t = await getTranslator(locale, "results");
-  const response = await getResults(queryString, perPage, page, filters);
+  const response = await getResults(
+    queryString,
+    perPage,
+    page,
+    filters,
+    sortBy,
+    sortDir,
+  );
 
   // Fill some missing fields with placeholder texts
   response.hits.forEach((result) => {
@@ -52,6 +61,8 @@ const ResultsPage: Page = async ({
   const perPage = searchParams.getPerPage();
   const filters = searchParams.getFilters();
   const lastAppliedFacet = searchParams.getLastAppliedFacet();
+  const sortBy = searchParams.getSortBy();
+  const sortDir = searchParams.getSortDirection();
   const t = await getTranslator(locale, "results");
 
   let queryString: string;
@@ -75,6 +86,8 @@ const ResultsPage: Page = async ({
       perPage,
       page,
       filters,
+      sortBy,
+      sortDir,
       locale,
     );
 
@@ -88,6 +101,8 @@ const ResultsPage: Page = async ({
         perPage,
         page,
         filtersWithoutLastAppliedFacet,
+        sortBy,
+        sortDir,
       );
     }
 

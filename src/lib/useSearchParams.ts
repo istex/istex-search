@@ -8,6 +8,8 @@ import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import type { Filter } from "./istexApi";
 import { clamp, closest, isValidMd5 } from "./utils";
 import {
+  DEFAULT_SORT_BY,
+  DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
@@ -15,6 +17,8 @@ import {
   perPageOptions,
   usages,
   type PerPageOption,
+  type SortBy,
+  type SortDir,
   type UsageName,
 } from "@/config";
 import type { NextSearchParams } from "@/types/next";
@@ -272,6 +276,50 @@ class SearchParams {
 
   deleteLastAppliedFacet(): void {
     this.searchParams.delete("lastAppliedFacet");
+  }
+
+  getSortBy(): SortBy {
+    const value = this.searchParams.get("sortBy");
+    if (value == null) {
+      return DEFAULT_SORT_BY;
+    }
+
+    return value as SortBy;
+  }
+
+  setSortBy(value: SortBy): void {
+    if (value === DEFAULT_SORT_BY) {
+      this.deleteSortBy();
+      return;
+    }
+
+    this.searchParams.set("sortBy", value);
+  }
+
+  deleteSortBy(): void {
+    this.searchParams.delete("sortBy");
+  }
+
+  getSortDirection(): SortDir {
+    const value = this.searchParams.get("sortDirection");
+    if (value == null) {
+      return DEFAULT_SORT_DIR;
+    }
+
+    return value as SortDir;
+  }
+
+  setSortDirection(value: SortDir): void {
+    if (value === DEFAULT_SORT_DIR) {
+      this.deleteSortDirection();
+      return;
+    }
+
+    this.searchParams.set("sortDirection", value);
+  }
+
+  deleteSortDirection(): void {
+    this.searchParams.delete("sortDirection");
   }
 
   toString(): string {

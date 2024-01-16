@@ -14,11 +14,11 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=hello&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
 
     expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=10&from=20&output=abstract%2Ctitle&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=hello&size=10&from=20&rankBy=qualityOverRelevance&output=abstract%2Ctitle&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -35,11 +35,11 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
 
     expect(Module.buildFullApiUrl(noSelectFormatsParams).toString()).toBe(
-      "https://api.istex.fr/document?q=hello&size=2&sid=istex-dl",
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&sid=istex-dl",
     );
   });
 
@@ -153,7 +153,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -164,7 +164,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=%28hello%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -175,7 +175,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=%28hello%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -190,7 +190,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -205,7 +205,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildResultPreviewUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=10&from=0&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
     );
   });
 
@@ -221,7 +221,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
   });
 
@@ -234,7 +234,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=%28hello%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
   });
 
@@ -247,7 +247,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=%28hello%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
   });
 
@@ -264,7 +264,7 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+id%3A%28%22123%22+OR+%22456%22%29&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
   });
 
@@ -281,7 +281,77 @@ describe("Istex API related functions", () => {
     };
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
-      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=2&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+      "https://api.istex.fr/document?q=%28hello%29+AND+corpusName%3A%28%22springer%22+OR+%22elsevier%22%29+AND+language%3A%28%22eng%22%29+AND+%28NOT+id%3A%28%22123%22+OR+%22456%22%29%29&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+    );
+  });
+
+  it("should correctly set search params sorting with sortBy", () => {
+    const searchParams = new URLSearchParams();
+    const sortBy = "publicationDate";
+    const sortDir = "desc";
+
+    Module.setSearchParamsSorting(searchParams, sortBy, sortDir);
+
+    expect(searchParams.get("sortBy")).toBe("publicationDate[desc]");
+  });
+
+  it("should correctly set search params sorting with rankBy", () => {
+    const searchParams = new URLSearchParams();
+    const sortBy = "qualityOverRelevance";
+    const sortDir = "desc";
+
+    Module.setSearchParamsSorting(searchParams, sortBy, sortDir);
+
+    expect(searchParams.get("rankBy")).toBe("qualityOverRelevance");
+  });
+
+  it("should correctly build result preview url with sortBy", () => {
+    const params: Module.BuildResultPreviewUrlOptions = {
+      queryString: "hello",
+      sortBy: "publicationDate",
+      sortDir: "desc",
+    };
+
+    expect(Module.buildResultPreviewUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=10&from=0&sortBy=publicationDate%5Bdesc%5D&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+    );
+  });
+
+  it("should correctly build result preview url with rankBy", () => {
+    const params: Module.BuildResultPreviewUrlOptions = {
+      queryString: "hello",
+      sortBy: "qualityOverRelevance",
+    };
+
+    expect(Module.buildResultPreviewUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=10&from=0&rankBy=qualityOverRelevance&output=*&sid=istex-dl&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+    );
+  });
+
+  it("should correctly build full api url with sortBy", () => {
+    const params: Module.BuildFullApiUrlOptions = {
+      queryString: "hello",
+      selectedFormats: formats.fulltext.pdf,
+      size: 2,
+      sortBy: "publicationDate",
+      sortDir: "desc",
+    };
+
+    expect(Module.buildFullApiUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=2&sortBy=publicationDate%5Bdesc%5D&sid=istex-dl&extract=fulltext%5Bpdf%5D",
+    );
+  });
+
+  it("should correctly build full api url with rankBy", () => {
+    const params: Module.BuildFullApiUrlOptions = {
+      queryString: "hello",
+      selectedFormats: formats.fulltext.pdf,
+      size: 2,
+      sortBy: "qualityOverRelevance",
+    };
+
+    expect(Module.buildFullApiUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&sid=istex-dl&extract=fulltext%5Bpdf%5D",
     );
   });
 });

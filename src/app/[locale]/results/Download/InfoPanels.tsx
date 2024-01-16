@@ -21,6 +21,8 @@ const InfoPanels: ServerComponent = () => {
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
   const filters = searchParams.getFilters();
+  const sortBy = searchParams.getSortBy();
+  const sortDir = searchParams.getSortDirection();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
   const resultsApiUrl = buildResultPreviewUrl({
@@ -30,6 +32,8 @@ const InfoPanels: ServerComponent = () => {
     filters,
     selectedDocuments,
     excludedDocuments,
+    sortBy,
+    sortDir,
   });
 
   return (

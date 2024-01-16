@@ -2,7 +2,7 @@ import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
 import { DocumentProvider } from "@/app/[locale]/results/Document/DocumentContext";
-import type { UsageName } from "@/config";
+import type { SortBy, SortDir, UsageName } from "@/config";
 import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 import NextIntlProvider from "@/i18n/provider";
@@ -56,6 +56,8 @@ export function mockSearchParams(searchParams: {
   perPage?: string;
   usage?: UsageName;
   filter?: string;
+  sortBy?: SortBy;
+  sortDirection?: SortDir;
 }) {
   (useSearchParams as jest.Mock).mockReturnValue(searchParams);
 }

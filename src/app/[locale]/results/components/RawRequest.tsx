@@ -15,11 +15,15 @@ const RawRequest: ClientComponent = () => {
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
   const filters = searchParams.getFilters();
+  const sortBy = searchParams.getSortBy();
+  const sortDir = searchParams.getSortDirection();
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
     page,
     filters,
+    sortBy,
+    sortDir,
   });
 
   return (

@@ -28,6 +28,7 @@ export interface FacetContextValue {
   applyOneFacet: (facetTitle: string) => void;
   toggleFacet: (facetTitle: string, facetItemValue?: string) => void;
   setRangeFacet: (facetTitle: string, facetRangeValue: string) => void;
+  facetsWaitingForApply: string[];
 }
 
 const FacetContext = createContext<FacetContextValue | null>(null);
@@ -36,12 +37,20 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   facets,
   children,
 }) => {
+  const [facetsWaitingForApply, setFacetsWaitingForApply] = useState<string[]>(
+    [],
+  );
   const [facetsList, setFacetsList] = useState<FacetList | undefined>(facets);
   const searchParams = useSearchParams();
   const router = useRouter();
   const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const clearOneFacet = (facetTitle: string) => {
+    const newFacetsList = { ...facetsList };
+    newFacetsList[facetTitle].forEach((facetItem) => {
+      facetItem.selected = false;
+      facetItem.excluded = false;
+    });
     const filters = searchParams.getFilters();
     const { [facetTitle]: _, ...updatedFilters } = filters;
     searchParams.setFilters(updatedFilters);
@@ -107,6 +116,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
       }
     });
     setFacetsList(newFacetsList);
+    setFacetsWaitingForApply([...facetsWaitingForApply, facetTitle]);
   };
 
   const setRangeFacet = (facetTitle: string, facetRangeValue: string) => {
@@ -114,6 +124,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     newFacetsList[facetTitle][0].selected = true;
     newFacetsList[facetTitle][0].key = facetRangeValue;
     setFacetsList(newFacetsList);
+    setFacetsWaitingForApply([...facetsWaitingForApply, facetTitle]);
   };
 
   const context = {
@@ -123,6 +134,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     applyOneFacet,
     toggleFacet,
     setRangeFacet,
+    facetsWaitingForApply,
   };
   return (
     <FacetContext.Provider value={context}>{children}</FacetContext.Provider>

@@ -27,6 +27,7 @@ describe("FacetsContainer", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [],
       clearAllFacets: clearAllFacetsMock,
     });
 

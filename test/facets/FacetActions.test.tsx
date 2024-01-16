@@ -24,6 +24,7 @@ describe("FacetActions", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [],
       clearOneFacet: jest.fn(),
       applyOneFacet: jest.fn(),
     });
@@ -37,7 +38,7 @@ describe("FacetActions", () => {
     expect(clearButton).toBeInTheDocument();
   });
 
-  it("should disable the apply button when no facet item is selected", () => {
+  it("should disable the apply button when no facets waiting for apply", () => {
     const facets = {
       [facetTitle]: [
         { key: "Option 1", docCount: 10, selected: false },
@@ -48,6 +49,7 @@ describe("FacetActions", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [],
       clearOneFacet: jest.fn(),
       applyOneFacet: jest.fn(),
     });
@@ -59,7 +61,7 @@ describe("FacetActions", () => {
     expect(applyButton).toBeDisabled();
   });
 
-  it("should enable the apply button when at least one facet item is selected", () => {
+  it("should enable the apply button when facet waiting for apply", () => {
     const facets = {
       [facetTitle]: [
         { key: "Option 1", docCount: 10, selected: true },
@@ -70,6 +72,7 @@ describe("FacetActions", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [facetTitle],
       clearOneFacet: jest.fn(),
       applyOneFacet: jest.fn(),
     });
@@ -94,6 +97,7 @@ describe("FacetActions", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [facetTitle],
       clearOneFacet: jest.fn(),
       applyOneFacet: applyOneFacetMock,
     });
@@ -120,6 +124,7 @@ describe("FacetActions", () => {
 
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
+      facetsWaitingForApply: [],
       clearOneFacet: clearOneFacetMock,
       applyOneFacet: jest.fn(),
     });

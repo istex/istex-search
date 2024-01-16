@@ -12,11 +12,8 @@ const FacetActions: ClientComponent<{ facetTitle: string }> = ({
 }) => {
   const t = useTranslations("results.Facets");
 
-  const { facetsList, clearOneFacet, applyOneFacet } = useFacetContext();
-
-  const isApplyDisabled =
-    facetsList == null ||
-    facetsList[facetTitle].every((facetItem) => !facetItem.selected);
+  const { clearOneFacet, applyOneFacet, facetsWaitingForApply } =
+    useFacetContext();
 
   return (
     <Stack direction="row" spacing={1} mt={1}>
@@ -29,7 +26,7 @@ const FacetActions: ClientComponent<{ facetTitle: string }> = ({
         onClick={() => {
           applyOneFacet(facetTitle);
         }}
-        disabled={isApplyDisabled}
+        disabled={!facetsWaitingForApply.includes(facetTitle)}
       >
         {t("apply")}
       </Button>

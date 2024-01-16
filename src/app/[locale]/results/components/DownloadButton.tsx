@@ -51,18 +51,16 @@ const DownloadButton: ClientComponent = () => {
       <Box
         sx={(theme) => ({
           position: "sticky",
-          display: "inline-block",
-          left: "50%",
-          transform: "translateX(-50%)",
           bottom: theme.spacing(8),
           textAlign: "center",
           zIndex: 1,
+          pointerEvents: "none",
         })}
       >
         <Button
           id="download-button"
           size="large"
-          sx={{ px: { xs: 4, sm: 8 }, py: 2 }}
+          sx={{ px: { xs: 4, sm: 8 }, py: 2, pointerEvents: "auto" }}
           onClick={openModal}
         >
           {t("downloadButton", {

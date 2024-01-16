@@ -69,20 +69,18 @@ const SearchBar = ({
       >
         {children}
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Box sx={{ position: "relative" }}>
-            <Button
-              type="submit"
-              disabled={loading}
-              sx={{
-                borderTopLeftRadius: { xs: 4, sm: 0 },
-                borderBottomLeftRadius: { xs: 4, sm: 0 },
-                height: "65px",
-                py: 1.95,
-                px: 1.75,
-              }}
-            >
-              {t("button")}
-            </Button>
+          <Button
+            type="submit"
+            disabled={loading}
+            sx={{
+              borderTopLeftRadius: { xs: 4, sm: 0 },
+              borderBottomLeftRadius: { xs: 4, sm: 0 },
+              height: "65px",
+              py: 1.95,
+              px: 1.75,
+            }}
+          >
+            <span>{t("button")}</span>
             {loading === true && (
               <CircularProgress
                 size={24}
@@ -96,7 +94,7 @@ const SearchBar = ({
                 }}
               />
             )}
-          </Box>
+          </Button>
           <Button
             mainColor={isSearchById ? undefined : "white"}
             secondaryColor="darkBlack"

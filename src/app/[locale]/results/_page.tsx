@@ -81,30 +81,30 @@ const ResultsPage: Page = async ({
   }
 
   try {
-    const results = await getTranslatedResults(
-      queryString,
-      perPage,
-      page,
-      filters,
-      sortBy,
-      sortDir,
-      locale,
-    );
+    const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } =
+      filters;
 
-    let resultsWithoutLastAppliedFacet: IstexApiResponse | undefined;
-
-    if (lastAppliedFacet !== "") {
-      const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } =
-        filters;
-      resultsWithoutLastAppliedFacet = await getResults(
+    const [results, resultsWithoutLastAppliedFacet] = await Promise.all([
+      getTranslatedResults(
         queryString,
         perPage,
         page,
-        filtersWithoutLastAppliedFacet,
+        filters,
         sortBy,
         sortDir,
-      );
-    }
+        locale,
+      ),
+      lastAppliedFacet !== ""
+        ? getResults(
+            queryString,
+            perPage,
+            page,
+            filtersWithoutLastAppliedFacet,
+            sortBy,
+            sortDir,
+          )
+        : undefined,
+    ]);
 
     const facets: FacetList = {};
     const indicators: Aggregation = {};

@@ -53,3 +53,29 @@ export const getLanguageLabel = (
   if (languageName !== undefined) return languageName;
   return iso;
 };
+
+const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
+
+export const checkRangeInputValue = (facetTitle: string, value: string) => {
+  const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
+  return (
+    // Bridle the number of characters
+    value.length < 5 &&
+    // Bridle the score input to the range
+    ((facetTitle === "qualityIndicators.score" &&
+      +value >= 0 &&
+      +value <= 10) ||
+      facetTitle !== "qualityIndicators.score") &&
+    // Accept empty string
+    ((!withDecimal && value === "") ||
+      // Accept entire number (5)
+      (!withDecimal && !isNaN(parseInt(value)) && /^[\d]+$/.test(value)) ||
+      // Accept decimal number (5.3)
+      (withDecimal && !isNaN(+value)) ||
+      // Accept decimal number being written (5.)
+      (withDecimal &&
+        !isNaN(parseInt(value.slice(0, -1))) &&
+        value.slice(-1) === "." &&
+        Number.isInteger(value.slice(0, -1))))
+  );
+};

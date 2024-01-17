@@ -154,3 +154,48 @@ describe("getLanguageLabel", () => {
     expect(result).toBe("roa");
   });
 });
+
+describe("Module.checkRangeInputValue", () => {
+  it("should return false for value longer than 4 characters", () => {
+    expect(
+      Module.checkRangeInputValue("qualityIndicators.score", "1.234"),
+    ).toBe(false);
+  });
+  it("should return true for valid score input", () => {
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "5")).toBe(
+      true,
+    );
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "5.")).toBe(
+      true,
+    );
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "5.3")).toBe(
+      true,
+    );
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "10")).toBe(
+      true,
+    );
+  });
+
+  it("should return true for valid non-score input", () => {
+    expect(Module.checkRangeInputValue("otherFacet", "5")).toBe(true);
+    expect(Module.checkRangeInputValue("otherFacet", "")).toBe(true);
+  });
+
+  it("should return false for invalid score input", () => {
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "-1")).toBe(
+      false,
+    );
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "11")).toBe(
+      false,
+    );
+    expect(Module.checkRangeInputValue("qualityIndicators.score", "abc")).toBe(
+      false,
+    );
+  });
+
+  it("should return false for invalid non-score input", () => {
+    expect(Module.checkRangeInputValue("otherFacet", "5.3")).toBe(false);
+    expect(Module.checkRangeInputValue("otherFacet", "5.")).toBe(false);
+    expect(Module.checkRangeInputValue("otherFacet", "abc")).toBe(false);
+  });
+});

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLocale } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
@@ -14,6 +15,10 @@ const FacetCheckboxItem: ClientComponent<{
 }> = ({ value, count, checked, excluded, onChange }) => {
   const locale = useLocale();
 
+  const [checkedFacet, setCheckedFacet] = useState<boolean>(
+    checked || excluded,
+  );
+
   return (
     <FormControlLabel
       sx={{
@@ -26,8 +31,11 @@ const FacetCheckboxItem: ClientComponent<{
       }}
       control={
         <Checkbox
-          checked={checked || excluded}
-          onChange={onChange}
+          checked={checkedFacet}
+          onChange={() => {
+            setCheckedFacet(!checkedFacet);
+            onChange();
+          }}
           size="small"
           color={excluded ? "error" : "primary"}
           checkedIcon={<IncludeIcon />}

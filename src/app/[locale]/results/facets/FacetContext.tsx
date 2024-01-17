@@ -104,17 +104,17 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
 
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {
     const newFacetsList = { ...facetsList };
-    newFacetsList[facetTitle].forEach((facetItem) => {
-      if (
+    const facetItem = newFacetsList[facetTitle].find(
+      (facetItem) =>
         facetItem.key === facetItemValue ||
-        facetItem.keyAsString === facetItemValue
-      ) {
-        facetItem.selected = facetItem.excluded
-          ? facetItem.selected
-          : !facetItem.selected;
-        facetItem.excluded = false;
-      }
-    });
+        facetItem.keyAsString === facetItemValue,
+    );
+    if (facetItem != null) {
+      facetItem.selected = facetItem.excluded
+        ? facetItem.selected
+        : !facetItem.selected;
+      facetItem.excluded = false;
+    }
     setFacetsList(newFacetsList);
     setFacetsWaitingForApply([...facetsWaitingForApply, facetTitle]);
   };

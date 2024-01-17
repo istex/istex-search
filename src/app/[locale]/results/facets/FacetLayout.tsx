@@ -68,6 +68,7 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
           display: "none",
         },
       }}
+      TransitionProps={{ unmountOnExit: true }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}

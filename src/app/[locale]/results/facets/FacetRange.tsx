@@ -1,12 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import type { ClientComponent } from "@/types/next";
 import { Box, Stack, TextField, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
-import type { ClientComponent } from "@/types/next";
-
-const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
+import { checkRangeInputValue } from "./utils";
 
 const FacetRange: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
@@ -15,49 +15,32 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   const { setRangeFacet } = useFacetContext();
   const t = useTranslations(`results.Facets.${facetTitle}`);
 
-  const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
+  const [initialMin, initialMax] = facetItems[0].key.toString().split("-");
 
-  let min: string = withDecimal
-    ? facetItems[0].key.toString().split("-")[0]
-    : facetItems[0].key.toString().split("-")[0].split(".")[0];
-  let max = withDecimal
-    ? facetItems[0].key.toString().split("-")[1]
-    : facetItems[0].key.toString().split("-")[1].split(".")[0];
+  const [min, setMin] = useState<string>(initialMin);
 
-  const handleChange = (
+  const [max, setMax] = useState<string>(initialMax);
+
+  const handleMinChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    isMin: boolean,
   ) => {
-    if (
-      // Bridle the number of characters
-      event.target.value.length < 5 &&
-      // Bridle the score input to the range
-      ((facetTitle === "qualityIndicators.score" &&
-        +event.target.value >= 0 &&
-        +event.target.value <= 10) ||
-        facetTitle !== "qualityIndicators.score") &&
-      // Accept empty string
-      ((!withDecimal && event.target.value === "") ||
-        // Accept entire number (5)
-        (!withDecimal &&
-          !isNaN(parseInt(event.target.value)) &&
-          /^[\d.]+$/.test(event.target.value)) ||
-        // Accept decimal number (5.3)
-        (withDecimal && !isNaN(+event.target.value)) ||
-        // Accept decimal number being written (5.)
-        (withDecimal &&
-          !isNaN(parseInt(event.target.value.slice(0, -1))) &&
-          event.target.value.slice(-1) === "." &&
-          Number.isInteger(event.target.value.slice(0, -1))))
-    ) {
-      if (isMin) {
-        min = event.target.value;
-      } else {
-        max = event.target.value;
-      }
-      setRangeFacet(facetTitle, `${min}-${max}`);
+    if (checkRangeInputValue(facetTitle, event.target.value)) {
+      setMin(event.target.value);
     }
   };
+
+  const handleMaxChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    if (checkRangeInputValue(facetTitle, event.target.value)) {
+      setMax(event.target.value);
+    }
+  };
+
+  useEffect(() => {
+    if (min !== initialMin || max !== initialMax)
+      setRangeFacet(facetTitle, `${min}-${max}`);
+  }, [min, max, initialMin, initialMax, facetTitle, setRangeFacet]);
 
   return (
     <Box sx={{ m: 2 }}>
@@ -80,9 +63,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           placeholder={t("inputPlaceholderMin")}
           fullWidth
           value={min}
-          onChange={(event) => {
-            handleChange(event, true);
-          }}
+          onChange={handleMinChange}
         />
         <Typography
           variant="body2"
@@ -101,9 +82,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           placeholder={t("inputPlaceholderMax")}
           fullWidth
           value={max}
-          onChange={(event) => {
-            handleChange(event, false);
-          }}
+          onChange={handleMaxChange}
         />
       </Stack>
     </Box>

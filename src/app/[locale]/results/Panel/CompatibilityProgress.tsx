@@ -21,7 +21,7 @@ const CompatibilityProgress: ClientComponent<{
         gridColumn={{ xs: "span 3", sm: `${gridColumn * 3 - 2} / span 3` }}
         mx={5}
         mb={0.625}
-        mt={1}
+        mt={{ sm: gridRow === 3 ? "-10px" : 1 }}
         variant="body2"
         textAlign="center"
         sx={{

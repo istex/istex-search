@@ -63,7 +63,271 @@
             "greater": "supérieur à",
             "smaller": "inférieur à",
             "true": "vrai",
-            "false": "faux"
+            "false": "faux",
+            "fields": {
+              "abstract": {
+                "title": "Résumé",
+                "description": "Recherche sur le résumé du document"
+              },
+              "accessCondition": {
+                "contentType": {
+                  "title": "Libre accès",
+                  "description": "Recherche de documents disponibles par ailleurs en libre accès (isOpenAccess / isNotOpenAccess)"
+                },
+                "value": {
+                  "title": "Type de libre accès",
+                  "description": "Recherche de documents par type de libre accès (closed / bronzeOpenAccess / greenOpenAccess / goldOpenAccess / hybridOpenAccess)"
+                }
+              },
+              "author": {
+                "affiliations": {
+                  "title": "Affiliations d’auteur",
+                  "description": "Recherche par l’affiliation d’un auteur"
+                },
+                "name": {
+                  "title": "Noms d’auteur",
+                  "description": "Recherche par l’un des auteurs"
+                }
+              },
+              "categories": {
+                "inist": {
+                  "title": "Catégorie Inist",
+                  "description": "Recherche par catégorie du plan de classement Pascal et Francis"
+                },
+                "scienceMetrix": {
+                  "title": "Catégorie Science-Metrix",
+                  "description": "Recherche par catégorie de la classification Science-Metrix"
+                },
+                "scopus": {
+                  "title": "Catégorie Scopus",
+                  "description": "Recherche par catégorie de la classification Scopus"
+                },
+                "wos": {
+                  "title": "Catégorie WoS",
+                  "description": "Recherche par catégorie de la classification Web of Science"
+                }
+              },
+              "corpusName": {
+                "title": "Corpus éditeur",
+                "description": "Recherche par bouquet éditeur chargé dans Istex"
+              },
+              "doi": {
+                "title": "DOI document",
+                "description": "Recherche par identifiant DOI du document"
+              },
+              "figure": {
+                "title": "Contenu textuel des légendes",
+                "description": "Recherche dans le contenu textuel des légendes"
+              },
+              "fulltext": {
+                "title": "Texte intégral",
+                "description": "Recherche sur le texte intégral (corps du texte + métadonnées)"
+              },
+              "genre": {
+                "title": "Type de contenu",
+                "description": "Recherche par type de contenu du document (article, research-article, chapter, etc.)"
+              },
+              "hasFormula": {
+                "title": "Contient une formule",
+                "description": "Recherche la présence d’une formule mathématique"
+              },
+              "host": {
+                "doi": {
+                  "title": "DOI revue",
+                  "description": "Recherche par DOI de la revue"
+                },
+                "eisbn": {
+                  "title": "e-ISBN monographie électronique",
+                  "description": "Recherche par numéro ISBN de la monographie électronique"
+                },
+                "eissn": {
+                  "title": "e-ISSN revue",
+                  "description": "Recherche par numéro ISSN de la revue électronique"
+                },
+                "genre": {
+                  "title": "Type de publication",
+                  "description": "Rercherche par type de publication (journal, book, database, book, book-series, reference-works)"
+                },
+                "isbn": {
+                  "title": "ISBN monographie papier",
+                  "description": "Recherche par numéro ISBN de la monographie papier"
+                },
+                "issn": {
+                  "title": "ISSN revue papier",
+                  "description": "Recherche par numéro ISSN de la revue papier"
+                },
+                "title": {
+                  "title": "Titre revue ou monographie",
+                  "description": "Recherche par titre de la revue ou monographie"
+                }
+              },
+              "keywords": {
+                "teeft": {
+                  "title": "Mots-clés teeft",
+                  "description": "Recherche par l’un des mots-clés extraits du texte intégral par l’outil Teeft (Terms Extraction for English Full Texts)"
+                }
+              },
+              "language": {
+                "title": "Langue",
+                "description": "Recherche par le code ISO de la langue du document"
+              },
+              "namedEntities": {
+                "unitex": {
+                  "bibl": {
+                    "title": "Référence ",
+                    "description": "Recherche par entité nommée de type 'référence bibliographique' détectée dans le texte par Unitex"
+                  },
+                  "date": {
+                    "title": "Nom exprimant une date",
+                    "description": "Recherche par entité nommée de type 'date, période, siècle' détectée dans le texte par Unitex"
+                  },
+                  "geogName": {
+                    "title": "Nom de lieu géographique",
+                    "description": "Recherche par entité nommée de type 'nom de lieu comportant une caractéristique géographique' détectée dans le texte par Unitex"
+                  },
+                  "orgName": {
+                    "title": "Nom d’organisation",
+                    "description": "Recherche par entité nommée de type 'nom d’organisation' détectée dans le texte par Unitex"
+                  },
+                  "orgName_funder": {
+                    "title": "Nom d’organisme financeur",
+                    "description": "Recherche par entité nommée de type 'organisme financeur' détectée dans le texte par Unitex"
+                  },
+                  "orgName_provider": {
+                    "title": "Nom d’organisme fournisseur de ressources",
+                    "description": "Recherche par entité nommée de type 'organisme fournisseur de ressources' détectée dans le texte par Unitex"
+                  },
+                  "persName": {
+                    "title": "Nom de personne",
+                    "description": "Recherche par entité nommée de type 'nom de personne' détectée dans le texte par Unitex"
+                  },
+                  "placeName": {
+                    "title": "Nom de lieu administratif",
+                    "description": "Recherche par entité nommée de type 'nom de lieu géopolitique ou administratif' détectée dans le texte par Unitex"
+                  },
+                  "ref_bibl": {
+                    "title": "Citation",
+                    "description": "Recherche par entité nommée de type 'citation bibliographique' détectée dans le texte par Unitex"
+                  },
+                  "ref_url": {
+                    "title": "URL",
+                    "description": "Recherche par entité nommée de type 'URL' détectée dans le texte par Unitex"
+                  }
+                }
+              },
+              "publicationDate": {
+                "title": "Date de publication",
+                "description": "Recherche par date de publication papier"
+              },
+              "qualityIndicators": {
+                "abstractCharCount": {
+                  "title": "Nombre de caractères du résumé",
+                  "description": "Recherche par nombre de caractères dans le résumé"
+                },
+                "abstractWordCount": {
+                  "title": "Nombre de mots du résumé",
+                  "description": "Recherche par nombre de mots dans le résumé"
+                },
+                "pdfCharCount": {
+                  "title": "Nombre de caractères du PDF",
+                  "description": "Recherche par nombre de caractères dans le document au format PDF"
+                },
+                "pdfPageCount": {
+                  "title": "Nombre de pages du PDF",
+                  "description": "Recherche par nombre de pages du document au format PDF"
+                },
+                "pdfText": {
+                  "title": "PDF textuel",
+                  "description": "Recherche de documents au format PDF qui contiennent du texte (true / false)"
+                },
+                "pdfVersion": {
+                  "title": "Version du PDF",
+                  "description": "Recherche sur la version du format PDF du document"
+                },
+                "pdfWordCount": {
+                  "title": "Nombre de mots du PDF",
+                  "description": "Recherche par nombre de mots dans le document au format PDF"
+                },
+                "pdfWordsPerPage": {
+                  "title": "Nombre de mots par page du PDF",
+                  "description": "Recherche par nombre de mots par page dans le document au format PDF"
+                },
+                "refBibsNative": {
+                  "title": "Références bibliographiques natives",
+                  "description": "Recherche par présence de références bibliographiques natives (true / false)"
+                },
+                "tdmReady": {
+                  "title": "TXT compatible TDM",
+                  "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes (true / false)"
+                },
+                "tdmReady:true AND fulltext": {
+                  "title": "Corps du texte",
+                  "description": "Recherche sur le corps du texte sans les métadonnées - restreint aux documents structurés"
+                },
+                "teiSource": {
+                  "title": "Source TEI",
+                  "description": "Recherche sur la provenance du document en format TEI (pub2tei / grobid)"
+                }
+              },
+              "rebBibs": {
+                "author": {
+                  "name": {
+                    "title": "Noms d’auteur document référencé",
+                    "description": "Recherche par l’un des auteurs d’une référence bibliographique"
+                  }
+                }
+              },
+              "refBibs": {
+                "doi": {
+                  "title": "DOI document référencé",
+                  "description": "Recherche par DOI d’une référence bibliographique"
+                },
+                "publicationDate": {
+                  "title": "Date de publication document référencé",
+                  "description": "Recherche par date de publication d’une référence bibliographique"
+                },
+                "title": {
+                  "title": "Titre article référencé",
+                  "description": "Recherche par titre d’une référence bibliographique"
+                }
+              },
+              "serie": {
+                "doi": {
+                  "title": "DOI de la série",
+                  "description": "Recherche par DOI de la série de monographies"
+                },
+                "eissn": {
+                  "title": "e-Issn de la série",
+                  "description": "Recherche par numéro ISSN de la série de monographies électronique"
+                },
+                "issn": {
+                  "title": "Issn de la série",
+                  "description": "Recherche par numéro ISSN de la série de monographies papier"
+                },
+                "title": {
+                  "title": "Titre de la série",
+                  "description": "Recherche par titre de la série de monographies"
+                }
+              },
+              "subject": {
+                "lang": {
+                  "title": "Langue mots-clés d'auteur",
+                  "description": "Recherche par le code ISO de la langue des mots-clés atttribués par les auteurs du document"
+                },
+                "value": {
+                  "title": "Mots-clés d’auteur",
+                  "description": "Recherche par l’un des mots-clés attribués par les auteurs du document"
+                }
+              },
+              "table": {
+                "title": "Contenu textuel des tableaux",
+                "description": "Recherche dans le contenu textuel des tableaux"
+              },
+              "title": {
+                "title": "Titre article ou chapitre",
+                "description": "Recherche sur le titre du document"
+              }
+            }
           }
         }
       }

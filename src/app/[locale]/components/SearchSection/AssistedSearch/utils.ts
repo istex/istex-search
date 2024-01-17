@@ -1,3 +1,4 @@
+import { fieldsDefinition } from "./fieldsList";
 import type {
   AST,
   Node,
@@ -9,11 +10,19 @@ import type {
   RangeNode,
   BooleanNode,
   Comparator,
+  FieldType,
 } from "@/lib/queryAst";
 
 const transformNode = (
   node: TextNode | NumberNode | RangeNode | BooleanNode,
+  resetComparator = false,
 ): TextNode | NumberNode | RangeNode | BooleanNode => {
+  if (
+    resetComparator &&
+    node.comparator !== "equals" &&
+    node.comparator !== "notEquals"
+  )
+    node.comparator = "";
   switch (node.fieldType) {
     case "boolean":
       if (
@@ -103,25 +112,23 @@ export function setField(
   (
     newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
   ).field = newField;
+  const newFieldType = fieldsDefinition.find(
+    (field) => field.field === newField,
+  )?.type as FieldType;
 
-  if (newField === "hasFormula" || newField === "qualityIndicators.tdmReady") {
+  if (
+    !(
+      oldFieldType === "range" &&
+      ((newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
+        .comparator === "between" ||
+        (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
+          .comparator === "notBetween")
+    )
+  )
     (
       newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
-    ).fieldType = "boolean";
-  } else if (
-    "comparator" in newParsedAst[index] &&
-    (newParsedAst[index] as RangeNode).comparator === "between"
-  ) {
-    (newParsedAst[index] as RangeNode).fieldType = "range";
-  } else if (newField === "publicationDate") {
-    (
-      newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
-    ).fieldType = "number";
-  } else {
-    (
-      newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
-    ).fieldType = "text";
-  }
+    ).fieldType = newFieldType;
+
   if (
     oldFieldType !==
     (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
@@ -129,6 +136,7 @@ export function setField(
   )
     newParsedAst[index] = transformNode(
       newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode,
+      true,
     );
 
   setAst(newParsedAst);
@@ -149,21 +157,16 @@ export function setComparator(
   ).comparator = newComparator;
 
   if (newComparator === "between" || newComparator === "notBetween") {
-    (newParsedAst[index] as RangeNode).fieldType = "range";
+    (
+      newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
+    ).fieldType = "range";
   } else if (
-    "field" in newParsedAst[index] &&
-    ((newParsedAst[index] as BooleanNode).field === "hasFormula" ||
-      (newParsedAst[index] as BooleanNode).field ===
-        "qualityIndicators.tdmReady")
+    (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
+      .fieldType === "range"
   ) {
-    (newParsedAst[index] as BooleanNode).fieldType = "boolean";
-  } else if (
-    "field" in newParsedAst[index] &&
-    (newParsedAst[index] as NumberNode).field === "publicationDate"
-  ) {
-    (newParsedAst[index] as NumberNode).fieldType = "number";
-  } else {
-    (newParsedAst[index] as TextNode).fieldType = "text";
+    (
+      newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode
+    ).fieldType = "number";
   }
 
   if (

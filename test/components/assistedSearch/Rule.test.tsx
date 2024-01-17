@@ -64,7 +64,7 @@ describe("Rule", () => {
       />,
     );
     expect(
-      screen.getByRole("button", { name: "corpusName" }),
+      screen.getByRole("button", { name: "Corpus éditeur" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveValue("elsevier");
@@ -89,7 +89,7 @@ describe("Rule", () => {
       />,
     );
     expect(
-      screen.getByRole("button", { name: "hasFormula" }),
+      screen.getByRole("button", { name: "Contient une formule" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "vrai" })).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe("Rule", () => {
       />,
     );
     expect(
-      screen.getByRole("button", { name: "publicationDate" }),
+      screen.getByRole("button", { name: "Date de publication" }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "est entre" }),
@@ -126,16 +126,16 @@ describe("Rule", () => {
   it("should toggle field", async () => {
     render(<RuleComponentTest />);
     await userEvent.click(screen.getByLabelText("Champ"));
-    expect(screen.getAllByRole("option").length).toBe(7);
+    expect(screen.getAllByRole("option").length).toBe(59);
     await userEvent.click(screen.getAllByRole("option")[4]);
     expect(
-      screen.getByRole("button", { name: "fulltext" }),
+      screen.getByRole("button", { name: "Noms d’auteur" }),
     ).toBeInTheDocument();
   });
   it("should toggle comparator", async () => {
     render(<RuleComponentTest />);
     await userEvent.click(screen.getByLabelText("Comparateur"));
-    expect(screen.getAllByRole("option").length).toBe(12);
+    expect(screen.getAllByRole("option").length).toBe(8);
     await userEvent.click(screen.getAllByRole("option")[4]);
     expect(
       screen.getByRole("button", { name: "commence par" }),

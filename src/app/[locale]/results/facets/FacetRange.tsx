@@ -1,12 +1,12 @@
 "use client";
 
-import type { ClientComponent } from "@/types/next";
-import { Box, Stack, TextField, Typography } from "@mui/material";
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
 import { checkRangeInputValue } from "./utils";
+import type { ClientComponent } from "@/types/next";
 
 const FacetRange: ClientComponent<FacetLayoutProps> = ({
   facetTitle,

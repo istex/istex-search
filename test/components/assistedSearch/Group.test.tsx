@@ -42,7 +42,7 @@ describe("Group", () => {
       />,
     );
     expect(
-      screen.getByRole("button", { name: "corpusName" }),
+      screen.getByRole("button", { name: "Corpus éditeur" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("Group", () => {
       {
         nodeType: "node",
         fieldType: "text",
-        field: "corpusName",
+        field: "keywords.teeft",
         value: "elsevier",
         comparator: "equals",
       },
@@ -68,7 +68,7 @@ describe("Group", () => {
           {
             nodeType: "node",
             fieldType: "text",
-            field: "abstract",
+            field: "host.title",
             value: "rings of Saturn",
             comparator: "contains",
           },
@@ -93,10 +93,10 @@ describe("Group", () => {
       2,
     );
     expect(
-      screen.getByRole("button", { name: "corpusName" }),
+      screen.getByRole("button", { name: "Mots-clés teeft" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "abstract" }),
+      screen.getByRole("button", { name: "Titre revue ou monographie" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(

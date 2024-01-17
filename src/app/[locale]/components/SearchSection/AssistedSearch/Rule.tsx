@@ -1,6 +1,13 @@
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { IconButton, MenuItem, Stack, TextField } from "@mui/material";
+import {
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { fieldsDefinition } from "./fieldsList";
 import {
   textComparators,
   numberComparators,
@@ -36,46 +43,45 @@ const Rule = ({
   const t = useTranslations(
     "home.SearchSection.SearchInput.AssistedInput.Dropdown",
   );
-  const operatorsList = [
-    ...textComparators,
-    ...numberComparators,
-    ...rangeComparators,
-    ...booleanComparators,
-  ]
+  const numberAndRangeComparators = [...numberComparators, ...rangeComparators]
     .filter(
       (value, index) =>
-        [
-          ...textComparators,
-          ...numberComparators,
-          ...rangeComparators,
-          ...booleanComparators,
-        ].indexOf(value) === index,
+        [...numberComparators, ...rangeComparators].indexOf(value) === index,
     )
     .filter((word) => word !== "");
-  const fieldsList = [
-    "corpusName",
-    "publicationDate",
-    "subject.value",
-    "hasFormula",
-    "fulltext",
-    "qualityIndicators.tdmReady",
-    "abstract",
-  ];
 
+  const fieldsList = Array.from(fieldsDefinition, (element) => {
+    return element.field;
+  });
   const getAllFields = fieldsList.map((field, index) => {
     return (
-      <MenuItem value={field} key={index}>
-        {field}
+      <MenuItem value={field} key={index} sx={{ display: "block", p: 2 }}>
+        <Typography variant="body1">{t(`fields.${field}.title`)}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {t(`fields.${field}.description`)}
+        </Typography>
       </MenuItem>
     );
   });
-  const getAllOperators = operatorsList.map((operator, index) => {
-    return (
-      <MenuItem value={operator} key={index}>
-        {t(operator)}
-      </MenuItem>
-    );
-  });
+
+  const getComparators = () => {
+    const comparators =
+      node.fieldType === "text"
+        ? [...textComparators]
+        : node.fieldType === "boolean"
+        ? [...booleanComparators]
+        : [...numberAndRangeComparators];
+
+    return comparators.map((operator, index) => {
+      if (operator === "") return null;
+      return (
+        <MenuItem value={operator} key={index}>
+          {t(operator)}
+        </MenuItem>
+      );
+    });
+  };
+
   const getRightValueField = (node: FieldNode) => {
     switch (node.fieldType) {
       case "boolean":
@@ -225,6 +231,11 @@ const Rule = ({
         select
         value={node.field}
         label={node.field === "" ? t("field") : null}
+        SelectProps={{
+          renderValue: (selected) => {
+            return t(`fields.${selected as string}.title`);
+          },
+        }}
         onChange={(e) => {
           setField(e.target.value);
         }}
@@ -246,7 +257,7 @@ const Rule = ({
         }}
         error={displayError && node.comparator === ""}
       >
-        {getAllOperators}
+        {getComparators()}
       </TextField>
 
       {/* VALUE */}

@@ -3,18 +3,19 @@
 import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import SquareIcon from "@mui/icons-material/Square";
-import SquareOutlinedIcon from "@mui/icons-material/SquareOutlined";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
+  Button as MuiButton,
   Card,
   CardActionArea,
   CardContent,
+  Divider,
   Stack,
   Typography,
 } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
 import { useDocumentContext } from "../Document/DocumentContext";
-import Button from "@/components/Button";
 import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
@@ -121,44 +122,63 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
         direction="row"
         sx={{
           "& .MuiButton-root": {
-            width: "100%",
             flex: "1 1 0",
             borderRadius: 0,
             fontSize: "0.6875rem",
-            px: 2,
-            py: 2.5,
-            borderBottom: "none",
-            borderRight: "none",
-            borderLeft: "none",
           },
           "& .MuiSvgIcon-root": {
             mr: 0.625,
             fontSize: "1rem",
           },
+          backgroundColor: isSelected
+            ? "colors.darkGreen"
+            : isExcluded
+            ? "grey"
+            : "#FFFFFF",
         }}
       >
         {excludedDocuments.length === 0 && (
-          <Button
-            mainColor={cardColor}
+          <MuiButton
+            variant="text"
+            size="small"
             onClick={() => {
               toggleSelectedDocument(info.id);
             }}
+            sx={{
+              color: isSelected ? "#FFFFFF" : "colors.blue",
+              "& :hover": {
+                backgroundColor: isSelected
+                  ? "colors.veryDarkGreen"
+                  : "colors.lightBlue",
+              },
+            }}
           >
-            {isSelected ? <SquareOutlinedIcon /> : <SquareIcon />}
+            {isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
             {t(isSelected ? "unselect" : "select")}
-          </Button>
+          </MuiButton>
+        )}
+        {excludedDocuments.length === 0 && selectedDocuments.length === 0 && (
+          <Divider orientation="vertical" variant="fullWidth" flexItem />
         )}
         {selectedDocuments.length === 0 && (
-          <Button
-            mainColor={cardColor}
-            variant={isExcluded ? "contained" : "outlined"}
+          <MuiButton
+            variant="text"
+            size="small"
             onClick={() => {
               toggleExcludedDocument(info.id);
+            }}
+            sx={{
+              color: isExcluded ? "#FFFFFF" : "colors.blue",
+              "& :hover": {
+                backgroundColor: isExcluded
+                  ? "colors.lightGrey"
+                  : "colors.lightBlue",
+              },
             }}
           >
             {isExcluded ? <AddCircleIcon /> : <CancelIcon />}
             {t(isExcluded ? "include" : "exclude")}
-          </Button>
+          </MuiButton>
         )}
       </Stack>
     </Card>

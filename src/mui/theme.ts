@@ -3,6 +3,7 @@ import type { TypographyStyleOptions } from "@mui/material/styles/createTypograp
 import { montserrat, openSans } from "./fonts";
 
 const colors = {
+  veryDarkGreen: "#667F00",
   darkGreen: "#a9bb1e",
   lightGreen: "#c4d733",
   blue: "#458ca5",

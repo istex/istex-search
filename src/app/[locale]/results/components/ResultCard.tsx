@@ -6,7 +6,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
-  Button as MuiButton,
   Card,
   CardActionArea,
   CardContent,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
 import { useDocumentContext } from "../Document/DocumentContext";
+import Button from "@/components/Button";
 import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
@@ -130,55 +130,37 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
             mr: 0.625,
             fontSize: "1rem",
           },
-          backgroundColor: isSelected
-            ? "colors.darkGreen"
-            : isExcluded
-            ? "grey"
-            : "#FFFFFF",
+          backgroundColor: "#FFFFFF",
         }}
       >
         {excludedDocuments.length === 0 && (
-          <MuiButton
-            variant="text"
+          <Button
+            variant={isSelected ? "contained" : "text"}
+            mainColor={isSelected ? "darkGreen" : undefined}
             size="small"
             onClick={() => {
               toggleSelectedDocument(info.id);
             }}
-            sx={{
-              color: isSelected ? "#FFFFFF" : "colors.blue",
-              "& :hover": {
-                backgroundColor: isSelected
-                  ? "colors.veryDarkGreen"
-                  : "colors.lightBlue",
-              },
-            }}
           >
             {isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
             {t(isSelected ? "unselect" : "select")}
-          </MuiButton>
+          </Button>
         )}
         {excludedDocuments.length === 0 && selectedDocuments.length === 0 && (
           <Divider orientation="vertical" variant="fullWidth" flexItem />
         )}
         {selectedDocuments.length === 0 && (
-          <MuiButton
-            variant="text"
+          <Button
+            variant={isExcluded ? "contained" : "text"}
+            mainColor={isExcluded ? "grey" : undefined}
             size="small"
             onClick={() => {
               toggleExcludedDocument(info.id);
             }}
-            sx={{
-              color: isExcluded ? "#FFFFFF" : "colors.blue",
-              "& :hover": {
-                backgroundColor: isExcluded
-                  ? "colors.lightGrey"
-                  : "colors.lightBlue",
-              },
-            }}
           >
             {isExcluded ? <AddCircleIcon /> : <CancelIcon />}
             {t(isExcluded ? "include" : "exclude")}
-          </MuiButton>
+          </Button>
         )}
       </Stack>
     </Card>

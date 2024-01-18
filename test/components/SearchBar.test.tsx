@@ -16,7 +16,7 @@ describe("SearchBar", () => {
     expect(screen.getByTestId("search-by-id-button")).toBeInTheDocument();
     expect(screen.getByTestId("assist-search-button")).toBeInTheDocument();
   });
-  it("should render the searchBar in searchById mode", async () => {
+  it("should render the searchBar in not searchById mode", async () => {
     render(
       <SearchBar
         isSearchById={false}
@@ -27,10 +27,10 @@ describe("SearchBar", () => {
       </SearchBar>,
     );
     expect(screen.getByTestId("search-by-id-button")).toHaveStyle(
-      "background-color: #f0f0f0",
+      "background-color: rgb(246, 249, 250)",
     );
     expect(screen.getByTestId("search-by-id-button")).toHaveStyle(
-      "color: black",
+      "color: rgb(29, 29, 29)",
     );
   });
   it("should render the blue 'IMPORT LIST' button when isSearchById is true ", async () => {
@@ -44,10 +44,10 @@ describe("SearchBar", () => {
       </SearchBar>,
     );
     expect(screen.getByTestId("search-by-id-button")).toHaveStyle(
-      "background-color: #458ca5",
+      "background-color: rgb(69, 140, 165)",
     );
     expect(screen.getByTestId("search-by-id-button")).toHaveStyle(
-      "color: white",
+      "color: rgb(240, 240, 240)",
     );
   });
   it("should display a spinner when loading", () => {

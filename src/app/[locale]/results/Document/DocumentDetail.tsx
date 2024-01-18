@@ -1,9 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
 import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, Link, Stack, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { useDocumentContext } from "./DocumentContext";
 import FileList from "./FileList";
 import Button from "@/components/Button";
@@ -23,6 +28,17 @@ const DocumentDetail: ClientComponent = () => {
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
+  const theme = useTheme();
+
+  const isSelected =
+    displayedDocument != null
+      ? selectedDocuments.includes(displayedDocument.id)
+      : false;
+  const isExcluded =
+    displayedDocument != null
+      ? excludedDocuments.includes(displayedDocument.id)
+      : false;
+
   return (
     <Drawer
       anchor="right"
@@ -33,7 +49,11 @@ const DocumentDetail: ClientComponent = () => {
       }}
       PaperProps={{
         sx: {
-          width: { xs: "100%", md: "70%" },
+          width: {
+            xs: "100%",
+            md: "70%",
+            [theme.breakpoints.up(3000)]: "50%",
+          },
         },
       }}
       transitionDuration={400}
@@ -81,13 +101,21 @@ const DocumentDetail: ClientComponent = () => {
               {displayedDocument.abstract}
             </Typography>
           )}
-          <Stack direction="row" justifyContent="space-between" mt={2}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            mt={2}
+            sx={{
+              fontSize: "0.6875rem",
+              fontWeight: 400,
+              textTransform: "uppercase",
+            }}
+          >
             <Link
+              underline="hover"
               onClick={closeDocument}
               sx={{
                 color: "colors.lightBlack",
-                fontWeight: 700,
-                textTransform: "uppercase",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "row",
@@ -99,10 +127,9 @@ const DocumentDetail: ClientComponent = () => {
               {t("backToResults")}
             </Link>
             <Link
+              underline="hover"
               sx={{
                 color: "colors.lightBlack",
-                fontWeight: 700,
-                textTransform: "uppercase",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "row",
@@ -135,7 +162,10 @@ const DocumentDetail: ClientComponent = () => {
                 label={displayedDocument.host.genre}
                 variant="filled"
                 size="small"
-                sx={{ borderRadius: "3px" }}
+                sx={{
+                  borderRadius: "3px",
+                  backgroundColor: "colors.variantBlue",
+                }}
                 title={tTags("hostGenre")}
                 color="info"
               />
@@ -148,7 +178,10 @@ const DocumentDetail: ClientComponent = () => {
                     label={displayedDocument[tag]}
                     variant="filled"
                     size="small"
-                    sx={{ borderRadius: "3px" }}
+                    sx={{
+                      borderRadius: "3px",
+                      backgroundColor: "colors.variantBlue",
+                    }}
                     title={tTags(tag)}
                     color="info"
                   />
@@ -238,30 +271,30 @@ const DocumentDetail: ClientComponent = () => {
           {displayedDocument != null && (
             <>
               <Button
-                variant="outlined"
+                variant={isSelected ? "contained" : "outlined"}
+                mainColor={isSelected ? "darkGreen" : undefined}
+                size="small"
                 disabled={excludedDocuments.length > 0}
+                startIcon={
+                  isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
+                }
                 onClick={() => {
                   toggleSelectedDocument(displayedDocument.id);
                 }}
               >
-                {t(
-                  selectedDocuments.includes(displayedDocument.id)
-                    ? "unselectDocument"
-                    : "selectDocument",
-                )}
+                {t(isSelected ? "unselectDocument" : "selectDocument")}
               </Button>
               <Button
-                variant="outlined"
+                variant={isExcluded ? "contained" : "outlined"}
+                mainColor={isExcluded ? "grey" : undefined}
+                size="small"
                 disabled={selectedDocuments.length > 0}
+                startIcon={isExcluded ? <AddCircleIcon /> : <CancelIcon />}
                 onClick={() => {
                   toggleExcludedDocument(displayedDocument.id);
                 }}
               >
-                {t(
-                  excludedDocuments.includes(displayedDocument.id)
-                    ? "includeDocument"
-                    : "excludeDocument",
-                )}
+                {t(isExcluded ? "includeDocument" : "excludeDocument")}
               </Button>
             </>
           )}

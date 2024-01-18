@@ -96,9 +96,8 @@ const SearchBar = ({
             )}
           </Button>
           <Button
-            mainColor={isSearchById ? undefined : "white"}
-            secondaryColor="darkBlack"
-            variant="text"
+            mainColor={isSearchById ? undefined : "veryLightBlue"}
+            secondaryColor={isSearchById ? undefined : "darkBlack"}
             size="small"
             sx={{
               height: "65px",
@@ -107,11 +106,10 @@ const SearchBar = ({
               padding: "10px",
               display: "flex",
               flexDirection: "column",
-              fontSize: "0.4rem",
+              fontSize: "0.4375rem",
               lineHeight: "0.5rem",
               ml: 1,
               gap: 1,
-              color: isSearchById ? "white" : "black",
             }}
             onClick={switchSearchById}
             data-testid="search-by-id-button"
@@ -125,9 +123,8 @@ const SearchBar = ({
             {t("importButton")}
           </Button>
           <Button
-            mainColor="white"
+            mainColor="veryLightBlue"
             secondaryColor="darkBlack"
-            variant="text"
             size="small"
             sx={{
               height: "65px",
@@ -136,7 +133,7 @@ const SearchBar = ({
               padding: "10px",
               display: "flex",
               flexDirection: "column",
-              fontSize: "0.4rem",
+              fontSize: "0.4375rem",
               lineHeight: "0.5rem",
               ml: 1,
               gap: 1,

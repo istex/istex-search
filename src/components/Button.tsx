@@ -47,15 +47,26 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     };
   }
 
+  if (variant === "text") {
+    return {
+      color: _mainColor,
+      "&:hover": {
+        backgroundColor: lighten(_mainColor, 0.85),
+      },
+    };
+  }
+
   return {
     backgroundColor: _mainColor,
     color: _secondaryColor,
+    boxShadow: "none",
     "&:hover": {
       background: `linear-gradient(to left, ${lighten(
         _mainColor,
         0.15,
       )}, ${_mainColor})`,
       backgroundColor: _mainColor,
+      boxShadow: "none",
     },
   };
 });

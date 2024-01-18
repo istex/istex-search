@@ -180,13 +180,13 @@ describe("DocumentDetail", () => {
     }
     const drawer = screen.getByRole("presentation");
     expect(drawer).toBeInTheDocument();
-    const selectButton = within(drawer).getByText("Sélectionner ce document");
-    const excludeButton = within(drawer).getByText("Exclure ce document");
+    const selectButton = within(drawer).getByText("Sélectionner");
+    const excludeButton = within(drawer).getByText("Exclure");
     await userEvent.click(selectButton);
-    expect(selectButton).toHaveTextContent("Dé-sélectionner ce document");
+    expect(selectButton).toHaveTextContent("Désélectionner");
     expect(excludeButton).toBeDisabled();
     await userEvent.click(selectButton);
-    expect(selectButton).toHaveTextContent("Sélectionner ce document");
+    expect(selectButton).toHaveTextContent("Sélectionner");
     expect(excludeButton).not.toBeDisabled();
   });
 
@@ -204,13 +204,13 @@ describe("DocumentDetail", () => {
     }
     const drawer = screen.getByRole("presentation");
     expect(drawer).toBeInTheDocument();
-    const selectButton = within(drawer).getByText("Sélectionner ce document");
-    const excludeButton = within(drawer).getByText("Exclure ce document");
+    const selectButton = within(drawer).getByText("Sélectionner");
+    const excludeButton = within(drawer).getByText("Exclure");
     await userEvent.click(excludeButton);
-    expect(excludeButton).toHaveTextContent("Inclure ce document");
+    expect(excludeButton).toHaveTextContent("Inclure");
     expect(selectButton).toBeDisabled();
     await userEvent.click(excludeButton);
-    expect(excludeButton).toHaveTextContent("Exclure ce document");
+    expect(excludeButton).toHaveTextContent("Exclure");
     expect(selectButton).not.toBeDisabled();
   });
 });

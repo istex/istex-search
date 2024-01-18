@@ -408,7 +408,7 @@
     },
     "ResultsCard": {
       "select": "Sélectionner",
-      "unselect": "Dé-sélectionner",
+      "unselect": "Désélectionner",
       "include": "Inclure",
       "exclude": "Exclure"
     },
@@ -460,7 +460,7 @@
       },
       "publicationDate": {
         "title": "Date de publication",
-        "inputLabel": "Année",
+        "inputLabel": "Année ({minLabel} à {maxLabel})",
         "inputPlaceholderMin": "Minimum",
         "to": "à",
         "inputPlaceholderMax": "Maximum"
@@ -478,21 +478,21 @@
         },
         "pdfWordCount": {
           "title": "Nombre de mots du PDF",
-          "inputLabel": "Nombre de mots",
+          "inputLabel": "Nombre de mots ({minLabel} à {maxLabel})",
           "inputPlaceholderMin": "Minimum",
           "to": "à",
           "inputPlaceholderMax": "Maximum"
         },
         "score": {
           "title": "Score",
-          "inputLabel": "Score ({min} à {max})",
+          "inputLabel": "Score ({minLabel} à {maxLabel})",
           "inputPlaceholderMin": "Minimum",
           "to": "à",
           "inputPlaceholderMax": "Maximum"
         },
         "pdfCharCount": {
           "title": "Nombre de caractères du PDF",
-          "inputLabel": "Nombre de caractères",
+          "inputLabel": "Nombre de caractères ({minLabel} à {maxLabel})",
           "inputPlaceholderMin": "Minimum",
           "to": "à",
           "inputPlaceholderMax": "Maximum"

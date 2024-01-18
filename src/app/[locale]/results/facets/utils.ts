@@ -54,13 +54,15 @@ export const getLanguageLabel = (
   return iso;
 };
 
-const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
+export const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
 
 export const checkRangeInputValue = (facetTitle: string, value: string) => {
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
   return (
-    // Bridle the number of characters
-    value.length < 5 &&
+    // Bridle the number of decimals
+    (!withDecimal ||
+      (withDecimal && !value.includes(".")) ||
+      (withDecimal && value.split(".")[1].length <= 3)) &&
     // Bridle the score input to the range
     ((facetTitle === "qualityIndicators.score" &&
       +value >= 0 &&

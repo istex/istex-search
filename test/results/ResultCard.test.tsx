@@ -34,7 +34,7 @@ describe("ResultCard", () => {
     expect(selectButton).toHaveTextContent("Sélectionner");
 
     await userEvent.click(selectButton);
-    expect(selectButton).toHaveTextContent("Dé-sélectionner");
+    expect(selectButton).toHaveTextContent("Désélectionner");
     expect(excludeButton).not.toBeInTheDocument();
 
     await userEvent.click(selectButton);

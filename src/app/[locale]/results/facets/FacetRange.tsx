@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
-import { checkRangeInputValue } from "./utils";
+import { FACETS_RANGE_WITH_DECIMAL, checkRangeInputValue } from "./utils";
 import type { ClientComponent } from "@/types/next";
 
 const FacetRange: ClientComponent<FacetLayoutProps> = ({
@@ -15,7 +15,19 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   const { setRangeFacet } = useFacetContext();
   const t = useTranslations(`results.Facets.${facetTitle}`);
 
-  const [initialMin, initialMax] = facetItems[0].key.toString().split("-");
+  const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
+
+  const initialMin = withDecimal
+    ? facetItems[0].key.toString().split("-")[0]
+    : facetItems[0].key.toString().split("-")[0].split(".")[0];
+  const initialMax = withDecimal
+    ? facetItems[0].key.toString().split("-")[1]
+    : facetItems[0].key.toString().split("-")[1].split(".")[0];
+
+  const minLabel =
+    facetItems[0].fromAsString ?? facetItems[0].from?.toString() ?? "";
+  const maxLabel =
+    facetItems[0].toAsString ?? facetItems[0].to?.toString() ?? "";
 
   const [min, setMin] = useState<string>(initialMin);
 
@@ -38,8 +50,9 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   };
 
   useEffect(() => {
-    if (min !== initialMin || max !== initialMax)
+    if (min !== initialMin || max !== initialMax) {
       setRangeFacet(facetTitle, `${min}-${max}`);
+    }
   }, [min, max, initialMin, initialMax, facetTitle, setRangeFacet]);
 
   return (
@@ -52,7 +65,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           mb: 0.5,
         }}
       >
-        {t("inputLabel", { min, max })}
+        {t("inputLabel", { minLabel, maxLabel })}
       </Typography>
       <Stack direction="row" alignItems="center" spacing={2}>
         <TextField

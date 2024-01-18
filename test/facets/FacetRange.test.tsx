@@ -44,7 +44,7 @@ describe("FaceRange", () => {
     });
 
     render(<FacetRange facetTitle={facetTitle} facetItems={facetItems} />);
-    expect(screen.getByText("Année")).toBeInTheDocument();
+    expect(screen.getByText("Année (2000 à 2020)")).toBeInTheDocument();
     expect(screen.getAllByRole("textbox")).toHaveLength(2);
     expect(screen.getAllByRole("textbox")[0]).toHaveAttribute(
       "placeholder",

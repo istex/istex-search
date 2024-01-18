@@ -156,10 +156,15 @@ describe("getLanguageLabel", () => {
 });
 
 describe("Module.checkRangeInputValue", () => {
-  it("should return false for value longer than 4 characters", () => {
+  it("should return false for number with more than 3 decimals", () => {
+    expect(
+      Module.checkRangeInputValue("qualityIndicators.score", "1.2345"),
+    ).toBe(false);
+  });
+  it("should return true for number with 3 decimals", () => {
     expect(
       Module.checkRangeInputValue("qualityIndicators.score", "1.234"),
-    ).toBe(false);
+    ).toBe(true);
   });
   it("should return true for valid score input", () => {
     expect(Module.checkRangeInputValue("qualityIndicators.score", "5")).toBe(
@@ -179,6 +184,7 @@ describe("Module.checkRangeInputValue", () => {
   it("should return true for valid non-score input", () => {
     expect(Module.checkRangeInputValue("otherFacet", "5")).toBe(true);
     expect(Module.checkRangeInputValue("otherFacet", "")).toBe(true);
+    expect(Module.checkRangeInputValue("otherFacet", "1000000")).toBe(true);
   });
 
   it("should return false for invalid score input", () => {

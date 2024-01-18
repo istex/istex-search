@@ -8,7 +8,6 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
 import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, Link, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useDocumentContext } from "./DocumentContext";
 import FileList from "./FileList";
 import Button from "@/components/Button";
@@ -27,8 +26,6 @@ const DocumentDetail: ClientComponent = () => {
   const tTags = useTranslations("results.Document.tags");
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
-
-  const theme = useTheme();
 
   const isSelected =
     displayedDocument != null
@@ -52,7 +49,9 @@ const DocumentDetail: ClientComponent = () => {
           width: {
             xs: "100%",
             md: "70%",
-            [theme.breakpoints.up(3000)]: "50%",
+          },
+          "@media (min-width:3000px)": {
+            whidth: "50%",
           },
         },
       }}

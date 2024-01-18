@@ -25,7 +25,6 @@ const QueryExamplesList = ({
             <Button
               mainColor="white"
               secondaryColor="darkBlack"
-              variant="text"
               size="small"
               onClick={() => {
                 goToResultsPage(_queryString);

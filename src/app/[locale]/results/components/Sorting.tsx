@@ -1,10 +1,11 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
+  CircularProgress,
   IconButton,
   MenuItem,
   Select,
@@ -21,7 +22,14 @@ const Sorting: ClientComponent<{
   fontSize: string;
   labelColor: string;
   selectColor: string;
-}> = ({ isLabelLowerCase, fontSize, labelColor, selectColor }) => {
+  enableLoading?: boolean;
+}> = ({
+  isLabelLowerCase,
+  fontSize,
+  labelColor,
+  selectColor,
+  enableLoading,
+}) => {
   const t = useTranslations("results.ResultsGrid");
   const router = useRouter();
   const pathname = usePathname();
@@ -30,6 +38,12 @@ const Sorting: ClientComponent<{
   const sortDirection = searchParams.getSortDirection();
 
   const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [sortBy, sortDirection]);
 
   const menuCallbackRef = useCallback(
     (menuDiv: HTMLDivElement | null) => {
@@ -44,12 +58,18 @@ const Sorting: ClientComponent<{
 
   const handleSortByChange = (event: SelectChangeEvent<SortBy>) => {
     searchParams.setSortBy(event.target.value as SortBy);
-    router.replace(`${pathname}?${searchParams.toString()}`);
+    if (enableLoading === true) {
+      setLoading(true);
+    }
+    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   const toggleSortDirection = () => {
     searchParams.setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    router.replace(`${pathname}?${searchParams.toString()}`);
+    if (enableLoading === true) {
+      setLoading(true);
+    }
+    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   return (
@@ -61,6 +81,7 @@ const Sorting: ClientComponent<{
       </Typography>
       <Select
         autoWidth
+        disabled={loading}
         variant="standard"
         value={sortBy}
         onChange={handleSortByChange}
@@ -77,6 +98,9 @@ const Sorting: ClientComponent<{
             borderBottom: "none",
           },
           "&:hover:not(.Mui-disabled):before": {
+            borderBottom: "none",
+          },
+          "&.Mui-disabled:before": {
             borderBottom: "none",
           },
           "&:after": {
@@ -98,10 +122,11 @@ const Sorting: ClientComponent<{
           onClick={toggleSortDirection}
           title={t(`sorting.${sortDirection}`)}
           aria-label={t(`sorting.${sortDirection}`)}
+          disabled={loading}
         >
           <ArrowDownwardIcon
             sx={{
-              color: selectColor,
+              color: loading ? "colors.lightGrey" : selectColor,
               fontSize: "1rem",
               transform:
                 sortDirection === "desc" ? "rotate(180deg)" : "rotate(0deg)",
@@ -110,6 +135,7 @@ const Sorting: ClientComponent<{
           />
         </IconButton>
       )}
+      {loading && <CircularProgress size={20} />}
     </Stack>
   );
 };

@@ -107,7 +107,9 @@ describe("ResultsToolbar", () => {
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
     await userEvent.click(titleSortOption);
-    expect(router.replace).toBeCalledWith("/?sortBy=title.raw");
+    expect(router.replace).toBeCalledWith("/?sortBy=title.raw", {
+      scroll: false,
+    });
   });
 
   it("should call router.replace with the correct params when the sort direction button is clicked", async () => {
@@ -120,6 +122,30 @@ describe("ResultsToolbar", () => {
     await userEvent.click(sortDirButton);
     expect(router.replace).toBeCalledWith(
       "/?sortBy=title.raw&sortDirection=desc",
+      { scroll: false },
     );
+  });
+
+  it("should display a spinner when the sort direction button is clicked", async () => {
+    mockSearchParams({
+      sortBy: "title.raw",
+    });
+    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    const sortDirButton = screen.getByLabelText("ordre croissant");
+    await userEvent.click(sortDirButton);
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+  });
+
+  it("should display a spinner when the sort field is changed", async () => {
+    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    const sortSelectElement = screen.getByRole("button", {
+      name: "pertinence & qualité",
+    });
+    await userEvent.click(sortSelectElement);
+    const titleSortOption = screen.getByText("titre");
+    await userEvent.click(titleSortOption);
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

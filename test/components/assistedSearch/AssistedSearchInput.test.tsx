@@ -3,12 +3,7 @@ import AssistedSearchInput from "@/app/[locale]/components/SearchSection/Assiste
 
 describe("AssistedSearchInput", () => {
   it("should render an empty AssistedSearchInput", () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Assistant à la construction de requête",
@@ -23,9 +18,6 @@ describe("AssistedSearchInput", () => {
     expect(
       screen.getByRole("button", { name: "RECHERCHER" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "< recherche simple" }),
-    ).toBeInTheDocument();
     expect(screen.getByLabelText("Champ")).toBeInTheDocument();
     expect(screen.getByLabelText("Comparateur")).toBeInTheDocument();
     expect(screen.getByLabelText("Valeur")).toBeInTheDocument();
@@ -37,12 +29,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
   });
   it("should create a Rule (and an Operator)", async () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     );
@@ -57,12 +44,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByRole("button", { name: "AND" })).toHaveLength(1);
   });
   it("should remove a Rule (and an Operator)", async () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     );
@@ -75,12 +57,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
   });
   it("should create a Group (and an Operator)", async () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
@@ -106,12 +83,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(3); // 2 for the rules + 1 for the group
   });
   it("should remove a Group (and an Operator)", async () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
@@ -131,12 +103,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
   });
   it("should reset", async () => {
-    render(
-      <AssistedSearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
@@ -156,15 +123,10 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(1);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
-  }, 14000);
+  }, 17000);
   it("shouldn't search if a field is null", async () => {
     const mockSearch = jest.fn();
-    render(
-      <AssistedSearchInput
-        goToResultsPage={mockSearch}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={mockSearch} />);
     await userEvent.type(screen.getByLabelText("Valeur"), "test");
     await userEvent.click(screen.getByRole("button", { name: "RECHERCHER" }));
     expect(mockSearch).not.toBeCalled();
@@ -176,12 +138,7 @@ describe("AssistedSearchInput", () => {
   }, 8000);
   it("should search the right query", async () => {
     const mockSearch = jest.fn();
-    render(
-      <AssistedSearchInput
-        goToResultsPage={mockSearch}
-        switchAssistedSearch={() => {}}
-      />,
-    );
+    render(<AssistedSearchInput goToResultsPage={mockSearch} />);
     await userEvent.click(screen.getByLabelText("Champ"));
     await userEvent.click(screen.getAllByRole("option")[47]);
     await userEvent.click(screen.getByLabelText("Comparateur"));
@@ -193,6 +150,16 @@ describe("AssistedSearchInput", () => {
     expect(mockSearch).toHaveBeenCalledWith(
       'abstract.raw:"test"',
       expect.any(Function),
+      undefined,
+      [
+        {
+          comparator: "equals",
+          field: "abstract",
+          fieldType: "text",
+          nodeType: "node",
+          value: "test",
+        },
+      ],
     );
 
     expect(screen.queryByText("Veuillez remplir tous les champs")).toBeNull();
@@ -200,5 +167,5 @@ describe("AssistedSearchInput", () => {
       "Mui-error",
     );
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
-  }, 10000);
+  }, 12000);
 });

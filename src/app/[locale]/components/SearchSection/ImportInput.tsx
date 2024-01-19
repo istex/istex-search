@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import Image from "next/image";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
+import SearchTitle from "./SearchTitle";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -32,12 +33,16 @@ const ImportInput: ClientComponent<{
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const tErrors = useTranslations("errors");
   const [errorMessage, setErrorMessage] = useState("");
-  const [columnToSearch, setColumnToSearch] = useState("");
-  const [errorLines, setErrorLines] = useState<number[]>([]);
   const [queryStringById, setQueryStringById] = useState(
     getIdsFromQuery(useQueryContext().queryString),
   );
   const onHomePage = usePathname() === "/";
+  const [columnToSearch, setColumnToSearch] = useState(
+    useQueryContext().queryString.split(".")[0],
+  );
+  const [errorLines, setErrorLines] = useState(
+    buildQueryFromIds(columnToSearch as ColumnId, queryStringById).errorLines,
+  );
 
   const corpusFileHandler = (file: Blob) => {
     if (!file.name.endsWith(".corpus")) {
@@ -90,9 +95,7 @@ const ImportInput: ClientComponent<{
 
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
-      <Typography variant="h5" component="h1" gutterBottom>
-        {onHomePage ? t("searchTitle") : t("resultsTitle")}
-      </Typography>
+      <SearchTitle title={onHomePage ? t("searchTitle") : t("resultsTitle")} />
       {searchBar(
         <>
           <MultilineTextField

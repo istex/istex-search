@@ -8,8 +8,9 @@ import {
 } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import QueryExamplesList from "./QueryExamplesList";
+import SearchTitle from "./SearchTitle";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
@@ -41,9 +42,7 @@ const RegularSearchInput: ClientComponent<{
 
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
-      <Typography variant="h5" component="h1" gutterBottom>
-        {onHomePage ? t("searchTitle") : t("resultsTitle")}
-      </Typography>
+      <SearchTitle title={onHomePage ? t("searchTitle") : t("resultsTitle")} />
       {searchBar(
         <MultilineTextField
           id="regular-search-input"

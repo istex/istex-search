@@ -114,3 +114,13 @@ export type SortBy = (typeof sortFields)[number] | (typeof rankValues)[number];
 export type SortDir = (typeof sortDir)[number];
 export const DEFAULT_SORT_BY: SortBy = "qualityOverRelevance";
 export const DEFAULT_SORT_DIR: SortDir = "asc";
+
+export const SEARCH_MODE_REGULAR = "regular";
+export const SEARCH_MODE_ADVANCED = "advanced";
+export const SEARCH_MODE_ASSISTED = "assisted";
+const SearchModes = [
+  SEARCH_MODE_REGULAR,
+  SEARCH_MODE_ADVANCED,
+  SEARCH_MODE_ASSISTED,
+] as const;
+export type SearchMode = (typeof SearchModes)[number];

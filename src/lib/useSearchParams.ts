@@ -6,7 +6,9 @@ import { md5 } from "js-md5";
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import type { Filter } from "./istexApi";
+import { type AST } from "./queryAst";
 import { clamp, closest, isValidMd5 } from "./utils";
+import { emptyRule } from "@/app/[locale]/components/SearchSection/AssistedSearch/utils";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -20,6 +22,10 @@ import {
   type SortBy,
   type SortDir,
   type UsageName,
+  type SearchMode,
+  SEARCH_MODE_REGULAR,
+  SEARCH_MODE_ADVANCED,
+  SEARCH_MODE_ASSISTED,
 } from "@/config";
 import type { NextSearchParams } from "@/types/next";
 
@@ -276,6 +282,63 @@ class SearchParams {
 
   deleteLastAppliedFacet(): void {
     this.searchParams.delete("lastAppliedFacet");
+  }
+
+  isSearchModeRegular(): boolean {
+    const value = this.searchParams.get("searchMode");
+    return value === null;
+  }
+
+  isSearchModeAdvanced(): boolean {
+    const value = this.searchParams.get("searchMode");
+    return value === SEARCH_MODE_ADVANCED;
+  }
+
+  isSearchModeAssisted(): boolean {
+    const value = this.searchParams.get("searchMode");
+    return value === SEARCH_MODE_ASSISTED;
+  }
+
+  getSearchMode(): SearchMode {
+    const value = this.searchParams.get("searchMode");
+    if (value === null) {
+      return SEARCH_MODE_REGULAR;
+    }
+
+    return value as SearchMode;
+  }
+
+  setSearchMode(value: SearchMode): void {
+    if (value === SEARCH_MODE_REGULAR) {
+      this.deleteSearchMode();
+      return;
+    }
+
+    this.searchParams.set("searchMode", value);
+  }
+
+  deleteSearchMode(): void {
+    this.searchParams.delete("searchMode");
+  }
+
+  getAst(): AST {
+    const value = this.searchParams.get("ast");
+    if (value === null) {
+      return [{ ...emptyRule }];
+    }
+    try {
+      return JSON.parse(value) as AST;
+    } catch (error) {
+      return [{ ...emptyRule }];
+    }
+  }
+
+  setAst(parsedAst: AST): void {
+    this.searchParams.set("ast", JSON.stringify(parsedAst));
+  }
+
+  deleteAst(): void {
+    this.searchParams.delete("ast");
   }
 
   getSortBy(): SortBy {

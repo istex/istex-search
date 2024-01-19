@@ -7,7 +7,6 @@ import {
 } from "../test-utils";
 import SearchSection from "@/app/[locale]/components/SearchSection";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
-import SearchInput from "@/app/[locale]/components/SearchSection/SearchInput";
 import { examples } from "@/config";
 
 describe("RegularSearchInput", () => {
@@ -69,13 +68,7 @@ describe("RegularSearchInput", () => {
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    render(
-      <SearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-      />,
-      { queryString },
-    );
+    render(<SearchSection />, { queryString });
 
     const input = screen.getByRole("textbox");
 
@@ -105,18 +98,12 @@ describe("RegularSearchInput", () => {
       />,
     );
     expect(screen.getAllByRole("button")).toHaveLength(
-      Object.keys(examples).length,
-    );
+      Object.keys(examples).length + 3,
+    ); // +3 for the 3 search modes buttons
   });
 
   it("should display a spinner when loading", () => {
-    render(
-      <SearchInput
-        goToResultsPage={() => {}}
-        switchAssistedSearch={() => {}}
-        loading
-      />,
-    );
+    render(<SearchSection loading />);
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

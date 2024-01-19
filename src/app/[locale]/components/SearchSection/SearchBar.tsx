@@ -1,31 +1,15 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
-import Image from "next/image";
-import {
-  Box,
-  CircularProgress,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import AssistedSearchIcon from "@/../public/assisted-search.svg";
-import SearchByIdSelectedIcon from "@/../public/id-search-selected.svg";
-import SearchByIdUnselectedIcon from "@/../public/id-search-unselected.svg";
-import Button from "@/components/Button";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
+import SearchButton from "./SearchButton";
 import { useQueryContext } from "@/contexts/QueryContext";
 
 const SearchBar = ({
   children,
-  switchAssistedSearch,
-  isSearchById,
-  switchSearchById,
   loading,
 }: {
   children: React.ReactNode;
-  switchAssistedSearch: () => void;
-  isSearchById: boolean;
-  switchSearchById: () => void;
   loading?: boolean;
 }) => {
   const t = useTranslations("home.SearchSection.SearchInput");
@@ -68,83 +52,8 @@ const SearchBar = ({
         }}
       >
         {children}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            type="submit"
-            disabled={loading}
-            sx={{
-              borderTopLeftRadius: { xs: 4, sm: 0 },
-              borderBottomLeftRadius: { xs: 4, sm: 0 },
-              height: "65px",
-              py: 1.95,
-              px: 1.75,
-            }}
-          >
-            <span>{t("button")}</span>
-            {loading === true && (
-              <CircularProgress
-                size={24}
-                sx={{
-                  color: "colors.blue",
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  marginTop: "-12px",
-                  marginLeft: "-12px",
-                }}
-              />
-            )}
-          </Button>
-          <Button
-            mainColor={isSearchById ? undefined : "veryLightBlue"}
-            secondaryColor={isSearchById ? undefined : "darkBlack"}
-            size="small"
-            sx={{
-              height: "65px",
-              borderRadius: "5px",
-              width: "85px",
-              padding: "10px",
-              display: "flex",
-              flexDirection: "column",
-              fontSize: "0.4375rem",
-              lineHeight: "0.5rem",
-              ml: 1,
-              gap: 1,
-            }}
-            onClick={switchSearchById}
-            data-testid="search-by-id-button"
-          >
-            <Image
-              src={
-                isSearchById ? SearchByIdSelectedIcon : SearchByIdUnselectedIcon
-              }
-              alt="Search-by-Id"
-            />
-            {t("importButton")}
-          </Button>
-          <Button
-            mainColor="veryLightBlue"
-            secondaryColor="darkBlack"
-            size="small"
-            sx={{
-              height: "65px",
-              borderRadius: "5px",
-              width: "85px",
-              padding: "10px",
-              display: "flex",
-              flexDirection: "column",
-              fontSize: "0.4375rem",
-              lineHeight: "0.5rem",
-              ml: 1,
-              gap: 1,
-            }}
-            onClick={switchAssistedSearch}
-            data-testid="assist-search-button"
-          >
-            <Image src={AssistedSearchIcon} alt="Assisted-search" />
-            {t("assistedButton")}
-          </Button>
-        </Box>
+
+        <SearchButton loading={loading} />
       </Box>
     </Stack>
   );

@@ -1,3 +1,4 @@
+import { emptyRule } from "@/app/[locale]/components/SearchSection/AssistedSearch/utils";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -5,6 +6,9 @@ import {
   MAX_PER_PAGE,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
+  SEARCH_MODE_ADVANCED,
+  SEARCH_MODE_ASSISTED,
+  SEARCH_MODE_REGULAR,
   formats,
   istexApiConfig,
   perPageOptions,
@@ -306,6 +310,143 @@ describe("SearchParams class", () => {
     searchParams.deleteLastAppliedFacet();
 
     expect(searchParams.getLastAppliedFacet()).toBe("");
+  });
+
+  it("should check is mode regular", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    expect(searchParams.isSearchModeRegular()).toBe(true);
+  });
+
+  it("shouldn't check is mode regular", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ADVANCED,
+    });
+
+    expect(searchParams.isSearchModeRegular()).toBe(false);
+  });
+
+  it("should check is mode assisted", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ASSISTED,
+    });
+
+    expect(searchParams.isSearchModeAssisted()).toBe(true);
+  });
+
+  it("shouldn't check is mode assisted", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ADVANCED,
+    });
+
+    expect(searchParams.isSearchModeAssisted()).toBe(false);
+  });
+
+  it("should check is mode advanced", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ADVANCED,
+    });
+
+    expect(searchParams.isSearchModeAdvanced()).toBe(true);
+  });
+
+  it("shouldn't check is mode advanced", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ASSISTED,
+    });
+
+    expect(searchParams.isSearchModeAdvanced()).toBe(false);
+  });
+
+  it("should get search mode", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ADVANCED,
+    });
+
+    expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_ADVANCED);
+  });
+
+  it("should set search mode", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setSearchMode(SEARCH_MODE_ASSISTED);
+
+    expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_ASSISTED);
+  });
+
+  it("should delete search mode", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      searchMode: SEARCH_MODE_ASSISTED,
+    });
+
+    searchParams.deleteSearchMode();
+
+    expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_REGULAR);
+  });
+
+  it("should get ast", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      ast: '[{"nodeType":"node","fieldType":"text","field":"author.affiliations","value":"rien","comparator":"notEquals"}]',
+    });
+
+    expect(searchParams.getAst()).toStrictEqual([
+      {
+        nodeType: "node",
+        fieldType: "text",
+        field: "author.affiliations",
+        value: "rien",
+        comparator: "notEquals",
+      },
+    ]);
+  });
+
+  it("should set ast", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+    });
+
+    searchParams.setAst([
+      {
+        nodeType: "node",
+        fieldType: "text",
+        field: "abstract",
+        value: "",
+        comparator: "",
+      },
+    ]);
+
+    expect(searchParams.getAst()).toStrictEqual([
+      {
+        nodeType: "node",
+        fieldType: "text",
+        field: "abstract",
+        value: "",
+        comparator: "",
+      },
+    ]);
+  });
+
+  it("should delete ast", () => {
+    const searchParams = useSearchParams({
+      q: "hello",
+      ast: '[{nodeType:"node", fieldType:"text", field: "abstract", value: "", comparator: ""}]',
+    });
+
+    searchParams.deleteAst();
+
+    expect(searchParams.getAst()).toStrictEqual([{ ...emptyRule }]);
   });
 
   it("should get sort by", () => {

@@ -15,6 +15,9 @@
       "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>Première étape de votre projet de fouille de textes"
     },
     "SearchSection": {
+      "regularButton": "Recherche simple",
+      "assistedButton": "Recherche assistée",
+      "advancedButton": "Recherche avancée",
       "SearchInput": {
         "button": "RECHERCHER",
         "importButton": "IMPORT\nD'IDENTIFIANTS",

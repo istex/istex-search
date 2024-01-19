@@ -17,7 +17,7 @@
     "SearchSection": {
       "regularButton": "Recherche simple",
       "assistedButton": "Recherche assistée",
-      "advancedButton": "Recherche avancée",
+      "advancedButton": "Import de liste",
       "SearchInput": {
         "button": "RECHERCHER",
         "importButton": "IMPORT\nD'IDENTIFIANTS",

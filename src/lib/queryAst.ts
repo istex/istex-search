@@ -142,7 +142,11 @@ function textNodeToString(node: TextNode): string {
   let result = "";
 
   // Check if using the ".raw" variant of the field is required
-  if (node.comparator === "equals" || node.comparator === "notEquals") {
+  if (
+    (node.comparator === "equals" || node.comparator === "notEquals") &&
+    node.field !== "fulltext" &&
+    node.field !== "qualityIndicators.tdmReady:true AND fulltext"
+  ) {
     result += `${node.field}.raw:`;
   } else {
     result += `${node.field}:`;

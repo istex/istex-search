@@ -41,6 +41,8 @@
           "error": "Veuillez remplir tous les champs",
           "title": "Assistant à la construction de requête",
           "editionButton": "édition experte",
+          "assistedButton": "édition assistée",
+          "validate": "Valider vos modifications",
           "regularSearch": "< recherche simple",
           "button": "RECHERCHER",
           "addRule": "Ajouter une règle",
@@ -332,6 +334,13 @@
                 "description": "Recherche sur le titre du document"
               }
             }
+          },
+          "Dialog": {
+            "title": "Êtes-vous sûr ?",
+            "content": "En procédant ainsi vous allez perdre votre requête assistée.",
+            "remember": "Ne plus afficher ce message",
+            "cancel": "Annuler",
+            "confirm": "Rechercher"
           }
         }
       }

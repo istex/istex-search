@@ -9,6 +9,7 @@ import AssistedSearchInput from "./AssistedSearchInput";
 import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
 import SearchBar from "./SearchBar";
+import { SEARCH_MODE_REGULAR } from "@/config";
 import type CustomError from "@/lib/CustomError";
 import type { AST } from "@/lib/queryAst";
 import useSearchParams from "@/lib/useSearchParams";
@@ -26,21 +27,24 @@ const SearchSection: ClientComponent<{ loading?: boolean }> = ({ loading }) => {
     setErrorMessage: (errorMessage: string) => void,
     setQueryString?: (queryString: string) => void,
     parsedAst?: AST,
+    isExpertSearch?: boolean,
   ) => {
-    if (newQueryString !== undefined && newQueryString.trim() === "") {
+    if (newQueryString.trim() === "") {
       setErrorMessage(tErrors("emptyQueryError"));
       return;
     }
 
-    if (newQueryString !== undefined && setQueryString !== undefined)
-      setQueryString(newQueryString);
-    if (newQueryString !== undefined)
-      localStorage.setItem("lastQueryString", newQueryString);
+    if (setQueryString !== undefined) setQueryString(newQueryString);
+    localStorage.setItem("lastQueryString", newQueryString);
 
     searchParams.deleteSize();
     searchParams.deletePage();
     searchParams.deleteFilters();
 
+    if (isExpertSearch === true) {
+      searchParams.setSearchMode(SEARCH_MODE_REGULAR);
+      searchParams.deleteAst();
+    }
     if (parsedAst !== undefined) {
       searchParams.setAst(parsedAst);
     }

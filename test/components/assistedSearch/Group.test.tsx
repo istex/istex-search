@@ -41,9 +41,7 @@ describe("Group", () => {
         remove={() => {}}
       />,
     );
-    expect(
-      screen.getByRole("button", { name: "Corpus éditeur" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toHaveValue("Corpus éditeur");
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toBeInTheDocument();
     expect(screen.getByRole("textbox")).toHaveValue("elsevier");
@@ -92,12 +90,10 @@ describe("Group", () => {
     expect(screen.getAllByRole("button", { name: "Supprimer" })).toHaveLength(
       2,
     );
-    expect(
-      screen.getByRole("button", { name: "Mots-clés teeft" }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Titre revue ou monographie" }),
-    ).toBeInTheDocument();
+    expect(screen.getAllByRole("combobox")[0]).toHaveValue("Mots-clés teeft");
+    expect(screen.getAllByRole("combobox")[1]).toHaveValue(
+      "Titre revue ou monographie",
+    );
     expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "contient" }),

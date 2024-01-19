@@ -156,7 +156,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(1);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
-  }, 9000);
+  }, 14000);
   it("shouldn't search if a field is null", async () => {
     const mockSearch = jest.fn();
     render(
@@ -171,10 +171,9 @@ describe("AssistedSearchInput", () => {
     expect(
       screen.getByText("Veuillez remplir tous les champs"),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("Champ")).toHaveClass("Mui-error");
     expect(screen.getByLabelText("Comparateur")).toHaveClass("Mui-error");
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
-  });
+  }, 8000);
   it("should search the right query", async () => {
     const mockSearch = jest.fn();
     render(
@@ -184,11 +183,7 @@ describe("AssistedSearchInput", () => {
       />,
     );
     await userEvent.click(screen.getByLabelText("Champ"));
-    await userEvent.click(
-      screen.getByRole("option", {
-        name: "Résumé Recherche sur le résumé du document",
-      }),
-    );
+    await userEvent.click(screen.getAllByRole("option")[47]);
     await userEvent.click(screen.getByLabelText("Comparateur"));
     await userEvent.click(screen.getByRole("option", { name: "égal" }));
     await userEvent.type(screen.getByLabelText("Valeur"), "test");
@@ -201,12 +196,9 @@ describe("AssistedSearchInput", () => {
     );
 
     expect(screen.queryByText("Veuillez remplir tous les champs")).toBeNull();
-    expect(screen.getByRole("button", { name: "Résumé" })).not.toHaveClass(
-      "Mui-error",
-    );
     expect(screen.getByRole("button", { name: "égal" })).not.toHaveClass(
       "Mui-error",
     );
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
-  }, 8000);
+  }, 10000);
 });

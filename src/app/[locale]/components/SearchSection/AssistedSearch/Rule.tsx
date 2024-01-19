@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import {
+  Autocomplete,
   IconButton,
   MenuItem,
   Stack,
@@ -40,6 +42,7 @@ const Rule = ({
   }) => void;
   remove: () => void;
 }) => {
+  const [focus, setFocus] = useState(false);
   const t = useTranslations(
     "home.SearchSection.SearchInput.AssistedInput.Dropdown",
   );
@@ -52,16 +55,6 @@ const Rule = ({
 
   const fieldsList = Array.from(fieldsDefinition, (element) => {
     return element.field;
-  });
-  const getAllFields = fieldsList.map((field, index) => {
-    return (
-      <MenuItem value={field} key={index} sx={{ display: "block", p: 2 }}>
-        <Typography variant="body1">{t(`fields.${field}.title`)}</Typography>
-        <Typography variant="body2" color="text.secondary">
-          {t(`fields.${field}.description`)}
-        </Typography>
-      </MenuItem>
-    );
   });
 
   const getComparators = () => {
@@ -224,25 +217,67 @@ const Rule = ({
       })}
     >
       {/* FIELD */}
-      <TextField
-        size="small"
-        focused={false}
+      <Autocomplete
+        value={node.field === "" ? null : node.field}
+        onChange={(event: any, newField: string | null) => {
+          setField(newField !== null ? newField : "");
+        }}
+        options={fieldsList}
+        getOptionLabel={(option) => t(`fields.${option}.title`)}
         fullWidth
-        select
-        value={node.field}
-        label={node.field === "" ? t("field") : null}
-        SelectProps={{
-          renderValue: (selected) => {
-            return t(`fields.${selected as string}.title`);
-          },
+        size="small"
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            fullWidth
+            label={!focus && node.field === "" ? t("field") : null}
+            error={displayError && node.field === ""}
+          />
+        )}
+        renderOption={(props, option) => (
+          <MenuItem
+            {...props}
+            sx={{
+              display: "block !important",
+              width: "100%",
+              fontWeight: 400,
+              fontFamily: "Inter",
+              my: "5px !important",
+            }}
+          >
+            <Typography
+              sx={{
+                fontSize: "0.875rem",
+              }}
+            >
+              {t(`fields.${option}.title`)}
+            </Typography>
+            <Typography
+              color="text.secondary"
+              sx={{
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+                fontSize: "0.5rem",
+              }}
+            >
+              <i>{t(`fields.${option}.description`)}</i>
+            </Typography>
+          </MenuItem>
+        )}
+        onFocusCapture={() => {
+          setFocus(true);
         }}
-        onChange={(e) => {
-          setField(e.target.value);
+        onBlurCapture={() => {
+          setFocus(false);
         }}
-        error={displayError && node.field === ""}
-      >
-        {getAllFields}
-      </TextField>
+        blurOnSelect
+        sx={{
+          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              border: "1px solid rgba(0, 0, 0, 0.23)",
+            },
+        }}
+      />
 
       {/* COMPARATOR */}
       <TextField

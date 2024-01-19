@@ -1,22 +1,10 @@
 export const fieldsDefinition = [
   {
-    field: "abstract",
-    type: "text",
-  },
-  {
-    field: "accessCondition.contentType",
-    type: "text",
-  },
-  {
-    field: "accessCondition.value",
-    type: "text",
-  },
-  {
     field: "author.affiliations",
     type: "text",
   },
   {
-    field: "author.name",
+    field: "author.affiliations",
     type: "text",
   },
   {
@@ -36,11 +24,7 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "corpusName",
-    type: "text",
-  },
-  {
-    field: "doi",
+    field: "namedEntities.unitex.ref_bibl",
     type: "text",
   },
   {
@@ -48,16 +32,40 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "fulltext",
-    type: "text",
-  },
-  {
-    field: "genre",
+    field: "table",
     type: "text",
   },
   {
     field: "hasFormula",
     type: "boolean",
+  },
+  {
+    field: "qualityIndicators.tdmReady:true AND fulltext",
+    type: "text",
+  },
+  {
+    field: "corpusName",
+    type: "text",
+  },
+  {
+    field: "publicationDate",
+    type: "number",
+  },
+  {
+    field: "refBibs.publicationDate",
+    type: "number",
+  },
+  {
+    field: "serie.doi",
+    type: "text",
+  },
+  {
+    field: "doi",
+    type: "text",
+  },
+  {
+    field: "refBibs.doi",
+    type: "text",
   },
   {
     field: "host.doi",
@@ -68,11 +76,11 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "host.eissn",
+    field: "serie.eissn",
     type: "text",
   },
   {
-    field: "host.genre",
+    field: "host.eissn",
     type: "text",
   },
   {
@@ -80,15 +88,11 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
+    field: "serie.issn",
+    type: "text",
+  },
+  {
     field: "host.issn",
-    type: "text",
-  },
-  {
-    field: "host.title",
-    type: "text",
-  },
-  {
-    field: "keywords.teeft",
     type: "text",
   },
   {
@@ -96,15 +100,31 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "namedEntities.unitex.bibl",
+    field: "subject.lang",
     type: "text",
   },
   {
-    field: "namedEntities.unitex.date",
+    field: "accessCondition.contentType",
+    type: "text",
+  },
+  {
+    field: "subject.value",
+    type: "text",
+  },
+  {
+    field: "keywords.teeft",
+    type: "text",
+  },
+  {
+    field: "namedEntities.unitex.placeName",
     type: "text",
   },
   {
     field: "namedEntities.unitex.geogName",
+    type: "text",
+  },
+  {
+    field: "namedEntities.unitex.persName",
     type: "text",
   },
   {
@@ -120,23 +140,11 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "namedEntities.unitex.persName",
+    field: "namedEntities.unitex.date",
     type: "text",
   },
   {
-    field: "namedEntities.unitex.placeName",
-    type: "text",
-  },
-  {
-    field: "namedEntities.unitex.ref_bibl",
-    type: "text",
-  },
-  {
-    field: "namedEntities.unitex.ref_url",
-    type: "text",
-  },
-  {
-    field: "publicationDate",
+    field: "qualityIndicators.pdfCharCount",
     type: "number",
   },
   {
@@ -144,27 +152,11 @@ export const fieldsDefinition = [
     type: "number",
   },
   {
-    field: "qualityIndicators.abstractWordCount",
-    type: "number",
-  },
-  {
-    field: "qualityIndicators.pdfCharCount",
-    type: "number",
-  },
-  {
-    field: "qualityIndicators.pdfPageCount",
-    type: "number",
-  },
-  {
-    field: "qualityIndicators.pdfText",
-    type: "boolean",
-  },
-  {
-    field: "qualityIndicators.pdfVersion",
-    type: "text",
-  },
-  {
     field: "qualityIndicators.pdfWordCount",
+    type: "number",
+  },
+  {
+    field: "qualityIndicators.abstractWordCount",
     type: "number",
   },
   {
@@ -172,19 +164,11 @@ export const fieldsDefinition = [
     type: "number",
   },
   {
-    field: "qualityIndicators.refBibsNative",
-    type: "boolean",
+    field: "qualityIndicators.pdfPageCount",
+    type: "number",
   },
   {
-    field: "qualityIndicators.tdmReady",
-    type: "boolean",
-  },
-  {
-    field: "qualityIndicators.tdmReady:true AND fulltext",
-    type: "text",
-  },
-  {
-    field: "qualityIndicators.teiSource",
+    field: "author.name",
     type: "text",
   },
   {
@@ -192,27 +176,35 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "refBibs.doi",
+    field: "qualityIndicators.pdfText",
+    type: "boolean",
+  },
+  {
+    field: "namedEntities.unitex.bibl",
     type: "text",
   },
   {
-    field: "refBibs.publicationDate",
-    type: "number",
+    field: "qualityIndicators.refBibsNative",
+    type: "boolean",
+  },
+  {
+    field: "abstract",
+    type: "text",
+  },
+  {
+    field: "qualityIndicators.teiSource",
+    type: "text",
+  },
+  {
+    field: "fulltext",
+    type: "text",
+  },
+  {
+    field: "title",
+    type: "text",
   },
   {
     field: "refBibs.title",
-    type: "text",
-  },
-  {
-    field: "serie.doi",
-    type: "text",
-  },
-  {
-    field: "serie.eissn",
-    type: "text",
-  },
-  {
-    field: "serie.issn",
     type: "text",
   },
   {
@@ -220,19 +212,31 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "subject.lang",
+    field: "host.title",
     type: "text",
   },
   {
-    field: "subject.value",
+    field: "qualityIndicators.tdmReady",
+    type: "boolean",
+  },
+  {
+    field: "genre",
     type: "text",
   },
   {
-    field: "table",
+    field: "accessCondition.value",
     type: "text",
   },
   {
-    field: "title",
+    field: "host.genre",
+    type: "text",
+  },
+  {
+    field: "namedEntities.unitex.ref_url",
+    type: "text",
+  },
+  {
+    field: "qualityIndicators.pdfVersion",
     type: "text",
   },
 ];

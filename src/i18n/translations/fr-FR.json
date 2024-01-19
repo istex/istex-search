@@ -48,6 +48,7 @@
           "remove": "Supprimer",
           "reset": "Réinitialiser",
           "Dropdown": {
+            "search": "Rechercher un champ",
             "field": "Champ",
             "comparator": "Comparateur",
             "value": "Valeur",

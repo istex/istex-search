@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
+import SearchIcon from "@mui/icons-material/Search";
 import {
   Autocomplete,
   IconButton,
@@ -232,6 +233,16 @@ const Rule = ({
             fullWidth
             label={!focus && node.field === "" ? t("field") : null}
             error={displayError && node.field === ""}
+            placeholder={t("search")}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {focus && <SearchIcon />}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
           />
         )}
         renderOption={(props, option) => (

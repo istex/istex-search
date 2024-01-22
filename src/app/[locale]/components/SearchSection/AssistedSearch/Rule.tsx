@@ -258,8 +258,11 @@ const Rule = ({
             InputLabelProps={{
               style: { color: "#D9D9D9" },
             }}
-            sx={commonStyles}
             placeholder={t("search")}
+            sx={{
+              ...commonStyles,
+              backgroundColor: focus ? "common.white" : "",
+            }}
             InputProps={{
               ...params.InputProps,
               endAdornment: (

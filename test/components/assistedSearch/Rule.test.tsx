@@ -120,8 +120,8 @@ describe("Rule", () => {
   it("should toggle field", async () => {
     render(<RuleComponentTest />);
     await userEvent.click(screen.getByLabelText("Champ"));
-    expect(screen.getAllByRole("option").length).toBe(60);
-    await userEvent.click(screen.getAllByRole("option")[4]);
+    expect(screen.getAllByRole("option").length).toBe(59);
+    await userEvent.click(screen.getAllByRole("option")[3]);
     expect(screen.getByRole("combobox")).toHaveValue("Catégorie Scopus");
   }, 7000);
   it("should toggle comparator", async () => {

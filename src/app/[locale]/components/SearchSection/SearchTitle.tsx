@@ -22,11 +22,7 @@ const SearchTitle = ({ title }: { title: string }) => {
   const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const goToHomePage = (searchMode: SearchMode) => {
-    searchParams.deleteQueryString();
-    searchParams.deleteSize();
-    searchParams.deletePage();
-    searchParams.deleteAst();
-    searchParams.deleteFilters();
+    searchParams.clear();
     searchParams.setSearchMode(searchMode);
     resetSelectedExcludedDocuments();
     router.push(`/?${searchParams.toString()}`);

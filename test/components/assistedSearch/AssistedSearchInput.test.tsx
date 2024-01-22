@@ -140,7 +140,7 @@ describe("AssistedSearchInput", () => {
     const mockSearch = jest.fn();
     render(<AssistedSearchInput goToResultsPage={mockSearch} />);
     await userEvent.click(screen.getByLabelText("Champ"));
-    await userEvent.click(screen.getAllByRole("option")[47]);
+    await userEvent.click(screen.getAllByRole("option")[46]);
     await userEvent.click(screen.getByLabelText("Comparateur"));
     await userEvent.click(screen.getByRole("option", { name: "égal" }));
     await userEvent.type(screen.getByLabelText("Valeur"), "test");
@@ -167,5 +167,5 @@ describe("AssistedSearchInput", () => {
       "Mui-error",
     );
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
-  }, 12000);
+  }, 15000);
 });

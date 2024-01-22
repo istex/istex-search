@@ -4,10 +4,6 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "author.affiliations",
-    type: "text",
-  },
-  {
     field: "categories.inist",
     type: "text",
   },

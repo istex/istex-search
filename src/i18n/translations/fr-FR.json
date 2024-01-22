@@ -578,7 +578,7 @@
       "warningTooltip": "Votre requête ramène {resultsCount} résultats mais la limite autorisée est {maxSize}."
     },
     "SelectedDoc": {
-      "title": "Vos documents sélectionnés manuellement",
+      "title": "Documents sélectionnés",
       "unselect": "Désélectionner",
       "noDocTitle": "Sans titre"
     }

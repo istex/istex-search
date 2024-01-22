@@ -24,8 +24,6 @@ describe("DownloadForm", () => {
       JSON.stringify(mockedSelectedDocuments),
     );
     render(<DownloadForm />);
-    expect(
-      screen.getByText("Vos documents sélectionnés manuellement"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Documents sélectionnés")).toBeInTheDocument();
   });
 });

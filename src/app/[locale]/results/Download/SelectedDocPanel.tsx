@@ -34,6 +34,9 @@ const SelectedDocPanel: ClientComponent = () => {
               px={1}
               display="flex"
               alignItems="center"
+              sx={(theme) => ({
+                color: theme.palette.colors.grey,
+              })}
             >
               {index + 1}
             </Typography>
@@ -64,7 +67,12 @@ const SelectedDocPanel: ClientComponent = () => {
                 p: 0.5,
               }}
             >
-              <CancelIcon />
+              <CancelIcon
+                sx={{
+                  width: "14px",
+                  height: "14px",
+                }}
+              />
             </IconButton>
           </Fragment>
         ))}

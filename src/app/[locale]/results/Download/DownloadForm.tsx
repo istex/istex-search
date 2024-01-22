@@ -18,7 +18,7 @@ const DownloadForm: ClientComponent = () => {
   const hasSelectedDocuments = selectedDocuments.length > 0;
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={hasSelectedDocuments ? 6 : 8}>
+      <Grid item xs={12} md={hasSelectedDocuments ? 5 : 8}>
         <Panel>
           <UsageSelector />
           <Divider />
@@ -41,7 +41,7 @@ const DownloadForm: ClientComponent = () => {
         <InfoPanels />
       </Grid>
       {hasSelectedDocuments && (
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <SelectedDocPanel />
         </Grid>
       )}

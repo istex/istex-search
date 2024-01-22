@@ -7,7 +7,7 @@ describe("SelectedDocPanel", () => {
     render(<SelectedDocPanel />);
     expect(screen.getByRole("heading")).toBeInTheDocument();
     expect(screen.getByRole("heading")).toHaveTextContent(
-      "Vos documents sélectionnés manuellement",
+      "Documents sélectionnés",
     );
   });
 

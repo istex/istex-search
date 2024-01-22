@@ -1,5 +1,6 @@
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats } from "./formats";
+import type { SelectedDocument } from "@/app/[locale]/results/Document/DocumentContext";
 import {
   COMPATIBILITY_FACETS,
   FACETS,
@@ -23,7 +24,7 @@ export interface BuildResultPreviewUrlOptions {
   page?: number;
   fields?: string[];
   filters?: Filter;
-  selectedDocuments?: string[];
+  selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
   sortDir?: SortDir;
@@ -32,9 +33,20 @@ export interface BuildResultPreviewUrlOptions {
 export const createCompleteQuery = (
   queryString: string,
   filters?: Filter,
-  selectedDocuments?: string[],
+  selectedDocuments?: SelectedDocument[],
   excludedDocuments?: string[],
 ) => {
+  if (selectedDocuments != null && selectedDocuments.length > 0) {
+    const selectedDocumentsQueryString =
+      selectedDocuments != null && selectedDocuments.length > 0
+        ? `arkIstex.raw:(${selectedDocuments
+            .map((doc) => `"${doc.arkIstex}"`)
+            .join(" ")})`
+        : "";
+
+    return selectedDocumentsQueryString;
+  }
+
   const filtersQueryString = Object.entries(filters ?? {})
     .map(([facetName, values]) => {
       if (FACETS_WITH_RANGE.includes(facetName)) {
@@ -75,26 +87,18 @@ export const createCompleteQuery = (
     })
     .join(" AND ");
 
-  const selectedDocumentsQueryString =
-    selectedDocuments != null && selectedDocuments.length > 0
-      ? `id:(${selectedDocuments.map((id) => `"${id}"`).join(" OR ")})`
-      : "";
   const excludedDocumentsQueryString =
     excludedDocuments != null && excludedDocuments.length > 0
-      ? `(NOT id:(${excludedDocuments.map((id) => `"${id}"`).join(" OR ")}))`
+      ? `(NOT arkIstex.raw:(${excludedDocuments
+          .map((ark) => `"${ark}"`)
+          .join(" OR ")}))`
       : "";
 
   return `${
-    filtersQueryString !== "" ||
-    selectedDocumentsQueryString !== "" ||
-    excludedDocumentsQueryString !== ""
+    filtersQueryString !== "" || excludedDocumentsQueryString !== ""
       ? `(${queryString})`
       : queryString
   }${filtersQueryString !== "" ? ` AND ${filtersQueryString}` : ""}${
-    selectedDocumentsQueryString !== ""
-      ? ` AND ${selectedDocumentsQueryString}`
-      : ""
-  }${
     excludedDocumentsQueryString !== ""
       ? ` AND ${excludedDocumentsQueryString}`
       : ""
@@ -189,7 +193,7 @@ export interface Result {
   };
   genre?: string[];
   publicationDate?: string;
-  arkIstex?: string;
+  arkIstex: string;
   fulltext?: Array<{
     extension: string;
     uri: string;
@@ -294,7 +298,7 @@ export interface BuildFullApiUrlOptions {
   selectedFormats: number;
   size: number;
   filters?: Filter;
-  selectedDocuments?: string[];
+  selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
   sortDir?: SortDir;

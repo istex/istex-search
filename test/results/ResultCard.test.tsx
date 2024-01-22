@@ -5,6 +5,7 @@ import type { Result } from "@/lib/istexApi";
 describe("ResultCard", () => {
   const document: Result = {
     id: "123",
+    arkIstex: "arkIstex",
     title: "Document title",
     host: {
       title: "Host title",

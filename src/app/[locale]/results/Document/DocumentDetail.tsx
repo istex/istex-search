@@ -29,11 +29,13 @@ const DocumentDetail: ClientComponent = () => {
 
   const isSelected =
     displayedDocument != null
-      ? selectedDocuments.includes(displayedDocument.id)
+      ? selectedDocuments.some(
+          (doc) => doc.arkIstex === displayedDocument.arkIstex,
+        )
       : false;
   const isExcluded =
     displayedDocument != null
-      ? excludedDocuments.includes(displayedDocument.id)
+      ? excludedDocuments.includes(displayedDocument.arkIstex)
       : false;
 
   return (
@@ -278,7 +280,7 @@ const DocumentDetail: ClientComponent = () => {
                   isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
                 }
                 onClick={() => {
-                  toggleSelectedDocument(displayedDocument.id);
+                  toggleSelectedDocument(displayedDocument.arkIstex);
                 }}
               >
                 {t(isSelected ? "unselectDocument" : "selectDocument")}
@@ -290,7 +292,7 @@ const DocumentDetail: ClientComponent = () => {
                 disabled={selectedDocuments.length > 0}
                 startIcon={isExcluded ? <AddCircleIcon /> : <CancelIcon />}
                 onClick={() => {
-                  toggleExcludedDocument(displayedDocument.id);
+                  toggleExcludedDocument(displayedDocument.arkIstex);
                 }}
               >
                 {t(isExcluded ? "includeDocument" : "excludeDocument")}

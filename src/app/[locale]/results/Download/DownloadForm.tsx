@@ -1,33 +1,53 @@
 "use client";
 
-import { Divider as MuiDivider, Grid, Paper } from "@mui/material";
+import { Grid, Divider as MuiDivider } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useDocumentContext } from "../Document/DocumentContext";
 import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import InfoPanels from "./InfoPanels";
+import Panel from "./Panel";
 import ResultsSettings from "./ResultsSettings";
+import SelectedDocPanel from "./SelectedDocPanel";
 import UsageSelector from "./UsageSelector";
 import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ClientComponent = () => (
-  <Grid container spacing={2}>
-    <Grid item xs={12} md={8}>
-      <Paper elevation={0} sx={{ p: 2 }}>
-        <UsageSelector />
-        <Divider />
-        <FormatPicker />
-        <Divider />
-        <ResultsSettings />
-        <Divider />
-        <DownloadButton />
-      </Paper>
-    </Grid>
+const DownloadForm: ClientComponent = () => {
+  const { selectedDocuments } = useDocumentContext();
 
-    <Grid item xs={12} md={4} container spacing={2} direction="column">
-      <InfoPanels />
+  const hasSelectedDocuments = selectedDocuments.length > 0;
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12} md={hasSelectedDocuments ? 6 : 8}>
+        <Panel>
+          <UsageSelector />
+          <Divider />
+          <FormatPicker />
+          <Divider />
+          <ResultsSettings />
+          <Divider />
+          <DownloadButton />
+        </Panel>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        md={hasSelectedDocuments ? 3 : 4}
+        container
+        spacing={2}
+        direction="column"
+      >
+        <InfoPanels />
+      </Grid>
+      {hasSelectedDocuments && (
+        <Grid item xs={12} md={3}>
+          <SelectedDocPanel />
+        </Grid>
+      )}
     </Grid>
-  </Grid>
-);
+  );
+};
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   "&.MuiDivider-root": {

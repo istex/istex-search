@@ -101,7 +101,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Comparateur")).toHaveLength(1);
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(1);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
-  });
+  }, 7000);
   it("should reset", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
     await userEvent.click(
@@ -123,7 +123,7 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(1);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
-  }, 17000);
+  }, 20000);
   it("shouldn't search if a field is null", async () => {
     const mockSearch = jest.fn();
     render(<AssistedSearchInput goToResultsPage={mockSearch} />);

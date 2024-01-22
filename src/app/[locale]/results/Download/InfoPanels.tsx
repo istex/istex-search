@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
-import { Grid, Link, Paper, Typography } from "@mui/material";
-import type { PaperProps } from "@mui/material/Paper";
-import type { TypographyProps } from "@mui/material/Typography";
+import { Grid, Link, Typography } from "@mui/material";
 import { useDocumentContext } from "../Document/DocumentContext";
 import HighlightedUrl from "../components/HighlightedUrl";
+import Panel from "./Panel";
+import PanelTitle from "./PanelTitle";
 import { usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { externalLink } from "@/i18n/i18n";
@@ -40,7 +40,7 @@ const InfoPanels: ServerComponent = () => {
     <>
       <Grid item>
         <Panel>
-          <Title>{tUsages(`${currentUsageName}.label`)}</Title>
+          <PanelTitle>{tUsages(`${currentUsageName}.label`)}</PanelTitle>
           <Typography variant="body2" gutterBottom>
             {tUsages.rich(`${currentUsageName}.description`, links)}
           </Typography>
@@ -60,7 +60,7 @@ const InfoPanels: ServerComponent = () => {
 
       <Grid item>
         <Panel>
-          <Title>{t("queryTitle")}</Title>
+          <PanelTitle>{t("queryTitle")}</PanelTitle>
           <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
             <Typography
               data-testid="query-string"
@@ -76,7 +76,7 @@ const InfoPanels: ServerComponent = () => {
             </Typography>
           </Panel>
 
-          <Title>{t("rawRequestTitle")}</Title>
+          <PanelTitle>{t("rawRequestTitle")}</PanelTitle>
           <Panel sx={{ bgcolor: "colors.white", p: 2 }}>
             <Typography
               data-testid="raw-request"
@@ -95,26 +95,6 @@ const InfoPanels: ServerComponent = () => {
     </>
   );
 };
-
-const Title: ServerComponent<
-  Omit<
-    TypographyProps & { component?: React.ElementType },
-    "variant" | "gutterBottom" | "color" | "fontSize"
-  >
-> = (props) => (
-  <Typography
-    component="h2"
-    variant="h6"
-    gutterBottom
-    color="primary"
-    fontSize="0.875rem"
-    {...props}
-  />
-);
-
-const Panel: ServerComponent<Omit<PaperProps, "elevation">> = (props) => (
-  <Paper elevation={0} sx={{ p: 2 }} {...props} />
-);
 
 const links = {
   inistLink: externalLink("https://www.inist.fr/"),

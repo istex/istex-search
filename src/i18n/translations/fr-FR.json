@@ -576,6 +576,11 @@
       "download": "Télécharger",
       "allButton": "Tout",
       "warningTooltip": "Votre requête ramène {resultsCount} résultats mais la limite autorisée est {maxSize}."
+    },
+    "SelectedDoc": {
+      "title": "Vos documents sélectionnés manuellement",
+      "unselect": "Désélectionner",
+      "noDocTitle": "Sans titre"
     }
   },
   "ErrorCard": {

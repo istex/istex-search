@@ -4,14 +4,19 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
+export interface SelectedDocument {
+  arkIstex: string;
+  title: string | undefined;
+}
+
 export interface DocumentContextValue {
   displayedDocument?: Result;
   displayDocument: (documentId: string) => void;
   closeDocument: () => void;
-  selectedDocuments: string[];
+  selectedDocuments: SelectedDocument[];
   excludedDocuments: string[];
-  toggleSelectedDocument: (documentId: string) => void;
-  toggleExcludedDocument: (documentId: string) => void;
+  toggleSelectedDocument: (documentArkIstex: string) => void;
+  toggleExcludedDocument: (documentArkIstex: string) => void;
   resetSelectedExcludedDocuments: () => void;
 }
 
@@ -36,7 +41,9 @@ export const DocumentProvider: ClientComponent<
     }
   }, []);
 
-  const [selectedDocuments, setSelectedDocuments] = useState<string[]>([]);
+  const [selectedDocuments, setSelectedDocuments] = useState<
+    SelectedDocument[]
+  >([]);
   const [excludedDocuments, setExcludedDocuments] = useState<string[]>([]);
 
   const displayDocument = async (documentId: string) => {
@@ -50,14 +57,23 @@ export const DocumentProvider: ClientComponent<
     setDisplayedDocument(undefined);
   };
 
-  const toggleSelectedDocument = (documentId: string) => {
-    let newSelectedDocuments: string[];
-    if (selectedDocuments.includes(documentId)) {
+  const toggleSelectedDocument = (documentArkIstex: string) => {
+    let newSelectedDocuments: SelectedDocument[];
+    if (selectedDocuments.some((doc) => doc.arkIstex === documentArkIstex)) {
       newSelectedDocuments = selectedDocuments.filter(
-        (id) => id !== documentId,
+        (doc) => doc.arkIstex !== documentArkIstex,
       );
     } else {
-      newSelectedDocuments = [...selectedDocuments, documentId];
+      const selectedDocument = results?.hits.find(
+        (result) => result.arkIstex === documentArkIstex,
+      );
+      newSelectedDocuments = [
+        ...selectedDocuments,
+        {
+          arkIstex: documentArkIstex,
+          title: selectedDocument?.title,
+        },
+      ];
     }
     setSelectedDocuments(newSelectedDocuments);
     localStorage.setItem(
@@ -66,14 +82,14 @@ export const DocumentProvider: ClientComponent<
     );
   };
 
-  const toggleExcludedDocument = (documentId: string) => {
+  const toggleExcludedDocument = (documentArkIstex: string) => {
     let newExcludedDocuments: string[];
-    if (excludedDocuments.includes(documentId)) {
+    if (excludedDocuments.includes(documentArkIstex)) {
       newExcludedDocuments = excludedDocuments.filter(
-        (id) => id !== documentId,
+        (id) => id !== documentArkIstex,
       );
     } else {
-      newExcludedDocuments = [...excludedDocuments, documentId];
+      newExcludedDocuments = [...excludedDocuments, documentArkIstex];
     }
     setExcludedDocuments(newExcludedDocuments);
     localStorage.setItem(

@@ -31,8 +31,10 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
   } = useDocumentContext();
   const t = useTranslations("results.ResultsCard");
 
-  const isSelected = selectedDocuments.includes(info.id);
-  const isExcluded = excludedDocuments.includes(info.id);
+  const isSelected = selectedDocuments.some(
+    (doc) => doc.arkIstex === info.arkIstex,
+  );
+  const isExcluded = excludedDocuments.includes(info.arkIstex);
 
   const cardColor = isSelected ? "darkGreen" : isExcluded ? "grey" : "blue";
 
@@ -139,7 +141,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
             mainColor={isSelected ? "darkGreen" : undefined}
             size="small"
             onClick={() => {
-              toggleSelectedDocument(info.id);
+              toggleSelectedDocument(info.arkIstex);
             }}
           >
             {isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
@@ -155,7 +157,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
             mainColor={isExcluded ? "grey" : undefined}
             size="small"
             onClick={() => {
-              toggleExcludedDocument(info.id);
+              toggleExcludedDocument(info.arkIstex);
             }}
           >
             {isExcluded ? <AddCircleIcon /> : <CancelIcon />}

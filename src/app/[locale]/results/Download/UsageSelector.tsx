@@ -1,12 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next-intl/client";
-import { Box, Tab, Tabs } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { type UsageName, usages } from "@/config";
+import { usePathname, useRouter } from "next-intl/client";
+import Selector from "@/components/Selector";
+import { usages, type UsageName } from "@/config";
 import useSearchParams from "@/lib/useSearchParams";
-import { montserrat } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
 
 const UsageSelector: ClientComponent = () => {
@@ -25,71 +23,18 @@ const UsageSelector: ClientComponent = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <StyledTabs
-        variant="scrollable"
-        scrollButtons
-        allowScrollButtonsMobile
-        value={searchParams.getUsageName()}
-        onChange={handleChange}
-      >
-        {Object.keys(usages).map((name) => (
-          <StyledTab
-            key={name}
-            value={name}
-            label={t(`${name}.label`)}
-            disableTouchRipple
-          />
-        ))}
-      </StyledTabs>
-    </Box>
+    <Selector
+      value={searchParams.getUsageName()}
+      onChange={
+        handleChange as (
+          event: React.SyntheticEvent<Element, Event>,
+          value: string,
+        ) => void
+      }
+      options={Object.keys(usages)}
+      t={(usage) => t(`${usage}.label`)}
+    />
   );
 };
-
-const StyledTabs = styled(Tabs)(({ theme }) => ({
-  "&.MuiTabs-root": {
-    borderRadius: 999,
-    backgroundColor: theme.palette.colors.white,
-    padding: theme.spacing(1),
-    minHeight: "fit-content",
-  },
-  "& .MuiTabs-flexContainer": {
-    height: "100%",
-  },
-  "& .MuiTabs-indicator": {
-    top: 3,
-    bottom: 3,
-    right: 3,
-    height: "auto",
-    background: "none",
-    "&:after": {
-      content: '""',
-      display: "block",
-      position: "absolute",
-      top: 0,
-      left: 4,
-      right: 4,
-      bottom: 0,
-      borderRadius: 999,
-      backgroundColor: "white",
-      boxShadow: "0 4px 5px 0 rgba(0, 0, 0, 0.1)",
-    },
-  },
-  "& .MuiTabs-scrollButtons": {
-    width: "unset",
-    paddingLeft: theme.spacing(0.5),
-    paddingRight: theme.spacing(0.5),
-  },
-}));
-
-const StyledTab = styled(Tab)(({ theme }) => ({
-  "&.MuiTab-root": {
-    fontFamily: montserrat.style.fontFamily,
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-    minHeight: "fit-content",
-    borderRadius: 999,
-    zIndex: 1,
-  },
-}));
 
 export default UsageSelector;

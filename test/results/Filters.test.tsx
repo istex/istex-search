@@ -130,4 +130,17 @@ describe("Filters", () => {
       screen.getByText("anglais", { selector: ".MuiChip-label" }),
     ).toBeInTheDocument();
   });
+
+  it("should display chip with single value when filter is publicationDate with two same values", () => {
+    const mockedFilter: Filter = {
+      publicationDate: ["2008-2008"],
+    };
+    mockSearchParams({
+      filter: JSON.stringify(mockedFilter),
+    });
+    render(<Filters />);
+    expect(
+      screen.getByText("2008", { selector: ".MuiChip-label" }),
+    ).toBeInTheDocument();
+  });
 });

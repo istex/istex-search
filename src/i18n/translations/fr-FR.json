@@ -473,10 +473,13 @@
       },
       "publicationDate": {
         "title": "Date de publication",
+        "range": "Période",
+        "single": "Année",
         "inputLabel": "Année ({minLabel} à {maxLabel})",
         "inputPlaceholderMin": "Minimum",
         "to": "à",
-        "inputPlaceholderMax": "Maximum"
+        "inputPlaceholderMax": "Maximum",
+        "inputPlaceholderSingle": "Année"
       },
       "qualityIndicators": {
         "pdfVersion": {

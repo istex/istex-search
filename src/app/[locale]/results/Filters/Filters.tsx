@@ -7,6 +7,7 @@ import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
 import { useDocumentContext } from "../Document/DocumentContext";
+import { RANGE_FACETS_WITH_TOGGLE } from "../facets/FacetRange";
 import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
 import useSearchParams from "@/lib/useSearchParams";
@@ -75,6 +76,12 @@ const Filters: ClientComponent = () => {
 
   const getFilterLabel = (filterKey: string, filterValue: string) => {
     const isNot = filterValue.startsWith("!");
+    if (RANGE_FACETS_WITH_TOGGLE.includes(filterKey)) {
+      filterValue =
+        filterValue.split("-")[0] === filterValue.split("-")[1]
+          ? filterValue.split("-")[0]
+          : filterValue;
+    }
     if (isNot) {
       return (
         <>

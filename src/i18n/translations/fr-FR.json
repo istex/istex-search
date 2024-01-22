@@ -337,10 +337,10 @@
           },
           "Dialog": {
             "title": "Êtes-vous sûr ?",
-            "content": "En procédant ainsi vous allez perdre votre requête assistée.",
+            "content": "En validant vos modifications, vous n’aurez plus la possibilité de poursuivre avec l’assistant à la construction de requête.",
             "remember": "Ne plus afficher ce message",
             "cancel": "Annuler",
-            "confirm": "Rechercher"
+            "confirm": "Confirmer"
           }
         }
       }

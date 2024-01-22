@@ -200,6 +200,7 @@ const AssistedSearchInput: ClientComponent<{
                 setExpertErrorMessage("");
                 setExpertQuery(e.target.value);
               }}
+              onSubmit={expertConfirmModifications}
               helperText={expertErrorMessage}
               autoFocus
               error={expertErrorMessage !== ""}
@@ -218,8 +219,8 @@ const AssistedSearchInput: ClientComponent<{
               }}
               onClick={() => {
                 setIsExpertEdition(false);
-                reset(setParsedAst);
                 setIsError(false);
+                if (expertQuery !== astToString(parsedAst)) reset(setParsedAst);
               }}
             >
               <Box
@@ -366,6 +367,9 @@ const AssistedSearchInput: ClientComponent<{
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ pt: 0 }}>
+          <Button variant="text" onClick={expertConfirmDialog} autoFocus>
+            {t("Dialog.confirm")}
+          </Button>
           <Button
             variant="text"
             onClick={() => {
@@ -374,9 +378,6 @@ const AssistedSearchInput: ClientComponent<{
             }}
           >
             {t("Dialog.cancel")}
-          </Button>
-          <Button variant="text" onClick={expertConfirmDialog} autoFocus>
-            {t("Dialog.confirm")}
           </Button>
         </DialogActions>
       </Dialog>

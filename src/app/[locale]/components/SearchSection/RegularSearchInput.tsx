@@ -47,6 +47,7 @@ const RegularSearchInput: ClientComponent<{
         <MultilineTextField
           id="regular-search-input"
           onChange={handleChange}
+          onSubmit={handleSubmit}
           helperText={errorMessage}
           required
           autoFocus

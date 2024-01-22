@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import type { SxProps } from "@mui/system/styleFunctionSx";
 import { fieldsDefinition } from "./fieldsList";
 import {
   textComparators,
@@ -19,6 +20,15 @@ import {
   rangeComparators,
   type Comparator,
 } from "@/lib/queryAst";
+
+const commonStyles: SxProps = {
+  ".MuiInputBase-input": {
+    fontSize: "0.875rem",
+    fontWeight: 400,
+    fontFamily: "Inter",
+    height: "23px",
+  },
+};
 
 const Rule = ({
   node,
@@ -95,6 +105,10 @@ const Rule = ({
               "value" in node &&
               (node.value === "" || node.value === null)
             }
+            InputLabelProps={{
+              style: { color: "#D9D9D9" },
+            }}
+            sx={commonStyles}
           >
             <MenuItem value="true">{t("true")}</MenuItem>
             <MenuItem value="false">{t("false")}</MenuItem>
@@ -129,12 +143,14 @@ const Rule = ({
                 "min" in node &&
                 (node.min === "" || node.min === null)
               }
-              sx={{
+              sx={(theme) => ({
+                ...commonStyles,
                 "input::placeholder": {
                   fontWeight: 400,
                   opacity: 0.8,
+                  color: theme.palette.colors.lightGrey,
                 },
-              }}
+              })}
             />
             <p>-</p>
             <TextField
@@ -158,12 +174,14 @@ const Rule = ({
                 "max" in node &&
                 (node.max === "" || node.max === null)
               }
-              sx={{
+              sx={(theme) => ({
+                ...commonStyles,
                 "input::placeholder": {
                   fontWeight: 400,
                   opacity: 0.8,
+                  color: theme.palette.colors.lightGrey,
                 },
-              }}
+              })}
             />
           </Stack>
         );
@@ -197,6 +215,10 @@ const Rule = ({
               "value" in node &&
               (node.value === "" || node.value === null)
             }
+            InputLabelProps={{
+              style: { color: "#D9D9D9" },
+            }}
+            sx={commonStyles}
           />
         );
     }
@@ -233,6 +255,10 @@ const Rule = ({
             fullWidth
             label={!focus && node.field === "" ? t("field") : null}
             error={displayError && node.field === ""}
+            InputLabelProps={{
+              style: { color: "#D9D9D9" },
+            }}
+            sx={commonStyles}
             placeholder={t("search")}
             InputProps={{
               ...params.InputProps,
@@ -302,6 +328,11 @@ const Rule = ({
           setComparator(e.target.value as Comparator);
         }}
         error={displayError && node.comparator === ""}
+        InputLabelProps={{
+          style: { color: "#D9D9D9" },
+        }}
+        // TODO: without 23
+        sx={commonStyles}
       >
         {getComparators()}
       </TextField>

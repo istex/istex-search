@@ -119,6 +119,7 @@ export function setField(
   if (
     !(
       oldFieldType === "range" &&
+      newFieldType === "number" &&
       ((newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
         .comparator === "between" ||
         (newParsedAst[index] as TextNode | NumberNode | RangeNode | BooleanNode)
@@ -256,7 +257,6 @@ export const getHeight = (node: Node) => {
       node.nodes.forEach((node: Node) => {
         height += getHeight(node) + spacing;
       });
-      height -= spacing;
       return height;
     case "node":
       return ruleHeight;

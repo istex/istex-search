@@ -28,6 +28,7 @@ const Operator = ({
         select
         value={operator}
         size="small"
+        className="operator"
         sx={(theme) => ({
           "& .MuiOutlinedInput-notchedOutline": {
             border: `1px solid ${theme.palette.primary.light} !important`,
@@ -36,10 +37,15 @@ const Operator = ({
           "& .MuiSelect-select": {
             pr: "0 !important",
           },
-          width: "78px",
+          ".MuiInputBase-input": {
+            fontWeight: 700,
+            color: theme.palette.colors.lightBlack,
+          },
+          width: "80px",
           height: `${operatorHeight}px`,
           mt: "5px",
           backgroundColor: "white",
+          borderRadius: "85px",
         })}
         onChange={(e) => {
           setEntry(e.target.value as OperatorType);
@@ -53,7 +59,7 @@ const Operator = ({
           width: "50px",
           height: `${height}px`,
           marginTop: `-${marginTop}px`,
-          marginLeft: "-39px",
+          marginLeft: "-41px",
           border: `1px solid ${theme.palette.primary.light}`,
           borderRight: "none",
           borderBottom:

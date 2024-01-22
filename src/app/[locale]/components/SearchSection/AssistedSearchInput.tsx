@@ -82,17 +82,19 @@ const AssistedSearchInput: ClientComponent<{
     switch (node.nodeType) {
       case "group":
         return (
-          <Group
-            key={index}
-            nodes={node.nodes}
-            displayError={isError}
-            updateData={(newEntry: AST) => {
-              setGroup(setParsedAst, parsedAst, index, newEntry);
-            }}
-            remove={() => {
-              removeNode(setParsedAst, parsedAst, index);
-            }}
-          />
+          <Box className="group">
+            <Group
+              key={index}
+              nodes={node.nodes}
+              displayError={isError}
+              updateData={(newEntry: AST) => {
+                setGroup(setParsedAst, parsedAst, index, newEntry);
+              }}
+              remove={() => {
+                removeNode(setParsedAst, parsedAst, index);
+              }}
+            />
+          </Box>
         );
       case "node":
         return (

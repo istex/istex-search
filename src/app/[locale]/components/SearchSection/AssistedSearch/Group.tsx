@@ -108,10 +108,20 @@ const Group = ({
   return (
     <Box
       ml={11}
+      className="group"
       sx={(theme) => ({
         border: `1px ${theme.palette.primary.light} solid`,
         borderRadius: "10px",
         mt: "10px",
+        ":hover:not(:has(.group:hover))": {
+          ".group": {
+            backgroundColor: "white",
+          },
+          backgroundColor: theme.palette.colors.lightBlue,
+          "& > div > div > .operator": {
+            backgroundColor: theme.palette.colors.lightBlue,
+          },
+        },
       })}
     >
       <Stack

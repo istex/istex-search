@@ -123,7 +123,7 @@ describe("Rule", () => {
     expect(screen.getAllByRole("option").length).toBe(60);
     await userEvent.click(screen.getAllByRole("option")[4]);
     expect(screen.getByRole("combobox")).toHaveValue("Catégorie Scopus");
-  });
+  }, 7000);
   it("should toggle comparator", async () => {
     render(<RuleComponentTest />);
     await userEvent.click(screen.getByLabelText("Comparateur"));

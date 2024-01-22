@@ -398,9 +398,7 @@ describe("getHeight", () => {
     expect(getHeight({ ...emptyRule })).toBe(ruleHeight);
   });
   it("should return the height of the group", () => {
-    expect(getHeight({ nodeType: "group", nodes: [] })).toBe(
-      buttonsHeight - spacing,
-    );
+    expect(getHeight({ nodeType: "group", nodes: [] })).toBe(buttonsHeight);
   });
   it("should return the height of the operator", () => {
     expect(getHeight({ nodeType: "operator", value: "AND" })).toBe(0);
@@ -415,6 +413,6 @@ describe("getHeight", () => {
           { ...emptyRule },
         ],
       }),
-    ).toBe(buttonsHeight + 2 * ruleHeight + 2 * spacing);
+    ).toBe(buttonsHeight + 2 * ruleHeight + 3 * spacing);
   });
 });

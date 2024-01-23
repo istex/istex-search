@@ -136,50 +136,57 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
       >
         {t("inputLabel", { minLabel, maxLabel })}
       </Typography>
-      {rangeOption === "range" ? (
-        <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        spacing={2}
+      >
+        {rangeOption === "range" ? (
+          <>
+            <TextField
+              variant="outlined"
+              size="small"
+              color="primary"
+              focused
+              placeholder={t("inputPlaceholderMin")}
+              fullWidth
+              value={min}
+              onChange={handleMinChange}
+            />
+            <Typography
+              variant="body2"
+              sx={{
+                color: "colors.lightBlack",
+                fontSize: "0.8rem",
+              }}
+            >
+              {t("to")}
+            </Typography>
+            <TextField
+              variant="outlined"
+              size="small"
+              color="primary"
+              focused
+              placeholder={t("inputPlaceholderMax")}
+              fullWidth
+              value={max}
+              onChange={handleMaxChange}
+            />
+          </>
+        ) : (
           <TextField
             variant="outlined"
             size="small"
             color="primary"
             focused
-            placeholder={t("inputPlaceholderMin")}
-            fullWidth
-            value={min}
-            onChange={handleMinChange}
+            placeholder={t("inputPlaceholderSingle")}
+            sx={{ width: "40%" }}
+            value={singleValue}
+            onChange={handleSingleValueChange}
           />
-          <Typography
-            variant="body2"
-            sx={{
-              color: "colors.lightBlack",
-              fontSize: "0.8rem",
-            }}
-          >
-            {t("to")}
-          </Typography>
-          <TextField
-            variant="outlined"
-            size="small"
-            color="primary"
-            focused
-            placeholder={t("inputPlaceholderMax")}
-            fullWidth
-            value={max}
-            onChange={handleMaxChange}
-          />
-        </Stack>
-      ) : (
-        <TextField
-          variant="outlined"
-          size="small"
-          color="primary"
-          focused
-          placeholder={t("inputPlaceholderSingle")}
-          fullWidth
-          value={singleValue}
-          onChange={handleSingleValueChange}
-        />
-      )}
+        )}
+      </Stack>
     </Box>
   );
 };

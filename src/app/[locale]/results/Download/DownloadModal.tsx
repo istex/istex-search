@@ -13,14 +13,14 @@ import {
 import type { TransitionProps } from "@mui/material/transitions";
 import type { ClientComponent } from "@/types/next";
 
-const Transition = forwardRef(function Transition(
+export const Transition = forwardRef(function Transition(
   props: TransitionProps & { children: React.ReactElement },
   ref: React.Ref<unknown>,
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface DownloadModalProps {
+export interface DownloadModalProps {
   open: boolean;
   onClose: () => void;
 }

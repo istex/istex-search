@@ -392,6 +392,17 @@
   },
   "results": {
     "noResults": "Votre requête ne ramène aucun résultat.",
+    "helpButton": "BESOIN D'AIDE ?",
+    "help": {
+      "title": "Besoin d'aide ?",
+      "description": "Consultez notre Faq, la documentation Istex ou nos tutoriels",
+      "faq": "Faq",
+      "documentation": "Documentation",
+      "tutorials": "Tutoriels",
+      "contact": "N’hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
+      "contactTitle": "Écrivez-nous",
+      "message": "Envoyer-nous un courriel à "
+    },
     "metadata": {
       "title": "Résultats"
     },

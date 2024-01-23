@@ -1,6 +1,6 @@
 import { getTranslator, redirect } from "next-intl/server";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import DownloadButton from "./components/DownloadButton";
+import DownloadHelpButton from "./components/DownloadHelpButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
@@ -164,7 +164,7 @@ const ResultsPage: Page = async ({
                 <Pagination />
               </Box>
             </Stack>
-            <DownloadButton />
+            <DownloadHelpButton />
           </>
         ) : (
           <Paper

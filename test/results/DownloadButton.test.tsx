@@ -1,12 +1,14 @@
 import { useRouter } from "next-intl/client";
 import { customRender as render, screen, userEvent } from "../test-utils";
-import DownloadButton from "@/app/[locale]/results/components/DownloadButton";
+import DownloadHelpButton from "@/app/[locale]/results/components/DownloadHelpButton";
 
 describe("DownloadButton (results page)", () => {
   it("opens the modal when clicking the button", async () => {
-    render(<DownloadButton />);
+    render(<DownloadHelpButton />);
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole("button", {
+      name: "Télécharger le corpus (0)",
+    });
     await userEvent.click(button);
     const dialog = screen.getByRole("dialog");
 
@@ -14,10 +16,12 @@ describe("DownloadButton (results page)", () => {
   });
 
   it("sets the size to the results count when opening the modal", async () => {
-    render(<DownloadButton />, { resultsCount: 3 });
+    render(<DownloadHelpButton />, { resultsCount: 3 });
 
     const router = useRouter();
-    const button = screen.getByRole("button");
+    const button = screen.getByRole("button", {
+      name: "Télécharger le corpus (3)",
+    });
     await userEvent.click(button);
 
     // In a real scenario, the pathname should be "/results" but

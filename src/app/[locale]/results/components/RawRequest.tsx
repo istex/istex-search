@@ -1,14 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Container, Link, Paper, Typography } from "@mui/material";
+import Image from "next/image";
+import {
+  Box,
+  Container,
+  IconButton,
+  Link,
+  Paper,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import HighlightedUrl from "./HighlightedUrl";
+import CopyLogo from "@/../public/copy-icon.svg";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const RawRequest: ClientComponent = () => {
+  const [snackbarOpen, setSnackbarOpen] = useState<
+    undefined | "success" | "error"
+  >(undefined);
   const t = useTranslations("results.RawRequest");
   const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
@@ -33,6 +47,9 @@ const RawRequest: ClientComponent = () => {
         sx={(theme) => ({
           bgcolor: "colors.veryLightBlue",
           p: 2,
+          display: "flex",
+          alignItems: "center",
+          gap: "1rem",
         })}
       >
         <Typography
@@ -42,6 +59,7 @@ const RawRequest: ClientComponent = () => {
             overflow: "hidden",
             whiteSpace: "nowrap",
           }}
+          textAlign="center"
         >
           <strong>{t("prefix")}</strong>
           <Link
@@ -52,7 +70,47 @@ const RawRequest: ClientComponent = () => {
             <HighlightedUrl url={resultsApiUrl} />
           </Link>
         </Typography>
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flexGrow: 1,
+            fontSize: "0.4375rem",
+            color: theme.palette.colors.darkBlack,
+            whiteSpace: "nowrap",
+          })}
+        >
+          <IconButton
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "100%",
+              mb: "0.12rem",
+            }}
+            onClick={() => {
+              navigator.clipboard
+                .writeText(resultsApiUrl.toString())
+                .then(() => {
+                  setSnackbarOpen("success");
+                })
+                .catch(() => {
+                  setSnackbarOpen("error");
+                });
+            }}
+          >
+            <Image src={CopyLogo} alt="copy-request" />
+          </IconButton>
+          {t("copyButton")}
+        </Box>
       </Paper>
+      <Snackbar
+        open={snackbarOpen !== undefined}
+        autoHideDuration={5000}
+        onClose={() => {
+          setSnackbarOpen(undefined);
+        }}
+        message={snackbarOpen === "success" ? t("copySuccess") : t("copyError")}
+      />
     </Container>
   );
 };

@@ -411,7 +411,10 @@
       "noAbstract": "Pas de résumé"
     },
     "RawRequest": {
-      "prefix": "Votre requête brute : "
+      "prefix": "Votre requête brute : ",
+      "copyButton": "REQUÊTE BRUTE",
+      "copySuccess": "Requête brute copiée dans le presse-papier.",
+      "copyError": "Erreur dans la copie de la requête brute."
     },
     "ResultsGrid": {
       "PerPage": "afficher : ",

@@ -4,6 +4,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Autocomplete,
+  Box,
   IconButton,
   MenuItem,
   Stack,
@@ -251,29 +252,44 @@ const Rule = ({
         fullWidth
         size="small"
         renderInput={(params) => (
-          <TextField
-            {...params}
-            fullWidth
-            label={!focus && node.field === "" ? t("field") : null}
-            error={displayError && node.field === ""}
-            InputLabelProps={{
-              style: { color: "#D9D9D9" },
-            }}
-            placeholder={t("search")}
-            sx={{
-              ...commonStyles,
-              backgroundColor: focus ? "common.white" : "",
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {focus && <SearchIcon />}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-          />
+          <Box position="relative">
+            <TextField
+              {...params}
+              fullWidth
+              label={!focus && node.field === "" ? t("field") : null}
+              error={displayError && node.field === ""}
+              InputLabelProps={{
+                style: { color: "#D9D9D9" },
+              }}
+              placeholder={t("search")}
+              sx={{
+                ...commonStyles,
+                position: "absolute",
+                border: "1px solid rgba(0, 0, 0, 0.23)",
+                borderRadius: "4px",
+                "&::before": {
+                  position: "absolute",
+                  borderRadius: "4px",
+                  left: "1px",
+                  right: "1px",
+                  top: "1px",
+                  bottom: "1px",
+                  border: "5px solid white",
+                  content: '""',
+                },
+                backgroundColor: focus ? "common.white" : "",
+              }}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {focus && <SearchIcon />}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+            />
+          </Box>
         )}
         renderOption={(props, option) => (
           <MenuItem
@@ -313,10 +329,9 @@ const Rule = ({
         }}
         blurOnSelect
         sx={{
-          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-            {
-              border: "1px solid rgba(0, 0, 0, 0.23)",
-            },
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "none",
+          },
         }}
       />
 

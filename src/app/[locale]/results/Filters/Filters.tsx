@@ -76,12 +76,6 @@ const Filters: ClientComponent = () => {
 
   const getFilterLabel = (filterKey: string, filterValue: string) => {
     const isNot = filterValue.startsWith("!");
-    if (RANGE_FACETS_WITH_TOGGLE.includes(filterKey)) {
-      filterValue =
-        filterValue.split("-")[0] === filterValue.split("-")[1]
-          ? filterValue.split("-")[0]
-          : filterValue;
-    }
     if (isNot) {
       return (
         <>
@@ -95,11 +89,17 @@ const Filters: ClientComponent = () => {
           >
             NOT
           </Typography>
-          {translateFilterLabel(filterKey, filterValue.slice(1))}
+          {translateFilterLabel(
+            filterKey,
+            displayFilterValue(filterValue.slice(1), filterKey),
+          )}
         </>
       );
     }
-    return translateFilterLabel(filterKey, filterValue);
+    return translateFilterLabel(
+      filterKey,
+      displayFilterValue(filterValue, filterKey),
+    );
   };
 
   const getClearIconLabel = (filterKey: string, filterValue: string) => {
@@ -108,6 +108,24 @@ const Filters: ClientComponent = () => {
       filterKey,
       isNot ? filterValue.slice(1) : filterValue,
     )}`;
+  };
+
+  const displayFilterValue = (value: string, key: string) => {
+    const [left, right] = value.split("-");
+
+    // Both values of the interval are the same
+    if (RANGE_FACETS_WITH_TOGGLE.includes(key) && left === right) return left;
+
+    // If the left side of the interval is greater than the right side, flip them
+    if (
+      value.includes("-") &&
+      !isNaN(+left) &&
+      !isNaN(+right) &&
+      +left > +right
+    )
+      return `${right}-${left}`;
+
+    return value;
   };
 
   return (

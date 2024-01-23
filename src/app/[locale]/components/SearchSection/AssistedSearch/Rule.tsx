@@ -20,12 +20,13 @@ import {
   rangeComparators,
   type Comparator,
 } from "@/lib/queryAst";
+import { inter } from "@/mui/fonts";
 
 const commonStyles: SxProps = {
   ".MuiInputBase-input": {
     fontSize: "0.875rem",
     fontWeight: 400,
-    fontFamily: "Inter",
+    fontFamily: inter.style.fontFamily,
     height: "23px",
   },
 };
@@ -281,7 +282,7 @@ const Rule = ({
               display: "block !important",
               width: "100%",
               fontWeight: 400,
-              fontFamily: "Inter",
+              fontFamily: inter.style.fontFamily,
               my: "5px !important",
             }}
           >

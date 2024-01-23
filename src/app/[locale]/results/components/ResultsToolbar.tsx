@@ -6,6 +6,7 @@ import TableRowsIcon from "@mui/icons-material/TableRows";
 import WindowIcon from "@mui/icons-material/Window";
 import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import PerPage from "./PerPage";
 import Sorting from "./Sorting";
 import type { ClientComponent } from "@/types/next";
 
@@ -30,13 +31,21 @@ const ResultsToolbar: ClientComponent<{
       borderColor="colors.lightGrey"
       mb={1}
     >
-      <Sorting
-        isLabelLowerCase
-        fontSize="0.6875rem"
-        labelColor="colors.grey"
-        selectColor="colors.darkBlack"
-        enableLoading
-      />
+      <Stack direction="row" spacing={1}>
+        <PerPage
+          fontSize="0.6875rem"
+          labelColor="colors.grey"
+          selectColor="colors.darkBlack"
+          enableLoading
+        />
+        <Sorting
+          isLabelLowerCase
+          fontSize="0.6875rem"
+          labelColor="colors.grey"
+          selectColor="colors.darkBlack"
+          enableLoading
+        />
+      </Stack>
       <StyledToggleButtonGroup
         size="small"
         value={columns}

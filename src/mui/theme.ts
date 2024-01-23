@@ -15,6 +15,7 @@ const colors = {
   lightGrey: "#D9D9D9",
   darkBlack: "#1d1d1d",
   lightBlack: "#4a4a4a",
+  veryLightBlack: "#4a4a4a33",
   red: "#d34315",
   white: "#f0f0f0",
 } as const;

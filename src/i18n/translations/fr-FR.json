@@ -402,6 +402,7 @@
       "prefix": "Votre requête brute : "
     },
     "ResultsGrid": {
+      "PerPage": "afficher : ",
       "sorting": {
         "sortBy": "Trier par : ",
         "asc": "ordre croissant",
@@ -427,6 +428,8 @@
     },
     "downloadButton": "Télécharger le corpus ({resultsCount})",
     "Pagination": {
+      "page": "PAGE",
+      "on": "SUR {total}",
       "resultsPerPage": "par page"
     },
     "filters": {

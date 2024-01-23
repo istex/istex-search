@@ -6,50 +6,19 @@ import {
   userEvent,
 } from "../test-utils";
 import Pagination from "@/app/[locale]/results/components/Pagination";
-import { MIN_PER_PAGE, istexApiConfig, perPageOptions } from "@/config";
+import { MIN_PER_PAGE, istexApiConfig } from "@/config";
 import { DEFAULT_LOCALE } from "@/i18n/constants";
 
 describe("Pagination", () => {
-  it("changes the number of results per page when using the dropdown", async () => {
-    const router = useRouter();
-    render(<Pagination />);
-
-    const dropdown = screen.getByRole("button", {
-      name: `par page ${MIN_PER_PAGE}`,
-    });
-    await userEvent.click(dropdown);
-    const secondOptionLabel = perPageOptions[1].toString();
-    const secondOption = screen.getByRole("option", {
-      name: secondOptionLabel,
-    });
-    await userEvent.click(secondOption);
-
-    expect(router.replace).toBeCalledWith(`/?perPage=${secondOptionLabel}`);
-  });
-
   // We only test the next page button because the same logic is applied to all buttons
   it("goes to the next page when clicking the next page button", async () => {
     const router = useRouter();
     render(<Pagination />, { resultsCount: 20 });
 
-    const button = screen.getByRole("button", {
-      name: "Aller à la page suivante",
-    });
+    const button = screen.getByTestId("KeyboardArrowRightIcon");
     await userEvent.click(button);
 
     expect(router.push).toBeCalledWith("/?page=2");
-  });
-
-  it("initializes the dropdown value based on the perPage in the URL", () => {
-    const perPage = perPageOptions[1].toString();
-    mockSearchParams({
-      perPage,
-    });
-    const { container } = render(<Pagination />);
-
-    const dropdown = container.getElementsByTagName("input")[0];
-
-    expect(dropdown.value).toBe(perPage);
   });
 
   it("initializes the page number base on the page in the URL", () => {
@@ -57,11 +26,9 @@ describe("Pagination", () => {
     mockSearchParams({
       page,
     });
-    const { container } = render(<Pagination />, { resultsCount: 100 });
+    render(<Pagination />, { resultsCount: 100 });
 
-    const pageLabel = container.getElementsByClassName(
-      "MuiTablePagination-displayedRows",
-    )[0];
+    const pageLabel = screen.getByTestId("pagination-page");
 
     expect(pageLabel).toHaveTextContent(page);
   });
@@ -75,9 +42,7 @@ describe("Pagination", () => {
     const lastPage = Math.ceil(
       istexApiConfig.maxPaginationOffset / MIN_PER_PAGE,
     );
-    const lastPageButton = screen.getByRole("button", {
-      name: "Aller à la dernière page",
-    });
+    const lastPageButton = screen.getByTestId("KeyboardDoubleArrowRightIcon");
     await userEvent.click(lastPageButton);
 
     expect(router.push).toBeCalledWith(`/?page=${lastPage}`);
@@ -90,11 +55,9 @@ describe("Pagination", () => {
     mockSearchParams({
       page: (lastPage + 2).toString(),
     });
-    const { container } = render(<Pagination />, { resultsCount });
+    render(<Pagination />, { resultsCount });
 
-    const pageLabel = container.getElementsByClassName(
-      "MuiTablePagination-displayedRows",
-    )[0];
+    const pageLabel = screen.getByTestId("pagination-page");
 
     expect(pageLabel).toHaveTextContent(
       lastPage.toLocaleString(DEFAULT_LOCALE),

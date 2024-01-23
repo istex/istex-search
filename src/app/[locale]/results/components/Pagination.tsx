@@ -1,18 +1,22 @@
 "use client";
 
-import type { MouseEvent, ChangeEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next-intl/client";
-import { TablePagination } from "@mui/material";
-import { type PerPageOption, istexApiConfig, perPageOptions } from "@/config";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { Box, IconButton, Stack } from "@mui/material";
+import { istexApiConfig } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
+import { inter } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
 
 const Pagination: ClientComponent = () => {
-  const t = useTranslations("results.Pagination");
   const locale = useLocale();
+  const t = useTranslations("results.Pagination");
   const { resultsCount } = useQueryContext();
   const maxResults = clamp(resultsCount, 0, istexApiConfig.maxPaginationOffset);
   const router = useRouter();
@@ -22,74 +26,89 @@ const Pagination: ClientComponent = () => {
   const lastPage = Math.ceil(maxResults / perPage);
   const page = clamp(searchParams.getPage(), 1, lastPage);
 
-  const handleChangePage = (
-    _: MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    searchParams.setPage(newPage + 1);
+  const handleChangePage = (newPage: number) => {
+    searchParams.setPage(newPage);
     router.push(`${pathname}?${searchParams.toString()}`);
   };
 
-  const handleChangeRowsPerPage = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    searchParams.setPage(1);
-    searchParams.setPerPage(parseInt(event.target.value) as PerPageOption);
-    router.replace(`${pathname}?${searchParams.toString()}`);
-  };
-
   return (
-    <TablePagination
-      component="div"
-      count={maxResults}
-      page={page - 1}
-      onPageChange={handleChangePage}
-      rowsPerPage={perPage}
-      rowsPerPageOptions={perPageOptions as unknown as number[]}
-      onRowsPerPageChange={handleChangeRowsPerPage}
-      labelRowsPerPage={t("resultsPerPage")}
-      labelDisplayedRows={({ page }) => (page + 1).toLocaleString(locale)}
-      showFirstButton
-      showLastButton
-      SelectProps={{
-        id: "pagination-select",
-        labelId: "pagination-select-label",
-        MenuProps: {
-          MenuListProps: {
-            dense: true,
-          },
-        },
-      }}
+    <Stack
+      direction="row"
+      spacing={2}
+      justifyContent="space-between"
       sx={(theme) => ({
-        mb: 2,
-        "& .MuiToolbar-root": {
-          justifyContent: "center",
-          p: 0,
-        },
-        // MUI uses a spacer element instead of 'justify-content: end' so we need to remove it
-        // to center the TablePagination
-        "& .MuiTablePagination-spacer": {
-          display: "none",
-        },
-        "& .MuiTablePagination-input": {
-          order: -1,
-          ml: 0,
-          mr: { xs: 1, sm: 2 },
-        },
-        "& .MuiTablePagination-selectLabel": {
-          mr: { xs: 2.5, sm: 4 },
-        },
-        "& .MuiTablePagination-displayedRows": {
-          px: 1,
-          py: 0.5,
-          borderLeft: `solid ${theme.palette.colors.grey} 1px`,
-          borderRight: `solid ${theme.palette.colors.grey} 1px`,
-        },
-        "& .MuiToolbar-root > .MuiTablePagination-actions": {
-          ml: { xs: 1.3, sm: 2.5 },
-        },
+        borderTop: `1px solid ${theme.palette.colors.veryLightBlack}`,
+        borderBottom: `1px solid ${theme.palette.colors.veryLightBlack}`,
+        my: 7.5,
+        color: theme.palette.colors.lightBlack,
+        fontFamily: inter.style.fontFamily,
       })}
-    />
+    >
+      <Box>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            handleChangePage(1);
+          }}
+          disabled={page === 1}
+        >
+          <KeyboardDoubleArrowLeftIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            handleChangePage(page - 1);
+          }}
+          disabled={page === 1}
+        >
+          <KeyboardArrowLeftIcon />
+        </IconButton>
+      </Box>
+      <Stack
+        direction="row"
+        spacing="10px"
+        alignItems="center"
+        sx={{
+          fontSize: "12px",
+        }}
+      >
+        <p>{t("page")}</p>
+        <Box
+          px="25px"
+          py="5px"
+          sx={(theme) => ({
+            backgroundColor: theme.palette.colors.white,
+            borderRadius: "5px",
+            fontWeight: 700,
+          })}
+          data-testid="pagination-page"
+        >
+          {/* TODO: input here */}
+          {page.toLocaleString(locale)}
+        </Box>
+        <p>{t("on", { total: lastPage.toLocaleString(locale) })}</p>
+      </Stack>
+      <Box>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            handleChangePage(page + 1);
+          }}
+          disabled={page === lastPage}
+        >
+          <KeyboardArrowRightIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          onClick={() => {
+            handleChangePage(lastPage);
+          }}
+          disabled={page === lastPage}
+        >
+          <KeyboardDoubleArrowRightIcon />
+        </IconButton>
+      </Box>
+    </Stack>
   );
 };
 

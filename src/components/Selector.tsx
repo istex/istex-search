@@ -14,7 +14,8 @@ const Selector: ClientComponent<{
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <StyledTabs
-        scrollButtons
+        variant="scrollable"
+        scrollButtons="auto"
         allowScrollButtonsMobile
         value={value}
         onChange={onChange}

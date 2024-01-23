@@ -39,7 +39,8 @@
         },
         "AssistedInput": {
           "error": "Veuillez remplir tous les champs",
-          "title": "Assistant à la construction de requête",
+          "searchTitle": "Assistant à la construction de requête",
+          "resultsTitle": "Résultats de votre requête assistée",
           "editionButton": "édition experte",
           "assistedButton": "édition assistée",
           "validate": "Valider vos modifications",

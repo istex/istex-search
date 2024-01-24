@@ -10,11 +10,15 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
-import { Transition, type DownloadModalProps } from "../Download/DownloadModal";
+import {
+  Transition,
+  type DownloadModalProps,
+} from "../results/Download/DownloadModal";
 import Button from "@/components/Button";
+import theme from "@/mui/theme";
 
 const HelpModal = ({ open, onClose }: DownloadModalProps) => {
-  const t = useTranslations("results.help");
+  const t = useTranslations("help.modal");
 
   return (
     <Dialog
@@ -73,8 +77,8 @@ const HelpModal = ({ open, onClose }: DownloadModalProps) => {
             onClick={onClose}
             sx={{
               position: "absolute",
-              right: 15,
-              top: 24,
+              right: theme.spacing(1),
+              top: theme.spacing(1),
             }}
           >
             <CloseIcon />

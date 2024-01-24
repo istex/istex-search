@@ -1,6 +1,6 @@
 import { getTranslator, redirect } from "next-intl/server";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import DownloadHelpButton from "./components/DownloadHelpButton";
+import DownloadHelpButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";

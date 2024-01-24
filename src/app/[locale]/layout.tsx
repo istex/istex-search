@@ -2,6 +2,7 @@ import { useMessages } from "next-intl";
 import { getTranslator } from "next-intl/server";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
 import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";
@@ -32,6 +33,7 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
             <Navbar />
             <Header />
             <main>{children}</main>
+            <HelpButton />
             <Footer />
           </NextIntlProvider>
         </MuiSetup>

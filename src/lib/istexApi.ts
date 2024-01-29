@@ -37,14 +37,9 @@ export const createCompleteQuery = (
   excludedDocuments?: string[],
 ) => {
   if (selectedDocuments != null && selectedDocuments.length > 0) {
-    const selectedDocumentsQueryString =
-      selectedDocuments != null && selectedDocuments.length > 0
-        ? `arkIstex.raw:(${selectedDocuments
-            .map((doc) => `"${doc.arkIstex}"`)
-            .join(" ")})`
-        : "";
-
-    return selectedDocumentsQueryString;
+    return `arkIstex.raw:(${selectedDocuments
+      .map((doc) => `"${doc.arkIstex}"`)
+      .join(" ")})`;
   }
 
   const filtersQueryString = Object.entries(filters ?? {})
@@ -94,15 +89,21 @@ export const createCompleteQuery = (
           .join(" OR ")}))`
       : "";
 
-  return `${
-    filtersQueryString !== "" || excludedDocumentsQueryString !== ""
-      ? `(${queryString})`
-      : queryString
-  }${filtersQueryString !== "" ? ` AND ${filtersQueryString}` : ""}${
-    excludedDocumentsQueryString !== ""
-      ? ` AND ${excludedDocumentsQueryString}`
-      : ""
-  }`;
+  let completeQueryString = queryString;
+
+  if (filtersQueryString !== "" || excludedDocumentsQueryString !== "") {
+    completeQueryString = `(${completeQueryString})`;
+  }
+
+  if (filtersQueryString !== "") {
+    completeQueryString += ` AND ${filtersQueryString}`;
+  }
+
+  if (excludedDocumentsQueryString !== "") {
+    completeQueryString += ` AND ${excludedDocumentsQueryString}`;
+  }
+
+  return completeQueryString;
 };
 
 export function setSearchParamsSorting(

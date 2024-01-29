@@ -398,10 +398,13 @@
       "noAbstract": "Pas de résumé"
     },
     "RawRequest": {
-      "prefix": "Votre requête brute : ",
-      "copyButton": "REQUÊTE BRUTE",
-      "copySuccess": "Requête brute copiée dans le presse-papier.",
-      "copyError": "Erreur dans la copie de la requête brute."
+      "prefix": "Requête brute : ",
+      "copy": {
+        "button": "REQUÊTE BRUTE",
+        "success": "Requête brute copiée dans le presse-papier.",
+        "error": "Erreur dans la copie de la requête brute.",
+        "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."
+      }
     },
     "ResultsGrid": {
       "PerPage": "afficher : ",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
+  Alert,
   Box,
   Container,
   IconButton,
@@ -20,9 +21,6 @@ import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const RawRequest: ClientComponent = () => {
-  const [snackbarOpen, setSnackbarOpen] = useState<
-    undefined | "success" | "error"
-  >(undefined);
   const t = useTranslations("results.RawRequest");
   const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
@@ -39,18 +37,48 @@ const RawRequest: ClientComponent = () => {
     sortBy,
     sortDir,
   });
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [copyState, setCopyState] = useState<"success" | "error" | "badEnv">(
+    "success",
+  );
+
+  const openSnackbar = () => {
+    setSnackbarOpen(true);
+  };
+
+  const closeSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  const handleCopy = () => {
+    if (navigator.clipboard == null || !window.isSecureContext) {
+      setCopyState("badEnv");
+      openSnackbar();
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(resultsApiUrl.toString())
+      .then(() => {
+        setCopyState("success");
+      })
+      .catch(() => {
+        setCopyState("error");
+      })
+      .finally(openSnackbar);
+  };
 
   return (
     <Container component="section" sx={{ pb: { xs: 3, sm: 1 } }}>
       <Paper
         elevation={0}
-        sx={(theme) => ({
+        sx={{
           bgcolor: "colors.veryLightBlue",
           p: 2,
           display: "flex",
           alignItems: "center",
           gap: "1rem",
-        })}
+        }}
       >
         <Typography
           variant="body2"
@@ -87,30 +115,25 @@ const RawRequest: ClientComponent = () => {
               borderRadius: "100%",
               mb: "0.12rem",
             }}
-            onClick={() => {
-              navigator.clipboard
-                .writeText(resultsApiUrl.toString())
-                .then(() => {
-                  setSnackbarOpen("success");
-                })
-                .catch(() => {
-                  setSnackbarOpen("error");
-                });
-            }}
+            onClick={handleCopy}
           >
             <Image src={CopyLogo} alt="copy-request" />
           </IconButton>
-          {t("copyButton")}
+          {t("copy.button")}
         </Box>
       </Paper>
       <Snackbar
-        open={snackbarOpen !== undefined}
+        open={snackbarOpen}
         autoHideDuration={5000}
-        onClose={() => {
-          setSnackbarOpen(undefined);
-        }}
-        message={snackbarOpen === "success" ? t("copySuccess") : t("copyError")}
-      />
+        onClose={closeSnackbar}
+      >
+        <Alert
+          severity={copyState === "badEnv" ? "warning" : copyState}
+          onClose={closeSnackbar}
+        >
+          {t(`copy.${copyState}`)}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

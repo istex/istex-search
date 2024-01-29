@@ -276,15 +276,13 @@
                   "description": "Recherche sur la provenance du document en format TEI (pub2tei / grobid)"
                 }
               },
-              "rebBibs": {
+              "refBibs": {
                 "author": {
                   "name": {
                     "title": "Noms d’auteur document référencé",
                     "description": "Recherche par l’un des auteurs d’une référence bibliographique"
                   }
-                }
-              },
-              "refBibs": {
+                },
                 "doi": {
                   "title": "DOI document référencé",
                   "description": "Recherche par DOI d’une référence bibliographique"

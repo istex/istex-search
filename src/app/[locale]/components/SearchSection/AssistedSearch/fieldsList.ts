@@ -168,7 +168,7 @@ export const fieldsDefinition = [
     type: "text",
   },
   {
-    field: "rebBibs.author.name",
+    field: "refBibs.author.name",
     type: "text",
   },
   {

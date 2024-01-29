@@ -41,7 +41,7 @@ const DownloadButton: ClientComponent = () => {
     link.href = url.toString();
 
     // These attributes are set to open the URL in another tab, this is useful when the user is
-    // redirected to the identity federation page so that they don't lose the current Istex-DL page
+    // redirected to the identity federation page so that they don't lose the current page
     link.setAttribute("target", "_blank");
     link.setAttribute("rel", "noreferrer");
 

@@ -165,7 +165,7 @@ export function buildResultPreviewUrl({
     sortDir ?? DEFAULT_SORT_DIR,
   );
   url.searchParams.set("output", fields?.join(",") ?? "*");
-  url.searchParams.set("sid", "istex-dl");
+  url.searchParams.set("sid", "istex-search");
   url.searchParams.set(
     "facet",
     [...FACETS, ...INDICATORS_FACETS, ...COMPATIBILITY_FACETS]
@@ -327,7 +327,7 @@ export function buildFullApiUrl({
     sortBy ?? DEFAULT_SORT_BY,
     sortDir ?? DEFAULT_SORT_DIR,
   );
-  url.searchParams.set("sid", "istex-dl");
+  url.searchParams.set("sid", "istex-search");
 
   const extractParams = buildExtractParamsFromFormats(selectedFormats);
   if (extractParams !== "") {

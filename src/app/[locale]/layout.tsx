@@ -14,7 +14,7 @@ export const generateMetadata: GenerateMetadata = async ({
   const t = await getTranslations({ locale, namespace: "home.metadata" });
 
   return {
-    title: "Istex-DL",
+    title: "Istex-Search",
     description: t("description"),
   };
 };

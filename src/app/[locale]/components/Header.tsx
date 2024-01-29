@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, Container, Typography } from "@mui/material";
 import headerBackground from "@/../public/header-background.jpg";
-import istexDlLogo from "@/../public/istex-dl.svg";
+import istexSearchLogo from "@/../public/istex-search.svg";
 import Link from "@/i18n/next-intl-link";
 import type { ServerComponent } from "@/types/next";
 
@@ -21,7 +21,7 @@ const Header: ServerComponent = () => {
     >
       <Container sx={{ py: 2, pt: 4 }}>
         <Link href="/" id="home-link">
-          <Image src={istexDlLogo} alt="Istex-DL" />
+          <Image src={istexSearchLogo} alt="Istex-Search" />
         </Link>
         <Typography
           color="white"

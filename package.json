@@ -1,7 +1,7 @@
 {
-  "name": "istex-dl",
+  "name": "istex-search",
   "version": "6.0.0-beta.0",
-  "description": "Web application dedicated to ISTEX sub-corpus extraction.",
+  "description": "Web application dedicated to Istex browsing and sub-corpus extraction",
   "private": true,
   "scripts": {
     "dev": "next dev",

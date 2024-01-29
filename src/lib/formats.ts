@@ -79,8 +79,8 @@ export function parseExtractParams(extractParams: string) {
     // category would look like this: 'fulltext[txt,pdf]' so we
     // need to make sure supportedFormatCategory is the string before "[" in category.
     // Annexes and covers are formatted differently and look like categories but are not
-    // internally in Istex-DL (behavior coming from legacy versions of Istex-DL and that
-    // is still in the API)
+    // internally (behavior coming from legacy versions of Istex-DL and that is still in
+    // the API)
 
     let endOfCategoryNameIndex = category.indexOf("[");
     if (endOfCategoryNameIndex === -1) {

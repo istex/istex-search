@@ -1,10 +1,6 @@
-# istex-dl
+# istex-search
 
-[Istex-DL](https://dl.istex.fr) is a web application dedicated to Istex sub-corpus extraction. It allows to download several [Istex](https://istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.
-
-## Disclaimer
-
-**This version does not reflect what is currently running in production at [dl.istex.fr](https://dl.istex.fr)! We are currently rebuilding the application entirely, if you want to see the code running in production, checkout the `master` branch.**
+[Istex-Search](https://search.istex.fr) is a web application dedicated to Istex browsing and sub-corpus extraction. It allows to download several [Istex](https://istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.
 
 ## Prerequisites
 

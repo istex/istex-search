@@ -1,7 +1,7 @@
 {
   "home": {
     "metadata": {
-      "description": "Application Web dédiée à l'extraction de sous-corpus Istex."
+      "description": "Application Web dédiée à la constitution et à l'extraction de sous-corpus Istex."
     },
     "Navbar": {
       "istex": "istex.fr",

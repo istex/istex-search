@@ -11,7 +11,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --verbose --reporters=default --reporters=jest-junit",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@emotion/cache": "11.11.0",

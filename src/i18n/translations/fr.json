@@ -605,7 +605,7 @@
     "button": "Partager votre recherche",
     "email": {
       "subject": "Une recherche Istex a été partagée avec vous",
-      "body": "Voici le lien vers la recherche Istex partagée:\n"
+      "body": "Voici le lien vers la recherche Istex partagée\u000A{url}"
     }
   },
   "ErrorCard": {

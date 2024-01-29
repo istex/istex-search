@@ -16,8 +16,7 @@ const DownloadButton: ClientComponent = () => {
         "mailto:?subject=" +
         encodeURIComponent(t("email.subject")) +
         "&body=" +
-        encodeURIComponent(t("email.body")) +
-        encodeURIComponent(window.location.href);
+        encodeURIComponent(t("email.body", { url: window.location.href }));
     }
   };
 

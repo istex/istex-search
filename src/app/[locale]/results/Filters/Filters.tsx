@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -10,6 +9,7 @@ import { useDocumentContext } from "../Document/DocumentContext";
 import { RANGE_FACETS_WITH_TOGGLE } from "../facets/FacetRange";
 import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
+import { useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 

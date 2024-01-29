@@ -1,5 +1,5 @@
-import { useMessages } from "next-intl";
-import { getTranslator } from "next-intl/server";
+import { useMessages, useNow, useTimeZone } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
@@ -11,7 +11,7 @@ import type { GenerateMetadata, Layout } from "@/types/next";
 export const generateMetadata: GenerateMetadata = async ({
   params: { locale },
 }) => {
-  const t = await getTranslator(locale, "home.metadata");
+  const t = await getTranslations({ locale, namespace: "home.metadata" });
 
   return {
     title: "Istex-DL",
@@ -21,15 +21,19 @@ export const generateMetadata: GenerateMetadata = async ({
 
 const RootLayout: Layout = ({ children, params: { locale } }) => {
   const messages = useMessages();
-  if (messages == null) {
-    throw new Error("Missing translations");
-  }
+  const timeZone = useTimeZone();
+  const now = useNow();
 
   return (
     <html lang={locale}>
       <body>
         <MuiSetup>
-          <NextIntlProvider messages={messages} locale={locale}>
+          <NextIntlProvider
+            locale={locale}
+            messages={messages}
+            timeZone={timeZone}
+            now={now}
+          >
             <Navbar />
             <Header />
             <main>{children}</main>

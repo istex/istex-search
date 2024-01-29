@@ -2,7 +2,6 @@
 
 import { type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
 import { Box, Container } from "@mui/material";
 import { useDocumentContext } from "../../results/Document/DocumentContext";
 import AssistedSearchInput from "./AssistedSearchInput";
@@ -10,6 +9,7 @@ import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
 import SearchBar from "./SearchBar";
 import { SEARCH_MODE_REGULAR } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 import type CustomError from "@/lib/CustomError";
 import type { AST } from "@/lib/queryAst";
 import useSearchParams from "@/lib/useSearchParams";

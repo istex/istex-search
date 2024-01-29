@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -7,7 +6,7 @@ import {
 } from "../test-utils";
 import Pagination from "@/app/[locale]/results/components/Pagination";
 import { MIN_PER_PAGE, istexApiConfig } from "@/config";
-import { DEFAULT_LOCALE } from "@/i18n/constants";
+import { DEFAULT_LOCALE, useRouter } from "@/i18n/navigation";
 
 describe("Pagination", () => {
   // We only test the next page button because the same logic is applied to all buttons

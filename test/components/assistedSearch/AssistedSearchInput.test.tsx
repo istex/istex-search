@@ -4,6 +4,7 @@ import AssistedSearchInput from "@/app/[locale]/components/SearchSection/Assiste
 describe("AssistedSearchInput", () => {
   it("should render an empty AssistedSearchInput", () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Assistant à la construction de requête",
@@ -28,11 +29,14 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
   });
+
   it("should create a Rule (and an Operator)", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     );
+
     expect(
       screen.getByRole("button", { name: "Réinitialiser" }),
     ).toBeInTheDocument();
@@ -40,15 +44,17 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Comparateur")).toHaveLength(2);
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(2);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(2);
-    expect(screen.getByRole("button", { name: "AND" })).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "AND" })).toHaveLength(1);
+    expect(screen.getByText("AND")).toBeInTheDocument();
   });
+
   it("should remove a Rule (and an Operator)", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     );
     await userEvent.click(screen.getAllByTestId("CancelIcon")[0]);
+
     expect(screen.queryByRole("button", { name: "Réinitialiser" })).toBeNull();
     expect(screen.getAllByLabelText("Champ")).toHaveLength(1);
     expect(screen.getAllByLabelText("Comparateur")).toHaveLength(1);
@@ -56,13 +62,15 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
   });
+
   it("should create a Group (and an Operator)", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
-    expect(screen.getByRole("button", { name: "AND" })).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "AND" })).toHaveLength(1);
+
+    expect(screen.getByText("AND")).toBeInTheDocument();
 
     expect(
       screen.getByRole("button", { name: "Réinitialiser" }),
@@ -81,13 +89,16 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Comparateur")).toHaveLength(2);
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(2);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(3); // 2 for the rules + 1 for the group
-  });
+  }, 10000);
+
   it("should remove a Group (and an Operator)", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
     await userEvent.click(screen.getByRole("button", { name: "Supprimer" }));
+
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Réinitialiser" })).toBeNull();
     expect(
@@ -102,8 +113,10 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByLabelText("Valeur")).toHaveLength(1);
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
   }, 20000);
+
   it("should reset", async () => {
     render(<AssistedSearchInput goToResultsPage={() => {}} />);
+
     await userEvent.click(
       screen.getByRole("button", { name: "Ajouter un groupe" }),
     );
@@ -124,11 +137,14 @@ describe("AssistedSearchInput", () => {
     expect(screen.getAllByTestId("CancelIcon")).toHaveLength(1);
     expect(screen.queryByRole("button", { name: "AND" })).toBeNull();
   }, 30000);
+
   it("shouldn't search if a field is null", async () => {
     const mockSearch = jest.fn();
     render(<AssistedSearchInput goToResultsPage={mockSearch} />);
+
     await userEvent.type(screen.getByLabelText("Valeur"), "test");
     await userEvent.click(screen.getByRole("button", { name: "RECHERCHER" }));
+
     expect(mockSearch).not.toBeCalled();
     expect(
       screen.getByText("Veuillez remplir tous les champs"),
@@ -136,16 +152,18 @@ describe("AssistedSearchInput", () => {
     expect(screen.getByLabelText("Comparateur")).toHaveClass("Mui-error");
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
   }, 11000);
+
   it("should search the right query", async () => {
     const mockSearch = jest.fn();
     render(<AssistedSearchInput goToResultsPage={mockSearch} />);
+
     await userEvent.click(screen.getByLabelText("Champ"));
     await userEvent.click(screen.getAllByRole("option")[46]);
     await userEvent.click(screen.getByLabelText("Comparateur"));
     await userEvent.click(screen.getByRole("option", { name: "égal" }));
     await userEvent.type(screen.getByLabelText("Valeur"), "test");
-
     await userEvent.click(screen.getByRole("button", { name: "RECHERCHER" }));
+
     expect(mockSearch).toHaveBeenCalled();
     expect(mockSearch).toHaveBeenCalledWith(
       'abstract.raw:"test"',
@@ -163,9 +181,7 @@ describe("AssistedSearchInput", () => {
     );
 
     expect(screen.queryByText("Veuillez remplir tous les champs")).toBeNull();
-    expect(screen.getByRole("button", { name: "égal" })).not.toHaveClass(
-      "Mui-error",
-    );
+    expect(screen.getAllByRole("combobox")[1]).not.toHaveClass("Mui-error");
     expect(screen.getByRole("textbox")).not.toHaveClass("Mui-error");
   }, 15000);
 });

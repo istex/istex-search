@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import {
   CircularProgress,
   MenuItem,
@@ -11,6 +10,7 @@ import {
   Typography,
   type SelectChangeEvent,
 } from "@mui/material";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -66,7 +66,7 @@ const PerPage: ClientComponent<{
           slotProps: { paper: { ref: menuCallbackRef } },
         }}
         sx={{
-          minWidth: selectMinWidth === null ? "unset" : selectMinWidth,
+          minWidth: selectMinWidth ?? "unset",
           fontSize,
           color: selectColor,
           fontWeight: 700,

@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { useRouter } from "next-intl/client";
 import { useDocumentContext } from "../Document/DocumentContext";
+import { useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
 

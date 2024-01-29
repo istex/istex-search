@@ -1,7 +1,6 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -9,6 +8,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { Box, IconButton, Stack } from "@mui/material";
 import { istexApiConfig } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import { clamp } from "@/lib/utils";
 import { inter } from "@/mui/fonts";

@@ -1,5 +1,4 @@
 import { useTranslations } from "next-intl";
-import { useRouter } from "next-intl/client";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import { Stack, Typography } from "@mui/material";
@@ -13,6 +12,7 @@ import {
   SEARCH_MODE_REGULAR,
   type SearchMode,
 } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 
 const SearchTitle = ({ title }: { title: string }) => {

@@ -42,8 +42,9 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
 
   const t = useTranslations(`results.Facets.${facetTitle}`);
 
-  const Component = FACETS.find((facet) => facet.name === facetTitle)
-    ?.component;
+  const Component = FACETS.find(
+    (facet) => facet.name === facetTitle,
+  )?.component;
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {

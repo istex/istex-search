@@ -103,6 +103,9 @@ const Group = ({
 
   useEffect(() => {
     updateData(group);
+
+    // Adding updateData to the dependency array creates an infinite loop of renders here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [group]);
 
   return (

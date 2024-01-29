@@ -1,7 +1,6 @@
-import { redirect } from "next-intl/server";
 import { renderAsync, screen } from "../test-utils";
 import ResultsPage from "@/app/[locale]/results/_page";
-import { DEFAULT_LOCALE } from "@/i18n/constants";
+import { DEFAULT_LOCALE, redirect } from "@/i18n/navigation";
 
 describe("Results page", () => {
   it("redirects to home page when no query string is found", async () => {

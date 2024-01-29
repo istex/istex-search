@@ -1,4 +1,4 @@
-import { getTranslator, redirect } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
@@ -15,6 +15,7 @@ import {
 } from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption, SortBy, SortDir } from "@/config";
+import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import {
   getResults,
@@ -34,7 +35,7 @@ async function getTranslatedResults(
   sortDir: SortDir,
   locale: string,
 ): Promise<IstexApiResponse> {
-  const t = await getTranslator(locale, "results");
+  const t = await getTranslations({ locale, namespace: "results" });
   const response = await getResults(
     queryString,
     perPage,
@@ -64,7 +65,7 @@ const ResultsPage: Page = async ({
   const lastAppliedFacet = searchParams.getLastAppliedFacet();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
-  const t = await getTranslator(locale, "results");
+  const t = await getTranslations({ locale, namespace: "results" });
 
   let queryString: string;
   try {

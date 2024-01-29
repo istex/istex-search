@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
   CircularProgress,
@@ -14,6 +13,7 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import { rankValues, sortFields, type SortBy } from "@/config";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
@@ -90,7 +90,7 @@ const Sorting: ClientComponent<{
           slotProps: { paper: { ref: menuCallbackRef } },
         }}
         sx={{
-          minWidth: selectMinWidth === null ? "unset" : selectMinWidth,
+          minWidth: selectMinWidth ?? "unset",
           fontSize,
           color: selectColor,
           fontWeight: 700,

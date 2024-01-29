@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -7,6 +6,7 @@ import {
 } from "../test-utils";
 import ResultsSettings from "@/app/[locale]/results/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 
 describe("ResultsSettings", () => {
   it("changes the size in the URL when changing the input value", async () => {

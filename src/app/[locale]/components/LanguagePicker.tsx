@@ -1,11 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next-intl/client";
-import { useSelectedLayoutSegment } from "next/navigation";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
-import { SUPPORTED_LOCALES } from "@/i18n/constants";
+import { SUPPORTED_LOCALES, usePathname, useRouter } from "@/i18n/navigation";
 import type { ClientComponent } from "@/types/next";
 
 const smallFontSize = {
@@ -16,12 +14,16 @@ const smallFontSize = {
 // but we still keep it just in case we support more languages in the future.
 const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
   const [language, setLanguage] = useState(locale);
-  const urlSegment = useSelectedLayoutSegment();
+  const pathname = usePathname();
   const router = useRouter();
+
+  const languageLabels = new Intl.DisplayNames([locale], {
+    type: "language",
+  });
 
   const onLanguageChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
-    router.push(urlSegment ?? "", { locale: event.target.value });
+    router.push(pathname ?? "", { locale: event.target.value });
   };
 
   return (
@@ -38,9 +40,9 @@ const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
           onChange={onLanguageChange}
           sx={smallFontSize}
         >
-          {SUPPORTED_LOCALES.map(({ code, label }) => (
-            <MenuItem key={code} value={code} sx={smallFontSize}>
-              {label}
+          {SUPPORTED_LOCALES.map((locale) => (
+            <MenuItem key={locale} value={locale} sx={smallFontSize}>
+              {languageLabels.of(locale)}
             </MenuItem>
           ))}
         </Select>

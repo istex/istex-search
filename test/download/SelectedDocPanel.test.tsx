@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils";
 import { customRender as render, screen, waitFor } from "../test-utils";
 import type { SelectedDocument } from "@/app/[locale]/results/Document/DocumentContext";
 import SelectedDocPanel from "@/app/[locale]/results/Download/SelectedDocPanel";
@@ -44,7 +45,9 @@ describe("SelectedDocPanel", () => {
     const docTitle = screen.getByText("title1");
     expect(docTitle).toBeInTheDocument();
     const unselectButton = screen.getAllByRole("button")[0];
-    unselectButton.click();
+    act(() => {
+      unselectButton.click();
+    });
     await waitFor(() => {
       expect(docTitle).not.toBeInTheDocument();
     });

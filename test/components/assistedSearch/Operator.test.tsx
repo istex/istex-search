@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Operator from "@/app/[locale]/components/SearchSection/AssistedSearch/Operator";
+import type { Operator as OperatorType } from "@/lib/queryAst";
 
 describe("Operator", () => {
   it("should render an AND Operator", () => {
@@ -12,8 +13,10 @@ describe("Operator", () => {
         nextNodeHeight={0}
       />,
     );
-    expect(screen.getByRole("button", { name: "AND" })).toBeInTheDocument();
+
+    expect(screen.getByRole("combobox")).toHaveTextContent("AND");
   });
+
   it("should render an OR Operator", () => {
     render(
       <Operator
@@ -23,28 +26,30 @@ describe("Operator", () => {
         nextNodeHeight={0}
       />,
     );
-    expect(screen.getByRole("button", { name: "OR" })).toBeInTheDocument();
+
+    expect(screen.getByRole("combobox")).toHaveTextContent("OR");
   });
+
   it("should toggle operator", async () => {
     const ToggleOperatorTest = () => {
-      const [operator, setOperator] = useState<"AND" | "OR">("AND");
+      const [operator, setOperator] = useState<OperatorType>("AND");
       return (
         <Operator
           operator={operator}
-          setEntry={(newOperator: "AND" | "OR") => {
-            setOperator(newOperator);
-          }}
+          setEntry={setOperator}
           precedentNodeHeight={0}
           nextNodeHeight={0}
         />
       );
     };
+
     render(<ToggleOperatorTest />);
-    await userEvent.click(screen.getByRole("button", { name: "AND" }));
+    await userEvent.click(screen.getByRole("combobox"));
 
-    expect(screen.getAllByRole("option").length).toBe(2);
-    await userEvent.click(screen.getByRole("option", { name: "OR" }));
+    const options = screen.getAllByRole("option");
+    expect(options.length).toBe(2);
+    await userEvent.click(options[1]);
 
-    expect(screen.getByRole("button", { name: "OR" })).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toHaveTextContent("OR");
   });
 });

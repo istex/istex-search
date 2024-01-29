@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next-intl/client";
 import Image from "next/image";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -44,6 +43,7 @@ import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import ExpertSearchIcon from "@/../public/expert-search-icon.svg";
 import Button from "@/components/Button";
 import MultilineTextField from "@/components/MultilineTextField";
+import { usePathname } from "@/i18n/navigation";
 import {
   astToString,
   type AST,
@@ -147,6 +147,7 @@ const AssistedSearchInput: ClientComponent<{
   };
 
   const checkAstEmptyEntry = (element: any): boolean => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return Object.values(element).some((value) => {
       if (value === null || value === "") return true;
       if (typeof value === "object") {

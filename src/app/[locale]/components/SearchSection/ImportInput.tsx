@@ -7,13 +7,13 @@ import {
   type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next-intl/client";
 import Image from "next/image";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import SearchTitle from "./SearchTitle";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { usePathname } from "@/i18n/navigation";
 import {
   buildQueryFromIds,
   getIdsFromQuery,
@@ -44,7 +44,7 @@ const ImportInput: ClientComponent<{
     buildQueryFromIds(columnToSearch as ColumnId, queryStringById).errorLines,
   );
 
-  const corpusFileHandler = (file: Blob) => {
+  const corpusFileHandler = (file: File) => {
     if (!file.name.endsWith(".corpus")) {
       setErrorMessage(tErrors("fileExtensionError"));
       return;

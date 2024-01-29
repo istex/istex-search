@@ -168,12 +168,7 @@ export function buildResultPreviewUrl({
   url.searchParams.set(
     "facet",
     [...FACETS, ...INDICATORS_FACETS, ...COMPATIBILITY_FACETS]
-      .map(
-        (facet) =>
-          `${facet.name}${
-            facet.requestOption != null ? facet.requestOption : ""
-          }`,
-      )
+      .map((facet) => `${facet.name}${facet.requestOption ?? ""}`)
       .filter((facet, i, arr) => arr.indexOf(facet) === i)
       .join(","),
   );

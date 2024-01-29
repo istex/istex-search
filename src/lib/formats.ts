@@ -130,6 +130,7 @@ export function parseExtractParams(extractParams: string) {
         // @ts-expect-error TypeScript is not happy here because currentCategoryFormat is
         // just a regular string but the filter above makes sure currentCategoryFormat is
         // in formats[formatCategoryName]
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         formats[formatCategoryName][currentCategoryFormat],
       );
     }

@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -7,6 +6,7 @@ import {
 } from "../test-utils";
 import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
 import { SEARCH_MODE_ADVANCED, SEARCH_MODE_ASSISTED } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 
 describe("SearchTitle", () => {
   it("should render the SearchTitle component", () => {

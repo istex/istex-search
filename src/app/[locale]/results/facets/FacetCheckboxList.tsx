@@ -52,7 +52,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             .includes(searchFacetItem.toLowerCase()),
     );
     setDisplayedFacets(filteredFacets);
-  }, [sortOrder, sortField, searchFacetItem, facetItems]);
+  }, [sortOrder, sortField, searchFacetItem, facetItems, facetTitle, t]);
 
   useEffect(() => {
     if (listRef.current != null) {
@@ -73,7 +73,10 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       });
       setDisplayedFacets(isoFacet);
     }
-  }, []);
+
+    // Adding displayedFacets to the dependency array creates an infinite loop of renders here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [facetTitle, locale, t]);
 
   const sortButtonCommonProps = {
     size: "small" as const,

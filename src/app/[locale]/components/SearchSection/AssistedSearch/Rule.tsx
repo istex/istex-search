@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type SyntheticEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import SearchIcon from "@mui/icons-material/Search";
@@ -32,6 +32,17 @@ const commonStyles: SxProps = {
   },
 };
 
+const numberAndRangeComparators = [...numberComparators, ...rangeComparators]
+  .filter(
+    (value, index) =>
+      [...numberComparators, ...rangeComparators].indexOf(value) === index,
+  )
+  .filter((word) => word !== "");
+
+const fieldsList = Array.from(fieldsDefinition, (element) => {
+  return element.field;
+});
+
 const Rule = ({
   node,
   displayError,
@@ -59,24 +70,14 @@ const Rule = ({
   const t = useTranslations(
     "home.SearchSection.SearchInput.AssistedInput.Dropdown",
   );
-  const numberAndRangeComparators = [...numberComparators, ...rangeComparators]
-    .filter(
-      (value, index) =>
-        [...numberComparators, ...rangeComparators].indexOf(value) === index,
-    )
-    .filter((word) => word !== "");
-
-  const fieldsList = Array.from(fieldsDefinition, (element) => {
-    return element.field;
-  });
 
   const getComparators = () => {
     const comparators =
       node.fieldType === "text"
         ? [...textComparators]
         : node.fieldType === "boolean"
-        ? [...booleanComparators]
-        : [...numberAndRangeComparators];
+          ? [...booleanComparators]
+          : [...numberAndRangeComparators];
 
     return comparators.map((operator, index) => {
       if (operator === "") return null;
@@ -244,8 +245,8 @@ const Rule = ({
       {/* FIELD */}
       <Autocomplete
         value={node.field === "" ? null : node.field}
-        onChange={(event: any, newField: string | null) => {
-          setField(newField !== null ? newField : "");
+        onChange={(_: SyntheticEvent, newField: string | null) => {
+          setField(newField ?? "");
         }}
         options={fieldsList}
         getOptionLabel={(option) => t(`fields.${option}.title`)}
@@ -291,36 +292,42 @@ const Rule = ({
             />
           </Box>
         )}
-        renderOption={(props, option) => (
-          <MenuItem
-            {...props}
-            sx={{
-              display: "block !important",
-              width: "100%",
-              fontWeight: 400,
-              fontFamily: inter.style.fontFamily,
-              my: "5px !important",
-            }}
-          >
-            <Typography
+        renderOption={(props, option) => {
+          // @ts-expect-error "key" is not in HTMLAttributes<HTMLLIElement> but it is actually there at runtime
+          const { key, ...rest } = props;
+
+          return (
+            <MenuItem
+              key={key}
+              {...rest}
               sx={{
-                fontSize: "0.875rem",
+                display: "block !important",
+                width: "100%",
+                fontWeight: 400,
+                fontFamily: inter.style.fontFamily,
+                my: "5px !important",
               }}
             >
-              {t(`fields.${option}.title`)}
-            </Typography>
-            <Typography
-              color="text.secondary"
-              sx={{
-                wordWrap: "break-word",
-                whiteSpace: "normal",
-                fontSize: "0.5rem",
-              }}
-            >
-              <i>{t(`fields.${option}.description`)}</i>
-            </Typography>
-          </MenuItem>
-        )}
+              <Typography
+                sx={{
+                  fontSize: "0.875rem",
+                }}
+              >
+                {t(`fields.${option}.title`)}
+              </Typography>
+              <Typography
+                color="text.secondary"
+                sx={{
+                  wordWrap: "break-word",
+                  whiteSpace: "normal",
+                  fontSize: "0.5rem",
+                }}
+              >
+                <i>{t(`fields.${option}.description`)}</i>
+              </Typography>
+            </MenuItem>
+          );
+        }}
         onFocusCapture={() => {
           setFocus(true);
         }}

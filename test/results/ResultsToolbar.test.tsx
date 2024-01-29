@@ -1,22 +1,20 @@
-import { useRouter } from "next-intl/client";
-import ResultsToolbar from "../../src/app/[locale]/results/components/ResultsToolbar";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
+import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
+import { useRouter } from "@/i18n/navigation";
 
 describe("ResultsToolbar", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-  it("should renders correctly", () => {
+  it("should render correctly", () => {
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
     expect(screen.getByText("trier par :")).toBeInTheDocument();
-    const sortSelectElement = screen.getByRole("button", {
-      name: "pertinence & qualité",
-    });
+    const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     expect(sortSelectElement).toBeInTheDocument();
     const gridButton = screen.getByLabelText("Affichage en grille");
     expect(gridButton).toBeInTheDocument();
@@ -41,9 +39,7 @@ describe("ResultsToolbar", () => {
       sortBy: "publicationDate",
     });
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
-    const sortSelectElement = screen.getByRole("button", {
-      name: "date de publication",
-    });
+    const sortSelectElement = screen.getAllByText("date de publication")[0];
     expect(sortSelectElement).toBeInTheDocument();
   });
 
@@ -85,9 +81,7 @@ describe("ResultsToolbar", () => {
 
   it("should display the sorting options when the sort select is clicked", async () => {
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
-    const sortSelectElement = screen.getByRole("button", {
-      name: "pertinence & qualité",
-    });
+    const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     expect(sortSelectElement).toBeInTheDocument();
     expect(screen.getByText("aléatoire")).not.toBeVisible();
     expect(screen.getByText("date de publication")).not.toBeVisible();
@@ -101,9 +95,7 @@ describe("ResultsToolbar", () => {
   it("should call router.replace with the correct params when the sort field is changed", async () => {
     const router = useRouter();
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
-    const sortSelectElement = screen.getByRole("button", {
-      name: "pertinence & qualité",
-    });
+    const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
     await userEvent.click(titleSortOption);
@@ -140,9 +132,7 @@ describe("ResultsToolbar", () => {
   it("should display a spinner when the sort field is changed", async () => {
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
     expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
-    const sortSelectElement = screen.getByRole("button", {
-      name: "pertinence & qualité",
-    });
+    const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
     await userEvent.click(titleSortOption);

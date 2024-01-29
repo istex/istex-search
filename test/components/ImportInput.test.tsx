@@ -1,5 +1,4 @@
 import { type ReactNode } from "react";
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -10,6 +9,7 @@ import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
 import SearchBar from "@/app/[locale]/components/SearchSection/SearchBar";
 import SearchSection from "@/app/[locale]/components/SearchSection/SearchSection";
 import { SEARCH_MODE_ADVANCED } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 
 describe("ImportInput", () => {
   const searchBar = (child: ReactNode) => {

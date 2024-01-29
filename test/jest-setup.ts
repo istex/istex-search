@@ -10,14 +10,14 @@ const routerMock = {
   replace: jest.fn(),
 };
 
-mock("next-intl/client", {
+mock("@/i18n/navigation", {
+  redirect: jest.fn(),
   useRouter: () => routerMock,
   usePathname: () => "/",
 });
 
 mock("next-intl/server", {
-  redirect: jest.fn(),
-  getTranslator: jest.fn(),
+  getTranslations: jest.fn(),
 });
 
 mock("next/navigation", {

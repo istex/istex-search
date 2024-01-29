@@ -8,7 +8,7 @@
 
 ## Prerequisites
 
-- Development: [Node.js >= 16.14](https://nodejs.org)
+- Development: [Node.js >= 18.17](https://nodejs.org)
 - Production: [docker](https://www.docker.com)
 
 ## Development

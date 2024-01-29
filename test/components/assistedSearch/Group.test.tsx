@@ -12,6 +12,7 @@ describe("Group", () => {
         remove={() => {}}
       />,
     );
+
     expect(
       screen.getByRole("button", { name: "Ajouter une règle" }),
     ).toBeInTheDocument();
@@ -41,9 +42,9 @@ describe("Group", () => {
         remove={() => {}}
       />,
     );
-    expect(screen.getByRole("combobox")).toHaveValue("Corpus éditeur");
-    expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
-    expect(screen.getByRole("textbox")).toBeInTheDocument();
+
+    expect(screen.getAllByRole("combobox")[0]).toHaveValue("Corpus éditeur");
+    expect(screen.getAllByRole("combobox")[1]).toHaveTextContent("égal");
     expect(screen.getByRole("textbox")).toHaveValue("elsevier");
   });
 
@@ -81,6 +82,7 @@ describe("Group", () => {
         remove={() => {}}
       />,
     );
+
     expect(
       screen.getAllByRole("button", { name: "Ajouter une règle" }),
     ).toHaveLength(2);
@@ -90,19 +92,18 @@ describe("Group", () => {
     expect(screen.getAllByRole("button", { name: "Supprimer" })).toHaveLength(
       2,
     );
-    expect(screen.getAllByRole("combobox")[0]).toHaveValue("Mots-clés teeft");
-    expect(screen.getAllByRole("combobox")[1]).toHaveValue(
-      "Titre revue ou monographie",
-    );
-    expect(screen.getByRole("button", { name: "égal" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "contient" }),
-    ).toBeInTheDocument();
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
-    expect(screen.getAllByRole("textbox")[0]).toHaveValue("elsevier");
-    expect(screen.getAllByRole("textbox")[1]).toHaveValue("rings of Saturn");
-    expect(screen.getByRole("button", { name: "AND" })).toBeInTheDocument();
-    expect(screen.getAllByRole("button")).toHaveLength(13);
-    expect(screen.getAllByRole("textbox")).toHaveLength(2);
+
+    const dropdowns = screen.getAllByRole("combobox");
+    const textboxes = screen.getAllByRole("textbox");
+
+    expect(dropdowns[0]).toHaveValue("Mots-clés teeft");
+    expect(dropdowns[1]).toHaveTextContent("égal");
+    expect(textboxes[0]).toHaveValue("elsevier");
+
+    expect(dropdowns[2]).toHaveTextContent("AND");
+
+    expect(dropdowns[3]).toHaveValue("Titre revue ou monographie");
+    expect(dropdowns[4]).toHaveTextContent("contient");
+    expect(textboxes[1]).toHaveValue("rings of Saturn");
   });
 });

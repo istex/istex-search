@@ -19,32 +19,21 @@ const Header: ServerComponent = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <Container sx={{ py: 2 }}>
-        <Box
+      <Container sx={{ py: 2, pt: 4 }}>
+        <Link href="/" id="home-link">
+          <Image src={istexDlLogo} alt="Istex-DL" />
+        </Link>
+        <Typography
+          color="white"
+          component="h2"
+          variant="subtitle1"
           sx={{
-            display: { xs: "block", sm: "flex" },
-            gap: 8,
-            mt: 2,
-            justifyContent: "space-between",
+            fontSize: "0.875rem",
+            lineHeight: 1.25,
           }}
         >
-          <Box>
-            <Link href="/" id="home-link">
-              <Image src={istexDlLogo} alt="Istex-DL" />
-            </Link>
-            <Typography
-              color="white"
-              component="h2"
-              variant="subtitle1"
-              sx={{
-                fontSize: "0.875rem",
-                lineHeight: 1.25,
-              }}
-            >
-              {t.rich("baseline")}
-            </Typography>
-          </Box>
-        </Box>
+          {t.rich("baseline")}
+        </Typography>
       </Container>
     </Box>
   );

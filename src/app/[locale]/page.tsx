@@ -1,10 +1,10 @@
-import { redirect } from "next-intl/server";
 import CorpusSection from "./components/CorpusSection";
 import CourseSection from "./components/CourseSection";
 import DownloadSection from "./components/DownloadSection";
 import SearchSection from "./components/SearchSection";
 import { DocumentProvider } from "./results/Document/DocumentContext";
 import { QueryProvider } from "@/contexts/QueryContext";
+import { redirect } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { Page } from "@/types/next";
 
@@ -19,6 +19,11 @@ const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
     // so we just delete it and refresh the page
     searchParams.deleteQueryString();
     redirect(`/?${searchParams.toString()}`);
+
+    // This return is unnecessary because redirect throws an error internally but
+    // typescript isn't smart enough to figure that out and thinks "queryString" below
+    // will be used before it's assigned.
+    return null;
   }
 
   return (

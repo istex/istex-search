@@ -7,12 +7,12 @@ import {
   type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next-intl/client";
 import { Box } from "@mui/material";
 import QueryExamplesList from "./QueryExamplesList";
 import SearchTitle from "./SearchTitle";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { usePathname } from "@/i18n/navigation";
 import type { ClientComponent } from "@/types/next";
 
 const RegularSearchInput: ClientComponent<{

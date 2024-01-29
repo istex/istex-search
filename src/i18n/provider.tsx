@@ -1,25 +1,19 @@
 "use client";
 
-import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import type { ComponentProps } from "react";
+import { NextIntlClientProvider } from "next-intl";
 import { defaultTranslationValues } from "./i18n";
 import type { ClientComponent } from "@/types/next";
 
-interface NextIntlProviderProps {
-  messages: AbstractIntlMessages;
-  locale: string;
-}
-
 // This custom provider only exists because it needs to be a client component
 // (defaultTranslationsValues has non-serializable properties)
-const NextIntlProvider: ClientComponent<NextIntlProviderProps, true> = ({
-  children,
-  messages,
-  locale,
-}) => (
+const NextIntlProvider: ClientComponent<
+  ComponentProps<typeof NextIntlClientProvider>,
+  true
+> = ({ children, ...rest }) => (
   <NextIntlClientProvider
-    locale={locale}
-    messages={messages}
     defaultTranslationValues={defaultTranslationValues}
+    {...rest}
   >
     {children}
   </NextIntlClientProvider>

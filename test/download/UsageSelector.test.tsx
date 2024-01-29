@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -7,6 +6,7 @@ import {
 } from "../test-utils";
 import UsageSelector from "@/app/[locale]/results/Download/UsageSelector";
 import { usages } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("UsageSelector", () => {

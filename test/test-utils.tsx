@@ -4,9 +4,9 @@ import { render } from "@testing-library/react";
 import { DocumentProvider } from "@/app/[locale]/results/Document/DocumentContext";
 import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
 import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
-import { DEFAULT_LOCALE } from "@/i18n/constants";
+import { DEFAULT_LOCALE } from "@/i18n/navigation";
 import NextIntlProvider from "@/i18n/provider";
-import messages from "@/i18n/translations/fr-FR.json";
+import messages from "@/i18n/translations/fr.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
 import type { ClientComponent, ServerComponent } from "@/types/next";
@@ -17,8 +17,8 @@ export function customRender(
 ) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (
     <NextIntlProvider
-      messages={messages as unknown as AbstractIntlMessages}
       locale={DEFAULT_LOCALE}
+      messages={messages as unknown as AbstractIntlMessages}
     >
       <MuiSetup>
         <QueryProvider

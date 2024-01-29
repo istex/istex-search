@@ -33,11 +33,13 @@ export const DocumentProvider: ClientComponent<
   useEffect(() => {
     const selectedDocumentsString = localStorage.getItem("selectedDocuments");
     if (selectedDocumentsString !== null) {
-      setSelectedDocuments(JSON.parse(selectedDocumentsString));
+      setSelectedDocuments(
+        JSON.parse(selectedDocumentsString) as SelectedDocument[],
+      );
     }
     const excludedDocumentsString = localStorage.getItem("excludedDocuments");
     if (excludedDocumentsString !== null) {
-      setExcludedDocuments(JSON.parse(excludedDocumentsString));
+      setExcludedDocuments(JSON.parse(excludedDocumentsString) as string[]);
     }
   }, []);
 

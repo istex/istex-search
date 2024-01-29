@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getTranslator } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import ResultsPage from "./_page";
 import Loading from "./loading";
 import type { GenerateMetadata, Page } from "@/types/next";
@@ -7,7 +7,7 @@ import type { GenerateMetadata, Page } from "@/types/next";
 export const generateMetadata: GenerateMetadata = async ({
   params: { locale },
 }) => {
-  const t = await getTranslator(locale, "results.metadata");
+  const t = await getTranslations({ locale, namespace: "results.metadata" });
 
   return {
     title: `Istex-DL - ${t("title")}`,

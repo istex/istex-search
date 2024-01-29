@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   mockSearchParams,
   customRender as render,
@@ -8,6 +7,7 @@ import {
 import SearchSection from "@/app/[locale]/components/SearchSection";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 import { examples } from "@/config";
+import { useRouter } from "@/i18n/navigation";
 
 describe("RegularSearchInput", () => {
   async function search(queryString?: string) {

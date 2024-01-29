@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import Selector from "@/components/Selector";
 import { usages, type UsageName } from "@/config";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 

@@ -1,4 +1,3 @@
-import { useRouter } from "next-intl/client";
 import {
   fireEvent,
   mockSearchParams,
@@ -7,6 +6,7 @@ import {
   within,
 } from "../test-utils";
 import Filters from "@/app/[locale]/results/Filters/Filters";
+import { useRouter } from "@/i18n/navigation";
 import { type Filter } from "@/lib/istexApi";
 
 describe("Filters", () => {

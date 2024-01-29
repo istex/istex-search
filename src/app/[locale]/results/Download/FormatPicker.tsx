@@ -2,11 +2,11 @@
 
 import type { ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@/components/Checkbox";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   deselectFormat,
   getWholeCategoryFormat,

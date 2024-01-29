@@ -1,6 +1,6 @@
-import { useRouter } from "next-intl/client";
 import { customRender as render, screen, userEvent } from "../test-utils";
 import DownloadButton from "@/app/[locale]/results/components/DownloadButton";
+import { useRouter } from "@/i18n/navigation";
 
 describe("DownloadButton (results page)", () => {
   it("opens the modal when clicking the button", async () => {

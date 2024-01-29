@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next-intl/client";
 import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import SearchButton from "./SearchButton";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { usePathname } from "@/i18n/navigation";
 
 const SearchBar = ({
   children,

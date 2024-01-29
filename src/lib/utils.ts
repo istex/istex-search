@@ -40,7 +40,7 @@ export function isValidDoi(doi: string) {
  * @returns `true` if `istexId` is a valid Istex identifier, `false` otherwise.
  */
 export function isValidIstexId(istexId: string) {
-  return /ark:\/67375\/[0-9B-DF-HJ-NP-TV-XZ]{3}-[0-9B-DF-HJ-NP-TV-XZ]{8}-[0-9B-DF-HJ-NP-TV-XZ]/.test(
+  return /ark:\/67375\/[0-9B-DF-HJ-TV-XZ]{3}-[0-9B-DF-HJ-NP-TV-XZ]{8}-[0-9B-DF-HJ-NP-TV-XZ]/.test(
     istexId,
   );
 }

@@ -20,6 +20,12 @@ export function externalLink(href: string) {
   };
 }
 
+export function mailtoLink(email: string) {
+  return function MailtoLink(chunks: ReactNode) {
+    return <Link href={`mailto:${email}`}>{chunks}</Link>;
+  };
+}
+
 export default getRequestConfig(async ({ locale }) => {
   if (!SUPPORTED_LOCALES.includes(locale as Locale)) {
     redirect(`/${DEFAULT_LOCALE}`);

@@ -6,7 +6,6 @@ import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
 import { usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { externalLink } from "@/i18n/i18n";
 import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
@@ -42,7 +41,7 @@ const InfoPanels: ServerComponent = () => {
         <Panel>
           <PanelTitle>{tUsages(`${currentUsageName}.label`)}</PanelTitle>
           <Typography variant="body2" gutterBottom>
-            {tUsages.rich(`${currentUsageName}.description`, links)}
+            {tUsages(`${currentUsageName}.description`)}
           </Typography>
           <Link
             href={currentUsage.url}
@@ -94,15 +93,6 @@ const InfoPanels: ServerComponent = () => {
       </Grid>
     </>
   );
-};
-
-const links = {
-  inistLink: externalLink("https://www.inist.fr/"),
-  wsLink: externalLink("https://services.istex.fr/category/services/"),
-  lisisLink: externalLink("http://umr-lisis.fr/"),
-  ifrisLink: externalLink("https://ifris.org"),
-  inraeLink: externalLink("https://www.inrae.fr/"),
-  iscpifLink: externalLink("https://iscpif.fr/"),
 };
 
 export default InfoPanels;

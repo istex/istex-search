@@ -601,7 +601,7 @@
       "tutorials": "Tutoriels",
       "contact": "N’hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
       "contactTitle": "Écrivez-nous",
-      "message": "Envoyer-nous un courriel à "
+      "message": "Envoyez-nous un courriel à <mailtoLink>contact@istex.fr</mailtoLink>"
     }
   },
   "share": {

@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -9,15 +7,18 @@ import {
   DialogTitle,
   IconButton,
   Stack,
+  Typography,
 } from "@mui/material";
 import {
   Transition,
   type DownloadModalProps,
 } from "../results/Download/DownloadModal";
 import Button from "@/components/Button";
+import { mailtoLink } from "@/i18n/i18n";
 import theme from "@/mui/theme";
+import type { ClientComponent } from "@/types/next";
 
-const HelpModal = ({ open, onClose }: DownloadModalProps) => {
+const HelpModal: ClientComponent<DownloadModalProps> = ({ open, onClose }) => {
   const t = useTranslations("help.modal");
 
   return (
@@ -39,26 +40,40 @@ const HelpModal = ({ open, onClose }: DownloadModalProps) => {
             {t("title")}
           </DialogTitle>
           <DialogContent>
-            <p
-              style={{
+            <Typography
+              paragraph
+              sx={{
                 fontSize: "1.25rem",
                 fontWeight: "bold",
               }}
             >
               {t("description")}
-            </p>
+            </Typography>
             <Stack direction="row" gap={2} sx={{ my: 2, fontWeight: "bold" }}>
-              <a href="https://www.istex.fr/category/faq/" target="_blank">
-                <Button sx={{ fontWeight: "bold" }}>{t("faq")}</Button>
-              </a>
-              <a href="https://doc.istex.fr/" target="_blank">
-                <Button sx={{ fontWeight: "bold" }}>
-                  {t("documentation")}
-                </Button>
-              </a>
-              <a href="https://istex-tutorial.data.istex.fr/" target="_blank">
-                <Button sx={{ fontWeight: "bold" }}>{t("tutorials")}</Button>
-              </a>
+              <Button
+                href="https://www.istex.fr/category/faq/"
+                target="_blank"
+                rel="noreferrer"
+                sx={{ fontWeight: "bold" }}
+              >
+                {t("faq")}
+              </Button>
+              <Button
+                href="https://doc.istex.fr/"
+                target="_blank"
+                rel="noreferrer"
+                sx={{ fontWeight: "bold" }}
+              >
+                {t("documentation")}
+              </Button>
+              <Button
+                href="https://istex-tutorial.data.istex.fr/"
+                target="_blank"
+                rel="noreferrer"
+                sx={{ fontWeight: "bold" }}
+              >
+                {t("tutorials")}
+              </Button>
             </Stack>
             {t("contact")}
           </DialogContent>
@@ -84,8 +99,7 @@ const HelpModal = ({ open, onClose }: DownloadModalProps) => {
             <CloseIcon />
           </IconButton>
           <DialogContent>
-            {t("message")}
-            <a href="mailto:contact@istex.fr">contact@istex.fr</a>
+            {t.rich("message", { mailtoLink: mailtoLink("contact@istex.fr") })}
           </DialogContent>
         </Box>
       </Stack>

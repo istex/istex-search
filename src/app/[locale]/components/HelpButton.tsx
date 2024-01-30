@@ -25,20 +25,26 @@ const HelpButton: ClientComponent = () => {
   return (
     <>
       <Box
-        sx={{
-          overflow: "hidden",
-          position: "fixed",
-          bottom: "2.5rem",
-          right: "4.5rem",
+        sx={(theme) => ({
+          position: "sticky",
+          bottom: theme.spacing(4),
           zIndex: 1,
-        }}
+          pointerEvents: "none",
+        })}
       >
-        <Box display="flex" alignItems="center">
+        <Box
+          sx={(theme) => ({
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "end",
+            mr: theme.spacing(6),
+          })}
+        >
           <Box
             sx={(theme) => ({
               p: "0.62rem",
               borderRadius: "0.3125rem",
-              backgroundColor: theme.palette.colors.veryLightGreen,
+              backgroundColor: theme.palette.colors.lightGreen,
               height: "2.4rem",
               mr: "-0.62rem",
               zIndex: 2,
@@ -47,12 +53,10 @@ const HelpButton: ClientComponent = () => {
             <Image src={HelpIcon} alt="need-help" />
           </Box>
           <Button
-            mainColor="lightGreen"
+            mainColor="darkGreen"
             sx={(theme) => ({
-              color: theme.palette.colors.white,
-              fontWeight: 700,
-              p: "1.25rem",
-              borderRadius: "0.3125rem",
+              fontWeight: "bold",
+              p: theme.spacing(1.5),
               pointerEvents: "auto",
             })}
             onClick={openHelpModal}

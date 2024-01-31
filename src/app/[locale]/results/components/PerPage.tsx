@@ -7,8 +7,8 @@ import {
   MenuItem,
   Select,
   Stack,
-  Typography,
   type SelectChangeEvent,
+  InputLabel,
 } from "@mui/material";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -52,10 +52,12 @@ const PerPage: ClientComponent<{
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-      <Typography variant="body2" sx={{ fontSize, color: labelColor }}>
+      <InputLabel id="per-page-label" sx={{ fontSize, color: labelColor }}>
         {t("PerPage")}
-      </Typography>
+      </InputLabel>
       <Select
+        id="per-page-select"
+        labelId="per-page-label"
         autoWidth
         disabled={loading}
         variant="standard"

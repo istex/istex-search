@@ -6,13 +6,23 @@ import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
 import type { ClientComponent } from "@/types/next";
 
-const FacetCheckboxItem: ClientComponent<{
+interface FacetCheckboxItemProps {
+  name: string;
   value: string;
   count: number;
   checked: boolean;
   excluded: boolean;
   onChange: () => void;
-}> = ({ value, count, checked, excluded, onChange }) => {
+}
+
+const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
+  name,
+  value,
+  count,
+  checked,
+  excluded,
+  onChange,
+}) => {
   const locale = useLocale();
 
   const [checkedFacet, setCheckedFacet] = useState<boolean>(
@@ -31,6 +41,7 @@ const FacetCheckboxItem: ClientComponent<{
       }}
       control={
         <Checkbox
+          id={name}
           checked={checkedFacet}
           onChange={() => {
             setCheckedFacet(!checkedFacet);

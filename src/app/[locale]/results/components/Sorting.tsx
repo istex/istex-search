@@ -9,8 +9,8 @@ import {
   MenuItem,
   Select,
   Stack,
-  Typography,
   type SelectChangeEvent,
+  InputLabel,
 } from "@mui/material";
 import { rankValues, sortFields, type SortBy } from "@/config";
 import { usePathname, useRouter } from "@/i18n/navigation";
@@ -74,12 +74,14 @@ const Sorting: ClientComponent<{
 
   return (
     <Stack direction="row" spacing={1} alignItems="center">
-      <Typography variant="body2" sx={{ fontSize, color: labelColor }}>
+      <InputLabel id="sorting-label" sx={{ fontSize, color: labelColor }}>
         {isLabelLowerCase === true
           ? t("sorting.sortBy").toLowerCase()
           : t("sorting.sortBy")}
-      </Typography>
+      </InputLabel>
       <Select
+        id="sorting-select"
+        labelId="sorting-label"
         autoWidth
         disabled={loading}
         variant="standard"

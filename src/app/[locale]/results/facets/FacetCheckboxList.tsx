@@ -92,6 +92,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
   return (
     <>
       <InputBase
+        id={`${facetTitle}-search-input`}
         fullWidth
         size="small"
         placeholder={t("search")}
@@ -206,7 +207,8 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       <Stack maxHeight={140} overflow="auto" ref={listRef}>
         {displayedFacets.map((facetItem) => (
           <FacetCheckboxItem
-            key={facetItem.key}
+            name={`${facetTitle}-${facetItem.key}`}
+            key={`${facetTitle}-${facetItem.key}`}
             value={
               typeof facetItem.key === "number"
                 ? t(`${facetTitle}.${Boolean(facetItem.key).toString()}`)

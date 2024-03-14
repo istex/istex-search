@@ -1,3 +1,5 @@
+import { isValidDoi, isValidArk, isValidIstexId } from "./lib/utils";
+
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
   maxSize: 100_000,
@@ -20,10 +22,10 @@ export const examples = {
     '("Débarquement de Normandie""Debarquement de Normandie""Normandy landing") AND 1944',
 } as const;
 
-export type PerPageOption = (typeof perPageOptions)[number];
 export const perPageOptions = [10, 20, 30] as const;
 export const MIN_PER_PAGE = perPageOptions[0];
 export const MAX_PER_PAGE = perPageOptions[2];
+export type PerPageOption = (typeof perPageOptions)[number];
 
 // The selected formats are stored in an integer divided in five sections,
 // the first three represent format categories and are 10 bits long. The last
@@ -35,10 +37,6 @@ export const MAX_PER_PAGE = perPageOptions[2];
 //
 // | covers | annexes |  enrichments  |   metadata   |   fulltext    |
 //      0        0       0000000000      0000000000     0000000000
-
-export type FormatCategoryName = keyof typeof formats;
-export const NO_FORMAT_SELECTED = 0;
-
 export const formats = {
   fulltext: {
     pdf: 1 << 0,
@@ -66,9 +64,8 @@ export const formats = {
     covers: 1 << 31,
   },
 } as const;
-
-export type UsageName = keyof typeof usages;
-export const DEFAULT_USAGE_NAME: UsageName = "custom";
+export const NO_FORMAT_SELECTED = 0;
+export type FormatCategoryName = keyof typeof formats;
 
 export const usages = {
   custom: {
@@ -103,24 +100,41 @@ export const usages = {
     row: 3,
   },
 } as const;
+export const DEFAULT_USAGE_NAME: UsageName = "custom";
+export type UsageName = keyof typeof usages;
 
 export const rankValues = ["qualityOverRelevance", "random"] as const;
-
 export const sortFields = ["publicationDate", "title.raw"] as const;
-
 const sortDir = ["asc", "desc"] as const;
-
+export const DEFAULT_SORT_BY = rankValues[0];
+export const DEFAULT_SORT_DIR = sortDir[0];
 export type SortBy = (typeof sortFields)[number] | (typeof rankValues)[number];
 export type SortDir = (typeof sortDir)[number];
-export const DEFAULT_SORT_BY: SortBy = "qualityOverRelevance";
-export const DEFAULT_SORT_DIR: SortDir = "asc";
 
-export const SEARCH_MODE_REGULAR = "regular";
-export const SEARCH_MODE_ADVANCED = "advanced";
-export const SEARCH_MODE_ASSISTED = "assisted";
-const SearchModes = [
-  SEARCH_MODE_REGULAR,
-  SEARCH_MODE_ADVANCED,
-  SEARCH_MODE_ASSISTED,
+export const searchModes = ["regular", "assisted", "import"] as const;
+export const SEARCH_MODE_REGULAR = searchModes[0];
+export const SEARCH_MODE_ASSISTED = searchModes[1];
+export const SEARCH_MODE_IMPORT = searchModes[2];
+export type SearchMode = (typeof searchModes)[number];
+
+export const supportedIdTypes = [
+  {
+    typeName: "doi",
+    fieldName: "doi.raw",
+    corpusFilePrefix: "doi",
+    isValidId: isValidDoi,
+  },
+  {
+    typeName: "ark",
+    fieldName: "arkIstex.raw",
+    corpusFilePrefix: "ark",
+    isValidId: isValidArk,
+  },
+  {
+    typeName: "istexId",
+    fieldName: "id",
+    corpusFilePrefix: "id",
+    isValidId: isValidIstexId,
+  },
 ] as const;
-export type SearchMode = (typeof SearchModes)[number];
+export type SupportedIdType = (typeof supportedIdTypes)[number];

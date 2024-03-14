@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   CircularProgress,
@@ -10,27 +10,29 @@ import {
   type SelectChangeEvent,
   InputLabel,
 } from "@mui/material";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const PerPage: ClientComponent<{
+interface PerPageProps {
   fontSize: string;
   labelColor: string;
   selectColor: string;
-  enableLoading?: boolean;
-}> = ({ fontSize, labelColor, selectColor, enableLoading }) => {
+}
+
+const PerPage: ClientComponent<PerPageProps> = ({
+  fontSize,
+  labelColor,
+  selectColor,
+}) => {
   const t = useTranslations("results.ResultsGrid");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const perPage = searchParams.getPerPage();
+  const { loading } = useQueryContext();
   const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [perPage]);
 
   const menuCallbackRef = useCallback(
     (menuDiv: HTMLDivElement | null) => {
@@ -44,9 +46,6 @@ const PerPage: ClientComponent<{
   );
   const handlePerPageChange = (event: SelectChangeEvent<10 | 20 | 30>) => {
     searchParams.setPerPage(event.target.value as 10 | 20 | 30);
-    if (enableLoading === true) {
-      setLoading(true);
-    }
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
@@ -99,7 +98,7 @@ const PerPage: ClientComponent<{
           30
         </MenuItem>
       </Select>
-      {loading && <CircularProgress size={20} />}
+      {loading === true && <CircularProgress size={20} />}
     </Stack>
   );
 };

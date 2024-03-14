@@ -1,373 +1,410 @@
-import { type SyntheticEvent, useState } from "react";
+"use client";
+
+import { useState, type ChangeEventHandler, type SyntheticEvent } from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
-import SearchIcon from "@mui/icons-material/Search";
+import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
 import {
-  Autocomplete,
-  Box,
-  IconButton,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import type { SxProps } from "@mui/system/styleFunctionSx";
-import { fieldsDefinition } from "./fieldsList";
+  AutocompleteInput,
+  FieldInputMenuItem,
+  fontFamilyStyle,
+  getComparators,
+} from "./RuleUtils";
 import {
-  textComparators,
-  numberComparators,
-  type FieldNode,
-  booleanComparators,
   rangeComparators,
+  type FieldType,
   type Comparator,
-} from "@/lib/queryAst";
-import { inter } from "@/mui/fonts";
+  type FieldName,
+  type FieldNode,
+} from "@/lib/assistedSearch/ast";
+import { fields } from "@/lib/assistedSearch/fields";
+import type { ClientComponent } from "@/types/next";
 
-const commonStyles: SxProps = {
-  ".MuiInputBase-input": {
-    fontSize: "0.875rem",
-    fontWeight: 400,
-    fontFamily: inter.style.fontFamily,
-    height: "23px",
-  },
-};
-
-const numberAndRangeComparators = [...numberComparators, ...rangeComparators]
-  .filter(
-    (value, index) =>
-      [...numberComparators, ...rangeComparators].indexOf(value) === index,
-  )
-  .filter((word) => word !== "");
-
-const fieldsList = Array.from(fieldsDefinition, (element) => {
-  return element.field;
-});
-
-const Rule = ({
-  node,
-  displayError,
-  setField,
-  setComparator,
-  setValue,
-  setRangeValue,
-  remove,
-}: {
+interface RuleProps {
+  displayErrors: boolean;
   node: FieldNode;
-  displayError: boolean;
-  setField: (newField: string) => void;
-  setComparator: (newComparator: Comparator) => void;
-  setValue: (newValue: string | number | boolean | null) => void;
-  setRangeValue: ({
-    min,
-    max,
-  }: {
-    min?: number | null | "*";
-    max?: number | null | "*";
-  }) => void;
+  setNode: (newNode: FieldNode) => void;
   remove: () => void;
+}
+
+const FIELD_NAMES = fields.map(({ name }) => name);
+
+const Rule: ClientComponent<RuleProps> = ({
+  displayErrors,
+  node,
+  setNode,
+  remove,
 }) => {
-  const [focus, setFocus] = useState(false);
   const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedInput.Dropdown",
+    "home.SearchSection.SearchInput.AssistedSearchInput",
   );
+  const isNodePartial = node.partial === true;
+  const isTextNode = node.fieldType === "text";
+  const isNumberNode = node.fieldType === "number" && "value" in node;
+  const isRangeNode = node.fieldType === "number" && "min" in node;
+  const isBooleanNode = node.fieldType === "boolean";
+  const [field, setField] = useState<FieldName | null>(
+    !isNodePartial ? node.field : null,
+  );
+  const [fieldType, setFieldType] = useState<FieldType | null>(
+    !isNodePartial ? node.fieldType : null,
+  );
+  const [comparator, setComparator] = useState<Comparator | null>(
+    !isNodePartial ? node.comparator : null,
+  );
+  const [textValue, setTextValue] = useState(
+    !isNodePartial && isTextNode ? node.value : "",
+  );
+  const [numberValue, setNumberValue] = useState(
+    // The number value is stored as a string because that's what MUI excepts
+    // MUI doesn't have any number input component just yet (https://mui.com/material-ui/react-text-field/#type-quot-number-quot)
+    !isNodePartial && isNumberNode ? node.value.toString() : "",
+  );
+  const [minValue, setMinValue] = useState(
+    !isNodePartial && isRangeNode ? node.min.toString() : "",
+  );
+  const [maxValue, setMaxValue] = useState(
+    !isNodePartial && isRangeNode ? node.max.toString() : "",
+  );
+  const [booleanValue, setBooleanValue] = useState<boolean | null>(
+    !isNodePartial && isBooleanNode ? node.value : null,
+  );
+  const hasValidValue =
+    textValue !== "" || numberValue !== "" || booleanValue != null;
 
-  const getComparators = () => {
-    const comparators =
-      node.fieldType === "text"
-        ? [...textComparators]
-        : node.fieldType === "boolean"
-          ? [...booleanComparators]
-          : [...numberAndRangeComparators];
+  const handleFieldChange = (_: SyntheticEvent, value: FieldName | null) => {
+    setField(value);
 
-    return comparators.map((operator, index) => {
-      if (operator === "") return null;
-      return (
-        <MenuItem value={operator} key={index}>
-          {t(operator)}
-        </MenuItem>
-      );
-    });
+    let partial = true;
+
+    // When the field name is reset, reset the other inputs
+    // because their values depend on the field name
+    if (value == null) {
+      setComparator(null);
+      setFieldType(null);
+      resetValue();
+      setNode({ ...node, partial });
+      return;
+    }
+
+    const newFieldType = fields.find((field) => field.name === value)?.type;
+    if (newFieldType == null) {
+      throw new Error(`Unexpected field name "${value}"`);
+    }
+
+    // If the currently selected comparator isn't supported
+    // for the new field type, reset it
+    const newComparators = getComparators(newFieldType);
+    if (comparator != null && !newComparators.includes(comparator)) {
+      setComparator(null);
+    }
+
+    // Even if the field name is valid, the comparator and the value
+    // also need to be valid for the node to be complete
+    if (comparator != null && hasValidValue) {
+      partial = false;
+    }
+
+    setFieldType(newFieldType);
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, fieldType: newFieldType, field: value, partial });
   };
 
-  const getRightValueField = (node: FieldNode) => {
-    switch (node.fieldType) {
-      case "boolean":
-        return (
-          <TextField
-            size="small"
-            focused={false}
-            fullWidth
-            select
-            value={"value" in node && node.value}
-            label={"value" in node && node.value === null ? t("value") : null}
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-            error={
-              displayError &&
-              "value" in node &&
-              (node.value === "" || node.value === null)
-            }
-            InputLabelProps={{
-              style: { color: "#D9D9D9" },
-            }}
-            sx={commonStyles}
-          >
-            <MenuItem value="true">{t("true")}</MenuItem>
-            <MenuItem value="false">{t("false")}</MenuItem>
-          </TextField>
-        );
-      case "range":
-        return (
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing="10px"
-            sx={{ width: "100%" }}
-          >
-            <TextField
-              placeholder={t("valueMin")}
-              value={"min" in node && node.min}
-              size="small"
-              fullWidth
-              onChange={(event) => {
-                try {
-                  if (!isNaN(+event.target.value)) {
-                    setRangeValue({ min: +event.target.value });
-                  } else if (event.target.value === "*") {
-                    setRangeValue({ min: "*" });
-                  } else if (event.target.value === "") {
-                    setRangeValue({ min: null });
-                  }
-                } catch (e) {}
-              }}
-              error={
-                displayError &&
-                "min" in node &&
-                (node.min === "" || node.min === null)
-              }
-              sx={(theme) => ({
-                ...commonStyles,
-                "input::placeholder": {
-                  fontWeight: 400,
-                  opacity: 0.8,
-                  color: theme.palette.colors.lightGrey,
-                },
-              })}
-            />
-            <p>-</p>
-            <TextField
-              placeholder={t("valueMax")}
-              value={"max" in node && node.max}
-              size="small"
-              fullWidth
-              onChange={(event) => {
-                try {
-                  if (!isNaN(+event.target.value)) {
-                    setRangeValue({ max: +event.target.value });
-                  } else if (event.target.value === "*") {
-                    setRangeValue({ max: "*" });
-                  } else if (event.target.value === "") {
-                    setRangeValue({ max: null });
-                  }
-                } catch (e) {}
-              }}
-              error={
-                displayError &&
-                "max" in node &&
-                (node.max === "" || node.max === null)
-              }
-              sx={(theme) => ({
-                ...commonStyles,
-                "input::placeholder": {
-                  fontWeight: 400,
-                  opacity: 0.8,
-                  color: theme.palette.colors.lightGrey,
-                },
-              })}
-            />
-          </Stack>
-        );
-      default: // case text or number
-        return (
-          <TextField
-            focused={false}
-            label={
-              "value" in node && (node.value === "" || node.value === null)
-                ? t("value")
-                : null
-            }
-            variant="outlined"
-            value={"value" in node && (node.value === null ? "" : node.value)}
-            size="small"
-            fullWidth
-            onChange={(e) => {
-              if (
-                node.fieldType === "text" ||
-                (node.fieldType === "number" &&
-                  (!isNaN(+e.target.value) || // Accept number
-                    e.target.value === "*")) // Accept '*'
-              ) {
-                setValue(e.target.value);
-              } else if (node.fieldType === "number" && e.target.value === "") {
-                setValue(null);
-              }
-            }}
-            error={
-              displayError &&
-              "value" in node &&
-              (node.value === "" || node.value === null)
-            }
-            InputLabelProps={{
-              style: { color: "#D9D9D9" },
-            }}
-            sx={commonStyles}
-          />
-        );
+  const handleComparatorChange = (
+    _: SyntheticEvent,
+    value: Comparator | null,
+  ) => {
+    setComparator(value);
+
+    let partial = true;
+
+    if (value == null) {
+      setNode({ ...node, partial });
+      return;
     }
+
+    // Even if the comparator is valid, the field name and the value
+    // also need to be valid for the node to be complete
+    if (field != null && hasValidValue) {
+      partial = false;
+    }
+
+    // @ts-expect-error TypeScript thinks comparator is narrower than it actually is
+    setNode({ ...node, comparator: value, partial });
+  };
+
+  const handleTextValueChange: ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const { value } = event.target;
+    setTextValue(value);
+
+    const partial = value === "" || field == null || comparator == null;
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, value, partial });
+  };
+
+  const handleNumberValueChange: ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const { value } = event.target;
+    const valueAsNumber = Number(value);
+    setNumberValue(value);
+
+    let partial = true;
+
+    if (value === "" || Number.isNaN(valueAsNumber)) {
+      setNode({ ...node, partial });
+      return;
+    }
+
+    // Even if the value is valid, the field name and the comparator
+    // also need to be valid for the node to be complete
+    partial = field == null || comparator == null;
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, value: valueAsNumber, partial });
+  };
+
+  const handleMinValueChange: ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const { value: min } = event.target;
+    const minAsNumber = Number(min);
+    setMinValue(min);
+
+    let partial = true;
+
+    if (min === "" || Number.isNaN(minAsNumber)) {
+      setNode({ ...node, partial });
+      return;
+    }
+
+    // Even if the min is valid, the field name the comparator and
+    // the max also need to be valid for the node to be complete
+    partial = field == null || comparator == null || maxValue === "";
+
+    if ("value" in node) {
+      // @ts-expect-error value isn't optional but it breaks the query builder
+      // if min and value are both defined
+      delete node.value;
+    }
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, min: minAsNumber, partial });
+  };
+
+  const handleMaxValueChange: ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const { value: max } = event.target;
+    const maxAsNumber = Number(max);
+    setMaxValue(max);
+
+    let partial = true;
+
+    if (max === "" || Number.isNaN(maxAsNumber)) {
+      setNode({ ...node, partial });
+      return;
+    }
+
+    // Even if the max is valid, the field name the comparator and
+    // the min also need to be valid for the node to be complete
+    partial = field == null || comparator == null || minValue === "";
+
+    if ("value" in node) {
+      // @ts-expect-error value isn't optional but it breaks the query builder
+      // if max and value are both defined
+      delete node.value;
+    }
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, max: maxAsNumber, partial });
+  };
+
+  const handleBooleanValueChange = (
+    _: SyntheticEvent,
+    value: boolean | null,
+  ) => {
+    setBooleanValue(value);
+
+    let partial = true;
+
+    if (value == null) {
+      setNode({ ...node, partial });
+      return;
+    }
+
+    // Even if the value is valid, the field name and the comparator
+    // also need to be valid for the node to be complete
+    partial = field == null || comparator == null;
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    setNode({ ...node, value, partial });
+  };
+
+  const resetValue = () => {
+    setTextValue("");
+    setNumberValue("");
+    setMinValue("");
+    setMaxValue("");
+    setBooleanValue(null);
   };
 
   return (
     <Stack
-      ml={11}
       direction="row"
-      gap="10px"
-      p="5px"
-      pr="14px"
+      spacing={1}
+      justifyContent="space-between"
+      className="rule"
       sx={(theme) => ({
-        border: `1px ${theme.palette.primary.light} solid`,
-        borderRadius: "5px",
-        p: "5px 14px 5px 5px",
-        mt: "10px",
-        position: "relative",
+        ml: 11,
+        p: 0.5,
+        border: `solid 1px ${theme.palette.primary.light}`,
+        borderRadius: 1,
       })}
     >
-      {/* FIELD */}
+      {/* Field */}
       <Autocomplete
-        value={node.field === "" ? null : node.field}
-        onChange={(_: SyntheticEvent, newField: string | null) => {
-          setField(newField ?? "");
-        }}
-        options={fieldsList}
-        getOptionLabel={(option) => t(`fields.${option}.title`)}
-        fullWidth
         size="small"
+        fullWidth
+        options={FIELD_NAMES}
+        value={field}
+        onChange={handleFieldChange}
+        getOptionLabel={(option) => t(`fields.${option}.title`)}
         renderInput={(params) => (
-          <Box position="relative">
-            <TextField
-              {...params}
-              fullWidth
-              label={!focus && node.field === "" ? t("field") : null}
-              error={displayError && node.field === ""}
-              InputLabelProps={{
-                style: { color: "#D9D9D9" },
-              }}
-              placeholder={t("search")}
-              sx={{
-                ...commonStyles,
-                position: "absolute",
-                border: "1px solid rgba(0, 0, 0, 0.23)",
-                borderRadius: "4px",
-                "&::before": {
-                  position: "absolute",
-                  borderRadius: "4px",
-                  left: "1px",
-                  right: "1px",
-                  top: "1px",
-                  bottom: "1px",
-                  border: "5px solid white",
-                  content: '""',
-                },
-                backgroundColor: focus ? "common.white" : "",
-              }}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {focus && <SearchIcon />}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          </Box>
+          <AutocompleteInput
+            label={t("Dropdown.field")}
+            placeholder={t("Dropdown.searchField")}
+            error={displayErrors && field == null}
+            {...params}
+          />
         )}
         renderOption={(props, option) => {
           // @ts-expect-error "key" is not in HTMLAttributes<HTMLLIElement> but it is actually there at runtime
           const { key, ...rest } = props;
 
-          return (
-            <MenuItem
-              key={key}
-              {...rest}
-              sx={{
-                display: "block !important",
-                width: "100%",
-                fontWeight: 400,
-                fontFamily: inter.style.fontFamily,
-                my: "5px !important",
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: "0.875rem",
-                }}
-              >
-                {t(`fields.${option}.title`)}
-              </Typography>
-              <Typography
-                color="text.secondary"
-                sx={{
-                  wordWrap: "break-word",
-                  whiteSpace: "normal",
-                  fontSize: "0.5rem",
-                }}
-              >
-                <i>{t(`fields.${option}.description`)}</i>
-              </Typography>
-            </MenuItem>
-          );
-        }}
-        onFocusCapture={() => {
-          setFocus(true);
-        }}
-        onBlurCapture={() => {
-          setFocus(false);
-        }}
-        blurOnSelect
-        sx={{
-          "& .MuiOutlinedInput-notchedOutline": {
-            border: "none",
-          },
+          return <FieldInputMenuItem key={key} option={option} {...rest} />;
         }}
       />
 
-      {/* COMPARATOR */}
-      <TextField
+      {/* Comparator */}
+      <Autocomplete
         size="small"
-        focused={false}
         fullWidth
-        select
-        value={node.comparator}
-        label={node.comparator === "" ? t("comparator") : null}
-        onChange={(e) => {
-          setComparator(e.target.value as Comparator);
+        options={getComparators(fieldType)}
+        value={comparator}
+        onChange={handleComparatorChange}
+        getOptionLabel={(option) => t(`Dropdown.${option}`)}
+        renderInput={(params) => (
+          <AutocompleteInput
+            label={t("Dropdown.comparator")}
+            placeholder={t("Dropdown.searchComparator")}
+            error={displayErrors && comparator == null}
+            {...params}
+          />
+        )}
+      />
+
+      {/* Value */}
+      {(() => {
+        if (fieldType === "number") {
+          if (
+            comparator != null &&
+            (rangeComparators as readonly Comparator[]).includes(comparator)
+          ) {
+            // Range
+            return (
+              <Stack direction="row" spacing={2} width="100%">
+                {/* Min */}
+                <TextField
+                  size="small"
+                  type="number"
+                  fullWidth
+                  label={t("Dropdown.minValue")}
+                  value={minValue}
+                  onChange={handleMinValueChange}
+                  error={displayErrors && minValue === ""}
+                  sx={fontFamilyStyle}
+                />
+
+                {/* Max */}
+                <TextField
+                  size="small"
+                  type="number"
+                  fullWidth
+                  label={t("Dropdown.maxValue")}
+                  value={maxValue}
+                  onChange={handleMaxValueChange}
+                  error={displayErrors && maxValue === ""}
+                  sx={fontFamilyStyle}
+                />
+              </Stack>
+            );
+          }
+
+          // Number
+          return (
+            <TextField
+              size="small"
+              type="number"
+              fullWidth
+              label={t("Dropdown.value")}
+              value={numberValue}
+              onChange={handleNumberValueChange}
+              error={displayErrors && numberValue === ""}
+              sx={fontFamilyStyle}
+            />
+          );
+        }
+
+        if (fieldType === "boolean") {
+          // Boolean
+          return (
+            <Autocomplete
+              size="small"
+              fullWidth
+              options={[true, false]}
+              value={booleanValue}
+              onChange={handleBooleanValueChange}
+              getOptionLabel={(option) => t(`Dropdown.${option}`)}
+              renderInput={(params) => (
+                <AutocompleteInput
+                  label={t("Dropdown.value")}
+                  placeholder={t("Dropdown.searchValue")}
+                  error={displayErrors && booleanValue == null}
+                  {...params}
+                />
+              )}
+            />
+          );
+        }
+
+        // Text
+        return (
+          <TextField
+            size="small"
+            fullWidth
+            label={t("Dropdown.value")}
+            value={textValue}
+            onChange={handleTextValueChange}
+            error={displayErrors && textValue === ""}
+            sx={fontFamilyStyle}
+          />
+        );
+      })()}
+
+      {/* Remove button */}
+      <IconButton
+        data-testid="remove-rule-button"
+        onClick={remove}
+        sx={{
+          "&.MuiButtonBase-root": {
+            ml: 0,
+          },
         }}
-        error={displayError && node.comparator === ""}
-        InputLabelProps={{
-          style: { color: "#D9D9D9" },
-        }}
-        // TODO: without 23
-        sx={commonStyles}
       >
-        {getComparators()}
-      </TextField>
-
-      {/* VALUE */}
-      {getRightValueField(node)}
-
-      {/* REMOVE BUTTON */}
-      <IconButton onClick={remove} sx={{ width: "16px", p: 0 }}>
         <CancelIcon color="error" />
       </IconButton>
     </Stack>

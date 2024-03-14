@@ -1,22 +1,17 @@
-import React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import SearchButton from "./SearchButton";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname } from "@/i18n/navigation";
+import { useOnHomePage } from "@/lib/hooks";
+import type { ClientComponent } from "@/types/next";
 
-const SearchBar = ({
-  children,
-  loading,
-}: {
-  children: React.ReactNode;
-  loading?: boolean;
-}) => {
+const SearchBar: ClientComponent<{}, true> = ({ children }) => {
   const t = useTranslations("home.SearchSection.SearchInput");
-  const onHomePage = usePathname() === "/";
-  const { resultsCount } = useQueryContext();
+  const onHomePage = useOnHomePage();
+  const { resultsCount, loading } = useQueryContext();
+
   return (
-    <Stack spacing={1}>
+    <Stack spacing={1} sx={{ mb: { xs: 0, sm: 2 } }}>
       {loading === true ? (
         <Skeleton variant="text" sx={{ fontSize: "0.6875rem" }} width={130} />
       ) : (
@@ -53,7 +48,7 @@ const SearchBar = ({
       >
         {children}
 
-        <SearchButton loading={loading} />
+        <SearchButton />
       </Box>
     </Stack>
   );

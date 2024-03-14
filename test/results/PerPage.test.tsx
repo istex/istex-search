@@ -21,9 +21,12 @@ describe("PerPage", () => {
     });
     await userEvent.click(secondOption);
 
-    expect(router.replace).toBeCalledWith(`/?perPage=${secondOptionLabel}`, {
-      scroll: false,
-    });
+    expect(router.replace).toHaveBeenCalledWith(
+      `/?perPage=${secondOptionLabel}`,
+      {
+        scroll: false,
+      },
+    );
   });
 
   it("initializes the dropdown value based on the perPage in the URL", () => {

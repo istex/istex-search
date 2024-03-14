@@ -1,164 +1,211 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
 import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Button as MuiButton, Box, Stack } from "@mui/material";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import { Box, Button as MuiButton, Stack } from "@mui/material";
 import Operator from "./Operator";
 import Rule from "./Rule";
 import {
-  addGroup,
-  addRule,
-  removeNode,
-  setOperator,
-  setGroup as setGroupData,
-  setField,
-  setComparator,
-  setValue,
-  setRangeValue,
-  getHeight,
-} from "./utils";
-import type {
-  AST,
-  Comparator,
-  Operator as OperatorType,
-  Node,
-} from "@/lib/queryAst";
+  getDefaultOperatorNode,
+  getEmptyFieldNode,
+  getEmptyGroupNode,
+  type FieldNode,
+  type Node,
+  type OperatorNode,
+} from "@/lib/assistedSearch/ast";
+import type { ClientComponent } from "@/types/next";
 
-const Group = ({
-  nodes,
-  displayError,
-  updateData,
-  remove,
-}: {
-  nodes: AST;
-  displayError: boolean;
-  updateData: (newEntry: AST) => void;
+interface GroupProps {
+  root?: boolean;
+  displayErrors: boolean;
+  childNodes: Node[];
+  setChildNodes: (childNodes: Node[]) => void;
   remove: () => void;
-}) => {
-  const [group, setGroup] = useState(nodes);
-  const t = useTranslations("home.SearchSection.SearchInput.AssistedInput");
+}
 
-  const getNodeComponent = (node: Node, index: number) => {
-    switch (node.nodeType) {
-      case "group":
-        return (
-          <Group
-            key={index}
-            nodes={node.nodes}
-            displayError={displayError}
-            updateData={(newEntry: Node[]) => {
-              setGroupData(setGroup, group, index, newEntry);
-            }}
-            remove={() => {
-              removeNode(setGroup, group, index);
-            }}
-          />
-        );
-      case "node":
-        return (
-          <Rule
-            key={index}
-            node={node}
-            displayError={displayError}
-            setField={(newField: string) => {
-              setField(setGroup, group, index, newField);
-            }}
-            setComparator={(newComparator: Comparator) => {
-              setComparator(setGroup, group, index, newComparator);
-            }}
-            setValue={(newValue: string | number | boolean | null) => {
-              setValue(setGroup, group, index, newValue);
-            }}
-            setRangeValue={({
-              min,
-              max,
-            }: {
-              min?: number | null | "*";
-              max?: number | null | "*";
-            }) => {
-              setRangeValue(setGroup, group, index, min, max);
-            }}
-            remove={() => {
-              if (group.length === 1) remove();
-              else removeNode(setGroup, group, index);
-            }}
-          />
-        );
-      default:
-        return (
-          <Operator
-            key={index}
-            operator={node.value}
-            setEntry={(newOperator: OperatorType) => {
-              setOperator(setGroup, group, index, newOperator);
-            }}
-            isFirstOperator={index === 1}
-            isLastOperator={index === group.length - 2}
-            precedentNodeHeight={getHeight(group[index - 1])}
-            nextNodeHeight={getHeight(group[index + 1])}
-          />
-        );
-    }
+const Group: ClientComponent<GroupProps> = ({
+  root,
+  displayErrors,
+  childNodes,
+  setChildNodes,
+  remove,
+}) => {
+  const t = useTranslations(
+    "home.SearchSection.SearchInput.AssistedSearchInput",
+  );
+  const firstOperator = childNodes.find(
+    (child) => child.nodeType === "operator",
+  );
+  const lastOperator = childNodes.findLast(
+    (child) => child.nodeType === "operator",
+  );
+  const isRoot = root === true;
+
+  const addRule = () => {
+    setChildNodes([
+      ...childNodes,
+      getDefaultOperatorNode(),
+      getEmptyFieldNode(),
+    ]);
   };
 
-  useEffect(() => {
-    updateData(group);
+  const addGroup = () => {
+    setChildNodes([
+      ...childNodes,
+      getDefaultOperatorNode(),
+      getEmptyGroupNode(),
+    ]);
+  };
 
-    // Adding updateData to the dependency array creates an infinite loop of renders here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [group]);
+  const removeNode = (index: number) => {
+    const isFirst = index === 0;
+    const isLast = index === childNodes.length - 1;
+    const previousNodeIndex = index - 1;
+    const nextNodeIndex = index + 1;
+    const previousNode =
+      previousNodeIndex >= 0 ? childNodes[previousNodeIndex] : null;
+    const nextNode =
+      nextNodeIndex <= childNodes.length - 1 ? childNodes[nextNodeIndex] : null;
+    const isPrecededByOperator =
+      previousNode != null && previousNode.nodeType === "operator";
+    const isFollowedByOperator =
+      nextNode != null && nextNode.nodeType === "operator";
+
+    // It is important to keep the splice calls in this order not
+    // to mess up the indices
+
+    if (isFirst && isFollowedByOperator) {
+      childNodes.splice(nextNodeIndex, 1);
+    }
+
+    childNodes.splice(index, 1);
+
+    if (
+      (isLast && isPrecededByOperator) ||
+      (previousNode != null && nextNode != null)
+    ) {
+      childNodes.splice(previousNodeIndex, 1);
+    }
+
+    // If the group became empty, fill it with one empty rule again
+    if (childNodes.length === 0) {
+      childNodes.push(getEmptyFieldNode());
+    }
+
+    setChildNodes([...childNodes]);
+  };
 
   return (
     <Box
-      ml={11}
+      data-testid="group"
       className="group"
       sx={(theme) => ({
-        border: `1px ${theme.palette.primary.light} solid`,
-        borderRadius: "10px",
-        mt: "10px",
-        ":hover:not(:has(.group:hover))": {
-          ".group": {
-            backgroundColor: "white",
+        px: 0.5,
+        pb: 0.5,
+        borderRadius: `${theme.shape.borderRadius}px`,
+        ...(!isRoot && {
+          mt: 1,
+          ml: 11,
+          border: `solid 1px ${theme.palette.colors.blue}`,
+          "&:hover:not(:has(.group:hover))": {
+            backgroundColor: "colors.lightBlue",
+            ".group": {
+              backgroundColor: "white",
+            },
+            "& > div > div > .operator": {
+              backgroundColor: "colors.lightBlue",
+            },
           },
-          backgroundColor: theme.palette.colors.lightBlue,
-          "& > div > div > .operator": {
-            backgroundColor: theme.palette.colors.lightBlue,
-          },
-        },
+        }),
       })}
     >
-      <Stack
-        direction="row"
-        justifyContent="flex-end"
-        spacing="10px"
-        mb="-15px"
-      >
+      {/* Buttons */}
+      <Stack direction="row" justifyContent="end" spacing={1}>
         <MuiButton
-          sx={{ color: "colors.lightGreen" }}
           startIcon={<AddCircleIcon />}
-          onClick={() => {
-            addRule(setGroup, group);
-          }}
+          onClick={addRule}
+          sx={{ color: "colors.lightGreen" }}
         >
           {t("addRule")}
         </MuiButton>
         <MuiButton
-          color="info"
           startIcon={<AddCircleIcon />}
-          onClick={() => {
-            addGroup(setGroup, group);
-          }}
+          onClick={addGroup}
+          sx={{ color: "colors.blue" }}
         >
           {t("addGroup")}
         </MuiButton>
-        <MuiButton color="error" startIcon={<CancelIcon />} onClick={remove}>
-          {t("remove")}
+        <MuiButton
+          color={isRoot ? "warning" : "error"}
+          startIcon={isRoot ? <RestartAltIcon /> : <CancelIcon />}
+          onClick={remove}
+        >
+          {isRoot ? t("reset") : t("remove")}
         </MuiButton>
       </Stack>
 
-      <Box p={0.75}>
-        {group.map((node, index) => {
-          return getNodeComponent(node, index);
+      <Box
+        sx={{
+          "& > .rule:not(:first-child)": {
+            mt: 1,
+          },
+        }}
+      >
+        {childNodes.map((child, i) => {
+          switch (child.nodeType) {
+            case "node":
+              return (
+                <Rule
+                  key={child.id}
+                  displayErrors={displayErrors}
+                  node={child}
+                  setNode={(newNode: FieldNode) => {
+                    Object.assign(child, newNode);
+                    setChildNodes([...childNodes]);
+                  }}
+                  remove={() => {
+                    removeNode(i);
+                  }}
+                />
+              );
+
+            case "group":
+              return (
+                <Group
+                  key={child.id}
+                  displayErrors={displayErrors}
+                  root={child.root}
+                  childNodes={child.nodes}
+                  setChildNodes={(newChildren) => {
+                    child.nodes = newChildren;
+                    setChildNodes([...childNodes]);
+                  }}
+                  remove={() => {
+                    removeNode(i);
+                  }}
+                />
+              );
+
+            case "operator":
+              return (
+                <Operator
+                  key={child.id}
+                  node={child}
+                  setNode={(newNode: OperatorNode) => {
+                    Object.assign(child, newNode);
+                    setChildNodes([...childNodes]);
+                  }}
+                  previousNode={childNodes[i - 1]}
+                  nextNode={childNodes[i + 1]}
+                  first={child === firstOperator}
+                  last={child === lastOperator}
+                />
+              );
+            default:
+              return null;
+          }
         })}
       </Box>
     </Box>

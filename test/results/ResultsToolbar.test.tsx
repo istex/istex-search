@@ -1,4 +1,5 @@
 import {
+  mockPathname,
   mockSearchParams,
   customRender as render,
   screen,
@@ -8,9 +9,12 @@ import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
 import { useRouter } from "@/i18n/navigation";
 
 describe("ResultsToolbar", () => {
-  afterEach(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    mockPathname("/");
   });
+
+  afterEach(jest.resetAllMocks);
+
   it("should render correctly", () => {
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
     expect(screen.getByText("trier par :")).toBeInTheDocument();
@@ -24,7 +28,7 @@ describe("ResultsToolbar", () => {
     expect(listButton).not.toHaveClass("Mui-selected");
   });
 
-  it("should renders correctly when the sort direction is desc", () => {
+  it("should render correctly when the sort direction is desc", () => {
     mockSearchParams({
       sortBy: "publicationDate",
       sortDirection: "desc",
@@ -34,7 +38,7 @@ describe("ResultsToolbar", () => {
     expect(sortDirButton).toBeInTheDocument();
   });
 
-  it("should renders selected sort field according to the search params", () => {
+  it("should render selected sort field according to the search params", () => {
     mockSearchParams({
       sortBy: "publicationDate",
     });
@@ -99,7 +103,7 @@ describe("ResultsToolbar", () => {
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
     await userEvent.click(titleSortOption);
-    expect(router.replace).toBeCalledWith("/?sortBy=title.raw", {
+    expect(router.replace).toHaveBeenCalledWith("/?sortBy=title.raw", {
       scroll: false,
     });
   });
@@ -112,30 +116,9 @@ describe("ResultsToolbar", () => {
     render(<ResultsToolbar columns={2} setColumns={() => {}} />);
     const sortDirButton = screen.getByLabelText("ordre croissant");
     await userEvent.click(sortDirButton);
-    expect(router.replace).toBeCalledWith(
+    expect(router.replace).toHaveBeenCalledWith(
       "/?sortBy=title.raw&sortDirection=desc",
       { scroll: false },
     );
-  });
-
-  it("should display a spinner when the sort direction button is clicked", async () => {
-    mockSearchParams({
-      sortBy: "title.raw",
-    });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
-    const sortDirButton = screen.getByLabelText("ordre croissant");
-    await userEvent.click(sortDirButton);
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
-  });
-
-  it("should display a spinner when the sort field is changed", async () => {
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
-    const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
-    await userEvent.click(sortSelectElement);
-    const titleSortOption = screen.getByText("titre");
-    await userEvent.click(titleSortOption);
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

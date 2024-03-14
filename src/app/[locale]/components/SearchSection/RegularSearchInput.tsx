@@ -4,31 +4,30 @@ import {
   useState,
   type ChangeEventHandler,
   type FormEventHandler,
-  type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
 import QueryExamplesList from "./QueryExamplesList";
+import SearchBar from "./SearchBar";
 import SearchTitle from "./SearchTitle";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname } from "@/i18n/navigation";
+import { useOnHomePage } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const RegularSearchInput: ClientComponent<{
-  searchBar: (child: ReactNode) => ReactNode;
   goToResultsPage: (
     newQueryString: string,
     setErrorMessage: (errorMessage: string) => void,
     setQueryString: (queryString: string) => void,
   ) => void;
-}> = ({ searchBar, goToResultsPage }) => {
+}> = ({ goToResultsPage }) => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
   const [queryString, setQueryString] = useState(useQueryContext().queryString);
   const [errorMessage, setErrorMessage] = useState("");
-  const onHomePage = usePathname() === "/";
+  const onHomePage = useOnHomePage();
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
@@ -42,8 +41,9 @@ const RegularSearchInput: ClientComponent<{
 
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
-      <SearchTitle title={onHomePage ? t("searchTitle") : t("resultsTitle")} />
-      {searchBar(
+      <SearchTitle />
+
+      <SearchBar>
         <MultilineTextField
           id="regular-search-input"
           onChange={handleChange}
@@ -71,8 +71,8 @@ const RegularSearchInput: ClientComponent<{
               borderBottomRightRadius: { xs: 4, sm: 0 },
             },
           }}
-        />,
-      )}
+        />
+      </SearchBar>
 
       {onHomePage && (
         <QueryExamplesList

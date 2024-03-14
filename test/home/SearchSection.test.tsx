@@ -4,7 +4,7 @@ import {
   screen,
 } from "../test-utils";
 import SearchSection from "@/app/[locale]/components/SearchSection/SearchSection";
-import { SEARCH_MODE_ADVANCED, SEARCH_MODE_ASSISTED } from "@/config";
+import { SEARCH_MODE_IMPORT, SEARCH_MODE_ASSISTED } from "@/config";
 
 describe("SearchSection", () => {
   it("should render the RegularSearchInput", () => {
@@ -15,7 +15,7 @@ describe("SearchSection", () => {
   });
   it("should render the ImportInput", () => {
     mockSearchParams({
-      searchMode: SEARCH_MODE_ADVANCED,
+      searchMode: SEARCH_MODE_IMPORT,
     });
     render(<SearchSection />);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(

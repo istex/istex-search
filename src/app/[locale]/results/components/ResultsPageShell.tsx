@@ -18,10 +18,14 @@ const ResultsPageShell: ServerComponent<
   },
   true
 > = ({ queryString, resultsCount, facets, results, loading, children }) => (
-  <QueryProvider queryString={queryString} resultsCount={resultsCount}>
+  <QueryProvider
+    queryString={queryString}
+    resultsCount={resultsCount}
+    loading={loading}
+  >
     <DocumentProvider results={results}>
       <FacetProvider facets={facets}>
-        <SearchSection loading={loading} />
+        <SearchSection />
         <RawRequest />
 
         <Container component="section" sx={{ pb: 6 }}>

@@ -1,4 +1,3 @@
-import { emptyRule } from "@/app/[locale]/components/SearchSection/AssistedSearch/utils";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -6,13 +5,14 @@ import {
   MAX_PER_PAGE,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
-  SEARCH_MODE_ADVANCED,
+  SEARCH_MODE_IMPORT,
   SEARCH_MODE_ASSISTED,
   SEARCH_MODE_REGULAR,
   formats,
   istexApiConfig,
   perPageOptions,
 } from "@/config";
+import { getEmptyAst, type AST } from "@/lib/assistedSearch/ast";
 import useSearchParams from "@/lib/useSearchParams";
 
 describe("SearchParams class", () => {
@@ -312,66 +312,13 @@ describe("SearchParams class", () => {
     expect(searchParams.getLastAppliedFacet()).toBe("");
   });
 
-  it("should check is mode regular", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-    });
-
-    expect(searchParams.isSearchModeRegular()).toBe(true);
-  });
-
-  it("shouldn't check is mode regular", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      searchMode: SEARCH_MODE_ADVANCED,
-    });
-
-    expect(searchParams.isSearchModeRegular()).toBe(false);
-  });
-
-  it("should check is mode assisted", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      searchMode: SEARCH_MODE_ASSISTED,
-    });
-
-    expect(searchParams.isSearchModeAssisted()).toBe(true);
-  });
-
-  it("shouldn't check is mode assisted", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      searchMode: SEARCH_MODE_ADVANCED,
-    });
-
-    expect(searchParams.isSearchModeAssisted()).toBe(false);
-  });
-
-  it("should check is mode advanced", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      searchMode: SEARCH_MODE_ADVANCED,
-    });
-
-    expect(searchParams.isSearchModeAdvanced()).toBe(true);
-  });
-
-  it("shouldn't check is mode advanced", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      searchMode: SEARCH_MODE_ASSISTED,
-    });
-
-    expect(searchParams.isSearchModeAdvanced()).toBe(false);
-  });
-
   it("should get search mode", () => {
     const searchParams = useSearchParams({
       q: "hello",
-      searchMode: SEARCH_MODE_ADVANCED,
+      searchMode: SEARCH_MODE_IMPORT,
     });
 
-    expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_ADVANCED);
+    expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_IMPORT);
   });
 
   it("should set search mode", () => {
@@ -396,57 +343,60 @@ describe("SearchParams class", () => {
   });
 
   it("should get ast", () => {
-    const searchParams = useSearchParams({
-      q: "hello",
-      ast: '[{"nodeType":"node","fieldType":"text","field":"author.affiliations","value":"rien","comparator":"notEquals"}]',
-    });
-
-    expect(searchParams.getAst()).toStrictEqual([
+    const ast: AST = [
       {
         nodeType: "node",
         fieldType: "text",
-        field: "author.affiliations",
-        value: "rien",
-        comparator: "notEquals",
+        field: "abstract",
+        value: "foo",
+        comparator: "equals",
       },
-    ]);
+    ];
+    const searchParams = useSearchParams({
+      q: "hello",
+      ast: btoa(JSON.stringify(ast)),
+    });
+
+    expect(searchParams.getAst()).toEqual(ast);
   });
 
   it("should set ast", () => {
+    const ast: AST = [
+      {
+        nodeType: "node",
+        fieldType: "text",
+        field: "abstract",
+        value: "foo",
+        comparator: "equals",
+      },
+    ];
     const searchParams = useSearchParams({
       q: "hello",
     });
 
-    searchParams.setAst([
-      {
-        nodeType: "node",
-        fieldType: "text",
-        field: "abstract",
-        value: "",
-        comparator: "",
-      },
-    ]);
+    searchParams.setAst(ast);
 
-    expect(searchParams.getAst()).toStrictEqual([
-      {
-        nodeType: "node",
-        fieldType: "text",
-        field: "abstract",
-        value: "",
-        comparator: "",
-      },
-    ]);
+    expect(searchParams.getAst()).toEqual(ast);
   });
 
   it("should delete ast", () => {
+    const ast: AST = [
+      {
+        nodeType: "node",
+        fieldType: "text",
+        field: "abstract",
+        value: "foo",
+        comparator: "equals",
+      },
+    ];
     const searchParams = useSearchParams({
       q: "hello",
-      ast: '[{nodeType:"node", fieldType:"text", field: "abstract", value: "", comparator: ""}]',
+      ast: btoa(JSON.stringify(ast)),
     });
 
     searchParams.deleteAst();
 
-    expect(searchParams.getAst()).toStrictEqual([{ ...emptyRule }]);
+    expect(searchParams.getAst()).toEqual(getEmptyAst());
   });
 
   it("should get sort by", () => {
@@ -507,5 +457,13 @@ describe("SearchParams class", () => {
     searchParams.deleteSortDirection();
 
     expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
+  });
+
+  // Make Math.random always return the same value to avoid mismatches in node IDs when testing
+  beforeAll(() => {
+    jest.spyOn(Math, "random").mockReturnValue(0);
+  });
+  afterAll(() => {
+    jest.spyOn(Math, "random").mockRestore();
   });
 });

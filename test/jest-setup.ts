@@ -13,7 +13,7 @@ const routerMock = {
 mock("@/i18n/navigation", {
   redirect: jest.fn(),
   useRouter: () => routerMock,
-  usePathname: () => "/",
+  usePathname: jest.fn(() => "/"),
 });
 
 mock("next-intl/server", {

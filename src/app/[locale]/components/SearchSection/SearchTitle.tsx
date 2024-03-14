@@ -7,19 +7,50 @@ import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import SearchByIdIcon from "@/../public/id-search.svg";
 import Button from "@/components/Button";
 import {
-  SEARCH_MODE_ADVANCED,
+  SEARCH_MODE_IMPORT,
   SEARCH_MODE_ASSISTED,
   SEARCH_MODE_REGULAR,
+  searchModes,
   type SearchMode,
 } from "@/config";
 import { useRouter } from "@/i18n/navigation";
+import { useOnHomePage } from "@/lib/hooks";
 import useSearchParams from "@/lib/useSearchParams";
+import type { ClientComponent } from "@/types/next";
 
-const SearchTitle = ({ title }: { title: string }) => {
+const SearchTitle: ClientComponent = () => {
   const t = useTranslations("home.SearchSection");
   const searchParams = useSearchParams();
+  const searchMode = searchParams.getSearchMode();
   const router = useRouter();
   const { resetSelectedExcludedDocuments } = useDocumentContext();
+  const onHomePage = useOnHomePage();
+
+  const getTranslationKey = () => {
+    let key = "SearchInput";
+
+    switch (searchMode) {
+      case SEARCH_MODE_REGULAR:
+        key += ".RegularSearchInput";
+        break;
+      case SEARCH_MODE_IMPORT:
+        key += ".ImportInput";
+        break;
+      case SEARCH_MODE_ASSISTED:
+        key += ".AssistedSearchInput";
+        break;
+      default:
+        throw new Error("Unknown search mode");
+    }
+
+    if (onHomePage) {
+      key += ".searchTitle";
+    } else {
+      key += ".resultsTitle";
+    }
+
+    return key;
+  };
 
   const goToHomePage = (searchMode: SearchMode) => {
     searchParams.clear();
@@ -31,82 +62,52 @@ const SearchTitle = ({ title }: { title: string }) => {
   return (
     <Stack direction="row" justifyContent="space-between">
       <Typography variant="h5" component="h1" gutterBottom>
-        {title}
+        {t(getTranslationKey())}
       </Typography>
       <Stack direction="row" spacing={1}>
-        <Button
-          mainColor="lightBlue"
-          variant="contained"
-          sx={(theme) => ({
-            color: theme.palette.primary.main,
-            bgColor: theme.palette.colors.lightBlue,
-            border: searchParams.isSearchModeRegular()
-              ? `1px solid ${theme.palette.primary.main}`
-              : "",
-            boxShadow: searchParams.isSearchModeRegular()
-              ? "0px 3px 3px 0px rgba(0,0,0,0.25)"
-              : "",
-            minWidth: "40px",
-            maxWidth: "40px",
-            height: "40px",
-          })}
-          title={t("regularButton")}
-          onClick={() => {
-            goToHomePage(SEARCH_MODE_REGULAR);
-          }}
-          data-testid="regular-search-button"
-        >
-          <SearchIcon sx={{ p: 0 }} />
-        </Button>
-        <Button
-          mainColor="lightBlue"
-          variant="contained"
-          sx={(theme) => ({
-            bgColor: theme.palette.colors.lightBlue,
-            border: searchParams.isSearchModeAssisted()
-              ? `1px solid ${theme.palette.primary.main}`
-              : "",
-            boxShadow: searchParams.isSearchModeAssisted()
-              ? "0px 3px 3px 0px rgba(0,0,0,0.25)"
-              : "",
-            minWidth: "40px",
-            maxWidth: "40px",
-            height: "40px",
-          })}
-          title={t("assistedButton")}
-          onClick={() => {
-            goToHomePage(SEARCH_MODE_ASSISTED);
-          }}
-          data-testid="assisted-search-button"
-        >
-          <Image src={AssistedSearchIcon} alt="Assisted-search" />
-        </Button>
-        <Button
-          mainColor="lightBlue"
-          variant="contained"
-          sx={(theme) => ({
-            bgColor: theme.palette.colors.lightBlue,
-            border: searchParams.isSearchModeAdvanced()
-              ? `1px solid ${theme.palette.primary.main}`
-              : "",
-            boxShadow: searchParams.isSearchModeAdvanced()
-              ? "0px 3px 3px 0px rgba(0,0,0,0.25)"
-              : "",
-            minWidth: "40px",
-            maxWidth: "40px",
-            height: "40px",
-          })}
-          title={t("advancedButton")}
-          onClick={() => {
-            goToHomePage(SEARCH_MODE_ADVANCED);
-          }}
-          data-testid="advanced-search-button"
-        >
-          <Image src={SearchByIdIcon} alt="Advanced-search" />
-        </Button>
+        {searchModes.map((mode) => (
+          <Button
+            key={mode}
+            mainColor="lightBlue"
+            variant="contained"
+            sx={(theme) => ({
+              color: theme.palette.primary.main,
+              bgColor: theme.palette.colors.lightBlue,
+              border:
+                mode === searchMode
+                  ? `1px solid ${theme.palette.primary.main}`
+                  : "",
+              boxShadow:
+                mode === searchMode ? "0px 3px 3px 0px rgba(0,0,0,0.25)" : "",
+              minWidth: "40px",
+              maxWidth: "40px",
+              height: "40px",
+            })}
+            title={t(`${mode}Button`)}
+            onClick={() => {
+              goToHomePage(mode);
+            }}
+            data-testid={`${mode}-search-button`}
+          >
+            <Icon searchMode={mode} />
+          </Button>
+        ))}
       </Stack>
     </Stack>
   );
+};
+
+const Icon: ClientComponent<{ searchMode: SearchMode }> = ({ searchMode }) => {
+  switch (searchMode) {
+    case SEARCH_MODE_REGULAR:
+      return <SearchIcon sx={{ p: 0 }} />;
+    case SEARCH_MODE_IMPORT:
+      return <Image src={SearchByIdIcon} alt="search by id" />;
+    case SEARCH_MODE_ASSISTED:
+      return <Image src={AssistedSearchIcon} alt="assisted search" />;
+    default:
+      throw new Error("Unknown search mode");
+  }
 };
 
 export default SearchTitle;

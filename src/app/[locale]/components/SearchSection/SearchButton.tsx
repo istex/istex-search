@@ -1,15 +1,15 @@
 import { useTranslations } from "next-intl";
 import { Box, CircularProgress } from "@mui/material";
 import Button from "@/components/Button";
+import { useQueryContext } from "@/contexts/QueryContext";
+import type { ClientComponent } from "@/types/next";
 
-const SearchButton = ({
-  loading,
+const SearchButton: ClientComponent<{ isAlone?: boolean }> = ({
   isAlone = false,
-}: {
-  loading?: boolean;
-  isAlone?: boolean;
 }) => {
   const t = useTranslations("home.SearchSection.SearchInput");
+  const { loading } = useQueryContext();
+
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Button

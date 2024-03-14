@@ -1,178 +1,181 @@
 "use client";
 
 import {
-  useState,
   type ChangeEventHandler,
+  type ElementRef,
   type FormEventHandler,
-  type ReactNode,
+  useRef,
+  useState,
 } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import { useDocumentContext } from "../../results/Document/DocumentContext";
+import SearchBar from "./SearchBar";
 import SearchTitle from "./SearchTitle";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
+import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
+import CustomError from "@/lib/CustomError";
 import {
-  buildQueryFromIds,
-  getIdsFromQuery,
-  isValidDoi,
-  isValidIstexId,
+  buildQueryStringFromIds,
+  getIdTypeFromId,
+  getIdTypeFromQueryString,
+  getIdsFromQueryString,
   parseCorpusFileContent,
-} from "@/lib/utils";
-import type { ClientComponent, ColumnId } from "@/types/next";
+} from "@/lib/queryIds";
+import useSearchParams from "@/lib/useSearchParams";
+import type { ClientComponent } from "@/types/next";
 
-const ImportInput: ClientComponent<{
-  searchBar: (child: ReactNode) => ReactNode;
-  goToResultsPage: (
-    newQueryString: string,
-    setErrorMessage: (errorMessage: string) => void,
-  ) => void;
-}> = ({ searchBar, goToResultsPage }) => {
+const ImportInput: ClientComponent = () => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
-  const tErrors = useTranslations("errors");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [queryStringById, setQueryStringById] = useState(
-    getIdsFromQuery(useQueryContext().queryString),
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { queryString } = useQueryContext();
+  const idType = getIdTypeFromQueryString(queryString);
+  const [idList, setIdList] = useState(
+    getIdsFromQueryString(idType, queryString).join("\n"),
   );
-  const onHomePage = usePathname() === "/";
-  const [columnToSearch, setColumnToSearch] = useState(
-    useQueryContext().queryString.split(".")[0],
-  );
-  const [errorLines, setErrorLines] = useState(
-    buildQueryFromIds(columnToSearch as ColumnId, queryStringById).errorLines,
-  );
+  const [error, setError] = useState<CustomError | null>(null);
+  const fileInputRef = useRef<ElementRef<"input">>(null);
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
-  const corpusFileHandler = (file: File) => {
-    if (!file.name.endsWith(".corpus")) {
-      setErrorMessage(tErrors("fileExtensionError"));
-      return;
-    }
-    setErrorMessage("");
-    const reader = new window.FileReader();
-    reader.readAsText(file, "utf-8");
-    reader.onload = (event) => {
-      const result = event.target?.result;
-      const query = parseCorpusFileContent(result as string);
-      setQueryStringById(query);
-    };
-    reader.onerror = () => {
-      setErrorMessage(tErrors("fileReadError"));
-    };
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setIdList(event.target.value);
   };
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
+    setError(null);
 
-    const firstLine = queryStringById.split("\n")[0];
-    let columnToSearch: ColumnId;
-    if (isValidDoi(firstLine)) {
-      columnToSearch = "doi";
-    } else if (isValidIstexId(firstLine)) {
-      columnToSearch = "arkIstex";
-    } else {
-      setErrorMessage(tErrors("invalidIdError"));
+    const ids = idList.trim().split("\n");
+    const firstId = ids[0];
+
+    if (firstId === "") {
+      setError(new CustomError({ name: "EmptyIdsError" }));
       return;
     }
 
-    const { query, errorLines } = buildQueryFromIds(
-      columnToSearch,
-      queryStringById,
-    );
-    setColumnToSearch(columnToSearch);
-    setErrorLines(errorLines);
+    // The ID type of the whole list is based on the ID type of the first ID
+    let newQueryString;
+    try {
+      const newIdType = getIdTypeFromId(firstId);
+      if (newIdType == null) {
+        throw new CustomError({ name: "IdTypeNotSupportedError", id: firstId });
+      }
 
-    goToResultsPage(query, setErrorMessage);
+      newQueryString = buildQueryStringFromIds(newIdType, ids);
+    } catch (err) {
+      if (err instanceof CustomError) {
+        setError(err);
+      }
+      return;
+    }
+
+    goToResultsPage(newQueryString);
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setErrorMessage("");
-    setColumnToSearch("");
-    setErrorLines([]);
-    setQueryStringById(event.target.value);
+  const handleCorpusFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const file = event.target.files?.[0];
+    if (file == null) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsText(file, "utf-8");
+
+    reader.onload = (event) => {
+      const corpusFileContent = event.target?.result?.toString();
+      if (corpusFileContent == null) {
+        return;
+      }
+
+      let parsingResult;
+      try {
+        parsingResult = parseCorpusFileContent(corpusFileContent);
+      } catch (err) {
+        if (err instanceof CustomError) {
+          setError(err);
+        }
+        return;
+      }
+
+      goToResultsPage(parsingResult.queryString);
+    };
+
+    reader.onerror = () => {
+      setError(new CustomError({ name: "FileReadError" }));
+    };
+  };
+
+  const goToResultsPage = (newQueryString: string) => {
+    localStorage.setItem("lastQueryString", newQueryString);
+
+    searchParams.deleteSize();
+    searchParams.deletePage();
+    searchParams.deleteFilters();
+
+    searchParams
+      .setQueryString(newQueryString)
+      .then(() => {
+        router.push(`/results?${searchParams.toString()}`);
+        resetSelectedExcludedDocuments();
+      })
+      .catch(setError);
   };
 
   return (
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
-      <SearchTitle title={onHomePage ? t("searchTitle") : t("resultsTitle")} />
-      {searchBar(
-        <>
-          <MultilineTextField
-            id="import-search-input"
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            helperText={errorMessage}
-            required
-            autoFocus
-            error={errorMessage !== ""}
-            fullWidth
-            maxRows={8}
-            minRows={5}
-            placeholder={t("placeholder")}
-            value={queryStringById}
-            sx={{
-              mb: { xs: 2, sm: 0 },
-              // This targets the fieldset around the input
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderTopRightRadius: { xs: 4, sm: 0 },
-                borderBottomRightRadius: { xs: 4, sm: 0 },
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  onClick={() => {
-                    document.getElementById("dropzone-file")?.click();
-                  }}
-                >
-                  <Image src={SearchLogoUpload} alt="Upload .corpus file" />
-                </IconButton>
-              ),
-              sx: { alignItems: "flex-start" },
-            }}
-          />
-          <input
-            id="dropzone-file"
-            type="file"
-            accept=".corpus"
-            value=""
-            style={{ display: "none" }}
-            onChange={(event) => {
-              event.target.files !== null &&
-                corpusFileHandler(event.target.files[0]);
-            }}
-          />
-        </>,
-      )}
-      {errorLines.length > 0 && (
-        <Paper
-          elevation={0}
-          sx={(theme) => ({
-            mt: 2,
-            mb: -2,
-            bgcolor: theme.palette.colors.lightRed,
-            p: 2,
-          })}
-        >
-          <Typography
-            variant="body2"
-            sx={{
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <strong>
-              {t("errorsSyntaxCount", {
-                count: errorLines.length,
-                type: columnToSearch,
-                errorLines: errorLines.join(", "),
-              })}
-            </strong>
-          </Typography>
-        </Paper>
-      )}
+      <SearchTitle />
+
+      <SearchBar>
+        <MultilineTextField
+          name="import-input"
+          required
+          autoFocus
+          fullWidth
+          maxRows={8}
+          minRows={5}
+          placeholder={t("placeholder")}
+          error={error != null}
+          value={idList}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          sx={{
+            mb: { xs: 2, sm: 0 },
+            // This targets the fieldset around the input
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderTopRightRadius: { xs: 4, sm: 0 },
+              borderBottomRightRadius: { xs: 4, sm: 0 },
+            },
+          }}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                onClick={() => {
+                  fileInputRef.current?.click();
+                }}
+              >
+                <Image src={SearchLogoUpload} alt={t("uploadIconAlt")} />
+              </IconButton>
+            ),
+            sx: { alignItems: "flex-start" },
+          }}
+        />
+
+        <input
+          data-testid="corpus-file-input"
+          ref={fileInputRef}
+          type="file"
+          accept=".corpus"
+          style={{ display: "none" }}
+          onChange={handleCorpusFile}
+        />
+      </SearchBar>
+
+      {error != null && <ErrorCard {...error.info} />}
     </Box>
   );
 };

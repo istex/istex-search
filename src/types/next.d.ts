@@ -46,5 +46,3 @@ export type Layout<T extends object = {}> = ServerComponent<
   },
   true
 >;
-
-export type ColumnId = "doi" | "arkIstex";

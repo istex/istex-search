@@ -4,11 +4,10 @@ import {
 } from "next/navigation";
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
+import { type AST, getEmptyAst } from "./assistedSearch/ast";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import type { Filter } from "./istexApi";
-import { type AST } from "./queryAst";
 import { clamp, closest, isValidMd5 } from "./utils";
-import { emptyRule } from "@/app/[locale]/components/SearchSection/AssistedSearch/utils";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -24,8 +23,6 @@ import {
   type UsageName,
   type SearchMode,
   SEARCH_MODE_REGULAR,
-  SEARCH_MODE_ADVANCED,
-  SEARCH_MODE_ASSISTED,
 } from "@/config";
 import type { NextSearchParams } from "@/types/next";
 
@@ -284,21 +281,6 @@ class SearchParams {
     this.searchParams.delete("lastAppliedFacet");
   }
 
-  isSearchModeRegular(): boolean {
-    const value = this.searchParams.get("searchMode");
-    return value === null;
-  }
-
-  isSearchModeAdvanced(): boolean {
-    const value = this.searchParams.get("searchMode");
-    return value === SEARCH_MODE_ADVANCED;
-  }
-
-  isSearchModeAssisted(): boolean {
-    const value = this.searchParams.get("searchMode");
-    return value === SEARCH_MODE_ASSISTED;
-  }
-
   getSearchMode(): SearchMode {
     const value = this.searchParams.get("searchMode");
     if (value === null) {
@@ -322,19 +304,21 @@ class SearchParams {
   }
 
   getAst(): AST {
-    const value = this.searchParams.get("ast");
-    if (value === null) {
-      return [{ ...emptyRule }];
+    const base64Ast = this.searchParams.get("ast");
+    if (base64Ast === null) {
+      return getEmptyAst();
     }
+
     try {
-      return JSON.parse(value) as AST;
+      return JSON.parse(atob(base64Ast)) as AST;
     } catch (error) {
-      return [{ ...emptyRule }];
+      return getEmptyAst();
     }
   }
 
-  setAst(parsedAst: AST): void {
-    this.searchParams.set("ast", JSON.stringify(parsedAst));
+  setAst(ast: AST): void {
+    const base64Ast = btoa(JSON.stringify(ast));
+    this.searchParams.set("ast", base64Ast);
   }
 
   deleteAst(): void {

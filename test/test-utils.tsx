@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import { DocumentProvider } from "@/app/[locale]/results/Document/DocumentContext";
 import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
 import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
-import { DEFAULT_LOCALE } from "@/i18n/navigation";
+import { DEFAULT_LOCALE, usePathname } from "@/i18n/navigation";
 import NextIntlProvider from "@/i18n/provider";
 import messages from "@/i18n/translations/fr.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
@@ -24,6 +24,7 @@ export function customRender(
         <QueryProvider
           queryString={context?.queryString ?? ""}
           resultsCount={context?.resultsCount ?? 0}
+          loading={context?.loading}
         >
           <DocumentProvider results={context?.results}>
             {children}
@@ -50,6 +51,7 @@ export async function renderAsync<T extends object = {}>(
 
 export function mockSearchParams(searchParams: {
   q?: string;
+  ast?: string;
   extract?: string;
   size?: string;
   page?: string;
@@ -65,6 +67,10 @@ export function mockSearchParams(searchParams: {
 
 export function mockSelectedLayoutSegment(segment: string) {
   (useSelectedLayoutSegment as jest.Mock).mockReturnValue(segment);
+}
+
+export function mockPathname(pathname: string) {
+  (usePathname as jest.Mock).mockReturnValue(pathname);
 }
 
 export * from "@testing-library/react";

@@ -14,7 +14,7 @@ describe("RegularSearchInput", () => {
     const renderResult = render(<SearchSection />);
 
     const input = screen.getByRole("textbox");
-    const button = screen.getByRole("button", { name: "RECHERCHER" });
+    const button = screen.getByRole("button", { name: "Rechercher" });
 
     if (queryString != null) {
       await userEvent.type(input, queryString);
@@ -25,7 +25,7 @@ describe("RegularSearchInput", () => {
     return renderResult;
   }
 
-  beforeEach(jest.resetAllMocks);
+  beforeEach(jest.clearAllMocks);
 
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
     const router = useRouter();
@@ -33,7 +33,7 @@ describe("RegularSearchInput", () => {
 
     await search(queryString);
 
-    expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
+    expect(router.push).toHaveBeenCalledWith(`/results?q=${queryString}`);
   });
 
   it("resets the size and the page when searching", async () => {
@@ -49,7 +49,7 @@ describe("RegularSearchInput", () => {
     await search(queryString);
 
     // router.push is only called with the queryString, not the size nor the page
-    expect(router.push).toBeCalledWith(`/results?q=${queryString}`);
+    expect(router.push).toHaveBeenCalledWith(`/results?q=${queryString}`);
   });
 
   it("doesn't go to the results page when the input is empty and displays an error", async () => {
@@ -63,7 +63,7 @@ describe("RegularSearchInput", () => {
     expect(invalidInput).toHaveAttribute("aria-invalid", "true");
     expect(invalidInput).toHaveAttribute("aria-describedby", helperTextId);
     expect(helperText).toBeInTheDocument();
-    expect(router.push).not.toBeCalled();
+    expect(router.push).not.toHaveBeenCalled();
   });
 
   it("initializes the input based on the query string in the URL", () => {
@@ -85,25 +85,19 @@ describe("RegularSearchInput", () => {
     const input = screen.getByRole("textbox");
 
     expect(input).not.toHaveValue("");
-    expect(router.push).toBeCalled();
+    expect(router.push).toHaveBeenCalled();
   });
 
   it("should render the entire examples list", () => {
-    render(
-      <RegularSearchInput
-        searchBar={() => {
-          return <></>;
-        }}
-        goToResultsPage={() => {}}
-      />,
-    );
+    render(<RegularSearchInput goToResultsPage={() => {}} />);
+
     expect(screen.getAllByRole("button")).toHaveLength(
-      Object.keys(examples).length + 3,
-    ); // +3 for the 3 search modes buttons
+      Object.keys(examples).length + 4,
+    ); // +4 for the 3 search modes buttons + the search button
   });
 
   it("should display a spinner when loading", () => {
-    render(<SearchSection loading />);
+    render(<SearchSection />, { loading: true });
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

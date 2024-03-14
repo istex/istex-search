@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
@@ -13,22 +13,23 @@ import {
   InputLabel,
 } from "@mui/material";
 import { rankValues, sortFields, type SortBy } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
-const Sorting: ClientComponent<{
+interface SortingProps {
   isLabelLowerCase?: boolean;
   fontSize: string;
   labelColor: string;
   selectColor: string;
-  enableLoading?: boolean;
-}> = ({
+}
+
+const Sorting: ClientComponent<SortingProps> = ({
   isLabelLowerCase,
   fontSize,
   labelColor,
   selectColor,
-  enableLoading,
 }) => {
   const t = useTranslations("results.ResultsGrid");
   const router = useRouter();
@@ -36,14 +37,8 @@ const Sorting: ClientComponent<{
   const searchParams = useSearchParams();
   const sortBy = searchParams.getSortBy();
   const sortDirection = searchParams.getSortDirection();
-
+  const { loading } = useQueryContext();
   const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
-
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setLoading(false);
-  }, [sortBy, sortDirection]);
 
   const menuCallbackRef = useCallback(
     (menuDiv: HTMLDivElement | null) => {
@@ -58,17 +53,11 @@ const Sorting: ClientComponent<{
 
   const handleSortByChange = (event: SelectChangeEvent<SortBy>) => {
     searchParams.setSortBy(event.target.value as SortBy);
-    if (enableLoading === true) {
-      setLoading(true);
-    }
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   const toggleSortDirection = () => {
     searchParams.setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    if (enableLoading === true) {
-      setLoading(true);
-    }
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
@@ -128,7 +117,7 @@ const Sorting: ClientComponent<{
         >
           <ArrowDownwardIcon
             sx={{
-              color: loading ? "colors.lightGrey" : selectColor,
+              color: loading === true ? "colors.lightGrey" : selectColor,
               fontSize: "1rem",
               transform:
                 sortDirection === "desc" ? "rotate(180deg)" : "rotate(0deg)",
@@ -137,7 +126,7 @@ const Sorting: ClientComponent<{
           />
         </IconButton>
       )}
-      {loading && <CircularProgress size={20} />}
+      {loading === true && <CircularProgress size={20} />}
     </Stack>
   );
 };

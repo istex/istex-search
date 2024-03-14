@@ -36,14 +36,12 @@ const ResultsToolbar: ClientComponent<{
           fontSize="0.6875rem"
           labelColor="colors.grey"
           selectColor="colors.darkBlack"
-          enableLoading
         />
         <Sorting
           isLabelLowerCase
           fontSize="0.6875rem"
           labelColor="colors.grey"
           selectColor="colors.darkBlack"
-          enableLoading
         />
       </Stack>
       <StyledToggleButtonGroup

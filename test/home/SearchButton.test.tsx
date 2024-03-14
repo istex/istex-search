@@ -6,7 +6,7 @@ describe("SearchButton", () => {
     render(<SearchButton />);
 
     expect(screen.getByRole("button")).toBeInTheDocument();
-    expect(screen.getByRole("button")).toHaveTextContent("RECHERCHER");
+    expect(screen.getByRole("button")).toHaveTextContent("Rechercher");
     expect(getComputedStyle(screen.getByRole("button")).height).toBe("65px");
     expect(getComputedStyle(screen.getByRole("button")).padding).toBe(
       "15.6px 14px 15.6px 14px",
@@ -23,7 +23,7 @@ describe("SearchButton", () => {
     render(<SearchButton isAlone />);
 
     expect(screen.getByRole("button")).toBeInTheDocument();
-    expect(screen.getByRole("button")).toHaveTextContent("RECHERCHER");
+    expect(screen.getByRole("button")).toHaveTextContent("Rechercher");
     expect(getComputedStyle(screen.getByRole("button")).height).not.toBe(
       "65px",
     );
@@ -36,7 +36,7 @@ describe("SearchButton", () => {
   });
 
   it("should render the SearchButton component on loading display mode", () => {
-    render(<SearchButton loading />);
+    render(<SearchButton />, { loading: true });
 
     expect(screen.getByRole("button")).toBeDisabled();
     expect(screen.getByRole("progressbar")).toBeInTheDocument();

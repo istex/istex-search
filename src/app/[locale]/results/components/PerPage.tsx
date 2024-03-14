@@ -10,6 +10,7 @@ import {
   type SelectChangeEvent,
   InputLabel,
 } from "@mui/material";
+import type { PerPageOption } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -44,8 +45,10 @@ const PerPage: ClientComponent<PerPageProps> = ({
     },
     [selectMinWidth],
   );
-  const handlePerPageChange = (event: SelectChangeEvent<10 | 20 | 30>) => {
-    searchParams.setPerPage(event.target.value as 10 | 20 | 30);
+
+  const handlePerPageChange = (event: SelectChangeEvent<PerPageOption>) => {
+    searchParams.deletePage();
+    searchParams.setPerPage(event.target.value as PerPageOption);
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 

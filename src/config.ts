@@ -9,7 +9,7 @@ export const istexApiConfig = {
 
 export const examples = {
   globalWarming:
-    '(title:("global warming" "réchauffement climatique") abstract:("global warming" "réchauffement climatique") subject.value:("global warming" "réchauffement climatique")) AND publicationDate:[2010 TO *]',
+    '(title:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique") abstract:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique") subject.value:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique")) AND publicationDate:[1990 TO *]',
   emileDurkheim:
     '(title.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR namedEntities.unitex.persName.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR refBibs.author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ NOT doi:"10.1016/0008-6223(84)90184-2")',
   translationAndAI:

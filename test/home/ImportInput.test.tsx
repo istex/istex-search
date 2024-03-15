@@ -54,6 +54,7 @@ describe("ImportInput", () => {
   });
 
   it("should display an error when trying to submit to form when the input is empty", async () => {
+    const router = useRouter();
     render(<ImportInput />);
 
     const button = screen.getByRole("button", { name: "Rechercher" });
@@ -61,6 +62,7 @@ describe("ImportInput", () => {
     const alert = screen.queryByRole("alert");
 
     expect(alert).toBeInTheDocument();
+    expect(router.push).not.toHaveBeenCalled();
   });
 
   it("should display an error when some IDs have syntax errors", async () => {

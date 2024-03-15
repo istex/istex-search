@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Box, IconButton, Typography } from "@mui/material";
-import { useDocumentContext } from "../Document/DocumentContext";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import type { ClientComponent } from "@/types/next";
 
 const SelectedDocPanel: ClientComponent = () => {

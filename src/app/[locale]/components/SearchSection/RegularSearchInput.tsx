@@ -7,35 +7,39 @@ import {
 } from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
-import QueryExamplesList from "./QueryExamplesList";
+import ExamplesList from "./ExamplesList";
 import SearchBar from "./SearchBar";
 import SearchTitle from "./SearchTitle";
+import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
+import CustomError from "@/lib/CustomError";
 import { useOnHomePage } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
-const RegularSearchInput: ClientComponent<{
-  goToResultsPage: (
-    newQueryString: string,
-    setErrorMessage: (errorMessage: string) => void,
-    setQueryString: (queryString: string) => void,
-  ) => void;
-}> = ({ goToResultsPage }) => {
+const RegularSearchInput: ClientComponent = () => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
   const [queryString, setQueryString] = useState(useQueryContext().queryString);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [error, setError] = useState<CustomError | null>(null);
+  const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 
   const handleSubmit: FormEventHandler = (event) => {
     event.preventDefault();
-    goToResultsPage(queryString, setErrorMessage, setQueryString);
+
+    const trimmedQueryString = queryString.trim();
+    if (trimmedQueryString === "") {
+      setError(new CustomError({ name: "EmptyQueryError" }));
+      return;
+    }
+
+    goToResultsPage(queryString).catch(setError);
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setErrorMessage("");
+    setError(null);
     setQueryString(event.target.value);
   };
 
@@ -48,10 +52,9 @@ const RegularSearchInput: ClientComponent<{
           id="regular-search-input"
           onChange={handleChange}
           onSubmit={handleSubmit}
-          helperText={errorMessage}
           required
           autoFocus
-          error={errorMessage !== ""}
+          error={error != null}
           fullWidth
           maxRows={8}
           minRows={1}
@@ -74,13 +77,9 @@ const RegularSearchInput: ClientComponent<{
         />
       </SearchBar>
 
-      {onHomePage && (
-        <QueryExamplesList
-          goToResultsPage={(newQueryString) => {
-            goToResultsPage(newQueryString, setErrorMessage, setQueryString);
-          }}
-        />
-      )}
+      {error != null && <ErrorCard {...error.info} />}
+
+      {onHomePage && <ExamplesList setError={setError} />}
     </Box>
   );
 };

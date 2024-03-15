@@ -8,6 +8,7 @@ export type CustomErrorInfo =
   | { name: "FileReadError" }
   | { name: "QIdNotFoundError"; qId: string }
   | { name: "QIdSaveError"; qId: string }
+  | { name: "EmptyQueryError" }
   | { name: "default" };
 
 class CustomError extends Error {

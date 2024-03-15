@@ -2,7 +2,6 @@
 
 import { Grid, Divider as MuiDivider } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useDocumentContext } from "../Document/DocumentContext";
 import DownloadButton from "./DownloadButton";
 import FormatPicker from "./FormatPicker";
 import InfoPanels from "./InfoPanels";
@@ -10,6 +9,7 @@ import Panel from "./Panel";
 import ResultsSettings from "./ResultsSettings";
 import SelectedDocPanel from "./SelectedDocPanel";
 import UsageSelector from "./UsageSelector";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import type { ClientComponent } from "@/types/next";
 
 const DownloadForm: ClientComponent = () => {

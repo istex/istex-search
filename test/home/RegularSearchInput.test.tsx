@@ -4,14 +4,13 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import SearchSection from "@/app/[locale]/components/SearchSection";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 import { examples } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 
 describe("RegularSearchInput", () => {
   async function search(queryString?: string) {
-    const renderResult = render(<SearchSection />);
+    const renderResult = render(<RegularSearchInput />);
 
     const input = screen.getByRole("textbox");
     const button = screen.getByRole("button", { name: "Rechercher" });
@@ -54,21 +53,18 @@ describe("RegularSearchInput", () => {
 
   it("doesn't go to the results page when the input is empty and displays an error", async () => {
     const router = useRouter();
-    const inputId = "regular-search-input";
-    const helperTextId = `${inputId}-helper-text`;
-    const { container } = await search();
-    const invalidInput = container.querySelector(`#${inputId}`);
-    const helperText = container.querySelector(`#${helperTextId}`);
 
-    expect(invalidInput).toHaveAttribute("aria-invalid", "true");
-    expect(invalidInput).toHaveAttribute("aria-describedby", helperTextId);
-    expect(helperText).toBeInTheDocument();
+    await search();
+
+    const alert = screen.queryByRole("alert");
+
+    expect(alert).toBeInTheDocument();
     expect(router.push).not.toHaveBeenCalled();
   });
 
   it("initializes the input based on the query string in the URL", () => {
     const queryString = "hello";
-    render(<SearchSection />, { queryString });
+    render(<RegularSearchInput />, { queryString });
 
     const input = screen.getByRole("textbox");
 
@@ -77,19 +73,21 @@ describe("RegularSearchInput", () => {
 
   it("fills the input and goes to the results page when clicking on an example", async () => {
     const router = useRouter();
-    render(<SearchSection />);
+    render(<RegularSearchInput />);
+
     const firstExample = screen.getByRole("button", {
       name: "Réchauffement climatique",
     });
+    const firstExampleQuery = examples.globalWarming;
     await userEvent.click(firstExample);
-    const input = screen.getByRole("textbox");
 
-    expect(input).not.toHaveValue("");
-    expect(router.push).toHaveBeenCalled();
+    expect(router.push).toHaveBeenCalledWith(
+      `/results?${new URLSearchParams({ q: firstExampleQuery }).toString()}`,
+    );
   });
 
   it("should render the entire examples list", () => {
-    render(<RegularSearchInput goToResultsPage={() => {}} />);
+    render(<RegularSearchInput />);
 
     expect(screen.getAllByRole("button")).toHaveLength(
       Object.keys(examples).length + 4,
@@ -97,7 +95,7 @@ describe("RegularSearchInput", () => {
   });
 
   it("should display a spinner when loading", () => {
-    render(<SearchSection />, { loading: true });
+    render(<RegularSearchInput />, { loading: true });
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 });

@@ -14,8 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
-import { useDocumentContext } from "../Document/DocumentContext";
 import Button from "@/components/Button";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";

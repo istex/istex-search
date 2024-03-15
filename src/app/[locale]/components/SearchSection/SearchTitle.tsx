@@ -2,7 +2,6 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import { Stack, Typography } from "@mui/material";
-import { useDocumentContext } from "../../results/Document/DocumentContext";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import SearchByIdIcon from "@/../public/id-search.svg";
 import Button from "@/components/Button";
@@ -13,6 +12,7 @@ import {
   searchModes,
   type SearchMode,
 } from "@/config";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
 import { useOnHomePage } from "@/lib/hooks";
 import useSearchParams from "@/lib/useSearchParams";

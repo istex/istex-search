@@ -2,16 +2,20 @@ import { useTranslations } from "next-intl";
 import { Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { examples } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
+import type CustomError from "@/lib/CustomError";
+import type { ClientComponent } from "@/types/next";
 
-const QueryExamplesList = ({
-  goToResultsPage,
-}: {
-  goToResultsPage: (newQueryString: string) => void;
-}) => {
+interface ExamplesListProps {
+  setError: (error: CustomError) => void;
+}
+
+const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
   const tExamples = useTranslations("config.examples");
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
+  const { goToResultsPage } = useQueryContext();
 
   return (
     <>
@@ -27,7 +31,7 @@ const QueryExamplesList = ({
               secondaryColor="darkBlack"
               size="small"
               onClick={() => {
-                goToResultsPage(_queryString);
+                goToResultsPage(_queryString).catch(setError);
               }}
               sx={{ textTransform: "none" }}
             >
@@ -40,4 +44,4 @@ const QueryExamplesList = ({
   );
 };
 
-export default QueryExamplesList;
+export default ExamplesList;

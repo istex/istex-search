@@ -1,32 +1,67 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useRouter } from "@/i18n/navigation";
+import useSearchParams, { type SearchParams } from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
 
-export interface QueryContextValue {
+interface QueryContextValue {
   queryString: string;
   resultsCount: number;
+  goToResultsPage: (
+    queryString: string,
+    searchParams?: SearchParams,
+  ) => Promise<void>;
   loading?: boolean;
 }
 
+export type QueryContextProps = Omit<QueryContextValue, "goToResultsPage">;
+
 const QueryContext = createContext<QueryContextValue | null>(null);
 
-export const QueryProvider: ClientComponent<QueryContextValue, true> = ({
+export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
   queryString,
   resultsCount,
   loading,
   children,
-}) => (
-  <QueryContext.Provider
-    value={{
-      queryString,
-      resultsCount,
-      loading,
-    }}
-  >
-    {children}
-  </QueryContext.Provider>
-);
+}) => {
+  const router = useRouter();
+  const defaultSearchParams = useSearchParams();
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
+
+  const goToResultsPage = async (
+    newQueryString: string,
+    searchParams?: SearchParams,
+  ) => {
+    localStorage.setItem("lastQueryString", newQueryString);
+
+    // The context consumer can provide their own SearchParams instead
+    // if they need to specify other search params. If they don't, the
+    // search params used for the previous render are used.
+    const searchParamsToUse = searchParams ?? defaultSearchParams;
+    searchParamsToUse.deleteSize();
+    searchParamsToUse.deletePage();
+    searchParamsToUse.deleteFilters();
+    await searchParamsToUse.setQueryString(newQueryString);
+
+    resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParamsToUse.toString()}`);
+  };
+
+  return (
+    <QueryContext.Provider
+      value={{
+        queryString,
+        resultsCount,
+        goToResultsPage,
+        loading,
+      }}
+    >
+      {children}
+    </QueryContext.Provider>
+  );
+};
 
 export function useQueryContext() {
   const context = useContext(QueryContext);

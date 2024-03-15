@@ -612,15 +612,15 @@
   },
   "errors": {
     "SyntaxError": "Une erreur de syntaxe a été détectée.",
-    "PartialAstError": "Veuillez remplir tous les champs",
+    "PartialAstError": "Veuillez remplir tous les champs.",
     "IdTypeNotSupportedError": "\"{id}\" ne fait pas partie des formats d'identifiants supportés.",
     "IdsError": "{count, plural, =1 {Une erreur de syntaxe a été détectée à la ligne {lines}.} other {Des erreurs de syntaxe ont été détectées aux lignes {lines}.}}",
-    "CorpusFileFormatError": "Le fichier ne respecte pas le format .corpus",
+    "CorpusFileFormatError": "Le fichier ne respecte pas le format .corpus.",
     "EmptyIdsError": "Veuillez renseigner un ou plusieurs identifiants.",
     "FileReadError": "Erreur lors de la lecture du fichier.",
     "QIdNotFoundError": "Aucune requête ne correspond à {qId}.",
     "QIdSaveError": "Erreur lors de la sauvegarde de {qId}.",
-    "emptyQueryError": "Veuillez renseigner une requête.",
+    "EmptyQueryError": "Veuillez renseigner une requête.",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "config": {

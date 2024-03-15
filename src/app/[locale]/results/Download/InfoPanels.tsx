@@ -1,10 +1,10 @@
 import { useTranslations } from "next-intl";
 import { Grid, Link, Typography } from "@mui/material";
-import { useDocumentContext } from "../Document/DocumentContext";
 import HighlightedUrl from "../components/HighlightedUrl";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
 import { usages } from "@/config";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";

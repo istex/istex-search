@@ -1,6 +1,6 @@
 import { customRender as render, screen } from "../test-utils";
-import { type SelectedDocument } from "@/app/[locale]/results/Document/DocumentContext";
 import DownloadForm from "@/app/[locale]/results/Download/DownloadForm";
+import type { SelectedDocument } from "@/contexts/DocumentContext";
 
 describe("DownloadForm", () => {
   it("should not render SelectedDocPanel when no documents are selected", () => {

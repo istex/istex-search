@@ -1,9 +1,9 @@
 import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
-import { DocumentProvider } from "@/app/[locale]/results/Document/DocumentContext";
 import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
-import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
+import { DocumentProvider } from "@/contexts/DocumentContext";
+import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE, usePathname } from "@/i18n/navigation";
 import NextIntlProvider from "@/i18n/provider";
 import messages from "@/i18n/translations/fr.json";
@@ -13,7 +13,7 @@ import type { ClientComponent, ServerComponent } from "@/types/next";
 
 export function customRender(
   ui: Parameters<typeof render>[0],
-  context?: Partial<QueryContextValue & { results?: IstexApiResponse }>,
+  context?: Partial<QueryContextProps & { results?: IstexApiResponse }>,
 ) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (
     <NextIntlProvider
@@ -21,15 +21,15 @@ export function customRender(
       messages={messages as unknown as AbstractIntlMessages}
     >
       <MuiSetup>
-        <QueryProvider
-          queryString={context?.queryString ?? ""}
-          resultsCount={context?.resultsCount ?? 0}
-          loading={context?.loading}
-        >
-          <DocumentProvider results={context?.results}>
+        <DocumentProvider results={context?.results}>
+          <QueryProvider
+            queryString={context?.queryString ?? ""}
+            resultsCount={context?.resultsCount ?? 0}
+            loading={context?.loading}
+          >
             {children}
-          </DocumentProvider>
-        </QueryProvider>
+          </QueryProvider>
+        </DocumentProvider>
       </MuiSetup>
     </NextIntlProvider>
   );

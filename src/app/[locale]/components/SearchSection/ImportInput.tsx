@@ -10,14 +10,12 @@ import {
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, IconButton } from "@mui/material";
-import { useDocumentContext } from "../../results/Document/DocumentContext";
 import SearchBar from "./SearchBar";
 import SearchTitle from "./SearchTitle";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useRouter } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import {
   buildQueryStringFromIds,
@@ -26,23 +24,20 @@ import {
   getIdsFromQueryString,
   parseCorpusFileContent,
 } from "@/lib/queryIds";
-import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const ImportInput: ClientComponent = () => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const { queryString } = useQueryContext();
+  const { queryString, goToResultsPage } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
   const [idList, setIdList] = useState(
     getIdsFromQueryString(idType, queryString).join("\n"),
   );
   const [error, setError] = useState<CustomError | null>(null);
   const fileInputRef = useRef<ElementRef<"input">>(null);
-  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setError(null);
     setIdList(event.target.value);
   };
 
@@ -74,10 +69,11 @@ const ImportInput: ClientComponent = () => {
       return;
     }
 
-    goToResultsPage(newQueryString);
+    goToResultsPage(newQueryString).catch(setError);
   };
 
   const handleCorpusFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    setError(null);
     const file = event.target.files?.[0];
     if (file == null) {
       return;
@@ -102,28 +98,12 @@ const ImportInput: ClientComponent = () => {
         return;
       }
 
-      goToResultsPage(parsingResult.queryString);
+      goToResultsPage(parsingResult.queryString).catch(setError);
     };
 
     reader.onerror = () => {
       setError(new CustomError({ name: "FileReadError" }));
     };
-  };
-
-  const goToResultsPage = (newQueryString: string) => {
-    localStorage.setItem("lastQueryString", newQueryString);
-
-    searchParams.deleteSize();
-    searchParams.deletePage();
-    searchParams.deleteFilters();
-
-    searchParams
-      .setQueryString(newQueryString)
-      .then(() => {
-        router.push(`/results?${searchParams.toString()}`);
-        resetSelectedExcludedDocuments();
-      })
-      .catch(setError);
   };
 
   return (

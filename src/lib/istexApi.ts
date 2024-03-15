@@ -1,6 +1,5 @@
 import CustomError from "./CustomError";
 import { buildExtractParamsFromFormats } from "./formats";
-import type { SelectedDocument } from "@/app/[locale]/results/Document/DocumentContext";
 import {
   COMPATIBILITY_FACETS,
   FACETS,
@@ -17,6 +16,7 @@ import {
   type SortBy,
   type SortDir,
 } from "@/config";
+import type { SelectedDocument } from "@/contexts/DocumentContext";
 
 export interface BuildResultPreviewUrlOptions {
   queryString: string;

@@ -1,9 +1,9 @@
 import { Container } from "@mui/material";
 import SearchSection from "../../components/SearchSection";
-import { DocumentProvider } from "../Document/DocumentContext";
 import { FacetProvider, type FacetList } from "../facets/FacetContext";
 import RawRequest from "./RawRequest";
-import { QueryProvider, type QueryContextValue } from "@/contexts/QueryContext";
+import { DocumentProvider } from "@/contexts/DocumentContext";
+import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import type { ServerComponent } from "@/types/next";
 
@@ -11,19 +11,19 @@ import type { ServerComponent } from "@/types/next";
 // in the search params, which are not available in a layout.
 
 const ResultsPageShell: ServerComponent<
-  QueryContextValue & {
+  QueryContextProps & {
     facets?: FacetList;
     results?: IstexApiResponse;
     loading?: boolean;
   },
   true
 > = ({ queryString, resultsCount, facets, results, loading, children }) => (
-  <QueryProvider
-    queryString={queryString}
-    resultsCount={resultsCount}
-    loading={loading}
-  >
-    <DocumentProvider results={results}>
+  <DocumentProvider results={results}>
+    <QueryProvider
+      queryString={queryString}
+      resultsCount={resultsCount}
+      loading={loading}
+    >
       <FacetProvider facets={facets}>
         <SearchSection />
         <RawRequest />
@@ -32,8 +32,8 @@ const ResultsPageShell: ServerComponent<
           {children}
         </Container>
       </FacetProvider>
-    </DocumentProvider>
-  </QueryProvider>
+    </QueryProvider>
+  </DocumentProvider>
 );
 
 export default ResultsPageShell;

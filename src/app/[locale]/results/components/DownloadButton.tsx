@@ -3,10 +3,10 @@
 import { useState, type MouseEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box } from "@mui/material";
-import { useDocumentContext } from "../Document/DocumentContext";
 import DownloadForm from "../Download/DownloadForm";
 import DownloadModal from "../Download/DownloadModal";
 import Button from "@/components/Button";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";

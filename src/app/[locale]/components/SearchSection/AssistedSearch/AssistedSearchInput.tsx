@@ -3,14 +3,14 @@
 import { useEffect, useState, type FormEventHandler } from "react";
 import { useTranslations } from "next-intl";
 import { Box, Stack } from "@mui/material";
-import { useDocumentContext } from "../../../results/Document/DocumentContext";
 import SearchButton from "../SearchButton";
 import SearchTitle from "../SearchTitle";
 import ExpertSearchInput from "./ExpertSearchInput";
 import Group from "./Group";
 import QueryPanel from "./QueryPanel";
 import ErrorCard from "@/components/ErrorCard";
-import { useRouter } from "@/i18n/navigation";
+import { SEARCH_MODE_REGULAR } from "@/config";
+import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
 import {
   astContainsPartialNode,
@@ -23,11 +23,10 @@ import type { ClientComponent } from "@/types/next";
 
 const AssistedSearchInput: ClientComponent = () => {
   const tErrors = useTranslations("errors");
-  const router = useRouter();
   const searchParams = useSearchParams();
   const ast = searchParams.getAst();
   const queryString = astToString(ast);
-  const { resetSelectedExcludedDocuments } = useDocumentContext();
+  const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
   const [assistedFormOpen, setAssistedFormOpen] = useState(onHomePage);
   const [expertInputOpen, setExpertInputOpen] = useState(false);
@@ -82,30 +81,14 @@ const AssistedSearchInput: ClientComponent = () => {
       }
     }
 
-    goToResultsPage(newQueryString);
-  };
-
-  const goToResultsPage = (newQueryString: string) => {
-    localStorage.setItem("lastQueryString", newQueryString);
-
     if (expertInputOpen) {
       searchParams.deleteAst();
-      searchParams.setSearchMode("regular");
+      searchParams.setSearchMode(SEARCH_MODE_REGULAR);
     } else {
       searchParams.setAst(ast);
     }
 
-    searchParams.deleteSize();
-    searchParams.deletePage();
-    searchParams.deleteFilters();
-
-    searchParams
-      .setQueryString(newQueryString)
-      .then(() => {
-        router.push(`/results?${searchParams.toString()}`);
-        resetSelectedExcludedDocuments();
-      })
-      .catch(setError);
+    goToResultsPage(newQueryString, searchParams).catch(setError);
   };
 
   const reset = () => {

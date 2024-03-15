@@ -8,9 +8,9 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
 import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, Link, Stack, Typography } from "@mui/material";
-import { useDocumentContext } from "./DocumentContext";
 import FileList from "./FileList";
 import Button from "@/components/Button";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import type { ClientComponent } from "@/types/next";
 
 const DocumentDetail: ClientComponent = () => {

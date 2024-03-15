@@ -27,7 +27,7 @@ import {
 import type { NextSearchParams } from "@/types/next";
 
 // Wrapper class around URLSearchParams with stricter getters and setters
-class SearchParams {
+export class SearchParams {
   private readonly searchParams: URLSearchParams;
 
   constructor(searchParams: ReadonlyURLSearchParams | NextSearchParams) {

@@ -2,9 +2,9 @@
 
 import type { MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
-import { useDocumentContext } from "../Document/DocumentContext";
 import Button from "@/components/Button";
 import { NO_FORMAT_SELECTED } from "@/config";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildFullApiUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";

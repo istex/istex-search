@@ -2,8 +2,9 @@
 
 import type { MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
+import { md5 } from "js-md5";
 import Button from "@/components/Button";
-import { NO_FORMAT_SELECTED } from "@/config";
+import { NO_FORMAT_SELECTED, istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildFullApiUrl } from "@/lib/istexApi";
@@ -34,6 +35,14 @@ const DownloadButton: ClientComponent = () => {
       sortBy,
       sortDir,
     });
+
+    // If the queryString is too long, replace it with a q_id
+    if (queryString.length > istexApiConfig.queryStringMaxLength) {
+      const qId = md5(queryString);
+
+      url.searchParams.delete("q");
+      url.searchParams.set("q_id", qId);
+    }
 
     // Hack to download the archive and see the progression in the download bar built in browsers
     // We create a fake 'a' tag that points to the URL we just built and simulate a click on it

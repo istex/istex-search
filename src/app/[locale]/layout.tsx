@@ -37,8 +37,8 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
             <Navbar />
             <Header />
             <main>{children}</main>
-            <HelpButton />
             <Footer />
+            <HelpButton />
           </NextIntlProvider>
         </MuiSetup>
       </body>

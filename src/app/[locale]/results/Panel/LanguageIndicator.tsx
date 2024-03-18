@@ -51,7 +51,7 @@ const LanguageIndicator: ClientComponent<{
         gridRow={{ sm: 1 }}
         sx={{
           color: "colors.lightBlack",
-          fontSize: "0.8rem",
+          fontSize: "0.75rem",
         }}
       >
         {label}
@@ -92,6 +92,7 @@ const LanguageIndicator: ClientComponent<{
           const percentage = rawPercentage.toLocaleString(locale, {
             maximumFractionDigits: 1,
           });
+
           return (
             <Stack key={key} direction="row" gap={0.5} alignItems="center">
               <Box
@@ -111,7 +112,10 @@ const LanguageIndicator: ClientComponent<{
               >
                 {t("languageCount", {
                   count: docCount,
-                  language: getLanguageLabel(key as string, locale, tFacets),
+                  language:
+                    key === "other"
+                      ? t("otherLanguage")
+                      : getLanguageLabel(key as string, locale, tFacets),
                   percentage,
                 })}
               </Typography>

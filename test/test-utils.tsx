@@ -6,7 +6,7 @@ import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE, usePathname } from "@/i18n/navigation";
 import NextIntlProvider from "@/i18n/provider";
-import messages from "@/i18n/translations/fr.json";
+import messages from "@/i18n/translations/fr-FR.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
 import type { ClientComponent, ServerComponent } from "@/types/next";

@@ -61,6 +61,6 @@ describe("IndicatorPanelContent", () => {
     expect(
       screen.getByText("allemand : 117 doc. (23,4 %)"),
     ).toBeInTheDocument();
-    expect(screen.getByText("other : 3 doc. (0,6 %)")).toBeInTheDocument();
+    expect(screen.getByText("autres : 3 doc. (0,6 %)")).toBeInTheDocument();
   });
 });

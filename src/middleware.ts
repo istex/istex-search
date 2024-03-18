@@ -10,6 +10,6 @@ export const config = {
   // Match only internationalized pathnames
   // NOTE: It seems like SUPPORTED_LOCALES can't be used for the matcher because
   // it needs to a string literal. When another language is added, it'll be necessary to
-  // replace "fr" with "(fr|en)" for example.
-  matcher: ["/", "/fr/:path*"],
+  // replace "fr-FR" with "(fr-FR|en-US)" for example.
+  matcher: ["/", `/fr-FR/:path*`],
 };

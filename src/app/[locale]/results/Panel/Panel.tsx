@@ -12,12 +12,18 @@ import {
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
 
-const Panel: ClientComponent<{ title: string }, true> = ({
+interface PanelProps {
+  title: string;
+  open?: boolean;
+}
+
+const Panel: ClientComponent<PanelProps, true> = ({
   title,
+  open,
   children,
 }) => {
   const t = useTranslations("results.Panel");
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(open ?? true);
   const { resultsCount } = useQueryContext();
 
   return (

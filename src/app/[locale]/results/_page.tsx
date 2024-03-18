@@ -186,9 +186,11 @@ const ResultsPage: Page = async ({
     );
   } catch (err) {
     return err instanceof CustomError ? (
-      <ResultsPageShell queryString={queryString} resultsCount={0}>
-        <ErrorCard {...err.info} />
-      </ResultsPageShell>
+      <ResultsPageShell
+        queryString={queryString}
+        resultsCount={0}
+        errorInfo={err.info}
+      />
     ) : null;
   }
 };

@@ -29,7 +29,7 @@ const ResultsToolbar: ClientComponent<{
       borderBottom="1px solid"
       borderTop="1px solid"
       borderColor="colors.lightGrey"
-      mb={1}
+      mt={1}
     >
       <Stack direction="row" spacing={1}>
         <PerPage

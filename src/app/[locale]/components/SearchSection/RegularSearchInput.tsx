@@ -21,8 +21,13 @@ const RegularSearchInput: ClientComponent = () => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
-  const [queryString, setQueryString] = useState(useQueryContext().queryString);
-  const [error, setError] = useState<CustomError | null>(null);
+  const queryContext = useQueryContext();
+  const [queryString, setQueryString] = useState(queryContext.queryString);
+  const [error, setError] = useState<CustomError | null>(
+    queryContext.errorInfo != null
+      ? new CustomError(queryContext.errorInfo)
+      : null,
+  );
   const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 

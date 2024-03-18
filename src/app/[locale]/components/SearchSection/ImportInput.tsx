@@ -28,12 +28,14 @@ import type { ClientComponent } from "@/types/next";
 
 const ImportInput: ClientComponent = () => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
-  const { queryString, goToResultsPage } = useQueryContext();
+  const { queryString, goToResultsPage, errorInfo } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
   const [idList, setIdList] = useState(
     getIdsFromQueryString(idType, queryString).join("\n"),
   );
-  const [error, setError] = useState<CustomError | null>(null);
+  const [error, setError] = useState<CustomError | null>(
+    errorInfo != null ? new CustomError(errorInfo) : null,
+  );
   const fileInputRef = useRef<ElementRef<"input">>(null);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {

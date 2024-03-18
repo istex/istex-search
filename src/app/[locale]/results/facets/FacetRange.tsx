@@ -113,7 +113,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   ]);
 
   return (
-    <Box sx={{ m: 2 }}>
+    <Stack spacing={1}>
       {withToggle && (
         <Box sx={{ mb: 1 }}>
           <Selector
@@ -136,58 +136,56 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
       >
         {t("inputLabel", { minLabel, maxLabel })}
       </Typography>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="center"
-        spacing={2}
-      >
-        {rangeOption === "range" ? (
-          <>
-            <TextField
-              variant="outlined"
-              size="small"
-              color="primary"
-              focused
-              placeholder={t("inputPlaceholderMin")}
-              fullWidth
-              value={min}
-              onChange={handleMinChange}
-            />
-            <Typography
-              variant="body2"
-              sx={{
-                color: "colors.lightBlack",
-                fontSize: "0.8rem",
-              }}
-            >
-              {t("to")}
-            </Typography>
-            <TextField
-              variant="outlined"
-              size="small"
-              color="primary"
-              focused
-              placeholder={t("inputPlaceholderMax")}
-              fullWidth
-              value={max}
-              onChange={handleMaxChange}
-            />
-          </>
-        ) : (
+      {rangeOption === "range" ? (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+        >
           <TextField
             variant="outlined"
             size="small"
             color="primary"
             focused
-            placeholder={t("inputPlaceholderSingle")}
-            sx={{ width: "40%" }}
-            value={singleValue}
-            onChange={handleSingleValueChange}
+            placeholder={t("inputPlaceholderMin")}
+            fullWidth
+            value={min}
+            onChange={handleMinChange}
           />
-        )}
-      </Stack>
-    </Box>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "colors.lightBlack",
+              fontSize: "0.8rem",
+            }}
+          >
+            {t("to")}
+          </Typography>
+          <TextField
+            variant="outlined"
+            size="small"
+            color="primary"
+            focused
+            placeholder={t("inputPlaceholderMax")}
+            fullWidth
+            value={max}
+            onChange={handleMaxChange}
+          />
+        </Stack>
+      ) : (
+        <TextField
+          variant="outlined"
+          size="small"
+          color="primary"
+          focused
+          placeholder={t("inputPlaceholderSingle")}
+          sx={{ width: "40%" }}
+          value={singleValue}
+          onChange={handleSingleValueChange}
+        />
+      )}
+    </Stack>
   );
 };
 

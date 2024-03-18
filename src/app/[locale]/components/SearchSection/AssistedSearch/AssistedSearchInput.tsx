@@ -26,14 +26,16 @@ const AssistedSearchInput: ClientComponent = () => {
   const searchParams = useSearchParams();
   const ast = searchParams.getAst();
   const queryString = astToString(ast);
-  const { goToResultsPage } = useQueryContext();
+  const { goToResultsPage, errorInfo } = useQueryContext();
   const onHomePage = useOnHomePage();
   const [assistedFormOpen, setAssistedFormOpen] = useState(onHomePage);
   const [expertInputOpen, setExpertInputOpen] = useState(false);
   const [expertQueryString, setExpertQueryString] = useState(queryString);
   const [expertErrorMessage, setExpertErrorMessage] = useState("");
   const [expertValidateModalOpen, setExpertValidateModalOpen] = useState(false);
-  const [error, setError] = useState<CustomError | null>(null);
+  const [error, setError] = useState<CustomError | null>(
+    errorInfo != null ? new CustomError(errorInfo) : null,
+  );
   const displayErrors = error != null;
 
   const rootNode = ast[0];

@@ -3,8 +3,9 @@
 import { createContext, useContext } from "react";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
+import type { CustomErrorInfo } from "@/lib/CustomError";
 import useSearchParams, { type SearchParams } from "@/lib/useSearchParams";
-import { type ClientComponent } from "@/types/next";
+import type { ClientComponent } from "@/types/next";
 
 interface QueryContextValue {
   queryString: string;
@@ -14,6 +15,7 @@ interface QueryContextValue {
     searchParams?: SearchParams,
   ) => Promise<void>;
   loading?: boolean;
+  errorInfo?: CustomErrorInfo;
 }
 
 export type QueryContextProps = Omit<QueryContextValue, "goToResultsPage">;
@@ -24,6 +26,7 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
   queryString,
   resultsCount,
   loading,
+  errorInfo,
   children,
 }) => {
   const router = useRouter();
@@ -56,6 +59,7 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
         resultsCount,
         goToResultsPage,
         loading,
+        errorInfo,
       }}
     >
       {children}

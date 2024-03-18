@@ -19,14 +19,17 @@ const ResultsGrid: ClientComponent<
 
   return (
     <Stack gap={1}>
-      <ResultsToolbar columns={columns} setColumns={setColumns} />
       <Panel title="indicators">
         <IndicatorPanelContent indicators={indicators} />
       </Panel>
-      <Panel title="compatibility">
+      <Panel title="compatibility" open={false}>
         <CompatibilityPanelContent compatibility={compatibility} />
       </Panel>
+
       <Filters />
+
+      <ResultsToolbar columns={columns} setColumns={setColumns} />
+
       <Box
         id="results-grid"
         sx={{
@@ -38,6 +41,7 @@ const ResultsGrid: ClientComponent<
       >
         {children}
       </Box>
+
       <DocumentDetail />
     </Stack>
   );

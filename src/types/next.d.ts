@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { PropsWithRequiredChildren, ReplaceReturnType } from "./utility";
+import type { ReplaceReturnType } from "./utility";
 
 export type NextSearchParams = Record<string, string | string[] | undefined>;
 
@@ -12,7 +12,7 @@ export type ClientComponent<
   TProps extends object = {},
   WithChildren = false,
 > = React.FC<
-  WithChildren extends true ? PropsWithRequiredChildren<TProps> : TProps
+  WithChildren extends true ? React.PropsWithChildren<TProps> : TProps
 >;
 
 // A ServerComponent is just like a ClientComponent but can either return what a

@@ -17,16 +17,28 @@ const ResultsPageShell: ServerComponent<
     loading?: boolean;
   },
   true
-> = ({ queryString, resultsCount, facets, results, loading, children }) => (
+> = ({
+  queryString,
+  resultsCount,
+  facets,
+  results,
+  loading,
+  errorInfo,
+  children,
+}) => (
   <DocumentProvider results={results}>
+    {/* It would be simpler to pass the entire error but passing not plain */}
+    {/* object from server components (the ResultsPageShell here) to client components */}
+    {/* (the QueryProvider here) is not allowed */}
     <QueryProvider
       queryString={queryString}
       resultsCount={resultsCount}
       loading={loading}
+      errorInfo={errorInfo}
     >
       <FacetProvider facets={facets}>
         <SearchSection />
-        <RawRequest />
+        {errorInfo == null ? <RawRequest /> : null}
 
         <Container component="section" sx={{ pb: 6 }}>
           {children}

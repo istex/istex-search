@@ -10,6 +10,8 @@ import ResultCard from "@/app/[locale]/results/components/ResultCard";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 
 describe("DocumentDetail", () => {
+  const dummyUri = "https://foo.bar/";
+  const dummyUriWithSid = `${dummyUri}?sid=istex-search`;
   const document: Result = {
     id: "123",
     title: "Document title",
@@ -28,25 +30,25 @@ describe("DocumentDetail", () => {
     publicationDate: "2021",
     arkIstex: "arkIstex",
     fulltext: [
-      { extension: "pdf", uri: "pdfUri" },
-      { extension: "zip", uri: "zipUri" },
+      { extension: "pdf", uri: dummyUri },
+      { extension: "zip", uri: dummyUri },
     ],
     metadata: [
-      { extension: "xml", uri: "xmlUri" },
-      { extension: "json", uri: "jsonUri" },
+      { extension: "xml", uri: dummyUri },
+      { extension: "json", uri: dummyUri },
     ],
-    annexes: [{ extension: "jpg", uri: "jpgUri" }],
+    annexes: [{ extension: "jpg", uri: dummyUri }],
     enrichments: {
       nb: [
         {
           extension: "tei",
-          uri: "nbUri",
+          uri: dummyUri,
         },
       ],
       teeft: [
         {
           extension: "tei",
-          uri: "teeftUri",
+          uri: dummyUri,
         },
       ],
     },
@@ -90,7 +92,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("pdf")).toBeInTheDocument();
     const pdfLink = within(drawer).getByText("pdf").closest("a");
-    expect(pdfLink).toHaveAttribute("href", "pdfUri");
+    expect(pdfLink).toHaveAttribute("href", dummyUriWithSid);
     expect(pdfLink).toHaveAttribute(
       "title",
       "Accéder au texte intégral au format pdf",
@@ -98,7 +100,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("zip")).toBeInTheDocument();
     const zipLink = within(drawer).getByText("zip").closest("a");
-    expect(zipLink).toHaveAttribute("href", "zipUri");
+    expect(zipLink).toHaveAttribute("href", dummyUriWithSid);
     expect(zipLink).toHaveAttribute(
       "title",
       "Accéder au texte intégral au format zip",
@@ -106,7 +108,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("xml")).toBeInTheDocument();
     const xmlLink = within(drawer).getByText("xml").closest("a");
-    expect(xmlLink).toHaveAttribute("href", "xmlUri");
+    expect(xmlLink).toHaveAttribute("href", dummyUriWithSid);
     expect(xmlLink).toHaveAttribute(
       "title",
       "Accéder aux métadonnées au format xml",
@@ -114,7 +116,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("json")).toBeInTheDocument();
     const jsonLink = within(drawer).getByText("json").closest("a");
-    expect(jsonLink).toHaveAttribute("href", "jsonUri");
+    expect(jsonLink).toHaveAttribute("href", dummyUriWithSid);
     expect(jsonLink).toHaveAttribute(
       "title",
       "Accéder aux métadonnées au format json",
@@ -122,7 +124,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("jpg")).toBeInTheDocument();
     const jpgLink = within(drawer).getByText("jpg").closest("a");
-    expect(jpgLink).toHaveAttribute("href", "jpgUri");
+    expect(jpgLink).toHaveAttribute("href", dummyUriWithSid);
     expect(jpgLink).toHaveAttribute(
       "title",
       "Accéder à l'annexe au format jpg",
@@ -130,7 +132,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("nb")).toBeInTheDocument();
     const nbLink = within(drawer).getByText("nb").closest("a");
-    expect(nbLink).toHaveAttribute("href", "nbUri");
+    expect(nbLink).toHaveAttribute("href", dummyUriWithSid);
     expect(nbLink).toHaveAttribute(
       "title",
       "Accéder à l'enrichissement nb au format tei",
@@ -138,7 +140,7 @@ describe("DocumentDetail", () => {
 
     expect(within(drawer).getByText("teeft")).toBeInTheDocument();
     const teeftLink = within(drawer).getByText("teeft").closest("a");
-    expect(teeftLink).toHaveAttribute("href", "teeftUri");
+    expect(teeftLink).toHaveAttribute("href", dummyUriWithSid);
     expect(teeftLink).toHaveAttribute(
       "title",
       "Accéder à l'enrichissement teeft au format tei",

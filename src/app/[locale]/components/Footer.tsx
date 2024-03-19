@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import abesLogo from "@/../public/abes.svg";
-import cnrsLogo from "@/../public/cnrs.svg";
+import cnrsLogo from "@/../public/cnrs.png";
 import couperinLogo from "@/../public/couperin.svg";
 import franceUniversitesLogo from "@/../public/france_universites.svg";
 import investissementLogo from "@/../public/investissement.png";

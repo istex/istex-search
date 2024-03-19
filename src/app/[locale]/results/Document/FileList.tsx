@@ -45,37 +45,42 @@ const FileList: ClientComponent<{
   const t = useTranslations("results.Document.formatsLinks");
   return (
     <Stack direction="row" flexWrap="wrap" gap={1}>
-      {files.map(({ key, extension, uri }, index) => (
-        <IconButton
-          href={uri}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={key ?? extension}
-          key={index}
-          disableRipple
-          title={t(titleKey, { key, extension })}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "colors.veryLightBlue",
-            borderRadius: 1,
-            p: 0.5,
-            "&:hover": {
-              color: "colors.blue",
-            },
-          }}
-        >
-          {getIcon(extension, {
-            sx: { fontSize: "2.2rem", filter: "grayscale(100%);" },
-          })}
-          <Typography
-            variant="caption"
-            sx={{ textTransform: "uppercase", fontSize: "0.7rem" }}
+      {files.map(({ key, extension, uri }, index) => {
+        const fullUri = new URL(uri);
+        fullUri.searchParams.set("sid", "istex-search");
+
+        return (
+          <IconButton
+            href={fullUri.toString()}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={key ?? extension}
+            key={index}
+            disableRipple
+            title={t(titleKey, { key, extension })}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              backgroundColor: "colors.veryLightBlue",
+              borderRadius: 1,
+              p: 0.5,
+              "&:hover": {
+                color: "colors.blue",
+              },
+            }}
           >
-            {key ?? extension}
-          </Typography>
-        </IconButton>
-      ))}
+            {getIcon(extension, {
+              sx: { fontSize: "2.2rem", filter: "grayscale(100%);" },
+            })}
+            <Typography
+              variant="caption"
+              sx={{ textTransform: "uppercase", fontSize: "0.7rem" }}
+            >
+              {key ?? extension}
+            </Typography>
+          </IconButton>
+        );
+      })}
     </Stack>
   );
 };

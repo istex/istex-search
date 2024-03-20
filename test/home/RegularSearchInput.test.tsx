@@ -76,9 +76,9 @@ describe("RegularSearchInput", () => {
     render(<RegularSearchInput />);
 
     const firstExample = screen.getByRole("button", {
-      name: "Réchauffement climatique",
+      name: "Changement climatique",
     });
-    const firstExampleQuery = examples.globalWarming;
+    const firstExampleQuery = examples.climateChange;
     await userEvent.click(firstExample);
 
     expect(router.push).toHaveBeenCalledWith(

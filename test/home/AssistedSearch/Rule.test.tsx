@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
 import { getComparators } from "@/app/[locale]/components/SearchSection/AssistedSearch/RuleUtils";
@@ -9,6 +10,7 @@ import {
   type FieldNode,
 } from "@/lib/assistedSearch/ast";
 import { unique } from "@/lib/utils";
+import { type PartialExcept } from "@/types/utility";
 
 jest.setTimeout(15_000);
 
@@ -24,7 +26,7 @@ describe("Rule", () => {
   };
 
   it("doesn't fill the inputs when the node is partial", () => {
-    renderRule(partialNode);
+    renderRule({ node: partialNode });
 
     const fieldInput = getFieldInput();
     const comparatorInput = getComparatorInput();
@@ -36,7 +38,7 @@ describe("Rule", () => {
   });
 
   it("fills the inputs when the node is not partial", () => {
-    renderRule(node);
+    renderRule({ node });
 
     const fieldInput = getFieldInput();
     const comparatorInput = getComparatorInput();
@@ -48,14 +50,14 @@ describe("Rule", () => {
   });
 
   it("displays errors when at least one input is empty", () => {
-    renderRule(emptyValueNode, true);
+    renderRule({ displayErrors: true, node: emptyValueNode });
 
     const valueInput = getValueInput();
     expect(valueInput).toHaveAttribute("aria-invalid", "true");
   });
 
   it("resets the comparator when selecting a new field that doesn't support it", async () => {
-    renderRule(partialNode);
+    renderRule({ node: partialNode });
 
     const comparatorInput = getComparatorInput();
     await selectBetweenComparator();
@@ -65,7 +67,7 @@ describe("Rule", () => {
   });
 
   it("renders two value inputs (min and max) when using the between operator", async () => {
-    renderRule(partialNode);
+    renderRule({ node: partialNode });
 
     const valueInput = getValueInput();
     await selectNumberField();
@@ -79,7 +81,7 @@ describe("Rule", () => {
   });
 
   it("renders a boolean value input when selecting a boolean field", async () => {
-    renderRule(partialNode);
+    renderRule({ node: partialNode });
 
     const valueInput = getValueInput();
     expect(valueInput).toBeInTheDocument();
@@ -92,12 +94,33 @@ describe("Rule", () => {
 
   it("calls remove when clicking on the remove button", async () => {
     const remove = jest.fn();
-    renderRule(node, false, remove);
+    renderRule({ node, remove });
 
     const removeButton = getRemoveButton();
     await userEvent.click(removeButton);
 
     expect(remove).toHaveBeenCalled();
+  });
+
+  it("correctly sets implicit nodes", async () => {
+    const setNode = jest.fn();
+    renderRule({ node: partialNode, setNode });
+
+    await selectField("Corps du texte");
+
+    expect(setNode).toHaveBeenCalledWith({
+      ...partialNode,
+      field: "fulltext@1",
+      implicitNodes: [
+        {
+          nodeType: "node",
+          fieldType: "boolean",
+          field: "qualityIndicators.tdmReady",
+          value: true,
+          comparator: "equals",
+        },
+      ],
+    });
   });
 });
 
@@ -127,16 +150,17 @@ describe("RuleUtils", () => {
   });
 });
 
-function renderRule(
-  node: FieldNode,
-  displayErrors?: boolean,
-  remove?: jest.Func,
-) {
+function renderRule({
+  displayErrors,
+  node,
+  setNode,
+  remove,
+}: PartialExcept<ComponentProps<typeof Rule>, "node">) {
   render(
     <Rule
       displayErrors={displayErrors ?? false}
       node={node}
-      setNode={() => {}}
+      setNode={setNode ?? (() => {})}
       remove={remove ?? (() => {})}
     />,
   );
@@ -170,10 +194,14 @@ function getRemoveButton() {
   return screen.getByTestId("remove-rule-button");
 }
 
-async function selectTextField() {
+async function selectField(fieldName: string) {
   const fieldInput = getFieldInput();
   await userEvent.click(fieldInput);
-  await userEvent.keyboard("Affiliations d'auteur{ArrowDown}{Enter}");
+  await userEvent.keyboard(`${fieldName}{ArrowDown}{Enter}`);
+}
+
+async function selectTextField() {
+  await selectField("Affiliations d'auteur");
 }
 
 async function selectNumberField() {

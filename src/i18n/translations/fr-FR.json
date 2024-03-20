@@ -127,6 +127,10 @@
               "title": "Texte intégral",
               "description": "Recherche sur le texte intégral (corps du texte + métadonnées)"
             },
+            "fulltext@1": {
+              "title": "Corps du texte",
+              "description": "Recherche sur le corps du texte sans les métadonnées - restreint aux documents structurés"
+            },
             "genre": {
               "title": "Type de contenu",
               "description": "Recherche par type de contenu du document (article, research-article, chapter, etc.)"
@@ -263,10 +267,6 @@
               "tdmReady": {
                 "title": "TXT compatible TDM",
                 "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes (true / false)"
-              },
-              "tdmReady:true AND fulltext": {
-                "title": "Corps du texte",
-                "description": "Recherche sur le corps du texte sans les métadonnées - restreint aux documents structurés"
               },
               "teiSource": {
                 "title": "Source TEI",

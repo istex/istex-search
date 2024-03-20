@@ -162,6 +162,85 @@ describe("astToString", () => {
     });
   });
 
+  describe("nodes with implicit nodes", () => {
+    it("handles single implicit nodes", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "fulltext",
+          value: "foo",
+          implicitNodes: [
+            {
+              nodeType: "node",
+              fieldType: "boolean",
+              field: "qualityIndicators.tdmReady",
+              value: true,
+              comparator: "equals",
+            },
+          ],
+          comparator: "contains",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe(
+        '(fulltext:"foo" AND qualityIndicators.tdmReady:true)',
+      );
+    });
+
+    it("handles complex implicit nodes", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "fulltext",
+          value: "foo",
+          implicitNodes: [
+            {
+              nodeType: "node",
+              fieldType: "boolean",
+              field: "qualityIndicators.tdmReady",
+              value: true,
+              comparator: "equals",
+            },
+            {
+              nodeType: "operator",
+              value: "AND",
+            },
+            {
+              nodeType: "group",
+              nodes: [
+                {
+                  nodeType: "node",
+                  fieldType: "number",
+                  field: "qualityIndicators.abstractWordCount",
+                  value: 5,
+                  comparator: "greater",
+                },
+                {
+                  nodeType: "operator",
+                  value: "OR",
+                },
+                {
+                  nodeType: "node",
+                  fieldType: "number",
+                  field: "qualityIndicators.pdfWordCount",
+                  value: 5,
+                  comparator: "greater",
+                },
+              ],
+            },
+          ],
+          comparator: "contains",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe(
+        '(fulltext:"foo" AND qualityIndicators.tdmReady:true AND (qualityIndicators.abstractWordCount:>5 OR qualityIndicators.pdfWordCount:>5))',
+      );
+    });
+  });
+
   describe("operator nodes", () => {
     it("handles joining text nodes with operator OR", () => {
       const ast: Module.AST = [

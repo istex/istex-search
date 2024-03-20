@@ -16,6 +16,7 @@ import {
   type Comparator,
   type FieldName,
   type FieldNode,
+  type AST,
 } from "@/lib/assistedSearch/ast";
 import { fields } from "@/lib/assistedSearch/fields";
 import type { ClientComponent } from "@/types/next";
@@ -87,14 +88,14 @@ const Rule: ClientComponent<RuleProps> = ({
       return;
     }
 
-    const newFieldType = fields.find((field) => field.name === value)?.type;
-    if (newFieldType == null) {
+    const newField = fields.find((field) => field.name === value);
+    if (newField == null) {
       throw new Error(`Unexpected field name "${value}"`);
     }
 
     // If the currently selected comparator isn't supported
     // for the new field type, reset it
-    const newComparators = getComparators(newFieldType);
+    const newComparators = getComparators(newField.type);
     if (comparator != null && !newComparators.includes(comparator)) {
       setComparator(null);
     }
@@ -105,9 +106,17 @@ const Rule: ClientComponent<RuleProps> = ({
       partial = false;
     }
 
-    setFieldType(newFieldType);
+    const implicitNodes = newField.implicitNodes as unknown as AST;
+
+    setFieldType(newField.type);
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, fieldType: newFieldType, field: value, partial });
+    setNode({
+      ...node,
+      partial,
+      fieldType: newField.type,
+      field: value,
+      implicitNodes: implicitNodes.length > 0 ? implicitNodes : undefined,
+    });
   };
 
   const handleComparatorChange = (

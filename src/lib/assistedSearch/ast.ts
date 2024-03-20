@@ -48,6 +48,7 @@ export interface BaseFieldNode extends BaseNode {
   partial?: boolean;
   fieldType: FieldType;
   field: FieldName;
+  implicitNodes?: AST;
   comparator: Comparator;
 }
 
@@ -122,19 +123,31 @@ function fieldNodeToString(node: BaseFieldNode): string {
     return "";
   }
 
+  let result;
+
   if (node.fieldType === "text") {
-    return textNodeToString(node as TextNode);
+    result = textNodeToString(node as TextNode);
   } else if (node.fieldType === "number") {
-    return numberNodeToString(node as NumberNode);
+    result = numberNodeToString(node as NumberNode);
   } else if (node.fieldType === "boolean") {
-    return booleanNodeToString(node as BooleanNode);
+    result = booleanNodeToString(node as BooleanNode);
+  } else {
+    throw new Error(
+      `Unexpected field type received. Expected one of ${fieldTypes.toString()} but received "${
+        node.fieldType as string
+      }"`,
+    );
   }
 
-  throw new Error(
-    `Unexpected field type received. Expected one of ${fieldTypes.toString()} but received "${
-      node.fieldType as string
-    }"`,
-  );
+  // Some nodes have implicit nodes, which means the query to generate isn't simply "<field>:<value>" but
+  // "(<field>:<value> AND <implicitField1>:<implicitValue1> <operator> <implicitField2>:<implicitValue2> ...)"
+  if (node.implicitNodes != null) {
+    const implicitQueryFragment = astToString(node.implicitNodes);
+
+    return `(${result} AND ${implicitQueryFragment})`;
+  }
+
+  return result;
 }
 
 function operatorNodeToString(
@@ -162,17 +175,17 @@ function groupNodeToString(node: GroupNode): string {
 function textNodeToString(node: TextNode): string {
   let result = "";
 
+  const fieldName = getFieldName(node);
   const rawVersionRequired =
     (node.comparator === "equals" ||
       node.comparator === "startsWith" ||
       node.comparator === "endsWith") &&
-    node.field !== "fulltext" &&
-    node.field !== "qualityIndicators.tdmReady:true AND fulltext";
+    fieldName !== "fulltext";
 
   if (rawVersionRequired) {
-    result += `${node.field}.raw:`;
+    result += `${fieldName}.raw:`;
   } else {
-    result += `${node.field}:`;
+    result += `${fieldName}:`;
   }
 
   // Check if a wildcard is required
@@ -188,7 +201,7 @@ function textNodeToString(node: TextNode): string {
 }
 
 function numberNodeToString(node: NumberNode): string {
-  let result = `${node.field}:`;
+  let result = `${getFieldName(node)}:`;
 
   const hasValue = "value" in node;
   const hasRange = "min" in node && "max" in node;
@@ -210,7 +223,16 @@ function numberNodeToString(node: NumberNode): string {
 }
 
 function booleanNodeToString(node: BooleanNode): string {
-  return `${node.field}:${node.value}`;
+  return `${getFieldName(node)}:${node.value}`;
+}
+
+function getFieldName(node: BaseFieldNode) {
+  // Some field names contain an "@" symbol because different versions of them
+  // are available in the assisted search, but when building the Lucene query,
+  // we only want to keep the base field name. For example, both "fulltext" and
+  // fulltext@1" map to the "fulltext" field in the API, "fulltext@1" just means
+  // implicit rules need to be created.
+  return node.field.split("@")[0];
 }
 
 // We use functions that returns new objects on every call instead of

@@ -1,5 +1,6 @@
 import { useMessages, useNow, useTimeZone } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import TanStackQueryProvider from "./TanStackQueryProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
@@ -27,20 +28,22 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
   return (
     <html lang={locale}>
       <body>
-        <MuiSetup>
-          <NextIntlProvider
-            locale={locale}
-            messages={messages}
-            timeZone={timeZone}
-            now={now}
-          >
-            <Navbar />
-            <Header />
-            <main>{children}</main>
-            <Footer />
-            <HelpButton />
-          </NextIntlProvider>
-        </MuiSetup>
+        <TanStackQueryProvider>
+          <MuiSetup>
+            <NextIntlProvider
+              locale={locale}
+              messages={messages}
+              timeZone={timeZone}
+              now={now}
+            >
+              <Navbar />
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <HelpButton />
+            </NextIntlProvider>
+          </MuiSetup>
+        </TanStackQueryProvider>
       </body>
     </html>
   );

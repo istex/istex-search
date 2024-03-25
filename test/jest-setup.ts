@@ -25,6 +25,10 @@ mock("next/navigation", {
   useSearchParams: jest.fn(),
 });
 
+mock("@/lib/istexApi", {
+  getPossibleValues: jest.fn(() => []),
+});
+
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {
     const actual = jest.requireActual(moduleName);

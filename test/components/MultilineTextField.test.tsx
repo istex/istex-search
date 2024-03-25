@@ -17,7 +17,7 @@ describe("MultilineTextField", () => {
     });
     await userEvent.keyboard("{Enter}");
 
-    expect(mockSubmit).toBeCalled();
+    expect(mockSubmit).toHaveBeenCalled();
   });
 
   it("doesn't submit the form on Shift+Enter", async () => {
@@ -30,6 +30,6 @@ describe("MultilineTextField", () => {
     });
     await userEvent.keyboard("{Shift>}{Enter}{/Shift}");
 
-    expect(mockSubmit).not.toBeCalled();
+    expect(mockSubmit).not.toHaveBeenCalled();
   });
 });

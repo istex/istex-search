@@ -2,13 +2,13 @@ import { useState, type HTMLAttributes } from "react";
 import { useTranslations } from "next-intl";
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  InputAdornment,
-  TextField,
   MenuItem,
+  TextField,
   Typography,
   type TextFieldProps,
   type SxProps,
 } from "@mui/material";
+import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import {
   textComparators,
   numberComparators,
@@ -27,9 +27,27 @@ export const fontFamilyStyle: SxProps = {
   },
 };
 
-export const AutocompleteInput: ClientComponent<TextFieldProps> = (props) => {
+type AutocompleteInputProps = TextFieldProps & {
+  isLoading?: boolean;
+};
+
+export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
+  props,
+) => {
   const [focused, setFocused] = useState(false);
-  const { InputProps, ...rest } = props;
+  const { InputProps, isLoading, ...rest } = props;
+
+  const getEndAdornment = () => {
+    if (isLoading === true) {
+      return <DelayedCircularProgress color="inherit" size={20} />;
+    }
+
+    if (focused) {
+      return <SearchIcon />;
+    }
+
+    return null;
+  };
 
   return (
     <TextField
@@ -43,11 +61,7 @@ export const AutocompleteInput: ClientComponent<TextFieldProps> = (props) => {
         ...InputProps,
         endAdornment: (
           <>
-            {focused && (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            )}
+            {getEndAdornment()}
             {InputProps?.endAdornment}
           </>
         ),

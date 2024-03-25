@@ -1,6 +1,7 @@
 import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
+import TanStackQueryProvider from "@/app/[locale]/TanStackQueryProvider";
 import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
@@ -16,22 +17,24 @@ export function customRender(
   context?: Partial<QueryContextProps & { results?: IstexApiResponse }>,
 ) {
   const wrapper: ClientComponent<{}, true> = ({ children }) => (
-    <NextIntlProvider
-      locale={DEFAULT_LOCALE}
-      messages={messages as unknown as AbstractIntlMessages}
-    >
-      <MuiSetup>
-        <DocumentProvider results={context?.results}>
-          <QueryProvider
-            queryString={context?.queryString ?? ""}
-            resultsCount={context?.resultsCount ?? 0}
-            loading={context?.loading}
-          >
-            {children}
-          </QueryProvider>
-        </DocumentProvider>
-      </MuiSetup>
-    </NextIntlProvider>
+    <TanStackQueryProvider>
+      <NextIntlProvider
+        locale={DEFAULT_LOCALE}
+        messages={messages as unknown as AbstractIntlMessages}
+      >
+        <MuiSetup>
+          <DocumentProvider results={context?.results}>
+            <QueryProvider
+              queryString={context?.queryString ?? ""}
+              resultsCount={context?.resultsCount ?? 0}
+              loading={context?.loading}
+            >
+              {children}
+            </QueryProvider>
+          </DocumentProvider>
+        </MuiSetup>
+      </NextIntlProvider>
+    </TanStackQueryProvider>
   );
 
   return render(ui, { wrapper });

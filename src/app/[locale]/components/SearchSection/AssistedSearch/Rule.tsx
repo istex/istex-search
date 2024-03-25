@@ -2,6 +2,7 @@
 
 import { useState, type ChangeEventHandler, type SyntheticEvent } from "react";
 import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
 import {
@@ -11,6 +12,7 @@ import {
   getComparators,
 } from "./RuleUtils";
 import {
+  getFieldName,
   rangeComparators,
   type FieldType,
   type Comparator,
@@ -19,6 +21,7 @@ import {
   type AST,
 } from "@/lib/assistedSearch/ast";
 import { fields } from "@/lib/assistedSearch/fields";
+import { getPossibleValues } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
 interface RuleProps {
@@ -44,8 +47,8 @@ const Rule: ClientComponent<RuleProps> = ({
   const isNumberNode = node.fieldType === "number" && "value" in node;
   const isRangeNode = node.fieldType === "number" && "min" in node;
   const isBooleanNode = node.fieldType === "boolean";
-  const [field, setField] = useState<FieldName | null>(
-    !isNodePartial ? node.field : null,
+  const [fieldName, setFieldName] = useState<FieldName | null>(
+    !isNodePartial ? getFieldName(node) : null,
   );
   const [fieldType, setFieldType] = useState<FieldType | null>(
     !isNodePartial ? node.fieldType : null,
@@ -54,7 +57,7 @@ const Rule: ClientComponent<RuleProps> = ({
     !isNodePartial ? node.comparator : null,
   );
   const [textValue, setTextValue] = useState(
-    !isNodePartial && isTextNode ? node.value : "",
+    !isNodePartial && isTextNode ? node.value : null,
   );
   const [numberValue, setNumberValue] = useState(
     // The number value is stored as a string because that's what MUI excepts
@@ -71,10 +74,26 @@ const Rule: ClientComponent<RuleProps> = ({
     !isNodePartial && isBooleanNode ? node.value : null,
   );
   const hasValidValue =
-    textValue !== "" || numberValue !== "" || booleanValue != null;
+    (textValue != null && textValue !== "") ||
+    numberValue !== "" ||
+    booleanValue != null;
+  const field = fields.find((field) => field.name === fieldName);
+  const requiresFetchingValues = field != null && field.requiresFetchingValues;
 
-  const handleFieldChange = (_: SyntheticEvent, value: FieldName | null) => {
-    setField(value);
+  const valueQuery = useQuery({
+    queryKey: ["rule-value", fieldName],
+    // React Query won't call the function if fieldName is null because it controls the enabled property
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    queryFn: async () => await getPossibleValues(fieldName!),
+    enabled: requiresFetchingValues,
+    retry: false,
+  });
+
+  const handleFieldNameChange = (
+    _: SyntheticEvent,
+    value: FieldName | null,
+  ) => {
+    setFieldName(value);
 
     let partial = true;
 
@@ -134,7 +153,7 @@ const Rule: ClientComponent<RuleProps> = ({
 
     // Even if the comparator is valid, the field name and the value
     // also need to be valid for the node to be complete
-    if (field != null && hasValidValue) {
+    if (fieldName != null && hasValidValue) {
       partial = false;
     }
 
@@ -142,13 +161,11 @@ const Rule: ClientComponent<RuleProps> = ({
     setNode({ ...node, comparator: value, partial });
   };
 
-  const handleTextValueChange: ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    const { value } = event.target;
+  const handleTextValueChange = (_: SyntheticEvent, value: string | null) => {
     setTextValue(value);
 
-    const partial = value === "" || field == null || comparator == null;
+    const partial =
+      value == null || value === "" || fieldName == null || comparator == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({ ...node, value, partial });
@@ -170,7 +187,7 @@ const Rule: ClientComponent<RuleProps> = ({
 
     // Even if the value is valid, the field name and the comparator
     // also need to be valid for the node to be complete
-    partial = field == null || comparator == null;
+    partial = fieldName == null || comparator == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({ ...node, value: valueAsNumber, partial });
@@ -192,7 +209,7 @@ const Rule: ClientComponent<RuleProps> = ({
 
     // Even if the min is valid, the field name the comparator and
     // the max also need to be valid for the node to be complete
-    partial = field == null || comparator == null || maxValue === "";
+    partial = fieldName == null || comparator == null || maxValue === "";
 
     if ("value" in node) {
       // @ts-expect-error value isn't optional but it breaks the query builder
@@ -220,7 +237,7 @@ const Rule: ClientComponent<RuleProps> = ({
 
     // Even if the max is valid, the field name the comparator and
     // the min also need to be valid for the node to be complete
-    partial = field == null || comparator == null || minValue === "";
+    partial = fieldName == null || comparator == null || minValue === "";
 
     if ("value" in node) {
       // @ts-expect-error value isn't optional but it breaks the query builder
@@ -247,7 +264,7 @@ const Rule: ClientComponent<RuleProps> = ({
 
     // Even if the value is valid, the field name and the comparator
     // also need to be valid for the node to be complete
-    partial = field == null || comparator == null;
+    partial = fieldName == null || comparator == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({ ...node, value, partial });
@@ -279,14 +296,14 @@ const Rule: ClientComponent<RuleProps> = ({
         size="small"
         fullWidth
         options={FIELD_NAMES}
-        value={field}
-        onChange={handleFieldChange}
+        value={fieldName}
+        onChange={handleFieldNameChange}
         getOptionLabel={(option) => t(`fields.${option}.title`)}
         renderInput={(params) => (
           <AutocompleteInput
             label={t("Dropdown.field")}
             placeholder={t("Dropdown.searchField")}
-            error={displayErrors && field == null}
+            error={displayErrors && fieldName == null}
             {...params}
           />
         )}
@@ -391,15 +408,30 @@ const Rule: ClientComponent<RuleProps> = ({
         }
 
         // Text
+        const freeSolo = comparator !== "equals" || !requiresFetchingValues;
         return (
-          <TextField
+          <Autocomplete
             size="small"
             fullWidth
-            label={t("Dropdown.value")}
+            options={valueQuery.data ?? []}
+            autoSelect={freeSolo}
+            freeSolo={freeSolo}
             value={textValue}
             onChange={handleTextValueChange}
-            error={displayErrors && textValue === ""}
-            sx={fontFamilyStyle}
+            loading={valueQuery.isLoading}
+            renderInput={(params) => (
+              <AutocompleteInput
+                label={t("Dropdown.value")}
+                placeholder={t("Dropdown.searchValue")}
+                error={
+                  (displayErrors && (textValue == null || textValue === "")) ||
+                  valueQuery.isError ||
+                  valueQuery.isLoadingError
+                }
+                isLoading={valueQuery.isLoading}
+                {...params}
+              />
+            )}
           />
         );
       })()}

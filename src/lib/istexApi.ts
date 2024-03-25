@@ -1,4 +1,5 @@
 import CustomError from "./CustomError";
+import type { FieldName } from "./assistedSearch/ast";
 import { buildExtractParamsFromFormats } from "./formats";
 import {
   COMPATIBILITY_FACETS,
@@ -287,6 +288,25 @@ export async function getResults(
   }
 
   return (await response.json()) as IstexApiResponse;
+}
+
+export async function getPossibleValues(fieldName: FieldName) {
+  const url = new URL("document", istexApiConfig.baseUrl);
+  url.searchParams.set("q", "*");
+  url.searchParams.set("size", "0");
+  url.searchParams.set("sid", "istex-search");
+  url.searchParams.set("facet", `${fieldName}[*]`);
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new CustomError({ name: "default" });
+  }
+
+  const data = (await response.json()) as IstexApiResponse;
+
+  return data.aggregations[fieldName].buckets.map(
+    ({ key, keyAsString }) => keyAsString ?? key.toString(),
+  );
 }
 
 export interface BuildFullApiUrlOptions {

@@ -226,13 +226,13 @@ function booleanNodeToString(node: BooleanNode): string {
   return `${getFieldName(node)}:${node.value}`;
 }
 
-function getFieldName(node: BaseFieldNode) {
+export function getFieldName(node: BaseFieldNode): FieldName {
   // Some field names contain an "@" symbol because different versions of them
   // are available in the assisted search, but when building the Lucene query,
   // we only want to keep the base field name. For example, both "fulltext" and
   // fulltext@1" map to the "fulltext" field in the API, "fulltext@1" just means
   // implicit rules need to be created.
-  return node.field.split("@")[0];
+  return node.field.split("@")[0] as FieldName;
 }
 
 // We use functions that returns new objects on every call instead of

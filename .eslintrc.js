@@ -7,6 +7,7 @@ module.exports = {
     "standard-jsx",
     "standard-react",
     "next/core-web-vitals",
+    "plugin:@tanstack/eslint-plugin-query/recommended",
     "prettier",
   ],
   parserOptions: {

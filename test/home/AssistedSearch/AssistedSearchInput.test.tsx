@@ -223,7 +223,7 @@ function getComparatorInput() {
 }
 
 function getValueInput() {
-  return screen.getByRole("textbox", { name: "Valeur" });
+  return screen.getByRole("combobox", { name: "Valeur" });
 }
 
 async function selectField() {

@@ -9,8 +9,9 @@ import {
   getEmptyFieldNode,
   type FieldNode,
 } from "@/lib/assistedSearch/ast";
+import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
-import { type PartialExcept } from "@/types/utility";
+import type { PartialExcept } from "@/types/utility";
 
 jest.setTimeout(15_000);
 
@@ -24,6 +25,8 @@ describe("Rule", () => {
     ...node,
     value: "",
   };
+
+  beforeEach(jest.clearAllMocks);
 
   it("doesn't fill the inputs when the node is partial", () => {
     renderRule({ node: partialNode });
@@ -70,9 +73,9 @@ describe("Rule", () => {
     renderRule({ node: partialNode });
 
     const valueInput = getValueInput();
-    await selectNumberField();
     expect(valueInput).toBeInTheDocument();
 
+    await selectNumberField();
     await selectBetweenComparator();
 
     expect(valueInput).not.toBeInTheDocument();
@@ -83,13 +86,25 @@ describe("Rule", () => {
   it("renders a boolean value input when selecting a boolean field", async () => {
     renderRule({ node: partialNode });
 
-    const valueInput = getValueInput();
-    expect(valueInput).toBeInTheDocument();
-
     await selectBooleanField();
 
-    expect(valueInput).not.toBeInTheDocument();
     expect(getBooleanInput()).toBeInTheDocument();
+  });
+
+  it("gets the possible values when selecting a field that requires fetching values", async () => {
+    renderRule({ node: partialNode });
+
+    await selectField("Catégorie Inist");
+
+    expect(getPossibleValues).toHaveBeenCalledWith("categories.inist");
+  });
+
+  it("doesn't get the possible values when selecting a field that doesn't require fetching values", async () => {
+    renderRule({ node: partialNode });
+
+    await selectField("Affiliations d'auteur");
+
+    expect(getPossibleValues).not.toHaveBeenCalled();
   });
 
   it("calls remove when clicking on the remove button", async () => {
@@ -175,7 +190,7 @@ function getComparatorInput() {
 }
 
 function getValueInput() {
-  return screen.getByRole("textbox", { name: "Valeur" });
+  return screen.getByRole("combobox", { name: "Valeur" });
 }
 
 function getMinInput() {

@@ -349,8 +349,8 @@
       },
       "gateways": {
         "title": "Adaptez votre téléchargement à votre usage",
-        "subtitle": "Istex\u2011DL propose des passerelles vers des outils d'analyse de corpus.",
-        "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex\u2011DL permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
+        "subtitle": "Istex\u2011Search propose des passerelles vers des outils d'analyse de corpus.",
+        "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex\u2011Search permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
         "buttonTop": "Pour plus d'informations sur ces outils\u00A0:",
         "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00A0?",
         "contactButton": "CONTACTEZ-NOUS"
@@ -371,12 +371,12 @@
         },
         {
           "title": "Télécharger massivement",
-          "body": "Istex\u2011DL propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
+          "body": "Istex\u2011Search propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
         }
       ]
     },
     "CourseSection": {
-      "title": "Besoin de mieux maîtriser l'outil Istex\u2011DL\u00A0?",
+      "title": "Besoin de mieux maîtriser l'outil Istex\u2011Search\u00A0?",
       "body": "L'équipe Istex vous propose des formations sur la méthodologie de constitution de corpus.",
       "button": "Découvrir les formations"
     },

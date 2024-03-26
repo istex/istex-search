@@ -9,13 +9,9 @@ import type { Aggregation } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
 const CompatibilityPanelContent: ClientComponent<{
-  compatibility?: Aggregation;
+  compatibility: Aggregation;
 }> = ({ compatibility }) => {
   const { resultsCount } = useQueryContext();
-
-  if (compatibility == null) {
-    return null;
-  }
 
   // JSON format is always available
   const jsonCount = resultsCount;

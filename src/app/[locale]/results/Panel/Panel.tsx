@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -12,25 +11,28 @@ import {
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
 
+export type PanelName = "indicators" | "compatibility";
+
 interface PanelProps {
-  title: string;
-  open?: boolean;
+  title: PanelName;
+  expanded: boolean;
+  setExpanded: (name: PanelName, expanded: boolean) => void;
 }
 
 const Panel: ClientComponent<PanelProps, true> = ({
   title,
-  open,
+  expanded,
+  setExpanded,
   children,
 }) => {
   const t = useTranslations("results.Panel");
-  const [expanded, setExpanded] = useState(open ?? true);
   const { resultsCount } = useQueryContext();
 
   return (
     <Accordion
       expanded={expanded}
       onChange={() => {
-        setExpanded(!expanded);
+        setExpanded(title, !expanded);
       }}
       disableGutters
       elevation={0}

@@ -1,5 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
+import Filters from "./Filters/Filters";
+import Panels from "./Panel/Panels";
 import DownloadButton from "./components/DownloadButton";
 import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
@@ -10,8 +12,8 @@ import type { FacetList } from "./facets/FacetContext";
 import FacetsContainer from "./facets/FacetsContainer";
 import {
   COMPATIBILITY_FACETS,
-  FACETS,
   INDICATORS_FACETS,
+  FACETS,
 } from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
 import type { PerPageOption, SortBy, SortDir } from "@/config";
@@ -118,6 +120,7 @@ const ResultsPage: Page = async ({
           resultsWithoutLastAppliedFacet !== undefined
             ? resultsWithoutLastAppliedFacet.aggregations[facetTitle].buckets
             : results.aggregations[facetTitle].buckets;
+
         facets[facetTitle] = facetItemList.map((facetItem) => ({
           ...facetItem,
           selected:
@@ -130,6 +133,7 @@ const ResultsPage: Page = async ({
             ) ?? false,
         }));
       }
+
       if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
         indicators[facetTitle] = results.aggregations[facetTitle];
       }
@@ -153,20 +157,24 @@ const ResultsPage: Page = async ({
               alignItems="start"
             >
               <FacetsContainer />
-              <Box flexGrow={1}>
-                <ResultsGrid
-                  indicators={indicators}
-                  compatibility={compatibility}
-                >
+
+              <Stack gap={1}>
+                <Panels indicators={indicators} compatibility={compatibility} />
+
+                <Filters />
+
+                <ResultsGrid>
                   {results.hits.map((result) => (
                     <ResultCard key={result.id} info={result} />
                   ))}
                 </ResultsGrid>
 
                 <Pagination />
-              </Box>
+              </Stack>
             </Stack>
+
             <DownloadButton />
+
             <ShareButton />
           </>
         ) : (

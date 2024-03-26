@@ -8,15 +8,11 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import type { Aggregation } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
-const IndicatorPanelContent: ClientComponent<{ indicators?: Aggregation }> = ({
+const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
   indicators,
 }) => {
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
-
-  if (indicators == null) {
-    return null;
-  }
 
   const [
     mostUsedLanguage,

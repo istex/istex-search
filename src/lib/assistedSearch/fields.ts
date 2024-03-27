@@ -148,7 +148,7 @@ export const fields = [
   {
     name: "language",
     type: "text",
-    requiresFetchingValues: false,
+    requiresFetchingValues: true,
     implicitNodes: [],
   },
   {

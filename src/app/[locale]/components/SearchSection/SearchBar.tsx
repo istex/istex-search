@@ -11,7 +11,7 @@ const SearchBar: ClientComponent<{}, true> = ({ children }) => {
   const { resultsCount, loading } = useQueryContext();
 
   return (
-    <Stack spacing={1} sx={{ mb: { xs: 0, sm: 2 } }}>
+    <Stack spacing={1}>
       {loading === true ? (
         <Skeleton variant="text" sx={{ fontSize: "0.6875rem" }} width={130} />
       ) : (

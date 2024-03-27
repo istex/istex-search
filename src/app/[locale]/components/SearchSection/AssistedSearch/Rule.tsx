@@ -286,7 +286,7 @@ const Rule: ClientComponent<RuleProps> = ({
       className="rule"
       sx={(theme) => ({
         ml: 11,
-        p: 0.5,
+        p: 0.75,
         border: `solid 1px ${theme.palette.primary.light}`,
         borderRadius: 1,
       })}

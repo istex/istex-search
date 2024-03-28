@@ -82,7 +82,7 @@ const RegularSearchInput: ClientComponent = () => {
         />
       </SearchBar>
 
-      {error != null && <ErrorCard {...error.info} />}
+      {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
 
       {onHomePage && <ExamplesList setError={setError} />}
     </Box>

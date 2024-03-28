@@ -38,6 +38,16 @@ const ImportInput: ClientComponent = () => {
   );
   const fileInputRef = useRef<ElementRef<"input">>(null);
 
+  // error.info.lines is a string because that's what the next-intl expects for translation
+  // values, so we need to split it to get the IDs as numbers
+  const errorLines =
+    error?.info.name === "IdsError"
+      ? error.info.lines
+          .split(", ")
+          .map(Number)
+          .filter((id) => !Number.isNaN(id))
+      : undefined;
+
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setError(null);
     setIdList(event.target.value);
@@ -118,10 +128,12 @@ const ImportInput: ClientComponent = () => {
           required
           autoFocus
           fullWidth
+          showLineNumbers
           maxRows={8}
           minRows={5}
           placeholder={t("placeholder")}
           error={error != null}
+          errorLines={errorLines}
           value={idList}
           onChange={handleChange}
           onSubmit={handleSubmit}
@@ -157,7 +169,7 @@ const ImportInput: ClientComponent = () => {
         />
       </SearchBar>
 
-      {error != null && <ErrorCard {...error.info} />}
+      {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
     </Box>
   );
 };

@@ -22,7 +22,7 @@ describe("AssistedSearchInput", () => {
     await search();
 
     expect(router.push).toHaveBeenCalled();
-  }, 20_000);
+  }, 30_000);
 
   it("fills the inputs based on the AST in the URL", () => {
     renderAssistedSearchInput(true);

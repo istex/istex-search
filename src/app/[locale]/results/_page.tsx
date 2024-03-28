@@ -75,7 +75,7 @@ const ResultsPage: Page = async ({
   } catch (err) {
     return err instanceof CustomError ? (
       <ResultsPageShell queryString="" resultsCount={0}>
-        <ErrorCard {...err.info} />
+        <ErrorCard info={err.info} />
       </ResultsPageShell>
     ) : null;
   }

@@ -132,7 +132,7 @@ const AssistedSearchInput: ClientComponent = () => {
                 remove={reset}
               />
 
-              {error != null && <ErrorCard {...error.info} />}
+              {error != null && <ErrorCard info={error.info} />}
             </Stack>
 
             <SearchButton isAlone />

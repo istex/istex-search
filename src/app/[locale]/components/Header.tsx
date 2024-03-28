@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import headerBackground from "@/../public/header-background.jpg";
 import istexSearchLogo from "@/../public/istex-search.svg";
 import Link from "@/i18n/next-intl-link";
@@ -20,9 +20,30 @@ const Header: ServerComponent = () => {
       }}
     >
       <Container sx={{ py: 2, pt: 4 }}>
-        <Link href="/" id="home-link">
+        <Stack
+          id="home-link"
+          direction="row"
+          spacing={1}
+          component={Link}
+          href="/"
+          sx={{
+            mb: 1,
+            alignItems: "center",
+            textDecoration: "none",
+          }}
+        >
           <Image src={istexSearchLogo} alt="Istex-Search" />
-        </Link>
+          <Typography
+            component="div"
+            variant="h3"
+            sx={{
+              color: "white",
+              fontWeight: "normal",
+            }}
+          >
+            Search
+          </Typography>
+        </Stack>
         <Typography
           color="white"
           component="h2"

@@ -7,11 +7,13 @@ import { type FacetList, useFacetContext } from "./FacetContext";
 import FacetLayout from "./FacetLayout";
 import { FACETS } from "./constants";
 import Button from "@/components/Button";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const FacetsContainer: ClientComponent = () => {
   const t = useTranslations("results.Facets");
-
+  const searchParams = useSearchParams();
+  const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { facetsList, clearAllFacets } = useFacetContext();
 
   if (facetsList == null) {
@@ -54,15 +56,17 @@ const FacetsContainer: ClientComponent = () => {
           key={facetTitle}
           facetTitle={facetTitle}
           facetItems={facetsList[facetTitle]}
+          disabled={isImportSearchMode}
         />
       ))}
       <Button
         startIcon={<DeleteIcon />}
         size="medium"
+        disabled={isImportSearchMode}
+        onClick={clearAllFacets}
         sx={{
           alignSelf: "center",
         }}
-        onClick={clearAllFacets}
       >
         {t("deleteAll")}
       </Button>

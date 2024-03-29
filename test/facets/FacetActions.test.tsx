@@ -1,4 +1,4 @@
-import { fireEvent, customRender as render, screen } from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 import FacetActions from "@/app/[locale]/results/facets/FacetActions";
 import { useFacetContext } from "@/app/[locale]/results/facets/FacetContext";
 
@@ -9,9 +9,7 @@ jest.mock("@/app/[locale]/results/facets/FacetContext", () => ({
 describe("FacetActions", () => {
   const facetTitle = "corpusName";
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
+  afterEach(jest.resetAllMocks);
 
   it("should render the facet actions correctly", () => {
     const facets = {
@@ -31,8 +29,8 @@ describe("FacetActions", () => {
 
     render(<FacetActions facetTitle={facetTitle} />);
 
-    const applyButton = screen.getByText("Appliquer");
-    const clearButton = screen.getByTitle("Effacer");
+    const applyButton = screen.getByRole("button", { name: "Appliquer" });
+    const clearButton = screen.getByRole("button", { name: "Effacer" });
 
     expect(applyButton).toBeInTheDocument();
     expect(clearButton).toBeInTheDocument();
@@ -56,7 +54,7 @@ describe("FacetActions", () => {
 
     render(<FacetActions facetTitle={facetTitle} />);
 
-    const applyButton = screen.getByText("Appliquer");
+    const applyButton = screen.getByRole("button", { name: "Appliquer" });
 
     expect(applyButton).toBeDisabled();
   });
@@ -79,12 +77,12 @@ describe("FacetActions", () => {
 
     render(<FacetActions facetTitle={facetTitle} />);
 
-    const applyButton = screen.getByText("Appliquer");
+    const applyButton = screen.getByRole("button", { name: "Appliquer" });
 
     expect(applyButton).not.toBeDisabled();
   });
 
-  it("should call the applyOneFacet function when the apply button is clicked", () => {
+  it("should call the applyOneFacet function when the apply button is clicked", async () => {
     const facets = {
       [facetTitle]: [
         { key: "Option 1", docCount: 10, selected: true },
@@ -104,14 +102,14 @@ describe("FacetActions", () => {
 
     render(<FacetActions facetTitle={facetTitle} />);
 
-    const applyButton = screen.getByText("Appliquer");
+    const applyButton = screen.getByRole("button", { name: "Appliquer" });
 
-    fireEvent.click(applyButton);
+    await userEvent.click(applyButton);
 
     expect(applyOneFacetMock).toHaveBeenCalledWith(facetTitle);
   });
 
-  it("should call the clearOneFacet function when the clear button is clicked", () => {
+  it("should call the clearOneFacet function when the clear button is clicked", async () => {
     const facets = {
       [facetTitle]: [
         { key: "Option 1", docCount: 10, selected: true },
@@ -131,10 +129,35 @@ describe("FacetActions", () => {
 
     render(<FacetActions facetTitle={facetTitle} />);
 
-    const clearButton = screen.getByTitle("Effacer");
+    const clearButton = screen.getByRole("button", { name: "Effacer" });
 
-    fireEvent.click(clearButton);
+    await userEvent.click(clearButton);
 
     expect(clearOneFacetMock).toHaveBeenCalledWith(facetTitle);
+  });
+
+  it("should disable the buttons when the disabled prop is true", () => {
+    const facets = {
+      [facetTitle]: [
+        { key: "Option 1", docCount: 10, selected: false },
+        { key: "Option 2", docCount: 5, selected: false },
+        { key: "Option 3", docCount: 3, selected: false },
+      ],
+    };
+
+    (useFacetContext as jest.Mock).mockReturnValue({
+      facetsList: facets,
+      facetsWaitingForApply: [],
+      clearOneFacet: jest.fn(),
+      applyOneFacet: jest.fn(),
+    });
+
+    render(<FacetActions facetTitle={facetTitle} disabled />);
+
+    const applyButton = screen.getByRole("button", { name: "Appliquer" });
+    const clearButton = screen.getByRole("button", { name: "Effacer" });
+
+    expect(applyButton).toBeDisabled();
+    expect(clearButton).toBeDisabled();
   });
 });

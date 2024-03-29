@@ -25,12 +25,7 @@ const UsageSelector: ClientComponent = () => {
   return (
     <Selector
       value={searchParams.getUsageName()}
-      onChange={
-        handleChange as (
-          event: React.SyntheticEvent<Element, Event>,
-          value: string,
-        ) => void
-      }
+      onChange={handleChange}
       options={Object.keys(usages)}
       t={(usage) => t(`${usage}.label`)}
     />

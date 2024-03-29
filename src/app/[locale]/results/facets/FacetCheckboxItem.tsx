@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
 import type { ClientComponent } from "@/types/next";
@@ -12,6 +12,7 @@ interface FacetCheckboxItemProps {
   count: number;
   checked: boolean;
   excluded: boolean;
+  disabled?: boolean;
   onChange: () => void;
 }
 
@@ -21,16 +22,20 @@ const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
   count,
   checked,
   excluded,
+  disabled,
   onChange,
 }) => {
+  const t = useTranslations("results");
   const locale = useLocale();
-
   const [checkedFacet, setCheckedFacet] = useState<boolean>(
     checked || excluded,
   );
 
   return (
     <FormControlLabel
+      data-testid="facet-checkbox-item"
+      disabled={disabled}
+      title={disabled === true ? t("unavailableTitle") : ""}
       sx={{
         marginLeft: 0,
         "& .MuiFormControlLabel-label": {
@@ -61,14 +66,11 @@ const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
           gridTemplateColumns="auto auto"
           justifyContent="space-between"
           flexGrow={1}
-          color={
-            checked ? "primary.main" : excluded ? "error.main" : "text.primary"
-          }
+          color={checked ? "primary.main" : excluded ? "error.main" : undefined}
         >
           <Typography
             component="span"
             variant="body2"
-            title={value}
             sx={{
               fontWeight: checked || excluded ? 700 : 400,
               textOverflow: "ellipsis",

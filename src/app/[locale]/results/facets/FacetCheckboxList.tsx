@@ -25,6 +25,7 @@ export type SortField = typeof KEY | typeof DOC_COUNT;
 const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
+  disabled,
 }) => {
   const t = useTranslations("results.Facets");
 
@@ -217,6 +218,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
             count={facetItem.docCount}
             checked={facetItem.selected}
             excluded={facetItem.excluded}
+            disabled={disabled}
             onChange={() => {
               toggleFacet(
                 facetTitle,

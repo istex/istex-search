@@ -9,6 +9,7 @@ describe("FacetCheckboxItem", () => {
   it("should render the checkbox item correctly", () => {
     render(
       <FacetCheckboxItem
+        name={value}
         value={value}
         count={count}
         checked={checked}
@@ -31,6 +32,7 @@ describe("FacetCheckboxItem", () => {
     const onChange = jest.fn();
     render(
       <FacetCheckboxItem
+        name={value}
         value={value}
         count={count}
         checked={checked}
@@ -50,6 +52,7 @@ describe("FacetCheckboxItem", () => {
     checked = true;
     render(
       <FacetCheckboxItem
+        name={value}
         value={value}
         count={count}
         checked={checked}
@@ -63,5 +66,23 @@ describe("FacetCheckboxItem", () => {
 
     expect(checkbox).toBeChecked();
     expect(label).toHaveStyle("font-weight: 700");
+  });
+
+  it("should disable the checkbox, the label and the count when the disabled prop is true", () => {
+    render(
+      <FacetCheckboxItem
+        name={value}
+        value={value}
+        count={count}
+        checked={checked}
+        excluded={false}
+        disabled
+        onChange={() => {}}
+      />,
+    );
+
+    const formControl = screen.getByTestId("facet-checkbox-item");
+
+    expect(formControl).toHaveClass("Mui-disabled");
   });
 });

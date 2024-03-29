@@ -7,8 +7,14 @@ import { useFacetContext } from "./FacetContext";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
-const FacetActions: ClientComponent<{ facetTitle: string }> = ({
+interface FacetActionsProps {
+  facetTitle: string;
+  disabled?: boolean;
+}
+
+const FacetActions: ClientComponent<FacetActionsProps> = ({
   facetTitle,
+  disabled,
 }) => {
   const t = useTranslations("results.Facets");
 
@@ -26,7 +32,7 @@ const FacetActions: ClientComponent<{ facetTitle: string }> = ({
         onClick={() => {
           applyOneFacet(facetTitle);
         }}
-        disabled={!facetsWaitingForApply.includes(facetTitle)}
+        disabled={!facetsWaitingForApply.includes(facetTitle) || disabled}
       >
         {t("apply")}
       </Button>
@@ -36,12 +42,13 @@ const FacetActions: ClientComponent<{ facetTitle: string }> = ({
         mainColor="grey"
         aria-label={t("clear")}
         title={t("clear")}
+        disabled={disabled}
+        onClick={() => {
+          clearOneFacet(facetTitle);
+        }}
         sx={{
           minWidth: "unset",
           p: 0.5,
-        }}
-        onClick={() => {
-          clearOneFacet(facetTitle);
         }}
       >
         <ClearIcon />

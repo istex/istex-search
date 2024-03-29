@@ -8,6 +8,7 @@ import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PerPage from "./PerPage";
 import Sorting from "./Sorting";
+import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsToolbar: ClientComponent<{
@@ -15,6 +16,8 @@ const ResultsToolbar: ClientComponent<{
   setColumns: (columns: number) => void;
 }> = ({ columns, setColumns }) => {
   const t = useTranslations("results.ResultsGrid");
+  const searchParams = useSearchParams();
+  const isImportSearchMode = searchParams.getSearchMode() === "import";
 
   const handleLayout = (_: MouseEvent, newColumns: number | null) => {
     if (newColumns != null) {
@@ -42,6 +45,7 @@ const ResultsToolbar: ClientComponent<{
           fontSize="0.6875rem"
           labelColor="colors.grey"
           selectColor="colors.darkBlack"
+          disabled={isImportSearchMode}
         />
       </Stack>
       <StyledToggleButtonGroup

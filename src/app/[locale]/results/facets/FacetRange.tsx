@@ -14,14 +14,18 @@ export const RANGE_FACETS_WITH_TOGGLE = ["publicationDate"];
 const RANGE_OPTIONS = ["range", "single"] as const;
 type RangeOption = (typeof RANGE_OPTIONS)[number];
 
+const DISABLED_TEXT_COLOR = "rgba(0, 0, 0, 0.38)";
+
 const FacetRange: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
+  disabled,
 }) => {
   const { setRangeFacet } = useFacetContext();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
   const t = useTranslations(`results.Facets.${facetTitle}`);
+  const tResults = useTranslations("results");
 
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
 
@@ -117,19 +121,21 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
       {withToggle && (
         <Box sx={{ mb: 1 }}>
           <Selector
+            options={RANGE_OPTIONS}
+            disabled={disabled}
+            title={disabled === true ? tResults("unavailableTitle") : ""}
             value={rangeOption}
-            options={RANGE_OPTIONS as unknown as string[]}
+            t={t}
             onChange={(_, value) => {
               setRangeOption(value as RangeOption);
             }}
-            t={t}
           />
         </Box>
       )}
       <Typography
         variant="body2"
         sx={{
-          color: "colors.lightBlack",
+          color: disabled === true ? DISABLED_TEXT_COLOR : "colors.lightBlack",
           fontSize: "0.8rem",
           mb: 0.5,
         }}
@@ -152,11 +158,14 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
             fullWidth
             value={min}
             onChange={handleMinChange}
+            disabled={disabled}
+            title={disabled === true ? tResults("unavailableTitle") : ""}
           />
           <Typography
             variant="body2"
             sx={{
-              color: "colors.lightBlack",
+              color:
+                disabled === true ? DISABLED_TEXT_COLOR : "colors.lightBlack",
               fontSize: "0.8rem",
             }}
           >
@@ -171,6 +180,8 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
             fullWidth
             value={max}
             onChange={handleMaxChange}
+            disabled={disabled}
+            title={disabled === true ? tResults("unavailableTitle") : ""}
           />
         </Stack>
       ) : (
@@ -180,9 +191,11 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
           color="primary"
           focused
           placeholder={t("inputPlaceholderSingle")}
-          sx={{ width: "40%" }}
           value={singleValue}
           onChange={handleSingleValueChange}
+          disabled={disabled}
+          title={disabled === true ? tResults("unavailableTitle") : ""}
+          sx={{ width: "40%" }}
         />
       )}
     </Stack>

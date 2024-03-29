@@ -1,16 +1,19 @@
 "use client";
 
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box, Tab, Tabs, type TabsProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { montserrat } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
 
-const Selector: ClientComponent<{
-  value: string;
-  onChange: (event: React.SyntheticEvent, value: string) => void;
-  options: string[];
+interface SelectorProps extends TabsProps {
+  options: readonly string[];
   t: (key: string) => string;
-}> = ({ value, onChange, options, t }) => {
+  disabled?: boolean;
+}
+
+const Selector: ClientComponent<SelectorProps> = (props) => {
+  const { value, onChange, options, t, disabled, ...rest } = props;
+
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <StyledTabs
@@ -19,6 +22,8 @@ const Selector: ClientComponent<{
         allowScrollButtonsMobile
         value={value}
         onChange={onChange}
+        aria-disabled={disabled}
+        {...rest}
       >
         {options.map((name) => (
           <StyledTab
@@ -26,6 +31,7 @@ const Selector: ClientComponent<{
             value={name}
             label={t(name)}
             disableTouchRipple
+            disabled={disabled}
           />
         ))}
       </StyledTabs>

@@ -111,7 +111,7 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
             onScroll: handleScroll,
             // Dirty hack to avoid a flicker with the input height, explained here
             // https://github.com/mui/material-ui/issues/23031
-            style: { minHeight: 23 },
+            style: { minHeight: LINE_HEIGHT },
           }}
           {...rest}
         />

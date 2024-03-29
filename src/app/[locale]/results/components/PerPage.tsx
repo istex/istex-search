@@ -10,7 +10,7 @@ import {
   type SelectChangeEvent,
   InputLabel,
 } from "@mui/material";
-import type { PerPageOption } from "@/config";
+import { perPageOptions, type PerPageOption } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -91,15 +91,11 @@ const PerPage: ClientComponent<PerPageProps> = ({
           },
         }}
       >
-        <MenuItem value={10} sx={{ fontSize }}>
-          10
-        </MenuItem>
-        <MenuItem value={20} sx={{ fontSize }}>
-          20
-        </MenuItem>
-        <MenuItem value={30} sx={{ fontSize }}>
-          30
-        </MenuItem>
+        {perPageOptions.map((value) => (
+          <MenuItem key={value} value={value} sx={{ fontSize }}>
+            {value}
+          </MenuItem>
+        ))}
       </Select>
       {loading === true && <CircularProgress size={20} />}
     </Stack>

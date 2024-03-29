@@ -18,11 +18,13 @@ import type { ClientComponent } from "@/types/next";
 export interface FacetLayoutProps {
   facetTitle: string;
   facetItems: FacetItem[];
+  disabled?: boolean;
 }
 
 const FacetLayout: ClientComponent<FacetLayoutProps> = ({
   facetTitle,
   facetItems,
+  disabled,
 }) => {
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
@@ -47,7 +49,7 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
   )?.component;
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
@@ -61,6 +63,11 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
       disableGutters
       elevation={0}
       onChange={handleChange(facetTitle)}
+      slotProps={{
+        transition: {
+          unmountOnExit: true,
+        },
+      }}
       sx={{
         backgroundColor: "transparent",
         borderBottom:
@@ -69,7 +76,6 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
           display: "none",
         },
       }}
-      TransitionProps={{ unmountOnExit: true }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
@@ -99,8 +105,12 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
         )}
       </AccordionSummary>
       <AccordionDetails sx={{ backgroundColor: "white" }}>
-        <Component facetTitle={facetTitle} facetItems={facetItems} />
-        <FacetActions facetTitle={facetTitle} />
+        <Component
+          facetTitle={facetTitle}
+          facetItems={facetItems}
+          disabled={disabled}
+        />
+        <FacetActions facetTitle={facetTitle} disabled={disabled} />
       </AccordionDetails>
     </Accordion>
   );

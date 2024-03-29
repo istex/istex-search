@@ -17,6 +17,7 @@ import { lighten } from "@mui/system/colorManipulator";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import type { Result } from "@/lib/istexApi";
+import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
 import type { ClientComponent } from "@/types/next";
@@ -30,6 +31,8 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
     excludedDocuments,
   } = useDocumentContext();
   const t = useTranslations("results.ResultsCard");
+  const searchParams = useSearchParams();
+  const isImportSearchMode = searchParams.getSearchMode() === "import";
 
   const isSelected = selectedDocuments.some(
     (doc) => doc.arkIstex === info.arkIstex,
@@ -140,6 +143,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
             variant={isSelected ? "contained" : "text"}
             mainColor={isSelected ? "darkGreen" : undefined}
             size="small"
+            disabled={isImportSearchMode}
             onClick={() => {
               toggleSelectedDocument(info.arkIstex);
             }}
@@ -156,6 +160,7 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
             variant={isExcluded ? "contained" : "text"}
             mainColor={isExcluded ? "grey" : undefined}
             size="small"
+            disabled={isImportSearchMode}
             onClick={() => {
               toggleExcludedDocument(info.arkIstex);
             }}

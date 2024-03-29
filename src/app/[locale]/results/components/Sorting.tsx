@@ -23,6 +23,7 @@ interface SortingProps {
   fontSize: string;
   labelColor: string;
   selectColor: string;
+  disabled?: boolean;
 }
 
 const Sorting: ClientComponent<SortingProps> = ({
@@ -30,8 +31,10 @@ const Sorting: ClientComponent<SortingProps> = ({
   fontSize,
   labelColor,
   selectColor,
+  disabled,
 }) => {
   const t = useTranslations("results.ResultsGrid");
+  const tResults = useTranslations("results");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -72,7 +75,8 @@ const Sorting: ClientComponent<SortingProps> = ({
         id="sorting-select"
         labelId="sorting-label"
         autoWidth
-        disabled={loading}
+        disabled={loading === true || disabled === true}
+        title={disabled === true ? tResults("unavailableTitle") : ""}
         variant="standard"
         value={sortBy}
         onChange={handleSortByChange}

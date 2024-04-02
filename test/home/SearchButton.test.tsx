@@ -39,7 +39,6 @@ describe("SearchButton", () => {
     render(<SearchButton />, { loading: true });
 
     expect(screen.getByRole("button")).toBeDisabled();
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
   });
 
   it("should call the search function", async () => {

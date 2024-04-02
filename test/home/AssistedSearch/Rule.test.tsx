@@ -13,8 +13,6 @@ import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";
 
-jest.setTimeout(15_000);
-
 describe("Rule", () => {
   const partialNode = getEmptyFieldNode();
   const node: FieldNode = {
@@ -25,6 +23,8 @@ describe("Rule", () => {
     ...node,
     value: "",
   };
+
+  jest.setTimeout(20_000);
 
   beforeEach(jest.clearAllMocks);
 

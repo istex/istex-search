@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
 import Button from "@/components/Button";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
@@ -30,20 +30,7 @@ const SearchButton: ClientComponent<{ isAlone?: boolean }> = ({
               }
         }
       >
-        <span>{t("button")}</span>
-        {loading === true && (
-          <CircularProgress
-            size={24}
-            sx={{
-              color: "colors.blue",
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              marginTop: "-12px",
-              marginLeft: "-12px",
-            }}
-          />
-        )}
+        {t("button")}
       </Button>
     </Box>
   );

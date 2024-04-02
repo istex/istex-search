@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Skeleton, Stack } from "@mui/material";
+import { Skeleton, Stack } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
@@ -23,6 +23,7 @@ const Loading: ClientComponent = () => {
         spacing={4}
         alignItems="start"
       >
+        {/* Facets */}
         <Skeleton
           variant="rectangular"
           sx={{
@@ -33,7 +34,21 @@ const Loading: ClientComponent = () => {
             flexShrink: 0,
           }}
         />
-        <Box flexGrow={1}>
+
+        <Stack spacing={1} useFlexGap flexGrow={1}>
+          {/* Indicators */}
+          <Stack spacing={1}>
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: 1, height: "13.5rem" }}
+            />
+            <Skeleton
+              variant="rectangular"
+              sx={{ borderRadius: 1, height: "3rem" }}
+            />
+          </Stack>
+
+          {/* Results */}
           <ResultsGrid>
             {Array(MIN_PER_PAGE)
               .fill(0)
@@ -41,13 +56,20 @@ const Loading: ClientComponent = () => {
                 <Skeleton
                   key={i}
                   variant="rectangular"
-                  width="100%"
-                  height="18rem"
-                  sx={{ borderRadius: "4px" }}
+                  sx={{
+                    borderRadius: 1,
+                    height: "18rem",
+                  }}
                 />
               ))}
           </ResultsGrid>
-        </Box>
+
+          {/* Pagination */}
+          <Skeleton
+            variant="rectangular"
+            sx={{ borderRadius: 1, my: 7.5, height: "2.5rem" }}
+          />
+        </Stack>
       </Stack>
     </ResultsPageShell>
   );

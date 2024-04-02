@@ -10,13 +10,4 @@ describe("SearchBar", () => {
     );
     expect(screen.getByText("Rechercher")).toBeInTheDocument();
   });
-  it("should display a spinner when loading", () => {
-    render(
-      <SearchBar>
-        <></>
-      </SearchBar>,
-      { loading: true },
-    );
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
-  });
 });

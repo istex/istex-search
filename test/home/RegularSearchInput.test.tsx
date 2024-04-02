@@ -93,9 +93,4 @@ describe("RegularSearchInput", () => {
       Object.keys(examples).length + 4,
     ); // +4 for the 3 search modes buttons + the search button
   });
-
-  it("should display a spinner when loading", () => {
-    render(<RegularSearchInput />, { loading: true });
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
-  });
 });

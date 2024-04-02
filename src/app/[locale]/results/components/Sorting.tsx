@@ -4,13 +4,12 @@ import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
-  CircularProgress,
   IconButton,
+  InputLabel,
   MenuItem,
   Select,
   Stack,
   type SelectChangeEvent,
-  InputLabel,
 } from "@mui/material";
 import { rankValues, sortFields, type SortBy } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -130,7 +129,6 @@ const Sorting: ClientComponent<SortingProps> = ({
           />
         </IconButton>
       )}
-      {loading === true && <CircularProgress size={20} />}
     </Stack>
   );
 };

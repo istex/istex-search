@@ -3,12 +3,11 @@
 import { useCallback, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
-  CircularProgress,
+  InputLabel,
   MenuItem,
   Select,
   Stack,
   type SelectChangeEvent,
-  InputLabel,
 } from "@mui/material";
 import { perPageOptions, type PerPageOption } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -97,7 +96,6 @@ const PerPage: ClientComponent<PerPageProps> = ({
           </MenuItem>
         ))}
       </Select>
-      {loading === true && <CircularProgress size={20} />}
     </Stack>
   );
 };

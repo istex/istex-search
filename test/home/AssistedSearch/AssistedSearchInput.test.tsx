@@ -12,6 +12,8 @@ import { useRouter } from "@/i18n/navigation";
 import type { AST } from "@/lib/assistedSearch/ast";
 
 describe("AssistedSearchInput", () => {
+  jest.setTimeout(30_000);
+
   it("goes to the results page when clicking on the search button while the form is complete", async () => {
     const router = useRouter();
     render(<AssistedSearchInput />);
@@ -22,7 +24,7 @@ describe("AssistedSearchInput", () => {
     await search();
 
     expect(router.push).toHaveBeenCalled();
-  }, 30_000);
+  });
 
   it("fills the inputs based on the AST in the URL", () => {
     renderAssistedSearchInput(true);

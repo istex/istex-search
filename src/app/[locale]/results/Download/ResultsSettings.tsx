@@ -20,6 +20,7 @@ const ResultsSettings: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
 
@@ -51,6 +52,7 @@ const ResultsSettings: ClientComponent = () => {
         fontSize="0.875rem"
         labelColor="colors.lightBlack"
         selectColor="colors.lightBlack"
+        disabled={isImportSearchMode}
       />
       <Box
         sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}

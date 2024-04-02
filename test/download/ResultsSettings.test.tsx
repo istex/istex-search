@@ -36,6 +36,16 @@ describe("ResultsSettings", () => {
     const resultsCount = istexApiConfig.maxSize + 10;
     testInitialization(resultsCount, istexApiConfig.maxSize);
   });
+
+  it("disables the sorting when in import mode", () => {
+    mockSearchParams({
+      searchMode: "import",
+    });
+    render(<ResultsSettings />);
+
+    const sorting = screen.getByRole("combobox");
+    expect(sorting).toHaveAttribute("aria-disabled", "true");
+  });
 });
 
 // Common logic between tests that interact with the size input
@@ -52,7 +62,7 @@ async function testModification(
   await userEvent.clear(input);
   await userEvent.paste(wishValue.toString());
 
-  expect(router.replace).toBeCalledWith(`/?size=${expectedValue}`, {
+  expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {
     scroll: false,
   });
 }

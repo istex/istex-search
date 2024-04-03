@@ -22,6 +22,7 @@ const ResultsPageShell: ServerComponent<
   resultsCount,
   facets,
   results,
+  randomSeed,
   loading,
   errorInfo,
   children,
@@ -33,6 +34,7 @@ const ResultsPageShell: ServerComponent<
     <QueryProvider
       queryString={queryString}
       resultsCount={resultsCount}
+      randomSeed={randomSeed}
       loading={loading}
       errorInfo={errorInfo}
     >

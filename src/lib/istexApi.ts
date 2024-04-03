@@ -29,6 +29,7 @@ export interface BuildResultPreviewUrlOptions {
   excludedDocuments?: string[];
   sortBy?: SortBy;
   sortDir?: SortDir;
+  randomSeed?: string;
 }
 
 export const createCompleteQuery = (
@@ -136,6 +137,7 @@ export function buildResultPreviewUrl({
   excludedDocuments,
   sortBy,
   sortDir,
+  randomSeed,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -165,6 +167,9 @@ export function buildResultPreviewUrl({
     sortBy ?? DEFAULT_SORT_BY,
     sortDir ?? DEFAULT_SORT_DIR,
   );
+  if (randomSeed != null) {
+    url.searchParams.set("randomSeed", randomSeed);
+  }
   url.searchParams.set("output", fields?.join(",") ?? "*");
   url.searchParams.set("sid", "istex-search");
   url.searchParams.set(
@@ -226,20 +231,35 @@ export type Aggregation = Record<
 
 export interface IstexApiResponse {
   total: number;
+  prevPageURI?: string;
+  nextPageURI?: string;
+  firstPageURI: string;
+  lastPageURI: string;
   hits: Result[];
   aggregations: Aggregation;
 }
 
 export type Filter = Record<string, string[]>;
 
-export async function getResults(
-  queryString: string,
-  perPage: PerPageOption,
-  page: number,
-  filters: Filter,
-  sortBy: SortBy,
-  sortDir: SortDir,
-) {
+export interface GetResultsOptions {
+  queryString: string;
+  perPage: PerPageOption;
+  page: number;
+  filters: Filter;
+  sortBy: SortBy;
+  sortDir: SortDir;
+  randomSeed?: string;
+}
+
+export async function getResults({
+  queryString,
+  perPage,
+  page,
+  filters,
+  sortBy,
+  sortDir,
+  randomSeed,
+}: GetResultsOptions) {
   // Create the URL
   const url = buildResultPreviewUrl({
     queryString,
@@ -263,6 +283,7 @@ export async function getResults(
     filters,
     sortBy,
     sortDir,
+    randomSeed,
   });
 
   // The final query string is built from the initial query string + the filters

@@ -16,36 +16,25 @@ import {
   FACETS,
 } from "./facets/constants";
 import ErrorCard from "@/components/ErrorCard";
-import type { PerPageOption, SortBy, SortDir } from "@/config";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import {
   getResults,
   type Aggregation,
-  type Filter,
+  type GetResultsOptions,
   type IstexApiResponse,
 } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { Page } from "@/types/next";
 
 async function getTranslatedResults(
-  queryString: string,
-  perPage: PerPageOption,
-  page: number,
-  filters: Filter,
-  sortBy: SortBy,
-  sortDir: SortDir,
-  locale: string,
+  options: GetResultsOptions & { locale: string },
 ): Promise<IstexApiResponse> {
-  const t = await getTranslations({ locale, namespace: "results" });
-  const response = await getResults(
-    queryString,
-    perPage,
-    page,
-    filters,
-    sortBy,
-    sortDir,
-  );
+  const t = await getTranslations({
+    locale: options.locale,
+    namespace: "results",
+  });
+  const response = await getResults(options);
 
   // Fill some missing fields with placeholder texts
   response.hits.forEach((result) => {
@@ -67,6 +56,7 @@ const ResultsPage: Page = async ({
   const lastAppliedFacet = searchParams.getLastAppliedFacet();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
+  const randomSeedFromSearchParams = searchParams.getRandomSeed();
   const t = await getTranslations({ locale, namespace: "results" });
 
   let queryString: string;
@@ -89,7 +79,7 @@ const ResultsPage: Page = async ({
       filters;
 
     const [results, resultsWithoutLastAppliedFacet] = await Promise.all([
-      getTranslatedResults(
+      getTranslatedResults({
         queryString,
         perPage,
         page,
@@ -97,18 +87,31 @@ const ResultsPage: Page = async ({
         sortBy,
         sortDir,
         locale,
-      ),
+        randomSeed: randomSeedFromSearchParams,
+      }),
       lastAppliedFacet !== ""
-        ? getResults(
+        ? getResults({
             queryString,
             perPage,
             page,
-            filtersWithoutLastAppliedFacet,
+            filters: filtersWithoutLastAppliedFacet,
             sortBy,
             sortDir,
-          )
+            randomSeed: randomSeedFromSearchParams,
+          })
         : undefined,
     ]);
+
+    // Get the potential random seed in the pagination URLs sent by the API
+    const firstPageUrl = new URL(results.firstPageURI);
+    const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
+
+    let randomSeedToUse;
+    if (randomSeedFromSearchParams != null) {
+      randomSeedToUse = randomSeedFromSearchParams;
+    } else if (randomSeedFromResults != null) {
+      randomSeedToUse = randomSeedFromResults;
+    }
 
     const facets: FacetList = {};
     const indicators: Aggregation = {};
@@ -146,6 +149,7 @@ const ResultsPage: Page = async ({
       <ResultsPageShell
         queryString={queryString}
         resultsCount={results.total}
+        randomSeed={randomSeedToUse}
         facets={facets}
         results={results}
       >

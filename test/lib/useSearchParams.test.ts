@@ -459,6 +459,34 @@ describe("SearchParams class", () => {
     expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
   });
 
+  it("gets the random seed", () => {
+    const randomSeed = "veryRandomSeed";
+    const searchParams = useSearchParams({
+      randomSeed,
+    });
+
+    expect(searchParams.getRandomSeed()).toBe(randomSeed);
+  });
+
+  it("sets the random seed", () => {
+    const randomSeed = "veryRandomSeed";
+    const searchParams = useSearchParams({});
+
+    searchParams.setRandomSeed(randomSeed);
+
+    expect(searchParams.getRandomSeed()).toBe(randomSeed);
+  });
+
+  it("deletes the random seed", () => {
+    const searchParams = useSearchParams({
+      randomSeed: "veryRandomSeed",
+    });
+
+    searchParams.deleteRandomSeed();
+
+    expect(searchParams.getRandomSeed()).toBe(undefined);
+  });
+
   // Make Math.random always return the same value to avoid mismatches in node IDs when testing
   beforeAll(() => {
     jest.spyOn(Math, "random").mockReturnValue(0);

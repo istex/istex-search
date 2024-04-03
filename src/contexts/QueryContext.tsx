@@ -14,6 +14,7 @@ interface QueryContextValue {
     queryString: string,
     searchParams?: SearchParams,
   ) => Promise<void>;
+  randomSeed?: string;
   loading?: boolean;
   errorInfo?: CustomErrorInfo;
 }
@@ -22,13 +23,9 @@ export type QueryContextProps = Omit<QueryContextValue, "goToResultsPage">;
 
 const QueryContext = createContext<QueryContextValue | null>(null);
 
-export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
-  queryString,
-  resultsCount,
-  loading,
-  errorInfo,
-  children,
-}) => {
+export const QueryProvider: ClientComponent<QueryContextProps, true> = (
+  props,
+) => {
   const router = useRouter();
   const defaultSearchParams = useSearchParams();
   const { resetSelectedExcludedDocuments } = useDocumentContext();
@@ -43,9 +40,7 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
     // if they need to specify other search params. If they don't, the
     // search params used for the previous render are used.
     const searchParamsToUse = searchParams ?? defaultSearchParams;
-    searchParamsToUse.deleteSize();
-    searchParamsToUse.deletePage();
-    searchParamsToUse.deleteFilters();
+    searchParamsToUse.clear();
     await searchParamsToUse.setQueryString(newQueryString);
 
     resetSelectedExcludedDocuments();
@@ -53,16 +48,8 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = ({
   };
 
   return (
-    <QueryContext.Provider
-      value={{
-        queryString,
-        resultsCount,
-        goToResultsPage,
-        loading,
-        errorInfo,
-      }}
-    >
-      {children}
+    <QueryContext.Provider value={{ goToResultsPage, ...props }}>
+      {props.children}
     </QueryContext.Provider>
   );
 };

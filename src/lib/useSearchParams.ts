@@ -369,6 +369,22 @@ export class SearchParams {
     this.searchParams.delete("sortDirection");
   }
 
+  getRandomSeed(): string | undefined {
+    return this.searchParams.get("randomSeed") ?? undefined;
+  }
+
+  setRandomSeed(value: string): void {
+    if (value === "") {
+      this.searchParams.delete("randomSeed");
+    }
+
+    this.searchParams.set("randomSeed", value);
+  }
+
+  deleteRandomSeed(): void {
+    this.searchParams.delete("randomSeed");
+  }
+
   toString(): string {
     return this.searchParams.toString();
   }

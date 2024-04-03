@@ -17,7 +17,7 @@ import type { ClientComponent } from "@/types/next";
 const Pagination: ClientComponent = () => {
   const locale = useLocale();
   const t = useTranslations("results.Pagination");
-  const { resultsCount } = useQueryContext();
+  const { resultsCount, randomSeed } = useQueryContext();
   const maxResults = clamp(resultsCount, 0, istexApiConfig.maxPaginationOffset);
   const router = useRouter();
   const pathname = usePathname();
@@ -28,6 +28,11 @@ const Pagination: ClientComponent = () => {
 
   const handleChangePage = (newPage: number) => {
     searchParams.setPage(newPage);
+
+    if (randomSeed != null) {
+      searchParams.setRandomSeed(randomSeed);
+    }
+
     router.push(`${pathname}?${searchParams.toString()}`);
   };
 

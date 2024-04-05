@@ -14,7 +14,7 @@ import type { ClientComponent } from "@/types/next";
 const DownloadButton: ClientComponent = () => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
-  const { queryString } = useQueryContext();
+  const { queryString, randomSeed } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
@@ -34,6 +34,7 @@ const DownloadButton: ClientComponent = () => {
       excludedDocuments,
       sortBy,
       sortDir,
+      randomSeed,
     });
 
     // If the queryString is too long, replace it with a q_id

@@ -15,7 +15,7 @@ const InfoPanels: ServerComponent = () => {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
-  const { queryString } = useQueryContext();
+  const { queryString, randomSeed } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
@@ -33,6 +33,7 @@ const InfoPanels: ServerComponent = () => {
     excludedDocuments,
     sortBy,
     sortDir,
+    randomSeed,
   });
 
   return (

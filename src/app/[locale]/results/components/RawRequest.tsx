@@ -23,7 +23,7 @@ import type { ClientComponent } from "@/types/next";
 const RawRequest: ClientComponent = () => {
   const t = useTranslations("results.RawRequest");
   const searchParams = useSearchParams();
-  const { queryString } = useQueryContext();
+  const { queryString, randomSeed } = useQueryContext();
   const perPage = searchParams.getPerPage();
   const page = searchParams.getPage();
   const filters = searchParams.getFilters();
@@ -36,6 +36,7 @@ const RawRequest: ClientComponent = () => {
     filters,
     sortBy,
     sortDir,
+    randomSeed,
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [copyState, setCopyState] = useState<"success" | "error" | "badEnv">(

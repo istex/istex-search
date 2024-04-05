@@ -17,7 +17,20 @@ describe("Pagination", () => {
     const button = screen.getByTestId("KeyboardArrowRightIcon");
     await userEvent.click(button);
 
-    expect(router.push).toBeCalledWith("/?page=2");
+    expect(router.push).toHaveBeenCalledWith("/?page=2");
+  });
+
+  it("uses the randomSeed when present", async () => {
+    const randomSeed = "1234";
+    const router = useRouter();
+    render(<Pagination />, { resultsCount: 20, randomSeed });
+
+    const button = screen.getByTestId("KeyboardArrowRightIcon");
+    await userEvent.click(button);
+
+    expect(router.push).toHaveBeenCalledWith(
+      `/?page=2&randomSeed=${randomSeed}`,
+    );
   });
 
   it("initializes the page number base on the page in the URL", () => {
@@ -44,7 +57,7 @@ describe("Pagination", () => {
     const lastPageButton = screen.getByTestId("KeyboardDoubleArrowRightIcon");
     await userEvent.click(lastPageButton);
 
-    expect(router.push).toBeCalledWith(`/?page=${lastPage}`);
+    expect(router.push).toHaveBeenCalledWith(`/?page=${lastPage}`);
   });
 
   it("limits the page number based on the results count", () => {

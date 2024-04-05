@@ -28,6 +28,7 @@ export function customRender(
               queryString={context?.queryString ?? ""}
               resultsCount={context?.resultsCount ?? 0}
               loading={context?.loading}
+              randomSeed={context?.randomSeed}
             >
               {children}
             </QueryProvider>

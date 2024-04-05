@@ -339,6 +339,7 @@ export interface BuildFullApiUrlOptions {
   excludedDocuments?: string[];
   sortBy?: SortBy;
   sortDir?: SortDir;
+  randomSeed?: string;
 }
 
 export function buildFullApiUrl({
@@ -350,6 +351,7 @@ export function buildFullApiUrl({
   excludedDocuments,
   sortBy,
   sortDir,
+  randomSeed,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
@@ -368,6 +370,9 @@ export function buildFullApiUrl({
     sortBy ?? DEFAULT_SORT_BY,
     sortDir ?? DEFAULT_SORT_DIR,
   );
+  if (randomSeed != null) {
+    url.searchParams.set("randomSeed", randomSeed);
+  }
   url.searchParams.set("sid", "istex-search");
 
   const extractParams = buildExtractParamsFromFormats(selectedFormats);

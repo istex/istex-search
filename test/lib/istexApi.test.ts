@@ -344,6 +344,18 @@ describe("Istex API related functions", () => {
     );
   });
 
+  it("builds the result preview URL with randomSeed", () => {
+    const params: Module.BuildResultPreviewUrlOptions = {
+      queryString: "hello",
+      sortBy: "random",
+      randomSeed: "1234",
+    };
+
+    expect(Module.buildResultPreviewUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=10&from=0&rankBy=random&randomSeed=1234&output=*&sid=istex-search&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Ccategories.wos%5B*%5D%2Ccategories.scienceMetrix%5B*%5D%2Ccategories.scopus%5B*%5D%2Ccategories.inist%5B*%5D%2CqualityIndicators.pdfWordCount%2CqualityIndicators.pdfCharCount%2CqualityIndicators.score%2CqualityIndicators.pdfVersion%5B*%5D%2CqualityIndicators.refBibsNative%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.tdmReady%2CqualityIndicators.teiSource",
+    );
+  });
+
   it("should correctly build full api url with sortBy", () => {
     const params: Module.BuildFullApiUrlOptions = {
       queryString: "hello",
@@ -368,6 +380,20 @@ describe("Istex API related functions", () => {
 
     expect(Module.buildFullApiUrl(params).toString()).toBe(
       "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&sid=istex-search&extract=fulltext%5Bpdf%5D",
+    );
+  });
+
+  it("builds the full API URL with randomSeed", () => {
+    const params: Module.BuildFullApiUrlOptions = {
+      queryString: "hello",
+      selectedFormats: formats.fulltext.pdf,
+      size: 2,
+      sortBy: "random",
+      randomSeed: "1234",
+    };
+
+    expect(Module.buildFullApiUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=random&randomSeed=1234&sid=istex-search&extract=fulltext%5Bpdf%5D",
     );
   });
 });

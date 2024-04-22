@@ -1,6 +1,6 @@
 # istex-search
 
-[Istex-Search](https://search.istex.fr) is a web application dedicated to Istex browsing and sub-corpus extraction. It allows to download several [Istex](https://istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.
+[Istex Search](https://search.istex.fr) is a web application dedicated to Istex browsing and sub-corpus extraction. It allows to download several [Istex](https://istex.fr) documents easily in an archive (zip or tar.gz) using a web interface.
 
 ## Prerequisites
 

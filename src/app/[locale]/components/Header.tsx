@@ -32,7 +32,7 @@ const Header: ServerComponent = () => {
             textDecoration: "none",
           }}
         >
-          <Image src={istexSearchLogo} alt="Istex-Search" />
+          <Image src={istexSearchLogo} alt="Istex Search" />
           <Typography
             component="div"
             variant="h3"

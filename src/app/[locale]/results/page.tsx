@@ -10,7 +10,7 @@ export const generateMetadata: GenerateMetadata = async ({
   const t = await getTranslations({ locale, namespace: "results.metadata" });
 
   return {
-    title: `Istex-Search - ${t("title")}`,
+    title: `Istex Search - ${t("title")}`,
   };
 };
 

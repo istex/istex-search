@@ -40,7 +40,10 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = (
     // if they need to specify other search params. If they don't, the
     // search params used for the previous render are used.
     const searchParamsToUse = searchParams ?? defaultSearchParams;
-    searchParamsToUse.clear();
+    searchParamsToUse.deleteSize();
+    searchParamsToUse.deletePage();
+    searchParamsToUse.deleteFilters();
+    searchParamsToUse.deleteRandomSeed();
     await searchParamsToUse.setQueryString(newQueryString);
 
     resetSelectedExcludedDocuments();

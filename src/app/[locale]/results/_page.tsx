@@ -103,14 +103,16 @@ const ResultsPage: Page = async ({
     ]);
 
     // Get the potential random seed in the pagination URLs sent by the API
-    const firstPageUrl = new URL(results.firstPageURI);
-    const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
-
     let randomSeedToUse;
-    if (randomSeedFromSearchParams != null) {
-      randomSeedToUse = randomSeedFromSearchParams;
-    } else if (randomSeedFromResults != null) {
-      randomSeedToUse = randomSeedFromResults;
+    if (results.total > 0 && results.firstPageURI != null) {
+      const firstPageUrl = new URL(results.firstPageURI);
+      const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
+
+      if (randomSeedFromSearchParams != null) {
+        randomSeedToUse = randomSeedFromSearchParams;
+      } else if (randomSeedFromResults != null) {
+        randomSeedToUse = randomSeedFromResults;
+      }
     }
 
     const facets: FacetList = {};

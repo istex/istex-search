@@ -233,8 +233,8 @@ export interface IstexApiResponse {
   total: number;
   prevPageURI?: string;
   nextPageURI?: string;
-  firstPageURI: string;
-  lastPageURI: string;
+  firstPageURI?: string;
+  lastPageURI?: string;
   hits: Result[];
   aggregations: Aggregation;
 }

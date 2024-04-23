@@ -39,7 +39,7 @@ describe("MultilineTextField", () => {
     expect(screen.queryByTestId("line-numbers")).toBeInTheDocument();
   });
 
-  it("shows the line numbers when showLineNumbers is not true", () => {
+  it("doesn't show the line numbers when showLineNumbers is not true", () => {
     render(<MultilineTextField />);
 
     expect(screen.queryByTestId("line-numbers")).not.toBeInTheDocument();
@@ -48,6 +48,8 @@ describe("MultilineTextField", () => {
   it("displays the error lines with bold red text", () => {
     const value = ["id1", "id2", "id3"].join("\n");
     const errorLines = [2, 3];
+    const redColor = "rgb(211, 67, 21)";
+    const bold = "700";
     render(
       <MultilineTextField
         value={value}
@@ -56,12 +58,12 @@ describe("MultilineTextField", () => {
       />,
     );
 
-    const lineNumbers = screen.getByTestId("line-numbers");
-    const [firstLineNumber, secondLineNumber, thirdLineNumber] = Array.from(
-      lineNumbers.children,
-    );
-    const redColor = "rgb(211, 67, 21)";
-    const bold = "700";
+    const lineNumbers = screen
+      .getByTestId("line-numbers")
+      .querySelectorAll(".MuiBox-root");
+
+    const [firstLineNumber, secondLineNumber, thirdLineNumber] =
+      Array.from(lineNumbers);
 
     expect(getComputedStyle(firstLineNumber).fontWeight).toBe("normal");
     expect(getComputedStyle(firstLineNumber).color).toBe("");

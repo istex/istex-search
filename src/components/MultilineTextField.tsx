@@ -10,6 +10,7 @@ import {
   type UIEventHandler,
 } from "react";
 import { createPortal } from "react-dom";
+import { FixedSizeList } from "react-window";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import type { ClientComponent } from "@/types/next";
@@ -29,6 +30,9 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
     const { showLineNumbers, errorLines, onSubmit, ...rest } = props;
     const maxHeight =
       typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
+    const lineCount =
+      typeof props.value === "string" ? props.value.split("\n").length : 0;
+    const digitCount = Math.floor(Math.log10(lineCount) + 1);
     const requiresLineNumbers =
       showLineNumbers === true && inputRef.current?.parentElement != null;
 
@@ -41,31 +45,6 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
       }
     };
 
-    const getLineNumbers = () => {
-      if (typeof props.value !== "string") {
-        return [1];
-      }
-
-      return props.value.split("\n").map((_, i) => {
-        const lineNumber = i + 1;
-        const hasError = errorLines?.includes(lineNumber) ?? false;
-
-        return (
-          <Box
-            key={lineNumber}
-            sx={(theme) => ({
-              fontWeight: hasError ? "bold" : "normal",
-              color: hasError
-                ? theme.palette.colors.red
-                : theme.typography.body1.color,
-            })}
-          >
-            {lineNumber}
-          </Box>
-        );
-      });
-    };
-
     const handleScroll: UIEventHandler = (event) => {
       if (lineNumbersRef.current != null) {
         // When the textarea is scrolled, apply the same scroll to the line numbers
@@ -73,29 +52,56 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
       }
     };
 
-    useEffect(() => {
-      // The inputRef isn't populated on the first render so we need to rerender
-      // immediately to be able to use the inputRef in the portal for the line numbers
-      forceUpdate(true);
-    }, []);
-
     const lineNumbersElement = (
       <Box
         data-testid="line-numbers"
-        ref={lineNumbersRef}
         sx={{
           textAlign: "right",
           pr: 2,
           "&.MuiBox-root": {
             order: 0,
-            maxHeight: maxHeight ?? "inherit",
-            overflow: maxHeight != null ? "hidden" : "inherit",
+          },
+          "& > *": {
+            overflow: maxHeight != null ? "hidden !important" : "inherit",
           },
         }}
       >
-        {getLineNumbers()}
+        <FixedSizeList
+          outerRef={lineNumbersRef}
+          height={maxHeight ?? 0}
+          itemCount={lineCount}
+          width={`${digitCount}ch`}
+          itemSize={LINE_HEIGHT}
+          overscanCount={5}
+        >
+          {({ index, style }) => {
+            const lineNumber = index + 1;
+            const hasError = errorLines?.includes(lineNumber) ?? false;
+
+            return (
+              <Box
+                key={lineNumber}
+                style={style}
+                sx={(theme) => ({
+                  fontWeight: hasError ? "bold" : "normal",
+                  color: hasError
+                    ? theme.palette.colors.red
+                    : theme.typography.body1.color,
+                })}
+              >
+                {lineNumber}
+              </Box>
+            );
+          }}
+        </FixedSizeList>
       </Box>
     );
+
+    useEffect(() => {
+      // The inputRef isn't populated on the first render so we need to rerender
+      // immediately to be able to use the inputRef in the portal for the line numbers
+      forceUpdate(true);
+    }, []);
 
     return (
       <>

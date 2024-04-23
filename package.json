@@ -25,6 +25,7 @@
     "next-intl": "3.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-window": "^1.8.10",
     "sharp": "0.33.2"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/node": "^20.11.10",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@types/react-window": "^1.8.8",
     "cross-fetch": "^4.0.0",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.1.0",

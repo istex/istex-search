@@ -4,6 +4,7 @@ import { render } from "@testing-library/react";
 import TanStackQueryProvider from "@/app/[locale]/TanStackQueryProvider";
 import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
 import { DocumentProvider } from "@/contexts/DocumentContext";
+import { HistoryProvider } from "@/contexts/HistoryContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 import { DEFAULT_LOCALE, usePathname } from "@/i18n/navigation";
 import NextIntlProvider from "@/i18n/provider";
@@ -23,16 +24,18 @@ export function customRender(
         messages={messages as unknown as AbstractIntlMessages}
       >
         <MuiSetup>
-          <DocumentProvider results={context?.results}>
-            <QueryProvider
-              queryString={context?.queryString ?? ""}
-              resultsCount={context?.resultsCount ?? 0}
-              loading={context?.loading}
-              randomSeed={context?.randomSeed}
-            >
-              {children}
-            </QueryProvider>
-          </DocumentProvider>
+          <HistoryProvider>
+            <DocumentProvider results={context?.results}>
+              <QueryProvider
+                queryString={context?.queryString ?? ""}
+                resultsCount={context?.resultsCount ?? 0}
+                loading={context?.loading}
+                randomSeed={context?.randomSeed}
+              >
+                {children}
+              </QueryProvider>
+            </DocumentProvider>
+          </HistoryProvider>
         </MuiSetup>
       </NextIntlProvider>
     </TanStackQueryProvider>

@@ -9,7 +9,7 @@ describe("Results page", () => {
       searchParams: {},
     });
 
-    expect(redirect).toBeCalledWith("/");
+    expect(redirect).toHaveBeenCalledWith("/");
   });
 
   it("renders an alert when a syntax error is the query string", async () => {

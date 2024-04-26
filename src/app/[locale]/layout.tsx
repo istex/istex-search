@@ -5,6 +5,8 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
+import FloatingSideMenu from "./results/FloatingSideMenu/FloatingSideMenu";
+import { HistoryProvider } from "@/contexts/HistoryContext";
 import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadata, Layout } from "@/types/next";
@@ -36,11 +38,14 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
               timeZone={timeZone}
               now={now}
             >
-              <Navbar />
-              <Header />
-              <main>{children}</main>
-              <Footer />
-              <HelpButton />
+              <HistoryProvider>
+                <Navbar />
+                <Header />
+                <main>{children}</main>
+                <FloatingSideMenu />
+                <Footer />
+                <HelpButton />
+              </HistoryProvider>
             </NextIntlProvider>
           </MuiSetup>
         </TanStackQueryProvider>

@@ -8,6 +8,7 @@ import Sorting from "../components/Sorting";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -20,6 +21,7 @@ const ResultsSettings: ClientComponent = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
@@ -34,6 +36,12 @@ const ResultsSettings: ClientComponent = () => {
 
   const setSize = (size: number) => {
     searchParams.setSize(size);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 

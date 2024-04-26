@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Grid, Link, Typography } from "@mui/material";
+import { Grid, Link, Typography, type SxProps } from "@mui/material";
 import HighlightedUrl from "../components/HighlightedUrl";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
@@ -10,6 +10,13 @@ import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import { lineclamp } from "@/lib/utils";
 import type { ServerComponent } from "@/types/next";
+
+const panelStyles: SxProps = {
+  "&.MuiPaper-root": {
+    bgcolor: "colors.white",
+  },
+  p: 2,
+};
 
 const InfoPanels: ServerComponent = () => {
   const t = useTranslations("download.InfoPanels");
@@ -61,7 +68,12 @@ const InfoPanels: ServerComponent = () => {
       <Grid item>
         <Panel>
           <PanelTitle>{t("queryTitle")}</PanelTitle>
-          <Panel sx={{ bgcolor: "colors.white", p: 2, mb: 2 }}>
+          <Panel
+            sx={{
+              ...panelStyles,
+              mb: 2,
+            }}
+          >
             <Typography
               data-testid="query-string"
               variant="body2"
@@ -77,7 +89,7 @@ const InfoPanels: ServerComponent = () => {
           </Panel>
 
           <PanelTitle>{t("rawRequestTitle")}</PanelTitle>
-          <Panel sx={{ bgcolor: "colors.white", p: 2 }}>
+          <Panel sx={panelStyles}>
             <Typography
               data-testid="raw-request"
               variant="body2"

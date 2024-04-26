@@ -7,5 +7,6 @@ export default createJestConfig({
   testEnvironment: "jest-environment-jsdom",
   moduleNameMapper: {
     "^@/(.*)$": ["<rootDir>/src/$1"],
+    "^.+\\.svg\\?svgr$": "<rootDir>/test/svgFileMock.ts",
   },
 });

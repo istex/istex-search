@@ -3,14 +3,13 @@ import { useTranslations } from "next-intl";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
   IconButton,
   Stack,
 } from "@mui/material";
 import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 import MultilineTextField from "@/components/MultilineTextField";
 import type { ClientComponent } from "@/types/next";
 
@@ -86,20 +85,15 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
         </Button>
       </Box>
 
-      <Dialog open={modalOpen} onClose={closeModal}>
-        <DialogTitle>{t("Dialog.title")}</DialogTitle>
-
+      <Modal title={t("Dialog.title")} open={modalOpen} onClose={closeModal}>
         <DialogContent>{t("Dialog.content")}</DialogContent>
 
         <DialogActions sx={{ pt: 0 }}>
-          <Button variant="text" onClick={onSubmit} autoFocus>
+          <Button onClick={onSubmit} autoFocus>
             {t("Dialog.confirm")}
           </Button>
-          <Button variant="text" onClick={closeModal}>
-            {t("Dialog.cancel")}
-          </Button>
         </DialogActions>
-      </Dialog>
+      </Modal>
     </>
   );
 };

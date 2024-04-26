@@ -60,6 +60,9 @@ export default createTheme({
     info: {
       main: colors.blue,
     },
+    error: {
+      main: colors.red,
+    },
   },
   typography: {
     fontFamily: openSans.style.fontFamily,

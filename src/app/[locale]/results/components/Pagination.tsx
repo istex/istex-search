@@ -7,6 +7,7 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, IconButton, Stack } from "@mui/material";
 import { istexApiConfig } from "@/config";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -17,6 +18,7 @@ import type { ClientComponent } from "@/types/next";
 const Pagination: ClientComponent = () => {
   const locale = useLocale();
   const t = useTranslations("results.Pagination");
+  const history = useHistoryContext();
   const { resultsCount, randomSeed } = useQueryContext();
   const maxResults = clamp(resultsCount, 0, istexApiConfig.maxPaginationOffset);
   const router = useRouter();
@@ -32,6 +34,11 @@ const Pagination: ClientComponent = () => {
     if (randomSeed != null) {
       searchParams.setRandomSeed(randomSeed);
     }
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
 
     router.push(`${pathname}?${searchParams.toString()}`);
   };

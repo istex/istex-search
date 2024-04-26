@@ -9,26 +9,20 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import {
-  Transition,
-  type DownloadModalProps,
-} from "../results/Download/DownloadModal";
 import Button from "@/components/Button";
+import type { ModalProps } from "@/components/Modal";
 import { mailtoLink } from "@/i18n/i18n";
 import theme from "@/mui/theme";
 import type { ClientComponent } from "@/types/next";
 
-const HelpModal: ClientComponent<DownloadModalProps> = ({ open, onClose }) => {
+const HelpModal: ClientComponent<Omit<ModalProps, "title">> = ({
+  open,
+  onClose,
+}) => {
   const t = useTranslations("help.modal");
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      TransitionComponent={Transition}
-      maxWidth="xl"
-      scroll="body"
-    >
+    <Dialog open={open} onClose={onClose} maxWidth="xl" scroll="body">
       <Stack direction="row">
         <Box sx={{ bgcolor: "colors.white", p: 1.5 }}>
           <DialogTitle

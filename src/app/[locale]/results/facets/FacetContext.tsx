@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState } from "react";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import { type ClientComponent } from "@/types/next";
@@ -43,6 +44,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const [facetsList, setFacetsList] = useState<FacetList | undefined>(facets);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const history = useHistoryContext();
   const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const clearOneFacet = (facetTitle: string) => {
@@ -56,16 +58,28 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     searchParams.setFilters(updatedFilters);
     searchParams.setPage(1);
     searchParams.deleteLastAppliedFacet();
-    router.push(`/results?${searchParams.toString()}`);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const clearAllFacets = () => {
     searchParams.deleteFilters();
     searchParams.setPage(1);
     searchParams.deleteLastAppliedFacet();
-    router.push(`/results?${searchParams.toString()}`);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const applyOneFacet = (facetTitle: string) => {
@@ -98,8 +112,14 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
     searchParams.setFilters(filters);
     searchParams.setPage(1);
     searchParams.setLastAppliedFacet(facetTitle);
-    router.push(`/results?${searchParams.toString()}`);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {
@@ -145,7 +165,7 @@ export function useFacetContext() {
   const context = useContext(FacetContext);
 
   if (context == null) {
-    throw new Error("useFacetContext must be within a FacetContextProvider");
+    throw new Error("useFacetContext must be within a FacetProvider");
   }
 
   return context;

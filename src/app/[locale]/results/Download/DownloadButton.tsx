@@ -2,11 +2,12 @@
 
 import type { MouseEventHandler } from "react";
 import { useTranslations } from "next-intl";
-import { md5 } from "js-md5";
 import Button from "@/components/Button";
-import { NO_FORMAT_SELECTED, istexApiConfig } from "@/config";
+import { NO_FORMAT_SELECTED } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { useDownload } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
@@ -14,6 +15,8 @@ import type { ClientComponent } from "@/types/next";
 const DownloadButton: ClientComponent = () => {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
+  const download = useDownload();
   const { queryString, randomSeed } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const selectedFormats = searchParams.getFormats();
@@ -37,25 +40,13 @@ const DownloadButton: ClientComponent = () => {
       randomSeed,
     });
 
-    // If the queryString is too long, replace it with a q_id
-    if (queryString.length > istexApiConfig.queryStringMaxLength) {
-      const qId = md5(queryString);
+    // This hook is synchronous
+    download(url);
 
-      url.searchParams.delete("q");
-      url.searchParams.set("q_id", qId);
-    }
-
-    // Hack to download the archive and see the progression in the download bar built in browsers
-    // We create a fake 'a' tag that points to the URL we just built and simulate a click on it
-    const link = document.createElement("a");
-    link.href = url.toString();
-
-    // These attributes are set to open the URL in another tab, this is useful when the user is
-    // redirected to the identity federation page so that they don't lose the current page
-    link.setAttribute("target", "_blank");
-    link.setAttribute("rel", "noreferrer");
-
-    link.click();
+    history.push({
+      date: Date.now(),
+      searchParams,
+    });
   };
 
   return (

@@ -1,4 +1,5 @@
 import type { SxProps } from "@mui/system/styleFunctionSx";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/navigation";
 
 export function lineclamp(lines: number): SxProps {
   return {
@@ -40,4 +41,14 @@ export function isValidIstexId(istexId: string) {
 
 export function unique<T>(array: T[]): T[] {
   return Array.from(new Set(array));
+}
+
+export function formatDate(timestamp: number, locale: Locale = DEFAULT_LOCALE) {
+  return new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(timestamp);
 }

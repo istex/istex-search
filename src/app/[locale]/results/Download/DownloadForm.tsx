@@ -14,10 +14,14 @@ import type { ClientComponent } from "@/types/next";
 
 const DownloadForm: ClientComponent = () => {
   const { selectedDocuments } = useDocumentContext();
-
   const hasSelectedDocuments = selectedDocuments.length > 0;
+
   return (
-    <Grid container spacing={2}>
+    <Grid
+      container
+      spacing={2}
+      sx={{ "& .MuiPaper-root": { bgcolor: "white" } }}
+    >
       <Grid item xs={12} md={hasSelectedDocuments ? 5 : 8}>
         <Panel>
           <UsageSelector />

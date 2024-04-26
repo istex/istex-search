@@ -12,6 +12,7 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import { rankValues, sortFields, type SortBy } from "@/config";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -37,6 +38,7 @@ const Sorting: ClientComponent<SortingProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
   const sortBy = searchParams.getSortBy();
   const sortDirection = searchParams.getSortDirection();
   const { loading } = useQueryContext();
@@ -55,11 +57,23 @@ const Sorting: ClientComponent<SortingProps> = ({
 
   const handleSortByChange = (event: SelectChangeEvent<SortBy>) => {
     searchParams.setSortBy(event.target.value as SortBy);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   const toggleSortDirection = () => {
     searchParams.setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 

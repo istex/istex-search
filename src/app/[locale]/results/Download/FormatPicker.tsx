@@ -6,6 +6,7 @@ import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@/components/Checkbox";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   deselectFormat,
@@ -78,6 +79,7 @@ const Format: ClientComponent<FormatProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
   const selectedFormats = searchParams.getFormats();
   const currentUsageName = searchParams.getUsageName();
   const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
@@ -88,6 +90,11 @@ const Format: ClientComponent<FormatProps> = ({
       : deselectFormat(selectedFormats, value);
 
     searchParams.setFormats(newFormats);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
 
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };

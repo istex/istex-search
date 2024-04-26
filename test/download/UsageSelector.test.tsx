@@ -22,7 +22,7 @@ describe("UsageSelector", () => {
       buildExtractParamsFromFormats(usages.lodex.formats),
     )}`;
 
-    expect(router.replace).toBeCalledWith(expectedUri, { scroll: false });
+    expect(router.replace).toHaveBeenCalledWith(expectedUri, { scroll: false });
   });
 
   it("initializes the usage based on the usage in the URL", () => {

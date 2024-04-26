@@ -1,3 +1,4 @@
+import { md5 } from "js-md5";
 import CustomError from "./CustomError";
 import type { FieldName } from "./assistedSearch/ast";
 import { buildExtractParamsFromFormats } from "./formats";
@@ -331,7 +332,8 @@ export async function getPossibleValues(fieldName: FieldName) {
 }
 
 export interface BuildFullApiUrlOptions {
-  queryString: string;
+  queryString?: string;
+  qId?: string;
   selectedFormats: number;
   size: number;
   filters?: Filter;
@@ -344,6 +346,7 @@ export interface BuildFullApiUrlOptions {
 
 export function buildFullApiUrl({
   queryString,
+  qId,
   selectedFormats,
   size,
   filters,
@@ -355,15 +358,25 @@ export function buildFullApiUrl({
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
-  url.searchParams.set(
-    "q",
-    createCompleteQuery(
+  if (queryString != null) {
+    const fullQueryString = createCompleteQuery(
       queryString,
       filters,
       selectedDocuments,
       excludedDocuments,
-    ),
-  );
+    );
+
+    // If the queryString is too long, use a q_id instead
+    if (fullQueryString.length > istexApiConfig.queryStringMaxLength) {
+      const qId = md5(fullQueryString);
+      url.searchParams.set("q_id", qId);
+    } else {
+      url.searchParams.set("q", fullQueryString);
+    }
+  } else if (qId != null) {
+    url.searchParams.set("q_id", qId);
+  }
+
   url.searchParams.set("size", size.toString());
   setSearchParamsSorting(
     url.searchParams,

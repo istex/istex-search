@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import { useHistoryContext } from "./HistoryContext";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
 import type { CustomErrorInfo } from "@/lib/CustomError";
@@ -28,11 +29,12 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = (
 ) => {
   const router = useRouter();
   const defaultSearchParams = useSearchParams();
+  const history = useHistoryContext();
   const { resetSelectedExcludedDocuments } = useDocumentContext();
 
-  const goToResultsPage = async (
-    newQueryString: string,
-    searchParams?: SearchParams,
+  const goToResultsPage: QueryContextValue["goToResultsPage"] = async (
+    newQueryString,
+    searchParams,
   ) => {
     localStorage.setItem("lastQueryString", newQueryString);
 
@@ -45,6 +47,11 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = (
     searchParamsToUse.deleteFilters();
     searchParamsToUse.deleteRandomSeed();
     await searchParamsToUse.setQueryString(newQueryString);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams: searchParamsToUse,
+    });
 
     resetSelectedExcludedDocuments();
     router.push(`/results?${searchParamsToUse.toString()}`);
@@ -61,7 +68,7 @@ export function useQueryContext() {
   const context = useContext(QueryContext);
 
   if (context == null) {
-    throw new Error("useQueryContext must be within a ResultsProvider");
+    throw new Error("useQueryContext must be within a QueryProvider");
   }
 
   return context;

@@ -1,3 +1,19 @@
-<svg width="24" height="18" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M24 8.4L14.6667 0V4.8C5.33333 6 1.33333 12 0 18C3.33333 13.8 8 11.88 14.6667 11.88V16.8L24 8.4Z" fill="#F0F0F0"/>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1" /><g
+     id="layer1"><g
+       style="fill:currentColor"
+       id="g1"
+       transform="matrix(0.9985601,0,0,0.9985601,0.01727873,0.0172789)"><path
+         d="M 24,11.4 14.6667,2.9999998 V 7.7999998 C 5.3333301,8.9999998 1.3333302,15 1.5e-7,21 3.3333302,16.8 8.0000002,14.88 14.6667,14.88 V 19.8 Z"
+         id="path1" /></g></g></svg>

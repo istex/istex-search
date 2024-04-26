@@ -7,7 +7,6 @@ import Pagination from "./components/Pagination";
 import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
-import ShareButton from "./components/ShareButton";
 import type { FacetList } from "./facets/FacetContext";
 import FacetsContainer from "./facets/FacetsContainer";
 import {
@@ -180,8 +179,6 @@ const ResultsPage: Page = async ({
             </Stack>
 
             <DownloadButton />
-
-            <ShareButton />
           </>
         ) : (
           <Paper

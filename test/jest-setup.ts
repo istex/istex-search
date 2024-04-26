@@ -29,6 +29,26 @@ mock("@/lib/istexApi", {
   getPossibleValues: jest.fn(() => []),
 });
 
+const shareMock = jest.fn();
+const downloadMock = jest.fn();
+mock("@/lib/hooks", {
+  useDownload: () => downloadMock,
+  useShare: () => shareMock,
+});
+
+const historyMock = {
+  get: jest.fn(),
+  push: jest.fn(),
+  delete: jest.fn(),
+  clear: jest.fn(),
+  getCurrentRequest: jest.fn(),
+  populateCurrentRequest: jest.fn(),
+  isEmpty: jest.fn(),
+};
+mock("@/contexts/HistoryContext", {
+  useHistoryContext: () => historyMock,
+});
+
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {
     const actual = jest.requireActual(moduleName);

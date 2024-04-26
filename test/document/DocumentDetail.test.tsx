@@ -56,6 +56,8 @@ describe("DocumentDetail", () => {
 
   const results: IstexApiResponse = {
     total: 1,
+    firstPageURI: "",
+    lastPageURI: "",
     hits: [document],
     aggregations: {},
   };

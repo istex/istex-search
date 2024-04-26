@@ -10,6 +10,7 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import { perPageOptions, type PerPageOption } from "@/config";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
@@ -30,6 +31,7 @@ const PerPage: ClientComponent<PerPageProps> = ({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
   const perPage = searchParams.getPerPage();
   const { loading } = useQueryContext();
   const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
@@ -48,6 +50,12 @@ const PerPage: ClientComponent<PerPageProps> = ({
   const handlePerPageChange = (event: SelectChangeEvent<PerPageOption>) => {
     searchParams.deletePage();
     searchParams.setPerPage(event.target.value as PerPageOption);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 

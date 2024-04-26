@@ -333,8 +333,6 @@
           "Dialog": {
             "title": "Êtes-vous sûr ?",
             "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
-            "remember": "Ne plus afficher ce message",
-            "cancel": "Annuler",
             "confirm": "Confirmer"
           }
         }
@@ -565,6 +563,31 @@
       "languageCount": "{language} : {count} doc. ({percentage}\u00A0%)",
       "otherLanguage": "autres",
       "compatibility": "Compatibilité avec les passerelles"
+    },
+    "FloatingSideMenu": {
+      "historyButton": "Historique de recherches",
+      "shareButton": "Partager votre recherche"
+    },
+    "History": {
+      "title": "Historique",
+      "currentRequestAriaLabel": "Requête courante",
+      "emptyHistoryContent": "Votre historique est vide.",
+      "editAriaLabel": "Éditer cette requête",
+      "shareAriaLabel": "Partager cette requête",
+      "downloadAriaLabel": "Télécharger le corpus correspondant à cette requête",
+      "deleteAriaLabel": "Supprimer cette requête",
+      "clearHistory": "Supprimer l'historique",
+      "ConfirmModal": {
+        "title": "Confirmation",
+        "content": "Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements ?",
+        "confirm": "Supprimer"
+      }
+    },
+    "Share": {
+      "email": {
+        "subject": "Une recherche Istex a été partagée avec vous",
+        "body": "Voici le lien vers la recherche Istex partagée\u000A{url}"
+      }
     }
   },
   "download": {
@@ -600,13 +623,6 @@
       "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
       "contactTitle": "Écrivez-nous",
       "message": "Envoyez-nous un courriel à <mailtoLink>contact@istex.fr</mailtoLink>"
-    }
-  },
-  "share": {
-    "button": "Partager votre recherche",
-    "email": {
-      "subject": "Une recherche Istex a été partagée avec vous",
-      "body": "Voici le lien vers la recherche Istex partagée\u000A{url}"
     }
   },
   "ErrorCard": {

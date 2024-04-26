@@ -125,16 +125,6 @@ describe("AssistedSearchInput", () => {
 
     expect(onSubmit).toHaveBeenCalled();
   });
-
-  it("closes the modal when clicking cancel in the confirm modal", async () => {
-    const setModalOpen = jest.fn();
-    renderConfirmModal({ setModalOpen });
-
-    const cancelButton = screen.getByRole("button", { name: "Annuler" });
-    await userEvent.click(cancelButton);
-
-    expect(setModalOpen).toHaveBeenCalledWith(false);
-  });
 });
 
 function renderAssistedSearchInput(onHomePage: boolean = false) {

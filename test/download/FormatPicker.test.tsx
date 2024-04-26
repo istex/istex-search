@@ -71,5 +71,5 @@ async function testFormatSelection(
     buildExtractParamsFromFormats(expectedFormats),
   )}`;
 
-  expect(router.replace).toBeCalledWith(expectedUri, { scroll: false });
+  expect(router.replace).toHaveBeenCalledWith(expectedUri, { scroll: false });
 }

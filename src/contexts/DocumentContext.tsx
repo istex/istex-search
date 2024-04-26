@@ -126,9 +126,7 @@ export function useDocumentContext() {
   const context = useContext(DocumentContext);
 
   if (context == null) {
-    throw new Error(
-      "useDocumentContext must be within a DocumentContextProvider",
-    );
+    throw new Error("useDocumentContext must be within a DocumentProvider");
   }
 
   return context;

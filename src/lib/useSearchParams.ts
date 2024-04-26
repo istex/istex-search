@@ -30,9 +30,12 @@ import type { NextSearchParams } from "@/types/next";
 export class SearchParams {
   private readonly searchParams: URLSearchParams;
 
-  constructor(searchParams: ReadonlyURLSearchParams | NextSearchParams) {
+  constructor(
+    searchParams: ReadonlyURLSearchParams | NextSearchParams | string,
+  ) {
     this.searchParams =
-      searchParams instanceof ReadonlyURLSearchParams
+      searchParams instanceof ReadonlyURLSearchParams ||
+      typeof searchParams === "string"
         ? new URLSearchParams(searchParams.toString())
         : this._nextSearchParamsToUrlSearchParams(searchParams);
   }
@@ -387,6 +390,18 @@ export class SearchParams {
 
   toString(): string {
     return this.searchParams.toString();
+  }
+
+  toJSON(): string {
+    return this.searchParams.toString();
+  }
+
+  toNative(): URLSearchParams {
+    return this.searchParams;
+  }
+
+  [Symbol.iterator]() {
+    return this.searchParams.entries();
   }
 
   clear(): void {

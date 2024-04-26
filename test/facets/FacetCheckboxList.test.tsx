@@ -147,6 +147,6 @@ describe("FacetCheckboxList", () => {
     const label = screen.getByText(facetItems[2].key).closest("div");
 
     expect(facetItemElement).toBeChecked();
-    expect(label).toHaveStyle("color: #d32f2f");
+    expect(label).toHaveStyle("color: #d34315");
   });
 });

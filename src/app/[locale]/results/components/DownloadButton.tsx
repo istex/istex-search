@@ -2,10 +2,10 @@
 
 import { useState, type MouseEventHandler } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Box } from "@mui/material";
+import { Box, DialogContent } from "@mui/material";
 import DownloadForm from "../Download/DownloadForm";
-import DownloadModal from "../Download/DownloadModal";
 import Button from "@/components/Button";
+import Modal from "@/components/Modal";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
@@ -14,6 +14,7 @@ import type { ClientComponent } from "@/types/next";
 
 const DownloadButton: ClientComponent = () => {
   const t = useTranslations("results");
+  const tDownload = useTranslations("download");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -69,9 +70,16 @@ const DownloadButton: ClientComponent = () => {
         </Button>
       </Box>
 
-      <DownloadModal open={downloadModalOpen} onClose={closeDownloadModal}>
-        <DownloadForm />
-      </DownloadModal>
+      <Modal
+        title={tDownload("title")}
+        open={downloadModalOpen}
+        onClose={closeDownloadModal}
+        slideDirection="up"
+      >
+        <DialogContent dividers>
+          <DownloadForm />
+        </DialogContent>
+      </Modal>
     </>
   );
 };

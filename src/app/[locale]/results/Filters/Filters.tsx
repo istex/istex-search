@@ -9,6 +9,7 @@ import { RANGE_FACETS_WITH_TOGGLE } from "../facets/FacetRange";
 import { getLanguageLabel } from "../facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
@@ -21,6 +22,7 @@ const Filters: ClientComponent = () => {
   );
   const router = useRouter();
   const searchParams = useSearchParams();
+  const history = useHistoryContext();
   const filters = searchParams.getFilters();
   const theme = useTheme();
   const locale = useLocale();
@@ -39,8 +41,14 @@ const Filters: ClientComponent = () => {
     searchParams.setFilters(newFilters);
     searchParams.setPage(1);
     searchParams.setLastAppliedFacet(filterKey);
-    router.push(`/results?${searchParams.toString()}`);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   const handleToggleExcluded = (filterKey: string, filterValue: string) => {
@@ -56,8 +64,14 @@ const Filters: ClientComponent = () => {
     });
     searchParams.setFilters(newFilters);
     searchParams.setPage(1);
-    router.push(`/results?${searchParams.toString()}`);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
     resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
   };
 
   if (Object.keys(filters).length === 0) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import * as React from "react";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
@@ -32,16 +32,18 @@ export interface FacetContextValue {
   facetsWaitingForApply: string[];
 }
 
-const FacetContext = createContext<FacetContextValue | null>(null);
+const FacetContext = React.createContext<FacetContextValue | null>(null);
 
 export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   facets,
   children,
 }) => {
-  const [facetsWaitingForApply, setFacetsWaitingForApply] = useState<string[]>(
-    [],
+  const [facetsWaitingForApply, setFacetsWaitingForApply] = React.useState<
+    string[]
+  >([]);
+  const [facetsList, setFacetsList] = React.useState<FacetList | undefined>(
+    facets,
   );
-  const [facetsList, setFacetsList] = useState<FacetList | undefined>(facets);
   const searchParams = useSearchParams();
   const router = useRouter();
   const history = useHistoryContext();
@@ -162,7 +164,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
 };
 
 export function useFacetContext() {
-  const context = useContext(FacetContext);
+  const context = React.useContext(FacetContext);
 
   if (context == null) {
     throw new Error("useFacetContext must be within a FacetProvider");

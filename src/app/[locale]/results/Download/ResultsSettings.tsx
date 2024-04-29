@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEventHandler } from "react";
+import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, TextField, Tooltip } from "@mui/material";
@@ -45,7 +45,7 @@ const ResultsSettings: ClientComponent = () => {
     router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const newValue = parseInt(event.target.value);
     if (isNaN(newValue)) {
       return;

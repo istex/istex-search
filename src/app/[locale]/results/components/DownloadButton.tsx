@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEventHandler } from "react";
+import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, DialogContent } from "@mui/material";
 import DownloadForm from "../Download/DownloadForm";
@@ -22,14 +22,14 @@ const DownloadButton: ClientComponent = () => {
   const size = searchParams.getSize();
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
-  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+  const [downloadModalOpen, setDownloadModalOpen] = React.useState(false);
 
   const documentsCount =
     selectedDocuments.length > 0
       ? selectedDocuments.length
       : resultsCount - excludedDocuments.length;
 
-  const openDownloadModal: MouseEventHandler<HTMLButtonElement> = () => {
+  const openDownloadModal: React.MouseEventHandler<HTMLButtonElement> = () => {
     // If the size is not set, make it the result count by default
     // NOTE: It's not the best solution in terms of performance because it implies
     // re-rendering the whole /results page just to change the size

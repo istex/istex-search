@@ -1,4 +1,4 @@
-import { useState, type HTMLAttributes } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -34,7 +34,7 @@ type AutocompleteInputProps = TextFieldProps & {
 export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
   props,
 ) => {
-  const [focused, setFocused] = useState(false);
+  const [focused, setFocused] = React.useState(false);
   const { InputProps, isLoading, ...rest } = props;
 
   const getEndAdornment = () => {
@@ -73,7 +73,7 @@ export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
 };
 
 export const FieldInputMenuItem: ClientComponent<
-  HTMLAttributes<HTMLLIElement> & { option: FieldName }
+  React.HTMLAttributes<HTMLLIElement> & { option: FieldName }
 > = (props) => {
   const t = useTranslations(
     "home.SearchSection.SearchInput.AssistedSearchInput",

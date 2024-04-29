@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import * as React from "react";
 import { getTranslations } from "next-intl/server";
 import ResultsPage from "./_page";
 import Loading from "./loading";
@@ -31,9 +31,9 @@ const _ResultsPage: Page = (props) => {
   });
 
   return (
-    <Suspense key={key} fallback={<Loading />}>
+    <React.Suspense key={key} fallback={<Loading />}>
       <ResultsPage {...props} />
-    </Suspense>
+    </React.Suspense>
   );
 };
 

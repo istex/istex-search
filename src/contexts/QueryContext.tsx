@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import * as React from "react";
 import { useHistoryContext } from "./HistoryContext";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
@@ -22,7 +22,7 @@ interface QueryContextValue {
 
 export type QueryContextProps = Omit<QueryContextValue, "goToResultsPage">;
 
-const QueryContext = createContext<QueryContextValue | null>(null);
+const QueryContext = React.createContext<QueryContextValue | null>(null);
 
 export const QueryProvider: ClientComponent<QueryContextProps, true> = (
   props,
@@ -65,7 +65,7 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = (
 };
 
 export function useQueryContext() {
-  const context = useContext(QueryContext);
+  const context = React.useContext(QueryContext);
 
   if (context == null) {
     throw new Error("useQueryContext must be within a QueryProvider");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import * as React from "react";
 import CompatibilityPanelContent from "./CompatibilityPanelContent";
 import IndicatorPanelContent from "./IndicatorPanelContent";
 import Panel, { type PanelName } from "./Panel";
@@ -22,7 +22,9 @@ const DEFAULT_PANEL_EXPANDED_STATES: PanelStates = {
 };
 
 const Panels: ClientComponent<PanelProps> = ({ indicators, compatibility }) => {
-  const [panelStates, setPanelStates] = useState(DEFAULT_PANEL_EXPANDED_STATES);
+  const [panelStates, setPanelStates] = React.useState(
+    DEFAULT_PANEL_EXPANDED_STATES,
+  );
 
   const setExpanded = (name: PanelName, expanded: boolean) => {
     panelStates[name] = expanded;
@@ -36,7 +38,7 @@ const Panels: ClientComponent<PanelProps> = ({ indicators, compatibility }) => {
     setPanelStates({ ...panelStates });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const panelStatesFromLocalStorage = localStorage.getItem(
       PANEL_EXPANDED_STATES_KEY,
     );

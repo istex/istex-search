@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import * as React from "react";
 import type { RichTranslationValues } from "next-intl";
 import { getRequestConfig } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -11,7 +11,7 @@ export const defaultTranslationValues: RichTranslationValues = {
 };
 
 export function externalLink(href: string) {
-  return function ExternalLink(chunks: ReactNode) {
+  return function ExternalLink(chunks: React.ReactNode) {
     return (
       <Link href={href} target="_blank" rel="noreferrer">
         {chunks}
@@ -21,7 +21,7 @@ export function externalLink(href: string) {
 }
 
 export function mailtoLink(email: string) {
-  return function MailtoLink(chunks: ReactNode) {
+  return function MailtoLink(chunks: React.ReactNode) {
     return <Link href={`mailto:${email}`}>{chunks}</Link>;
   };
 }

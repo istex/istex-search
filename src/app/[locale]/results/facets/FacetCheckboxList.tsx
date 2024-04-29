@@ -1,6 +1,6 @@
 "use client";
 
-import { createRef, useEffect, useState } from "react";
+import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
@@ -31,16 +31,16 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
 
   const { toggleFacet } = useFacetContext();
 
-  const listRef = createRef<HTMLDivElement>();
+  const listRef = React.createRef<HTMLDivElement>();
   const [displayedFacets, setDisplayedFacets] =
-    useState<FacetItem[]>(facetItems);
-  const [sortOrder, setSortOrder] = useState<SortOrder>();
-  const [sortField, setSortField] = useState<SortField>();
-  const [searchFacetItem, setSearchFacetItem] = useState<string>("");
-  const [isScrollable, setIsScrollable] = useState<boolean>(false);
+    React.useState<FacetItem[]>(facetItems);
+  const [sortOrder, setSortOrder] = React.useState<SortOrder>();
+  const [sortField, setSortField] = React.useState<SortField>();
+  const [searchFacetItem, setSearchFacetItem] = React.useState<string>("");
+  const [isScrollable, setIsScrollable] = React.useState<boolean>(false);
   const locale = useLocale();
 
-  useEffect(() => {
+  React.useEffect(() => {
     let sortedFacets: FacetItem[] = facetItems;
     if (sortField !== undefined && sortOrder !== undefined) {
       sortedFacets = sortFacets(facetItems, sortField, sortOrder);
@@ -55,7 +55,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
     setDisplayedFacets(filteredFacets);
   }, [sortOrder, sortField, searchFacetItem, facetItems, facetTitle, t]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (listRef.current != null) {
       setIsScrollable(
         listRef.current.clientHeight < listRef.current.scrollHeight,
@@ -63,7 +63,7 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
     }
   }, [listRef]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (facetTitle === "language") {
       const isoFacet = [...displayedFacets];
       isoFacet.forEach((facetItem) => {

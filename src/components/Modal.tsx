@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useMemo } from "react";
+import * as React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -32,8 +32,8 @@ const Modal: ClientComponent<ModalProps, true> = (props) => {
     ...rest
   } = props;
 
-  const Transition = useMemo(() => {
-    return forwardRef(function Transition(
+  const Transition = React.useMemo(() => {
+    return React.forwardRef(function Transition(
       transitionProps: TransitionProps & { children: React.ReactElement },
       ref: React.Ref<unknown>,
     ) {

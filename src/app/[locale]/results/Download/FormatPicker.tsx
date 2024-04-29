@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEvent } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -84,7 +84,10 @@ const Format: ClientComponent<FormatProps> = ({
   const currentUsageName = searchParams.getUsageName();
   const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
 
-  const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+  const handleChange = (
+    _: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+  ) => {
     const newFormats = checked
       ? selectFormat(selectedFormats, value)
       : deselectFormat(selectedFormats, value);

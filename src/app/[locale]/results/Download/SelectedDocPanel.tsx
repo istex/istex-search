@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Box, IconButton, Typography } from "@mui/material";
@@ -28,7 +28,7 @@ const SelectedDocPanel: ClientComponent = () => {
         }}
       >
         {selectedDocuments.map((doc, index) => (
-          <Fragment key={doc.arkIstex}>
+          <React.Fragment key={doc.arkIstex}>
             <Typography
               variant="body2"
               px={1}
@@ -74,7 +74,7 @@ const SelectedDocPanel: ClientComponent = () => {
                 }}
               />
             </IconButton>
-          </Fragment>
+          </React.Fragment>
         ))}
       </Box>
     </Panel>

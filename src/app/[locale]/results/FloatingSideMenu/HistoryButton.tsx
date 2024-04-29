@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import HistoryModal from "../History/HistoryModal";
@@ -9,7 +9,7 @@ import type { ClientComponent } from "@/types/next";
 
 const HistoryButton: ClientComponent = () => {
   const t = useTranslations("results.FloatingSideMenu");
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
 
   const openHistory = () => {
     setOpenModal(true);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box } from "@mui/material";
@@ -12,7 +12,7 @@ import type { ClientComponent } from "@/types/next";
 const HelpButton: ClientComponent = () => {
   const t = useTranslations("help");
 
-  const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const [helpModalOpen, setHelpModalOpen] = React.useState(false);
 
   const openHelpModal = () => {
     setHelpModalOpen(true);

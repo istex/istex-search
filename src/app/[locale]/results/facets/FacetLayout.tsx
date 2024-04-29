@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -40,7 +40,7 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
       : false;
   };
 
-  const [expanded, setExpanded] = useState<string | false>(isExpanded);
+  const [expanded, setExpanded] = React.useState<string | false>(isExpanded);
 
   const t = useTranslations(`results.Facets.${facetTitle}`);
 

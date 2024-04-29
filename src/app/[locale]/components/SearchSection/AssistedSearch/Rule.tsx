@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEventHandler, type SyntheticEvent } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -47,30 +47,30 @@ const Rule: ClientComponent<RuleProps> = ({
   const isNumberNode = node.fieldType === "number" && "value" in node;
   const isRangeNode = node.fieldType === "number" && "min" in node;
   const isBooleanNode = node.fieldType === "boolean";
-  const [fieldName, setFieldName] = useState<FieldName | null>(
+  const [fieldName, setFieldName] = React.useState<FieldName | null>(
     !isNodePartial ? getFieldName(node) : null,
   );
-  const [fieldType, setFieldType] = useState<FieldType | null>(
+  const [fieldType, setFieldType] = React.useState<FieldType | null>(
     !isNodePartial ? node.fieldType : null,
   );
-  const [comparator, setComparator] = useState<Comparator | null>(
+  const [comparator, setComparator] = React.useState<Comparator | null>(
     !isNodePartial ? node.comparator : null,
   );
-  const [textValue, setTextValue] = useState(
+  const [textValue, setTextValue] = React.useState(
     !isNodePartial && isTextNode ? node.value : null,
   );
-  const [numberValue, setNumberValue] = useState(
+  const [numberValue, setNumberValue] = React.useState(
     // The number value is stored as a string because that's what MUI excepts
     // MUI doesn't have any number input component just yet (https://mui.com/material-ui/react-text-field/#type-quot-number-quot)
     !isNodePartial && isNumberNode ? node.value.toString() : "",
   );
-  const [minValue, setMinValue] = useState(
+  const [minValue, setMinValue] = React.useState(
     !isNodePartial && isRangeNode ? node.min.toString() : "",
   );
-  const [maxValue, setMaxValue] = useState(
+  const [maxValue, setMaxValue] = React.useState(
     !isNodePartial && isRangeNode ? node.max.toString() : "",
   );
-  const [booleanValue, setBooleanValue] = useState<boolean | null>(
+  const [booleanValue, setBooleanValue] = React.useState<boolean | null>(
     !isNodePartial && isBooleanNode ? node.value : null,
   );
   const hasValidValue =
@@ -90,7 +90,7 @@ const Rule: ClientComponent<RuleProps> = ({
   });
 
   const handleFieldNameChange = (
-    _: SyntheticEvent,
+    _: React.SyntheticEvent,
     value: FieldName | null,
   ) => {
     setFieldName(value);
@@ -139,7 +139,7 @@ const Rule: ClientComponent<RuleProps> = ({
   };
 
   const handleComparatorChange = (
-    _: SyntheticEvent,
+    _: React.SyntheticEvent,
     value: Comparator | null,
   ) => {
     setComparator(value);
@@ -161,7 +161,10 @@ const Rule: ClientComponent<RuleProps> = ({
     setNode({ ...node, comparator: value, partial });
   };
 
-  const handleTextValueChange = (_: SyntheticEvent, value: string | null) => {
+  const handleTextValueChange = (
+    _: React.SyntheticEvent,
+    value: string | null,
+  ) => {
     setTextValue(value);
 
     const partial =
@@ -171,7 +174,7 @@ const Rule: ClientComponent<RuleProps> = ({
     setNode({ ...node, value, partial });
   };
 
-  const handleNumberValueChange: ChangeEventHandler<HTMLInputElement> = (
+  const handleNumberValueChange: React.ChangeEventHandler<HTMLInputElement> = (
     event,
   ) => {
     const { value } = event.target;
@@ -193,7 +196,7 @@ const Rule: ClientComponent<RuleProps> = ({
     setNode({ ...node, value: valueAsNumber, partial });
   };
 
-  const handleMinValueChange: ChangeEventHandler<HTMLInputElement> = (
+  const handleMinValueChange: React.ChangeEventHandler<HTMLInputElement> = (
     event,
   ) => {
     const { value: min } = event.target;
@@ -221,7 +224,7 @@ const Rule: ClientComponent<RuleProps> = ({
     setNode({ ...node, min: minAsNumber, partial });
   };
 
-  const handleMaxValueChange: ChangeEventHandler<HTMLInputElement> = (
+  const handleMaxValueChange: React.ChangeEventHandler<HTMLInputElement> = (
     event,
   ) => {
     const { value: max } = event.target;
@@ -250,7 +253,7 @@ const Rule: ClientComponent<RuleProps> = ({
   };
 
   const handleBooleanValueChange = (
-    _: SyntheticEvent,
+    _: React.SyntheticEvent,
     value: boolean | null,
   ) => {
     setBooleanValue(value);

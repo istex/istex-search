@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import * as React from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Group from "@/app/[locale]/components/SearchSection/AssistedSearch/Group";
 import {
@@ -201,7 +201,7 @@ function renderGroup({
   childNodes,
   setChildNodes,
   remove,
-}: Partial<ComponentProps<typeof Group>>) {
+}: Partial<React.ComponentProps<typeof Group>>) {
   render(
     <Group
       root={root}

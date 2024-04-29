@@ -1,6 +1,6 @@
 "use client";
 
-import type { MouseEventHandler } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { NO_FORMAT_SELECTED } from "@/config";
@@ -27,7 +27,7 @@ const DownloadButton: ClientComponent = () => {
   const isFormComplete =
     queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
-  const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
+  const handleDownload: React.MouseEventHandler<HTMLButtonElement> = () => {
     const url = buildFullApiUrl({
       queryString,
       selectedFormats,

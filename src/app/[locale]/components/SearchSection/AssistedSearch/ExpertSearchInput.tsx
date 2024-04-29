@@ -1,4 +1,4 @@
-import type { ChangeEventHandler, FormEventHandler } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
@@ -20,7 +20,7 @@ interface ExpertSearchInputProps {
   setErrorMessage: (errorMessage: string) => void;
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
-  onSubmit: FormEventHandler;
+  onSubmit: React.FormEventHandler;
   hide: () => void;
 }
 
@@ -41,7 +41,7 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setErrorMessage("");
     setQueryString(event.target.value);
   };

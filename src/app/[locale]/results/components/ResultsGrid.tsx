@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { Box } from "@mui/material";
 import DocumentDetail from "../Document/DocumentDetail";
 import ResultsToolbar from "./ResultsToolbar";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
-  const [columns, setColumns] = useState(2);
+  const [columns, setColumns] = React.useState(2);
 
   return (
     <>

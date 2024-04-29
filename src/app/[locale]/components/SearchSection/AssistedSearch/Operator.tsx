@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChangeEventHandler } from "react";
+import * as React from "react";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { useTheme, type Theme } from "@mui/material/styles";
 import {
@@ -38,7 +38,7 @@ const Operator: ClientComponent<OperatorProps> = ({
   const lineBoxMarginTop =
     currentNodeHeight / 2 + gap / 2 + previousNodeHeight / 2;
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setNode({ ...node, value: event.target.value as OperatorType });
   };
 

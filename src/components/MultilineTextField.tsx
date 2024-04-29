@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-  type ElementRef,
-  type KeyboardEventHandler,
-  type UIEventHandler,
-} from "react";
+import * as React from "react";
 import { createPortal } from "react-dom";
 import { FixedSizeList } from "react-window";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
@@ -22,11 +14,11 @@ type MultilineTextFieldProps = TextFieldProps & {
   errorLines?: number[];
 };
 
-const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
-  function MultilineTextField(props, forwardedRef) {
-    const [, forceUpdate] = useState(false);
-    const lineNumbersRef = useRef<ElementRef<"div">>(null);
-    const inputRef = useRef<ElementRef<"div">>(null);
+const MultilineTextField: ClientComponent<MultilineTextFieldProps> =
+  React.forwardRef(function MultilineTextField(props, forwardedRef) {
+    const [, forceUpdate] = React.useState(false);
+    const lineNumbersRef = React.useRef<React.ElementRef<"div">>(null);
+    const inputRef = React.useRef<React.ElementRef<"div">>(null);
     const { showLineNumbers, errorLines, onSubmit, ...rest } = props;
     const maxHeight =
       typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
@@ -36,7 +28,9 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
     const requiresLineNumbers =
       showLineNumbers === true && inputRef.current?.parentElement != null;
 
-    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (
+      event,
+    ) => {
       // textarea elements don't submit the form when pressing Enter by default
       // so we recreate this behavior but still allow to insert new lines by
       // pressing Shift+Enter
@@ -45,7 +39,7 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
       }
     };
 
-    const handleScroll: UIEventHandler = (event) => {
+    const handleScroll: React.UIEventHandler = (event) => {
       if (lineNumbersRef.current != null) {
         // When the textarea is scrolled, apply the same scroll to the line numbers
         lineNumbersRef.current.scrollTop = event.currentTarget.scrollTop;
@@ -97,7 +91,7 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
       </Box>
     );
 
-    useEffect(() => {
+    React.useEffect(() => {
       // The inputRef isn't populated on the first render so we need to rerender
       // immediately to be able to use the inputRef in the portal for the line numbers
       forceUpdate(true);
@@ -123,8 +117,7 @@ const MultilineTextField: ClientComponent<MultilineTextFieldProps> = forwardRef(
         />
       </>
     );
-  },
-);
+  });
 
 const StyledTextField = styled(TextField)({
   "& .MuiInputBase-root > *": {

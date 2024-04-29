@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { LinearProgress, Typography } from "@mui/material";
 import type { ClientComponent } from "@/types/next";
@@ -34,7 +34,7 @@ const CompatibilityProgress: ClientComponent<{
         {title}
       </Typography>
       {data.map(({ label, count }, index) => (
-        <Fragment key={label}>
+        <React.Fragment key={label}>
           <Typography
             gridRow={{ sm: index + 2 + gridRow }}
             gridColumn={{ sm: gridColumn * 3 - 2 }}
@@ -78,7 +78,7 @@ const CompatibilityProgress: ClientComponent<{
           >
             {t("docCount", { count })}
           </Typography>
-        </Fragment>
+        </React.Fragment>
       ))}
     </>
   );

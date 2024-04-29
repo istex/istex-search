@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import * as React from "react";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 import type { ClientComponent } from "@/types/next";
 
@@ -20,17 +20,17 @@ export interface DocumentContextValue {
   resetSelectedExcludedDocuments: () => void;
 }
 
-const DocumentContext = createContext<DocumentContextValue | null>(null);
+const DocumentContext = React.createContext<DocumentContextValue | null>(null);
 
 export const DocumentProvider: ClientComponent<
   { results?: IstexApiResponse },
   true
 > = ({ children, results }) => {
-  const [displayedDocument, setDisplayedDocument] = useState<
+  const [displayedDocument, setDisplayedDocument] = React.useState<
     Result | undefined
   >(undefined);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const selectedDocumentsString = localStorage.getItem("selectedDocuments");
     if (selectedDocumentsString !== null) {
       setSelectedDocuments(
@@ -43,10 +43,12 @@ export const DocumentProvider: ClientComponent<
     }
   }, []);
 
-  const [selectedDocuments, setSelectedDocuments] = useState<
+  const [selectedDocuments, setSelectedDocuments] = React.useState<
     SelectedDocument[]
   >([]);
-  const [excludedDocuments, setExcludedDocuments] = useState<string[]>([]);
+  const [excludedDocuments, setExcludedDocuments] = React.useState<string[]>(
+    [],
+  );
 
   const displayDocument = async (documentId: string) => {
     const newDocument = results?.hits.find(
@@ -123,7 +125,7 @@ export const DocumentProvider: ClientComponent<
 };
 
 export function useDocumentContext() {
-  const context = useContext(DocumentContext);
+  const context = React.useContext(DocumentContext);
 
   if (context == null) {
     throw new Error("useDocumentContext must be within a DocumentProvider");

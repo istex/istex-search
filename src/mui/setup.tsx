@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import * as React from "react";
 import { useLocale } from "next-intl";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +11,7 @@ import type { ClientComponent } from "@/types/next";
 
 const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
   const locale = useLocale();
-  const themeWithLocale = useMemo(
+  const themeWithLocale = React.useMemo(
     () => createTheme(theme, locales[localeToMuiImportName(locale)]),
     [locale],
   );

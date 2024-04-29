@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
@@ -41,9 +41,9 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   const maxLabel =
     facetItems[0].toAsString ?? facetItems[0].to?.toString() ?? "";
 
-  const [min, setMin] = useState<string>(initialMin);
+  const [min, setMin] = React.useState<string>(initialMin);
 
-  const [max, setMax] = useState<string>(initialMax);
+  const [max, setMax] = React.useState<string>(initialMax);
 
   const withToggle = RANGE_FACETS_WITH_TOGGLE.includes(facetTitle);
 
@@ -68,10 +68,11 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
 
   const initialSingleValue = getInitialSingleValue();
 
-  const [rangeOption, setRangeOption] = useState<RangeOption>(
+  const [rangeOption, setRangeOption] = React.useState<RangeOption>(
     withToggle && initialSingleValue !== "" ? "single" : "range",
   );
-  const [singleValue, setSingleValue] = useState<string>(initialSingleValue);
+  const [singleValue, setSingleValue] =
+    React.useState<string>(initialSingleValue);
 
   const handleMinChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -97,7 +98,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (rangeOption === "range" && (min !== initialMin || max !== initialMax)) {
       setRangeFacet(facetTitle, `${min}-${max}`);
     }

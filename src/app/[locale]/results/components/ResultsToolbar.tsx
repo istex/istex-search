@@ -1,6 +1,6 @@
 "use client";
 
-import { type MouseEvent } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import WindowIcon from "@mui/icons-material/Window";
@@ -19,7 +19,7 @@ const ResultsToolbar: ClientComponent<{
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
 
-  const handleLayout = (_: MouseEvent, newColumns: number | null) => {
+  const handleLayout = (_: React.MouseEvent, newColumns: number | null) => {
     if (newColumns != null) {
       setColumns(newColumns);
     }

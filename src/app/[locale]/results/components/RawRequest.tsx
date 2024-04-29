@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
@@ -38,10 +38,10 @@ const RawRequest: ClientComponent = () => {
     sortDir,
     randomSeed,
   });
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [copyState, setCopyState] = useState<"success" | "error" | "badEnv">(
-    "success",
-  );
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [copyState, setCopyState] = React.useState<
+    "success" | "error" | "badEnv"
+  >("success");
 
   const openSnackbar = () => {
     setSnackbarOpen(true);

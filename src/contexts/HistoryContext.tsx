@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import * as React from "react";
 import { DEFAULT_SORT_BY, NO_FORMAT_SELECTED } from "@/config";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 import { SearchParams } from "@/lib/useSearchParams";
@@ -25,7 +25,7 @@ interface HistoryContextValue {
   isEmpty: () => boolean;
 }
 
-const HistoryContext = createContext<HistoryContextValue | null>(null);
+const HistoryContext = React.createContext<HistoryContextValue | null>(null);
 
 const initialCurrentRequest: HistoryEntry = {
   date: 0,
@@ -52,12 +52,12 @@ export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
     currentRequestInitialized = currentRequestFromLocalStorage != null;
   }
 
-  const [history, setHistory] = useState<HistoryEntry[]>(
+  const [history, setHistory] = React.useState<HistoryEntry[]>(
     historyInitialized && historyFromLocalStorage != null
       ? parseHistory(historyFromLocalStorage)
       : [],
   );
-  const [currentRequest, setCurrentRequest] = useState<HistoryEntry>(
+  const [currentRequest, setCurrentRequest] = React.useState<HistoryEntry>(
     currentRequestInitialized && currentRequestFromLocalStorage != null
       ? parseCurrentRequest(currentRequestFromLocalStorage)
       : initialCurrentRequest,
@@ -186,7 +186,7 @@ function parseCurrentRequest(currentRequestFromLocalStorage: string) {
 }
 
 export function useHistoryContext() {
-  const context = useContext(HistoryContext);
+  const context = React.useContext(HistoryContext);
 
   if (context == null) {
     throw new Error("useHistoryContext must be within an HistoryProvider");

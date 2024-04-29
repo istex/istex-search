@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useState,
-  type ChangeEventHandler,
-  type FormEventHandler,
-} from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
 import ExamplesList from "./ExamplesList";
@@ -22,8 +18,10 @@ const RegularSearchInput: ClientComponent = () => {
     "home.SearchSection.SearchInput.RegularSearchInput",
   );
   const queryContext = useQueryContext();
-  const [queryString, setQueryString] = useState(queryContext.queryString);
-  const [error, setError] = useState<CustomError | null>(
+  const [queryString, setQueryString] = React.useState(
+    queryContext.queryString,
+  );
+  const [error, setError] = React.useState<CustomError | null>(
     queryContext.errorInfo != null
       ? new CustomError(queryContext.errorInfo)
       : null,
@@ -31,7 +29,7 @@ const RegularSearchInput: ClientComponent = () => {
   const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 
-  const handleSubmit: FormEventHandler = (event) => {
+  const handleSubmit: React.FormEventHandler = (event) => {
     event.preventDefault();
 
     const trimmedQueryString = queryString.trim();
@@ -43,7 +41,7 @@ const RegularSearchInput: ClientComponent = () => {
     goToResultsPage(queryString).catch(setError);
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setError(null);
     setQueryString(event.target.value);
   };

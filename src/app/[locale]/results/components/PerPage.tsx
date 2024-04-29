@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import {
   InputLabel,
@@ -34,9 +34,11 @@ const PerPage: ClientComponent<PerPageProps> = ({
   const history = useHistoryContext();
   const perPage = searchParams.getPerPage();
   const { loading } = useQueryContext();
-  const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
+  const [selectMinWidth, setSelectMinWidth] = React.useState<number | null>(
+    null,
+  );
 
-  const menuCallbackRef = useCallback(
+  const menuCallbackRef = React.useCallback(
     (menuDiv: HTMLDivElement | null) => {
       if (menuDiv !== null) {
         if (selectMinWidth === null || selectMinWidth !== menuDiv.clientWidth) {

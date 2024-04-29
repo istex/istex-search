@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import {
   DialogActions,
@@ -26,7 +26,7 @@ const HistoryModal: ClientComponent<HistoryModalProps> = ({
   onClose,
 }) => {
   const t = useTranslations("results.History");
-  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
   const history = useHistoryContext();
   const isHistoryEmpty = history.isEmpty();
 

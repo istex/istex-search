@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import * as React from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
 import { getComparators } from "@/app/[locale]/components/SearchSection/AssistedSearch/RuleUtils";
@@ -170,7 +170,7 @@ function renderRule({
   node,
   setNode,
   remove,
-}: PartialExcept<ComponentProps<typeof Rule>, "node">) {
+}: PartialExcept<React.ComponentProps<typeof Rule>, "node">) {
   render(
     <Rule
       displayErrors={displayErrors ?? false}

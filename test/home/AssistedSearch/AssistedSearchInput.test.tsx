@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import * as React from "react";
 import {
   mockPathname,
   mockSearchParams,
@@ -160,7 +160,10 @@ function renderConfirmModal({
   setModalOpen,
   onSubmit,
 }: Partial<
-  Pick<ComponentProps<typeof ExpertSearchInput>, "setModalOpen" | "onSubmit">
+  Pick<
+    React.ComponentProps<typeof ExpertSearchInput>,
+    "setModalOpen" | "onSubmit"
+  >
 >) {
   render(
     <ExpertSearchInput

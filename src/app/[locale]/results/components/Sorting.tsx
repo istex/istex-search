@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
@@ -42,9 +42,11 @@ const Sorting: ClientComponent<SortingProps> = ({
   const sortBy = searchParams.getSortBy();
   const sortDirection = searchParams.getSortDirection();
   const { loading } = useQueryContext();
-  const [selectMinWidth, setSelectMinWidth] = useState<number | null>(null);
+  const [selectMinWidth, setSelectMinWidth] = React.useState<number | null>(
+    null,
+  );
 
-  const menuCallbackRef = useCallback(
+  const menuCallbackRef = React.useCallback(
     (menuDiv: HTMLDivElement | null) => {
       if (menuDiv !== null) {
         if (selectMinWidth === null || selectMinWidth !== menuDiv.clientWidth) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
@@ -27,7 +27,7 @@ const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
 }) => {
   const t = useTranslations("results");
   const locale = useLocale();
-  const [checkedFacet, setCheckedFacet] = useState<boolean>(
+  const [checkedFacet, setCheckedFacet] = React.useState<boolean>(
     checked || excluded,
   );
 

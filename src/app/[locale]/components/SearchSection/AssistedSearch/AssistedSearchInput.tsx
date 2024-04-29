@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type FormEventHandler } from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Stack } from "@mui/material";
 import SearchButton from "../SearchButton";
@@ -28,12 +28,13 @@ const AssistedSearchInput: ClientComponent = () => {
   const queryString = astToString(ast);
   const { goToResultsPage, errorInfo } = useQueryContext();
   const onHomePage = useOnHomePage();
-  const [assistedFormOpen, setAssistedFormOpen] = useState(onHomePage);
-  const [expertInputOpen, setExpertInputOpen] = useState(false);
-  const [expertQueryString, setExpertQueryString] = useState(queryString);
-  const [expertErrorMessage, setExpertErrorMessage] = useState("");
-  const [expertValidateModalOpen, setExpertValidateModalOpen] = useState(false);
-  const [error, setError] = useState<CustomError | null>(
+  const [assistedFormOpen, setAssistedFormOpen] = React.useState(onHomePage);
+  const [expertInputOpen, setExpertInputOpen] = React.useState(false);
+  const [expertQueryString, setExpertQueryString] = React.useState(queryString);
+  const [expertErrorMessage, setExpertErrorMessage] = React.useState("");
+  const [expertValidateModalOpen, setExpertValidateModalOpen] =
+    React.useState(false);
+  const [error, setError] = React.useState<CustomError | null>(
     errorInfo != null ? new CustomError(errorInfo) : null,
   );
   const displayErrors = error != null;
@@ -48,9 +49,9 @@ const AssistedSearchInput: ClientComponent = () => {
     throw new Error("There can only be 1 root node and it needs to be a group");
   }
 
-  const [childNodes, setChildNodes] = useState(rootNode.nodes);
+  const [childNodes, setChildNodes] = React.useState(rootNode.nodes);
 
-  const handleSubmit: FormEventHandler = (event) => {
+  const handleSubmit: React.FormEventHandler = (event) => {
     event.preventDefault();
     setError(null);
 
@@ -97,7 +98,7 @@ const AssistedSearchInput: ClientComponent = () => {
     setChildNodes([getEmptyFieldNode()]);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     rootNode.nodes = childNodes;
   }, [rootNode, childNodes]);
 

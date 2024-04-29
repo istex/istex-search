@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  type ChangeEventHandler,
-  type ElementRef,
-  type FormEventHandler,
-  useRef,
-  useState,
-} from "react";
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, IconButton } from "@mui/material";
@@ -30,13 +24,13 @@ const ImportInput: ClientComponent = () => {
   const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
   const { queryString, goToResultsPage, errorInfo } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
-  const [idList, setIdList] = useState(
+  const [idList, setIdList] = React.useState(
     getIdsFromQueryString(idType, queryString).join("\n"),
   );
-  const [error, setError] = useState<CustomError | null>(
+  const [error, setError] = React.useState<CustomError | null>(
     errorInfo != null ? new CustomError(errorInfo) : null,
   );
-  const fileInputRef = useRef<ElementRef<"input">>(null);
+  const fileInputRef = React.useRef<React.ElementRef<"input">>(null);
 
   // error.info.lines is a string because that's what the next-intl expects for translation
   // values, so we need to split it to get the IDs as numbers
@@ -48,12 +42,12 @@ const ImportInput: ClientComponent = () => {
           .filter((id) => !Number.isNaN(id))
       : undefined;
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setError(null);
     setIdList(event.target.value);
   };
 
-  const handleSubmit: FormEventHandler = (event) => {
+  const handleSubmit: React.FormEventHandler = (event) => {
     event.preventDefault();
     setError(null);
 
@@ -84,7 +78,9 @@ const ImportInput: ClientComponent = () => {
     goToResultsPage(newQueryString).catch(setError);
   };
 
-  const handleCorpusFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleCorpusFile: React.ChangeEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
     setError(null);
     const file = event.target.files?.[0];
     if (file == null) {

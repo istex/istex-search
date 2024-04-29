@@ -1,6 +1,6 @@
 "use client";
 
-import type { HTMLAttributeAnchorTarget } from "react";
+import * as React from "react";
 import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
@@ -12,7 +12,7 @@ import type { KeyOf } from "@/types/utility";
 interface CustomButtonProps extends MuiButtonProps {
   mainColor?: KeyOf<Palette["colors"]>;
   secondaryColor?: KeyOf<Palette["colors"]>;
-  target?: HTMLAttributeAnchorTarget;
+  target?: React.HTMLAttributeAnchorTarget;
 }
 
 // Wrapper component to change the default value of the 'variant' prop from 'text' to 'contained'

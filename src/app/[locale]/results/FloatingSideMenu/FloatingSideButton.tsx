@@ -1,12 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
+import * as React from "react";
 import Button from "@/components/Button";
 import type { ClientComponent } from "@/types/next";
 
 interface FloatingSideButtonProps {
   id?: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
   label: string;
   onClick: () => void;
 }

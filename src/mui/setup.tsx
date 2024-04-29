@@ -1,35 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useLocale } from "next-intl";
-import { useServerInsertedHTML } from "next/navigation";
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as locales from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import type { ClientComponent } from "@/types/next";
-
-const EmotionCacheProvider: ClientComponent<{}, true> = ({ children }) => {
-  const [cache] = useState(() => {
-    const cache = createCache({ key: "css" });
-    cache.compat = true;
-    return cache;
-  });
-
-  useServerInsertedHTML(() => (
-    <style
-      key={cache.key}
-      data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(" ")}`}
-      dangerouslySetInnerHTML={{
-        __html: Object.values(cache.inserted).join(" "),
-      }}
-    />
-  ));
-
-  return <CacheProvider value={cache}>{children}</CacheProvider>;
-};
 
 const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
   const locale = useLocale();
@@ -39,12 +17,12 @@ const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
   );
 
   return (
-    <EmotionCacheProvider>
+    <AppRouterCacheProvider>
       <ThemeProvider theme={themeWithLocale}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </EmotionCacheProvider>
+    </AppRouterCacheProvider>
   );
 };
 

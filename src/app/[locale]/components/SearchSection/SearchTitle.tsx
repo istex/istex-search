@@ -98,13 +98,16 @@ const SearchTitle: ClientComponent = () => {
 };
 
 const Icon: ClientComponent<{ searchMode: SearchMode }> = ({ searchMode }) => {
+  const t = useTranslations("home.SearchSection");
+  const altText = t(`${searchMode}Button`);
+
   switch (searchMode) {
     case SEARCH_MODE_REGULAR:
-      return <SearchIcon sx={{ p: 0 }} />;
+      return <SearchIcon sx={{ p: 0 }} titleAccess={altText} />;
     case SEARCH_MODE_IMPORT:
-      return <Image src={SearchByIdIcon} alt="search by id" />;
+      return <Image src={SearchByIdIcon} alt={altText} />;
     case SEARCH_MODE_ASSISTED:
-      return <Image src={AssistedSearchIcon} alt="assisted search" />;
+      return <Image src={AssistedSearchIcon} alt={altText} />;
     default:
       throw new Error("Unknown search mode");
   }

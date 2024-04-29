@@ -357,7 +357,6 @@
     "DownloadSection": {
       "title": "Téléchargez vos données en 3 étapes",
       "body": "Les métadonnées des publications présentes dans Istex sont accessibles à tous. Les textes intégraux et les enrichissements produits par Istex sont accessibles aux membres des établissements de l'enseignement supérieur et de la recherche française.",
-      "imageAlt": "Un homme travaillant sur son ordinateur portable avec différents icônes affichés à l'écran",
       "downloadSteps": [
         {
           "title": "Construire une requête",

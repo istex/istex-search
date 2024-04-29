@@ -19,7 +19,7 @@ const DownloadSection: ServerComponent = () => {
         >
           <Image
             src={downloadImage}
-            alt={t("imageAlt")}
+            alt=""
             fill
             sizes="(min-width: 900px) 50vw, 100vw"
             style={{

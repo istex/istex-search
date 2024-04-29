@@ -118,7 +118,7 @@ const RawRequest: ClientComponent = () => {
             }}
             onClick={handleCopy}
           >
-            <Image src={CopyLogo} alt="copy-request" />
+            <Image src={CopyLogo} alt="" />
           </IconButton>
           {t("copy.button")}
         </Box>

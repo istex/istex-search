@@ -50,7 +50,7 @@ const HelpButton: ClientComponent = () => {
               zIndex: 2,
             })}
           >
-            <Image src={HelpIcon} alt="need-help" />
+            <Image src={HelpIcon} alt="" />
           </Box>
           <Button
             mainColor="darkGreen"

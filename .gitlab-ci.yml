@@ -57,8 +57,8 @@ deploy:dev:
   script:
     - ./scripts/deploy-dev.sh
 
-build:docker:
-  stage: build
+deploy:docker:
+  stage: deploy
   image:
     name: gcr.io/kaniko-project/executor:v1.22.0-debug
     entrypoint: [""]

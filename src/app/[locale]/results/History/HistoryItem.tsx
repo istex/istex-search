@@ -11,10 +11,10 @@ import {
   Stack,
   Skeleton,
   SvgIcon,
-  TableCell,
-  TableRow,
+  type BoxProps,
   type IconButtonProps,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import ShareIcon from "@/../public/share.svg?svgr";
 import {
   useHistoryContext,
@@ -100,71 +100,58 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
   };
 
   return (
-    <TableRow
-      aria-label={isCurrentRequest ? t("currentRequestAriaLabel") : undefined}
-      sx={(theme) => ({
-        "&:nth-of-type(even)": {
-          backgroundColor: theme.palette.action.hover,
-        },
-        "& td, th": {
-          border: 0,
-        },
-      })}
-    >
+    <>
       {/* Index */}
-      <TableCell>{index + 1}</TableCell>
+      <Cell index={index}>{index + (isCurrentRequest ? 0 : 1)}</Cell>
 
       {/* Query string */}
-      <TableCell width="100%">
-        <Box
-          sx={lineclamp(3)}
-          title={!queryStringQuery.isLoading ? queryStringQuery.data : ""}
-        >
-          {queryStringQuery.isLoading ? (
-            // 2 text skeletons while loading
-            <Stack>
-              {Array(2)
-                .fill(0)
-                .map((_, i) => (
-                  <Skeleton key={i} variant="text" />
-                ))}
-            </Stack>
-          ) : idType != null ? (
-            // Get the IDs if ID query string
-            getIdsFromQueryString(idType, queryStringQuery.data ?? "")
-              .slice(0, 4)
-              .map((id) => <Box key={id}>{id}</Box>)
-          ) : (
-            // Raw query string
-            queryStringQuery.data
-          )}
-        </Box>
-      </TableCell>
+      <Cell
+        index={index}
+        title={!queryStringQuery.isLoading ? queryStringQuery.data : ""}
+        sx={{ width: "100%", ...lineclamp(3) }}
+      >
+        {queryStringQuery.isLoading ? (
+          // 2 text skeletons while loading
+          <Stack>
+            {Array(2)
+              .fill(0)
+              .map((_, i) => (
+                <Skeleton key={i} variant="text" />
+              ))}
+          </Stack>
+        ) : idType != null ? (
+          // Get the IDs if ID query string
+          getIdsFromQueryString(idType, queryStringQuery.data ?? "")
+            .slice(0, 4)
+            .map((id) => <Box key={id}>{id}</Box>)
+        ) : (
+          // Raw query string
+          queryStringQuery.data
+        )}
+      </Cell>
 
       {/* Formats */}
-      <TableCell>
-        <Box sx={lineclamp(3)}>
-          {buildExtractParamsFromFormats(entry.searchParams.getFormats())
-            .split(";")
-            .map((format, i) => (
-              <Box key={i}>{format}</Box>
-            ))}
-        </Box>
-      </TableCell>
+      <Cell index={index} sx={lineclamp(3)}>
+        {buildExtractParamsFromFormats(entry.searchParams.getFormats())
+          .split(";")
+          .map((format, i) => (
+            <Box key={i}>{format}</Box>
+          ))}
+      </Cell>
 
       {/* Size */}
-      <TableCell>
+      <Cell index={index} sx={{ flexGrow: 1, textAlign: "right" }}>
         {entry.searchParams.getSize().toLocaleString(locale)}
-      </TableCell>
+      </Cell>
 
       {/* SortBy */}
-      <TableCell>{tSorting(entry.searchParams.getSortBy())}</TableCell>
+      <Cell index={index}>{tSorting(entry.searchParams.getSortBy())}</Cell>
 
       {/* Date */}
-      <TableCell>{formatDate(entry.date, locale)}</TableCell>
+      <Cell index={index}>{formatDate(entry.date, locale)}</Cell>
 
       {/* Actions */}
-      <TableCell>
+      <Cell index={index}>
         <Stack direction="row">
           <ActionButton
             title={t("editAriaLabel")}
@@ -191,8 +178,32 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
             onClick={handleDelete}
           />
         </Stack>
-      </TableCell>
-    </TableRow>
+      </Cell>
+    </>
+  );
+};
+
+const Cell: ClientComponent<BoxProps & { index: number }> = (props) => {
+  const theme = useTheme();
+
+  // Apply a grey background color to the cells on even lines
+  const backgroundColor =
+    (props.index + 1) % 2 === 0 ? theme.palette.action.hover : undefined;
+
+  return (
+    <Box
+      role="cell"
+      sx={(theme) => ({
+        fontSize: theme.typography.body2.fontSize,
+        display: "flex",
+        alignItems: "center",
+        px: 2,
+        py: 0.75,
+        backgroundColor,
+      })}
+    >
+      <Box {...props}>{props.children}</Box>
+    </Box>
   );
 };
 

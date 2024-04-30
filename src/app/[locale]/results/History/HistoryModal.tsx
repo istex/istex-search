@@ -2,14 +2,7 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import {
-  DialogActions,
-  DialogContent,
-  Table,
-  TableBody,
-  TableContainer,
-  Typography,
-} from "@mui/material";
+import { Box, DialogActions, DialogContent, Typography } from "@mui/material";
 import HistoryItem from "./HistoryItem";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -51,39 +44,60 @@ const HistoryModal: ClientComponent<HistoryModalProps> = ({
         slideDirection="left"
       >
         <DialogContent>
-          <TableContainer>
-            <Table size="small">
-              <TableBody>
-                <HistoryItem
-                  entry={history.getCurrentRequest()}
-                  onClose={onClose}
-                  isCurrentRequest
-                />
-
-                {!isHistoryEmpty &&
-                  history.get().map((entry, i) => (
-                    <HistoryItem
-                      key={entry.date}
-                      entry={entry}
-                      onClose={onClose}
-                      index={i + 1} // +1 because of the last entry that is the first line
-                    />
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {isHistoryEmpty && (
+          {/*
+           * We use a grid layout and not an MUI table to make sure the column of the current request table
+           * and history table stay aligned
+           */}
+          <Box
+            display="grid"
+            gridTemplateColumns="auto 1fr auto auto 0.5fr 0.5fr auto"
+          >
             <Typography
-              sx={(theme) => ({
-                color: theme.palette.text.disabled,
-                px: 2,
-                py: 1,
-              })}
+              component="h3"
+              variant="h6"
+              fontSize="1rem"
+              gridColumn="span 7"
             >
-              {t("emptyHistoryContent")}
+              {t("currentRequestTitle")}
             </Typography>
-          )}
+            <HistoryItem
+              entry={history.getCurrentRequest()}
+              onClose={onClose}
+              isCurrentRequest
+            />
+
+            <Typography
+              component="h3"
+              variant="h6"
+              fontSize="1rem"
+              gridColumn="span 7"
+              mt={1.5}
+            >
+              {t("historyTitle")}
+            </Typography>
+            {!isHistoryEmpty ? (
+              history
+                .get()
+                .map((entry, i) => (
+                  <HistoryItem
+                    key={entry.date}
+                    entry={entry}
+                    onClose={onClose}
+                    index={i}
+                  />
+                ))
+            ) : (
+              <Typography
+                sx={(theme) => ({
+                  color: theme.palette.text.disabled,
+                  px: 2,
+                  py: 1,
+                })}
+              >
+                {t("emptyHistoryContent")}
+              </Typography>
+            )}
+          </Box>
         </DialogContent>
 
         <DialogActions>

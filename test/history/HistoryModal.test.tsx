@@ -32,12 +32,20 @@ describe("HistoryModal", () => {
     expect(modal).not.toBeInTheDocument();
   });
 
-  it("renders the current request as the first line in the table", () => {
+  it("renders the current request and the history in two separate tables", () => {
     render(<HistoryModal open onClose={() => {}} />);
 
-    const rows = screen.getAllByRole("row");
+    const currentRequestTitle = screen.getByRole("heading", {
+      level: 3,
+      name: "Recherche en cours",
+    });
+    const historyTitle = screen.getByRole("heading", {
+      level: 3,
+      name: "Derniers téléchargements",
+    });
 
-    expect(rows[0]).toHaveAccessibleName("Requête courante");
+    expect(currentRequestTitle).toBeInTheDocument();
+    expect(historyTitle).toBeInTheDocument();
   });
 
   it("opens the confirm modal when clicking on the clear history button", async () => {
@@ -75,11 +83,9 @@ describe("HistoryModal", () => {
     (history.isEmpty as jest.Mock).mockReturnValueOnce(true);
     render(<HistoryModal open onClose={() => {}} />);
 
-    const rows = screen.getAllByRole("row");
     const emptyHistoryText = screen.getByText("Votre historique est vide.");
 
     expect(emptyHistoryText).toBeInTheDocument();
-    expect(rows.length).toBe(1); // Even when the history is empty, the table has at least 1 row => the current request
   });
 });
 

@@ -569,7 +569,8 @@
     },
     "History": {
       "title": "Historique",
-      "currentRequestAriaLabel": "Requête courante",
+      "currentRequestTitle": "Recherche en cours",
+      "historyTitle": "Derniers téléchargements",
       "emptyHistoryContent": "Votre historique est vide.",
       "editAriaLabel": "Éditer cette requête",
       "shareAriaLabel": "Partager cette requête",

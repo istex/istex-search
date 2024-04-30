@@ -1,21 +1,11 @@
 import { customRender as render, screen, userEvent } from "../test-utils";
-import BaseHistoryItem from "@/app/[locale]/results/History/HistoryItem";
+import HistoryItem from "@/app/[locale]/results/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import { useDownload, useShare } from "@/lib/hooks";
 import { SearchParams } from "@/lib/useSearchParams";
 import { formatDate } from "@/lib/utils";
-
-// Wrapper to render the HistoryItem inside a proper HTML table, otherwise validateDOM
-// from react-dom displays a warning
-const HistoryItem: typeof BaseHistoryItem = (props) => (
-  <table>
-    <tbody>
-      <BaseHistoryItem {...props} />
-    </tbody>
-  </table>
-);
 
 describe("HistoryItem", () => {
   const params = {
@@ -45,14 +35,6 @@ describe("HistoryItem", () => {
     expect(formats).toBeInTheDocument();
     expect(size).toBeInTheDocument();
     expect(date).toBeInTheDocument();
-  });
-
-  it("adds an aria label when isCurrentRequest is true", () => {
-    render(<HistoryItem entry={entry} onClose={() => {}} isCurrentRequest />);
-
-    const row = screen.getByRole("row");
-
-    expect(row).toHaveAccessibleName();
   });
 
   it("disables all the actions except edit when isCurrentRequest is true", () => {

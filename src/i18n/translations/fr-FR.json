@@ -33,7 +33,7 @@
         "ImportInput": {
           "searchTitle": "Importez vos identifiants",
           "resultsTitle": "Résultats de votre import",
-          "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importer votre fichier .corpus\n* un seul format à la fois",
+          "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importez votre fichier .corpus\n* un seul format à la fois",
           "button": "Rechercher",
           "uploadIconAlt": "Déposer un fichier .corpus"
         },

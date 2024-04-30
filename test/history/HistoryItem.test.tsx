@@ -51,8 +51,9 @@ describe("HistoryItem", () => {
     expect(deleteButton).toBeDisabled();
   });
 
-  it("goes to the results page with the correct search params when clicking on the edit button", async () => {
+  it("goes to the results page and sets the current request with the correct search params when clicking on the edit button", async () => {
     const router = useRouter();
+    const history = useHistoryContext();
     const onClose = jest.fn();
     render(<HistoryItem entry={entry} onClose={onClose} />);
 
@@ -62,6 +63,7 @@ describe("HistoryItem", () => {
     expect(router.push).toHaveBeenCalledWith(
       "/results?q=hello&size=3&extract=metadata%5Bjson%5D",
     );
+    expect(history.populateCurrentRequest).toHaveBeenCalledWith(entry);
     expect(onClose).toHaveBeenCalled();
   });
 

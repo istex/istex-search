@@ -58,6 +58,7 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
   const idType = getIdTypeFromQueryString(queryStringQuery.data ?? "");
 
   const handleEdit = () => {
+    history.populateCurrentRequest(entry);
     router.push(`/results?${entry.searchParams.toString()}`);
     onClose();
   };

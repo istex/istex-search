@@ -67,7 +67,8 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
             key: "other",
             docCount: otherLanguagesCount,
           },
-        ].filter((language) => language.docCount > 0)}
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        ].filter((language) => language?.docCount > 0)}
         total={resultsCount}
       />
     </Box>

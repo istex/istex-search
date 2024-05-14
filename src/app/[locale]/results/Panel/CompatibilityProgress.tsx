@@ -7,7 +7,7 @@ import type { ClientComponent } from "@/types/next";
 
 const CompatibilityProgress: ClientComponent<{
   title: string;
-  data: Array<{ label: string; count: number }>;
+  data: { label: string; count: number }[];
   total: number;
   gridColumn: number;
   gridRow: number;

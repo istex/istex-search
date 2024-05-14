@@ -14,7 +14,7 @@ function makeQueryClient() {
   });
 }
 
-let browserQueryClient: QueryClient;
+let browserQueryClient: QueryClient | undefined;
 
 function getQueryClient() {
   // Server: always make a new query client

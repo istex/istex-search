@@ -17,13 +17,13 @@ import {
 import ErrorCard from "@/components/ErrorCard";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
+import SearchParams from "@/lib/SearchParams";
 import {
   getResults,
   type Aggregation,
   type GetResultsOptions,
   type IstexApiResponse,
 } from "@/lib/istexApi";
-import useSearchParams from "@/lib/useSearchParams";
 import type { Page } from "@/types/next";
 
 async function getTranslatedResults(
@@ -48,7 +48,7 @@ const ResultsPage: Page = async ({
   params: { locale },
   searchParams: nextSearchParams,
 }) => {
-  const searchParams = useSearchParams(nextSearchParams);
+  const searchParams = new SearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
   const filters = searchParams.getFilters();
@@ -128,10 +128,12 @@ const ResultsPage: Page = async ({
         facets[facetTitle] = facetItemList.map((facetItem) => ({
           ...facetItem,
           selected:
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             filters[facetTitle]?.includes(
               facetItem.keyAsString ?? facetItem.key.toString(),
             ) ?? false,
           excluded:
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             filters[facetTitle]?.includes(
               `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
             ) ?? false,

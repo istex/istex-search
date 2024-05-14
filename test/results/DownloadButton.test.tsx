@@ -26,7 +26,7 @@ describe("DownloadButton (results page)", () => {
 
     // In a real scenario, the pathname should be "/results" but
     // the usePathname mock always returns "/"
-    expect(router.replace).toHaveBeenCalledWith(`/?size=${3}`, {
+    expect(router.replace).toHaveBeenCalledWith("/?size=3", {
       scroll: false,
     });
   });

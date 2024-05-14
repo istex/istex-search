@@ -127,7 +127,7 @@ describe("AssistedSearchInput", () => {
   });
 });
 
-function renderAssistedSearchInput(onHomePage: boolean = false) {
+function renderAssistedSearchInput(onHomePage = false) {
   const ast: AST = [
     {
       root: true,
@@ -168,13 +168,13 @@ function renderConfirmModal({
   render(
     <ExpertSearchInput
       queryString=""
-      setQueryString={() => {}}
+      setQueryString={jest.fn()}
       errorMessage=""
-      setErrorMessage={() => {}}
+      setErrorMessage={jest.fn()}
       modalOpen
-      setModalOpen={setModalOpen ?? (() => {})}
-      onSubmit={onSubmit ?? (() => {})}
-      hide={() => {}}
+      setModalOpen={setModalOpen ?? jest.fn()}
+      onSubmit={onSubmit ?? jest.fn()}
+      hide={jest.fn()}
     />,
   );
 }

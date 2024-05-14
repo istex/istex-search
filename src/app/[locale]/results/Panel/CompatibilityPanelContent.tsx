@@ -43,7 +43,7 @@ const CompatibilityPanelContent: ClientComponent<{
       {Object.entries(usages)
         .filter(([_, { isGateway }]) => isGateway)
         .map(([name, usage]) => {
-          const data: Array<{ label: string; count: number }> = [];
+          const data: { label: string; count: number }[] = [];
           let compatibilityCount = 0;
 
           if (isFormatSelected(usage.formats, formats.fulltext.tei)) {

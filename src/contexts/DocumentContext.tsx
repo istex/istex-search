@@ -50,7 +50,7 @@ export const DocumentProvider: ClientComponent<
     [],
   );
 
-  const displayDocument = async (documentId: string) => {
+  const displayDocument = (documentId: string) => {
     const newDocument = results?.hits.find(
       (result) => result.id === documentId,
     );

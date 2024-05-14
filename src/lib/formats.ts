@@ -101,6 +101,7 @@ export function parseExtractParams(extractParams: string) {
     // If formatCategory does not contain '[' and ']', it means it's 'covers' or 'annexes'
     if (indexOfOpeningBracket === -1 || indexOfClosingBracket === -1) {
       const formatCategoryName = formatCategory as keyof typeof formats.others;
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (formats.others[formatCategoryName] != null) {
         selectedFormats = selectFormat(
           selectedFormats,

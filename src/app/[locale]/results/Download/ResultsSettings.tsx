@@ -11,7 +11,7 @@ import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import { clamp } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 

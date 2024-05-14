@@ -4,7 +4,7 @@ import {
   useHistoryContext,
   type HistoryEntry,
 } from "@/contexts/HistoryContext";
-import { SearchParams } from "@/lib/useSearchParams";
+import SearchParams from "@/lib/SearchParams";
 
 describe("HistoryModal", () => {
   const history = useHistoryContext();
@@ -17,7 +17,7 @@ describe("HistoryModal", () => {
   (history.getCurrentRequest as jest.Mock).mockReturnValue(fakeEntry);
 
   it("renders the modal when open is true", () => {
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const modal = screen.getByRole("dialog");
 
@@ -25,7 +25,7 @@ describe("HistoryModal", () => {
   });
 
   it("doesn't render the modal when open is false", () => {
-    render(<HistoryModal open={false} onClose={() => {}} />);
+    render(<HistoryModal open={false} onClose={jest.fn()} />);
 
     const modal = screen.queryByRole("dialog");
 
@@ -33,7 +33,7 @@ describe("HistoryModal", () => {
   });
 
   it("renders the current request and the history in two separate tables", () => {
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const currentRequestTitle = screen.getByRole("heading", {
       level: 3,
@@ -49,7 +49,7 @@ describe("HistoryModal", () => {
   });
 
   it("opens the confirm modal when clicking on the clear history button", async () => {
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
@@ -61,7 +61,7 @@ describe("HistoryModal", () => {
   });
 
   it("clears the history when clicking on the delete button in the confirm modal", async () => {
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
@@ -73,7 +73,7 @@ describe("HistoryModal", () => {
 
   it("disables the clear history button when the history is empty", () => {
     (history.isEmpty as jest.Mock).mockReturnValueOnce(true);
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const clearButton = getClearButton();
     expect(clearButton).toBeDisabled();
@@ -81,7 +81,7 @@ describe("HistoryModal", () => {
 
   it("renders a special text instead of the history table when the history is empty", () => {
     (history.isEmpty as jest.Mock).mockReturnValueOnce(true);
-    render(<HistoryModal open onClose={() => {}} />);
+    render(<HistoryModal open onClose={jest.fn()} />);
 
     const emptyHistoryText = screen.getByText("Votre historique est vide.");
 

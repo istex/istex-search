@@ -8,7 +8,7 @@ import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import PerPage from "./PerPage";
 import Sorting from "./Sorting";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsToolbar: ClientComponent<{

@@ -7,7 +7,7 @@ import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import { lineclamp } from "@/lib/utils";
 import type { ServerComponent } from "@/types/next";
 

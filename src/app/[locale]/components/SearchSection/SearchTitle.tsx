@@ -14,8 +14,7 @@ import {
 } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
-import { useOnHomePage } from "@/lib/hooks";
-import useSearchParams from "@/lib/useSearchParams";
+import { useOnHomePage, useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const SearchTitle: ClientComponent = () => {

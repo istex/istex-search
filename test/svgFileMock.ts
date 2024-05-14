@@ -1,1 +1,3 @@
-export default function svgFileMock() {}
+export default function svgFileMock() {
+  // blank function
+}

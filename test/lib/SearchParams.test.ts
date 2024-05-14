@@ -12,98 +12,98 @@ import {
   istexApiConfig,
   perPageOptions,
 } from "@/config";
+import SearchParams from "@/lib/SearchParams";
 import { getEmptyAst, type AST } from "@/lib/assistedSearch/ast";
-import useSearchParams from "@/lib/useSearchParams";
 
 describe("SearchParams class", () => {
   it("getQueryString", async () => {
-    const searchParams = useSearchParams({ q: "hello" });
+    const searchParams = new SearchParams({ q: "hello" });
 
     expect(await searchParams.getQueryString()).toBe("hello");
   });
 
   it("setQueryString", async () => {
-    const searchParams = useSearchParams({ q: "hello" });
+    const searchParams = new SearchParams({ q: "hello" });
 
     await searchParams.setQueryString("world");
     expect(await searchParams.getQueryString()).toBe("world");
   });
 
   it("deleteQueryString", async () => {
-    const searchParams = useSearchParams({ q: "hello" });
+    const searchParams = new SearchParams({ q: "hello" });
 
     searchParams.deleteQueryString();
     expect(await searchParams.getQueryString()).toBe("");
   });
 
   it("getFormats", () => {
-    const validSearchParams = useSearchParams({ extract: "fulltext[pdf]" });
+    const validSearchParams = new SearchParams({ extract: "fulltext[pdf]" });
     expect(validSearchParams.getFormats()).toBe(formats.fulltext.pdf);
 
-    const invalidSearchParams = useSearchParams({ extract: "hello" });
+    const invalidSearchParams = new SearchParams({ extract: "hello" });
     expect(invalidSearchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
   });
 
   it("setFormats", () => {
-    const searchParams = useSearchParams({ extract: "fulltext[pdf]" });
+    const searchParams = new SearchParams({ extract: "fulltext[pdf]" });
 
     searchParams.setFormats(formats.metadata.json);
     expect(searchParams.getFormats()).toBe(formats.metadata.json);
   });
 
   it("deleteFormats", () => {
-    const searchParams = useSearchParams({ extract: "fulltext[pdf]" });
+    const searchParams = new SearchParams({ extract: "fulltext[pdf]" });
 
     searchParams.deleteFormats();
     expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
   });
 
   it("getUsageName", () => {
-    const validSearchParams = useSearchParams({ usage: "lodex" });
+    const validSearchParams = new SearchParams({ usage: "lodex" });
     expect(validSearchParams.getUsageName()).toBe("lodex");
 
-    const invalidSearchParams = useSearchParams({ usage: "hello" });
+    const invalidSearchParams = new SearchParams({ usage: "hello" });
     expect(invalidSearchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
   });
 
   it("setUsageName", () => {
-    const searchParams = useSearchParams({ usage: "lodex" });
+    const searchParams = new SearchParams({ usage: "lodex" });
 
     searchParams.setUsageName("custom");
     expect(searchParams.getUsageName()).toBe("custom");
   });
 
   it("deleteUsageName", () => {
-    const searchParams = useSearchParams({ usage: "lodex" });
+    const searchParams = new SearchParams({ usage: "lodex" });
 
     searchParams.deleteUsageName();
     expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
   });
 
   it("getSize", () => {
-    const validSearchParams = useSearchParams({ size: "2" });
+    const validSearchParams = new SearchParams({ size: "2" });
     expect(validSearchParams.getSize()).toBe(2);
 
-    const invalidSearchParams = useSearchParams({ size: "hello" });
+    const invalidSearchParams = new SearchParams({ size: "hello" });
     expect(invalidSearchParams.getSize()).toBe(0);
 
-    const tooBig = useSearchParams({
+    const tooBig = new SearchParams({
       size: (istexApiConfig.maxSize + 2).toString(),
     });
     expect(tooBig.getSize()).toBe(istexApiConfig.maxSize);
 
-    const tooSmall = useSearchParams({ size: "-1" });
+    const tooSmall = new SearchParams({ size: "-1" });
     expect(tooSmall.getSize()).toBe(0);
 
-    const decimalRoundDown = useSearchParams({ size: "1.2" });
+    const decimalRoundDown = new SearchParams({ size: "1.2" });
     expect(decimalRoundDown.getSize()).toBe(1);
 
-    const decimalRowndUp = useSearchParams({ size: "1.7" });
+    const decimalRowndUp = new SearchParams({ size: "1.7" });
     expect(decimalRowndUp.getSize()).toBe(2);
   });
 
   it("setSize", () => {
-    const searchParams = useSearchParams({ size: "2" });
+    const searchParams = new SearchParams({ size: "2" });
 
     searchParams.setSize(3);
     expect(searchParams.getSize()).toBe(3);
@@ -122,7 +122,7 @@ describe("SearchParams class", () => {
   });
 
   it("deleteSize", () => {
-    const searchParams = useSearchParams({ size: "2" });
+    const searchParams = new SearchParams({ size: "2" });
 
     searchParams.deleteSize();
     expect(searchParams.getSize()).toBe(0);
@@ -132,27 +132,27 @@ describe("SearchParams class", () => {
     const perPage = MIN_PER_PAGE;
     const minPage = 1;
     const maxPage = Math.ceil(istexApiConfig.maxPaginationOffset / perPage);
-    const validSearchParams = useSearchParams({
+    const validSearchParams = new SearchParams({
       page: "2",
       perPage: perPage.toString(),
     });
     expect(validSearchParams.getPage()).toBe(2);
 
-    const invalidSearchParams = useSearchParams({ size: "hello" });
+    const invalidSearchParams = new SearchParams({ size: "hello" });
     expect(invalidSearchParams.getPage()).toBe(minPage);
 
-    const tooBig = useSearchParams({
+    const tooBig = new SearchParams({
       page: (maxPage + 2).toString(),
     });
     expect(tooBig.getPage()).toBe(maxPage);
 
-    const tooSmall = useSearchParams({ page: "-1" });
+    const tooSmall = new SearchParams({ page: "-1" });
     expect(tooSmall.getPage()).toBe(minPage);
 
-    const decimalRoundDown = useSearchParams({ page: "1.2" });
+    const decimalRoundDown = new SearchParams({ page: "1.2" });
     expect(decimalRoundDown.getPage()).toBe(1);
 
-    const decimalRowndUp = useSearchParams({ page: "1.7" });
+    const decimalRowndUp = new SearchParams({ page: "1.7" });
     expect(decimalRowndUp.getPage()).toBe(2);
   });
 
@@ -160,7 +160,7 @@ describe("SearchParams class", () => {
     const perPage = MIN_PER_PAGE;
     const minPage = 1;
     const maxPage = Math.ceil(istexApiConfig.maxPaginationOffset / perPage);
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       page: "2",
       perPage: perPage.toString(),
     });
@@ -183,53 +183,53 @@ describe("SearchParams class", () => {
 
   it("deletePage", () => {
     const minPage = 1;
-    const searchParams = useSearchParams({ page: "2" });
+    const searchParams = new SearchParams({ page: "2" });
 
     searchParams.deletePage();
     expect(searchParams.getPage()).toBe(minPage);
   });
 
   it("getPerPage", () => {
-    const validSearchParams = useSearchParams({
+    const validSearchParams = new SearchParams({
       perPage: perPageOptions[1].toString(),
     });
     expect(validSearchParams.getPerPage()).toBe(perPageOptions[1]);
 
-    const invalidSearchParams = useSearchParams({ perPage: "hello" });
+    const invalidSearchParams = new SearchParams({ perPage: "hello" });
     expect(invalidSearchParams.getPerPage()).toBe(MIN_PER_PAGE);
 
-    const tooBig = useSearchParams({
+    const tooBig = new SearchParams({
       perPage: (MAX_PER_PAGE + 2).toString(),
     });
     expect(tooBig.getPerPage()).toBe(MAX_PER_PAGE);
 
-    const tooSmall = useSearchParams({
+    const tooSmall = new SearchParams({
       perPage: (MIN_PER_PAGE - 2).toString(),
     });
     expect(tooSmall.getPerPage()).toBe(MIN_PER_PAGE);
 
-    const inBetween = useSearchParams({
+    const inBetween = new SearchParams({
       perPage: (perPageOptions[1] + 2).toString(),
     });
     expect(inBetween.getPerPage()).toBe(perPageOptions[1]);
   });
 
   it("setPerPage", () => {
-    const searchParams = useSearchParams({ perPage: MIN_PER_PAGE.toString() });
+    const searchParams = new SearchParams({ perPage: MIN_PER_PAGE.toString() });
 
     searchParams.setPerPage(perPageOptions[1]);
     expect(searchParams.getPerPage()).toBe(perPageOptions[1]);
   });
 
   it("deletePerPage", () => {
-    const searchParams = useSearchParams({ perPage: MAX_PER_PAGE.toString() });
+    const searchParams = new SearchParams({ perPage: MAX_PER_PAGE.toString() });
 
     searchParams.deletePerPage();
     expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
   });
 
   it("clear", async () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       extract: "metadata[json]",
       size: "2",
@@ -247,7 +247,7 @@ describe("SearchParams class", () => {
   });
 
   it("should get filters", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       filter: '{"language":["fre","eng"]}',
     });
@@ -258,7 +258,7 @@ describe("SearchParams class", () => {
   });
 
   it("should set filters", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -272,7 +272,7 @@ describe("SearchParams class", () => {
   });
 
   it("should delete filters", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       filter: '{"language":["fre","eng"]}',
     });
@@ -283,7 +283,7 @@ describe("SearchParams class", () => {
   });
 
   it("should get last applied facet", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       lastAppliedFacet: "corpusName",
     });
@@ -292,7 +292,7 @@ describe("SearchParams class", () => {
   });
 
   it("should set last applied facet", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -302,7 +302,7 @@ describe("SearchParams class", () => {
   });
 
   it("should delete last applied facet", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       lastAppliedFacet: "corpusName",
     });
@@ -313,7 +313,7 @@ describe("SearchParams class", () => {
   });
 
   it("should get search mode", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       searchMode: SEARCH_MODE_IMPORT,
     });
@@ -322,7 +322,7 @@ describe("SearchParams class", () => {
   });
 
   it("should set search mode", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -332,7 +332,7 @@ describe("SearchParams class", () => {
   });
 
   it("should delete search mode", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       searchMode: SEARCH_MODE_ASSISTED,
     });
@@ -352,7 +352,7 @@ describe("SearchParams class", () => {
         comparator: "equals",
       },
     ];
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       ast: btoa(JSON.stringify(ast)),
     });
@@ -370,7 +370,7 @@ describe("SearchParams class", () => {
         comparator: "equals",
       },
     ];
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -389,7 +389,7 @@ describe("SearchParams class", () => {
         comparator: "equals",
       },
     ];
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       ast: btoa(JSON.stringify(ast)),
     });
@@ -400,7 +400,7 @@ describe("SearchParams class", () => {
   });
 
   it("should get sort by", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       sortBy: "publicationDate",
     });
@@ -409,7 +409,7 @@ describe("SearchParams class", () => {
   });
 
   it("should set sort by", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -419,7 +419,7 @@ describe("SearchParams class", () => {
   });
 
   it("should delete sort by", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       sortBy: "publicationDate",
     });
@@ -430,7 +430,7 @@ describe("SearchParams class", () => {
   });
 
   it("should get sort direction", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       sortDirection: "asc",
     });
@@ -439,7 +439,7 @@ describe("SearchParams class", () => {
   });
 
   it("should set sort direction", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
     });
 
@@ -449,7 +449,7 @@ describe("SearchParams class", () => {
   });
 
   it("should delete sort direction", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       q: "hello",
       sortDirection: "desc",
     });
@@ -461,7 +461,7 @@ describe("SearchParams class", () => {
 
   it("gets the random seed", () => {
     const randomSeed = "veryRandomSeed";
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       randomSeed,
     });
 
@@ -470,7 +470,7 @@ describe("SearchParams class", () => {
 
   it("sets the random seed", () => {
     const randomSeed = "veryRandomSeed";
-    const searchParams = useSearchParams({});
+    const searchParams = new SearchParams({});
 
     searchParams.setRandomSeed(randomSeed);
 
@@ -478,7 +478,7 @@ describe("SearchParams class", () => {
   });
 
   it("deletes the random seed", () => {
-    const searchParams = useSearchParams({
+    const searchParams = new SearchParams({
       randomSeed: "veryRandomSeed",
     });
 

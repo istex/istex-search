@@ -3,7 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type CustomError from "@/lib/CustomError";
+import CustomError from "@/lib/CustomError";
 import type { ClientComponent } from "@/types/next";
 
 interface ExamplesListProps {
@@ -17,6 +17,14 @@ const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
   );
   const { goToResultsPage } = useQueryContext();
 
+  const handleClick = (queryString: string) => {
+    goToResultsPage(queryString).catch((err: unknown) => {
+      if (err instanceof CustomError) {
+        setError(err);
+      }
+    });
+  };
+
   return (
     <>
       <Typography variant="subtitle2" paragraph sx={{ mt: 2, mb: 1 }}>
@@ -24,14 +32,14 @@ const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
       </Typography>
 
       <Grid id="examples-grid" container rowSpacing={1} columnSpacing={2}>
-        {Object.entries(examples).map(([name, _queryString]) => (
+        {Object.entries(examples).map(([name, queryString]) => (
           <Grid key={name} item>
             <Button
               mainColor="white"
               secondaryColor="darkBlack"
               size="small"
               onClick={() => {
-                goToResultsPage(_queryString).catch(setError);
+                handleClick(queryString);
               }}
               sx={{ textTransform: "none" }}
             >

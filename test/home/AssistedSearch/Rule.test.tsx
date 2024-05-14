@@ -175,8 +175,8 @@ function renderRule({
     <Rule
       displayErrors={displayErrors ?? false}
       node={node}
-      setNode={setNode ?? (() => {})}
-      remove={remove ?? (() => {})}
+      setNode={setNode ?? jest.fn()}
+      remove={remove ?? jest.fn()}
     />,
   );
 }

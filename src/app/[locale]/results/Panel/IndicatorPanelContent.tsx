@@ -67,7 +67,7 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
             key: "other",
             docCount: otherLanguagesCount,
           },
-        ].filter((language) => language?.docCount > 0)}
+        ].filter((language) => language.docCount > 0)}
         total={resultsCount}
       />
     </Box>

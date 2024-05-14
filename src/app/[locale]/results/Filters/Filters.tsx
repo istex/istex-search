@@ -11,7 +11,7 @@ import ClearFilterIcon from "./ClearFilterIcon";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {

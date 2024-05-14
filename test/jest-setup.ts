@@ -52,6 +52,8 @@ mock("@/contexts/HistoryContext", {
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {
     const actual = jest.requireActual(moduleName);
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return {
       ...actual,
       ...mockedValue,

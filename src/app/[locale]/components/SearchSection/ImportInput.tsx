@@ -75,7 +75,11 @@ const ImportInput: ClientComponent = () => {
       return;
     }
 
-    goToResultsPage(newQueryString).catch(setError);
+    goToResultsPage(newQueryString).catch((err: unknown) => {
+      if (err instanceof CustomError) {
+        setError(err);
+      }
+    });
   };
 
   const handleCorpusFile: React.ChangeEventHandler<HTMLInputElement> = (
@@ -106,7 +110,11 @@ const ImportInput: ClientComponent = () => {
         return;
       }
 
-      goToResultsPage(parsingResult.queryString).catch(setError);
+      goToResultsPage(parsingResult.queryString).catch((err: unknown) => {
+        if (err instanceof CustomError) {
+          setError(err);
+        }
+      });
     };
 
     reader.onerror = () => {

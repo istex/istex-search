@@ -63,7 +63,7 @@ describe("FaceRange", () => {
     expect(screen.getAllByRole("textbox")[1]).toHaveValue("2020");
   });
 
-  it("should call setRangeFacet when changing the min value", async () => {
+  it("should call setRangeFacet when changing the min value", () => {
     const setRangeFacetMock = jest.fn();
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
@@ -79,7 +79,7 @@ describe("FaceRange", () => {
     );
   });
 
-  it("should call setRangeFacet when changing the max value", async () => {
+  it("should call setRangeFacet when changing the max value", () => {
     const setRangeFacetMock = jest.fn();
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
@@ -95,7 +95,7 @@ describe("FaceRange", () => {
     );
   });
 
-  it("should not update value and call setRangeFacet when changing the min value to a decimal value for non decimal facet", async () => {
+  it("should not update value and call setRangeFacet when changing the min value to a decimal value for non decimal facet", () => {
     const setRangeFacetMock = jest.fn();
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
@@ -108,7 +108,7 @@ describe("FaceRange", () => {
     expect(minInput).toHaveValue("2000");
   });
 
-  it("should not update value and call setRangeFacet when changing the min value to an outside of range value for score facet", async () => {
+  it("should not update value and call setRangeFacet when changing the min value to an outside of range value for score facet", () => {
     const setRangeFacetMock = jest.fn();
 
     (useFacetContext as jest.Mock).mockReturnValue({
@@ -124,7 +124,7 @@ describe("FaceRange", () => {
     expect(minInput).toHaveValue("1");
   });
 
-  it("should update value and call setRangeFacet when changing the min value to an inside of range decimal value for score facet", async () => {
+  it("should update value and call setRangeFacet when changing the min value to an inside of range decimal value for score facet", () => {
     const setRangeFacetMock = jest.fn();
 
     (useFacetContext as jest.Mock).mockReturnValue({
@@ -144,7 +144,7 @@ describe("FaceRange", () => {
     expect(minInput).toHaveValue("2.3");
   });
 
-  it("should not render selector if facet is not publicationDate", async () => {
+  it("should not render selector if facet is not publicationDate", () => {
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
       setRangeFacet: jest.fn(),
@@ -155,7 +155,7 @@ describe("FaceRange", () => {
     expect(screen.queryByRole("tab")).not.toBeInTheDocument();
   });
 
-  it("should toggle the range option when clicking on the selector", async () => {
+  it("should toggle the range option when clicking on the selector", () => {
     const setRangeFacetMock = jest.fn();
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,
@@ -183,7 +183,7 @@ describe("FaceRange", () => {
     expect(screen.queryByPlaceholderText("Maximum")).not.toBeInTheDocument();
   });
 
-  it("should update value and call setRangeFacet when changing the single value", async () => {
+  it("should update value and call setRangeFacet when changing the single value", () => {
     const setRangeFacetMock = jest.fn();
     (useFacetContext as jest.Mock).mockReturnValue({
       facetsList: facets,

@@ -1,6 +1,7 @@
-export type ReplaceReturnType<T extends (...args: any) => any, TNewReturn> = (
-  ...args: Parameters<T>
-) => TNewReturn;
+export type ReplaceReturnType<
+  T extends (...args: unknown) => unknown,
+  TNewReturn,
+> = (...args: Parameters<T>) => TNewReturn;
 
 // Recursive version of native keyof
 export type KeyOf<T> = {

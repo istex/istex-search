@@ -322,7 +322,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 });
 
-function getError(func: (...args: any[]) => any) {
+function getError(func: (...args: unknown[]) => unknown) {
   try {
     func();
   } catch (err) {

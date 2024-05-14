@@ -12,7 +12,7 @@ import {
 import FacetActions from "./FacetActions";
 import type { FacetItem } from "./FacetContext";
 import { DEFAULT_OPEN_FACETS, FACETS, FACETS_WITH_RANGE } from "./constants";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 export interface FacetLayoutProps {

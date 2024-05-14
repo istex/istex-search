@@ -7,9 +7,8 @@ import { NO_FORMAT_SELECTED } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useDownload } from "@/lib/hooks";
+import { useDownload, useSearchParams } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
-import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const DownloadButton: ClientComponent = () => {

@@ -38,7 +38,11 @@ const RegularSearchInput: ClientComponent = () => {
       return;
     }
 
-    goToResultsPage(queryString).catch(setError);
+    goToResultsPage(queryString).catch((err: unknown) => {
+      if (err instanceof CustomError) {
+        setError(err);
+      }
+    });
   };
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {

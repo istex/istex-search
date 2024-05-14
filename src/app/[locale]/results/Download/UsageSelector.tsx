@@ -5,7 +5,7 @@ import Selector from "@/components/Selector";
 import { usages, type UsageName } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const UsageSelector: ClientComponent = () => {

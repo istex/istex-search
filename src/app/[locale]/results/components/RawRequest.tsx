@@ -16,8 +16,8 @@ import {
 import HighlightedUrl from "./HighlightedUrl";
 import CopyLogo from "@/../public/copy-icon.svg";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
-import useSearchParams from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 const RawRequest: ClientComponent = () => {
@@ -52,7 +52,7 @@ const RawRequest: ClientComponent = () => {
   };
 
   const handleCopy = () => {
-    if (navigator.clipboard == null || !window.isSecureContext) {
+    if (!window.isSecureContext) {
       setCopyState("badEnv");
       openSnackbar();
       return;

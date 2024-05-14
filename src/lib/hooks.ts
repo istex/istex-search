@@ -1,5 +1,12 @@
 import { useTranslations } from "next-intl";
+import { useSearchParams as nextUseSearchParams } from "next/navigation";
+import SearchParams from "./SearchParams";
 import { usePathname } from "@/i18n/navigation";
+import type { NextSearchParams } from "@/types/next";
+
+export function useSearchParams(searchParams?: NextSearchParams) {
+  return new SearchParams(searchParams ?? nextUseSearchParams());
+}
 
 export function useOnHomePage() {
   return usePathname() === "/";

@@ -35,7 +35,7 @@ function renderOperator(setNode?: jest.Func) {
   render(
     <Operator
       node={operatorNode}
-      setNode={setNode ?? (() => {})}
+      setNode={setNode ?? jest.fn()}
       previousNode={fieldNode}
       nextNode={fieldNode}
       first={false}

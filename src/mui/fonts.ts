@@ -1,10 +1,10 @@
-import { Inter, Montserrat, Open_Sans } from "next/font/google";
+import { Inter, Montserrat, Open_Sans as OpenSans } from "next/font/google";
 
 export const montserrat = Montserrat({
   subsets: ["latin", "latin-ext"],
 });
 
-export const openSans = Open_Sans({
+export const openSans = OpenSans({
   subsets: ["latin", "latin-ext"],
 });
 

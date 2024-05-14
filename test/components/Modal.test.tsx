@@ -5,7 +5,7 @@ describe("Modal", () => {
   it("renders the title in a heading tag", () => {
     const title = "My super title";
     render(
-      <Modal title={title} open onClose={() => {}}>
+      <Modal title={title} open onClose={jest.fn()}>
         <div />
       </Modal>,
     );

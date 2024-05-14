@@ -4,7 +4,7 @@ import * as React from "react";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import { type ClientComponent } from "@/types/next";
 
 export interface FacetItem {
@@ -20,7 +20,7 @@ export interface FacetItem {
   isoCode?: string;
 }
 
-export type FacetList = Record<string, FacetItem[]>;
+export type FacetList = Record<string, FacetItem[] | undefined>;
 
 export interface FacetContextValue {
   facetsList?: FacetList;
@@ -51,7 +51,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
 
   const clearOneFacet = (facetTitle: string) => {
     const newFacetsList = { ...facetsList };
-    newFacetsList[facetTitle].forEach((facetItem) => {
+    newFacetsList[facetTitle]?.forEach((facetItem) => {
       facetItem.selected = false;
       facetItem.excluded = false;
     });
@@ -87,7 +87,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   const applyOneFacet = (facetTitle: string) => {
     let filters = searchParams.getFilters();
     filters[facetTitle] = [];
-    facetsList?.[facetTitle].forEach((facetItem) => {
+    facetsList?.[facetTitle]?.forEach((facetItem) => {
       if (facetItem.selected) {
         if (facetTitle === "language" && facetItem.isoCode !== undefined) {
           filters[facetTitle].push(facetItem.isoCode);
@@ -126,7 +126,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
 
   const toggleFacet = (facetTitle: string, facetItemValue?: string) => {
     const newFacetsList = { ...facetsList };
-    const facetItem = newFacetsList[facetTitle].find(
+    const facetItem = newFacetsList[facetTitle]?.find(
       (facetItem) =>
         facetItem.key === facetItemValue ||
         facetItem.keyAsString === facetItemValue,
@@ -143,8 +143,13 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
 
   const setRangeFacet = (facetTitle: string, facetRangeValue: string) => {
     const newFacetsList = { ...facetsList };
-    newFacetsList[facetTitle][0].selected = true;
-    newFacetsList[facetTitle][0].key = facetRangeValue;
+    const newFacetItems = newFacetsList[facetTitle];
+    if (newFacetItems == null) {
+      return;
+    }
+
+    newFacetItems[0].selected = true;
+    newFacetItems[0].key = facetRangeValue;
     setFacetsList(newFacetsList);
     setFacetsWaitingForApply([...facetsWaitingForApply, facetTitle]);
   };

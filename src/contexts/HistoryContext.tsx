@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { DEFAULT_SORT_BY, NO_FORMAT_SELECTED } from "@/config";
+import SearchParams from "@/lib/SearchParams";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
-import { SearchParams } from "@/lib/useSearchParams";
 import type { ClientComponent } from "@/types/next";
 
 export interface HistoryEntry {

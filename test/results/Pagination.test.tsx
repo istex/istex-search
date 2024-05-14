@@ -57,7 +57,7 @@ describe("Pagination", () => {
     const lastPageButton = screen.getByTestId("KeyboardDoubleArrowRightIcon");
     await userEvent.click(lastPageButton);
 
-    expect(router.push).toHaveBeenCalledWith(`/?page=${lastPage}`);
+    expect(router.push).toHaveBeenCalledWith(`/?page=${lastPage.toString()}`);
   });
 
   it("limits the page number based on the results count", () => {

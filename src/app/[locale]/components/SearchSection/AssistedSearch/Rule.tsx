@@ -78,7 +78,7 @@ const Rule: ClientComponent<RuleProps> = ({
     numberValue !== "" ||
     booleanValue != null;
   const field = fields.find((field) => field.name === fieldName);
-  const requiresFetchingValues = field != null && field.requiresFetchingValues;
+  const requiresFetchingValues = field?.requiresFetchingValues ?? false;
 
   const valueQuery = useQuery({
     queryKey: ["rule-value", fieldName],

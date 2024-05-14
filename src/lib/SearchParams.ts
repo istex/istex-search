@@ -1,7 +1,4 @@
-import {
-  ReadonlyURLSearchParams,
-  useSearchParams as nextUseSearchParams,
-} from "next/navigation";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
 import { type AST, getEmptyAst } from "./assistedSearch/ast";
@@ -27,7 +24,7 @@ import {
 import type { NextSearchParams } from "@/types/next";
 
 // Wrapper class around URLSearchParams with stricter getters and setters
-export class SearchParams {
+export default class SearchParams {
   private readonly searchParams: URLSearchParams;
 
   constructor(
@@ -246,7 +243,7 @@ export class SearchParams {
       return {};
     }
 
-    return JSON.parse(value);
+    return JSON.parse(value) as Filter;
   }
 
   setFilters(value: Filter): void {
@@ -433,8 +430,4 @@ export class SearchParams {
 
     return urlSearchParams;
   }
-}
-
-export default function useSearchParams(searchParams?: NextSearchParams) {
-  return new SearchParams(searchParams ?? nextUseSearchParams());
 }

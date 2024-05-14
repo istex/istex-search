@@ -15,7 +15,7 @@ import {
   isWholeCategorySelected,
   selectFormat,
 } from "@/lib/formats";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const FormatPicker: ClientComponent = () => {

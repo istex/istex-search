@@ -3,8 +3,8 @@ import HistoryItem from "@/app/[locale]/results/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
+import SearchParams from "@/lib/SearchParams";
 import { useDownload, useShare } from "@/lib/hooks";
-import { SearchParams } from "@/lib/useSearchParams";
 import { formatDate } from "@/lib/utils";
 
 describe("HistoryItem", () => {
@@ -18,8 +18,8 @@ describe("HistoryItem", () => {
     searchParams: new SearchParams(params),
   };
 
-  it("displays the history entry elements properly", async () => {
-    render(<HistoryItem entry={entry} onClose={() => {}} />);
+  it("displays the history entry elements properly", () => {
+    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
 
     // We don't test the query string here because getting it from the search params
     // is asynchronous and is not ready on the first render
@@ -38,7 +38,7 @@ describe("HistoryItem", () => {
   });
 
   it("disables all the actions except edit when isCurrentRequest is true", () => {
-    render(<HistoryItem entry={entry} onClose={() => {}} isCurrentRequest />);
+    render(<HistoryItem entry={entry} onClose={jest.fn()} isCurrentRequest />);
 
     const editButton = getEditButton();
     const shareButton = getShareButton();
@@ -69,7 +69,7 @@ describe("HistoryItem", () => {
 
   it("calls the share hook when clicking on the share button", async () => {
     const share = useShare();
-    render(<HistoryItem entry={entry} onClose={() => {}} />);
+    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
 
     const shareButton = getShareButton();
     await userEvent.click(shareButton);
@@ -83,7 +83,7 @@ describe("HistoryItem", () => {
 
   it("calls the download hook when clicking on the download button", async () => {
     const download = useDownload();
-    render(<HistoryItem entry={entry} onClose={() => {}} />);
+    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
 
     const downloadButton = getDownloadButton();
     await userEvent.click(downloadButton);
@@ -99,7 +99,7 @@ describe("HistoryItem", () => {
   it("calls history.delete when clicking on the delete button", async () => {
     const history = useHistoryContext();
     const index = 2;
-    render(<HistoryItem entry={entry} onClose={() => {}} index={index} />);
+    render(<HistoryItem entry={entry} onClose={jest.fn()} index={index} />);
 
     const deleteButton = getDeleteButton();
     await userEvent.click(deleteButton);

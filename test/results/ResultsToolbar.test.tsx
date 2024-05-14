@@ -16,7 +16,7 @@ describe("ResultsToolbar", () => {
   afterEach(jest.resetAllMocks);
 
   it("should render correctly", () => {
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     expect(screen.getByText("trier par :")).toBeInTheDocument();
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     expect(sortSelectElement).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe("ResultsToolbar", () => {
       sortBy: "publicationDate",
       sortDirection: "desc",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.getByLabelText("ordre décroissant");
     expect(sortDirButton).toBeInTheDocument();
   });
@@ -42,7 +42,7 @@ describe("ResultsToolbar", () => {
     mockSearchParams({
       sortBy: "publicationDate",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortSelectElement = screen.getAllByText("date de publication")[0];
     expect(sortSelectElement).toBeInTheDocument();
   });
@@ -51,7 +51,7 @@ describe("ResultsToolbar", () => {
     mockSearchParams({
       sortBy: "qualityOverRelevance",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.queryByLabelText("ordre croissant");
     expect(sortDirButton).not.toBeInTheDocument();
   });
@@ -60,7 +60,7 @@ describe("ResultsToolbar", () => {
     mockSearchParams({
       sortBy: "random",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.queryByLabelText("ordre croissant");
     expect(sortDirButton).not.toBeInTheDocument();
   });
@@ -69,7 +69,7 @@ describe("ResultsToolbar", () => {
     mockSearchParams({
       sortBy: "publicationDate",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.getByLabelText("ordre croissant");
     expect(sortDirButton).toBeInTheDocument();
   });
@@ -78,13 +78,13 @@ describe("ResultsToolbar", () => {
     mockSearchParams({
       sortBy: "title.raw",
     });
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.getByLabelText("ordre croissant");
     expect(sortDirButton).toBeInTheDocument();
   });
 
   it("should display the sorting options when the sort select is clicked", async () => {
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     expect(sortSelectElement).toBeInTheDocument();
     expect(screen.getByText("aléatoire")).not.toBeVisible();
@@ -98,7 +98,7 @@ describe("ResultsToolbar", () => {
 
   it("should call router.replace with the correct params when the sort field is changed", async () => {
     const router = useRouter();
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
@@ -113,7 +113,7 @@ describe("ResultsToolbar", () => {
       sortBy: "title.raw",
     });
     const router = useRouter();
-    render(<ResultsToolbar columns={2} setColumns={() => {}} />);
+    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortDirButton = screen.getByLabelText("ordre croissant");
     await userEvent.click(sortDirButton);
     expect(router.replace).toHaveBeenCalledWith(

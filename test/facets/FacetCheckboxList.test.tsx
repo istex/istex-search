@@ -136,7 +136,7 @@ describe("FacetCheckboxList", () => {
     expect(labelElements).toHaveLength(3);
   });
 
-  it("should correctly display excluded facet items", async () => {
+  it("should correctly display excluded facet items", () => {
     render(
       <FacetProvider facets={facets}>
         <FacetCheckboxList facetTitle={facetTitle} facetItems={facetItems} />

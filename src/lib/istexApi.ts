@@ -20,6 +20,8 @@ import {
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
 
+export type Filter = Record<string, string[]>;
+
 export interface BuildResultPreviewUrlOptions {
   queryString: string;
   perPage?: PerPageOption;
@@ -53,10 +55,10 @@ export const createCompleteQuery = (
         if (isNot) {
           range[0] = range[0].slice(1);
         }
-        if (range[0].slice(-1) === ".") {
+        if (range[0].endsWith(".")) {
           range[0] = range[0].slice(0, -1);
         }
-        if (range[1].slice(-1) === ".") {
+        if (range[1].endsWith(".")) {
           range[1] = range[1].slice(0, -1);
         }
         if (range[0] !== "" && range[1] !== "" && +range[0] > +range[1]) {
@@ -114,17 +116,13 @@ export function setSearchParamsSorting(
   sortBy: SortBy,
   sortDir: SortDir,
 ) {
-  const sortParams = rankValues.some(
-    (value) => value === (sortBy ?? DEFAULT_SORT_BY),
-  )
+  const sortParams = rankValues.some((value) => value === sortBy)
     ? "rankBy"
     : "sortBy";
 
   searchParams.set(
     sortParams,
-    `${sortBy ?? DEFAULT_SORT_BY}${
-      sortParams === "sortBy" ? `[${sortDir ?? DEFAULT_SORT_DIR}]` : ""
-    }`,
+    `${sortBy}${sortParams === "sortBy" ? `[${sortDir}]` : ""}`,
   );
 }
 
@@ -189,7 +187,7 @@ export interface Result {
   corpusName?: string;
   title?: string;
   abstract?: string;
-  author?: Array<{ name?: string }>;
+  author?: { name?: string }[];
   host?: {
     title?: string;
     genre?: string[];
@@ -197,24 +195,24 @@ export interface Result {
   genre?: string[];
   publicationDate?: string;
   arkIstex: string;
-  fulltext?: Array<{
+  fulltext?: {
     extension: string;
     uri: string;
-  }>;
-  metadata?: Array<{
+  }[];
+  metadata?: {
     extension: string;
     uri: string;
-  }>;
-  annexes?: Array<{
+  }[];
+  annexes?: {
     extension: string;
     uri: string;
-  }>;
+  }[];
   enrichments?: Record<
     string,
-    Array<{
+    {
       extension: string;
       uri: string;
-    }>
+    }[]
   >;
 }
 
@@ -222,11 +220,11 @@ export type Aggregation = Record<
   string,
   {
     sumOtherDocCount?: number;
-    buckets: Array<{
+    buckets: {
       key: string | number;
       keyAsString?: string;
       docCount: number;
-    }>;
+    }[];
   }
 >;
 
@@ -239,8 +237,6 @@ export interface IstexApiResponse {
   hits: Result[];
   aggregations: Aggregation;
 }
-
-export type Filter = Record<string, string[]>;
 
 export interface GetResultsOptions {
   queryString: string;

@@ -23,7 +23,7 @@ const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
 
   const onLanguageChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
-    router.push(pathname ?? "", { locale: event.target.value });
+    router.push(pathname, { locale: event.target.value });
   };
 
   return (

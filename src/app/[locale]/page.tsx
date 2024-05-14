@@ -5,11 +5,11 @@ import SearchSection from "./components/SearchSection";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider } from "@/contexts/QueryContext";
 import { redirect } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import SearchParams from "@/lib/SearchParams";
 import type { Page } from "@/types/next";
 
 const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
-  const searchParams = useSearchParams(nextSearchParams);
+  const searchParams = new SearchParams(nextSearchParams);
 
   let queryString: string;
   try {

@@ -14,7 +14,7 @@ describe("FacetCheckboxItem", () => {
         count={count}
         checked={checked}
         excluded={false}
-        onChange={() => {}}
+        onChange={jest.fn()}
       />,
     );
     const checkbox = screen.getByRole("checkbox");
@@ -57,7 +57,7 @@ describe("FacetCheckboxItem", () => {
         count={count}
         checked={checked}
         excluded={false}
-        onChange={() => {}}
+        onChange={jest.fn()}
       />,
     );
 
@@ -77,7 +77,7 @@ describe("FacetCheckboxItem", () => {
         checked={checked}
         excluded={false}
         disabled
-        onChange={() => {}}
+        onChange={jest.fn()}
       />,
     );
 

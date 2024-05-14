@@ -100,8 +100,8 @@ export const usages = {
     row: 3,
   },
 } as const;
-export const DEFAULT_USAGE_NAME: UsageName = "custom";
 export type UsageName = keyof typeof usages;
+export const DEFAULT_USAGE_NAME: UsageName = "custom";
 
 export const rankValues = ["qualityOverRelevance", "random"] as const;
 export const sortFields = ["publicationDate", "title.raw"] as const;

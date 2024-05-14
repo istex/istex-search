@@ -13,7 +13,7 @@ import { perPageOptions, type PerPageOption } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 interface PerPageProps {

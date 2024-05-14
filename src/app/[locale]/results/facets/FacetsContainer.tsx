@@ -7,7 +7,7 @@ import { type FacetList, useFacetContext } from "./FacetContext";
 import FacetLayout from "./FacetLayout";
 import { FACETS } from "./constants";
 import Button from "@/components/Button";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const FacetsContainer: ClientComponent = () => {
@@ -55,7 +55,7 @@ const FacetsContainer: ClientComponent = () => {
         <FacetLayout
           key={facetTitle}
           facetTitle={facetTitle}
-          facetItems={facetsList[facetTitle]}
+          facetItems={facetsList[facetTitle] ?? []}
           disabled={isImportSearchMode}
         />
       ))}

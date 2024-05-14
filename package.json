@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "./scripts/build-for-prod.sh",
+    "build": "npx eslint . && ./scripts/build-for-prod.sh",
     "start": "./scripts/start-prod-server.sh",
     "lint": "next lint",
     "test": "jest",
@@ -23,7 +23,7 @@
     "@mui/material-nextjs": "^5.15.11",
     "@tanstack/react-query": "^5.28.4",
     "js-md5": "0.8.3",
-    "next": "14.1.0",
+    "next": "14.2.3",
     "next-intl": "3.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

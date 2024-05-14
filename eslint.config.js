@@ -28,6 +28,8 @@ export default tseslint.config(
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
     },
+  },
+  {
     ignores: [".next/*"],
   },
 
@@ -45,6 +47,20 @@ export default tseslint.config(
   // Custom rules
   {
     rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        { allowNumber: true },
+      ],
       "@typescript-eslint/strict-boolean-expressions": [
         "error",
         {
@@ -63,7 +79,17 @@ export default tseslint.config(
           fixStyle: "inline-type-imports",
         },
       ],
+      "@typescript-eslint/ban-types": [
+        "error",
+        {
+          extendDefaults: true,
+          types: {
+            "{}": false,
+          },
+        },
+      ],
       "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
     },
   },
 

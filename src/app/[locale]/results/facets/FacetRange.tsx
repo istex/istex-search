@@ -7,7 +7,7 @@ import { useFacetContext } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
 import { FACETS_RANGE_WITH_DECIMAL, checkRangeInputValue } from "./utils";
 import Selector from "@/components/Selector";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 export const RANGE_FACETS_WITH_TOGGLE = ["publicationDate"];
@@ -48,6 +48,7 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
   const withToggle = RANGE_FACETS_WITH_TOGGLE.includes(facetTitle);
 
   const getInitialSingleValue = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (filters[facetTitle] !== undefined) {
       return filters[facetTitle][0].split("-")[0] ===
         filters[facetTitle][0].split("-")[1]

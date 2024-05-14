@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { type fields } from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;
@@ -110,7 +111,7 @@ export function astToString(ast: AST): string {
       result += fieldNodeToString(node);
     } else if (node.nodeType === "operator") {
       result += operatorNodeToString(node, hasPartialSiblings);
-    } else if (node.nodeType === "group") {
+    } else {
       result += groupNodeToString(node);
     }
   }
@@ -129,7 +130,9 @@ function fieldNodeToString(node: BaseFieldNode): string {
     result = textNodeToString(node as TextNode);
   } else if (node.fieldType === "number") {
     result = numberNodeToString(node as NumberNode);
-  } else if (node.fieldType === "boolean") {
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  else if (node.fieldType === "boolean") {
     result = booleanNodeToString(node as BooleanNode);
   } else {
     throw new Error(
@@ -213,7 +216,7 @@ function numberNodeToString(node: NumberNode): string {
     } else if (node.comparator === "greater") {
       result += `>${node.value}`;
     } else {
-      result += node.value;
+      result += node.value.toString();
     }
   } else if (hasRange) {
     result += `[${node.min} TO ${node.max}]`;

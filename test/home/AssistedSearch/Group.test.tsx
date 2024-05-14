@@ -19,7 +19,7 @@ describe("Group", () => {
     expect(getComputedStyle(group).border).toBe("");
   });
 
-  it("renders the border when not root", async () => {
+  it("renders the border when not root", () => {
     const group = renderGroup({ root: false });
 
     expect(getComputedStyle(group).borderWidth).toBe("1px");
@@ -207,8 +207,8 @@ function renderGroup({
       root={root}
       displayErrors={displayErrors ?? false}
       childNodes={childNodes ?? node.nodes}
-      setChildNodes={setChildNodes ?? (() => {})}
-      remove={remove ?? (() => {})}
+      setChildNodes={setChildNodes ?? jest.fn()}
+      remove={remove ?? jest.fn()}
     />,
   );
 

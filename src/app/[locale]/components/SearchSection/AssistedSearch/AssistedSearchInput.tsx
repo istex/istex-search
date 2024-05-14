@@ -17,8 +17,7 @@ import {
   astToString,
   getEmptyFieldNode,
 } from "@/lib/assistedSearch/ast";
-import { useOnHomePage } from "@/lib/hooks";
-import useSearchParams from "@/lib/useSearchParams";
+import { useOnHomePage, useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const AssistedSearchInput: ClientComponent = () => {
@@ -91,7 +90,11 @@ const AssistedSearchInput: ClientComponent = () => {
       searchParams.setAst(ast);
     }
 
-    goToResultsPage(newQueryString, searchParams).catch(setError);
+    goToResultsPage(newQueryString, searchParams).catch((err: unknown) => {
+      if (err instanceof CustomError) {
+        setError(err);
+      }
+    });
   };
 
   const reset = () => {

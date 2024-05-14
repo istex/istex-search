@@ -39,7 +39,7 @@ const getIcon = (extension: string, props: SvgIconProps) => {
 };
 
 const FileList: ClientComponent<{
-  files: Array<{ key?: string; extension: string; uri: string }>;
+  files: { key?: string; extension: string; uri: string }[];
   titleKey: string;
 }> = ({ files, titleKey }) => {
   const t = useTranslations("results.Document.formatsLinks");

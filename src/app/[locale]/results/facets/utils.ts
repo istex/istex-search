@@ -60,9 +60,7 @@ export const checkRangeInputValue = (facetTitle: string, value: string) => {
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
   return (
     // Bridle the number of decimals
-    (!withDecimal ||
-      (withDecimal && !value.includes(".")) ||
-      (withDecimal && value.split(".")[1].length <= 3)) &&
+    (!withDecimal || !value.includes(".") || value.split(".")[1].length <= 3) &&
     // Bridle the score input to the range
     ((facetTitle === "qualityIndicators.score" &&
       +value >= 0 &&
@@ -77,7 +75,7 @@ export const checkRangeInputValue = (facetTitle: string, value: string) => {
       // Accept decimal number being written (5.)
       (withDecimal &&
         !isNaN(parseInt(value.slice(0, -1))) &&
-        value.slice(-1) === "." &&
+        value.endsWith(".") &&
         Number.isInteger(value.slice(0, -1))))
   );
 };

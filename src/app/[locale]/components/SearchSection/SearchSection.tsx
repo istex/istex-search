@@ -9,7 +9,7 @@ import {
   SEARCH_MODE_IMPORT,
   SEARCH_MODE_REGULAR,
 } from "@/config";
-import useSearchParams from "@/lib/useSearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const SearchSection: ClientComponent = () => {

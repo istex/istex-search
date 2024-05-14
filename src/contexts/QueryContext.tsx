@@ -5,7 +5,8 @@ import { useHistoryContext } from "./HistoryContext";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
 import type { CustomErrorInfo } from "@/lib/CustomError";
-import useSearchParams, { type SearchParams } from "@/lib/useSearchParams";
+import type SearchParams from "@/lib/SearchParams";
+import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 interface QueryContextValue {

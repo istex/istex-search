@@ -163,7 +163,6 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
           />
           <ActionButton
             title={t("shareAriaLabel")}
-            disabled={isCurrentRequest}
             iconComponent={ShareIcon}
             onClick={handleShare}
           />

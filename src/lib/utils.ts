@@ -52,3 +52,24 @@ export function formatDate(timestamp: number, locale: Locale = DEFAULT_LOCALE) {
     minute: "2-digit",
   }).format(timestamp);
 }
+
+export function debounce<T extends (...args: never[]) => void>(
+  callback: T,
+  delay = 1000,
+) {
+  let timeoutId: number | undefined;
+
+  const debounced = (...args: Parameters<T>) => {
+    window.clearTimeout(timeoutId);
+
+    timeoutId = window.setTimeout(callback, delay, ...args);
+  };
+
+  debounced.cancel = () => {
+    if (timeoutId != null) {
+      window.clearTimeout(timeoutId);
+    }
+  };
+
+  return debounced;
+}

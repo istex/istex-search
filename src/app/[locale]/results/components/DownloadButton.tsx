@@ -8,18 +8,12 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const DownloadButton: ClientComponent = () => {
   const t = useTranslations("results");
   const tDownload = useTranslations("download");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
   const locale = useLocale();
-  const size = searchParams.getSize();
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const [downloadModalOpen, setDownloadModalOpen] = React.useState(false);
@@ -29,17 +23,7 @@ const DownloadButton: ClientComponent = () => {
       ? selectedDocuments.length
       : resultsCount - excludedDocuments.length;
 
-  const openDownloadModal: React.MouseEventHandler<HTMLButtonElement> = () => {
-    // If the size is not set, make it the result count by default
-    // NOTE: It's not the best solution in terms of performance because it implies
-    // re-rendering the whole /results page just to change the size
-    if (size === 0) {
-      searchParams.setSize(documentsCount);
-      router.replace(`${pathname}?${searchParams.toString()}`, {
-        scroll: false,
-      });
-    }
-
+  const openDownloadModal = () => {
     setDownloadModalOpen(true);
   };
 

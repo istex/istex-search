@@ -101,4 +101,52 @@ describe("Utility functions", () => {
       expect(Module.unique(array)).toEqual(array);
     });
   });
+
+  describe("debounce", () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      jest.runOnlyPendingTimers();
+      jest.useRealTimers();
+    });
+
+    it("calls the internal function once when calling the debounced function twice rapidly", () => {
+      const internal = jest.fn();
+      const debounced = Module.debounce(internal);
+
+      debounced();
+      debounced("hello", 1);
+      jest.runAllTimers();
+
+      expect(internal).toHaveBeenCalledTimes(1);
+      expect(internal).toHaveBeenNthCalledWith(1, "hello", 1);
+    });
+
+    it("calls the internal function twice when calling the debounced function twice with delay", () => {
+      const internal = jest.fn();
+      const debounced = Module.debounce(internal);
+
+      debounced("foo", 1);
+      jest.runAllTimers();
+      debounced("bar", 2);
+      jest.runAllTimers();
+
+      expect(internal).toHaveBeenCalledTimes(2);
+      expect(internal).toHaveBeenNthCalledWith(1, "foo", 1);
+      expect(internal).toHaveBeenNthCalledWith(2, "bar", 2);
+    });
+
+    it("doesn't call the internal function when cancelling the debounced function", () => {
+      const internal = jest.fn();
+      const debounced = Module.debounce(internal);
+
+      debounced();
+      debounced.cancel();
+      jest.runAllTimers();
+
+      expect(internal).not.toHaveBeenCalled();
+    });
+  });
 });

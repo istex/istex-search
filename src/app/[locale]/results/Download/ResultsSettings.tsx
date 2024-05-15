@@ -11,8 +11,9 @@ import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";
-import { clamp } from "@/lib/utils";
+import { clamp, debounce } from "@/lib/utils";
 import type { ClientComponent } from "@/types/next";
 
 const ResultsSettings: ClientComponent = () => {
@@ -32,27 +33,49 @@ const ResultsSettings: ClientComponent = () => {
       : resultsCount - excludedDocuments.length;
 
   const maxSize = clamp(documentsCount, 0, istexApiConfig.maxSize);
-  const size = clamp(searchParams.getSize(), 0, maxSize);
+  const [size, setSize] = React.useState(
+    clamp(searchParams.getSize(), 0, maxSize),
+  );
 
-  const setSize = (size: number) => {
-    searchParams.setSize(size);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateUrl = React.useCallback(
+    // We debounce the URL update to avoid a roundtrip to the server on each change
+    // and to make the input more reactive
+    debounce((size: number, searchParams: SearchParams) => {
+      searchParams.setSize(size);
 
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
+      history.populateCurrentRequest({
+        date: Date.now(),
+        searchParams,
+      });
 
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
-  };
+      router.replace(`${pathname}?${searchParams.toString()}`, {
+        scroll: false,
+      });
+    }),
+    [],
+  );
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newValue = parseInt(event.target.value);
+    let newValue = event.target.valueAsNumber;
     if (isNaN(newValue)) {
+      setSize(0);
       return;
     }
 
-    setSize(clamp(newValue, 0, maxSize));
+    newValue = clamp(newValue, 0, maxSize);
+    setSize(newValue);
+    updateUrl(newValue, searchParams);
   };
+
+  React.useEffect(() => {
+    // If the size is not set, make it the maxSize by default
+    if (size === 0) {
+      setSize(maxSize);
+      updateUrl(maxSize, searchParams);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Stack spacing={1.875}>

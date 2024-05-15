@@ -9,6 +9,14 @@ import { istexApiConfig } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 
 describe("ResultsSettings", () => {
+  beforeEach(() => {
+    jest.useFakeTimers({ advanceTimers: true });
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("changes the size in the URL when changing the input value", async () => {
     const resultsCount = 3;
     const newValue = 2;
@@ -61,6 +69,7 @@ async function testModification(
   const input = screen.getByRole("spinbutton");
   await userEvent.clear(input);
   await userEvent.paste(wishValue.toString());
+  jest.runAllTimers();
 
   expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {
     scroll: false,

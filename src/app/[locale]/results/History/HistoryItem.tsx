@@ -38,6 +38,8 @@ interface HistoryItemProps {
   isCurrentRequest?: boolean;
 }
 
+const LINE_COUNT = 2;
+
 const HistoryItem: ClientComponent<HistoryItemProps> = ({
   entry,
   onClose,
@@ -109,12 +111,12 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
       <Cell
         index={index}
         title={!queryStringQuery.isLoading ? queryStringQuery.data : ""}
-        sx={{ width: "100%", ...lineclamp(3) }}
+        sx={{ width: "100%", ...lineclamp(LINE_COUNT) }}
       >
         {queryStringQuery.isLoading ? (
           // 2 text skeletons while loading
           <Stack>
-            {Array(2)
+            {Array(LINE_COUNT)
               .fill(0)
               .map((_, i) => (
                 <Skeleton key={i} variant="text" />
@@ -123,7 +125,7 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
         ) : idType != null ? (
           // Get the IDs if ID query string
           getIdsFromQueryString(idType, queryStringQuery.data ?? "")
-            .slice(0, 4)
+            .slice(0, LINE_COUNT + 1)
             .map((id) => <Box key={id}>{id}</Box>)
         ) : (
           // Raw query string
@@ -132,7 +134,7 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
       </Cell>
 
       {/* Formats */}
-      <Cell index={index} sx={lineclamp(3)}>
+      <Cell index={index} sx={lineclamp(LINE_COUNT)}>
         {buildExtractParamsFromFormats(entry.searchParams.getFormats())
           .split(";")
           .map((format, i) => (
@@ -201,6 +203,7 @@ const Cell: ClientComponent<BoxProps & { index: number }> = (props) => {
         px: 2,
         py: 0.75,
         backgroundColor,
+        height: `${LINE_COUNT * 1.6875}rem`,
       })}
     >
       <Box {...props}>{props.children}</Box>

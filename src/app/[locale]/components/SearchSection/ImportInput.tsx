@@ -156,7 +156,11 @@ const ImportInput: ClientComponent = () => {
                   fileInputRef.current?.click();
                 }}
               >
-                <Image src={SearchLogoUpload} alt={t("uploadIconAlt")} />
+                <Image
+                  src={SearchLogoUpload}
+                  alt={t("uploadIconAlt")}
+                  title={t("uploadIconAlt")}
+                />
               </IconButton>
             ),
             sx: { alignItems: "flex-start" },

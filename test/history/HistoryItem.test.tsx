@@ -37,7 +37,7 @@ describe("HistoryItem", () => {
     expect(date).toBeInTheDocument();
   });
 
-  it("disables all the actions except edit when isCurrentRequest is true", () => {
+  it("disables the download and delete actions when isCurrentRequest is true", () => {
     render(<HistoryItem entry={entry} onClose={jest.fn()} isCurrentRequest />);
 
     const editButton = getEditButton();
@@ -46,7 +46,7 @@ describe("HistoryItem", () => {
     const deleteButton = getDeleteButton();
 
     expect(editButton).toBeEnabled();
-    expect(shareButton).toBeDisabled();
+    expect(shareButton).toBeEnabled();
     expect(downloadButton).toBeDisabled();
     expect(deleteButton).toBeDisabled();
   });

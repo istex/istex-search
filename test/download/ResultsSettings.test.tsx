@@ -35,6 +35,16 @@ describe("ResultsSettings", () => {
     await testModification(resultsCount, newValue, istexApiConfig.maxSize);
   });
 
+  it("sets the size to the max size when the results count is greater than the max size", async () => {
+    const resultsCount = istexApiConfig.maxSize + 10;
+    await testAllButton(resultsCount, istexApiConfig.maxSize);
+  });
+
+  it("sets the size to the results count when the results count is smaller than the max size", async () => {
+    const resultsCount = 10;
+    await testAllButton(resultsCount, resultsCount);
+  });
+
   it("initializes the input value based on the results count", () => {
     const resultsCount = 3;
     testInitialization(resultsCount, resultsCount);
@@ -69,6 +79,23 @@ async function testModification(
   const input = screen.getByRole("spinbutton");
   await userEvent.clear(input);
   await userEvent.paste(wishValue.toString());
+  jest.runAllTimers();
+
+  expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {
+    scroll: false,
+  });
+}
+
+async function testAllButton(resultsCount: number, expectedValue: number) {
+  mockSearchParams({
+    size: "1",
+  });
+  render(<ResultsSettings />, { resultsCount });
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter();
+  const button = screen.getByRole("button", { name: "Tout" });
+  await userEvent.click(button);
   jest.runAllTimers();
 
   expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {

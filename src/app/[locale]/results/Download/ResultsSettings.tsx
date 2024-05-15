@@ -52,20 +52,23 @@ const ResultsSettings: ClientComponent = () => {
       router.replace(`${pathname}?${searchParams.toString()}`, {
         scroll: false,
       });
-    }),
+    }, 350),
     [],
   );
 
+  const updateSize = (size: number) => {
+    setSize(size);
+    updateUrl(size, searchParams);
+  };
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    let newValue = event.target.valueAsNumber;
+    const newValue = event.target.valueAsNumber;
     if (isNaN(newValue)) {
-      setSize(0);
+      updateSize(0);
       return;
     }
 
-    newValue = clamp(newValue, 0, maxSize);
-    setSize(newValue);
-    updateUrl(newValue, searchParams);
+    updateSize(clamp(newValue, 0, maxSize));
   };
 
   React.useEffect(() => {
@@ -123,7 +126,7 @@ const ResultsSettings: ClientComponent = () => {
           variant="outlined"
           disabled={size === maxSize}
           onClick={() => {
-            setSize(maxSize);
+            updateSize(maxSize);
           }}
           sx={{ ml: "auto" }}
         >

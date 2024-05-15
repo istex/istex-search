@@ -74,7 +74,7 @@ export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
       history.pop();
     }
 
-    update();
+    updateHistory();
   };
 
   const _delete: HistoryContextValue["delete"] = (index) => {
@@ -83,12 +83,12 @@ export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
     }
 
     history.splice(index, 1);
-    update();
+    updateHistory();
   };
 
   const clear: HistoryContextValue["clear"] = () => {
     history.splice(0, history.length);
-    update();
+    updateHistory();
   };
 
   const getCurrentRequest: HistoryContextValue["getCurrentRequest"] = () => {
@@ -99,21 +99,29 @@ export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
     (newCurrentRequest) => {
       Object.assign(currentRequest, newCurrentRequest);
 
-      update();
+      updateCurrentRequest();
     };
 
   const isEmpty: HistoryContextValue["isEmpty"] = () => {
     return history.length === 0;
   };
 
-  const update = () => {
+  const updateHistory = () => {
     setHistory([...history]);
-    setCurrentRequest({ ...currentRequest });
     window.localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  };
+
+  const updateCurrentRequest = () => {
+    setCurrentRequest({ ...currentRequest });
     window.localStorage.setItem(
       CURRENT_REQUEST_KEY,
       JSON.stringify(currentRequest),
     );
+  };
+
+  const update = () => {
+    updateHistory();
+    updateCurrentRequest();
   };
 
   const isIndexValid = (index: number) => {

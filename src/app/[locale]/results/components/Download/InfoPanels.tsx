@@ -1,13 +1,13 @@
 import { useTranslations } from "next-intl";
 import { Grid, Link, Typography, type SxProps } from "@mui/material";
-import HighlightedUrl from "../components/HighlightedUrl";
+import HighlightedUrl from "../HighlightedUrl";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
 import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import { useSearchParams } from "@/lib/hooks";
+import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import type { ServerComponent } from "@/types/next";
 

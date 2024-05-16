@@ -15,7 +15,7 @@ const ResultsToolbar: ClientComponent<{
   columns: number;
   setColumns: (columns: number) => void;
 }> = ({ columns, setColumns }) => {
-  const t = useTranslations("results.ResultsGrid");
+  const t = useTranslations("results.ResultsToolbar");
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
 
@@ -53,15 +53,15 @@ const ResultsToolbar: ClientComponent<{
         value={columns}
         exclusive
         onChange={handleLayout}
-        aria-label={t("layouts.groupAriaLabel")}
+        aria-label={t("groupAriaLabel")}
         sx={{
           display: { xs: "none", sm: "inline-flex" },
         }}
       >
-        <ToggleButton value={2} aria-label={t("layouts.gridAriaLabel")}>
+        <ToggleButton value={2} aria-label={t("gridAriaLabel")}>
           <WindowIcon />
         </ToggleButton>
-        <ToggleButton value={1} aria-label={t("layouts.listAriaLabel")}>
+        <ToggleButton value={1} aria-label={t("listAriaLabel")}>
           <TableRowsIcon />
         </ToggleButton>
       </StyledToggleButtonGroup>

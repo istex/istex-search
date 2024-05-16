@@ -21,7 +21,7 @@ import {
 import type { ClientComponent } from "@/types/next";
 
 const ImportInput: ClientComponent = () => {
-  const t = useTranslations("home.SearchSection.SearchInput.ImportInput");
+  const t = useTranslations("home.SearchSection.ImportInput");
   const { queryString, goToResultsPage, errorInfo } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
   const [idList, setIdList] = React.useState(

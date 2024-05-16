@@ -3,7 +3,7 @@ import {
   customRender as render,
   screen,
 } from "../test-utils";
-import DownloadButton from "@/app/[locale]/results/Download/DownloadButton";
+import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
 
 describe("DownloadButton (download modal)", () => {
   it("disables the button when the query string is missing", () => {

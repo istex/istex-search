@@ -12,9 +12,7 @@ interface ExamplesListProps {
 
 const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
   const tExamples = useTranslations("config.examples");
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.RegularSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.RegularSearchInput");
   const { goToResultsPage } = useQueryContext();
 
   const handleClick = (queryString: string) => {

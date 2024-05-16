@@ -1,5 +1,5 @@
 import { fireEvent, customRender as render, screen } from "../test-utils";
-import FacetCheckboxItem from "@/app/[locale]/results/facets/FacetCheckboxItem";
+import FacetCheckboxItem from "@/app/[locale]/results/components/Facets/FacetCheckboxItem";
 
 describe("FacetCheckboxItem", () => {
   const value = "Option 1";

@@ -1,5 +1,5 @@
 import { customRender as render, screen } from "../test-utils";
-import IndicatorPanelContent from "@/app/[locale]/results/Panel/IndicatorPanelContent";
+import IndicatorPanelContent from "@/app/[locale]/results/components/Panel/IndicatorPanelContent";
 import type { Aggregation } from "@/lib/istexApi";
 
 describe("IndicatorPanelContent", () => {

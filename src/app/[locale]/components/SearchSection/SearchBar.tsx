@@ -6,7 +6,7 @@ import { useOnHomePage } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const SearchBar: ClientComponent<{}, true> = ({ children }) => {
-  const t = useTranslations("home.SearchSection.SearchInput");
+  const t = useTranslations("home.SearchSection");
   const onHomePage = useOnHomePage();
   const { resultsCount, loading } = useQueryContext();
 

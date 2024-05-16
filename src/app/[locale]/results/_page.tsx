@@ -1,19 +1,19 @@
 import { getTranslations } from "next-intl/server";
 import { Paper, Stack, Typography } from "@mui/material";
-import Filters from "./Filters/Filters";
-import Panels from "./Panel/Panels";
 import DownloadButton from "./components/DownloadButton";
-import Pagination from "./components/Pagination";
-import ResultCard from "./components/ResultCard";
-import ResultsGrid from "./components/ResultsGrid";
-import ResultsPageShell from "./components/ResultsPageShell";
-import type { FacetList } from "./facets/FacetContext";
-import FacetsContainer from "./facets/FacetsContainer";
+import type { FacetList } from "./components/Facets/FacetContext";
+import FacetsContainer from "./components/Facets/FacetsContainer";
 import {
   COMPATIBILITY_FACETS,
   INDICATORS_FACETS,
   FACETS,
-} from "./facets/constants";
+} from "./components/Facets/constants";
+import Filters from "./components/Filters/Filters";
+import Pagination from "./components/Pagination";
+import Panels from "./components/Panel/Panels";
+import ResultCard from "./components/ResultCard";
+import ResultsGrid from "./components/ResultsGrid";
+import ResultsPageShell from "./components/ResultsPageShell";
 import ErrorCard from "@/components/ErrorCard";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";

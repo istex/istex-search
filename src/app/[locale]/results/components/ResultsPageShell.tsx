@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import SearchSection from "../../components/SearchSection";
-import { FacetProvider, type FacetList } from "../facets/FacetContext";
+import { FacetProvider, type FacetList } from "./Facets/FacetContext";
 import RawRequest from "./RawRequest";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";

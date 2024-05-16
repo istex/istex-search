@@ -1,8 +1,8 @@
 import { fireEvent, customRender as render, screen } from "../test-utils";
-import { useFacetContext } from "@/app/[locale]/results/facets/FacetContext";
-import FacetsContainer from "@/app/[locale]/results/facets/FacetsContainer";
+import { useFacetContext } from "@/app/[locale]/results/components/Facets/FacetContext";
+import FacetsContainer from "@/app/[locale]/results/components/Facets/FacetsContainer";
 
-jest.mock("@/app/[locale]/results/facets/FacetContext", () => ({
+jest.mock("@/app/[locale]/results/components/Facets/FacetContext", () => ({
   useFacetContext: jest.fn(),
 }));
 

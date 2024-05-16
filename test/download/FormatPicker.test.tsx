@@ -4,7 +4,7 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import FormatPicker from "@/app/[locale]/results/Download/FormatPicker";
+import FormatPicker from "@/app/[locale]/results/components/Download/FormatPicker";
 import { formats } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";

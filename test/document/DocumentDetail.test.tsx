@@ -5,7 +5,7 @@ import {
   waitFor,
   within,
 } from "../test-utils";
-import DocumentDetail from "@/app/[locale]/results/Document/DocumentDetail";
+import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 

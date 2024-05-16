@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
-import FloatingSideMenu from "./results/FloatingSideMenu/FloatingSideMenu";
+import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSideMenu";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";

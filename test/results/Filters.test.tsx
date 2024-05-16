@@ -5,7 +5,7 @@ import {
   screen,
   within,
 } from "../test-utils";
-import Filters from "@/app/[locale]/results/Filters/Filters";
+import Filters from "@/app/[locale]/results/components/Filters/Filters";
 import { useRouter } from "@/i18n/navigation";
 import { type Filter } from "@/lib/istexApi";
 

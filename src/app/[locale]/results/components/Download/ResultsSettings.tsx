@@ -4,7 +4,7 @@ import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, TextField, Tooltip } from "@mui/material";
-import Sorting from "../components/Sorting";
+import Sorting from "../Sorting";
 import Button from "@/components/Button";
 import { istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";

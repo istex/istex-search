@@ -7,7 +7,7 @@ import {
   FACETS,
   FACETS_WITH_RANGE,
   INDICATORS_FACETS,
-} from "@/app/[locale]/results/facets/constants";
+} from "@/app/[locale]/results/components/Facets/constants";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,

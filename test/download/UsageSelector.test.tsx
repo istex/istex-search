@@ -4,7 +4,7 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import UsageSelector from "@/app/[locale]/results/Download/UsageSelector";
+import UsageSelector from "@/app/[locale]/results/components/Download/UsageSelector";
 import { usages } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";

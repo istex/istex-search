@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, DialogContent } from "@mui/material";
-import DownloadForm from "../Download/DownloadForm";
+import DownloadForm from "./Download/DownloadForm";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useDocumentContext } from "@/contexts/DocumentContext";
@@ -48,7 +48,7 @@ const DownloadButton: ClientComponent = () => {
           sx={{ px: { xs: 4, sm: 8 }, py: 2, pointerEvents: "auto" }}
           onClick={openDownloadModal}
         >
-          {t("downloadButton", {
+          {t("DownloadButton", {
             resultsCount: documentsCount.toLocaleString(locale),
           })}
         </Button>

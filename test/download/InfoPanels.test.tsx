@@ -3,7 +3,7 @@ import {
   customRender as render,
   screen,
 } from "../test-utils";
-import InfoPanels from "@/app/[locale]/results/Download/InfoPanels";
+import InfoPanels from "@/app/[locale]/results/components/Download/InfoPanels";
 import type { UsageName } from "@/config";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 

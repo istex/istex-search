@@ -1,6 +1,6 @@
 import { act } from "react-dom/test-utils";
 import { customRender as render, screen, waitFor } from "../test-utils";
-import SelectedDocPanel from "@/app/[locale]/results/Download/SelectedDocPanel";
+import SelectedDocPanel from "@/app/[locale]/results/components/Download/SelectedDocPanel";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
 
 describe("SelectedDocPanel", () => {

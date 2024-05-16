@@ -1,4 +1,4 @@
-import * as Module from "@/app/[locale]/results/facets/utils";
+import * as Module from "@/app/[locale]/results/components/Facets/utils";
 
 describe("sortFacets", () => {
   it("should sort facets by key in ascending order", () => {

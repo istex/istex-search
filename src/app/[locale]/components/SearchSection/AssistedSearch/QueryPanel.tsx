@@ -20,9 +20,7 @@ const QueryPanel: ClientComponent<QueryPanelProps> = ({
   onAssistedEditClick,
   onExpertEditClick,
 }) => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
 
   return (
     <Paper

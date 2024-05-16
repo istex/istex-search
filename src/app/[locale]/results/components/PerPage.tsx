@@ -27,7 +27,7 @@ const PerPage: ClientComponent<PerPageProps> = ({
   labelColor,
   selectColor,
 }) => {
-  const t = useTranslations("results.ResultsGrid");
+  const t = useTranslations("results");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

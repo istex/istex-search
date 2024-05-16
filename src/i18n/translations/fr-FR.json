@@ -15,327 +15,319 @@
       "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>Première étape de votre projet de fouille de textes"
     },
     "SearchSection": {
-      "regularButton": "Recherche simple",
-      "assistedButton": "Recherche assistée",
-      "importButton": "Import de liste",
-      "SearchInput": {
+      "regularMode": "Recherche simple",
+      "assistedMode": "Recherche assistée",
+      "importMode": "Import de liste",
+      "button": "Rechercher",
+      "resultsCount": "{count, plural, =0 {<resultsSpan>#</resultsSpan> document trouvé} =1 {<resultsSpan>#</resultsSpan> document trouvé} other {<resultsSpan>#</resultsSpan> documents trouvés}}",
+      "RegularSearchInput": {
+        "searchTitle": "Créez votre requête",
+        "resultsTitle": "Résultats de votre requête",
+        "placeholder": "\"physique nucléaire\" AND language:fre",
+        "examplesTitle": "Testez des exemples de requêtes"
+      },
+      "AssistedSearchInput": {
+        "searchTitle": "Assistant à la construction de requête",
+        "resultsTitle": "Résultats de votre requête assistée",
+        "assistedButton": "Édition assistée",
+        "expertButton": "Édition experte",
+        "validate": "Valider vos modifications",
         "button": "Rechercher",
-        "importButton": "IMPORT\nD'IDENTIFIANTS",
-        "assistedButton": "Recherche\nassistée",
-        "switch": "Assistant",
-        "resultsCount": "{count, plural, =0 {<resultsSpan>#</resultsSpan> document trouvé} =1 {<resultsSpan>#</resultsSpan> document trouvé} other {<resultsSpan>#</resultsSpan> documents trouvés}}",
-        "RegularSearchInput": {
-          "searchTitle": "Créez votre requête",
-          "resultsTitle": "Résultats de votre requête",
-          "placeholder": "\"physique nucléaire\" AND language:fre",
-          "examplesTitle": "Testez des exemples de requêtes"
-        },
-        "ImportInput": {
-          "searchTitle": "Importez vos identifiants",
-          "resultsTitle": "Résultats de votre import",
-          "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importez votre fichier .corpus\n* un seul format à la fois",
-          "button": "Rechercher",
-          "uploadIconAlt": "Déposer un fichier .corpus"
-        },
-        "AssistedSearchInput": {
-          "searchTitle": "Assistant à la construction de requête",
-          "resultsTitle": "Résultats de votre requête assistée",
-          "assistedButton": "Édition assistée",
-          "expertButton": "Édition experte",
-          "validate": "Valider vos modifications",
-          "regularSearch": "< recherche simple",
-          "button": "Rechercher",
-          "addRule": "Ajouter une règle",
-          "addGroup": "Ajouter un groupe",
-          "remove": "Supprimer",
-          "reset": "Réinitialiser",
-          "Dropdown": {
-            "field": "Champ",
-            "searchField": "Rechercher un champ",
-            "comparator": "Comparateur",
-            "searchComparator": "Rechercher un comparateur",
-            "value": "Valeur",
-            "searchValue": "Rechercher une valeur",
-            "minValue": "Valeur min",
-            "maxValue": "Valeur max",
-            "equals": "égal",
-            "contains": "contient",
-            "between": "est entre",
-            "startsWith": "commence par",
-            "endsWith": "finit par",
-            "greater": "supérieur à",
-            "smaller": "inférieur à",
-            "true": "vrai",
-            "false": "faux"
+        "addRule": "Ajouter une règle",
+        "addGroup": "Ajouter un groupe",
+        "remove": "Supprimer",
+        "reset": "Réinitialiser",
+        "field": "Champ",
+        "searchField": "Rechercher un champ",
+        "comparator": "Comparateur",
+        "searchComparator": "Rechercher un comparateur",
+        "value": "Valeur",
+        "searchValue": "Rechercher une valeur",
+        "minValue": "Valeur min",
+        "maxValue": "Valeur max",
+        "equals": "égal",
+        "contains": "contient",
+        "between": "est entre",
+        "startsWith": "commence par",
+        "endsWith": "finit par",
+        "greater": "supérieur à",
+        "smaller": "inférieur à",
+        "true": "vrai",
+        "false": "faux",
+        "fields": {
+          "abstract": {
+            "title": "Résumé",
+            "description": "Recherche sur le résumé du document"
           },
-          "fields": {
-            "abstract": {
-              "title": "Résumé",
-              "description": "Recherche sur le résumé du document"
+          "accessCondition": {
+            "contentType": {
+              "title": "Libre accès",
+              "description": "Recherche de documents disponibles par ailleurs en libre accès (isOpenAccess / isNotOpenAccess)"
             },
-            "accessCondition": {
-              "contentType": {
-                "title": "Libre accès",
-                "description": "Recherche de documents disponibles par ailleurs en libre accès (isOpenAccess / isNotOpenAccess)"
-              },
-              "value": {
-                "title": "Type de libre accès",
-                "description": "Recherche de documents par type de libre accès (closed / bronzeOpenAccess / greenOpenAccess / goldOpenAccess / hybridOpenAccess)"
-              }
-            },
-            "author": {
-              "affiliations": {
-                "title": "Affiliations d'auteur",
-                "description": "Recherche par l'affiliation d'un auteur"
-              },
-              "name": {
-                "title": "Noms d'auteur",
-                "description": "Recherche par l'un des auteurs"
-              }
-            },
-            "categories": {
-              "inist": {
-                "title": "Catégorie Inist",
-                "description": "Recherche par catégorie du plan de classement Pascal et Francis"
-              },
-              "scienceMetrix": {
-                "title": "Catégorie Science-Metrix",
-                "description": "Recherche par catégorie de la classification Science-Metrix"
-              },
-              "scopus": {
-                "title": "Catégorie Scopus",
-                "description": "Recherche par catégorie de la classification Scopus"
-              },
-              "wos": {
-                "title": "Catégorie WoS",
-                "description": "Recherche par catégorie de la classification Web of Science"
-              }
-            },
-            "corpusName": {
-              "title": "Corpus éditeur",
-              "description": "Recherche par bouquet éditeur chargé dans Istex"
-            },
-            "doi": {
-              "title": "DOI document",
-              "description": "Recherche par identifiant DOI du document"
-            },
-            "figure": {
-              "title": "Contenu textuel des légendes",
-              "description": "Recherche dans le contenu textuel des légendes"
-            },
-            "fulltext": {
-              "title": "Texte intégral",
-              "description": "Recherche sur le texte intégral (corps du texte + métadonnées)"
-            },
-            "fulltext@1": {
-              "title": "Corps du texte",
-              "description": "Recherche sur le corps du texte sans les métadonnées - restreint aux documents structurés"
-            },
-            "genre": {
-              "title": "Type de contenu",
-              "description": "Recherche par type de contenu du document (article, research-article, chapter, etc.)"
-            },
-            "hasFormula": {
-              "title": "Contient une formule",
-              "description": "Recherche la présence d'une formule mathématique"
-            },
-            "host": {
-              "doi": {
-                "title": "DOI revue",
-                "description": "Recherche par DOI de la revue"
-              },
-              "eisbn": {
-                "title": "e-ISBN monographie électronique",
-                "description": "Recherche par numéro ISBN de la monographie électronique"
-              },
-              "eissn": {
-                "title": "e-ISSN revue",
-                "description": "Recherche par numéro ISSN de la revue électronique"
-              },
-              "genre": {
-                "title": "Type de publication",
-                "description": "Rercherche par type de publication (journal, book, database, book, book-series, reference-works)"
-              },
-              "isbn": {
-                "title": "ISBN monographie papier",
-                "description": "Recherche par numéro ISBN de la monographie papier"
-              },
-              "issn": {
-                "title": "ISSN revue papier",
-                "description": "Recherche par numéro ISSN de la revue papier"
-              },
-              "title": {
-                "title": "Titre revue ou monographie",
-                "description": "Recherche par titre de la revue ou monographie"
-              }
-            },
-            "keywords": {
-              "teeft": {
-                "title": "Mots-clés teeft",
-                "description": "Recherche par l'un des mots-clés extraits du texte intégral par l'outil Teeft (Terms Extraction for English Full Texts)"
-              }
-            },
-            "language": {
-              "title": "Langue",
-              "description": "Recherche par le code ISO de la langue du document"
-            },
-            "namedEntities": {
-              "unitex": {
-                "bibl": {
-                  "title": "Référence ",
-                  "description": "Recherche par entité nommée de type 'référence bibliographique' détectée dans le texte par Unitex"
-                },
-                "date": {
-                  "title": "Nom exprimant une date",
-                  "description": "Recherche par entité nommée de type 'date, période, siècle' détectée dans le texte par Unitex"
-                },
-                "geogName": {
-                  "title": "Nom de lieu géographique",
-                  "description": "Recherche par entité nommée de type 'nom de lieu comportant une caractéristique géographique' détectée dans le texte par Unitex"
-                },
-                "orgName": {
-                  "title": "Nom d'organisation",
-                  "description": "Recherche par entité nommée de type 'nom d'organisation' détectée dans le texte par Unitex"
-                },
-                "orgName_funder": {
-                  "title": "Nom d'organisme financeur",
-                  "description": "Recherche par entité nommée de type 'organisme financeur' détectée dans le texte par Unitex"
-                },
-                "orgName_provider": {
-                  "title": "Nom d'organisme fournisseur de ressources",
-                  "description": "Recherche par entité nommée de type 'organisme fournisseur de ressources' détectée dans le texte par Unitex"
-                },
-                "persName": {
-                  "title": "Nom de personne",
-                  "description": "Recherche par entité nommée de type 'nom de personne' détectée dans le texte par Unitex"
-                },
-                "placeName": {
-                  "title": "Nom de lieu administratif",
-                  "description": "Recherche par entité nommée de type 'nom de lieu géopolitique ou administratif' détectée dans le texte par Unitex"
-                },
-                "ref_bibl": {
-                  "title": "Citation",
-                  "description": "Recherche par entité nommée de type 'citation bibliographique' détectée dans le texte par Unitex"
-                },
-                "ref_url": {
-                  "title": "URL",
-                  "description": "Recherche par entité nommée de type 'URL' détectée dans le texte par Unitex"
-                }
-              }
-            },
-            "publicationDate": {
-              "title": "Date de publication",
-              "description": "Recherche par date de publication papier"
-            },
-            "qualityIndicators": {
-              "abstractCharCount": {
-                "title": "Nombre de caractères du résumé",
-                "description": "Recherche par nombre de caractères dans le résumé"
-              },
-              "abstractWordCount": {
-                "title": "Nombre de mots du résumé",
-                "description": "Recherche par nombre de mots dans le résumé"
-              },
-              "pdfCharCount": {
-                "title": "Nombre de caractères du PDF",
-                "description": "Recherche par nombre de caractères dans le document au format PDF"
-              },
-              "pdfPageCount": {
-                "title": "Nombre de pages du PDF",
-                "description": "Recherche par nombre de pages du document au format PDF"
-              },
-              "pdfText": {
-                "title": "PDF textuel",
-                "description": "Recherche de documents au format PDF qui contiennent du texte (true / false)"
-              },
-              "pdfVersion": {
-                "title": "Version du PDF",
-                "description": "Recherche sur la version du format PDF du document"
-              },
-              "pdfWordCount": {
-                "title": "Nombre de mots du PDF",
-                "description": "Recherche par nombre de mots dans le document au format PDF"
-              },
-              "pdfWordsPerPage": {
-                "title": "Nombre de mots par page du PDF",
-                "description": "Recherche par nombre de mots par page dans le document au format PDF"
-              },
-              "refBibsNative": {
-                "title": "Références bibliographiques natives",
-                "description": "Recherche par présence de références bibliographiques natives (true / false)"
-              },
-              "tdmReady": {
-                "title": "TXT compatible TDM",
-                "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes (true / false)"
-              },
-              "teiSource": {
-                "title": "Source TEI",
-                "description": "Recherche sur la provenance du document en format TEI (pub2tei / grobid)"
-              }
-            },
-            "refBibs": {
-              "author": {
-                "name": {
-                  "title": "Noms d'auteur document référencé",
-                  "description": "Recherche par l'un des auteurs d'une référence bibliographique"
-                }
-              },
-              "doi": {
-                "title": "DOI document référencé",
-                "description": "Recherche par DOI d'une référence bibliographique"
-              },
-              "publicationDate": {
-                "title": "Date de publication document référencé",
-                "description": "Recherche par date de publication d'une référence bibliographique"
-              },
-              "title": {
-                "title": "Titre article référencé",
-                "description": "Recherche par titre d'une référence bibliographique"
-              }
-            },
-            "serie": {
-              "doi": {
-                "title": "DOI de la série",
-                "description": "Recherche par DOI de la série de monographies"
-              },
-              "eissn": {
-                "title": "e-Issn de la série",
-                "description": "Recherche par numéro ISSN de la série de monographies électronique"
-              },
-              "issn": {
-                "title": "Issn de la série",
-                "description": "Recherche par numéro ISSN de la série de monographies papier"
-              },
-              "title": {
-                "title": "Titre de la série",
-                "description": "Recherche par titre de la série de monographies"
-              }
-            },
-            "subject": {
-              "lang": {
-                "title": "Langue mots-clés d'auteur",
-                "description": "Recherche par le code ISO de la langue des mots-clés atttribués par les auteurs du document"
-              },
-              "value": {
-                "title": "Mots-clés d'auteur",
-                "description": "Recherche par l'un des mots-clés attribués par les auteurs du document"
-              }
-            },
-            "table": {
-              "title": "Contenu textuel des tableaux",
-              "description": "Recherche dans le contenu textuel des tableaux"
-            },
-            "title": {
-              "title": "Titre article ou chapitre",
-              "description": "Recherche sur le titre du document"
+            "value": {
+              "title": "Type de libre accès",
+              "description": "Recherche de documents par type de libre accès (closed / bronzeOpenAccess / greenOpenAccess / goldOpenAccess / hybridOpenAccess)"
             }
           },
-          "Dialog": {
-            "title": "Êtes-vous sûr ?",
-            "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
-            "confirm": "Confirmer"
+          "author": {
+            "affiliations": {
+              "title": "Affiliations d'auteur",
+              "description": "Recherche par l'affiliation d'un auteur"
+            },
+            "name": {
+              "title": "Noms d'auteur",
+              "description": "Recherche par l'un des auteurs"
+            }
+          },
+          "categories": {
+            "inist": {
+              "title": "Catégorie Inist",
+              "description": "Recherche par catégorie du plan de classement Pascal et Francis"
+            },
+            "scienceMetrix": {
+              "title": "Catégorie Science-Metrix",
+              "description": "Recherche par catégorie de la classification Science-Metrix"
+            },
+            "scopus": {
+              "title": "Catégorie Scopus",
+              "description": "Recherche par catégorie de la classification Scopus"
+            },
+            "wos": {
+              "title": "Catégorie WoS",
+              "description": "Recherche par catégorie de la classification Web of Science"
+            }
+          },
+          "corpusName": {
+            "title": "Corpus éditeur",
+            "description": "Recherche par bouquet éditeur chargé dans Istex"
+          },
+          "doi": {
+            "title": "DOI document",
+            "description": "Recherche par identifiant DOI du document"
+          },
+          "figure": {
+            "title": "Contenu textuel des légendes",
+            "description": "Recherche dans le contenu textuel des légendes"
+          },
+          "fulltext": {
+            "title": "Texte intégral",
+            "description": "Recherche sur le texte intégral (corps du texte + métadonnées)"
+          },
+          "fulltext@1": {
+            "title": "Corps du texte",
+            "description": "Recherche sur le corps du texte sans les métadonnées - restreint aux documents structurés"
+          },
+          "genre": {
+            "title": "Type de contenu",
+            "description": "Recherche par type de contenu du document (article, research-article, chapter, etc.)"
+          },
+          "hasFormula": {
+            "title": "Contient une formule",
+            "description": "Recherche la présence d'une formule mathématique"
+          },
+          "host": {
+            "doi": {
+              "title": "DOI revue",
+              "description": "Recherche par DOI de la revue"
+            },
+            "eisbn": {
+              "title": "e-ISBN monographie électronique",
+              "description": "Recherche par numéro ISBN de la monographie électronique"
+            },
+            "eissn": {
+              "title": "e-ISSN revue",
+              "description": "Recherche par numéro ISSN de la revue électronique"
+            },
+            "genre": {
+              "title": "Type de publication",
+              "description": "Rercherche par type de publication (journal, book, database, book, book-series, reference-works)"
+            },
+            "isbn": {
+              "title": "ISBN monographie papier",
+              "description": "Recherche par numéro ISBN de la monographie papier"
+            },
+            "issn": {
+              "title": "ISSN revue papier",
+              "description": "Recherche par numéro ISSN de la revue papier"
+            },
+            "title": {
+              "title": "Titre revue ou monographie",
+              "description": "Recherche par titre de la revue ou monographie"
+            }
+          },
+          "keywords": {
+            "teeft": {
+              "title": "Mots-clés teeft",
+              "description": "Recherche par l'un des mots-clés extraits du texte intégral par l'outil Teeft (Terms Extraction for English Full Texts)"
+            }
+          },
+          "language": {
+            "title": "Langue",
+            "description": "Recherche par le code ISO de la langue du document"
+          },
+          "namedEntities": {
+            "unitex": {
+              "bibl": {
+                "title": "Référence ",
+                "description": "Recherche par entité nommée de type 'référence bibliographique' détectée dans le texte par Unitex"
+              },
+              "date": {
+                "title": "Nom exprimant une date",
+                "description": "Recherche par entité nommée de type 'date, période, siècle' détectée dans le texte par Unitex"
+              },
+              "geogName": {
+                "title": "Nom de lieu géographique",
+                "description": "Recherche par entité nommée de type 'nom de lieu comportant une caractéristique géographique' détectée dans le texte par Unitex"
+              },
+              "orgName": {
+                "title": "Nom d'organisation",
+                "description": "Recherche par entité nommée de type 'nom d'organisation' détectée dans le texte par Unitex"
+              },
+              "orgName_funder": {
+                "title": "Nom d'organisme financeur",
+                "description": "Recherche par entité nommée de type 'organisme financeur' détectée dans le texte par Unitex"
+              },
+              "orgName_provider": {
+                "title": "Nom d'organisme fournisseur de ressources",
+                "description": "Recherche par entité nommée de type 'organisme fournisseur de ressources' détectée dans le texte par Unitex"
+              },
+              "persName": {
+                "title": "Nom de personne",
+                "description": "Recherche par entité nommée de type 'nom de personne' détectée dans le texte par Unitex"
+              },
+              "placeName": {
+                "title": "Nom de lieu administratif",
+                "description": "Recherche par entité nommée de type 'nom de lieu géopolitique ou administratif' détectée dans le texte par Unitex"
+              },
+              "ref_bibl": {
+                "title": "Citation",
+                "description": "Recherche par entité nommée de type 'citation bibliographique' détectée dans le texte par Unitex"
+              },
+              "ref_url": {
+                "title": "URL",
+                "description": "Recherche par entité nommée de type 'URL' détectée dans le texte par Unitex"
+              }
+            }
+          },
+          "publicationDate": {
+            "title": "Date de publication",
+            "description": "Recherche par date de publication papier"
+          },
+          "qualityIndicators": {
+            "abstractCharCount": {
+              "title": "Nombre de caractères du résumé",
+              "description": "Recherche par nombre de caractères dans le résumé"
+            },
+            "abstractWordCount": {
+              "title": "Nombre de mots du résumé",
+              "description": "Recherche par nombre de mots dans le résumé"
+            },
+            "pdfCharCount": {
+              "title": "Nombre de caractères du PDF",
+              "description": "Recherche par nombre de caractères dans le document au format PDF"
+            },
+            "pdfPageCount": {
+              "title": "Nombre de pages du PDF",
+              "description": "Recherche par nombre de pages du document au format PDF"
+            },
+            "pdfText": {
+              "title": "PDF textuel",
+              "description": "Recherche de documents au format PDF qui contiennent du texte (true / false)"
+            },
+            "pdfVersion": {
+              "title": "Version du PDF",
+              "description": "Recherche sur la version du format PDF du document"
+            },
+            "pdfWordCount": {
+              "title": "Nombre de mots du PDF",
+              "description": "Recherche par nombre de mots dans le document au format PDF"
+            },
+            "pdfWordsPerPage": {
+              "title": "Nombre de mots par page du PDF",
+              "description": "Recherche par nombre de mots par page dans le document au format PDF"
+            },
+            "refBibsNative": {
+              "title": "Références bibliographiques natives",
+              "description": "Recherche par présence de références bibliographiques natives (true / false)"
+            },
+            "tdmReady": {
+              "title": "TXT compatible TDM",
+              "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes (true / false)"
+            },
+            "teiSource": {
+              "title": "Source TEI",
+              "description": "Recherche sur la provenance du document en format TEI (pub2tei / grobid)"
+            }
+          },
+          "refBibs": {
+            "author": {
+              "name": {
+                "title": "Noms d'auteur document référencé",
+                "description": "Recherche par l'un des auteurs d'une référence bibliographique"
+              }
+            },
+            "doi": {
+              "title": "DOI document référencé",
+              "description": "Recherche par DOI d'une référence bibliographique"
+            },
+            "publicationDate": {
+              "title": "Date de publication document référencé",
+              "description": "Recherche par date de publication d'une référence bibliographique"
+            },
+            "title": {
+              "title": "Titre article référencé",
+              "description": "Recherche par titre d'une référence bibliographique"
+            }
+          },
+          "serie": {
+            "doi": {
+              "title": "DOI de la série",
+              "description": "Recherche par DOI de la série de monographies"
+            },
+            "eissn": {
+              "title": "e-Issn de la série",
+              "description": "Recherche par numéro ISSN de la série de monographies électronique"
+            },
+            "issn": {
+              "title": "Issn de la série",
+              "description": "Recherche par numéro ISSN de la série de monographies papier"
+            },
+            "title": {
+              "title": "Titre de la série",
+              "description": "Recherche par titre de la série de monographies"
+            }
+          },
+          "subject": {
+            "lang": {
+              "title": "Langue mots-clés d'auteur",
+              "description": "Recherche par le code ISO de la langue des mots-clés atttribués par les auteurs du document"
+            },
+            "value": {
+              "title": "Mots-clés d'auteur",
+              "description": "Recherche par l'un des mots-clés attribués par les auteurs du document"
+            }
+          },
+          "table": {
+            "title": "Contenu textuel des tableaux",
+            "description": "Recherche dans le contenu textuel des tableaux"
+          },
+          "title": {
+            "title": "Titre article ou chapitre",
+            "description": "Recherche sur le titre du document"
           }
+        },
+        "Dialog": {
+          "title": "Êtes-vous sûr ?",
+          "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
+          "confirm": "Confirmer"
         }
+      },
+      "ImportInput": {
+        "searchTitle": "Importez vos identifiants",
+        "resultsTitle": "Résultats de votre import",
+        "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importez votre fichier .corpus\n* un seul format à la fois",
+        "button": "Rechercher",
+        "uploadIconAlt": "Déposer un fichier .corpus"
       }
     },
     "CorpusSection": {
@@ -400,23 +392,21 @@
         "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."
       }
     },
-    "ResultsGrid": {
-      "PerPage": "afficher : ",
-      "sorting": {
-        "sortBy": "Trier par : ",
-        "asc": "ordre croissant",
-        "desc": "ordre décroissant",
-        "qualityOverRelevance": "pertinence & qualité",
-        "random": "aléatoire",
-        "publicationDate": "date de publication",
-        "title": {
-          "raw": "titre"
-        }
-      },
-      "layouts": {
-        "groupAriaLabel": "Modes d'affichage des résultats",
-        "gridAriaLabel": "Affichage en grille",
-        "listAriaLabel": "Affichage en liste"
+    "ResultsToolbar": {
+      "groupAriaLabel": "Modes d'affichage des résultats",
+      "gridAriaLabel": "Affichage en grille",
+      "listAriaLabel": "Affichage en liste"
+    },
+    "PerPage": "afficher : ",
+    "Sorting": {
+      "sortBy": "Trier par : ",
+      "asc": "ordre croissant",
+      "desc": "ordre décroissant",
+      "qualityOverRelevance": "pertinence & qualité",
+      "random": "aléatoire",
+      "publicationDate": "date de publication",
+      "title": {
+        "raw": "titre"
       }
     },
     "ResultsCard": {
@@ -425,13 +415,13 @@
       "include": "Inclure",
       "exclude": "Exclure"
     },
-    "downloadButton": "Télécharger le corpus ({resultsCount})",
+    "DownloadButton": "Télécharger le corpus ({resultsCount})",
     "Pagination": {
       "page": "PAGE",
       "on": "SUR {total}",
       "resultsPerPage": "par page"
     },
-    "filters": {
+    "Filters": {
       "title": "Vos filtres actifs :",
       "tooltip": "Cliquer sur les filtres ci-dessous pour les exclure",
       "clear": "Supprimer le filtre «{value}»"
@@ -591,9 +581,6 @@
     }
   },
   "download": {
-    "metadata": {
-      "title": "Téléchargement"
-    },
     "title": "Configurez votre téléchargement",
     "downloadButton": "Télécharger",
     "InfoPanels": {

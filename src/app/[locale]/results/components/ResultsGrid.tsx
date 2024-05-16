@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Box } from "@mui/material";
-import DocumentDetail from "../Document/DocumentDetail";
+import DocumentDetail from "./Document/DocumentDetail";
 import ResultsToolbar from "./ResultsToolbar";
 import type { ClientComponent } from "@/types/next";
 

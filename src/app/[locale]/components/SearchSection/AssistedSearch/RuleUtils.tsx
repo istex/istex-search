@@ -75,9 +75,7 @@ export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
 export const FieldInputMenuItem: ClientComponent<
   React.HTMLAttributes<HTMLLIElement> & { option: FieldName }
 > = (props) => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const { option, ...rest } = props;
 
   return (

@@ -4,10 +4,10 @@ import {
   customRender as render,
   screen,
 } from "../test-utils";
-import { useFacetContext } from "@/app/[locale]/results/facets/FacetContext";
-import FacetRange from "@/app/[locale]/results/facets/FacetRange";
+import { useFacetContext } from "@/app/[locale]/results/components/Facets/FacetContext";
+import FacetRange from "@/app/[locale]/results/components/Facets/FacetRange";
 
-jest.mock("@/app/[locale]/results/facets/FacetContext", () => ({
+jest.mock("@/app/[locale]/results/components/Facets/FacetContext", () => ({
   useFacetContext: jest.fn(),
 }));
 

@@ -7,7 +7,7 @@ import type { ClientComponent } from "@/types/next";
 const SearchButton: ClientComponent<{ isAlone?: boolean }> = ({
   isAlone = false,
 }) => {
-  const t = useTranslations("home.SearchSection.SearchInput");
+  const t = useTranslations("home.SearchSection");
   const { loading } = useQueryContext();
 
   return (

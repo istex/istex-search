@@ -26,17 +26,17 @@ const SearchTitle: ClientComponent = () => {
   const onHomePage = useOnHomePage();
 
   const getTranslationKey = () => {
-    let key = "SearchInput";
+    let key;
 
     switch (searchMode) {
       case SEARCH_MODE_REGULAR:
-        key += ".RegularSearchInput";
-        break;
-      case SEARCH_MODE_IMPORT:
-        key += ".ImportInput";
+        key = "RegularSearchInput";
         break;
       case SEARCH_MODE_ASSISTED:
-        key += ".AssistedSearchInput";
+        key = "AssistedSearchInput";
+        break;
+      case SEARCH_MODE_IMPORT:
+        key = "ImportInput";
         break;
       default:
         throw new Error("Unknown search mode");
@@ -82,7 +82,7 @@ const SearchTitle: ClientComponent = () => {
               maxWidth: "40px",
               height: "40px",
             })}
-            title={t(`${mode}Button`)}
+            title={t(`${mode}Mode`)}
             onClick={() => {
               goToHomePage(mode);
             }}
@@ -98,15 +98,15 @@ const SearchTitle: ClientComponent = () => {
 
 const Icon: ClientComponent<{ searchMode: SearchMode }> = ({ searchMode }) => {
   const t = useTranslations("home.SearchSection");
-  const altText = t(`${searchMode}Button`);
+  const altText = t(`${searchMode}Mode`);
 
   switch (searchMode) {
     case SEARCH_MODE_REGULAR:
       return <SearchIcon sx={{ p: 0 }} titleAccess={altText} />;
-    case SEARCH_MODE_IMPORT:
-      return <Image src={SearchByIdIcon} alt={altText} />;
     case SEARCH_MODE_ASSISTED:
       return <Image src={AssistedSearchIcon} alt={altText} />;
+    case SEARCH_MODE_IMPORT:
+      return <Image src={SearchByIdIcon} alt={altText} />;
     default:
       throw new Error("Unknown search mode");
   }

@@ -33,7 +33,7 @@ const Sorting: ClientComponent<SortingProps> = ({
   selectColor,
   disabled,
 }) => {
-  const t = useTranslations("results.ResultsGrid");
+  const t = useTranslations("results.Sorting");
   const tResults = useTranslations("results");
   const router = useRouter();
   const pathname = usePathname();
@@ -82,9 +82,7 @@ const Sorting: ClientComponent<SortingProps> = ({
   return (
     <Stack direction="row" spacing={1} alignItems="center">
       <InputLabel id="sorting-label" sx={{ fontSize, color: labelColor }}>
-        {isLabelLowerCase === true
-          ? t("sorting.sortBy").toLowerCase()
-          : t("sorting.sortBy")}
+        {isLabelLowerCase === true ? t("sortBy").toLowerCase() : t("sortBy")}
       </InputLabel>
       <Select
         id="sorting-select"
@@ -123,15 +121,15 @@ const Sorting: ClientComponent<SortingProps> = ({
       >
         {[...rankValues, ...sortFields].map((value) => (
           <MenuItem key={value} value={value} sx={{ fontSize }}>
-            {t(`sorting.${value}`)}
+            {t(value)}
           </MenuItem>
         ))}
       </Select>
       {(sortBy === "publicationDate" || sortBy === "title.raw") && (
         <IconButton
           onClick={toggleSortDirection}
-          title={t(`sorting.${sortDirection}`)}
-          aria-label={t(`sorting.${sortDirection}`)}
+          title={t(sortDirection)}
+          aria-label={t(sortDirection)}
           disabled={loading}
         >
           <ArrowDownwardIcon

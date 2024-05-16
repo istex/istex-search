@@ -39,9 +39,7 @@ const Rule: ClientComponent<RuleProps> = ({
   setNode,
   remove,
 }) => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const isNodePartial = node.partial === true;
   const isTextNode = node.fieldType === "text";
   const isNumberNode = node.fieldType === "number" && "value" in node;
@@ -304,8 +302,8 @@ const Rule: ClientComponent<RuleProps> = ({
         getOptionLabel={(option) => t(`fields.${option}.title`)}
         renderInput={(params) => (
           <AutocompleteInput
-            label={t("Dropdown.field")}
-            placeholder={t("Dropdown.searchField")}
+            label={t("field")}
+            placeholder={t("searchField")}
             error={displayErrors && fieldName == null}
             {...params}
           />
@@ -325,11 +323,11 @@ const Rule: ClientComponent<RuleProps> = ({
         options={getComparators(fieldType)}
         value={comparator}
         onChange={handleComparatorChange}
-        getOptionLabel={(option) => t(`Dropdown.${option}`)}
+        getOptionLabel={(option) => t(option)}
         renderInput={(params) => (
           <AutocompleteInput
-            label={t("Dropdown.comparator")}
-            placeholder={t("Dropdown.searchComparator")}
+            label={t("comparator")}
+            placeholder={t("searchComparator")}
             error={displayErrors && comparator == null}
             {...params}
           />
@@ -351,7 +349,7 @@ const Rule: ClientComponent<RuleProps> = ({
                   size="small"
                   type="number"
                   fullWidth
-                  label={t("Dropdown.minValue")}
+                  label={t("minValue")}
                   value={minValue}
                   onChange={handleMinValueChange}
                   error={displayErrors && minValue === ""}
@@ -363,7 +361,7 @@ const Rule: ClientComponent<RuleProps> = ({
                   size="small"
                   type="number"
                   fullWidth
-                  label={t("Dropdown.maxValue")}
+                  label={t("maxValue")}
                   value={maxValue}
                   onChange={handleMaxValueChange}
                   error={displayErrors && maxValue === ""}
@@ -379,7 +377,7 @@ const Rule: ClientComponent<RuleProps> = ({
               size="small"
               type="number"
               fullWidth
-              label={t("Dropdown.value")}
+              label={t("value")}
               value={numberValue}
               onChange={handleNumberValueChange}
               error={displayErrors && numberValue === ""}
@@ -397,11 +395,11 @@ const Rule: ClientComponent<RuleProps> = ({
               options={[true, false]}
               value={booleanValue}
               onChange={handleBooleanValueChange}
-              getOptionLabel={(option) => t(`Dropdown.${option}`)}
+              getOptionLabel={(option) => t(`${option}`)}
               renderInput={(params) => (
                 <AutocompleteInput
-                  label={t("Dropdown.value")}
-                  placeholder={t("Dropdown.searchValue")}
+                  label={t("value")}
+                  placeholder={t("searchValue")}
                   error={displayErrors && booleanValue == null}
                   {...params}
                 />
@@ -424,8 +422,8 @@ const Rule: ClientComponent<RuleProps> = ({
             loading={valueQuery.isLoading}
             renderInput={(params) => (
               <AutocompleteInput
-                label={t("Dropdown.value")}
-                placeholder={t("Dropdown.searchValue")}
+                label={t("value")}
+                placeholder={t("searchValue")}
                 error={
                   (displayErrors && (textValue == null || textValue === "")) ||
                   valueQuery.isError ||

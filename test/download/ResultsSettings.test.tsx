@@ -4,7 +4,7 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import ResultsSettings from "@/app/[locale]/results/Download/ResultsSettings";
+import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 

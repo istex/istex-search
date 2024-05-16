@@ -34,12 +34,8 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
   onSubmit,
   hide,
 }) => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedSearchInput",
-  );
-  const tRegular = useTranslations(
-    "home.SearchSection.SearchInput.RegularSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
+  const tRegular = useTranslations("home.SearchSection.RegularSearchInput");
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setErrorMessage("");

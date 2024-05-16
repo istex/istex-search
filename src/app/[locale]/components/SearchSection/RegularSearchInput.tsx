@@ -14,9 +14,7 @@ import { useOnHomePage } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const RegularSearchInput: ClientComponent = () => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.RegularSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.RegularSearchInput");
   const queryContext = useQueryContext();
   const [queryString, setQueryString] = React.useState(
     queryContext.queryString,

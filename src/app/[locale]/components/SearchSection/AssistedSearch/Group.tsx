@@ -32,9 +32,7 @@ const Group: ClientComponent<GroupProps> = ({
   setChildNodes,
   remove,
 }) => {
-  const t = useTranslations(
-    "home.SearchSection.SearchInput.AssistedSearchInput",
-  );
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const firstOperator = childNodes.find(
     (child) => child.nodeType === "operator",
   );

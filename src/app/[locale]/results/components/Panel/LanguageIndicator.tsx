@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { getLanguageLabel } from "../facets/utils";
+import { getLanguageLabel } from "../Facets/utils";
 import type { ClientComponent } from "@/types/next";
 
 const LanguageIndicator: ClientComponent<{

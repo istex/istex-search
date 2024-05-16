@@ -1,5 +1,5 @@
 import { customRender as render, screen } from "../test-utils";
-import DownloadForm from "@/app/[locale]/results/Download/DownloadForm";
+import DownloadForm from "@/app/[locale]/results/components/Download/DownloadForm";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
 
 describe("DownloadForm", () => {

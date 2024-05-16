@@ -1,6 +1,6 @@
 import { customRender as render, screen, userEvent } from "../test-utils";
-import FacetCheckboxList from "@/app/[locale]/results/facets/FacetCheckboxList";
-import { FacetProvider } from "@/app/[locale]/results/facets/FacetContext";
+import FacetCheckboxList from "@/app/[locale]/results/components/Facets/FacetCheckboxList";
+import { FacetProvider } from "@/app/[locale]/results/components/Facets/FacetContext";
 
 describe("FacetCheckboxList", () => {
   const facetTitle = "corpusName";

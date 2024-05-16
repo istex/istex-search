@@ -1,5 +1,5 @@
 import { customRender as render, screen } from "../test-utils";
-import CompatibilityPanelContent from "@/app/[locale]/results/Panel/CompatibilityPanelContent";
+import CompatibilityPanelContent from "@/app/[locale]/results/components/Panel/CompatibilityPanelContent";
 import type { Aggregation } from "@/lib/istexApi";
 
 describe("CompatibilityPanelContent", () => {

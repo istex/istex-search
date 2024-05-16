@@ -5,8 +5,8 @@ import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
-import { RANGE_FACETS_WITH_TOGGLE } from "../facets/FacetRange";
-import { getLanguageLabel } from "../facets/utils";
+import { RANGE_FACETS_WITH_TOGGLE } from "../Facets/FacetRange";
+import { getLanguageLabel } from "../Facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
@@ -15,7 +15,7 @@ import { useSearchParams } from "@/lib/hooks";
 import type { ClientComponent } from "@/types/next";
 
 const Filters: ClientComponent = () => {
-  const t = useTranslations("results.filters");
+  const t = useTranslations("results.Filters");
   const tFacets = useTranslations("results.Facets");
   const tRefBibsNative = useTranslations(
     "results.Facets.qualityIndicators.refBibsNative",

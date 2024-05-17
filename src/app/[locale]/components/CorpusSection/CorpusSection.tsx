@@ -20,7 +20,7 @@ const CorpusSection: ServerComponent = () => {
         backgroundImage: `url(${wires.src as string})`,
         backgroundPosition: "bottom left",
         backgroundRepeat: "no-repeat",
-        bgcolor: "#f6f9fa",
+        bgcolor: "colors.veryLightBlue",
         mb: { xs: 6, sm: 0 },
       }}
     >

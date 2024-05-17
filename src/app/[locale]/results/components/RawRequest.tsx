@@ -111,16 +111,17 @@ const RawRequest: ClientComponent = () => {
           })}
         >
           <IconButton
+            aria-labelledby="copy-raw-request-button-label"
+            onClick={handleCopy}
             sx={{
               backgroundColor: "white",
               borderRadius: "100%",
               mb: "0.12rem",
             }}
-            onClick={handleCopy}
           >
             <Image src={CopyLogo} alt="" />
           </IconButton>
-          {t("copy.button")}
+          <span id="copy-raw-request-button-label">{t("copy.button")}</span>
         </Box>
       </Paper>
       <Snackbar

@@ -91,7 +91,11 @@ const ResultsSettings: ClientComponent = () => {
       <Box
         sx={{ display: "flex", alignItems: "center", gap: { xs: 1, sm: 2 } }}
       >
-        <Box component="span" sx={{ display: { xs: "none", sm: "inline" } }}>
+        <Box
+          id="size-input-label"
+          component="span"
+          sx={{ display: { xs: "none", sm: "inline" } }}
+        >
           {t("download")}
         </Box>
         <TextField
@@ -101,6 +105,7 @@ const ResultsSettings: ClientComponent = () => {
           inputProps={{
             min: 0,
             max: maxSize,
+            "aria-labelledby": "size-input-label",
           }}
           value={size}
           onChange={handleChange}

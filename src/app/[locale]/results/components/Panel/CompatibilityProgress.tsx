@@ -3,20 +3,31 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { LinearProgress, Typography } from "@mui/material";
+import { useQueryContext } from "@/contexts/QueryContext";
 import type { ClientComponent } from "@/types/next";
 
-const CompatibilityProgress: ClientComponent<{
-  title: string;
+interface CompatibilityProgressProps {
+  name: string;
+  compatibilityCount: number;
   data: { label: string; count: number }[];
-  total: number;
   gridColumn: number;
   gridRow: number;
-}> = ({ title, data, total, gridColumn, gridRow }) => {
+}
+
+const CompatibilityProgress: ClientComponent<CompatibilityProgressProps> = ({
+  name,
+  compatibilityCount,
+  data,
+  gridColumn,
+  gridRow,
+}) => {
   const t = useTranslations("results.Panel");
+  const { resultsCount } = useQueryContext();
 
   return (
     <>
       <Typography
+        id={`${name}-compatibility`}
         gridRow={{ sm: 1 + gridRow }}
         gridColumn={{ xs: "span 3", sm: `${gridColumn * 3 - 2} / span 3` }}
         mx={5}
@@ -31,7 +42,9 @@ const CompatibilityProgress: ClientComponent<{
           fontWeight: 700,
         }}
       >
-        {title}
+        {`${name} (${Math.round(
+          (compatibilityCount * 100) / resultsCount,
+        )}\u00A0%)`}
       </Typography>
       {data.map(({ label, count }, index) => (
         <React.Fragment key={label}>
@@ -52,7 +65,8 @@ const CompatibilityProgress: ClientComponent<{
           </Typography>
           <LinearProgress
             variant="determinate"
-            value={(count * 100) / total}
+            value={(count * 100) / resultsCount}
+            aria-labelledby={`${name}-compatibility`}
             sx={{
               gridRow: { sm: index + 2 + gridRow },
               gridColumn: { sm: gridColumn * 3 - 1 },

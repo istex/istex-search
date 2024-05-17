@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Box, Container, Typography } from "@mui/material";
-import courseImage from "@/../public/courses.jpg";
+import courseImage from "@/../public/courses.webp";
 import Button from "@/components/Button";
 import type { ServerComponent } from "@/types/next";
 

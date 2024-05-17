@@ -59,19 +59,23 @@ const Pagination: ClientComponent = () => {
       <Box>
         <IconButton
           color="inherit"
+          disabled={page === 1}
+          aria-label={t("firstPage")}
+          title={t("firstPage")}
           onClick={() => {
             handleChangePage(1);
           }}
-          disabled={page === 1}
         >
           <KeyboardDoubleArrowLeftIcon />
         </IconButton>
         <IconButton
           color="inherit"
+          disabled={page === 1}
+          aria-label={t("previousPage")}
+          title={t("previousPage")}
           onClick={() => {
             handleChangePage(page - 1);
           }}
-          disabled={page === 1}
         >
           <KeyboardArrowLeftIcon />
         </IconButton>
@@ -103,19 +107,23 @@ const Pagination: ClientComponent = () => {
       <Box>
         <IconButton
           color="inherit"
+          disabled={page === lastPage}
+          aria-label={t("nextPage")}
+          title={t("nextPage")}
           onClick={() => {
             handleChangePage(page + 1);
           }}
-          disabled={page === lastPage}
         >
           <KeyboardArrowRightIcon />
         </IconButton>
         <IconButton
           color="inherit"
+          disabled={page === lastPage}
+          aria-label={t("lastPage")}
+          title={t("lastPage")}
           onClick={() => {
             handleChangePage(lastPage);
           }}
-          disabled={page === lastPage}
         >
           <KeyboardDoubleArrowRightIcon />
         </IconButton>

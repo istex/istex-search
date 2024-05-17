@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, Container, Stack, Typography } from "@mui/material";
-import headerBackground from "@/../public/header-background.jpg";
+import headerBackground from "@/../public/header-background.webp";
 import istexSearchLogo from "@/../public/istex-search.svg";
 import Link from "@/i18n/next-intl-link";
 import type { ServerComponent } from "@/types/next";

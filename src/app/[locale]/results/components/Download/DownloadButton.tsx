@@ -50,7 +50,7 @@ const DownloadButton: ClientComponent = () => {
 
   return (
     <Button
-      id="download-button"
+      id="start-download-button"
       size="large"
       fullWidth
       disabled={!isFormComplete}

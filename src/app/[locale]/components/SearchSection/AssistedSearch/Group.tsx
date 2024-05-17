@@ -140,7 +140,7 @@ const Group: ClientComponent<GroupProps> = ({
           startIcon={isRoot ? <RestartAltIcon /> : <CancelIcon />}
           onClick={remove}
         >
-          {isRoot ? t("reset") : t("remove")}
+          {isRoot ? t("reset") : t("removeGroup")}
         </MuiButton>
       </Stack>
 

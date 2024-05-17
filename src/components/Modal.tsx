@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
@@ -21,6 +22,7 @@ export interface ModalProps extends DialogProps {
 }
 
 const Modal: ClientComponent<ModalProps, true> = (props) => {
+  const t = useTranslations("Modal");
   const {
     open,
     onClose,
@@ -63,6 +65,8 @@ const Modal: ClientComponent<ModalProps, true> = (props) => {
         <IconButton
           data-testid="close-modal-button"
           size="small"
+          aria-label={t("closeButton")}
+          title={t("closeButton")}
           onClick={onClose}
         >
           <CloseIcon />

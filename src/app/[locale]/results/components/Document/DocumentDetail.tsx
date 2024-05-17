@@ -7,7 +7,7 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
 import ShareIcon from "@mui/icons-material/Share";
-import { Chip, Drawer, Link, Stack, Typography } from "@mui/material";
+import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
@@ -112,35 +112,43 @@ const DocumentDetail: ClientComponent = () => {
               textTransform: "uppercase",
             }}
           >
-            <Link
-              underline="hover"
+            <Typography
+              component="span"
               onClick={closeDocument}
               sx={{
+                font: "inherit",
                 color: "colors.lightBlack",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
                 gap: 1,
+                "&:hover": {
+                  textDecoration: "underline",
+                },
               }}
             >
               <CloseIcon fontSize="small" />
               {t("backToResults")}
-            </Link>
-            <Link
-              underline="hover"
+            </Typography>
+            <Typography
+              component="span"
               sx={{
+                font: "inherit",
                 color: "colors.lightBlack",
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
                 gap: 1,
+                "&:hover": {
+                  textDecoration: "underline",
+                },
               }}
             >
               <ShareIcon fontSize="small" />
               {t("share")}
-            </Link>
+            </Typography>
           </Stack>
         </Stack>
         <Stack
@@ -153,6 +161,7 @@ const DocumentDetail: ClientComponent = () => {
         >
           <Stack spacing={1} direction="row" flexWrap="wrap" useFlexGap>
             <Typography
+              component="h3"
               variant="body2"
               sx={{ color: "colors.blue", fontWeight: 700, width: "100%" }}
             >
@@ -191,6 +200,7 @@ const DocumentDetail: ClientComponent = () => {
           </Stack>
           <Stack spacing={1} alignItems="start">
             <Typography
+              component="h3"
               variant="body2"
               sx={{ color: "colors.blue", fontWeight: 700 }}
               mt={4}
@@ -200,6 +210,7 @@ const DocumentDetail: ClientComponent = () => {
             {displayedDocument?.fulltext != null && (
               <>
                 <Typography
+                  component="h4"
                   variant="subtitle2"
                   sx={{
                     fontSize: "0.8rem",
@@ -216,6 +227,7 @@ const DocumentDetail: ClientComponent = () => {
             {displayedDocument?.metadata != null && (
               <>
                 <Typography
+                  component="h4"
                   variant="subtitle2"
                   sx={{
                     fontSize: "0.8rem",
@@ -233,6 +245,7 @@ const DocumentDetail: ClientComponent = () => {
             {displayedDocument?.annexes != null && (
               <>
                 <Typography
+                  component="h4"
                   variant="subtitle2"
                   sx={{
                     fontSize: "0.8rem",
@@ -249,6 +262,7 @@ const DocumentDetail: ClientComponent = () => {
             {displayedDocument?.enrichments != null && (
               <>
                 <Typography
+                  component="h4"
                   variant="subtitle2"
                   sx={{
                     fontSize: "0.8rem",

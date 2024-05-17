@@ -42,6 +42,7 @@ const DownloadSteps: ClientComponent = () => {
               >
                 <Typography
                   variant="h5"
+                  component="span"
                   gutterBottom
                   sx={{
                     fontSize: "3rem",

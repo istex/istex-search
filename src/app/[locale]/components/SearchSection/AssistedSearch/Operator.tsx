@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslations } from "next-intl";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { useTheme, type Theme } from "@mui/material/styles";
 import {
@@ -29,6 +30,7 @@ const Operator: ClientComponent<OperatorProps> = ({
   first,
   last,
 }) => {
+  const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const theme = useTheme();
   const gap = spacing(1, theme);
   const currentNodeHeight = getNodeHeight(node, theme);
@@ -51,6 +53,9 @@ const Operator: ClientComponent<OperatorProps> = ({
         value={node.value}
         onChange={handleChange}
         defaultValue={DEFAULT_OPERATOR}
+        inputProps={{
+          "aria-label": t("operator"),
+        }}
         sx={{
           backgroundColor: "white",
           "& .MuiOutlinedInput-notchedOutline": {

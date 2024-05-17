@@ -31,11 +31,11 @@
         "resultsTitle": "Résultats de votre requête assistée",
         "assistedButton": "Édition assistée",
         "expertButton": "Édition experte",
-        "validate": "Valider vos modifications",
         "button": "Rechercher",
         "addRule": "Ajouter une règle",
         "addGroup": "Ajouter un groupe",
-        "remove": "Supprimer",
+        "removeGroup": "Supprimer",
+        "removeRule": "Supprimer cette règle",
         "reset": "Réinitialiser",
         "field": "Champ",
         "searchField": "Rechercher un champ",
@@ -54,6 +54,7 @@
         "smaller": "inférieur à",
         "true": "vrai",
         "false": "faux",
+        "operator": "Opérateur",
         "fields": {
           "abstract": {
             "title": "Résumé",
@@ -316,10 +317,14 @@
             "description": "Recherche sur le titre du document"
           }
         },
-        "Dialog": {
-          "title": "Êtes-vous sûr ?",
-          "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
-          "confirm": "Confirmer"
+        "ExpertSearchInput": {
+          "goBackButton": "Annuler l'édition experte",
+          "validate": "Valider vos modifications",
+          "Dialog": {
+            "title": "Êtes-vous sûr ?",
+            "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
+            "confirm": "Confirmer"
+          }
         }
       },
       "ImportInput": {
@@ -417,6 +422,10 @@
     },
     "DownloadButton": "Télécharger le corpus ({resultsCount})",
     "Pagination": {
+      "firstPage": "Aller à la première page",
+      "lastPage": "Aller à la dernière page",
+      "previousPage": "Aller à la page précédente",
+      "nextPage": "Aller à la page suivante",
       "page": "PAGE",
       "on": "SUR {total}",
       "resultsPerPage": "par page"
@@ -627,6 +636,9 @@
     "QIdSaveError": "Erreur lors de la sauvegarde de {qId}.",
     "EmptyQueryError": "Veuillez renseigner une requête.",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
+  },
+  "Modal": {
+    "closeButton": "Fermer la modale"
   },
   "config": {
     "examples": {

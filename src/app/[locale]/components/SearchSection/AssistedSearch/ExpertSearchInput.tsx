@@ -34,7 +34,9 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
   onSubmit,
   hide,
 }) => {
-  const t = useTranslations("home.SearchSection.AssistedSearchInput");
+  const t = useTranslations(
+    "home.SearchSection.AssistedSearchInput.ExpertSearchInput",
+  );
   const tRegular = useTranslations("home.SearchSection.RegularSearchInput");
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -68,6 +70,8 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
           <IconButton
             data-testid="go-back-button"
             color="primary"
+            aria-label={t("goBackButton")}
+            title={t("goBackButton")}
             onClick={hide}
           >
             <ArrowBackIcon />

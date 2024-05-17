@@ -48,35 +48,27 @@ const CompatibilityPanelContent: ClientComponent<{
 
           if (isFormatSelected(usage.formats, formats.fulltext.tei)) {
             data.push({ label: "tei", count: teiCount });
-            compatibilityCount =
-              teiCount > compatibilityCount ? teiCount : compatibilityCount;
+            compatibilityCount = Math.max(teiCount, compatibilityCount);
           }
           if (isFormatSelected(usage.formats, formats.fulltext.cleaned)) {
             data.push({ label: "cleaned", count: cleanedCount });
-            compatibilityCount =
-              cleanedCount > compatibilityCount
-                ? cleanedCount
-                : compatibilityCount;
+            compatibilityCount = Math.max(cleanedCount, compatibilityCount);
           }
           if (isFormatSelected(usage.formats, formats.enrichments.teeft)) {
             data.push({ label: "teeft", count: teeftCount });
-            compatibilityCount =
-              teeftCount > compatibilityCount ? teeftCount : compatibilityCount;
+            compatibilityCount = Math.max(teeftCount, compatibilityCount);
           }
           if (isFormatSelected(usage.formats, formats.metadata.json)) {
             data.push({ label: "json", count: jsonCount });
-            compatibilityCount =
-              jsonCount > compatibilityCount ? jsonCount : compatibilityCount;
+            compatibilityCount = Math.max(jsonCount, compatibilityCount);
           }
 
           return (
             <CompatibilityProgress
               key={name}
-              title={`${name} (${Math.round(
-                (compatibilityCount * 100) / resultsCount,
-              )}\u00A0%)`}
+              name={name}
+              compatibilityCount={compatibilityCount}
               data={data}
-              total={resultsCount}
               gridColumn={usage.column}
               gridRow={usage.row}
             />

@@ -440,6 +440,8 @@ const Rule: ClientComponent<RuleProps> = ({
       {/* Remove button */}
       <IconButton
         data-testid="remove-rule-button"
+        aria-label={t("removeRule")}
+        title={t("removeRule")}
         onClick={remove}
         sx={{
           "&.MuiButtonBase-root": {

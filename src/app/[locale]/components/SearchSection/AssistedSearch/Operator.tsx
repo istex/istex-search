@@ -121,7 +121,7 @@ function getNodeHeight(node: Node, theme: Theme) {
   const buttonsHeight = 36.5;
   const padding = spacing(0.5, theme);
   const gap = spacing(1, theme);
-  const ruleHeight = 50;
+  const ruleHeight = 54;
   const operatorHeight = 40;
 
   if (node.nodeType === "group") {

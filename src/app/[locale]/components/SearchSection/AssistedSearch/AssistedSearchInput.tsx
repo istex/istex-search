@@ -75,12 +75,12 @@ const AssistedSearchInput: ClientComponent = () => {
         setExpertValidateModalOpen(false);
       }
     } else {
-      newQueryString = astToString(ast);
-
       if (astContainsPartialNode(ast)) {
         setError(new CustomError({ name: "PartialAstError" }));
         return;
       }
+
+      newQueryString = astToString(ast);
     }
 
     if (expertInputOpen) {

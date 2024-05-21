@@ -415,10 +415,19 @@ const Rule: ClientComponent<RuleProps> = ({
             size="small"
             fullWidth
             options={valueQuery.data ?? []}
-            autoSelect={freeSolo}
             freeSolo={freeSolo}
             value={textValue}
             onChange={handleTextValueChange}
+            onBlur={
+              // We use onBlur instead of onInputChange to avoid rerendering the whole form on each key press.
+              // This is essentially the same behavior as autoSelect=true but without selecting the highlighted
+              // option (cf. https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-autoSelect)
+              freeSolo
+                ? (((event) => {
+                    handleTextValueChange(event, event.target.value);
+                  }) as React.FocusEventHandler<HTMLInputElement>)
+                : undefined
+            }
             loading={valueQuery.isLoading}
             renderInput={(params) => (
               <AutocompleteInput

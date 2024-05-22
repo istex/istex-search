@@ -23,6 +23,7 @@ stages:
   - build
   - test
   - deploy
+  - renovate
 
 build:
   stage: build
@@ -73,3 +74,23 @@ deploy:docker:
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-search:${VERSION_NUM}"
+
+renovate:
+  stage: renovate
+  image: renovate/renovate:37.372-slim
+  tags:
+    - docker
+  interruptible: false
+  script:
+    - renovate
+    - renovate-config-validator
+  variables:
+    RENOVATE_AUTODISCOVER: true
+    RENOVATE_AUTODISCOVER_FILTER: "/^istex\/istex-search\/istex-search$/"
+    RENOVATE_PLATFORM: gitlab
+    RENOVATE_ENDPOINT: $CI_API_V4_URL
+    RENOVATE_TOKEN: $GITLAB_TOKEN
+    RENOVATE_COMMIT_MESSAGE_PREFIX: "[Renovate]"
+    LOG_LEVEL: debug
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"

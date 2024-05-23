@@ -24,11 +24,11 @@
     "@tanstack/react-query": "^5.28.4",
     "js-md5": "0.8.3",
     "next": "14.2.3",
-    "next-intl": "3.5.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "next-intl": "3.14.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-window": "^1.8.10",
-    "sharp": "0.33.2"
+    "sharp": "0.33.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",

@@ -4,9 +4,12 @@ import * as React from "react";
 import { Box } from "@mui/material";
 import DocumentDetail from "./Document/DocumentDetail";
 import ResultsToolbar from "./ResultsToolbar";
-import type { ClientComponent } from "@/types/next";
 
-const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
+interface ResultsGridProps {
+  children: React.ReactNode;
+}
+
+export default function ResultsGrid({ children }: ResultsGridProps) {
   const [columns, setColumns] = React.useState(2);
 
   return (
@@ -28,6 +31,4 @@ const ResultsGrid: ClientComponent<{}, true> = ({ children }) => {
       <DocumentDetail />
     </>
   );
-};
-
-export default ResultsGrid;
+}

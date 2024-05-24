@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, Paper, Stack, Typography } from "@mui/material";
@@ -5,7 +6,6 @@ import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import ExpertSearchIcon from "@/../public/expert-search-icon.svg";
 import Button from "@/components/Button";
 import { astToString, type AST } from "@/lib/assistedSearch/ast";
-import type { ClientComponent } from "@/types/next";
 
 interface QueryPanelProps {
   ast: AST;
@@ -14,12 +14,12 @@ interface QueryPanelProps {
   onExpertEditClick: () => void;
 }
 
-const QueryPanel: ClientComponent<QueryPanelProps> = ({
+export default function QueryPanel({
   ast,
   displayAssistedEditButton,
   onAssistedEditClick,
   onExpertEditClick,
-}) => {
+}: QueryPanelProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
 
   return (
@@ -57,42 +57,39 @@ const QueryPanel: ClientComponent<QueryPanelProps> = ({
       </Stack>
     </Paper>
   );
-};
+}
 
 interface QueryPanelButtonProps {
   icon: JSX.Element;
   onClick: () => void;
+  children: React.ReactNode;
 }
 
-const QueryPanelButton: ClientComponent<QueryPanelButtonProps, true> = ({
-  icon,
-  onClick,
-  children,
-}) => (
-  <Button
-    variant="text"
-    onClick={onClick}
-    sx={{
-      flexDirection: "column",
-      fontSize: "0.5rem",
-      gap: 0.5,
-      color: "colors.lightBlack",
-    }}
-  >
-    <Box
-      sx={(theme) => ({
-        backgroundColor: "white",
-        padding: 0.5,
-        borderRadius: "100%",
-        aspectRatio: 1,
-        width: theme.spacing(3.5),
-        height: theme.spacing(3.5),
-      })}
+function QueryPanelButton({ icon, onClick, children }: QueryPanelButtonProps) {
+  return (
+    <Button
+      variant="text"
+      onClick={onClick}
+      sx={{
+        flexDirection: "column",
+        fontSize: "0.5rem",
+        gap: 0.5,
+        color: "colors.lightBlack",
+      }}
     >
-      {icon}
-    </Box>
-    {children}
-  </Button>
-);
-
-export default QueryPanel;
+      <Box
+        sx={(theme) => ({
+          backgroundColor: "white",
+          padding: 0.5,
+          borderRadius: "100%",
+          aspectRatio: 1,
+          width: theme.spacing(3.5),
+          height: theme.spacing(3.5),
+        })}
+      >
+        {icon}
+      </Box>
+      {children}
+    </Button>
+  );
+}

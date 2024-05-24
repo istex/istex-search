@@ -1,13 +1,12 @@
 import { useTranslations } from "next-intl";
 import { Alert, AlertTitle, Typography, type AlertProps } from "@mui/material";
 import type { CustomErrorInfo } from "@/lib/CustomError";
-import type { ServerComponent } from "@/types/next";
 
 interface ErrorCardProps extends Omit<AlertProps, "severity"> {
   info: CustomErrorInfo;
 }
 
-const ErrorCard: ServerComponent<ErrorCardProps> = (props) => {
+export default function ErrorCard(props: ErrorCardProps) {
   const t = useTranslations("ErrorCard");
   const tErrors = useTranslations("errors");
   const { info, ...rest } = props;
@@ -21,6 +20,4 @@ const ErrorCard: ServerComponent<ErrorCardProps> = (props) => {
       </Typography>
     </Alert>
   );
-};
-
-export default ErrorCard;
+}

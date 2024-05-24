@@ -5,11 +5,10 @@ import { Container, Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { lighten } from "@mui/system/colorManipulator";
 import { istexApiConfig } from "@/config";
-import type { ClientComponent } from "@/types/next";
 
 const NUMBER_OF_STEPS = 3;
 
-const DownloadSteps: ClientComponent = () => {
+export default function DownloadSteps() {
   const t = useTranslations("home.DownloadSection.downloadSteps");
   const locale = useLocale();
   const theme = useTheme();
@@ -77,6 +76,4 @@ const DownloadSteps: ClientComponent = () => {
       </Grid>
     </Container>
   );
-};
-
-export default DownloadSteps;
+}

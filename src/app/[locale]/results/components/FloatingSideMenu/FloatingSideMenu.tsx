@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
 import HistoryButton from "./HistoryButton";
 import ShareButton from "./ShareButton";
-import type { ServerComponent } from "@/types/next";
 
-const FloatingSideMenu: ServerComponent = () => {
+export default function FloatingSideMenu() {
   return (
     <Box
       sx={{
@@ -22,6 +21,4 @@ const FloatingSideMenu: ServerComponent = () => {
       <ShareButton />
     </Box>
   );
-};
-
-export default FloatingSideMenu;
+}

@@ -12,16 +12,16 @@ import {
   type SlideProps,
 } from "@mui/material";
 import type { TransitionProps } from "@mui/material/transitions";
-import type { ClientComponent } from "@/types/next";
 
 export interface ModalProps extends DialogProps {
   open: boolean; // Make open required
   onClose: () => void; // Change the signature of onClose to make it easier to pass to other components
   title: string;
   slideDirection?: SlideProps["direction"];
+  children: React.ReactNode;
 }
 
-const Modal: ClientComponent<ModalProps, true> = (props) => {
+export default function Modal(props: ModalProps) {
   const t = useTranslations("Modal");
   const {
     open,
@@ -76,6 +76,4 @@ const Modal: ClientComponent<ModalProps, true> = (props) => {
       {props.children}
     </Dialog>
   );
-};
-
-export default Modal;
+}

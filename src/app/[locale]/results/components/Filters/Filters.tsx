@@ -12,9 +12,8 @@ import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const Filters: ClientComponent = () => {
+export default function Filters() {
   const t = useTranslations("results.Filters");
   const tFacets = useTranslations("results.Facets");
   const tRefBibsNative = useTranslations(
@@ -231,6 +230,4 @@ const Filters: ClientComponent = () => {
       </Stack>
     </Stack>
   );
-};
-
-export default Filters;
+}

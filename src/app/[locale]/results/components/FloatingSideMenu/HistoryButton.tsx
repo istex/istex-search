@@ -5,9 +5,8 @@ import { useTranslations } from "next-intl";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import HistoryModal from "../History/HistoryModal";
 import FloatingSideButton from "./FloatingSideButton";
-import type { ClientComponent } from "@/types/next";
 
-const HistoryButton: ClientComponent = () => {
+export default function HistoryButton() {
   const t = useTranslations("results.FloatingSideMenu");
   const [openModal, setOpenModal] = React.useState(false);
 
@@ -31,6 +30,4 @@ const HistoryButton: ClientComponent = () => {
       <HistoryModal open={openModal} onClose={closeHistory} />
     </>
   );
-};
-
-export default HistoryButton;
+}

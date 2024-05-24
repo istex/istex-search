@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
@@ -22,7 +20,6 @@ import {
 } from "@/lib/assistedSearch/ast";
 import { fields } from "@/lib/assistedSearch/fields";
 import { getPossibleValues } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
 interface RuleProps {
   displayErrors: boolean;
@@ -33,12 +30,12 @@ interface RuleProps {
 
 const FIELD_NAMES = fields.map(({ name }) => name);
 
-const Rule: ClientComponent<RuleProps> = ({
+export default function Rule({
   displayErrors,
   node,
   setNode,
   remove,
-}) => {
+}: RuleProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const isNodePartial = node.partial === true;
   const isTextNode = node.fieldType === "text";
@@ -308,9 +305,9 @@ const Rule: ClientComponent<RuleProps> = ({
             {...params}
           />
         )}
-        renderOption={(props, option) => {
+        renderOption={(renderProps, option) => {
           // @ts-expect-error "key" is not in HTMLAttributes<HTMLLIElement> but it is actually there at runtime
-          const { key, ...rest } = props;
+          const { key, ...rest } = renderProps;
 
           return <FieldInputMenuItem key={key} option={option} {...rest} />;
         }}
@@ -462,6 +459,4 @@ const Rule: ClientComponent<RuleProps> = ({
       </IconButton>
     </Stack>
   );
-};
-
-export default Rule;
+}

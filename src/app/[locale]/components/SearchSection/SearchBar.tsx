@@ -1,11 +1,15 @@
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import SearchButton from "./SearchButton";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useOnHomePage } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const SearchBar: ClientComponent<{}, true> = ({ children }) => {
+interface SearchBarProps {
+  children: React.ReactNode;
+}
+
+export default function SearchBar({ children }: SearchBarProps) {
   const t = useTranslations("home.SearchSection");
   const onHomePage = useOnHomePage();
   const { resultsCount, loading } = useQueryContext();
@@ -52,6 +56,4 @@ const SearchBar: ClientComponent<{}, true> = ({ children }) => {
       </Box>
     </Stack>
   );
-};
-
-export default SearchBar;
+}

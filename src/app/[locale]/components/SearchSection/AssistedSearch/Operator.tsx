@@ -11,7 +11,6 @@ import {
   type OperatorNode,
   type Operator as OperatorType,
 } from "@/lib/assistedSearch/ast";
-import type { ClientComponent } from "@/types/next";
 
 interface OperatorProps {
   node: OperatorNode;
@@ -22,14 +21,14 @@ interface OperatorProps {
   last: boolean;
 }
 
-const Operator: ClientComponent<OperatorProps> = ({
+export default function Operator({
   node,
   setNode,
   previousNode,
   nextNode,
   first,
   last,
-}) => {
+}: OperatorProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const theme = useTheme();
   const gap = spacing(1, theme);
@@ -98,7 +97,7 @@ const Operator: ClientComponent<OperatorProps> = ({
       />
     </Box>
   );
-};
+}
 
 function spacing(multiplier: number, theme: Theme) {
   // This returns `${scalingFactor * multiplier}px` so we need to remove the
@@ -151,5 +150,3 @@ function getNodeHeight(node: Node, theme: Theme) {
 
   return ruleHeight;
 }
-
-export default Operator;

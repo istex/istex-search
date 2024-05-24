@@ -7,9 +7,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import * as locales from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
-import type { ClientComponent } from "@/types/next";
 
-const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
+interface MuiSetupProps {
+  children: React.ReactNode;
+}
+
+export default function MuiSetup({ children }: MuiSetupProps) {
   const locale = useLocale();
   const themeWithLocale = React.useMemo(
     () => createTheme(theme, locales[localeToMuiImportName(locale)]),
@@ -24,12 +27,10 @@ const MuiSetup: ClientComponent<{}, true> = ({ children }) => {
       </ThemeProvider>
     </AppRouterCacheProvider>
   );
-};
+}
 
 function localeToMuiImportName(locale: string) {
   // locales follow the format '<lang>-<country>' and the MUI import name have
   // the same format but without the hyphen
   return locale.replace("-", "") as keyof typeof locales;
 }
-
-export default MuiSetup;

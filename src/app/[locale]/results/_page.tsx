@@ -24,7 +24,7 @@ import {
   type GetResultsOptions,
   type IstexApiResponse,
 } from "@/lib/istexApi";
-import type { Page } from "@/types/next";
+import type { PageProps } from "@/types/next";
 
 async function getTranslatedResults(
   options: GetResultsOptions & { locale: string },
@@ -44,10 +44,10 @@ async function getTranslatedResults(
   return response;
 }
 
-const ResultsPage: Page = async ({
+export default async function ResultsPage({
   params: { locale },
   searchParams: nextSearchParams,
-}) => {
+}: PageProps) {
   const searchParams = new SearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
@@ -206,6 +206,4 @@ const ResultsPage: Page = async ({
       />
     ) : null;
   }
-};
-
-export default ResultsPage;
+}

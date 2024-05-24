@@ -4,13 +4,14 @@ import { useTranslations } from "next-intl";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/system/colorManipulator";
-import type { ClientComponent } from "@/types/next";
 
-const Indicator: ClientComponent<{
+interface IndicatorProps {
   label: string;
   count: number;
   total: number;
-}> = ({ label, count, total }) => {
+}
+
+export default function Indicator({ label, count, total }: IndicatorProps) {
   const t = useTranslations("results.Panel");
   const theme = useTheme();
   const percentage = Math.round((count * 100) / total);
@@ -82,6 +83,4 @@ const Indicator: ClientComponent<{
       </Typography>
     </>
   );
-};
-
-export default Indicator;
+}

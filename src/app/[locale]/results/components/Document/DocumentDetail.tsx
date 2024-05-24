@@ -11,9 +11,8 @@ import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import type { ClientComponent } from "@/types/next";
 
-const DocumentDetail: ClientComponent = () => {
+export default function DocumentDetail() {
   const {
     displayedDocument,
     closeDocument,
@@ -317,6 +316,4 @@ const DocumentDetail: ClientComponent = () => {
       </Stack>
     </Drawer>
   );
-};
-
-export default DocumentDetail;
+}

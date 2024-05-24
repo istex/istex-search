@@ -10,9 +10,8 @@ import {
   SEARCH_MODE_REGULAR,
 } from "@/config";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const SearchSection: ClientComponent = () => {
+export default function SearchSection() {
   const searchParams = useSearchParams();
   const searchMode = searchParams.getSearchMode();
 
@@ -38,6 +37,4 @@ const SearchSection: ClientComponent = () => {
       </Box>
     </Container>
   );
-};
-
-export default SearchSection;
+}

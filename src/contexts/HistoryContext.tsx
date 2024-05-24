@@ -4,7 +4,6 @@ import * as React from "react";
 import { DEFAULT_SORT_BY, NO_FORMAT_SELECTED } from "@/config";
 import SearchParams from "@/lib/SearchParams";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
-import type { ClientComponent } from "@/types/next";
 
 export interface HistoryEntry {
   date: number;
@@ -37,7 +36,11 @@ const initialCurrentRequest: HistoryEntry = {
   }),
 };
 
-export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
+interface HistoryProviderProps {
+  children: React.ReactNode;
+}
+
+export function HistoryProvider({ children }: HistoryProviderProps) {
   // The context is first rendered on the server before client hydration and local storage isn't
   // available on the server, so we skip the initialization in that case
   let historyFromLocalStorage;
@@ -150,7 +153,7 @@ export const HistoryProvider: ClientComponent<{}, true> = ({ children }) => {
       {children}
     </HistoryContext.Provider>
   );
-};
+}
 
 function parseHistory(historyFromLocalStorage: string) {
   const result: HistoryEntry[] = [];

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Button from "@/components/Button";
-import type { ClientComponent } from "@/types/next";
 
 interface FloatingSideButtonProps {
   id?: string;
@@ -11,12 +10,12 @@ interface FloatingSideButtonProps {
   onClick: () => void;
 }
 
-const FloatingSideButton: ClientComponent<FloatingSideButtonProps> = ({
+export default function FloatingSideButton({
   id,
   icon,
   label,
   onClick,
-}) => {
+}: FloatingSideButtonProps) {
   return (
     <Button
       id={id}
@@ -37,6 +36,4 @@ const FloatingSideButton: ClientComponent<FloatingSideButtonProps> = ({
       {label}
     </Button>
   );
-};
-
-export default FloatingSideButton;
+}

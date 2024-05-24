@@ -18,9 +18,8 @@ import {
   getEmptyFieldNode,
 } from "@/lib/assistedSearch/ast";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const AssistedSearchInput: ClientComponent = () => {
+export default function AssistedSearchInput() {
   const tErrors = useTranslations("errors");
   const searchParams = useSearchParams();
   const ast = searchParams.getAst();
@@ -160,6 +159,4 @@ const AssistedSearchInput: ClientComponent = () => {
       </Stack>
     </Box>
   );
-};
-
-export default AssistedSearchInput;
+}

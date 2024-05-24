@@ -6,11 +6,14 @@ import { usages, formats } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { isFormatSelected } from "@/lib/formats";
 import type { Aggregation } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
-const CompatibilityPanelContent: ClientComponent<{
+interface CompatibilityPanelContentProps {
   compatibility: Aggregation;
-}> = ({ compatibility }) => {
+}
+
+export default function CompatibilityPanelContent({
+  compatibility,
+}: CompatibilityPanelContentProps) {
   const { resultsCount } = useQueryContext();
 
   // JSON format is always available
@@ -76,6 +79,4 @@ const CompatibilityPanelContent: ClientComponent<{
         })}
     </Box>
   );
-};
-
-export default CompatibilityPanelContent;
+}

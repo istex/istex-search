@@ -8,7 +8,6 @@ import franceUniversitesLogo from "@/../public/france_universites.svg";
 import investissementLogo from "@/../public/investissement.png";
 import mesrLogo from "@/../public/mesr.svg";
 import ulLogo from "@/../public/ul.svg";
-import type { ServerComponent } from "@/types/next";
 
 const partners = [
   {
@@ -50,7 +49,7 @@ const partners = [
 //   - All items on the same line => MAX_ITEMS_PER_LINE / partners.length
 const MAX_ITEMS_PER_LINE = 12;
 
-const Footer: ServerComponent = () => {
+export default function Footer() {
   const t = useTranslations("home.Footer");
 
   return (
@@ -126,6 +125,4 @@ const Footer: ServerComponent = () => {
       </Container>
     </Box>
   );
-};
-
-export default Footer;
+}

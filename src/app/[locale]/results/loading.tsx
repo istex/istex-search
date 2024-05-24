@@ -4,9 +4,8 @@ import { Skeleton, Stack } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
-import type { ClientComponent } from "@/types/next";
 
-const Loading: ClientComponent = () => {
+export default function Loading() {
   let lastSavedQueryString = "";
   if (typeof window !== "undefined") {
     lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
@@ -73,6 +72,4 @@ const Loading: ClientComponent = () => {
       </Stack>
     </ResultsPageShell>
   );
-};
-
-export default Loading;
+}

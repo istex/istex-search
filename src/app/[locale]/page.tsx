@@ -6,9 +6,11 @@ import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider } from "@/contexts/QueryContext";
 import { redirect } from "@/i18n/navigation";
 import SearchParams from "@/lib/SearchParams";
-import type { Page } from "@/types/next";
+import type { PageProps } from "@/types/next";
 
-const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
+export default async function HomePage({
+  searchParams: nextSearchParams,
+}: PageProps) {
   const searchParams = new SearchParams(nextSearchParams);
 
   let queryString: string;
@@ -36,6 +38,4 @@ const HomePage: Page = async ({ searchParams: nextSearchParams }) => {
       </QueryProvider>
     </DocumentProvider>
   );
-};
-
-export default HomePage;
+}

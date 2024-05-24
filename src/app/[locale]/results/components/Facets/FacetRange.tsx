@@ -8,7 +8,6 @@ import type { FacetLayoutProps } from "./FacetLayout";
 import { FACETS_RANGE_WITH_DECIMAL, checkRangeInputValue } from "./utils";
 import Selector from "@/components/Selector";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
 export const RANGE_FACETS_WITH_TOGGLE = ["publicationDate"];
 const RANGE_OPTIONS = ["range", "single"] as const;
@@ -16,11 +15,11 @@ type RangeOption = (typeof RANGE_OPTIONS)[number];
 
 const DISABLED_TEXT_COLOR = "rgba(0, 0, 0, 0.38)";
 
-const FacetRange: ClientComponent<FacetLayoutProps> = ({
+export default function FacetRange({
   facetTitle,
   facetItems,
   disabled,
-}) => {
+}: FacetLayoutProps) {
   const { setRangeFacet } = useFacetContext();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
@@ -202,6 +201,4 @@ const FacetRange: ClientComponent<FacetLayoutProps> = ({
       )}
     </Stack>
   );
-};
-
-export default FacetRange;
+}

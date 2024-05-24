@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Container, Link, Typography } from "@mui/material";
 import type { BoxProps } from "@mui/material/Box";
@@ -7,9 +8,8 @@ import corpus from "./corpus";
 import wires from "@/../public/wires.svg";
 import Button from "@/components/Button";
 import { usages } from "@/config";
-import type { ClientComponent, ServerComponent } from "@/types/next";
 
-const CorpusSection: ServerComponent = () => {
+export default function CorpusSection() {
   const t = useTranslations("home.CorpusSection");
   const tUsages = useTranslations("config.usages");
 
@@ -82,48 +82,44 @@ const CorpusSection: ServerComponent = () => {
       </Container>
     </Box>
   );
-};
+}
 
-const Title: ClientComponent<
-  Omit<
-    TypographyProps & { component?: React.ElementType },
-    "variant" | "gutterBottom"
-  >
-> = (props) => (
-  <Typography variant="h5" component="h2" gutterBottom {...props} />
-);
+function Title(props: TypographyProps & { component?: React.ElementType }) {
+  return <Typography variant="h5" component="h2" gutterBottom {...props} />;
+}
 
-const Article: ClientComponent<Omit<BoxProps, "component" | "pt" | "pb">> = (
-  props,
-) => <Box component="article" pt={8} pb={6} {...props} />;
+function Article(props: BoxProps) {
+  return <Box component="article" pt={8} pb={6} {...props} />;
+}
 
-const Paragraph: ClientComponent<
-  Omit<TypographyProps, "variant" | "paragraph">
-> = (props) => <Typography variant="body2" paragraph {...props} />;
+function Paragraph(props: TypographyProps) {
+  return <Typography variant="body2" paragraph {...props} />;
+}
 
-const CorpusButton: ClientComponent<{ href: string }, true> = ({
-  href,
-  children,
-}) => (
-  <Button variant="outlined" href={href} target="_blank" rel="noreferrer">
-    {children}
-  </Button>
-);
+interface ButtonProps {
+  href: string;
+  children: React.ReactNode;
+}
 
-const GatewayButton: ClientComponent<{ href: string }, true> = ({
-  href,
-  children,
-}) => (
-  <Button
-    variant="outlined"
-    mainColor="white"
-    secondaryColor="blue"
-    href={href}
-    target="_blank"
-    rel="noreferrer"
-  >
-    {children}
-  </Button>
-);
+function CorpusButton({ href, children }: ButtonProps) {
+  return (
+    <Button variant="outlined" href={href} target="_blank" rel="noreferrer">
+      {children}
+    </Button>
+  );
+}
 
-export default CorpusSection;
+function GatewayButton({ href, children }: ButtonProps) {
+  return (
+    <Button
+      variant="outlined"
+      mainColor="white"
+      secondaryColor="blue"
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {children}
+    </Button>
+  );
+}

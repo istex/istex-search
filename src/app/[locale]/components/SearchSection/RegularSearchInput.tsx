@@ -11,9 +11,8 @@ import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
 import { useOnHomePage } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const RegularSearchInput: ClientComponent = () => {
+export default function RegularSearchInput() {
   const t = useTranslations("home.SearchSection.RegularSearchInput");
   const queryContext = useQueryContext();
   const [queryString, setQueryString] = React.useState(
@@ -87,6 +86,4 @@ const RegularSearchInput: ClientComponent = () => {
       {onHomePage && <ExamplesList setError={setError} />}
     </Box>
   );
-};
-
-export default RegularSearchInput;
+}

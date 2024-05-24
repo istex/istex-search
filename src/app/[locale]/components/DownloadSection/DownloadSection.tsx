@@ -3,9 +3,8 @@ import Image from "next/image";
 import { Box, Grid, Typography } from "@mui/material";
 import DownloadSteps from "./DownloadSteps";
 import downloadImage from "@/../public/download.jpg";
-import type { ServerComponent } from "@/types/next";
 
-const DownloadSection: ServerComponent = () => {
+export default function DownloadSection() {
   const t = useTranslations("home.DownloadSection");
 
   return (
@@ -57,6 +56,4 @@ const DownloadSection: ServerComponent = () => {
       <DownloadSteps />
     </Box>
   );
-};
-
-export default DownloadSection;
+}

@@ -13,9 +13,8 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
 import { clamp } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
-import type { ClientComponent } from "@/types/next";
 
-const Pagination: ClientComponent = () => {
+export default function Pagination() {
   const locale = useLocale();
   const t = useTranslations("results.Pagination");
   const history = useHistoryContext();
@@ -130,6 +129,4 @@ const Pagination: ClientComponent = () => {
       </Box>
     </Stack>
   );
-};
-
-export default Pagination;
+}

@@ -2,11 +2,12 @@ import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
 import Button from "@/components/Button";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type { ClientComponent } from "@/types/next";
 
-const SearchButton: ClientComponent<{ isAlone?: boolean }> = ({
-  isAlone = false,
-}) => {
+interface SearchButtonProps {
+  isAlone?: boolean;
+}
+
+export default function SearchButton({ isAlone = false }: SearchButtonProps) {
   const t = useTranslations("home.SearchSection");
   const { loading } = useQueryContext();
 
@@ -34,6 +35,4 @@ const SearchButton: ClientComponent<{ isAlone?: boolean }> = ({
       </Button>
     </Box>
   );
-};
-
-export default SearchButton;
+}

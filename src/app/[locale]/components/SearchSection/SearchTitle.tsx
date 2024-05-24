@@ -15,9 +15,8 @@ import {
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/navigation";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const SearchTitle: ClientComponent = () => {
+export default function SearchTitle() {
   const t = useTranslations("home.SearchSection");
   const searchParams = useSearchParams();
   const searchMode = searchParams.getSearchMode();
@@ -94,9 +93,13 @@ const SearchTitle: ClientComponent = () => {
       </Stack>
     </Stack>
   );
-};
+}
 
-const Icon: ClientComponent<{ searchMode: SearchMode }> = ({ searchMode }) => {
+interface IconProps {
+  searchMode: SearchMode;
+}
+
+function Icon({ searchMode }: IconProps) {
   const t = useTranslations("home.SearchSection");
   const altText = t(`${searchMode}Mode`);
 
@@ -110,6 +113,4 @@ const Icon: ClientComponent<{ searchMode: SearchMode }> = ({ searchMode }) => {
     default:
       throw new Error("Unknown search mode");
   }
-};
-
-export default SearchTitle;
+}

@@ -19,7 +19,6 @@ import {
 } from "@/lib/assistedSearch/ast";
 import { unique } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
-import type { ClientComponent } from "@/types/next";
 
 export const fontFamilyStyle: SxProps = {
   ".MuiInputBase-input": {
@@ -31,9 +30,7 @@ type AutocompleteInputProps = TextFieldProps & {
   isLoading?: boolean;
 };
 
-export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
-  props,
-) => {
+export function AutocompleteInput(props: AutocompleteInputProps) {
   const [focused, setFocused] = React.useState(false);
   const { InputProps, isLoading, ...rest } = props;
 
@@ -70,11 +67,11 @@ export const AutocompleteInput: ClientComponent<AutocompleteInputProps> = (
       {...rest}
     />
   );
-};
+}
 
-export const FieldInputMenuItem: ClientComponent<
-  React.HTMLAttributes<HTMLLIElement> & { option: FieldName }
-> = (props) => {
+export function FieldInputMenuItem(
+  props: React.HTMLAttributes<HTMLLIElement> & { option: FieldName },
+) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const { option, ...rest } = props;
 
@@ -106,7 +103,7 @@ export const FieldInputMenuItem: ClientComponent<
       </Typography>
     </MenuItem>
   );
-};
+}
 
 export function getComparators(
   fieldType: FieldType | null,

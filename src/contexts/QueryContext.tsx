@@ -7,7 +7,6 @@ import { useRouter } from "@/i18n/navigation";
 import type { CustomErrorInfo } from "@/lib/CustomError";
 import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
 interface QueryContextValue {
   queryString: string;
@@ -21,13 +20,14 @@ interface QueryContextValue {
   errorInfo?: CustomErrorInfo;
 }
 
-export type QueryContextProps = Omit<QueryContextValue, "goToResultsPage">;
+export interface QueryContextProps
+  extends Omit<QueryContextValue, "goToResultsPage"> {
+  children: React.ReactNode;
+}
 
 const QueryContext = React.createContext<QueryContextValue | null>(null);
 
-export const QueryProvider: ClientComponent<QueryContextProps, true> = (
-  props,
-) => {
+export function QueryProvider(props: QueryContextProps) {
   const router = useRouter();
   const defaultSearchParams = useSearchParams();
   const history = useHistoryContext();
@@ -63,7 +63,7 @@ export const QueryProvider: ClientComponent<QueryContextProps, true> = (
       {props.children}
     </QueryContext.Provider>
   );
-};
+}
 
 export function useQueryContext() {
   const context = React.useContext(QueryContext);

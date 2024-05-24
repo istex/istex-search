@@ -6,11 +6,14 @@ import Indicator from "./Indicator";
 import LanguageIndicator from "./LanguageIndicator";
 import { useQueryContext } from "@/contexts/QueryContext";
 import type { Aggregation } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
-const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
+interface IndicatorPanelContentProps {
+  indicators: Aggregation;
+}
+
+export default function IndicatorPanelContent({
   indicators,
-}) => {
+}: IndicatorPanelContentProps) {
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
 
@@ -73,6 +76,4 @@ const IndicatorPanelContent: ClientComponent<{ indicators: Aggregation }> = ({
       />
     </Box>
   );
-};
-
-export default IndicatorPanelContent;
+}

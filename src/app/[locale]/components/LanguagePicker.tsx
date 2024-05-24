@@ -4,7 +4,10 @@ import * as React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import { SUPPORTED_LOCALES, usePathname, useRouter } from "@/i18n/navigation";
-import type { ClientComponent } from "@/types/next";
+
+interface LanguagePickerProps {
+  locale: string;
+}
 
 const smallFontSize = {
   fontSize: "0.625rem",
@@ -12,7 +15,7 @@ const smallFontSize = {
 
 // This component is not used right now because only one language is supported
 // but we still keep it just in case we support more languages in the future.
-const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
+export default function LanguagePicker({ locale }: LanguagePickerProps) {
   const [language, setLanguage] = React.useState(locale);
   const pathname = usePathname();
   const router = useRouter();
@@ -49,6 +52,4 @@ const LanguagePicker: ClientComponent<{ locale: string }> = ({ locale }) => {
       </FormControl>
     </Box>
   );
-};
-
-export default LanguagePicker;
+}

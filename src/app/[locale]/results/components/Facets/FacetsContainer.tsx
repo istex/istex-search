@@ -8,9 +8,8 @@ import FacetLayout from "./FacetLayout";
 import { FACETS } from "./constants";
 import Button from "@/components/Button";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const FacetsContainer: ClientComponent = () => {
+export default function FacetsContainer() {
   const t = useTranslations("results.Facets");
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
@@ -72,6 +71,4 @@ const FacetsContainer: ClientComponent = () => {
       </Button>
     </Stack>
   );
-};
-
-export default FacetsContainer;
+}

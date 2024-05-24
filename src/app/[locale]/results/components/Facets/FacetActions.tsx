@@ -5,17 +5,16 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Stack } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
 import Button from "@/components/Button";
-import type { ClientComponent } from "@/types/next";
 
 interface FacetActionsProps {
   facetTitle: string;
   disabled?: boolean;
 }
 
-const FacetActions: ClientComponent<FacetActionsProps> = ({
+export default function FacetActions({
   facetTitle,
   disabled,
-}) => {
+}: FacetActionsProps) {
   const t = useTranslations("results.Facets");
 
   const { clearOneFacet, applyOneFacet, facetsWaitingForApply } =
@@ -55,6 +54,4 @@ const FacetActions: ClientComponent<FacetActionsProps> = ({
       </Button>
     </Stack>
   );
-};
-
-export default FacetActions;
+}

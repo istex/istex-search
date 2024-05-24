@@ -6,13 +6,12 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import type { ClientComponent } from "@/types/next";
 
 interface CustomCheckboxProps extends MuiCheckboxProps {
   label: string;
 }
 
-const CustomCheckbox: ClientComponent<CustomCheckboxProps> = (props) => {
+function CustomCheckbox(props: CustomCheckboxProps) {
   const { name, label, checked, disabled, indeterminate, onChange, ...rest } =
     props;
 
@@ -39,7 +38,7 @@ const CustomCheckbox: ClientComponent<CustomCheckboxProps> = (props) => {
       }
     />
   );
-};
+}
 
 const Checkbox = styled(CustomCheckbox)<CustomCheckboxProps>(({ theme }) => ({
   "&.MuiCheckbox-root": {

@@ -79,17 +79,7 @@ export default tseslint.config(
           fixStyle: "inline-type-imports",
         },
       ],
-      "@typescript-eslint/ban-types": [
-        "error",
-        {
-          extendDefaults: true,
-          types: {
-            "{}": false,
-          },
-        },
-      ],
       "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
     },
   },
 

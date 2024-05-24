@@ -11,7 +11,6 @@ import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
 import { getLanguageLabel, sortFacets } from "./utils";
-import type { ClientComponent } from "@/types/next";
 
 export const ASC = "asc";
 export const DESC = "desc";
@@ -22,11 +21,11 @@ export const DOC_COUNT = "docCount";
 export type SortOrder = typeof ASC | typeof DESC;
 export type SortField = typeof KEY | typeof DOC_COUNT;
 
-const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
+export default function FacetCheckboxList({
   facetTitle,
   facetItems,
   disabled,
-}) => {
+}: FacetLayoutProps) {
   const t = useTranslations("results.Facets");
 
   const { toggleFacet } = useFacetContext();
@@ -230,6 +229,4 @@ const FacetCheckboxList: ClientComponent<FacetLayoutProps> = ({
       </Stack>
     </>
   );
-};
-
-export default FacetCheckboxList;
+}

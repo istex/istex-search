@@ -10,9 +10,8 @@ import ResultsSettings from "./ResultsSettings";
 import SelectedDocPanel from "./SelectedDocPanel";
 import UsageSelector from "./UsageSelector";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import type { ClientComponent } from "@/types/next";
 
-const DownloadForm: ClientComponent = () => {
+export default function DownloadForm() {
   const { selectedDocuments } = useDocumentContext();
   const hasSelectedDocuments = selectedDocuments.length > 0;
 
@@ -51,7 +50,7 @@ const DownloadForm: ClientComponent = () => {
       )}
     </Grid>
   );
-};
+}
 
 const Divider = styled(MuiDivider)(({ theme }) => ({
   "&.MuiDivider-root": {
@@ -59,5 +58,3 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
     marginBottom: theme.spacing(2),
   },
 }));
-
-export default DownloadForm;

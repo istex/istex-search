@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { useMessages, useNow, useTimeZone } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import TanStackQueryProvider from "./TanStackQueryProvider";
@@ -9,20 +10,23 @@ import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSide
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import NextIntlProvider from "@/i18n/provider";
 import MuiSetup from "@/mui/setup";
-import type { GenerateMetadata, Layout } from "@/types/next";
+import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
 
-export const generateMetadata: GenerateMetadata = async ({
+export async function generateMetadata({
   params: { locale },
-}) => {
+}: GenerateMetadataProps): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "home.metadata" });
 
   return {
     title: "Istex Search",
     description: t("description"),
   };
-};
+}
 
-const RootLayout: Layout = ({ children, params: { locale } }) => {
+export default function RootLayout({
+  children,
+  params: { locale },
+}: LayoutProps) {
   const messages = useMessages();
   const timeZone = useTimeZone();
   const now = useNow();
@@ -52,6 +56,4 @@ const RootLayout: Layout = ({ children, params: { locale } }) => {
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}

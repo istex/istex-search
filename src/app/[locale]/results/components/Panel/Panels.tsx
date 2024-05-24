@@ -5,7 +5,6 @@ import CompatibilityPanelContent from "./CompatibilityPanelContent";
 import IndicatorPanelContent from "./IndicatorPanelContent";
 import Panel, { type PanelName } from "./Panel";
 import type { Aggregation } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
 type PanelProps = {
   [TName in PanelName]: Aggregation;
@@ -21,7 +20,7 @@ const DEFAULT_PANEL_EXPANDED_STATES: PanelStates = {
   compatibility: false,
 };
 
-const Panels: ClientComponent<PanelProps> = ({ indicators, compatibility }) => {
+export default function Panels({ indicators, compatibility }: PanelProps) {
   const [panelStates, setPanelStates] = React.useState(
     DEFAULT_PANEL_EXPANDED_STATES,
   );
@@ -76,6 +75,4 @@ const Panels: ClientComponent<PanelProps> = ({ indicators, compatibility }) => {
       </Panel>
     </>
   );
-};
-
-export default Panels;
+}

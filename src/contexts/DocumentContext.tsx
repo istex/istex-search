@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
 export interface SelectedDocument {
   arkIstex: string;
@@ -22,10 +21,12 @@ export interface DocumentContextValue {
 
 const DocumentContext = React.createContext<DocumentContextValue | null>(null);
 
-export const DocumentProvider: ClientComponent<
-  { results?: IstexApiResponse },
-  true
-> = ({ children, results }) => {
+interface DocumentProviderProps {
+  results?: IstexApiResponse;
+  children: React.ReactNode;
+}
+
+export function DocumentProvider({ children, results }: DocumentProviderProps) {
   const [displayedDocument, setDisplayedDocument] = React.useState<
     Result | undefined
   >(undefined);
@@ -122,7 +123,7 @@ export const DocumentProvider: ClientComponent<
       {children}
     </DocumentContext.Provider>
   );
-};
+}
 
 export function useDocumentContext() {
   const context = React.useContext(DocumentContext);

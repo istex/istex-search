@@ -11,7 +11,6 @@ import {
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import MultilineTextField from "@/components/MultilineTextField";
-import type { ClientComponent } from "@/types/next";
 
 interface ExpertSearchInputProps {
   queryString: string;
@@ -24,7 +23,7 @@ interface ExpertSearchInputProps {
   hide: () => void;
 }
 
-const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
+export default function ExpertSearchInput({
   queryString,
   setQueryString,
   errorMessage,
@@ -33,7 +32,7 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
   setModalOpen,
   onSubmit,
   hide,
-}) => {
+}: ExpertSearchInputProps) {
   const t = useTranslations(
     "home.SearchSection.AssistedSearchInput.ExpertSearchInput",
   );
@@ -96,6 +95,4 @@ const ExpertSearchInput: ClientComponent<ExpertSearchInputProps> = ({
       </Modal>
     </>
   );
-};
-
-export default ExpertSearchInput;
+}

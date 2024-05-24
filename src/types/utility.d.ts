@@ -1,8 +1,3 @@
-export type ReplaceReturnType<
-  T extends (...args: unknown) => unknown,
-  TNewReturn,
-> = (...args: Parameters<T>) => TNewReturn;
-
 // Recursive version of native keyof
 export type KeyOf<T> = {
   [K in keyof T & (string | number)]: T[K] extends object

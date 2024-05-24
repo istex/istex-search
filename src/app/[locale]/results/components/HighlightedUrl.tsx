@@ -1,9 +1,12 @@
 import { Box } from "@mui/material";
-import type { ClientComponent } from "@/types/next";
 
 const highlightColors = ["#6F1B84", "colors.blue", "#4BBC2E"];
 
-const HighlightedUrl: ClientComponent<{ url: URL }> = ({ url }) => {
+interface HighlightedUrlProps {
+  url: URL;
+}
+
+export default function HighlightedUrl({ url }: HighlightedUrlProps) {
   const searchParams: string[][] = [];
 
   url.searchParams.forEach((value, name) => {
@@ -29,6 +32,4 @@ const HighlightedUrl: ClientComponent<{ url: URL }> = ({ url }) => {
       ))}
     </>
   );
-};
-
-export default HighlightedUrl;
+}

@@ -13,7 +13,6 @@ import FacetActions from "./FacetActions";
 import type { FacetItem } from "./FacetContext";
 import { DEFAULT_OPEN_FACETS, FACETS, FACETS_WITH_RANGE } from "./constants";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
 export interface FacetLayoutProps {
   facetTitle: string;
@@ -21,11 +20,11 @@ export interface FacetLayoutProps {
   disabled?: boolean;
 }
 
-const FacetLayout: ClientComponent<FacetLayoutProps> = ({
+export default function FacetLayout({
   facetTitle,
   facetItems,
   disabled,
-}) => {
+}: FacetLayoutProps) {
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
 
@@ -114,6 +113,4 @@ const FacetLayout: ClientComponent<FacetLayoutProps> = ({
       </AccordionDetails>
     </Accordion>
   );
-};
-
-export default FacetLayout;
+}

@@ -8,9 +8,8 @@ import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type { ClientComponent } from "@/types/next";
 
-const DownloadButton: ClientComponent = () => {
+export default function DownloadButton() {
   const t = useTranslations("results");
   const tDownload = useTranslations("download");
   const locale = useLocale();
@@ -66,6 +65,4 @@ const DownloadButton: ClientComponent = () => {
       </Modal>
     </>
   );
-};
-
-export default DownloadButton;
+}

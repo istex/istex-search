@@ -16,9 +16,8 @@ import {
 } from "@mui/material";
 import { alpha } from "@mui/system/colorManipulator";
 import navbarLinks from "./navbarLinks";
-import type { ClientComponent } from "@/types/next";
 
-const Navbar: ClientComponent = () => {
+export default function Navbar() {
   const t = useTranslations("home.Navbar");
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
@@ -141,6 +140,4 @@ const Navbar: ClientComponent = () => {
       </Container>
     </AppBar>
   );
-};
-
-export default Navbar;
+}

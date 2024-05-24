@@ -13,12 +13,11 @@ import Button from "@/components/Button";
 import type { ModalProps } from "@/components/Modal";
 import { mailtoLink } from "@/i18n/i18n";
 import theme from "@/mui/theme";
-import type { ClientComponent } from "@/types/next";
 
-const HelpModal: ClientComponent<Omit<ModalProps, "title">> = ({
+export default function HelpModal({
   open,
   onClose,
-}) => {
+}: Omit<ModalProps, "title" | "children">) {
   const t = useTranslations("help.modal");
 
   return (
@@ -99,6 +98,4 @@ const HelpModal: ClientComponent<Omit<ModalProps, "title">> = ({
       </Stack>
     </Dialog>
   );
-};
-
-export default HelpModal;
+}

@@ -15,34 +15,15 @@ import TeiIcon from "./TeiIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
-import type { ClientComponent } from "@/types/next";
 
-const getIcon = (extension: string, props: SvgIconProps) => {
-  switch (extension) {
-    case "pdf":
-      return <PdfIcon {...props} />;
-    case "zip":
-      return <ZipIcon {...props} />;
-    case "tei":
-      return <TeiIcon {...props} />;
-    case "txt":
-      return <TxtIcon {...props} />;
-    case "xml":
-      return <XmlIcon {...props} />;
-    case "mods":
-      return <ModsIcon {...props} />;
-    case "json":
-      return <JsonIcon {...props} />;
-    default:
-      return <FileIcon {...props} />;
-  }
-};
-
-const FileList: ClientComponent<{
+interface FileListProps {
   files: { key?: string; extension: string; uri: string }[];
   titleKey: string;
-}> = ({ files, titleKey }) => {
+}
+
+export default function FileList({ files, titleKey }: FileListProps) {
   const t = useTranslations("results.Document.formatsLinks");
+
   return (
     <Stack direction="row" flexWrap="wrap" gap={1}>
       {files.map(({ key, extension, uri }, index) => {
@@ -83,6 +64,25 @@ const FileList: ClientComponent<{
       })}
     </Stack>
   );
-};
+}
 
-export default FileList;
+function getIcon(extension: string, props: SvgIconProps) {
+  switch (extension) {
+    case "pdf":
+      return <PdfIcon {...props} />;
+    case "zip":
+      return <ZipIcon {...props} />;
+    case "tei":
+      return <TeiIcon {...props} />;
+    case "txt":
+      return <TxtIcon {...props} />;
+    case "xml":
+      return <XmlIcon {...props} />;
+    case "mods":
+      return <ModsIcon {...props} />;
+    case "json":
+      return <JsonIcon {...props} />;
+    default:
+      return <FileIcon {...props} />;
+  }
+}

@@ -3,7 +3,6 @@ import CircularProgress, {
   type CircularProgressProps,
 } from "@mui/material/CircularProgress";
 import Fade from "@mui/material/Fade";
-import type { ClientComponent } from "@/types/next";
 
 interface DelayedCircularProgressProps extends CircularProgressProps {
   isLoading?: boolean;
@@ -15,16 +14,16 @@ interface DelayedCircularProgressProps extends CircularProgressProps {
 //   - {isLoading && (
 //       <DelayedCircularProgress size={20} />
 //     )}
-//     Here it's up to component rendering the DelayedCircularProgress to control when it renders.
+//     Here it's up to the component rendering the DelayedCircularProgress to control when it renders.
 //
 //   - <DelayedCircularProgress isLoading={isLoading} size={20} />
 //     Here the DelayedCircularProgress takes care of rendering its internal CircularProgress
 //     based on isLoading. A container of size `size` surrounds the CircularProgress to avoid
 //     layout shifts when the CircularProgress fades out.
 
-const DelayedCircularProgress: ClientComponent<DelayedCircularProgressProps> = (
-  props,
-) => {
+export default function DelayedCircularProgress(
+  props: DelayedCircularProgressProps,
+) {
   const { isLoading = true, delay = 1000, size, ...rest } = props;
 
   return (
@@ -40,6 +39,4 @@ const DelayedCircularProgress: ClientComponent<DelayedCircularProgressProps> = (
       </Fade>
     </Box>
   );
-};
-
-export default DelayedCircularProgress;
+}

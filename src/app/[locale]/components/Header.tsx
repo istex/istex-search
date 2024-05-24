@@ -4,9 +4,8 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import headerBackground from "@/../public/header-background.webp";
 import istexSearchLogo from "@/../public/istex-search.svg";
 import Link from "@/i18n/next-intl-link";
-import type { ServerComponent } from "@/types/next";
 
-const Header: ServerComponent = () => {
+export default function Header() {
   const t = useTranslations("home.Header");
 
   return (
@@ -58,6 +57,4 @@ const Header: ServerComponent = () => {
       </Container>
     </Box>
   );
-};
-
-export default Header;
+}

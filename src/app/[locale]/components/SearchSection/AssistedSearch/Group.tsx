@@ -15,7 +15,6 @@ import {
   type Node,
   type OperatorNode,
 } from "@/lib/assistedSearch/ast";
-import type { ClientComponent } from "@/types/next";
 
 interface GroupProps {
   root?: boolean;
@@ -25,13 +24,13 @@ interface GroupProps {
   remove: () => void;
 }
 
-const Group: ClientComponent<GroupProps> = ({
+export default function Group({
   root,
   displayErrors,
   childNodes,
   setChildNodes,
   remove,
-}) => {
+}: GroupProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const firstOperator = childNodes.find(
     (child) => child.nodeType === "operator",
@@ -208,6 +207,4 @@ const Group: ClientComponent<GroupProps> = ({
       </Box>
     </Box>
   );
-};
-
-export default Group;
+}

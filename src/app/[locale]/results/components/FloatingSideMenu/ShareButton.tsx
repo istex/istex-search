@@ -5,9 +5,8 @@ import { SvgIcon } from "@mui/material";
 import FloatingSideButton from "./FloatingSideButton";
 import ShareIcon from "@/../public/share.svg?svgr";
 import { useOnHomePage, useShare } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const ShareButton: ClientComponent = () => {
+export default function ShareButton() {
   const t = useTranslations("results.FloatingSideMenu");
   const onHomePage = useOnHomePage();
   const share = useShare();
@@ -28,6 +27,4 @@ const ShareButton: ClientComponent = () => {
       onClick={handleShareButton}
     />
   );
-};
-
-export default ShareButton;
+}

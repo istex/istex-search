@@ -3,7 +3,6 @@
 import { Box, Tab, Tabs, type TabsProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { montserrat } from "@/mui/fonts";
-import type { ClientComponent } from "@/types/next";
 
 interface SelectorProps extends TabsProps {
   options: readonly string[];
@@ -11,7 +10,7 @@ interface SelectorProps extends TabsProps {
   disabled?: boolean;
 }
 
-const Selector: ClientComponent<SelectorProps> = (props) => {
+export default function Selector(props: SelectorProps) {
   const { value, onChange, options, t, disabled, ...rest } = props;
 
   return (
@@ -37,7 +36,7 @@ const Selector: ClientComponent<SelectorProps> = (props) => {
       </StyledTabs>
     </Box>
   );
-};
+}
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
   "&.MuiTabs-root": {
@@ -84,5 +83,3 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     zIndex: 1,
   },
 }));
-
-export default Selector;

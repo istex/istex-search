@@ -4,13 +4,12 @@ import Button from "@/components/Button";
 import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
-import type { ClientComponent } from "@/types/next";
 
 interface ExamplesListProps {
   setError: (error: CustomError) => void;
 }
 
-const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
+export default function ExamplesList({ setError }: ExamplesListProps) {
   const tExamples = useTranslations("config.examples");
   const t = useTranslations("home.SearchSection.RegularSearchInput");
   const { goToResultsPage } = useQueryContext();
@@ -48,6 +47,4 @@ const ExamplesList: ClientComponent<ExamplesListProps> = ({ setError }) => {
       </Grid>
     </>
   );
-};
-
-export default ExamplesList;
+}

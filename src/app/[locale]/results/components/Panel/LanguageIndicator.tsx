@@ -4,13 +4,18 @@ import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { getLanguageLabel } from "../Facets/utils";
-import type { ClientComponent } from "@/types/next";
 
-const LanguageIndicator: ClientComponent<{
+interface LanguageIndicatorProps {
   label: string;
   data: { key: string | number; docCount: number }[];
   total: number;
-}> = ({ label, data, total }) => {
+}
+
+export default function LanguageIndicator({
+  label,
+  data,
+  total,
+}: LanguageIndicatorProps) {
   const t = useTranslations("results.Panel");
   const tFacets = useTranslations("results.Facets");
   const theme = useTheme();
@@ -125,6 +130,4 @@ const LanguageIndicator: ClientComponent<{
       </Stack>
     </>
   );
-};
-
-export default LanguageIndicator;
+}

@@ -16,7 +16,6 @@ import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
 interface SortingProps {
   isLabelLowerCase?: boolean;
@@ -26,13 +25,13 @@ interface SortingProps {
   disabled?: boolean;
 }
 
-const Sorting: ClientComponent<SortingProps> = ({
+export default function Sorting({
   isLabelLowerCase,
   fontSize,
   labelColor,
   selectColor,
   disabled,
-}) => {
+}: SortingProps) {
   const t = useTranslations("results.Sorting");
   const tResults = useTranslations("results");
   const router = useRouter();
@@ -145,6 +144,4 @@ const Sorting: ClientComponent<SortingProps> = ({
       )}
     </Stack>
   );
-};
-
-export default Sorting;
+}

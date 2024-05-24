@@ -5,9 +5,8 @@ import { Box, IconButton, Typography } from "@mui/material";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import type { ClientComponent } from "@/types/next";
 
-const SelectedDocPanel: ClientComponent = () => {
+export default function SelectedDocPanel() {
   const t = useTranslations("download.SelectedDoc");
   const { selectedDocuments, toggleSelectedDocument } = useDocumentContext();
 
@@ -79,6 +78,4 @@ const SelectedDocPanel: ClientComponent = () => {
       </Box>
     </Panel>
   );
-};
-
-export default SelectedDocPanel;
+}

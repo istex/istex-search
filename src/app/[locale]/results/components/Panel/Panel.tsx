@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -9,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type { ClientComponent } from "@/types/next";
 
 export type PanelName = "indicators" | "compatibility";
 
@@ -17,14 +17,15 @@ interface PanelProps {
   title: PanelName;
   expanded: boolean;
   setExpanded: (name: PanelName, expanded: boolean) => void;
+  children: React.ReactNode;
 }
 
-const Panel: ClientComponent<PanelProps, true> = ({
+export default function Panel({
   title,
   expanded,
   setExpanded,
   children,
-}) => {
+}: PanelProps) {
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
 
@@ -87,6 +88,4 @@ const Panel: ClientComponent<PanelProps, true> = ({
       </AccordionDetails>
     </Accordion>
   );
-};
-
-export default Panel;
+}

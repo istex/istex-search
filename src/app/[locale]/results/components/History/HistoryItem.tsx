@@ -29,7 +29,6 @@ import {
   getIdTypeFromQueryString,
 } from "@/lib/queryIds";
 import { formatDate, lineclamp } from "@/lib/utils";
-import type { ClientComponent } from "@/types/next";
 
 interface HistoryItemProps {
   entry: HistoryEntry;
@@ -40,12 +39,12 @@ interface HistoryItemProps {
 
 const LINE_COUNT = 2;
 
-const HistoryItem: ClientComponent<HistoryItemProps> = ({
+export default function HistoryItem({
   entry,
   onClose,
   index = 0,
   isCurrentRequest = false,
-}) => {
+}: HistoryItemProps) {
   const t = useTranslations("results.History");
   const tSorting = useTranslations("results.Sorting");
   const router = useRouter();
@@ -183,9 +182,13 @@ const HistoryItem: ClientComponent<HistoryItemProps> = ({
       </Cell>
     </>
   );
-};
+}
 
-const Cell: ClientComponent<BoxProps & { index: number }> = (props) => {
+interface CellProps extends BoxProps {
+  index: number;
+}
+
+function Cell(props: CellProps) {
   const theme = useTheme();
 
   // Apply a grey background color to the cells on even lines
@@ -208,13 +211,13 @@ const Cell: ClientComponent<BoxProps & { index: number }> = (props) => {
       <Box {...props}>{props.children}</Box>
     </Box>
   );
-};
+}
 
 interface ActionButtonProps extends IconButtonProps {
   iconComponent: React.FC | typeof SvgIcon;
 }
 
-const ActionButton: ClientComponent<ActionButtonProps> = (props) => {
+function ActionButton(props: ActionButtonProps) {
   const { title, color, iconComponent: icon, ...rest } = props;
 
   return (
@@ -228,6 +231,4 @@ const ActionButton: ClientComponent<ActionButtonProps> = (props) => {
       <SvgIcon component={icon} />
     </IconButton>
   );
-};
-
-export default HistoryItem;
+}

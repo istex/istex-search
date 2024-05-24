@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { LinearProgress, Typography } from "@mui/material";
 import { useQueryContext } from "@/contexts/QueryContext";
-import type { ClientComponent } from "@/types/next";
 
 interface CompatibilityProgressProps {
   name: string;
@@ -14,13 +13,13 @@ interface CompatibilityProgressProps {
   gridRow: number;
 }
 
-const CompatibilityProgress: ClientComponent<CompatibilityProgressProps> = ({
+export default function CompatibilityProgress({
   name,
   compatibilityCount,
   data,
   gridColumn,
   gridRow,
-}) => {
+}: CompatibilityProgressProps) {
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
 
@@ -96,6 +95,4 @@ const CompatibilityProgress: ClientComponent<CompatibilityProgressProps> = ({
       ))}
     </>
   );
-};
-
-export default CompatibilityProgress;
+}

@@ -9,12 +9,16 @@ import { styled } from "@mui/material/styles";
 import PerPage from "./PerPage";
 import Sorting from "./Sorting";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const ResultsToolbar: ClientComponent<{
+interface ResultsToolbarProps {
   columns: number;
   setColumns: (columns: number) => void;
-}> = ({ columns, setColumns }) => {
+}
+
+export default function ResultsToolbar({
+  columns,
+  setColumns,
+}: ResultsToolbarProps) {
   const t = useTranslations("results.ResultsToolbar");
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
@@ -67,7 +71,7 @@ const ResultsToolbar: ClientComponent<{
       </StyledToggleButtonGroup>
     </Stack>
   );
-};
+}
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -85,5 +89,3 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
   },
 }));
-
-export default ResultsToolbar;

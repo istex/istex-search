@@ -7,17 +7,13 @@ import HistoryItem from "./HistoryItem";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import type { ClientComponent } from "@/types/next";
 
 interface HistoryModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const HistoryModal: ClientComponent<HistoryModalProps> = ({
-  open,
-  onClose,
-}) => {
+export default function HistoryModal({ open, onClose }: HistoryModalProps) {
   const t = useTranslations("results.History");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const history = useHistoryContext();
@@ -118,17 +114,13 @@ const HistoryModal: ClientComponent<HistoryModalProps> = ({
       />
     </>
   );
-};
+}
 
 interface ConfirmModalProps extends HistoryModalProps {
   onConfirm: () => void;
 }
 
-const ConfirmModal: ClientComponent<ConfirmModalProps> = ({
-  open,
-  onClose,
-  onConfirm,
-}) => {
+function ConfirmModal({ open, onClose, onConfirm }: ConfirmModalProps) {
   const t = useTranslations("results.History.ConfirmModal");
 
   const confirm = () => {
@@ -147,6 +139,4 @@ const ConfirmModal: ClientComponent<ConfirmModalProps> = ({
       </DialogActions>
     </Modal>
   );
-};
-
-export default HistoryModal;
+}

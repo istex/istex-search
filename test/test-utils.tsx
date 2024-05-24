@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { AbstractIntlMessages } from "next-intl";
 import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
 import { render } from "@testing-library/react";
@@ -11,13 +12,12 @@ import NextIntlProvider from "@/i18n/provider";
 import messages from "@/i18n/translations/fr-FR.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
-import type { ClientComponent, ServerComponent } from "@/types/next";
 
 export function customRender(
   ui: Parameters<typeof render>[0],
   context?: Partial<QueryContextProps & { results?: IstexApiResponse }>,
 ) {
-  const wrapper: ClientComponent<{}, true> = ({ children }) => (
+  const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
     <TanStackQueryProvider>
       <NextIntlProvider
         locale={DEFAULT_LOCALE}
@@ -46,8 +46,8 @@ export function customRender(
 
 // Weird hack to render async components, taken from here:
 // https://github.com/vercel/next.js/issues/47131#issuecomment-1481289418
-export async function renderAsync<T extends object = {}>(
-  component: ServerComponent<T>,
+export async function renderAsync<T>(
+  component: (props: T) => Promise<React.ReactNode>,
   props: T,
 ) {
   const resolvedComponent = await component(props);

@@ -1,7 +1,5 @@
-import type { Layout } from "@/types/next";
+import type { LayoutProps } from "@/types/next";
 
-const RootLayout: Layout = ({ children }) => {
+export default function RootLayout({ children }: LayoutProps) {
   return children;
-};
-
-export default RootLayout;
+}

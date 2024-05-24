@@ -18,9 +18,8 @@ import CopyLogo from "@/../public/copy-icon.svg";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
-const RawRequest: ClientComponent = () => {
+export default function RawRequest() {
   const t = useTranslations("results.RawRequest");
   const searchParams = useSearchParams();
   const { queryString, randomSeed } = useQueryContext();
@@ -138,6 +137,4 @@ const RawRequest: ClientComponent = () => {
       </Snackbar>
     </Container>
   );
-};
-
-export default RawRequest;
+}

@@ -14,9 +14,8 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";
 import { clamp, debounce } from "@/lib/utils";
-import type { ClientComponent } from "@/types/next";
 
-const ResultsSettings: ClientComponent = () => {
+export default function ResultsSettings() {
   const t = useTranslations("download.ResultsSettings");
   const locale = useLocale();
   const router = useRouter();
@@ -140,6 +139,4 @@ const ResultsSettings: ClientComponent = () => {
       </Box>
     </Stack>
   );
-};
-
-export default ResultsSettings;
+}

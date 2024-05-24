@@ -5,7 +5,6 @@ import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
-import { type ClientComponent } from "@/types/next";
 
 export interface FacetItem {
   key: string | number;
@@ -34,10 +33,12 @@ export interface FacetContextValue {
 
 const FacetContext = React.createContext<FacetContextValue | null>(null);
 
-export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
-  facets,
-  children,
-}) => {
+interface FacetProviderProps {
+  facets?: FacetList;
+  children: React.ReactNode;
+}
+
+export function FacetProvider({ facets, children }: FacetProviderProps) {
   const [facetsWaitingForApply, setFacetsWaitingForApply] = React.useState<
     string[]
   >([]);
@@ -166,7 +167,7 @@ export const FacetProvider: ClientComponent<{ facets?: FacetList }, true> = ({
   return (
     <FacetContext.Provider value={context}>{children}</FacetContext.Provider>
   );
-};
+}
 
 export function useFacetContext() {
   const context = React.useContext(FacetContext);

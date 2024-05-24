@@ -7,9 +7,8 @@ import { Box } from "@mui/material";
 import HelpModal from "./HelpModal";
 import HelpIcon from "@/../public/help-icon.svg";
 import Button from "@/components/Button";
-import type { ClientComponent } from "@/types/next";
 
-const HelpButton: ClientComponent = () => {
+export default function HelpButton() {
   const t = useTranslations("help");
 
   const [helpModalOpen, setHelpModalOpen] = React.useState(false);
@@ -68,6 +67,4 @@ const HelpButton: ClientComponent = () => {
       <HelpModal open={helpModalOpen} onClose={closeHelpModal} />
     </>
   );
-};
-
-export default HelpButton;
+}

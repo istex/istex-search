@@ -16,13 +16,16 @@ import {
 import { lighten } from "@mui/system/colorManipulator";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import type { Result } from "@/lib/istexApi";
 import { useSearchParams } from "@/lib/hooks";
+import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
-import type { ClientComponent } from "@/types/next";
 
-const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
+interface ResultCardProps {
+  info: Result;
+}
+
+export default function ResultCard({ info }: ResultCardProps) {
   const {
     displayDocument,
     toggleSelectedDocument,
@@ -172,6 +175,4 @@ const ResultCard: ClientComponent<{ info: Result }> = ({ info }) => {
       </Stack>
     </Card>
   );
-};
-
-export default ResultCard;
+}

@@ -9,9 +9,8 @@ import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useDownload, useSearchParams } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
-import type { ClientComponent } from "@/types/next";
 
-const DownloadButton: ClientComponent = () => {
+export default function DownloadButton() {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
   const history = useHistoryContext();
@@ -59,6 +58,4 @@ const DownloadButton: ClientComponent = () => {
       {t("downloadButton")}
     </Button>
   );
-};
-
-export default DownloadButton;
+}

@@ -18,9 +18,8 @@ import {
   getIdsFromQueryString,
   parseCorpusFileContent,
 } from "@/lib/queryIds";
-import type { ClientComponent } from "@/types/next";
 
-const ImportInput: ClientComponent = () => {
+export default function ImportInput() {
   const t = useTranslations("home.SearchSection.ImportInput");
   const { queryString, goToResultsPage, errorInfo } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
@@ -180,6 +179,4 @@ const ImportInput: ClientComponent = () => {
       {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
     </Box>
   );
-};
-
-export default ImportInput;
+}

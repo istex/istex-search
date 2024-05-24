@@ -16,9 +16,8 @@ import {
   selectFormat,
 } from "@/lib/formats";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const FormatPicker: ClientComponent = () => {
+export default function FormatPicker() {
   const theme = useTheme();
   const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -62,7 +61,7 @@ const FormatPicker: ClientComponent = () => {
       )}
     </Grid>
   );
-};
+}
 
 interface FormatProps {
   name: string;
@@ -70,11 +69,7 @@ interface FormatProps {
   indeterminate?: boolean;
 }
 
-const Format: ClientComponent<FormatProps> = ({
-  name,
-  value,
-  indeterminate,
-}) => {
+function Format({ name, value, indeterminate }: FormatProps) {
   const t = useTranslations("config.formats");
   const router = useRouter();
   const pathname = usePathname();
@@ -112,11 +107,13 @@ const Format: ClientComponent<FormatProps> = ({
       onChange={handleChange}
     />
   );
-};
+}
 
-const FormatCategory: ClientComponent<{ name: FormatCategoryName }> = ({
-  name,
-}) => {
+interface FormatCategoryProps {
+  name: FormatCategoryName;
+}
+
+function FormatCategory({ name }: FormatCategoryProps) {
   const searchParams = useSearchParams();
   const wholeCategoryFormat = getWholeCategoryFormat(name);
   const selectedFormats = searchParams.getFormats();
@@ -153,6 +150,4 @@ const FormatCategory: ClientComponent<{ name: FormatCategoryName }> = ({
       </Box>
     </FormControl>
   );
-};
-
-export default FormatPicker;
+}

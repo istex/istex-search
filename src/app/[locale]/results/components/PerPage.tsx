@@ -14,7 +14,6 @@ import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
 interface PerPageProps {
   fontSize: string;
@@ -22,11 +21,11 @@ interface PerPageProps {
   selectColor: string;
 }
 
-const PerPage: ClientComponent<PerPageProps> = ({
+export default function PerPage({
   fontSize,
   labelColor,
   selectColor,
-}) => {
+}: PerPageProps) {
   const t = useTranslations("results");
   const router = useRouter();
   const pathname = usePathname();
@@ -108,6 +107,4 @@ const PerPage: ClientComponent<PerPageProps> = ({
       </Select>
     </Stack>
   );
-};
-
-export default PerPage;
+}

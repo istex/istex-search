@@ -6,7 +6,6 @@ import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import type { Palette } from "@mui/material/styles";
 import { lighten } from "@mui/system/colorManipulator";
-import type { ClientComponent } from "@/types/next";
 import type { KeyOf } from "@/types/utility";
 
 interface CustomButtonProps extends MuiButtonProps {
@@ -16,7 +15,7 @@ interface CustomButtonProps extends MuiButtonProps {
 }
 
 // Wrapper component to change the default value of the 'variant' prop from 'text' to 'contained'
-const CustomButton: ClientComponent<CustomButtonProps> = (props) => {
+function CustomButton(props: CustomButtonProps) {
   let { variant, mainColor, secondaryColor, ...rest } = props;
 
   if (variant == null) {
@@ -24,7 +23,7 @@ const CustomButton: ClientComponent<CustomButtonProps> = (props) => {
   }
 
   return <MuiButton variant={variant} {...rest} />;
-};
+}
 
 const Button = styled(CustomButton)<CustomButtonProps>(({
   variant,

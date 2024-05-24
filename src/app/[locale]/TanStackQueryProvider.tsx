@@ -1,8 +1,8 @@
 "use client";
 
+import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import type { ClientComponent } from "@/types/next";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -33,7 +33,13 @@ function getQueryClient() {
   return browserQueryClient;
 }
 
-const TanStackQueryProvider: ClientComponent<{}, true> = ({ children }) => {
+interface TanStackQueryProviderProps {
+  children: React.ReactNode;
+}
+
+export default function TanStackQueryProvider({
+  children,
+}: TanStackQueryProviderProps) {
   const queryClient = getQueryClient();
 
   return (
@@ -42,6 +48,4 @@ const TanStackQueryProvider: ClientComponent<{}, true> = ({ children }) => {
       <ReactQueryDevtools buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
-};
-
-export default TanStackQueryProvider;
+}

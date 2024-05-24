@@ -9,7 +9,6 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
-import type { ServerComponent } from "@/types/next";
 
 const panelStyles: SxProps = {
   "&.MuiPaper-root": {
@@ -18,7 +17,7 @@ const panelStyles: SxProps = {
   p: 2,
 };
 
-const InfoPanels: ServerComponent = () => {
+export default function InfoPanels() {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
   const searchParams = useSearchParams();
@@ -106,6 +105,4 @@ const InfoPanels: ServerComponent = () => {
       </Grid>
     </>
   );
-};
-
-export default InfoPanels;
+}

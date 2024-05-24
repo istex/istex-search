@@ -6,9 +6,8 @@ import { usages, type UsageName } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
-import type { ClientComponent } from "@/types/next";
 
-const UsageSelector: ClientComponent = () => {
+export default function UsageSelector() {
   const t = useTranslations("config.usages");
   const router = useRouter();
   const pathname = usePathname();
@@ -37,6 +36,4 @@ const UsageSelector: ClientComponent = () => {
       t={(usage) => t(`${usage}.label`)}
     />
   );
-};
-
-export default UsageSelector;
+}

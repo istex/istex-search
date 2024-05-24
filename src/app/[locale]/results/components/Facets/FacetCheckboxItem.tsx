@@ -4,7 +4,6 @@ import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import IncludeIcon from "./IncludeIcon";
-import type { ClientComponent } from "@/types/next";
 
 interface FacetCheckboxItemProps {
   name: string;
@@ -16,7 +15,7 @@ interface FacetCheckboxItemProps {
   onChange: () => void;
 }
 
-const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
+export default function FacetCheckboxItem({
   name,
   value,
   count,
@@ -24,7 +23,7 @@ const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
   excluded,
   disabled,
   onChange,
-}) => {
+}: FacetCheckboxItemProps) {
   const t = useTranslations("results");
   const locale = useLocale();
   const [checkedFacet, setCheckedFacet] = React.useState<boolean>(
@@ -89,6 +88,4 @@ const FacetCheckboxItem: ClientComponent<FacetCheckboxItemProps> = ({
       }
     />
   );
-};
-
-export default FacetCheckboxItem;
+}

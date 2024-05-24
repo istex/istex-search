@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";

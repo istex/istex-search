@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";

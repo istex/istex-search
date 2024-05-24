@@ -1,5 +1,3 @@
-"use client";
-
 import { Grid, Divider as MuiDivider } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DownloadButton from "./DownloadButton";

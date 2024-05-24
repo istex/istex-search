@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";

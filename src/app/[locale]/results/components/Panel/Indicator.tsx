@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";

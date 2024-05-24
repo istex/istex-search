@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import FileIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import {

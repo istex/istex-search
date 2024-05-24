@@ -1,5 +1,3 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Stack } from "@mui/material";

@@ -1,5 +1,3 @@
-"use client";
-
 import { Box } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
 import { usages, formats } from "@/config";

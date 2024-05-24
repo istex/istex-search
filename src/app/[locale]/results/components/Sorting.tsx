@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";

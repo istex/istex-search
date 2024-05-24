@@ -1,5 +1,3 @@
-"use client";
-
 import { Skeleton, Stack } from "@mui/material";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";

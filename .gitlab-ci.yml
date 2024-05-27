@@ -1,8 +1,30 @@
 variables:
   npm_config_cache: $CI_PROJECT_DIR/.npm
+  VERSION_PATTERN: /^v[0-9]+\.[0-9]+\.[0-9]+/
+
+.is-working-branch: &is-working-branch
+  - if: $CI_COMMIT_REF_PROTECTED == "false" && $CI_PIPELINE_SOURCE != "merge_request_event"
+
+.is-dev: &is-dev
+  - if: $CI_COMMIT_BRANCH == "dev"
 
 .is-version-tag: &is-version-tag
-  - if: $CI_COMMIT_TAG =~ /^v[0-9]+\.[0-9]+\.[0-9]+/
+  - if: $CI_COMMIT_TAG =~ $VERSION_PATTERN
+
+.is-not-version-tag: &is-not-version-tag
+  - if: $CI_COMMIT_TAG =~ $VERSION_PATTERN
+    when: never
+
+.is-schedule: &is-schedule
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+
+.is-not-schedule: &is-not-schedule
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+    when: never
+
+.manual-if-renovate-commit: &manual-if-renovate-commit
+  - if: $CI_COMMIT_MESSAGE =~ /^\[Renovate\]/
+    when: manual
 
 default:
   image:
@@ -32,11 +54,17 @@ build:
     - key: $CI_COMMIT_REF_SLUG
       paths:
         - .next/cache
+  rules:
+    - *is-not-version-tag
+    - *is-working-branch
   script:
     - npm run lint && npm run build
 
 test:
   stage: test
+  rules:
+    - *is-not-version-tag
+    - *is-working-branch
   script:
     - npm run test:ci
   artifacts:
@@ -51,9 +79,11 @@ deploy:dev:
     - runner-dev
   environment: development
   resource_group: development
-  rules:
-    - if: $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "dev"
   cache: []
+  rules:
+    - *is-not-schedule
+    - *manual-if-renovate-commit
+    - *is-dev
   before_script: []
   script:
     - ./scripts/deploy-dev.sh
@@ -63,9 +93,9 @@ deploy:docker:
   image:
     name: gcr.io/kaniko-project/executor:v1.22.0-debug
     entrypoint: [""]
+  cache: []
   rules:
     - *is-version-tag
-  cache: []
   before_script:
     - cat $NEXUS_AUTH_CONFIG | base64 -d > /kaniko/.docker/config.json
   script:
@@ -78,12 +108,13 @@ deploy:docker:
 renovate:
   stage: renovate
   image: renovate/renovate:37.372-slim
-  tags:
-    - docker
   interruptible: false
+  cache: []
+  rules:
+    - *is-schedule
+  before_script: []
   script:
     - renovate
-    - renovate-config-validator
   variables:
     RENOVATE_AUTODISCOVER: true
     RENOVATE_AUTODISCOVER_FILTER: "/^istex\/istex-search\/istex-search$/"
@@ -92,5 +123,3 @@ renovate:
     RENOVATE_TOKEN: $GITLAB_TOKEN
     RENOVATE_COMMIT_MESSAGE_PREFIX: "[Renovate]"
     LOG_LEVEL: debug
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "schedule"

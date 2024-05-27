@@ -11,7 +11,7 @@
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --ci --verbose --reporters=default --reporters=jest-junit",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
     "prepare": "husky"
   },
   "dependencies": {

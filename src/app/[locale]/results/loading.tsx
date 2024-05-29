@@ -1,5 +1,4 @@
-import { Skeleton, Stack } from "@mui/material";
-import ResultsGrid from "./components/ResultsGrid";
+import { Box, Skeleton, Stack } from "@mui/material";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
 
@@ -45,8 +44,22 @@ export default function Loading() {
             />
           </Stack>
 
+          {/* Results toolbar */}
+          <Skeleton
+            variant="rectangular"
+            sx={{ mt: 1, borderRadius: 1, height: "3rem" }}
+          />
+
           {/* Results */}
-          <ResultsGrid>
+          <Box
+            id="results-grid"
+            sx={{
+              my: 1,
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+              gap: 2,
+            }}
+          >
             {Array(MIN_PER_PAGE)
               .fill(0)
               .map((_, i) => (
@@ -59,7 +72,7 @@ export default function Loading() {
                   }}
                 />
               ))}
-          </ResultsGrid>
+          </Box>
 
           {/* Pagination */}
           <Skeleton

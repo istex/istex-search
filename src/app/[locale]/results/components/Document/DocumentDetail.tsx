@@ -213,7 +213,7 @@ export default function DocumentDetail() {
                     fontSize: "0.8rem",
                   }}
                 >
-                  {t("fullText")}
+                  {t("fulltext")}
                 </Typography>
                 <FileList
                   files={displayedDocument.fulltext}

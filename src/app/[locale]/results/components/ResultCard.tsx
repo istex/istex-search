@@ -1,11 +1,10 @@
-"use client";
-
 import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -14,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
+import FileList, { type FileListProps } from "./Document/FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useSearchParams } from "@/lib/hooks";
@@ -23,9 +23,10 @@ import { montserrat } from "@/mui/fonts";
 
 interface ResultCardProps {
   info: Result;
+  displayIcons?: boolean;
 }
 
-export default function ResultCard({ info }: ResultCardProps) {
+export default function ResultCard({ info, displayIcons }: ResultCardProps) {
   const {
     displayDocument,
     toggleSelectedDocument,
@@ -55,17 +56,18 @@ export default function ResultCard({ info }: ResultCardProps) {
         flexDirection: "column",
       })}
     >
-      <CardActionArea
-        onClick={() => {
-          displayDocument(info.id);
-        }}
+      <CardContent
         sx={{
-          flexGrow: 1,
+          height: "100%",
         }}
       >
-        <CardContent
+        <CardActionArea
+          onClick={() => {
+            displayDocument(info.id);
+          }}
           sx={{
-            height: "100%",
+            flexGrow: 1,
+            borderRadius: 1.5,
           }}
         >
           <Typography
@@ -119,20 +121,45 @@ export default function ResultCard({ info }: ResultCardProps) {
               fontSize: "0.8rem",
               color: "colors.grey",
               maxHeight: "10em",
+              mb: 1,
               ...lineclamp(6),
             }}
           >
             {info.abstract}
           </Typography>
-        </CardContent>
-      </CardActionArea>
+        </CardActionArea>
+
+        {displayIcons === true && (
+          <Stack direction="row" gap={1}>
+            {info.fulltext != null && (
+              <FileIcons files={info.fulltext} titleKey="fulltext" />
+            )}
+            {info.metadata != null && (
+              <FileIcons files={info.metadata} titleKey="metadata" />
+            )}
+            {info.annexes != null && (
+              <FileIcons files={info.annexes} titleKey="annexes" />
+            )}
+            {info.enrichments != null && (
+              <FileIcons
+                files={Object.entries(info.enrichments).map((enrichment) => ({
+                  key: enrichment[0],
+                  extension: enrichment[1][0].extension,
+                  uri: enrichment[1][0].uri,
+                }))}
+                titleKey="enrichments"
+              />
+            )}
+          </Stack>
+        )}
+      </CardContent>
       <Stack
         direction="row"
         sx={{
           "& .MuiButton-root": {
             flex: "1 1 0",
             borderRadius: 0,
-            fontSize: "0.6875rem",
+            fontSize: "0.75rem",
           },
           "& .MuiSvgIcon-root": {
             mr: 0.625,
@@ -174,5 +201,24 @@ export default function ResultCard({ info }: ResultCardProps) {
         )}
       </Stack>
     </Card>
+  );
+}
+
+function FileIcons({ files, titleKey }: FileListProps) {
+  const t = useTranslations("results.Document");
+
+  return (
+    <Box sx={{ fontSize: "0.8rem" }}>
+      <Typography
+        component="h4"
+        variant="subtitle2"
+        sx={{
+          fontSize: "inherit",
+        }}
+      >
+        {t(titleKey)}
+      </Typography>
+      <FileList files={files} titleKey={titleKey} />
+    </Box>
   );
 }

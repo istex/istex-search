@@ -14,7 +14,7 @@ import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
 
-interface FileListProps {
+export interface FileListProps {
   files: { key?: string; extension: string; uri: string }[];
   titleKey: string;
 }
@@ -23,7 +23,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
   const t = useTranslations("results.Document.formatsLinks");
 
   return (
-    <Stack direction="row" flexWrap="wrap" gap={1}>
+    <Stack direction="row" flexWrap="wrap" gap={0.5}>
       {files.map(({ key, extension, uri }, index) => {
         const fullUri = new URL(uri);
         fullUri.searchParams.set("sid", "istex-search");
@@ -40,7 +40,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             sx={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "colors.veryLightBlue",
+              backgroundColor: "white",
               borderRadius: 1,
               p: 0.5,
               "&:hover": {
@@ -49,7 +49,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             }}
           >
             {getIcon(extension, {
-              sx: { fontSize: "2.2rem", filter: "grayscale(100%);" },
+              sx: { fontSize: "1.75rem" },
             })}
             <Typography
               variant="caption"

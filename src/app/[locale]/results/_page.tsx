@@ -11,7 +11,6 @@ import {
 import Filters from "./components/Filters/Filters";
 import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
-import ResultCard from "./components/ResultCard";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import ErrorCard from "@/components/ErrorCard";
@@ -170,11 +169,7 @@ export default async function ResultsPage({
 
                 <Filters />
 
-                <ResultsGrid>
-                  {results.hits.map((result) => (
-                    <ResultCard key={result.id} info={result} />
-                  ))}
-                </ResultsGrid>
+                <ResultsGrid results={results.hits} />
 
                 <Pagination />
               </Stack>

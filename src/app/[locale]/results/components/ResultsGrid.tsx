@@ -3,13 +3,15 @@
 import * as React from "react";
 import { Box } from "@mui/material";
 import DocumentDetail from "./Document/DocumentDetail";
+import ResultCard from "./ResultCard";
 import ResultsToolbar from "./ResultsToolbar";
+import type { Result } from "@/lib/istexApi";
 
 interface ResultsGridProps {
-  children: React.ReactNode;
+  results: Result[];
 }
 
-export default function ResultsGrid({ children }: ResultsGridProps) {
+export default function ResultsGrid({ results }: ResultsGridProps) {
   const [columns, setColumns] = React.useState(2);
 
   return (
@@ -25,7 +27,13 @@ export default function ResultsGrid({ children }: ResultsGridProps) {
           gap: 2,
         }}
       >
-        {children}
+        {results.map((result) => (
+          <ResultCard
+            key={result.id}
+            info={result}
+            displayIcons={columns === 1}
+          />
+        ))}
       </Box>
 
       <DocumentDetail />

@@ -16,6 +16,12 @@ describe("ResultCard", () => {
       },
     ],
     abstract: "Abstract",
+    fulltext: [
+      {
+        uri: "https://example.com",
+        extension: "pdf",
+      },
+    ],
   };
 
   it("should render correctly", () => {
@@ -24,6 +30,22 @@ describe("ResultCard", () => {
     expect(screen.getByText("Host title")).toBeInTheDocument();
     expect(screen.getByText("Author name")).toBeInTheDocument();
     expect(screen.getByText("Abstract")).toBeInTheDocument();
+  });
+
+  it("displays the file icons when displayIcons is true", () => {
+    render(<ResultCard info={document} displayIcons />);
+
+    const pdfLink = screen.getByRole("link", { name: "pdf" });
+
+    expect(pdfLink).toBeInTheDocument();
+  });
+
+  it("doesn't display the file icons when displayIcons not true", () => {
+    render(<ResultCard info={document} />);
+
+    const pdfLink = screen.queryByRole("link", { name: "pdf" });
+
+    expect(pdfLink).not.toBeInTheDocument();
   });
 
   it("should handle selection correctly", async () => {

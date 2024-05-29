@@ -70,7 +70,7 @@ export default function HistoryItem({
       url.searchParams.set(key, value);
     }
 
-    share(url);
+    share("corpus", url);
   };
 
   const handleDownload = () => {

@@ -15,13 +15,13 @@ export function useOnHomePage() {
 export function useShare() {
   const t = useTranslations("results.Share.email");
 
-  return (url: URL) => {
+  return (type: "corpus" | "document", url: URL) => {
     if (typeof window !== "undefined") {
       window.location.href =
         "mailto:?subject=" +
-        encodeURIComponent(t("subject")) +
+        encodeURIComponent(t(`${type}.subject`)) +
         "&body=" +
-        encodeURIComponent(t("body", { url: url.href }));
+        encodeURIComponent(t(`${type}.body`, { url: url.href }));
     }
   };
 }

@@ -584,8 +584,14 @@
     },
     "Share": {
       "email": {
-        "subject": "Une recherche Istex a été partagée avec vous",
-        "body": "Voici le lien vers la recherche Istex partagée\u000A{url}"
+        "corpus": {
+          "subject": "Une recherche Istex a été partagée avec vous",
+          "body": "Voici le lien vers la recherche Istex partagée\u000A{url}"
+        },
+        "document": {
+          "subject": "Un document Istex a été partagé avec vous",
+          "body": "Voici le lien vers le document Istex partagé\u000A{url}"
+        }
       }
     }
   },

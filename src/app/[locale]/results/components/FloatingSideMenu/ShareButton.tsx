@@ -12,7 +12,7 @@ export default function ShareButton() {
   const share = useShare();
 
   const handleShareButton = () => {
-    share(new URL(window.location.href));
+    share("corpus", new URL(window.location.href));
   };
 
   if (onHomePage) {

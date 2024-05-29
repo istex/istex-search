@@ -9,6 +9,7 @@ import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useShare } from "@/lib/hooks";
 
 export default function DocumentDetail() {
   const {
@@ -21,6 +22,7 @@ export default function DocumentDetail() {
   } = useDocumentContext();
   const t = useTranslations("results.Document");
   const tTags = useTranslations("results.Document.tags");
+  const share = useShare();
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
@@ -34,6 +36,17 @@ export default function DocumentDetail() {
     displayedDocument != null
       ? excludedDocuments.includes(displayedDocument.arkIstex)
       : false;
+
+  const shareDocument = () => {
+    if (displayedDocument == null) {
+      return;
+    }
+
+    const url = new URL(window.location.href);
+    url.search = `?q=${encodeURIComponent(`arkIstex.raw:"${displayedDocument.arkIstex}"`)}`;
+
+    share("document", url);
+  };
 
   return (
     <Drawer
@@ -130,6 +143,7 @@ export default function DocumentDetail() {
             </Typography>
             <Typography
               component="span"
+              onClick={shareDocument}
               sx={{
                 font: "inherit",
                 color: "colors.lightBlack",

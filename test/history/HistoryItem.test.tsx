@@ -75,6 +75,7 @@ describe("HistoryItem", () => {
     await userEvent.click(shareButton);
 
     expect(share).toHaveBeenCalledWith(
+      "corpus",
       expect.objectContaining({
         search: "?q=hello&size=3&extract=metadata%5Bjson%5D",
       }),

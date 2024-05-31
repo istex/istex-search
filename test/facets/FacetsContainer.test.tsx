@@ -1,4 +1,9 @@
-import { fireEvent, customRender as render, screen } from "../test-utils";
+import {
+  customRender as render,
+  mockSearchParams,
+  screen,
+  userEvent,
+} from "../test-utils";
 import { useFacetContext } from "@/app/[locale]/results/components/Facets/FacetContext";
 import FacetsContainer from "@/app/[locale]/results/components/Facets/FacetsContainer";
 
@@ -22,7 +27,7 @@ describe("FacetsContainer", () => {
     jest.resetAllMocks();
   });
 
-  it("should call clearAllFacets when clear all button is clicked", () => {
+  it("should call clearAllFacets when clear all button is clicked", async () => {
     const clearAllFacetsMock = jest.fn();
 
     (useFacetContext as jest.Mock).mockReturnValue({
@@ -31,10 +36,14 @@ describe("FacetsContainer", () => {
       clearAllFacets: clearAllFacetsMock,
     });
 
+    mockSearchParams({
+      filter: `{"${facetTitle}": ["elsevier"]}`,
+    });
+
     render(<FacetsContainer />);
 
     const clearAllButton = screen.getByText("Effacer tout");
-    fireEvent.click(clearAllButton);
+    await userEvent.click(clearAllButton);
     expect(clearAllFacetsMock).toHaveBeenCalledTimes(1);
   });
 });

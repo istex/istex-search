@@ -1,4 +1,9 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
+import {
+  mockSearchParams,
+  customRender as render,
+  screen,
+  userEvent,
+} from "../test-utils";
 import FacetActions from "@/app/[locale]/results/components/Facets/FacetActions";
 import { useFacetContext } from "@/app/[locale]/results/components/Facets/FacetContext";
 
@@ -125,6 +130,10 @@ describe("FacetActions", () => {
       facetsWaitingForApply: [],
       clearOneFacet: clearOneFacetMock,
       applyOneFacet: jest.fn(),
+    });
+
+    mockSearchParams({
+      filter: `{"${facetTitle}": ["elsevier"]}`,
     });
 
     render(<FacetActions facetTitle={facetTitle} />);

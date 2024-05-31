@@ -12,6 +12,7 @@ import { useSearchParams } from "@/lib/hooks";
 export default function FacetsContainer() {
   const t = useTranslations("results.Facets");
   const searchParams = useSearchParams();
+  const filters = searchParams.getFilters();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { facetsList, clearAllFacets } = useFacetContext();
 
@@ -61,7 +62,7 @@ export default function FacetsContainer() {
       <Button
         startIcon={<DeleteIcon />}
         size="medium"
-        disabled={isImportSearchMode}
+        disabled={Object.keys(filters).length === 0 || isImportSearchMode}
         onClick={clearAllFacets}
         sx={{
           alignSelf: "center",

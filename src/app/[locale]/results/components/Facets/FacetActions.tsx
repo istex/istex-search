@@ -3,6 +3,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Stack } from "@mui/material";
 import { useFacetContext } from "./FacetContext";
 import Button from "@/components/Button";
+import { useSearchParams } from "@/lib/hooks";
 
 interface FacetActionsProps {
   facetTitle: string;
@@ -14,6 +15,8 @@ export default function FacetActions({
   disabled,
 }: FacetActionsProps) {
   const t = useTranslations("results.Facets");
+  const searchParams = useSearchParams();
+  const filters = searchParams.getFilters();
 
   const { clearOneFacet, applyOneFacet, facetsWaitingForApply } =
     useFacetContext();
@@ -39,7 +42,7 @@ export default function FacetActions({
         mainColor="grey"
         aria-label={t("clear")}
         title={t("clear")}
-        disabled={disabled}
+        disabled={!Object.keys(filters).includes(facetTitle) || disabled}
         onClick={() => {
           clearOneFacet(facetTitle);
         }}

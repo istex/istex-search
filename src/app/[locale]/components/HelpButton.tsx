@@ -32,12 +32,12 @@ export default function HelpButton() {
         })}
       >
         <Box
-          sx={(theme) => ({
+          sx={{
             display: "flex",
             alignItems: "center",
             justifyContent: "end",
-            mr: theme.spacing(6),
-          })}
+            mr: { sm: 6, xs: 1 },
+          }}
         >
           <Box
             sx={(theme) => ({

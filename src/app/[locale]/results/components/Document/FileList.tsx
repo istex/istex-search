@@ -36,7 +36,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             aria-label={key ?? extension}
             key={index}
             disableRipple
-            title={t(titleKey, { key, extension })}
+            title={t(titleKey, { key, extension: extension.toUpperCase() })}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -49,7 +49,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             }}
           >
             {getIcon(extension, {
-              sx: { fontSize: "1.75rem" },
+              sx: { fontSize: "1.75rem", filter: "grayscale(100%)" },
             })}
             <Typography
               variant="caption"

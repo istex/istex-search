@@ -130,7 +130,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
         </CardActionArea>
 
         {displayIcons === true && (
-          <Stack direction="row" gap={1}>
+          <Stack direction="row" gap={2}>
             {info.fulltext != null && (
               <FileIcons files={info.fulltext} titleKey="fulltext" />
             )}

@@ -97,7 +97,7 @@ describe("DocumentDetail", () => {
     expect(pdfLink).toHaveAttribute("href", dummyUriWithSid);
     expect(pdfLink).toHaveAttribute(
       "title",
-      "Accéder au texte intégral au format pdf",
+      "Accéder au texte intégral au format PDF",
     );
 
     expect(within(drawer).getByText("zip")).toBeInTheDocument();
@@ -105,7 +105,7 @@ describe("DocumentDetail", () => {
     expect(zipLink).toHaveAttribute("href", dummyUriWithSid);
     expect(zipLink).toHaveAttribute(
       "title",
-      "Accéder au texte intégral au format zip",
+      "Accéder au texte intégral au format ZIP",
     );
 
     expect(within(drawer).getByText("xml")).toBeInTheDocument();
@@ -113,7 +113,7 @@ describe("DocumentDetail", () => {
     expect(xmlLink).toHaveAttribute("href", dummyUriWithSid);
     expect(xmlLink).toHaveAttribute(
       "title",
-      "Accéder aux métadonnées au format xml",
+      "Accéder aux métadonnées au format XML",
     );
 
     expect(within(drawer).getByText("json")).toBeInTheDocument();
@@ -121,7 +121,7 @@ describe("DocumentDetail", () => {
     expect(jsonLink).toHaveAttribute("href", dummyUriWithSid);
     expect(jsonLink).toHaveAttribute(
       "title",
-      "Accéder aux métadonnées au format json",
+      "Accéder aux métadonnées au format JSON",
     );
 
     expect(within(drawer).getByText("jpg")).toBeInTheDocument();
@@ -129,7 +129,7 @@ describe("DocumentDetail", () => {
     expect(jpgLink).toHaveAttribute("href", dummyUriWithSid);
     expect(jpgLink).toHaveAttribute(
       "title",
-      "Accéder à l'annexe au format jpg",
+      "Accéder à l'annexe au format JPG",
     );
 
     expect(within(drawer).getByText("nb")).toBeInTheDocument();
@@ -137,7 +137,7 @@ describe("DocumentDetail", () => {
     expect(nbLink).toHaveAttribute("href", dummyUriWithSid);
     expect(nbLink).toHaveAttribute(
       "title",
-      "Accéder à l'enrichissement nb au format tei",
+      "Accéder à l'enrichissement nb au format TEI",
     );
 
     expect(within(drawer).getByText("teeft")).toBeInTheDocument();
@@ -145,7 +145,7 @@ describe("DocumentDetail", () => {
     expect(teeftLink).toHaveAttribute("href", dummyUriWithSid);
     expect(teeftLink).toHaveAttribute(
       "title",
-      "Accéder à l'enrichissement teeft au format tei",
+      "Accéder à l'enrichissement teeft au format TEI",
     );
   });
 

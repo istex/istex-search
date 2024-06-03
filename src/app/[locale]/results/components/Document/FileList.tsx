@@ -20,7 +20,7 @@ export interface FileListProps {
 }
 
 export default function FileList({ files, titleKey }: FileListProps) {
-  const t = useTranslations("results.Document.formatsLinks");
+  const t = useTranslations("results.Document");
 
   return (
     <Stack direction="row" flexWrap="wrap" gap={0.5}>
@@ -36,7 +36,10 @@ export default function FileList({ files, titleKey }: FileListProps) {
             aria-label={key ?? extension}
             key={index}
             disableRipple
-            title={t(titleKey, { key, extension: extension.toUpperCase() })}
+            title={t(`formatsLinks.${titleKey}`, {
+              key: key != null ? t(`enrichmentNames.${key}`) : undefined,
+              extension: extension.toUpperCase(),
+            })}
             sx={{
               display: "flex",
               flexDirection: "column",
@@ -53,7 +56,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             <Typography
               variant="caption"
               sx={{
-                textTransform: key != null ? "capitalize" : "lowercase",
+                textTransform: "lowercase",
                 fontSize: "0.7rem",
                 color: "colors.blue",
                 maxHeight: "1rem",

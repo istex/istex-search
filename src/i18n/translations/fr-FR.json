@@ -543,6 +543,14 @@
         "publicationDate": "Année de publication",
         "arkIstex": "Identifiant ARK"
       },
+      "enrichmentNames": {
+        "grobidFulltext": "GrobidFulltext",
+        "multicat": "Multicat",
+        "nb": "Nb",
+        "refBibs": "RefBibs",
+        "teeft": "Teeft",
+        "unitex": "Unitex"
+      },
       "formatsLinks": {
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",

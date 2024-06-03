@@ -40,20 +40,24 @@ export default function FileList({ files, titleKey }: FileListProps) {
             sx={{
               display: "flex",
               flexDirection: "column",
-              backgroundColor: "white",
-              borderRadius: 1,
               p: 0.5,
-              "&:hover": {
-                color: "colors.blue",
-              },
+              maxWidth: "4rem",
+              overflow: "hidden",
+              wordBreak: "break-all",
+              borderRadius: 0,
             }}
           >
             {getIcon(extension, {
-              sx: { fontSize: "1.75rem", filter: "grayscale(100%)" },
+              sx: { fontSize: "1.5rem" },
             })}
             <Typography
               variant="caption"
-              sx={{ textTransform: "uppercase", fontSize: "0.7rem" }}
+              sx={{
+                textTransform: key != null ? "capitalize" : "lowercase",
+                fontSize: "0.7rem",
+                color: "colors.blue",
+                maxHeight: "1rem",
+              }}
             >
               {key ?? extension}
             </Typography>

@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import DocumentDetail from "./Document/DocumentDetail";
 import ResultCard from "./ResultCard";
 import ResultsToolbar from "./ResultsToolbar";
@@ -13,6 +14,8 @@ interface ResultsGridProps {
 
 export default function ResultsGrid({ results }: ResultsGridProps) {
   const [columns, setColumns] = React.useState(2);
+  const theme = useTheme();
+  const xs = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <>
@@ -31,7 +34,7 @@ export default function ResultsGrid({ results }: ResultsGridProps) {
           <ResultCard
             key={result.id}
             info={result}
-            displayIcons={columns === 1}
+            displayIcons={columns === 1 && !xs}
           />
         ))}
       </Box>

@@ -120,6 +120,5 @@ renovate:
     RENOVATE_AUTODISCOVER_FILTER: "/^istex\/istex-search\/istex-search$/"
     RENOVATE_PLATFORM: gitlab
     RENOVATE_ENDPOINT: $CI_API_V4_URL
-    RENOVATE_TOKEN: $GITLAB_TOKEN
     RENOVATE_COMMIT_MESSAGE_PREFIX: "[Renovate]"
     LOG_LEVEL: debug

@@ -121,4 +121,3 @@ renovate:
     RENOVATE_PLATFORM: gitlab
     RENOVATE_ENDPOINT: $CI_API_V4_URL
     RENOVATE_COMMIT_MESSAGE_PREFIX: "[Renovate]"
-    LOG_LEVEL: debug

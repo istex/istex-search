@@ -1,14 +1,9 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const TxtIcon = (props: SvgIconProps) => {
+export default function TxtIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 25 32" {...props}>
-      <rect
-        width="25"
-        height="32"
-        fill="url(#pattern-txt)"
-        style={{ mixBlendMode: "luminosity" }}
-      />
+      <rect width="25" height="32" fill="url(#pattern-txt)" />
       <defs>
         <pattern
           id="pattern-txt"
@@ -30,6 +25,4 @@ const TxtIcon = (props: SvgIconProps) => {
       </defs>
     </SvgIcon>
   );
-};
-
-export default TxtIcon;
+}

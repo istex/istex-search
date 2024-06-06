@@ -1,14 +1,9 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const TeiIcon = (props: SvgIconProps) => {
+export default function TeiIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 25 32" {...props}>
-      <rect
-        width="25"
-        height="32"
-        fill="url(#pattern-tei)"
-        style={{ mixBlendMode: "luminosity" }}
-      />
+      <rect width="25" height="32" fill="url(#pattern-tei)" />
       <defs>
         <pattern
           id="pattern-tei"
@@ -30,6 +25,4 @@ const TeiIcon = (props: SvgIconProps) => {
       </defs>
     </SvgIcon>
   );
-};
-
-export default TeiIcon;
+}

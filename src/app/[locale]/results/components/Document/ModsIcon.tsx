@@ -1,14 +1,9 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const ModsIcon = (props: SvgIconProps) => {
+export default function ModsIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 25 32" {...props}>
-      <rect
-        width="25"
-        height="32"
-        fill="url(#pattern-mods)"
-        style={{ mixBlendMode: "luminosity" }}
-      />
+      <rect width="25" height="32" fill="url(#pattern-mods)" />
       <defs>
         <pattern
           id="pattern-mods"
@@ -30,6 +25,4 @@ const ModsIcon = (props: SvgIconProps) => {
       </defs>
     </SvgIcon>
   );
-};
-
-export default ModsIcon;
+}

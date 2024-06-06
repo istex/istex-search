@@ -12,21 +12,50 @@ interface ResultsGridProps {
   results: Result[];
 }
 
+const COLUMN_COUNT_KEY = "columnState";
+const DEFAULT_COLUMN_COUNT = 2;
+
 export default function ResultsGrid({ results }: ResultsGridProps) {
-  const [columns, setColumns] = React.useState(2);
+  const [columnCount, setColumnCount] = React.useState(DEFAULT_COLUMN_COUNT);
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const changeColumnCount = (newColumnCount: number) => {
+    // The column count is stored in local storage to be persistent across pages
+    localStorage.setItem(COLUMN_COUNT_KEY, newColumnCount.toString());
+
+    setColumnCount(newColumnCount);
+  };
+
+  React.useEffect(() => {
+    const columnCountFromLocalStorage = localStorage.getItem(COLUMN_COUNT_KEY);
+    const columnCountFromLocalStorageAsNumber = Number(
+      columnCountFromLocalStorage,
+    );
+
+    // Initialize the local storage the first time
+    if (
+      columnCountFromLocalStorage == null ||
+      Number.isNaN(columnCountFromLocalStorageAsNumber)
+    ) {
+      localStorage.setItem(COLUMN_COUNT_KEY, DEFAULT_COLUMN_COUNT.toString());
+
+      return;
+    }
+
+    setColumnCount(columnCountFromLocalStorageAsNumber);
+  }, []);
+
   return (
     <>
-      <ResultsToolbar columns={columns} setColumns={setColumns} />
+      <ResultsToolbar columns={columnCount} setColumns={changeColumnCount} />
 
       <Box
         id="results-grid"
         sx={{
           my: 1,
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: `repeat(${columns}, 1fr)` },
+          gridTemplateColumns: { xs: "1fr", sm: `repeat(${columnCount}, 1fr)` },
           gap: 2,
         }}
       >
@@ -34,7 +63,7 @@ export default function ResultsGrid({ results }: ResultsGridProps) {
           <ResultCard
             key={result.id}
             info={result}
-            displayIcons={columns === 1 && !xs}
+            displayIcons={columnCount === 1 && !xs}
           />
         ))}
       </Box>

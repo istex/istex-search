@@ -1,15 +1,20 @@
 import { useTranslations } from "next-intl";
-import FileIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import {
   IconButton,
   Stack,
   Typography,
   type SvgIconProps,
 } from "@mui/material";
+import BlankIcon from "./BlankIcon";
+import BmpIcon from "./BmpIcon";
+import GifIcon from "./GifIcon";
+import JpegIcon from "./JpegIcon";
 import JsonIcon from "./JsonIcon";
 import ModsIcon from "./ModsIcon";
 import PdfIcon from "./PdfIcon";
+import PngIcon from "./PngIcon";
 import TeiIcon from "./TeiIcon";
+import TiffIcon from "./TiffIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
@@ -38,7 +43,10 @@ export default function FileList({ files, titleKey }: FileListProps) {
             disableRipple
             title={t(`formatsLinks.${titleKey}`, {
               key: key != null ? t(`enrichmentNames.${key}`) : undefined,
-              extension: extension.toUpperCase(),
+              // There is currently a bug in the API where some files have no extension
+              // TODO: remove optional chaining and eslint-disable when the API is fixed
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+              extension: extension?.toUpperCase(),
             })}
             sx={{
               display: "flex",
@@ -72,22 +80,49 @@ export default function FileList({ files, titleKey }: FileListProps) {
 }
 
 function getIcon(extension: string, props: SvgIconProps) {
+  let Component;
+
   switch (extension) {
     case "pdf":
-      return <PdfIcon {...props} />;
+      Component = PdfIcon;
+      break;
     case "zip":
-      return <ZipIcon {...props} />;
+      Component = ZipIcon;
+      break;
     case "tei":
-      return <TeiIcon {...props} />;
+      Component = TeiIcon;
+      break;
     case "txt":
-      return <TxtIcon {...props} />;
+    case "cleaned":
+      Component = TxtIcon;
+      break;
     case "xml":
-      return <XmlIcon {...props} />;
+      Component = XmlIcon;
+      break;
     case "mods":
-      return <ModsIcon {...props} />;
+      Component = ModsIcon;
+      break;
     case "json":
-      return <JsonIcon {...props} />;
+      Component = JsonIcon;
+      break;
+    case "jpeg":
+      Component = JpegIcon;
+      break;
+    case "png":
+      Component = PngIcon;
+      break;
+    case "bmp":
+      Component = BmpIcon;
+      break;
+    case "gif":
+      Component = GifIcon;
+      break;
+    case "tiff":
+      Component = TiffIcon;
+      break;
     default:
-      return <FileIcon {...props} />;
+      Component = BlankIcon;
   }
+
+  return <Component {...props} />;
 }

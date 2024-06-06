@@ -1,14 +1,9 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const XmlIcon = (props: SvgIconProps) => {
+export default function XmlIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 25 32" {...props}>
-      <rect
-        width="25"
-        height="32"
-        fill="url(#pattern-xml)"
-        style={{ mixBlendMode: "luminosity" }}
-      />
+      <rect width="25" height="32" fill="url(#pattern-xml)" />
       <defs>
         <pattern
           id="pattern-xml"
@@ -30,6 +25,4 @@ const XmlIcon = (props: SvgIconProps) => {
       </defs>
     </SvgIcon>
   );
-};
-
-export default XmlIcon;
+}

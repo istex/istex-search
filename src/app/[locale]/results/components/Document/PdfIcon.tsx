@@ -1,14 +1,9 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const PdfIcon = (props: SvgIconProps) => {
+export default function PdfIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 25 32" {...props}>
-      <rect
-        width="25"
-        height="32"
-        fill="url(#pattern-pdf)"
-        style={{ mixBlendMode: "luminosity" }}
-      />
+      <rect width="25" height="32" fill="url(#pattern-pdf)" />
       <defs>
         <pattern
           id="pattern-pdf"
@@ -30,6 +25,4 @@ const PdfIcon = (props: SvgIconProps) => {
       </defs>
     </SvgIcon>
   );
-};
-
-export default PdfIcon;
+}

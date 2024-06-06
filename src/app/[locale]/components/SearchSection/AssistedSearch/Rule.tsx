@@ -120,6 +120,11 @@ export default function Rule({
       partial = false;
     }
 
+    // Auto set comparator to "equals" when field type is boolean
+    if (newField.type === "boolean") {
+      setComparator("equals");
+    }
+
     const implicitNodes = newField.implicitNodes as unknown as AST;
 
     setFieldType(newField.type);

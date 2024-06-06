@@ -91,6 +91,14 @@ describe("Rule", () => {
     expect(getBooleanInput()).toBeInTheDocument();
   });
 
+  it("automatically selects the equals comparator when selecting a boolean field", async () => {
+    renderRule({ node: partialNode });
+
+    await selectBooleanField();
+
+    expect(getComparatorInput()).toHaveValue("égal");
+  });
+
   it("gets the possible values when selecting a field that requires fetching values", async () => {
     renderRule({ node: partialNode });
 

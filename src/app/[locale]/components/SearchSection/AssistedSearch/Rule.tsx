@@ -121,7 +121,8 @@ export default function Rule({
     }
 
     // Auto set comparator to "equals" when field type is boolean
-    if (newField.type === "boolean") {
+    const isBooleanField = newField.type === "boolean";
+    if (isBooleanField) {
       setComparator("equals");
     }
 
@@ -132,6 +133,7 @@ export default function Rule({
     setNode({
       ...node,
       partial,
+      comparator: isBooleanField ? "equals" : node.comparator,
       fieldType: newField.type,
       field: value,
       implicitNodes: implicitNodes.length > 0 ? implicitNodes : undefined,

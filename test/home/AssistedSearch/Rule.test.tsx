@@ -92,11 +92,15 @@ describe("Rule", () => {
   });
 
   it("automatically selects the equals comparator when selecting a boolean field", async () => {
-    renderRule({ node: partialNode });
+    const setNode = jest.fn();
+    renderRule({ node: partialNode, setNode });
 
     await selectBooleanField();
 
     expect(getComparatorInput()).toHaveValue("égal");
+    expect(setNode).toHaveBeenCalledWith(
+      expect.objectContaining({ comparator: "equals" }),
+    );
   });
 
   it("gets the possible values when selecting a field that requires fetching values", async () => {

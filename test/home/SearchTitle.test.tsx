@@ -1,4 +1,5 @@
 import {
+  mockPathname,
   mockSearchParams,
   customRender as render,
   screen,
@@ -88,6 +89,23 @@ describe("SearchTitle", () => {
 
     await userEvent.click(screen.getByTestId("regular-search-button"));
     expect(router.push).toHaveBeenCalledWith("/?");
+  });
+
+  it("doesn't render the results count when on the home page", () => {
+    render(<SearchTitle />, { resultsCount: 3 });
+
+    const resultsCountText = screen.queryByText("documents trouvés");
+
+    expect(resultsCountText).not.toBeInTheDocument();
+  });
+
+  it("renders the results count when not on the home page", () => {
+    mockPathname("/results");
+    render(<SearchTitle />, { resultsCount: 3 });
+
+    const resultsCountText = screen.getByText("documents trouvés");
+
+    expect(resultsCountText).toBeInTheDocument();
   });
 });
 

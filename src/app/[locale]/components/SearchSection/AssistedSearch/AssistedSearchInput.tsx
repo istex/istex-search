@@ -106,7 +106,7 @@ export default function AssistedSearchInput() {
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <SearchTitle />
 
-      <Stack spacing={2} sx={{ pt: 2 }}>
+      <Stack spacing={2} sx={{ pt: 1 }}>
         {!onHomePage && !expertInputOpen && queryString !== "" && (
           <QueryPanel
             ast={ast}

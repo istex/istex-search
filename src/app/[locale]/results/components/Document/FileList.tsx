@@ -43,10 +43,7 @@ export default function FileList({ files, titleKey }: FileListProps) {
             disableRipple
             title={t(`formatsLinks.${titleKey}`, {
               key: key != null ? t(`enrichmentNames.${key}`) : undefined,
-              // There is currently a bug in the API where some files have no extension
-              // TODO: remove optional chaining and eslint-disable when the API is fixed
-              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-              extension: extension?.toUpperCase(),
+              extension: extension.toUpperCase(),
             })}
             sx={{
               display: "flex",

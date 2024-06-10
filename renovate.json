@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "group:jsTest"],
-  "addLabels": ["renovate"],
+  "labels": ["renovate"],
+  "reviewers": ["dreptin"],
   "enabledManagers": ["npm"],
   "prHourlyLimit": 8,
   "prConcurrentLimit": 8,

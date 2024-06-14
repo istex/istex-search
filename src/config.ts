@@ -105,10 +105,11 @@ export const DEFAULT_USAGE_NAME: UsageName = "custom";
 
 export const rankValues = ["qualityOverRelevance", "random"] as const;
 export const sortFields = ["publicationDate", "title.raw"] as const;
-const sortDir = ["asc", "desc"] as const;
 export const DEFAULT_SORT_BY = rankValues[0];
-export const DEFAULT_SORT_DIR = sortDir[0];
 export type SortBy = (typeof sortFields)[number] | (typeof rankValues)[number];
+
+export const sortDir = ["asc", "desc"] as const;
+export const DEFAULT_SORT_DIR = sortDir[0];
 export type SortDir = (typeof sortDir)[number];
 
 export const searchModes = ["regular", "assisted", "import"] as const;

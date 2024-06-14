@@ -14,8 +14,14 @@ import {
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
   SEARCH_MODE_REGULAR,
+  archiveTypes,
+  compressionLevels,
   istexApiConfig,
   perPageOptions,
+  rankValues,
+  searchModes,
+  sortDir,
+  sortFields,
   usages,
   type ArchiveType,
   type CompressionLevel,
@@ -287,7 +293,11 @@ export default class SearchParams {
 
   getSearchMode(): SearchMode {
     const value = this.searchParams.get("searchMode");
-    if (value === null) {
+    if (value == null) {
+      return SEARCH_MODE_REGULAR;
+    }
+
+    if (!(searchModes as readonly string[]).includes(value)) {
       return SEARCH_MODE_REGULAR;
     }
 
@@ -335,6 +345,13 @@ export default class SearchParams {
       return DEFAULT_SORT_BY;
     }
 
+    if (
+      !(rankValues as readonly string[]).includes(value) &&
+      !(sortFields as readonly string[]).includes(value)
+    ) {
+      return DEFAULT_SORT_BY;
+    }
+
     return value as SortBy;
   }
 
@@ -354,6 +371,10 @@ export default class SearchParams {
   getSortDirection(): SortDir {
     const value = this.searchParams.get("sortDirection");
     if (value == null) {
+      return DEFAULT_SORT_DIR;
+    }
+
+    if (!(sortDir as readonly string[]).includes(value)) {
       return DEFAULT_SORT_DIR;
     }
 
@@ -395,10 +416,14 @@ export default class SearchParams {
       return DEFAULT_ARCHIVE_TYPE;
     }
 
+    if (!(archiveTypes as readonly string[]).includes(value)) {
+      return DEFAULT_ARCHIVE_TYPE;
+    }
+
     return value as ArchiveType;
   }
 
-  setArchiveType(value: ArchiveType) {
+  setArchiveType(value: ArchiveType): void {
     if (value === DEFAULT_ARCHIVE_TYPE) {
       this.searchParams.delete("archiveType");
       return;
@@ -407,20 +432,25 @@ export default class SearchParams {
     this.searchParams.set("archiveType", value);
   }
 
-  deleteArchiveType() {
+  deleteArchiveType(): void {
     this.searchParams.delete("archiveType");
   }
 
   getCompressionLevel(): CompressionLevel {
     const value = this.searchParams.get("compressionLevel");
-    if (value == null) {
+    const valueAsNumber = Number(value);
+    if (value == null || Number.isNaN(valueAsNumber)) {
       return DEFAULT_COMPRESSION_LEVEL;
     }
 
-    return Number(value) as CompressionLevel;
+    if (!(compressionLevels as readonly number[]).includes(valueAsNumber)) {
+      return DEFAULT_COMPRESSION_LEVEL;
+    }
+
+    return valueAsNumber as CompressionLevel;
   }
 
-  setCompressionLevel(value: CompressionLevel) {
+  setCompressionLevel(value: CompressionLevel): void {
     if (value === DEFAULT_COMPRESSION_LEVEL) {
       this.searchParams.delete("compressionLevel");
       return;
@@ -429,7 +459,7 @@ export default class SearchParams {
     this.searchParams.set("compressionLevel", value.toString());
   }
 
-  deleteCompressionLevel() {
+  deleteCompressionLevel(): void {
     this.searchParams.delete("compressionLevel");
   }
 

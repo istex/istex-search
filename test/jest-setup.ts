@@ -21,7 +21,6 @@ mock("next-intl/server", {
 });
 
 mock("next/navigation", {
-  useSelectedLayoutSegment: jest.fn(),
   useSearchParams: jest.fn(),
 });
 

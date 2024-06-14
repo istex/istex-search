@@ -1,9 +1,15 @@
 import * as React from "react";
 import type { AbstractIntlMessages } from "next-intl";
-import { useSearchParams, useSelectedLayoutSegment } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { render } from "@testing-library/react";
 import TanStackQueryProvider from "@/app/[locale]/TanStackQueryProvider";
-import type { SearchMode, SortBy, SortDir, UsageName } from "@/config";
+import type {
+  ArchiveType,
+  SearchMode,
+  SortBy,
+  SortDir,
+  UsageName,
+} from "@/config";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
@@ -68,12 +74,10 @@ export function mockSearchParams(searchParams: {
   searchMode?: SearchMode;
   sortBy?: SortBy;
   sortDirection?: SortDir;
+  archiveType?: ArchiveType;
+  compressionLevel?: string;
 }) {
   (useSearchParams as jest.Mock).mockReturnValue(searchParams);
-}
-
-export function mockSelectedLayoutSegment(segment: string) {
-  (useSelectedLayoutSegment as jest.Mock).mockReturnValue(segment);
 }
 
 export function mockPathname(pathname: string) {

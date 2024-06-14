@@ -396,4 +396,30 @@ describe("Istex API related functions", () => {
       "https://api.istex.fr/document?q=hello&size=2&rankBy=random&randomSeed=1234&sid=istex-search&extract=fulltext%5Bpdf%5D",
     );
   });
+
+  it("builds the full API URL with archiveType", () => {
+    const params: Module.BuildFullApiUrlOptions = {
+      queryString: "hello",
+      selectedFormats: formats.fulltext.pdf,
+      size: 2,
+      archiveType: "tar",
+    };
+
+    expect(Module.buildFullApiUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&archiveType=tar&sid=istex-search&extract=fulltext%5Bpdf%5D",
+    );
+  });
+
+  it("builds the full API URL with compressionLevel", () => {
+    const params: Module.BuildFullApiUrlOptions = {
+      queryString: "hello",
+      selectedFormats: formats.fulltext.pdf,
+      size: 2,
+      compressionLevel: 9,
+    };
+
+    expect(Module.buildFullApiUrl(params).toString()).toBe(
+      "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&compressionLevel=9&sid=istex-search&extract=fulltext%5Bpdf%5D",
+    );
+  });
 });

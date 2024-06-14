@@ -1,12 +1,14 @@
 import {
+  DEFAULT_ARCHIVE_TYPE,
+  DEFAULT_COMPRESSION_LEVEL,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
   MAX_PER_PAGE,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
-  SEARCH_MODE_IMPORT,
   SEARCH_MODE_ASSISTED,
+  SEARCH_MODE_IMPORT,
   SEARCH_MODE_REGULAR,
   formats,
   istexApiConfig,
@@ -485,6 +487,58 @@ describe("SearchParams class", () => {
     searchParams.deleteRandomSeed();
 
     expect(searchParams.getRandomSeed()).toBe(undefined);
+  });
+
+  it("gets the archive type", () => {
+    const searchParams = new SearchParams({
+      archiveType: "tar",
+    });
+
+    expect(searchParams.getArchiveType()).toBe("tar");
+  });
+
+  it("sets the archive type", () => {
+    const searchParams = new SearchParams({});
+
+    searchParams.setArchiveType("tar");
+
+    expect(searchParams.getArchiveType()).toBe("tar");
+  });
+
+  it("deletes the archive type", () => {
+    const searchParams = new SearchParams({
+      archiveType: "tar",
+    });
+
+    searchParams.deleteArchiveType();
+
+    expect(searchParams.getArchiveType()).toBe(DEFAULT_ARCHIVE_TYPE);
+  });
+
+  it("gets the compression level", () => {
+    const searchParams = new SearchParams({
+      compressionLevel: "9",
+    });
+
+    expect(searchParams.getCompressionLevel()).toBe(9);
+  });
+
+  it("sets the compression level", () => {
+    const searchParams = new SearchParams({});
+
+    searchParams.setCompressionLevel(9);
+
+    expect(searchParams.getCompressionLevel()).toBe(9);
+  });
+
+  it("deletes the compression level", () => {
+    const searchParams = new SearchParams({
+      archiveType: "9",
+    });
+
+    searchParams.deleteCompressionLevel();
+
+    expect(searchParams.getCompressionLevel()).toBe(DEFAULT_COMPRESSION_LEVEL);
   });
 
   // Make Math.random always return the same value to avoid mismatches in node IDs when testing

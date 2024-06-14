@@ -1,4 +1,8 @@
-import { NO_FORMAT_SELECTED, formats } from "@/config";
+import {
+  DEFAULT_COMPRESSION_LEVEL,
+  NO_FORMAT_SELECTED,
+  formats,
+} from "@/config";
 import * as Module from "@/lib/formats";
 
 describe("Functions manipulating the available download formats", () => {
@@ -152,5 +156,18 @@ describe("Functions manipulating the available download formats", () => {
     expect(Module.parseExtractParams(almostCorrectCategory)).toBe(
       formats.metadata.json,
     );
+  });
+
+  describe("estimateArchiveSize", () => {
+    it("calculate the 'correct' file size", () => {
+      const size = Module.estimateArchiveSize(
+        formats.fulltext.pdf | formats.metadata.json,
+        3,
+        DEFAULT_COMPRESSION_LEVEL,
+        "zip",
+      );
+
+      expect(size).toBeCloseTo(4855065.48);
+    });
   });
 });

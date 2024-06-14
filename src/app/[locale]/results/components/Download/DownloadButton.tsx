@@ -20,6 +20,8 @@ export default function DownloadButton() {
   const filters = searchParams.getFilters();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
+  const archiveType = searchParams.getArchiveType();
+  const compressionLevel = searchParams.getCompressionLevel();
   const isFormComplete =
     queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
@@ -34,6 +36,8 @@ export default function DownloadButton() {
       sortBy,
       sortDir,
       randomSeed,
+      archiveType,
+      compressionLevel,
     });
 
     // This hook is synchronous

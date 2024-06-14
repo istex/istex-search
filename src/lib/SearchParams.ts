@@ -6,20 +6,24 @@ import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
 import type { Filter } from "./istexApi";
 import { clamp, closest, isValidMd5 } from "./utils";
 import {
+  DEFAULT_ARCHIVE_TYPE,
+  DEFAULT_COMPRESSION_LEVEL,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
+  SEARCH_MODE_REGULAR,
   istexApiConfig,
   perPageOptions,
   usages,
+  type ArchiveType,
+  type CompressionLevel,
   type PerPageOption,
+  type SearchMode,
   type SortBy,
   type SortDir,
   type UsageName,
-  type SearchMode,
-  SEARCH_MODE_REGULAR,
 } from "@/config";
 import type { NextSearchParams } from "@/types/next";
 
@@ -383,6 +387,50 @@ export default class SearchParams {
 
   deleteRandomSeed(): void {
     this.searchParams.delete("randomSeed");
+  }
+
+  getArchiveType(): ArchiveType {
+    const value = this.searchParams.get("archiveType");
+    if (value == null) {
+      return DEFAULT_ARCHIVE_TYPE;
+    }
+
+    return value as ArchiveType;
+  }
+
+  setArchiveType(value: ArchiveType) {
+    if (value === DEFAULT_ARCHIVE_TYPE) {
+      this.searchParams.delete("archiveType");
+      return;
+    }
+
+    this.searchParams.set("archiveType", value);
+  }
+
+  deleteArchiveType() {
+    this.searchParams.delete("archiveType");
+  }
+
+  getCompressionLevel(): CompressionLevel {
+    const value = this.searchParams.get("compressionLevel");
+    if (value == null) {
+      return DEFAULT_COMPRESSION_LEVEL;
+    }
+
+    return Number(value) as CompressionLevel;
+  }
+
+  setCompressionLevel(value: CompressionLevel) {
+    if (value === DEFAULT_COMPRESSION_LEVEL) {
+      this.searchParams.delete("compressionLevel");
+      return;
+    }
+
+    this.searchParams.set("compressionLevel", value.toString());
+  }
+
+  deleteCompressionLevel() {
+    this.searchParams.delete("compressionLevel");
   }
 
   toString(): string {

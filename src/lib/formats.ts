@@ -1,4 +1,11 @@
-import { type FormatCategoryName, NO_FORMAT_SELECTED, formats } from "@/config";
+import {
+  NO_FORMAT_SELECTED,
+  formats,
+  formatSizes,
+  type ArchiveType,
+  type CompressionLevel,
+  type FormatCategoryName,
+} from "@/config";
 
 // The selected formats are represented as an integer where each bit represents a format
 // so we use bitwise operators to select/deselect formats (cf. https://stackoverflow.com/a/47990)
@@ -138,4 +145,34 @@ export function parseExtractParams(extractParams: string) {
   }
 
   return selectedFormats;
+}
+
+export function estimateArchiveSize(
+  selectedFormats: number,
+  documentCount: number,
+  compressionLevel: CompressionLevel,
+  archiveType: ArchiveType,
+) {
+  let size = 0;
+
+  for (const [key, formatCategory] of Object.entries(formats)) {
+    const formatCategoryName = key as FormatCategoryName;
+
+    for (const [key, format] of Object.entries(formatCategory)) {
+      const formatName = key as keyof typeof formatCategory;
+      if (!isFormatSelected(selectedFormats, format)) {
+        continue;
+      }
+
+      const formatSize = formatSizes.baseSizes[formatCategoryName][formatName];
+      const multiplier =
+        formatSizes[archiveType].multipliers[compressionLevel][
+          formatCategoryName
+        ][formatName];
+
+      size += formatSize * multiplier * documentCount;
+    }
+  }
+
+  return size;
 }

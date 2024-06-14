@@ -20,7 +20,7 @@ export default function FormatPicker() {
   const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Grid container spacing={2} sx={{ display: "flex" }}>
+    <Grid container spacing={2} sx={{ display: "flex", mt: "0 !important" }}>
       <Grid item xs={6} sm={4}>
         <FormatCategory name="fulltext" />
       </Grid>

@@ -14,6 +14,8 @@ import {
   MIN_PER_PAGE,
   istexApiConfig,
   rankValues,
+  type ArchiveType,
+  type CompressionLevel,
   type PerPageOption,
   type SortBy,
   type SortDir,
@@ -338,6 +340,8 @@ export interface BuildFullApiUrlOptions {
   sortBy?: SortBy;
   sortDir?: SortDir;
   randomSeed?: string;
+  archiveType?: ArchiveType;
+  compressionLevel?: CompressionLevel;
 }
 
 export function buildFullApiUrl({
@@ -351,6 +355,8 @@ export function buildFullApiUrl({
   sortBy,
   sortDir,
   randomSeed,
+  archiveType,
+  compressionLevel,
 }: BuildFullApiUrlOptions) {
   const url = new URL("document", istexApiConfig.baseUrl);
 
@@ -381,6 +387,12 @@ export function buildFullApiUrl({
   );
   if (randomSeed != null) {
     url.searchParams.set("randomSeed", randomSeed);
+  }
+  if (archiveType != null) {
+    url.searchParams.set("archiveType", archiveType);
+  }
+  if (compressionLevel != null) {
+    url.searchParams.set("compressionLevel", compressionLevel.toString());
   }
   url.searchParams.set("sid", "istex-search");
 

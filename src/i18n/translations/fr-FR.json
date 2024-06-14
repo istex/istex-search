@@ -620,6 +620,14 @@
       "title": "Documents sélectionnés",
       "unselect": "Désélectionner",
       "noDocTitle": "Sans titre"
+    },
+    "ArchiveSettings": {
+      "archiveType": "Format de l'archive :",
+      "compressionLevel": "Compression :"
+    },
+    "ArchiveSizeWarning": {
+      "title": "Avertissement",
+      "message": "Taille estimée > {sizeInGigabytes} Go"
     }
   },
   "help": {
@@ -710,6 +718,15 @@
         "label": "GarganText",
         "description": "Logiciel libre dédié à l'exploration collaborative d'ensembles de documents combinant des outils de traitement du langage naturel, d'analyse de réseaux complexes et de visualisation interactive de données."
       }
+    },
+    "archiveTypes": {
+      "zip": "ZIP",
+      "tar": "TAR.GZ"
+    },
+    "compressionLevels": {
+      "0": "sans",
+      "6": "moyenne",
+      "9": "élevée"
     }
   }
 }

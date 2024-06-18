@@ -32,8 +32,7 @@ default:
   tags:
     - docker
   cache:
-    - &global_cache
-      key:
+    - key:
         files:
           - package-lock.json
       paths:
@@ -49,11 +48,6 @@ stages:
 
 build:
   stage: build
-  cache:
-    - *global_cache
-    - key: $CI_COMMIT_REF_SLUG
-      paths:
-        - .next/cache
   rules:
     - *is-not-version-tag
     - *is-working-branch

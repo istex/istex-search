@@ -664,11 +664,11 @@
   },
   "config": {
     "examples": {
-      "climateChange": "Changement climatique",
-      "emileDurkheim": "Émile Durkheim",
-      "translationAndAI": "Traduction & IA",
-      "ephedrineToxicity": "Toxicité de l'éphédrine",
-      "fridaKahlo": "Frida Kahlo : une icône",
+      "emmanuelKant": "Emmanuel Kant",
+      "jeanZayCannesFestival": "Jean Zay et le festival de Cannes",
+      "diegoVelazquez": "Diego Velázquez",
+      "alienorAquitaine": "Aliénor d'Aquitaine",
+      "uefaEuro": "UEFA EURO",
       "normandyLandings": "Débarquement de Normandie"
     },
     "formats": {

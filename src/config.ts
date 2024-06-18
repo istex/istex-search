@@ -8,18 +8,17 @@ export const istexApiConfig = {
 } as const;
 
 export const examples = {
-  climateChange:
-    '(title:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique") abstract:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique") subject.value:("climate warming" "réchauffement climatique" "climate change" "climatic change" "changement climatique")) AND publicationDate:[1990 TO *]',
-  emileDurkheim:
-    '(title.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR namedEntities.unitex.persName.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ OR refBibs.author.name.raw:/.*([eéEÉ]mile.)?[dD]urkheim.*/ NOT doi:"10.1016/0008-6223(84)90184-2")',
-  translationAndAI:
-    '("traduction automatique" "machine translation") AND language:("fre" "eng") AND (categories.scienceMetrix:"artificial intelligence" OR categories.wos:"artificial intelligence" OR categories.scopus:"artificial intelligence")',
-  ephedrineToxicity:
-    '(title:(pseudoéphédrine OR pseudoephedrine) OR abstract:(pseudoéphédrine OR pseudoephedrine)) AND (subject.value:(toxicity OR toxicité OR complication OR "secondary effect" OR "effet secondaire") OR (keywords.teeft:(toxicity OR toxicité OR complication OR "secondary effect" OR "effet secondaire")))',
-  fridaKahlo:
-    '(title:"Frida Kahlo" OR abstract:"Frida Kahlo") AND (Icon* OR icône)',
+  emmanuelKant:
+    'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
+  jeanZayCannesFestival: '"Jean Zay" AND "Festival de Cannes"',
+  diegoVelazquez:
+    '("Diego Rodríguez de Silva y Velázquez" OR "Diego Velázquez" OR "Diego Vélasquez") AND (tableau* OR painting) NOT arkIstex.raw:("ark:/67375/GFS-RHFDF4SC-S" OR "ark:/67375/WNG-486PXL65-6" OR "ark:/67375/6H6-K60DW670-X" OR "ark:/67375/C41-MCK77ZB6-9" OR "ark:/67375/JKT-DQXSSJ89-1" OR "ark:/67375/GFS-QB9B5SB9-C")',
+  alienorAquitaine:
+    '"Aliénor d\'Aquitaine" AND ("Louis VII" OR "Henri II") NOT genre.raw:other',
+  uefaEuro:
+    'title:(uefa OR euro) AND (football OR soccer) NOT ("champions league" OR "ligue des champions" OR "europa league" OR "ligue europa") AND title.raw:/.*[0-9].*/ NOT (" ark:/67375/6H6-2S3V4H7Q-3" " ark:/67375/G14-FM5D3LZN-K"" ark:/67375/WNG-VP5GQ3GB-1" "ark:/67375/6GQ-5CZ9XSTV-5" "ark:/67375/6GQ-TCQLNC54-X")',
   normandyLandings:
-    '("Débarquement de Normandie""Debarquement de Normandie""Normandy landing") AND 1944',
+    '("Débarquement de Normandie" "Debarquement de Normandie" "Normandy landing" "Normandy landings") AND 1944',
 } as const;
 
 export const perPageOptions = [10, 20, 30] as const;

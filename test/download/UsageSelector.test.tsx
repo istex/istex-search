@@ -37,4 +37,28 @@ describe("UsageSelector", () => {
 
     expect(lodexButton).toHaveAttribute("aria-selected", "true");
   });
+
+  it("automatically changes the archive type when the currently selected one isn't supported by the new usage", async () => {
+    mockSearchParams({
+      archiveType: "tar",
+    });
+    render(<UsageSelector />);
+
+    const router = useRouter();
+    const gargantextButton = screen.getByRole("tab", {
+      name: "GarganText",
+    });
+    await userEvent.click(gargantextButton);
+
+    // No archive type here because GarganText only supports zip, which is the default
+    const expectedUri = "/?usage=gargantext&extract=metadata%5Bjson%5D";
+
+    expect(router.replace).toHaveBeenCalledWith(expectedUri, {
+      scroll: false,
+    });
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 });

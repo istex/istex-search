@@ -57,6 +57,17 @@ describe("ArchiveSettings", () => {
     expect(select).toHaveTextContent("élevée");
   });
 
+  it("disables the archive type select when only one option is available", () => {
+    mockSearchParams({
+      usage: "cortext",
+    });
+    const { container } = render(<ArchiveSettings />);
+
+    const select = getArchiveTypeSelect(container);
+
+    expect(select).toHaveAttribute("aria-disabled", "true");
+  });
+
   beforeEach(() => {
     jest.clearAllMocks();
   });

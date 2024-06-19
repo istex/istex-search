@@ -13,10 +13,15 @@ export default function UsageSelector() {
   const history = useHistoryContext();
 
   const handleChange = (_: React.SyntheticEvent, newValue: UsageName) => {
-    searchParams.setUsageName(newValue);
+    const newUsage = usages[newValue];
+    const currentArchiveType = searchParams.getArchiveType();
 
-    const formatToSelect = usages[newValue].formats;
-    searchParams.setFormats(formatToSelect);
+    searchParams.setUsageName(newValue);
+    searchParams.setFormats(newUsage.formats);
+
+    if (!newUsage.archiveTypes.includes(currentArchiveType)) {
+      searchParams.setArchiveType(newUsage.archiveTypes[0]);
+    }
 
     history.populateCurrentRequest({
       date: Date.now(),

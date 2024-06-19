@@ -14,7 +14,6 @@ import {
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
   SEARCH_MODE_REGULAR,
-  archiveTypes,
   compressionLevels,
   istexApiConfig,
   perPageOptions,
@@ -297,7 +296,7 @@ export default class SearchParams {
       return SEARCH_MODE_REGULAR;
     }
 
-    if (!(searchModes as readonly string[]).includes(value)) {
+    if (!searchModes.includes(value)) {
       return SEARCH_MODE_REGULAR;
     }
 
@@ -345,10 +344,7 @@ export default class SearchParams {
       return DEFAULT_SORT_BY;
     }
 
-    if (
-      !(rankValues as readonly string[]).includes(value) &&
-      !(sortFields as readonly string[]).includes(value)
-    ) {
+    if (!rankValues.includes(value) && !sortFields.includes(value)) {
       return DEFAULT_SORT_BY;
     }
 
@@ -374,7 +370,7 @@ export default class SearchParams {
       return DEFAULT_SORT_DIR;
     }
 
-    if (!(sortDir as readonly string[]).includes(value)) {
+    if (!sortDir.includes(value)) {
       return DEFAULT_SORT_DIR;
     }
 
@@ -411,13 +407,12 @@ export default class SearchParams {
   }
 
   getArchiveType(): ArchiveType {
+    const allowedValues = usages[this.getUsageName()].archiveTypes;
+    const defaultValue = allowedValues[0];
     const value = this.searchParams.get("archiveType");
-    if (value == null) {
-      return DEFAULT_ARCHIVE_TYPE;
-    }
 
-    if (!(archiveTypes as readonly string[]).includes(value)) {
-      return DEFAULT_ARCHIVE_TYPE;
+    if (value == null || !allowedValues.includes(value)) {
+      return defaultValue;
     }
 
     return value as ArchiveType;
@@ -443,7 +438,7 @@ export default class SearchParams {
       return DEFAULT_COMPRESSION_LEVEL;
     }
 
-    if (!(compressionLevels as readonly number[]).includes(valueAsNumber)) {
+    if (!compressionLevels.includes(valueAsNumber)) {
       return DEFAULT_COMPRESSION_LEVEL;
     }
 

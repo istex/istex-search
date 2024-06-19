@@ -626,6 +626,15 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getArchiveType()).toBe("zip");
     });
+
+    it("returns the first archive type supported by the usage when the archiveType parameter isn't supported by the usage", () => {
+      const searchParams = new SearchParams({
+        archiveType: "tar",
+        usage: "cortext",
+      });
+
+      expect(searchParams.getArchiveType()).toBe("zip");
+    });
   });
 
   describe("setArchiveType", () => {

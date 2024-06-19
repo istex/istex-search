@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
-  archiveTypes,
   compressionLevels,
+  usages,
   type ArchiveType,
   type CompressionLevel,
 } from "@/config";
@@ -27,6 +27,7 @@ export default function ArchiveSettings() {
   const searchParams = useSearchParams();
   const archiveType = searchParams.getArchiveType();
   const compressionLevel = searchParams.getCompressionLevel();
+  const currentUsage = usages[searchParams.getUsageName()];
   const history = useHistoryContext();
   const theme = useTheme();
   const fontSize = theme.typography.fontSize;
@@ -67,10 +68,11 @@ export default function ArchiveSettings() {
         <Select
           id="archive-type-select"
           labelId="archive-type-label"
+          disabled={currentUsage.archiveTypes.length === 1}
           value={archiveType}
           onChange={handleArchiveTypeChange}
         >
-          {archiveTypes.map((value) => (
+          {currentUsage.archiveTypes.map((value) => (
             <MenuItem key={value} value={value} sx={{ fontSize }}>
               {tConfig(`archiveTypes.${value}`)}
             </MenuItem>

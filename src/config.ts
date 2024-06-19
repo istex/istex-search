@@ -66,11 +66,20 @@ export const formats = {
 export const NO_FORMAT_SELECTED = 0;
 export type FormatCategoryName = keyof typeof formats;
 
+export const archiveTypes = ["zip", "tar"] as const;
+export const DEFAULT_ARCHIVE_TYPE = archiveTypes[0];
+export type ArchiveType = (typeof archiveTypes)[number];
+
+export const compressionLevels = [0, 6, 9] as const;
+export const DEFAULT_COMPRESSION_LEVEL = compressionLevels[1];
+export type CompressionLevel = (typeof compressionLevels)[number];
+
 export const usages = {
   custom: {
     isGateway: false,
     url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
     formats: NO_FORMAT_SELECTED,
+    archiveTypes,
     column: 0,
     row: 0,
   },
@@ -78,6 +87,7 @@ export const usages = {
     isGateway: true,
     url: "https://lodex.inist.fr/",
     formats: formats.metadata.json,
+    archiveTypes,
     column: 1,
     row: 0,
   },
@@ -88,6 +98,7 @@ export const usages = {
       formats.fulltext.tei |
       formats.fulltext.cleaned |
       formats.enrichments.teeft,
+    archiveTypes: ["zip"],
     column: 2,
     row: 0,
   },
@@ -95,6 +106,7 @@ export const usages = {
     isGateway: true,
     url: "https://gargantext.org/",
     formats: formats.metadata.json,
+    archiveTypes: ["zip"],
     column: 1,
     row: 3,
   },
@@ -138,14 +150,6 @@ export const supportedIdTypes = [
   },
 ] as const;
 export type SupportedIdType = (typeof supportedIdTypes)[number];
-
-export const archiveTypes = ["zip", "tar"] as const;
-export const DEFAULT_ARCHIVE_TYPE = archiveTypes[0];
-export type ArchiveType = (typeof archiveTypes)[number];
-
-export const compressionLevels = [0, 6, 9] as const;
-export const DEFAULT_COMPRESSION_LEVEL = compressionLevels[1];
-export type CompressionLevel = (typeof compressionLevels)[number];
 
 // Maybe find a better way to estimate the archive size one day (or give up on trying)...
 export const formatSizes = {

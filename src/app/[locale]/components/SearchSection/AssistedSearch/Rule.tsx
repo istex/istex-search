@@ -341,10 +341,7 @@ export default function Rule({
       {/* Value */}
       {(() => {
         if (fieldType === "number") {
-          if (
-            comparator != null &&
-            (rangeComparators as readonly Comparator[]).includes(comparator)
-          ) {
+          if (comparator != null && rangeComparators.includes(comparator)) {
             // Range
             return (
               <Stack direction="row" spacing={2} width="100%">

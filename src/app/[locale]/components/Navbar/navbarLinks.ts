@@ -17,8 +17,8 @@ const navbarLinks = {
       url: "https://corpus-specialises.corpus.istex.fr/",
     },
     {
-      label: "objectifTdm",
-      url: "https://objectif-tdm.inist.fr/",
+      label: "istexTdm",
+      url: "https://services.istex.fr",
     },
     {
       label: "loterre",

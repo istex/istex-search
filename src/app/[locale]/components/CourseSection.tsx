@@ -39,7 +39,7 @@ export default function CourseSection() {
           {t("body")}
         </Typography>
         <Button
-          href="https://www.istex.fr/fouille-de-texte/#ancre6"
+          href="https://www.istex.fr/formations/"
           target="_blank"
           rel="noreferrer"
         >

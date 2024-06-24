@@ -12,7 +12,7 @@ interface IndicatorProps {
 export default function Indicator({ label, count, total }: IndicatorProps) {
   const t = useTranslations("results.Panel");
   const theme = useTheme();
-  const percentage = Math.round((count * 100) / total);
+  const percentage = total > 0 ? Math.round((count * 100) / total) : 0;
   const CHART_SIZE = 60;
   const CIRCLE_WIDTH = 10;
 

@@ -18,7 +18,10 @@ export default function LanguageIndicator({
   const tFacets = useTranslations("results.Facets");
   const theme = useTheme();
   const locale = useLocale();
-  const mainPercentage = Math.floor((data[0].docCount * 100) / total);
+  const mainPercentage =
+    data.length > 0 && total > 0
+      ? Math.floor((data[0].docCount * 100) / total)
+      : 0;
   const CHART_SIZE = 60;
   const CIRCLE_WIDTH = 10;
   const COLORS = [

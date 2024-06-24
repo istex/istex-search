@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Paper, Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
 import type { FacetList } from "./components/Facets/FacetContext";
 import FacetsContainer from "./components/Facets/FacetsContainer";
@@ -55,7 +55,6 @@ export default async function ResultsPage({
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
   const randomSeedFromSearchParams = searchParams.getRandomSeed();
-  const t = await getTranslations({ locale, namespace: "results" });
 
   let queryString: string;
   try {
@@ -155,41 +154,25 @@ export default async function ResultsPage({
         facets={facets}
         results={results}
       >
-        {results.total > 0 ? (
-          <>
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              spacing={4}
-              alignItems="start"
-            >
-              <FacetsContainer />
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          spacing={4}
+          alignItems="start"
+        >
+          <FacetsContainer />
 
-              <Stack gap={1}>
-                <Panels indicators={indicators} compatibility={compatibility} />
+          <Stack gap={1}>
+            <Panels indicators={indicators} compatibility={compatibility} />
 
-                <Filters />
+            <Filters />
 
-                <ResultsGrid results={results.hits} />
+            <ResultsGrid results={results.hits} />
 
-                <Pagination />
-              </Stack>
-            </Stack>
+            <Pagination />
+          </Stack>
+        </Stack>
 
-            <DownloadButton />
-          </>
-        ) : (
-          <Paper
-            elevation={0}
-            sx={{
-              bgcolor: "colors.lightRed",
-              p: 2,
-            }}
-          >
-            <Typography variant="body1" sx={{ fontWeight: 700 }}>
-              {t("noResults")}
-            </Typography>
-          </Paper>
-        )}
+        <DownloadButton />
       </ResultsPageShell>
     );
   } catch (err) {

@@ -20,6 +20,10 @@ export default function CompatibilityProgress({
 }: CompatibilityProgressProps) {
   const t = useTranslations("results.Panel");
   const { resultsCount } = useQueryContext();
+  const percentage =
+    resultsCount > 0
+      ? Math.round((compatibilityCount * 100) / resultsCount)
+      : 0;
 
   return (
     <>
@@ -39,9 +43,7 @@ export default function CompatibilityProgress({
           fontWeight: 700,
         }}
       >
-        {`${name} (${Math.round(
-          (compatibilityCount * 100) / resultsCount,
-        )}\u00A0%)`}
+        {`${name} (${percentage}\u00A0%)`}
       </Typography>
       {data.map(({ label, count }, index) => (
         <React.Fragment key={label}>
@@ -62,7 +64,7 @@ export default function CompatibilityProgress({
           </Typography>
           <LinearProgress
             variant="determinate"
-            value={(count * 100) / resultsCount}
+            value={resultsCount > 0 ? (count * 100) / resultsCount : 0}
             aria-labelledby={`${name}-compatibility`}
             sx={{
               gridRow: { sm: index + 2 + gridRow },

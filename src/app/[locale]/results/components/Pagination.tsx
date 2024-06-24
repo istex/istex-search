@@ -25,7 +25,8 @@ export default function Pagination() {
   const searchParams = useSearchParams();
   const perPage = searchParams.getPerPage();
   const lastPage = Math.ceil(maxResults / perPage);
-  const page = clamp(searchParams.getPage(), 1, lastPage);
+  const page =
+    resultsCount > 0 ? clamp(searchParams.getPage(), 1, lastPage) : 0;
 
   const handleChangePage = (newPage: number) => {
     searchParams.setPage(newPage);
@@ -58,7 +59,7 @@ export default function Pagination() {
       <Box>
         <IconButton
           color="inherit"
-          disabled={page === 1}
+          disabled={page <= 1}
           aria-label={t("firstPage")}
           title={t("firstPage")}
           onClick={() => {
@@ -69,7 +70,7 @@ export default function Pagination() {
         </IconButton>
         <IconButton
           color="inherit"
-          disabled={page === 1}
+          disabled={page <= 1}
           aria-label={t("previousPage")}
           title={t("previousPage")}
           onClick={() => {
@@ -106,7 +107,7 @@ export default function Pagination() {
       <Box>
         <IconButton
           color="inherit"
-          disabled={page === lastPage}
+          disabled={page >= lastPage}
           aria-label={t("nextPage")}
           title={t("nextPage")}
           onClick={() => {
@@ -117,7 +118,7 @@ export default function Pagination() {
         </IconButton>
         <IconButton
           color="inherit"
-          disabled={page === lastPage}
+          disabled={page >= lastPage}
           aria-label={t("lastPage")}
           title={t("lastPage")}
           onClick={() => {

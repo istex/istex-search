@@ -16,7 +16,7 @@ export async function generateMetadata({
 }
 
 // We can't entirely rely on the automatic Suspense wrapping provided by Next.js through
-// the loading.tsx file because a change in the URLSearchParams only isn't consireded an
+// the loading.tsx file because a change in the URLSearchParams only isn't considered an
 // actual page change. We have to wrap ResultsPage in Suspense ourselves and make sure it's
 // invalidated when the search params change.
 // More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189

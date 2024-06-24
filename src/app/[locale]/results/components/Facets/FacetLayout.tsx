@@ -27,6 +27,15 @@ export default function FacetLayout({
   const filters = searchParams.getFilters();
 
   const isExpanded = () => {
+    const isEmptyFacet = facetItems.length === 0;
+    const isEmptyRangeFacet =
+      FACETS_WITH_RANGE.includes(facetTitle) &&
+      (facetItems[0]?.docCount ?? 0) === 0;
+
+    if (isEmptyFacet || isEmptyRangeFacet) {
+      return false;
+    }
+
     if (Object.keys(filters).length === 0) {
       return DEFAULT_OPEN_FACETS.includes(facetTitle) ? facetTitle : false;
     }

@@ -161,7 +161,7 @@ export default async function ResultsPage({
         >
           <FacetsContainer />
 
-          <Stack gap={1}>
+          <Stack gap={1} width="100%">
             <Panels indicators={indicators} compatibility={compatibility} />
 
             <Filters />

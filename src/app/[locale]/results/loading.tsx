@@ -1,12 +1,11 @@
+"use client";
+
 import { Box, Skeleton, Stack } from "@mui/material";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
 
 export default function Loading() {
-  let lastSavedQueryString = "";
-  if (typeof window !== "undefined") {
-    lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
-  }
+  const lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
 
   return (
     <ResultsPageShell

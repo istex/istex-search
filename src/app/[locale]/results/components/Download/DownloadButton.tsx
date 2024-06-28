@@ -8,7 +8,15 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import { useDownload, useSearchParams } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
 
-export default function DownloadButton() {
+interface DownloadButtonProps {
+  closeModal: () => void;
+  openWaitingModal: () => void;
+}
+
+export default function DownloadButton({
+  closeModal,
+  openWaitingModal,
+}: DownloadButtonProps) {
   const t = useTranslations("download");
   const searchParams = useSearchParams();
   const history = useHistoryContext();
@@ -47,6 +55,9 @@ export default function DownloadButton() {
       date: Date.now(),
       searchParams,
     });
+
+    closeModal();
+    openWaitingModal();
   };
 
   return (

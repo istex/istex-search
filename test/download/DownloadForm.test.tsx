@@ -13,7 +13,9 @@ describe("DownloadForm", () => {
       "selectedDocuments",
       JSON.stringify(mockedSelectedDocuments),
     );
-    render(<DownloadForm />);
+    render(
+      <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+    );
     expect(
       screen.queryByText("Vos documents sélectionnés manuellement"),
     ).not.toBeInTheDocument();
@@ -27,7 +29,9 @@ describe("DownloadForm", () => {
       "selectedDocuments",
       JSON.stringify(mockedSelectedDocuments),
     );
-    render(<DownloadForm />);
+    render(
+      <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+    );
     expect(screen.getByText("Documents sélectionnés")).toBeInTheDocument();
   });
 
@@ -36,7 +40,9 @@ describe("DownloadForm", () => {
       extract: "fulltext[pdf]",
       size: "10000",
     });
-    render(<DownloadForm />);
+    render(
+      <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+    );
 
     const alert = screen.getByRole("alert");
 
@@ -48,7 +54,9 @@ describe("DownloadForm", () => {
       extract: "fulltext[pdf]",
       size: "3",
     });
-    render(<DownloadForm />);
+    render(
+      <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+    );
 
     const alert = screen.queryByRole("alert");
 

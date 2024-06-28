@@ -628,6 +628,11 @@
     "ArchiveSizeWarning": {
       "title": "Avertissement",
       "message": "Taille estimée > {sizeInGigabytes} Go"
+    },
+    "WaitingModal": {
+      "title": "Téléchargement de votre corpus",
+      "approximately": "environ",
+      "content": "Votre téléchargement a commencé, vous pouvez fermer cette fenêtre."
     }
   },
   "help": {

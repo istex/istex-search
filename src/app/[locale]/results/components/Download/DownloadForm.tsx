@@ -16,7 +16,15 @@ import { useSearchParams } from "@/lib/hooks";
 
 const ONE_GIGABYTE = 1 * 1024 * 1024 * 1024;
 
-export default function DownloadForm() {
+interface DownloadFormProps {
+  closeModal: () => void;
+  openWaitingModal: () => void;
+}
+
+export default function DownloadForm({
+  closeModal,
+  openWaitingModal,
+}: DownloadFormProps) {
   const searchParams = useSearchParams();
   const selectedFormats = searchParams.getFormats();
   const size = searchParams.getSize();
@@ -62,7 +70,10 @@ export default function DownloadForm() {
                 <ArchiveSizeWarning size={archiveSizeInGigabytes} />
               </>
             )}
-            <DownloadButton />
+            <DownloadButton
+              closeModal={closeModal}
+              openWaitingModal={openWaitingModal}
+            />
           </Stack>
         </Panel>
       </Grid>

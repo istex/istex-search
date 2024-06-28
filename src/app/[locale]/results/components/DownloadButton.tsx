@@ -4,6 +4,7 @@ import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, DialogContent } from "@mui/material";
 import DownloadForm from "./Download/DownloadForm";
+import WaitingModal from "./Download/WaitingModal";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useDocumentContext } from "@/contexts/DocumentContext";
@@ -16,6 +17,7 @@ export default function DownloadButton() {
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const [downloadModalOpen, setDownloadModalOpen] = React.useState(false);
+  const [waitingModalOpen, setWaitingModalOpen] = React.useState(false);
 
   const documentsCount =
     selectedDocuments.length > 0
@@ -28,6 +30,14 @@ export default function DownloadButton() {
 
   const closeDownloadModal = () => {
     setDownloadModalOpen(false);
+  };
+
+  const openWaitingModal = () => {
+    setWaitingModalOpen(true);
+  };
+
+  const closeWaitingModal = () => {
+    setWaitingModalOpen(false);
   };
 
   return (
@@ -60,9 +70,14 @@ export default function DownloadButton() {
         slideDirection="up"
       >
         <DialogContent dividers>
-          <DownloadForm />
+          <DownloadForm
+            closeModal={closeDownloadModal}
+            openWaitingModal={openWaitingModal}
+          />
         </DialogContent>
       </Modal>
+
+      <WaitingModal open={waitingModalOpen} onClose={closeWaitingModal} />
     </>
   );
 }

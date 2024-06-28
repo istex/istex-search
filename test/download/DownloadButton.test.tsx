@@ -2,6 +2,7 @@ import {
   mockSearchParams,
   customRender as render,
   screen,
+  userEvent,
 } from "../test-utils";
 import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
 
@@ -79,6 +80,31 @@ describe("DownloadButton (download modal)", () => {
       true,
     );
   });
+
+  it("closes the download modal and opens the waiting modal when clicking the button", async () => {
+    const queryString = "hello";
+    const closeModal = jest.fn();
+    const openWaitingModal = jest.fn();
+    mockSearchParams({
+      q: queryString,
+      extract: "metadata[json]",
+      size: "3",
+    });
+    render(
+      <DownloadButton
+        closeModal={closeModal}
+        openWaitingModal={openWaitingModal}
+      />,
+      { queryString },
+    );
+
+    const button = screen.getByRole("button");
+
+    await userEvent.click(button);
+
+    expect(closeModal).toHaveBeenCalled();
+    expect(openWaitingModal).toHaveBeenCalled();
+  });
 });
 
 function testButtonState(
@@ -86,7 +112,12 @@ function testButtonState(
   enabled: boolean,
 ) {
   mockSearchParams(searchParams);
-  render(<DownloadButton />, { queryString: searchParams.q });
+  render(
+    <DownloadButton closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+    {
+      queryString: searchParams.q,
+    },
+  );
 
   const button = screen.getByRole("button");
 

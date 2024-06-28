@@ -73,3 +73,20 @@ export function debounce<T extends (...args: never[]) => void>(
 
   return debounced;
 }
+
+// Taken from here:
+// https://gist.github.com/lanqy/5193417?permalink_comment_id=4379535#gistcomment-4379535
+export function bytesToSize(bytes: number, locale: Locale) {
+  const units = ["byte", "kilobyte", "megabyte", "gigabyte"];
+  const unitIndex = Math.max(
+    0,
+    Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1),
+  );
+
+  return Intl.NumberFormat(locale, {
+    notation: "compact",
+    style: "unit",
+    unit: units[unitIndex],
+    unitDisplay: "short",
+  }).format(bytes / 1024 ** unitIndex);
+}

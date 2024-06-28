@@ -50,13 +50,17 @@ export default class SearchParams {
     const queryString = this.searchParams.get("q")?.trim();
     const qId = this.searchParams.get("q_id");
     const isQueryStringPresent = queryString != null && queryString !== "";
-    const isQIdPresent = qId != null && isValidMd5(qId);
+    const isQIdPresent = qId != null;
 
     if (isQueryStringPresent) {
       return queryString;
     }
 
     if (isQIdPresent) {
+      if (!isValidMd5(qId)) {
+        throw new CustomError({ name: "QIdNotFoundError", qId });
+      }
+
       const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
 
       const response = await fetch(url);

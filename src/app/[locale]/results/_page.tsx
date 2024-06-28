@@ -13,7 +13,6 @@ import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
-import ErrorCard from "@/components/ErrorCard";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
@@ -60,22 +59,25 @@ export default async function ResultsPage({
   try {
     queryString = await searchParams.getQueryString();
   } catch (err) {
-    return err instanceof CustomError ? (
-      <ResultsPageShell queryString="" resultsCount={0}>
-        <ErrorCard info={err.info} />
-      </ResultsPageShell>
-    ) : null;
+    return (
+      <ResultsPageShell
+        queryString=""
+        resultsCount={0}
+        errorInfo={err instanceof CustomError ? err.info : { name: "default" }}
+      />
+    );
   }
 
   if (queryString === "") {
     redirect("/");
   }
 
-  try {
-    const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } =
-      filters;
+  const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } = filters;
 
-    const [results, resultsWithoutLastAppliedFacet] = await Promise.all([
+  let results;
+  let resultsWithoutLastAppliedFacet;
+  try {
+    [results, resultsWithoutLastAppliedFacet] = await Promise.all([
       getTranslatedResults({
         queryString,
         perPage,
@@ -98,90 +100,90 @@ export default async function ResultsPage({
           })
         : undefined,
     ]);
-
-    // Get the potential random seed in the pagination URLs sent by the API
-    let randomSeedToUse;
-    if (results.total > 0 && results.firstPageURI != null) {
-      const firstPageUrl = new URL(results.firstPageURI);
-      const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
-
-      if (randomSeedFromSearchParams != null) {
-        randomSeedToUse = randomSeedFromSearchParams;
-      } else if (randomSeedFromResults != null) {
-        randomSeedToUse = randomSeedFromResults;
-      }
-    }
-
-    const facets: FacetList = {};
-    const indicators: Aggregation = {};
-    const compatibility: Aggregation = {};
-    for (const facetTitle in results.aggregations) {
-      if (FACETS.some((facet) => facet.name === facetTitle)) {
-        const facetItemList =
-          facetTitle === lastAppliedFacet &&
-          resultsWithoutLastAppliedFacet !== undefined
-            ? resultsWithoutLastAppliedFacet.aggregations[facetTitle].buckets
-            : results.aggregations[facetTitle].buckets;
-
-        facets[facetTitle] = facetItemList.map((facetItem) => ({
-          ...facetItem,
-          selected:
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            filters[facetTitle]?.includes(
-              facetItem.keyAsString ?? facetItem.key.toString(),
-            ) ?? false,
-          excluded:
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            filters[facetTitle]?.includes(
-              `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
-            ) ?? false,
-        }));
-      }
-
-      if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
-        indicators[facetTitle] = results.aggregations[facetTitle];
-      }
-      if (COMPATIBILITY_FACETS.some((facet) => facet.name === facetTitle)) {
-        compatibility[facetTitle] = results.aggregations[facetTitle];
-      }
-    }
-
+  } catch (err) {
     return (
       <ResultsPageShell
         queryString={queryString}
-        resultsCount={results.total}
-        randomSeed={randomSeedToUse}
-        facets={facets}
-        results={results}
-      >
-        <Stack
-          direction={{ xs: "column", md: "row" }}
-          spacing={4}
-          alignItems="start"
-        >
-          <FacetsContainer />
-
-          <Stack gap={1} width="100%">
-            <Panels indicators={indicators} compatibility={compatibility} />
-
-            <Filters />
-
-            <ResultsGrid results={results.hits} />
-
-            <Pagination />
-          </Stack>
-        </Stack>
-
-        <DownloadButton />
-      </ResultsPageShell>
-    );
-  } catch (err) {
-    return err instanceof CustomError ? (
-      <ResultsPageShell
-        queryString={queryString}
         resultsCount={0}
-        errorInfo={err.info}
+        errorInfo={err instanceof CustomError ? err.info : { name: "default" }}
       />
-    ) : null;
+    );
   }
+
+  // Get the potential random seed in the pagination URLs sent by the API
+  let randomSeedToUse;
+  if (results.total > 0 && results.firstPageURI != null) {
+    const firstPageUrl = new URL(results.firstPageURI);
+    const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
+
+    if (randomSeedFromSearchParams != null) {
+      randomSeedToUse = randomSeedFromSearchParams;
+    } else if (randomSeedFromResults != null) {
+      randomSeedToUse = randomSeedFromResults;
+    }
+  }
+
+  const facets: FacetList = {};
+  const indicators: Aggregation = {};
+  const compatibility: Aggregation = {};
+  for (const facetTitle in results.aggregations) {
+    if (FACETS.some((facet) => facet.name === facetTitle)) {
+      const facetItemList =
+        facetTitle === lastAppliedFacet &&
+        resultsWithoutLastAppliedFacet !== undefined
+          ? resultsWithoutLastAppliedFacet.aggregations[facetTitle].buckets
+          : results.aggregations[facetTitle].buckets;
+
+      facets[facetTitle] = facetItemList.map((facetItem) => ({
+        ...facetItem,
+        selected:
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          filters[facetTitle]?.includes(
+            facetItem.keyAsString ?? facetItem.key.toString(),
+          ) ?? false,
+        excluded:
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          filters[facetTitle]?.includes(
+            `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
+          ) ?? false,
+      }));
+    }
+
+    if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
+      indicators[facetTitle] = results.aggregations[facetTitle];
+    }
+    if (COMPATIBILITY_FACETS.some((facet) => facet.name === facetTitle)) {
+      compatibility[facetTitle] = results.aggregations[facetTitle];
+    }
+  }
+
+  return (
+    <ResultsPageShell
+      queryString={queryString}
+      resultsCount={results.total}
+      randomSeed={randomSeedToUse}
+      facets={facets}
+      results={results}
+    >
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={4}
+        alignItems="start"
+      >
+        <FacetsContainer />
+
+        <Stack gap={1} width="100%">
+          <Panels indicators={indicators} compatibility={compatibility} />
+
+          <Filters />
+
+          <ResultsGrid results={results.hits} />
+
+          <Pagination />
+        </Stack>
+      </Stack>
+
+      <DownloadButton />
+    </ResultsPageShell>
+  );
 }

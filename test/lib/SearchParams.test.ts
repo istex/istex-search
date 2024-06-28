@@ -14,6 +14,7 @@ import {
   istexApiConfig,
   perPageOptions,
 } from "@/config";
+import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
 import { getEmptyAst, type AST } from "@/lib/assistedSearch/ast";
 
@@ -23,6 +24,16 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({ q: "hello" });
 
       expect(await searchParams.getQueryString()).toBe("hello");
+    });
+
+    it("throws an error when there is an invalid q_id", () => {
+      const qId = "invalid";
+      const searchParams = new SearchParams({ q_id: qId });
+
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      expect(searchParams.getQueryString()).rejects.toEqual(
+        new CustomError({ name: "QIdNotFoundError", qId }),
+      );
     });
   });
 

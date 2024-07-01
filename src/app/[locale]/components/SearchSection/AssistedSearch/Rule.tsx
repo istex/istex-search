@@ -313,7 +313,6 @@ export default function Rule({
           />
         )}
         renderOption={(renderProps, option) => {
-          // @ts-expect-error "key" is not in HTMLAttributes<HTMLLIElement> but it is actually there at runtime
           const { key, ...rest } = renderProps;
 
           return <FieldInputMenuItem key={key} option={option} {...rest} />;

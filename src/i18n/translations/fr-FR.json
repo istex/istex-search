@@ -15,6 +15,7 @@
       "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>Première étape de votre projet de fouille de textes"
     },
     "SearchSection": {
+      "searchModeGroupAriaLabel": "Modes de recherche",
       "regularMode": "Recherche simple",
       "assistedMode": "Recherche assistée",
       "importMode": "Import de liste",

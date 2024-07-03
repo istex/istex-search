@@ -1,10 +1,18 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
-import { Skeleton, Stack, Typography } from "@mui/material";
+import {
+  Skeleton,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
+import { toggleButtonClasses } from "@mui/material/ToggleButton";
+import { toggleButtonGroupClasses } from "@mui/material/ToggleButtonGroup";
+import { styled } from "@mui/material/styles";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import SearchByIdIcon from "@/../public/id-search.svg";
-import Button from "@/components/Button";
 import {
   SEARCH_MODE_IMPORT,
   SEARCH_MODE_ASSISTED,
@@ -59,41 +67,42 @@ export default function SearchTitle() {
     router.push(`/?${searchParams.toString()}`);
   };
 
+  const handleChange = (
+    _: React.MouseEvent<HTMLElement>,
+    newSearchMode: SearchMode | null,
+  ) => {
+    if (newSearchMode != null) {
+      goToHomePage(newSearchMode);
+    }
+  };
+
   return (
     <>
       <Stack direction="row" justifyContent="space-between">
+        {/* Title */}
         <Typography variant="h5" component="h1" gutterBottom>
           {t(getTranslationKey())}
         </Typography>
-        <Stack direction="row" spacing={1}>
+
+        {/* Search mode buttons */}
+        <StyledToggleButtonGroup
+          size="small"
+          exclusive
+          aria-label={t("searchModeGroupAriaLabel")}
+          value={searchMode}
+          onChange={handleChange}
+        >
           {searchModes.map((mode) => (
-            <Button
+            <StyledToggleButton
               key={mode}
-              mainColor="lightBlue"
-              variant="contained"
-              sx={(theme) => ({
-                color: theme.palette.primary.main,
-                bgColor: theme.palette.colors.lightBlue,
-                border:
-                  mode === searchMode
-                    ? `1px solid ${theme.palette.primary.main}`
-                    : "",
-                boxShadow:
-                  mode === searchMode ? "0px 3px 3px 0px rgba(0,0,0,0.25)" : "",
-                minWidth: "40px",
-                maxWidth: "40px",
-                height: "40px",
-              })}
+              value={mode}
               title={t(`${mode}Mode`)}
-              onClick={() => {
-                goToHomePage(mode);
-              }}
-              data-testid={`${mode}-search-button`}
+              aria-label={t(`${mode}Mode`)}
             >
               <Icon searchMode={mode} />
-            </Button>
+            </StyledToggleButton>
           ))}
-        </Stack>
+        </StyledToggleButtonGroup>
       </Stack>
 
       {/* Results count */}
@@ -149,3 +158,34 @@ function Icon({ searchMode }: IconProps) {
       throw new Error("Unknown search mode");
   }
 }
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  [`& .${toggleButtonGroupClasses.grouped}`]: {
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5),
+    border: 0,
+    borderRadius: theme.shape.borderRadius,
+    width: 40,
+    height: 40,
+    backgroundColor: theme.palette.colors.lightBlue,
+    color: theme.palette.primary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.colors.lightBlue,
+    },
+  },
+  [`& .${toggleButtonGroupClasses.lastButton}`]: {
+    marginRight: 0,
+  },
+}));
+
+const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+  [`&.${toggleButtonClasses.selected}`]: {
+    backgroundColor: theme.palette.colors.lightBlue,
+    color: theme.palette.primary.main,
+    border: `solid 1px ${theme.palette.primary.main}`,
+    boxShadow: "0px 3px 3px 0px rgba(0,0,0,0.25)",
+    "&:hover": {
+      backgroundColor: theme.palette.colors.lightBlue,
+    },
+  },
+}));

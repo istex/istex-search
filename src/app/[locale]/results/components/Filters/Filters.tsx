@@ -39,7 +39,6 @@ export default function Filters() {
     }
     searchParams.setFilters(newFilters);
     searchParams.setPage(1);
-    searchParams.setLastAppliedFacet(filterKey);
 
     history.populateCurrentRequest({
       date: Date.now(),

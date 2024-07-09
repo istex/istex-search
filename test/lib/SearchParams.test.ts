@@ -376,38 +376,6 @@ describe("SearchParams class", () => {
     });
   });
 
-  describe("getLastAppliedFacet", () => {
-    it("gets the last applied facet", () => {
-      const searchParams = new SearchParams({
-        lastAppliedFacet: "corpusName",
-      });
-
-      expect(searchParams.getLastAppliedFacet()).toBe("corpusName");
-    });
-  });
-
-  describe("setLastAppliedFacet", () => {
-    it("sets the last applied facet", () => {
-      const searchParams = new SearchParams({});
-
-      searchParams.setLastAppliedFacet("corpusName");
-
-      expect(searchParams.getLastAppliedFacet()).toBe("corpusName");
-    });
-  });
-
-  describe("deleteLastAppliedFacet", () => {
-    it("deletes the last applied facet", () => {
-      const searchParams = new SearchParams({
-        lastAppliedFacet: "corpusName",
-      });
-
-      searchParams.deleteLastAppliedFacet();
-
-      expect(searchParams.getLastAppliedFacet()).toBe("");
-    });
-  });
-
   describe("getSearchMode", () => {
     it("gets the search mode", () => {
       const searchParams = new SearchParams({

@@ -60,7 +60,6 @@ export function FacetProvider({ facets, children }: FacetProviderProps) {
     const { [facetTitle]: _, ...updatedFilters } = filters;
     searchParams.setFilters(updatedFilters);
     searchParams.setPage(1);
-    searchParams.deleteLastAppliedFacet();
 
     history.populateCurrentRequest({
       date: Date.now(),
@@ -74,7 +73,6 @@ export function FacetProvider({ facets, children }: FacetProviderProps) {
   const clearAllFacets = () => {
     searchParams.deleteFilters();
     searchParams.setPage(1);
-    searchParams.deleteLastAppliedFacet();
 
     history.populateCurrentRequest({
       date: Date.now(),
@@ -114,7 +112,6 @@ export function FacetProvider({ facets, children }: FacetProviderProps) {
     }
     searchParams.setFilters(filters);
     searchParams.setPage(1);
-    searchParams.setLastAppliedFacet(facetTitle);
 
     history.populateCurrentRequest({
       date: Date.now(),

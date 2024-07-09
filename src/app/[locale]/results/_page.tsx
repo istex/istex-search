@@ -50,7 +50,6 @@ export default async function ResultsPage({
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();
   const filters = searchParams.getFilters();
-  const lastAppliedFacet = searchParams.getLastAppliedFacet();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
   const randomSeedFromSearchParams = searchParams.getRandomSeed();
@@ -72,34 +71,18 @@ export default async function ResultsPage({
     redirect("/");
   }
 
-  const { [lastAppliedFacet]: _, ...filtersWithoutLastAppliedFacet } = filters;
-
   let results;
-  let resultsWithoutLastAppliedFacet;
   try {
-    [results, resultsWithoutLastAppliedFacet] = await Promise.all([
-      getTranslatedResults({
-        queryString,
-        perPage,
-        page,
-        filters,
-        sortBy,
-        sortDir,
-        locale,
-        randomSeed: randomSeedFromSearchParams,
-      }),
-      lastAppliedFacet !== ""
-        ? getResults({
-            queryString,
-            perPage,
-            page,
-            filters: filtersWithoutLastAppliedFacet,
-            sortBy,
-            sortDir,
-            randomSeed: randomSeedFromSearchParams,
-          })
-        : undefined,
-    ]);
+    results = await getTranslatedResults({
+      queryString,
+      perPage,
+      page,
+      filters,
+      sortBy,
+      sortDir,
+      locale,
+      randomSeed: randomSeedFromSearchParams,
+    });
   } catch (err) {
     return (
       <ResultsPageShell
@@ -128,11 +111,7 @@ export default async function ResultsPage({
   const compatibility: Aggregation = {};
   for (const facetTitle in results.aggregations) {
     if (FACETS.some((facet) => facet.name === facetTitle)) {
-      const facetItemList =
-        facetTitle === lastAppliedFacet &&
-        resultsWithoutLastAppliedFacet !== undefined
-          ? resultsWithoutLastAppliedFacet.aggregations[facetTitle].buckets
-          : results.aggregations[facetTitle].buckets;
+      const facetItemList = results.aggregations[facetTitle].buckets;
 
       facets[facetTitle] = facetItemList.map((facetItem) => ({
         ...facetItem,

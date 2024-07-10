@@ -8,7 +8,9 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
+import { corpusWithExternalFulltextLink } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { externalLink } from "@/i18n/i18n";
 import { useShare } from "@/lib/hooks";
 
 export default function DocumentDetail() {
@@ -36,6 +38,11 @@ export default function DocumentDetail() {
     displayedDocument != null
       ? excludedDocuments.includes(displayedDocument.arkIstex)
       : false;
+
+  const { corpusName, doi, fulltextUrl } = displayedDocument ?? {};
+  const showExternalUrl =
+    corpusWithExternalFulltextLink.includes(corpusName ?? "") &&
+    ((doi != null && doi.length > 0) || fulltextUrl != null);
 
   const shareDocument = () => {
     if (displayedDocument == null) {
@@ -70,6 +77,7 @@ export default function DocumentDetail() {
       transitionDuration={400}
     >
       <Stack direction={{ xs: "column", md: "row" }}>
+        {/* Left panel */}
         <Stack flexGrow={1} p={{ xs: 7, md: 4, lg: 7 }} gap={0.5}>
           {displayedDocument?.title != null && (
             <Typography variant="h6" component="h2" color="common.black">
@@ -112,6 +120,8 @@ export default function DocumentDetail() {
               {displayedDocument.abstract}
             </Typography>
           )}
+
+          {/* Go back and share buttons */}
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -162,6 +172,8 @@ export default function DocumentDetail() {
             </Typography>
           </Stack>
         </Stack>
+
+        {/* Right panel */}
         <Stack
           bgcolor="colors.lightBlue"
           p={{ xs: 7, md: 4, lg: 7 }}
@@ -170,6 +182,7 @@ export default function DocumentDetail() {
           flexShrink={0}
           spacing={3}
         >
+          {/* Tags */}
           <Stack spacing={1} direction="row" flexWrap="wrap" useFlexGap>
             <Typography
               component="h3"
@@ -209,6 +222,8 @@ export default function DocumentDetail() {
                 ),
             )}
           </Stack>
+
+          {/* File lists */}
           <Stack spacing={1} alignItems="start">
             <Typography
               component="h3"
@@ -219,81 +234,47 @@ export default function DocumentDetail() {
               {t("seeDoc")}
             </Typography>
             {displayedDocument?.fulltext != null && (
-              <>
-                <Typography
-                  component="h4"
-                  variant="subtitle2"
-                  sx={{
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  {t("fulltext")}
-                </Typography>
-                <FileList
-                  files={displayedDocument.fulltext}
-                  titleKey="fulltext"
-                />
-              </>
+              <FileList
+                files={displayedDocument.fulltext}
+                titleKey="fulltext"
+              />
             )}
             {displayedDocument?.metadata != null && (
-              <>
-                <Typography
-                  component="h4"
-                  variant="subtitle2"
-                  sx={{
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  {t("metadata")}
-                </Typography>
-                <FileList
-                  files={displayedDocument.metadata}
-                  titleKey="metadata"
-                />
-              </>
+              <FileList
+                files={displayedDocument.metadata}
+                titleKey="metadata"
+              />
             )}
 
             {displayedDocument?.annexes != null && (
-              <>
-                <Typography
-                  component="h4"
-                  variant="subtitle2"
-                  sx={{
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  {t("annexes")}
-                </Typography>
-                <FileList
-                  files={displayedDocument.annexes}
-                  titleKey="annexes"
-                />
-              </>
+              <FileList files={displayedDocument.annexes} titleKey="annexes" />
             )}
             {displayedDocument?.enrichments != null && (
-              <>
-                <Typography
-                  component="h4"
-                  variant="subtitle2"
-                  sx={{
-                    fontSize: "0.8rem",
-                  }}
-                >
-                  {t("enrichments")}
-                </Typography>
-                <FileList
-                  files={Object.entries(displayedDocument.enrichments).map(
-                    (enrichment) => ({
-                      key: enrichment[0],
-                      extension: enrichment[1][0].extension,
-                      uri: enrichment[1][0].uri,
-                    }),
-                  )}
-                  titleKey="enrichments"
-                />
-              </>
+              <FileList
+                files={Object.entries(displayedDocument.enrichments).map(
+                  (enrichment) => ({
+                    key: enrichment[0],
+                    extension: enrichment[1][0].extension,
+                    uri: enrichment[1][0].uri,
+                  }),
+                )}
+                titleKey="enrichments"
+              />
             )}
           </Stack>
+
+          {/* External Url */}
+          {showExternalUrl && (
+            <Typography variant="body2">
+              {t.rich("externalLink", {
+                externalLink: externalLink(
+                  doi != null ? `https://doi.org/${doi[0]}` : fulltextUrl ?? "",
+                ),
+              })}
+            </Typography>
+          )}
+
+          {/* Select and exclude buttons */}
           {displayedDocument != null && (
             <>
               <Button

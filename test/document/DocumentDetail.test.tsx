@@ -7,79 +7,19 @@ import {
 } from "../test-utils";
 import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
+import { corpusWithExternalFulltextLink } from "@/config";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 
 describe("DocumentDetail", () => {
-  const dummyUri = "https://foo.bar/";
-  const dummyUriWithSid = `${dummyUri}?sid=istex-search`;
-  const document: Result = {
-    id: "123",
-    title: "Document title",
-    host: {
-      title: "Host title",
-      genre: ["Host genre"],
-    },
-    author: [
-      {
-        name: "Author name",
-      },
-    ],
-    genre: ["Genre"],
-    abstract: "Abstract",
-    corpusName: "Corpus name",
-    publicationDate: "2021",
-    arkIstex: "arkIstex",
-    fulltext: [
-      { extension: "pdf", uri: dummyUri },
-      { extension: "zip", uri: dummyUri },
-    ],
-    metadata: [
-      { extension: "xml", uri: dummyUri },
-      { extension: "json", uri: dummyUri },
-    ],
-    annexes: [{ extension: "jpg", uri: dummyUri }],
-    enrichments: {
-      nb: [
-        {
-          extension: "tei",
-          uri: dummyUri,
-        },
-      ],
-      teeft: [
-        {
-          extension: "tei",
-          uri: dummyUri,
-        },
-      ],
-    },
-  };
-
-  const results: IstexApiResponse = {
-    total: 1,
-    firstPageURI: "",
-    lastPageURI: "",
-    hits: [document],
-    aggregations: {},
-  };
-
-  it("should not render the document details when the displayedDocument is not defined", () => {
+  it("doesn't render the document details when the displayedDocument is not defined", () => {
     const { container } = render(<DocumentDetail />);
     const drawer = container.querySelector(".MuiDrawer-root");
     expect(drawer).not.toBeInTheDocument();
   });
 
-  it("should render the document details correctly", async () => {
-    render(
-      <>
-        <ResultCard info={document} />
-        <DocumentDetail />
-      </>,
-      { results },
-    );
-    const card = screen.getByText("Document title").closest("button");
-    if (card != null) {
-      await userEvent.click(card);
-    }
+  it("renders the document details correctly", async () => {
+    await renderDocumentDetail();
+
     const drawer = screen.getByRole("presentation");
     expect(drawer).toBeInTheDocument();
     expect(within(drawer).getByText("Document title")).toBeInTheDocument();
@@ -149,20 +89,55 @@ describe("DocumentDetail", () => {
     );
   });
 
-  it("should call handleCloseDocument when the close button is clicked", async () => {
-    render(
-      <>
-        <ResultCard info={document} />
-        <DocumentDetail />
-      </>,
-      { results },
-    );
-    const card = screen.getByText("Document title").closest("button");
-    if (card != null) {
-      await userEvent.click(card);
-    }
+  it("doesn't render an external link when the corpus name is not one of corpusWithExternalFulltextLink", async () => {
+    await renderDocumentDetail({
+      corpusName: "hello",
+      doi: ["1234"],
+    });
+
+    const externalLink = screen.queryByRole("link", { name: "ici" });
+
+    expect(externalLink).not.toBeInTheDocument();
+  });
+
+  it("doesn't render an external link when the corpus name is one of corpusWithExternalFulltextLink but DOI and fulltextUrl are not defined", async () => {
+    await renderDocumentDetail({
+      corpusName: corpusWithExternalFulltextLink[0],
+    });
+
+    const externalLink = screen.queryByRole("link", { name: "ici" });
+
+    expect(externalLink).not.toBeInTheDocument();
+  });
+
+  it("renders an external link using the DOI when the corpus name is one of corpusWithExternalFulltextLink and a DOI is present", async () => {
+    await renderDocumentDetail({
+      corpusName: corpusWithExternalFulltextLink[0],
+      doi: ["1234"],
+    });
+
+    const externalLink = screen.getByRole("link", { name: "ici" });
+
+    expect(externalLink).toBeInTheDocument();
+    expect(externalLink).toHaveAttribute("href", "https://doi.org/1234");
+  });
+
+  it("renders an external link using the fulltextUrl when the corpus name is one of corpusWithExternalFulltextLink but DOI is not defined", async () => {
+    await renderDocumentDetail({
+      corpusName: corpusWithExternalFulltextLink[0],
+      fulltextUrl: "hello",
+    });
+
+    const externalLink = screen.getByRole("link", { name: "ici" });
+
+    expect(externalLink).toBeInTheDocument();
+    expect(externalLink).toHaveAttribute("href", "hello");
+  });
+
+  it("calls handleCloseDocument when the close button is clicked", async () => {
+    await renderDocumentDetail();
+
     const drawer = screen.getByRole("presentation");
-    expect(drawer).toBeInTheDocument();
     const closeButton = within(drawer).getByText("Revenir aux résultats");
     await userEvent.click(closeButton);
     await waitFor(() => {
@@ -170,51 +145,103 @@ describe("DocumentDetail", () => {
     });
   });
 
-  it("should toggle the selection when the select button is clicked", async () => {
-    render(
-      <>
-        <ResultCard info={document} />
-        <DocumentDetail />
-      </>,
-      { results },
-    );
-    const card = screen.getByText("Document title").closest("button");
-    if (card != null) {
-      await userEvent.click(card);
-    }
+  it("toggles the selection when the select button is clicked", async () => {
+    await renderDocumentDetail();
+
     const drawer = screen.getByRole("presentation");
-    expect(drawer).toBeInTheDocument();
     const selectButton = within(drawer).getByText("Sélectionner");
     const excludeButton = within(drawer).getByText("Exclure");
     await userEvent.click(selectButton);
     expect(selectButton).toHaveTextContent("Désélectionner");
     expect(excludeButton).toBeDisabled();
+
     await userEvent.click(selectButton);
     expect(selectButton).toHaveTextContent("Sélectionner");
     expect(excludeButton).not.toBeDisabled();
   });
 
-  it("should toggle the exclusion when the exclude button is clicked", async () => {
-    render(
-      <>
-        <ResultCard info={document} />
-        <DocumentDetail />
-      </>,
-      { results },
-    );
-    const card = screen.getByText("Document title").closest("button");
-    if (card != null) {
-      await userEvent.click(card);
-    }
+  it("toggles the exclusion when the exclude button is clicked", async () => {
+    await renderDocumentDetail();
+
     const drawer = screen.getByRole("presentation");
-    expect(drawer).toBeInTheDocument();
     const selectButton = within(drawer).getByText("Sélectionner");
     const excludeButton = within(drawer).getByText("Exclure");
     await userEvent.click(excludeButton);
     expect(excludeButton).toHaveTextContent("Inclure");
     expect(selectButton).toBeDisabled();
+
     await userEvent.click(excludeButton);
     expect(excludeButton).toHaveTextContent("Exclure");
     expect(selectButton).not.toBeDisabled();
   });
 });
+
+const dummyUri = "https://foo.bar/";
+const dummyUriWithSid = `${dummyUri}?sid=istex-search`;
+const document: Result = {
+  id: "123",
+  title: "Document title",
+  host: {
+    title: "Host title",
+    genre: ["Host genre"],
+  },
+  author: [
+    {
+      name: "Author name",
+    },
+  ],
+  genre: ["Genre"],
+  abstract: "Abstract",
+  corpusName: "Corpus name",
+  publicationDate: "2021",
+  arkIstex: "arkIstex",
+  fulltext: [
+    { extension: "pdf", uri: dummyUri },
+    { extension: "zip", uri: dummyUri },
+  ],
+  metadata: [
+    { extension: "xml", uri: dummyUri },
+    { extension: "json", uri: dummyUri },
+  ],
+  annexes: [{ extension: "jpg", uri: dummyUri }],
+  enrichments: {
+    nb: [
+      {
+        extension: "tei",
+        uri: dummyUri,
+      },
+    ],
+    teeft: [
+      {
+        extension: "tei",
+        uri: dummyUri,
+      },
+    ],
+  },
+};
+
+const results: IstexApiResponse = {
+  total: 1,
+  firstPageURI: "",
+  lastPageURI: "",
+  hits: [document],
+  aggregations: {},
+};
+
+async function renderDocumentDetail(partialDocument: Partial<Result> = {}) {
+  const newDocument = { ...document, ...partialDocument };
+  render(
+    <>
+      <ResultCard info={newDocument} />
+      <DocumentDetail />
+    </>,
+    { results: { ...results, hits: [newDocument] } },
+  );
+
+  const card = screen.getByText(newDocument.title ?? "").closest("button");
+  if (card == null) {
+    throw new Error("Couldn't find click area on result card");
+  }
+
+  await userEvent.click(card);
+}

@@ -4,7 +4,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
-  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -13,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { lighten } from "@mui/system/colorManipulator";
-import FileList, { type FileListProps } from "./Document/FileList";
+import FileList from "./Document/FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useSearchParams } from "@/lib/hooks";
@@ -132,16 +131,16 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
         {displayIcons === true && (
           <Stack direction="row" gap={2}>
             {info.fulltext != null && (
-              <FileIcons files={info.fulltext} titleKey="fulltext" />
+              <FileList files={info.fulltext} titleKey="fulltext" />
             )}
             {info.metadata != null && (
-              <FileIcons files={info.metadata} titleKey="metadata" />
+              <FileList files={info.metadata} titleKey="metadata" />
             )}
             {info.annexes != null && (
-              <FileIcons files={info.annexes} titleKey="annexes" />
+              <FileList files={info.annexes} titleKey="annexes" />
             )}
             {info.enrichments != null && (
-              <FileIcons
+              <FileList
                 files={Object.entries(info.enrichments).map((enrichment) => ({
                   key: enrichment[0],
                   extension: enrichment[1][0].extension,
@@ -201,24 +200,5 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
         )}
       </Stack>
     </Card>
-  );
-}
-
-function FileIcons({ files, titleKey }: FileListProps) {
-  const t = useTranslations("results.Document");
-
-  return (
-    <Box sx={{ fontSize: "0.8rem" }}>
-      <Typography
-        component="h4"
-        variant="subtitle2"
-        sx={{
-          fontSize: "inherit",
-        }}
-      >
-        {t(titleKey)}
-      </Typography>
-      <FileList files={files} titleKey={titleKey} />
-    </Box>
   );
 }

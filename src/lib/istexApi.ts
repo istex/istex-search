@@ -24,25 +24,75 @@ import type { SelectedDocument } from "@/contexts/DocumentContext";
 
 export type Filter = Record<string, string[]>;
 
-export interface BuildResultPreviewUrlOptions {
-  queryString: string;
-  perPage?: PerPageOption;
-  page?: number;
-  fields?: string[];
-  filters?: Filter;
-  selectedDocuments?: SelectedDocument[];
-  excludedDocuments?: string[];
-  sortBy?: SortBy;
-  sortDir?: SortDir;
-  randomSeed?: string;
+export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
+
+export interface Result {
+  id: string;
+  corpusName: string;
+  title?: string;
+  abstract?: string;
+  doi?: string[];
+  author?: { name?: string }[];
+  accessCondition?: {
+    contentType: AccessCondition;
+  };
+  fulltextUrl?: string;
+  host?: {
+    title?: string;
+    genre?: string[];
+  };
+  genre?: string[];
+  publicationDate?: string;
+  arkIstex: string;
+  fulltext?: {
+    extension: string;
+    uri: string;
+  }[];
+  metadata?: {
+    extension: string;
+    uri: string;
+  }[];
+  annexes?: {
+    extension: string;
+    uri: string;
+  }[];
+  enrichments?: Record<
+    string,
+    {
+      extension: string;
+      uri: string;
+    }[]
+  >;
 }
 
-export const createCompleteQuery = (
+export type Aggregation = Record<
+  string,
+  {
+    sumOtherDocCount?: number;
+    buckets: {
+      key: string | number;
+      keyAsString?: string;
+      docCount: number;
+    }[];
+  }
+>;
+
+export interface IstexApiResponse {
+  total: number;
+  prevPageURI?: string;
+  nextPageURI?: string;
+  firstPageURI?: string;
+  lastPageURI?: string;
+  hits: Result[];
+  aggregations: Aggregation;
+}
+
+export function createCompleteQuery(
   queryString: string,
   filters?: Filter,
   selectedDocuments?: SelectedDocument[],
   excludedDocuments?: string[],
-) => {
+) {
   if (selectedDocuments != null && selectedDocuments.length > 0) {
     return `arkIstex.raw:(${selectedDocuments
       .map((doc) => `"${doc.arkIstex}"`)
@@ -111,7 +161,7 @@ export const createCompleteQuery = (
   }
 
   return completeQueryString;
-};
+}
 
 export function setSearchParamsSorting(
   searchParams: URLSearchParams,
@@ -126,6 +176,19 @@ export function setSearchParamsSorting(
     sortParams,
     `${sortBy}${sortParams === "sortBy" ? `[${sortDir}]` : ""}`,
   );
+}
+
+export interface BuildResultPreviewUrlOptions {
+  queryString: string;
+  perPage?: PerPageOption;
+  page?: number;
+  fields?: string[];
+  filters?: Filter;
+  selectedDocuments?: SelectedDocument[];
+  excludedDocuments?: string[];
+  sortBy?: SortBy;
+  sortDir?: SortDir;
+  randomSeed?: string;
 }
 
 export function buildResultPreviewUrl({
@@ -171,7 +234,10 @@ export function buildResultPreviewUrl({
   if (randomSeed != null) {
     url.searchParams.set("randomSeed", randomSeed);
   }
-  url.searchParams.set("output", fields?.join(",") ?? "*");
+  url.searchParams.set(
+    "output",
+    (fields ?? istexApiConfig.defaultFields).join(","),
+  );
   url.searchParams.set("sid", "istex-search");
   url.searchParams.set(
     "facet",
@@ -182,62 +248,6 @@ export function buildResultPreviewUrl({
   );
 
   return url;
-}
-
-export interface Result {
-  id: string;
-  corpusName?: string;
-  title?: string;
-  abstract?: string;
-  author?: { name?: string }[];
-  host?: {
-    title?: string;
-    genre?: string[];
-  };
-  genre?: string[];
-  publicationDate?: string;
-  arkIstex: string;
-  fulltext?: {
-    extension: string;
-    uri: string;
-  }[];
-  metadata?: {
-    extension: string;
-    uri: string;
-  }[];
-  annexes?: {
-    extension: string;
-    uri: string;
-  }[];
-  enrichments?: Record<
-    string,
-    {
-      extension: string;
-      uri: string;
-    }[]
-  >;
-}
-
-export type Aggregation = Record<
-  string,
-  {
-    sumOtherDocCount?: number;
-    buckets: {
-      key: string | number;
-      keyAsString?: string;
-      docCount: number;
-    }[];
-  }
->;
-
-export interface IstexApiResponse {
-  total: number;
-  prevPageURI?: string;
-  nextPageURI?: string;
-  firstPageURI?: string;
-  lastPageURI?: string;
-  hits: Result[];
-  aggregations: Aggregation;
 }
 
 export interface GetResultsOptions {
@@ -264,21 +274,6 @@ export async function getResults({
     queryString,
     perPage,
     page,
-    fields: [
-      "corpusName",
-      "title",
-      "host.title",
-      "host.genre",
-      "author",
-      "abstract",
-      "genre",
-      "publicationDate",
-      "arkIstex",
-      "fulltext",
-      "metadata",
-      "annexes",
-      "enrichments",
-    ],
     filters,
     sortBy,
     sortDir,

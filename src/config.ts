@@ -5,7 +5,30 @@ export const istexApiConfig = {
   maxSize: 100_000,
   maxPaginationOffset: 10_000,
   queryStringMaxLength: 2_000,
+  defaultFields: [
+    "corpusName",
+    "title",
+    "doi",
+    "accessCondition.contentType",
+    "fulltextUrl",
+    "host.title",
+    "host.genre",
+    "author",
+    "abstract",
+    "genre",
+    "publicationDate",
+    "arkIstex",
+    "fulltext",
+    "metadata",
+    "annexes",
+    "enrichments",
+  ],
 } as const;
+
+export const corpusWithExternalFulltextLink = [
+  "oa-plos",
+  "open-edition-journals",
+] as const;
 
 export const examples = {
   emmanuelKant:

@@ -533,6 +533,7 @@
       "metadata": "Métadonnées",
       "annexes": "Annexes",
       "enrichments": "Enrichissements",
+      "externalLink": "Ce document est disponible <externalLink>ici</externalLink>.",
       "selectDocument": "Sélectionner",
       "unselectDocument": "Désélectionner",
       "excludeDocument": "Exclure",

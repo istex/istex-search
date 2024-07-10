@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import {
+  Box,
   IconButton,
   Stack,
   Typography,
@@ -19,7 +20,7 @@ import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
 
-export interface FileListProps {
+interface FileListProps {
   files: { key?: string; extension: string; uri: string }[];
   titleKey: string;
 }
@@ -28,51 +29,62 @@ export default function FileList({ files, titleKey }: FileListProps) {
   const t = useTranslations("results.Document");
 
   return (
-    <Stack direction="row" flexWrap="wrap" gap={0.5}>
-      {files.map(({ key, extension, uri }, index) => {
-        const fullUri = new URL(uri);
-        fullUri.searchParams.set("sid", "istex-search");
+    <Box sx={{ fontSize: "0.8rem" }}>
+      <Typography
+        component="h4"
+        variant="subtitle2"
+        sx={{
+          fontSize: "inherit",
+        }}
+      >
+        {t(titleKey)}
+      </Typography>
+      <Stack direction="row" flexWrap="wrap" gap={0.5}>
+        {files.map(({ key, extension, uri }, index) => {
+          const fullUri = new URL(uri);
+          fullUri.searchParams.set("sid", "istex-search");
 
-        return (
-          <IconButton
-            href={fullUri.toString()}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={key ?? extension}
-            key={index}
-            disableRipple
-            title={t(`formatsLinks.${titleKey}`, {
-              key: key != null ? t(`enrichmentNames.${key}`) : undefined,
-              extension: extension.toUpperCase(),
-            })}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              p: 0.5,
-              maxWidth: "4rem",
-              overflow: "hidden",
-              wordBreak: "break-all",
-              borderRadius: 0,
-            }}
-          >
-            {getIcon(extension, {
-              sx: { fontSize: "1.5rem" },
-            })}
-            <Typography
-              variant="caption"
+          return (
+            <IconButton
+              href={fullUri.toString()}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={key ?? extension}
+              key={index}
+              disableRipple
+              title={t(`formatsLinks.${titleKey}`, {
+                key: key != null ? t(`enrichmentNames.${key}`) : undefined,
+                extension: extension.toUpperCase(),
+              })}
               sx={{
-                textTransform: "lowercase",
-                fontSize: "0.7rem",
-                color: "colors.blue",
-                maxHeight: "1rem",
+                display: "flex",
+                flexDirection: "column",
+                p: 0.5,
+                maxWidth: "4rem",
+                overflow: "hidden",
+                wordBreak: "break-all",
+                borderRadius: 0,
               }}
             >
-              {key ?? extension}
-            </Typography>
-          </IconButton>
-        );
-      })}
-    </Stack>
+              {getIcon(extension, {
+                sx: { fontSize: "1.5rem" },
+              })}
+              <Typography
+                variant="caption"
+                sx={{
+                  textTransform: "lowercase",
+                  fontSize: "0.7rem",
+                  color: "colors.blue",
+                  maxHeight: "1rem",
+                }}
+              >
+                {key ?? extension}
+              </Typography>
+            </IconButton>
+          );
+        })}
+      </Stack>
+    </Box>
   );
 }
 

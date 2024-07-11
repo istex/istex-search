@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 import {
   AutocompleteInput,
   FieldInputMenuItem,
@@ -83,6 +84,16 @@ export default function Rule({
     enabled: requiresFetchingValues,
     retry: false,
   });
+
+  // Custom search filter to search in the field title and description
+  const fieldNameFilterOptions = React.useMemo(
+    () =>
+      createFilterOptions({
+        stringify: (option: FieldName) =>
+          t(`fields.${option}.title`) + " " + t(`fields.${option}.description`),
+      }),
+    [t],
+  );
 
   const handleFieldNameChange = (
     _: React.SyntheticEvent,
@@ -304,6 +315,7 @@ export default function Rule({
         value={fieldName}
         onChange={handleFieldNameChange}
         getOptionLabel={(option) => t(`fields.${option}.title`)}
+        filterOptions={fieldNameFilterOptions}
         renderInput={(params) => (
           <AutocompleteInput
             label={t("field")}

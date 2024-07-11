@@ -106,7 +106,7 @@ describe("Rule", () => {
   it("gets the possible values when selecting a field that requires fetching values", async () => {
     renderRule({ node: partialNode });
 
-    await selectField("Catégorie Inist");
+    await selectField("Catégorie scientifique Inist");
 
     expect(getPossibleValues).toHaveBeenCalledWith("categories.inist");
   });
@@ -114,7 +114,7 @@ describe("Rule", () => {
   it("doesn't get the possible values when selecting a field that doesn't require fetching values", async () => {
     renderRule({ node: partialNode });
 
-    await selectField("Affiliations d'auteur");
+    await selectField("Résumé");
 
     expect(getPossibleValues).not.toHaveBeenCalled();
   });
@@ -133,7 +133,7 @@ describe("Rule", () => {
     const setNode = jest.fn();
     renderRule({ node: partialNode, setNode });
 
-    await selectField("Corps du texte");
+    await selectField("Corps du texte sans les métadonnées");
 
     expect(setNode).toHaveBeenCalledWith({
       ...partialNode,
@@ -228,7 +228,7 @@ async function selectField(fieldName: string) {
 }
 
 async function selectTextField() {
-  await selectField("Affiliations d'auteur");
+  await selectField("Résumé");
 }
 
 async function selectNumberField() {

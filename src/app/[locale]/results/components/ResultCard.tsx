@@ -129,27 +129,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
         </CardActionArea>
 
         {displayIcons === true && (
-          <Stack direction="row" gap={2}>
-            {info.fulltext != null && (
-              <FileList files={info.fulltext} titleKey="fulltext" />
-            )}
-            {info.metadata != null && (
-              <FileList files={info.metadata} titleKey="metadata" />
-            )}
-            {info.annexes != null && (
-              <FileList files={info.annexes} titleKey="annexes" />
-            )}
-            {info.enrichments != null && (
-              <FileList
-                files={Object.entries(info.enrichments).map((enrichment) => ({
-                  key: enrichment[0],
-                  extension: enrichment[1][0].extension,
-                  uri: enrichment[1][0].uri,
-                }))}
-                titleKey="enrichments"
-              />
-            )}
-          </Stack>
+          <FileList document={info} direction="row" gap={2} />
         )}
       </CardContent>
       <Stack

@@ -8,10 +8,10 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
-import { corpusWithExternalFulltextLink } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { externalLink } from "@/i18n/i18n";
 import { useShare } from "@/lib/hooks";
+import { getExternalPdfUrl } from "@/lib/istexApi";
 
 export default function DocumentDetail() {
   const {
@@ -25,6 +25,8 @@ export default function DocumentDetail() {
   const t = useTranslations("results.Document");
   const tTags = useTranslations("results.Document.tags");
   const share = useShare();
+  const externalPdfUrl =
+    displayedDocument != null ? getExternalPdfUrl(displayedDocument) : null;
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
@@ -38,11 +40,6 @@ export default function DocumentDetail() {
     displayedDocument != null
       ? excludedDocuments.includes(displayedDocument.arkIstex)
       : false;
-
-  const { corpusName, doi, fulltextUrl } = displayedDocument ?? {};
-  const showExternalUrl =
-    corpusWithExternalFulltextLink.includes(corpusName ?? "") &&
-    ((doi != null && doi.length > 0) || fulltextUrl != null);
 
   const shareDocument = () => {
     if (displayedDocument == null) {
@@ -233,43 +230,16 @@ export default function DocumentDetail() {
             >
               {t("seeDoc")}
             </Typography>
-            {displayedDocument?.fulltext != null && (
-              <FileList
-                files={displayedDocument.fulltext}
-                titleKey="fulltext"
-              />
-            )}
-            {displayedDocument?.metadata != null && (
-              <FileList
-                files={displayedDocument.metadata}
-                titleKey="metadata"
-              />
-            )}
-
-            {displayedDocument?.annexes != null && (
-              <FileList files={displayedDocument.annexes} titleKey="annexes" />
-            )}
-            {displayedDocument?.enrichments != null && (
-              <FileList
-                files={Object.entries(displayedDocument.enrichments).map(
-                  (enrichment) => ({
-                    key: enrichment[0],
-                    extension: enrichment[1][0].extension,
-                    uri: enrichment[1][0].uri,
-                  }),
-                )}
-                titleKey="enrichments"
-              />
+            {displayedDocument != null && (
+              <FileList document={displayedDocument} gap={1} />
             )}
           </Stack>
 
           {/* External Url */}
-          {showExternalUrl && (
+          {externalPdfUrl != null && (
             <Typography variant="body2">
               {t.rich("externalLink", {
-                externalLink: externalLink(
-                  doi != null ? `https://doi.org/${doi[0]}` : fulltextUrl ?? "",
-                ),
+                externalLink: externalLink(externalPdfUrl.href),
               })}
             </Typography>
           )}

@@ -12,6 +12,7 @@ import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   MIN_PER_PAGE,
+  corpusWithExternalFulltextLink,
   istexApiConfig,
   rankValues,
   type ArchiveType,
@@ -397,4 +398,21 @@ export function buildFullApiUrl({
   }
 
   return url;
+}
+
+export function getExternalPdfUrl(document: Result) {
+  const { corpusName, doi, fulltextUrl } = document;
+  const showExternalUrl = corpusWithExternalFulltextLink.includes(corpusName);
+
+  if (showExternalUrl) {
+    if (doi != null && doi.length > 0) {
+      return new URL(doi[0], "https://doi.org/");
+    }
+
+    if (fulltextUrl != null && fulltextUrl !== "") {
+      return new URL(fulltextUrl);
+    }
+  }
+
+  return null;
 }

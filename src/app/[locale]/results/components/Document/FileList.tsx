@@ -1,137 +1,82 @@
+import * as React from "react";
 import { useTranslations } from "next-intl";
-import {
-  Box,
-  IconButton,
-  Stack,
-  Typography,
-  type SvgIconProps,
-} from "@mui/material";
-import BlankIcon from "./BlankIcon";
-import BmpIcon from "./BmpIcon";
-import GifIcon from "./GifIcon";
-import JpegIcon from "./JpegIcon";
-import JsonIcon from "./JsonIcon";
-import ModsIcon from "./ModsIcon";
-import PdfIcon from "./PdfIcon";
-import PngIcon from "./PngIcon";
-import TeiIcon from "./TeiIcon";
-import TiffIcon from "./TiffIcon";
-import TxtIcon from "./TxtIcon";
-import XmlIcon from "./XmlIcon";
-import ZipIcon from "./ZipIcon";
+import { Box, Stack, Typography, type StackProps } from "@mui/material";
+import FileButton from "./FileButton";
+import type { Result } from "@/lib/istexApi";
 
 interface FileListProps {
-  files: { key?: string; extension: string; uri: string }[];
-  titleKey: string;
+  document: Result;
+  direction?: StackProps["direction"];
+  gap?: StackProps["gap"];
 }
 
-export default function FileList({ files, titleKey }: FileListProps) {
+export default function FileList({ document, direction, gap }: FileListProps) {
   const t = useTranslations("results.Document");
 
-  return (
-    <Box sx={{ fontSize: "0.8rem" }}>
-      <Typography
-        component="h4"
-        variant="subtitle2"
-        sx={{
-          fontSize: "inherit",
-        }}
-      >
-        {t(titleKey)}
-      </Typography>
-      <Stack direction="row" flexWrap="wrap" gap={0.5}>
-        {files.map(({ key, extension, uri }, index) => {
-          const fullUri = new URL(uri);
-          fullUri.searchParams.set("sid", "istex-search");
+  const data = React.useMemo(
+    () => ({
+      fulltext: document.fulltext?.map((file) => ({
+        ...file,
+        enrichmentName: null,
+      })),
+      metadata: document.metadata?.map((file) => ({
+        ...file,
+        enrichmentName: null,
+      })),
+      annexes: document.annexes?.map((file) => ({
+        ...file,
+        enrichmentName: null,
+      })),
+      enrichments:
+        document.enrichments != null
+          ? Object.entries(document.enrichments).map((enrichment) => ({
+              enrichmentName: enrichment[0],
+              extension: enrichment[1][0].extension,
+              uri: enrichment[1][0].uri,
+            }))
+          : undefined,
+    }),
+    [document],
+  );
 
-          return (
-            <IconButton
-              href={fullUri.toString()}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={key ?? extension}
-              key={index}
-              disableRipple
-              title={t(`formatsLinks.${titleKey}`, {
-                key: key != null ? t(`enrichmentNames.${key}`) : undefined,
-                extension: extension.toUpperCase(),
-              })}
+  return (
+    <Stack direction={direction} gap={gap}>
+      {Object.entries(data).map(([category, files]) => {
+        if (files == null) {
+          return null;
+        }
+
+        return (
+          <Box key={category} sx={{ fontSize: "0.8rem" }}>
+            <Typography
+              component="h4"
+              variant="subtitle2"
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                p: 0.5,
-                maxWidth: "4rem",
-                overflow: "hidden",
-                wordBreak: "break-all",
-                borderRadius: 0,
+                fontSize: "inherit",
               }}
             >
-              {getIcon(extension, {
-                sx: { fontSize: "1.5rem" },
+              {t(category)}
+            </Typography>
+            <Stack direction="row" flexWrap="wrap" gap={0.5}>
+              {files.map(({ enrichmentName, extension, uri }) => {
+                const fullUri = new URL(uri);
+                fullUri.searchParams.set("sid", "istex-search");
+
+                return (
+                  <FileButton
+                    key={enrichmentName ?? extension}
+                    document={document}
+                    category={category}
+                    enrichmentName={enrichmentName}
+                    extension={extension}
+                    uri={fullUri}
+                  />
+                );
               })}
-              <Typography
-                variant="caption"
-                sx={{
-                  textTransform: "lowercase",
-                  fontSize: "0.7rem",
-                  color: "colors.blue",
-                  maxHeight: "1rem",
-                }}
-              >
-                {key ?? extension}
-              </Typography>
-            </IconButton>
-          );
-        })}
-      </Stack>
-    </Box>
+            </Stack>
+          </Box>
+        );
+      })}
+    </Stack>
   );
-}
-
-function getIcon(extension: string, props: SvgIconProps) {
-  let Component;
-
-  switch (extension) {
-    case "pdf":
-      Component = PdfIcon;
-      break;
-    case "zip":
-      Component = ZipIcon;
-      break;
-    case "tei":
-      Component = TeiIcon;
-      break;
-    case "txt":
-    case "cleaned":
-      Component = TxtIcon;
-      break;
-    case "xml":
-      Component = XmlIcon;
-      break;
-    case "mods":
-      Component = ModsIcon;
-      break;
-    case "json":
-      Component = JsonIcon;
-      break;
-    case "jpeg":
-      Component = JpegIcon;
-      break;
-    case "png":
-      Component = PngIcon;
-      break;
-    case "bmp":
-      Component = BmpIcon;
-      break;
-    case "gif":
-      Component = GifIcon;
-      break;
-    case "tiff":
-      Component = TiffIcon;
-      break;
-    default:
-      Component = BlankIcon;
-  }
-
-  return <Component {...props} />;
 }

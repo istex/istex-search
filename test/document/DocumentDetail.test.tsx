@@ -95,7 +95,7 @@ describe("DocumentDetail", () => {
       doi: ["1234"],
     });
 
-    const externalLink = screen.queryByRole("link", { name: "ici" });
+    const externalLink = getExternalLink();
 
     expect(externalLink).not.toBeInTheDocument();
   });
@@ -105,7 +105,7 @@ describe("DocumentDetail", () => {
       corpusName: corpusWithExternalFulltextLink[0],
     });
 
-    const externalLink = screen.queryByRole("link", { name: "ici" });
+    const externalLink = getExternalLink();
 
     expect(externalLink).not.toBeInTheDocument();
   });
@@ -116,7 +116,7 @@ describe("DocumentDetail", () => {
       doi: ["1234"],
     });
 
-    const externalLink = screen.getByRole("link", { name: "ici" });
+    const externalLink = getExternalLink();
 
     expect(externalLink).toBeInTheDocument();
     expect(externalLink).toHaveAttribute("href", "https://doi.org/1234");
@@ -125,13 +125,13 @@ describe("DocumentDetail", () => {
   it("renders an external link using the fulltextUrl when the corpus name is one of corpusWithExternalFulltextLink but DOI is not defined", async () => {
     await renderDocumentDetail({
       corpusName: corpusWithExternalFulltextLink[0],
-      fulltextUrl: "hello",
+      fulltextUrl: "https://example.com/",
     });
 
-    const externalLink = screen.getByRole("link", { name: "ici" });
+    const externalLink = getExternalLink();
 
     expect(externalLink).toBeInTheDocument();
-    expect(externalLink).toHaveAttribute("href", "hello");
+    expect(externalLink).toHaveAttribute("href", "https://example.com/");
   });
 
   it("calls handleCloseDocument when the close button is clicked", async () => {
@@ -244,4 +244,10 @@ async function renderDocumentDetail(partialDocument: Partial<Result> = {}) {
   }
 
   await userEvent.click(card);
+}
+
+function getExternalLink() {
+  return screen.queryByRole("link", {
+    name: "plateforme d'origine",
+  });
 }

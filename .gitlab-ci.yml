@@ -32,10 +32,7 @@ default:
   tags:
     - docker
   cache:
-    - key:
-        files:
-          - package-lock.json
-      paths:
+    - paths:
         - $npm_config_cache
   before_script:
     - npm ci --prefer-offline

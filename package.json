@@ -11,8 +11,7 @@
     "lint": "npx eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
-    "prepare": "husky"
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "dependencies": {
     "@emotion/cache": "11.11.0",
@@ -31,8 +30,6 @@
     "sharp": "0.33.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query-devtools": "^5.28.4",
     "@testing-library/jest-dom": "^6.3.0",
@@ -52,11 +49,9 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-config-standard-jsx": "^11.0.0",
     "eslint-config-standard-react": "^13.0.0",
-    "husky": "^9.0.6",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
-    "lint-staged": "^15.2.0",
     "prettier": "3.3.3",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.8.0"

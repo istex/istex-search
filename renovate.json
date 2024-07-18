@@ -28,11 +28,6 @@
         "typescript-eslint",
         "@trivago/prettier-plugin-sort-imports"
       ]
-    },
-    {
-      "groupName": "Git hooks",
-      "matchPackagePrefixes": ["@commitlint"],
-      "matchPackageNames": ["husky", "lint-staged"]
     }
   ]
 }

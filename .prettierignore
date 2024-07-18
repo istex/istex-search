@@ -9,9 +9,6 @@ package-lock.json
 
 # Files not supported by prettier
 
-# Git hooks
-.husky/*
-
 # shell scripts
 *.sh
 

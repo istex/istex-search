@@ -228,7 +228,7 @@ async function selectField(fieldName: string) {
 }
 
 async function selectTextField() {
-  await selectField("Résumé");
+  await selectField("Affiliation d'auteur");
 }
 
 async function selectNumberField() {

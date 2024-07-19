@@ -42,6 +42,22 @@ describe("astToString", () => {
       expect(Module.astToString(ast)).toBe('abstract:"bar"');
     });
 
+    it("escapes special characters with the contains comparator", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "abstract",
+          value: 'hello (world) + "foo"',
+          comparator: "contains",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe(
+        'abstract:"hello (world) + \\"foo\\""',
+      );
+    });
+
     it("handles the equals comparator", () => {
       const ast: Module.AST = [
         {
@@ -54,6 +70,22 @@ describe("astToString", () => {
       ];
 
       expect(Module.astToString(ast)).toBe('abstract.raw:"bar"');
+    });
+
+    it("escapes special characters with the equals comparator", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "abstract",
+          value: 'hello (world) + "foo"',
+          comparator: "equals",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe(
+        'abstract.raw:"hello (world) + \\"foo\\""',
+      );
     });
 
     it("handles the startsWith comparator", () => {
@@ -70,6 +102,20 @@ describe("astToString", () => {
       expect(Module.astToString(ast)).toBe("abstract.raw:bar*");
     });
 
+    it("escapes special characters with the startsWith comparator", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "abstract",
+          value: "foo+ bar*",
+          comparator: "startsWith",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe("abstract.raw:foo\\+\\ bar\\**");
+    });
+
     it("handles the endsWith comparator", () => {
       const ast: Module.AST = [
         {
@@ -82,6 +128,20 @@ describe("astToString", () => {
       ];
 
       expect(Module.astToString(ast)).toBe("abstract.raw:*bar");
+    });
+
+    it("escapes special characters with the endsWith comparator", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "text",
+          field: "abstract",
+          value: "foo+ bar*",
+          comparator: "endsWith",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe("abstract.raw:*foo\\+\\ bar\\*");
     });
   });
 

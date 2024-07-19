@@ -224,7 +224,7 @@ function getValueInput() {
 async function selectField() {
   const fieldInput = getFieldInput();
   await userEvent.click(fieldInput);
-  await userEvent.keyboard("Résumé{ArrowDown}{Enter}");
+  await userEvent.keyboard("Affiliation d'auteur{ArrowDown}{Enter}");
 }
 
 async function selectComparator() {

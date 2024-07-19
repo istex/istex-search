@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { type fields } from "./fields";
+import type { fields } from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;
 export type NodeType = (typeof nodeTypes)[number];
@@ -193,11 +193,11 @@ function textNodeToString(node: TextNode): string {
 
   // Check if a wildcard is required
   if (node.comparator === "startsWith") {
-    result += `${node.value}*`;
+    result += `${escapeUnquotedValue(node.value)}*`;
   } else if (node.comparator === "endsWith") {
-    result += `*${node.value}`;
+    result += `*${escapeUnquotedValue(node.value)}`;
   } else {
-    result += `"${node.value}"`;
+    result += `"${escapeQuotedValue(node.value)}"`;
   }
 
   return result;
@@ -227,6 +227,18 @@ function numberNodeToString(node: NumberNode): string {
 
 function booleanNodeToString(node: BooleanNode): string {
   return `${getFieldName(node)}:${node.value}`;
+}
+
+function escapeUnquotedValue(value: string): string {
+  const specialCharacters = /[\s+\-&|!(){}[\]^"~*?:\\]/g;
+
+  return value.replace(specialCharacters, "\\$&");
+}
+
+function escapeQuotedValue(value: string): string {
+  const specialCharacters = /["\\]/g;
+
+  return value.replace(specialCharacters, "\\$&");
 }
 
 export function getFieldName(node: BaseFieldNode): FieldName {

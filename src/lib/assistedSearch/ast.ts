@@ -183,7 +183,8 @@ function textNodeToString(node: TextNode): string {
     (node.comparator === "equals" ||
       node.comparator === "startsWith" ||
       node.comparator === "endsWith") &&
-    fieldName !== "fulltext";
+    fieldName !== "fulltext" &&
+    fieldName !== "accessCondition.contentType";
 
   if (rawVersionRequired) {
     result += `${fieldName}.raw:`;

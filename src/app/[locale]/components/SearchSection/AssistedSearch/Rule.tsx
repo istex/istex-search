@@ -170,6 +170,12 @@ export default function Rule({
       partial = false;
     }
 
+    if (rangeComparators.includes(value) && "value" in node) {
+      // @ts-expect-error value isn't optional but it breaks the query builder
+      // if min and value are both defined
+      delete node.value;
+    }
+
     // @ts-expect-error TypeScript thinks comparator is narrower than it actually is
     setNode({ ...node, comparator: value, partial });
   };
@@ -227,12 +233,6 @@ export default function Rule({
     // the max also need to be valid for the node to be complete
     partial = fieldName == null || comparator == null || maxValue === "";
 
-    if ("value" in node) {
-      // @ts-expect-error value isn't optional but it breaks the query builder
-      // if min and value are both defined
-      delete node.value;
-    }
-
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({ ...node, min: minAsNumber, partial });
   };
@@ -254,12 +254,6 @@ export default function Rule({
     // Even if the max is valid, the field name the comparator and
     // the min also need to be valid for the node to be complete
     partial = fieldName == null || comparator == null || minValue === "";
-
-    if ("value" in node) {
-      // @ts-expect-error value isn't optional but it breaks the query builder
-      // if max and value are both defined
-      delete node.value;
-    }
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({ ...node, max: maxAsNumber, partial });

@@ -15,11 +15,11 @@
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "dependencies": {
-    "@emotion/cache": "11.11.0",
-    "@emotion/react": "11.11.4",
-    "@emotion/styled": "11.11.5",
-    "@mui/icons-material": "5.16.1",
-    "@mui/material": "5.16.1",
+    "@emotion/cache": "11.13.0",
+    "@emotion/react": "11.13.0",
+    "@emotion/styled": "11.13.0",
+    "@mui/icons-material": "5.16.4",
+    "@mui/material": "5.16.4",
     "@mui/material-nextjs": "^5.15.11",
     "@tanstack/react-query": "^5.28.4",
     "js-md5": "0.8.3",

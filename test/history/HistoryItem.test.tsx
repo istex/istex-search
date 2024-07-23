@@ -1,3 +1,4 @@
+import { Table, TableBody } from "@mui/material";
 import { customRender as render, screen, userEvent } from "../test-utils";
 import HistoryItem from "@/app/[locale]/results/components/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
@@ -7,28 +8,28 @@ import SearchParams from "@/lib/SearchParams";
 import { useDownload, useShare } from "@/lib/hooks";
 import { formatDate } from "@/lib/utils";
 
-describe("HistoryItem", () => {
-  const params = {
-    q: "hello",
-    size: "3",
-    extract: "metadata[json]",
-  };
-  const entry: HistoryEntry = {
-    date: Date.now(),
-    searchParams: new SearchParams(params),
-  };
+const defaultParams = {
+  q: "hello",
+  size: "3",
+  extract: "metadata[json]",
+};
+const defaultEntry: HistoryEntry = {
+  date: Date.now(),
+  searchParams: new SearchParams(defaultParams),
+};
 
+describe("HistoryItem", () => {
   it("displays the history entry elements properly", () => {
-    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
+    renderHistoryItem();
 
     // We don't test the query string here because getting it from the search params
     // is asynchronous and is not ready on the first render
 
     const index = screen.getByRole("cell", { name: "1" });
-    const formats = screen.getByRole("cell", { name: params.extract });
-    const size = screen.getByRole("cell", { name: params.size });
+    const formats = screen.getByRole("cell", { name: defaultParams.extract });
+    const size = screen.getByRole("cell", { name: defaultParams.size });
     const date = screen.getByRole("cell", {
-      name: formatDate(entry.date, "fr-FR"),
+      name: formatDate(defaultEntry.date, "fr-FR"),
     });
 
     expect(index).toBeInTheDocument();
@@ -38,7 +39,7 @@ describe("HistoryItem", () => {
   });
 
   it("disables the download and delete actions when isCurrentRequest is true", () => {
-    render(<HistoryItem entry={entry} onClose={jest.fn()} isCurrentRequest />);
+    renderHistoryItem({ isCurrentRequest: true });
 
     const editButton = getEditButton();
     const shareButton = getShareButton();
@@ -55,7 +56,7 @@ describe("HistoryItem", () => {
     const router = useRouter();
     const history = useHistoryContext();
     const onClose = jest.fn();
-    render(<HistoryItem entry={entry} onClose={onClose} />);
+    renderHistoryItem({ onClose });
 
     const editButton = getEditButton();
     await userEvent.click(editButton);
@@ -63,13 +64,13 @@ describe("HistoryItem", () => {
     expect(router.push).toHaveBeenCalledWith(
       "/results?q=hello&size=3&extract=metadata%5Bjson%5D",
     );
-    expect(history.populateCurrentRequest).toHaveBeenCalledWith(entry);
+    expect(history.populateCurrentRequest).toHaveBeenCalledWith(defaultEntry);
     expect(onClose).toHaveBeenCalled();
   });
 
   it("calls the share hook when clicking on the share button", async () => {
     const share = useShare();
-    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
+    renderHistoryItem();
 
     const shareButton = getShareButton();
     await userEvent.click(shareButton);
@@ -84,7 +85,7 @@ describe("HistoryItem", () => {
 
   it("calls the download hook when clicking on the download button", async () => {
     const download = useDownload();
-    render(<HistoryItem entry={entry} onClose={jest.fn()} />);
+    renderHistoryItem();
 
     const downloadButton = getDownloadButton();
     await userEvent.click(downloadButton);
@@ -100,7 +101,7 @@ describe("HistoryItem", () => {
   it("calls history.delete when clicking on the delete button", async () => {
     const history = useHistoryContext();
     const index = 2;
-    render(<HistoryItem entry={entry} onClose={jest.fn()} index={index} />);
+    renderHistoryItem({ index });
 
     const deleteButton = getDeleteButton();
     await userEvent.click(deleteButton);
@@ -108,6 +109,20 @@ describe("HistoryItem", () => {
     expect(history.delete).toHaveBeenCalledWith(index);
   });
 });
+
+function renderHistoryItem(
+  props: Partial<React.ComponentProps<typeof HistoryItem>> = {},
+) {
+  const { entry = defaultEntry, onClose = jest.fn(), ...rest } = props;
+
+  return render(
+    <Table>
+      <TableBody>
+        <HistoryItem entry={entry} onClose={onClose} {...rest} />
+      </TableBody>
+    </Table>,
+  );
+}
 
 function getEditButton() {
   return screen.getByRole("button", {

@@ -1,6 +1,13 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { Box, DialogActions, DialogContent, Typography } from "@mui/material";
+import {
+  DialogActions,
+  DialogContent,
+  Table,
+  TableBody,
+  TableContainer,
+  Typography,
+} from "@mui/material";
 import HistoryItem from "./HistoryItem";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
@@ -38,60 +45,52 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
         slideDirection="left"
       >
         <DialogContent>
-          {/*
-           * We use a grid layout and not an MUI table to make sure the column of the current request table
-           * and history table stay aligned
-           */}
-          <Box
-            display="grid"
-            gridTemplateColumns="auto 1fr auto auto 0.5fr 0.5fr auto"
-          >
-            <Typography
-              component="h3"
-              variant="h6"
-              fontSize="1rem"
-              gridColumn="span 7"
-            >
-              {t("currentRequestTitle")}
-            </Typography>
-            <HistoryItem
-              entry={history.getCurrentRequest()}
-              onClose={onClose}
-              isCurrentRequest
-            />
+          {/* Current request */}
+          <Typography component="h3" variant="h6" fontSize="1rem">
+            {t("currentRequestTitle")}
+          </Typography>
+          <TableContainer sx={{ mb: 2 }}>
+            <Table size="small">
+              <TableBody>
+                <HistoryItem
+                  entry={history.getCurrentRequest()}
+                  onClose={onClose}
+                  isCurrentRequest
+                />
+              </TableBody>
+            </Table>
+          </TableContainer>
 
+          {/* History */}
+          <Typography component="h3" variant="h6" fontSize="1rem">
+            {t("historyTitle")}
+          </Typography>
+          {!isHistoryEmpty ? (
+            <TableContainer>
+              <Table size="small">
+                <TableBody>
+                  {history.get().map((entry, i) => (
+                    <HistoryItem
+                      key={entry.date}
+                      entry={entry}
+                      onClose={onClose}
+                      index={i}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
             <Typography
-              component="h3"
-              variant="h6"
-              fontSize="1rem"
-              gridColumn="span 7"
-              mt={1.5}
+              sx={(theme) => ({
+                color: theme.palette.text.disabled,
+                px: 2,
+                py: 1,
+              })}
             >
-              {t("historyTitle")}
+              {t("emptyHistoryContent")}
             </Typography>
-            {!isHistoryEmpty ? (
-              history
-                .get()
-                .map((entry, i) => (
-                  <HistoryItem
-                    key={entry.date}
-                    entry={entry}
-                    onClose={onClose}
-                    index={i}
-                  />
-                ))
-            ) : (
-              <Typography
-                sx={(theme) => ({
-                  color: theme.palette.text.disabled,
-                  px: 2,
-                  py: 1,
-                })}
-              >
-                {t("emptyHistoryContent")}
-              </Typography>
-            )}
-          </Box>
+          )}
         </DialogContent>
 
         <DialogActions>

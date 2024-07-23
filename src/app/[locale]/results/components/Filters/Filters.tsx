@@ -6,16 +6,17 @@ import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { darken } from "@mui/system/colorManipulator";
 import { RANGE_FACETS_WITH_TOGGLE } from "../Facets/FacetRange";
-import { getLanguageLabel } from "../Facets/utils";
 import ClearFilterIcon from "./ClearFilterIcon";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
+import { labelizeIsoLanguage } from "@/lib/utils";
 
 export default function Filters() {
   const t = useTranslations("results.Filters");
   const tFacets = useTranslations("results.Facets");
+  const tLanguages = useTranslations("languages");
   const tRefBibsNative = useTranslations(
     "results.Facets.qualityIndicators.refBibsNative",
   );
@@ -81,7 +82,7 @@ export default function Filters() {
       return tRefBibsNative(filterValue);
     }
     if (filterKey === "language") {
-      return getLanguageLabel(filterValue, locale, tFacets);
+      return labelizeIsoLanguage(locale, filterValue, tLanguages);
     }
     return filterValue;
   };

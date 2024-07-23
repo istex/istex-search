@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import {
-  textComparators,
-  numberComparators,
   booleanComparators,
+  languageComparators,
+  numberComparators,
+  textComparators,
   type FieldType,
   type Comparator,
   type FieldName,
@@ -115,6 +116,8 @@ export function getComparators(
       return numberComparators;
     case "boolean":
       return booleanComparators;
+    case "language":
+      return languageComparators;
     default:
       return unique([
         ...textComparators,

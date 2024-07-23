@@ -145,6 +145,22 @@ describe("astToString", () => {
     });
   });
 
+  describe("language nodes", () => {
+    it("handles the equals comparator", () => {
+      const ast: Module.AST = [
+        {
+          nodeType: "node",
+          fieldType: "language",
+          field: "language",
+          value: "eng",
+          comparator: "equals",
+        },
+      ];
+
+      expect(Module.astToString(ast)).toBe('language.raw:"eng"');
+    });
+  });
+
   describe("number nodes", () => {
     it("handles the equals comparator", () => {
       const ast: Module.AST = [

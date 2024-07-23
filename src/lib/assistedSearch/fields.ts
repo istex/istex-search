@@ -153,19 +153,19 @@ export const fields = [
   },
   {
     name: "language",
-    type: "text",
+    type: "language",
     requiresFetchingValues: true,
     implicitNodes: [],
   },
   {
     name: "host.language",
-    type: "text",
+    type: "language",
     requiresFetchingValues: true,
     implicitNodes: [],
   },
   {
     name: "subject.lang",
-    type: "text",
+    type: "language",
     requiresFetchingValues: true,
     implicitNodes: [],
   },

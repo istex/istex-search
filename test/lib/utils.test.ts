@@ -174,4 +174,25 @@ describe("Utility functions", () => {
       );
     });
   });
+
+  describe("labelizeIsoLanguage", () => {
+    it("returns the labelized language with a known ISO code", () => {
+      expect(Module.labelizeIsoLanguage("fr-FR", "eng", jest.fn())).toBe(
+        "anglais",
+      );
+    });
+
+    it("returns the ISO code when it's not supported", () => {
+      expect(Module.labelizeIsoLanguage("fr-FR", "abcdef", jest.fn())).toBe(
+        "abcdef",
+      );
+    });
+
+    it("calls the translation function when given 'unknown'", () => {
+      const translationFn = jest.fn();
+      Module.labelizeIsoLanguage("fr-FR", "unknown", translationFn);
+
+      expect(translationFn).toHaveBeenCalledWith("unknown");
+    });
+  });
 });

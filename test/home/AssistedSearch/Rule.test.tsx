@@ -91,7 +91,7 @@ describe("Rule", () => {
     expect(getBooleanInput()).toBeInTheDocument();
   });
 
-  it("automatically selects the equals comparator when selecting a boolean field", async () => {
+  it("automatically selects the first comparator when only one is available", async () => {
     const setNode = jest.fn();
     renderRule({ node: partialNode, setNode });
 

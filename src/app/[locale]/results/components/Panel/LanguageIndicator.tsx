@@ -1,8 +1,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { getLanguageLabel } from "../Facets/utils";
 import IndicatorChart from "./IndicatorChart";
+import { labelizeIsoLanguage } from "@/lib/utils";
 
 interface LanguageIndicatorProps {
   label: string;
@@ -16,7 +16,7 @@ export default function LanguageIndicator({
   total,
 }: LanguageIndicatorProps) {
   const t = useTranslations("results.Panel");
-  const tFacets = useTranslations("results.Facets");
+  const tLanguages = useTranslations("languages");
   const theme = useTheme();
   const locale = useLocale();
   const mainPercentage =
@@ -94,7 +94,11 @@ export default function LanguageIndicator({
                     language:
                       key === "other"
                         ? t("otherLanguage")
-                        : getLanguageLabel(key as string, locale, tFacets),
+                        : labelizeIsoLanguage(
+                            locale,
+                            key as string,
+                            tLanguages,
+                          ),
                     percentage,
                   })}
                 </Typography>

@@ -90,3 +90,20 @@ export function bytesToSize(bytes: number, locale: Locale) {
     unitDisplay: "short",
   }).format(bytes / 1024 ** unitIndex);
 }
+
+export function labelizeIsoLanguage(
+  locale: string,
+  iso: string,
+  t: (key: string) => string,
+) {
+  if (iso === "unknown") {
+    return t("unknown");
+  }
+
+  const dictionary = new Intl.DisplayNames([locale], { type: "language" });
+  try {
+    return dictionary.of(iso) ?? iso;
+  } catch {
+    return iso;
+  }
+}

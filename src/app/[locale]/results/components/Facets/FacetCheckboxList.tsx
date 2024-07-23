@@ -10,7 +10,8 @@ import ArrowUpIcon from "./ArrowUpIcon";
 import FacetCheckboxItem from "./FacetCheckboxItem";
 import { useFacetContext, type FacetItem } from "./FacetContext";
 import type { FacetLayoutProps } from "./FacetLayout";
-import { getLanguageLabel, sortFacets } from "./utils";
+import { sortFacets } from "./utils";
+import { labelizeIsoLanguage } from "@/lib/utils";
 
 export const ASC = "asc";
 export const DESC = "desc";
@@ -27,6 +28,7 @@ export default function FacetCheckboxList({
   disabled,
 }: FacetLayoutProps) {
   const t = useTranslations("results.Facets");
+  const tLanguages = useTranslations("languages");
 
   const { toggleFacet } = useFacetContext();
 
@@ -68,7 +70,11 @@ export default function FacetCheckboxList({
       isoFacet.forEach((facetItem) => {
         if (facetItem.isoCode === undefined) {
           facetItem.isoCode = facetItem.key.toString();
-          facetItem.key = getLanguageLabel(facetItem.key.toString(), locale, t);
+          facetItem.key = labelizeIsoLanguage(
+            locale,
+            facetItem.key.toString(),
+            tLanguages,
+          );
         }
       });
       setDisplayedFacets(isoFacet);

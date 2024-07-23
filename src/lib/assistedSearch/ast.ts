@@ -8,7 +8,7 @@ export const operators = ["AND", "OR", "NOT"] as const;
 export const DEFAULT_OPERATOR = operators[0];
 export type Operator = (typeof operators)[number];
 
-export const fieldTypes = ["text", "number", "boolean"] as const;
+export const fieldTypes = ["text", "language", "number", "boolean"] as const;
 export type FieldType = (typeof fieldTypes)[number];
 
 export const baseComparators = ["equals"] as const;
@@ -21,6 +21,9 @@ export const textComparators = [
   "endsWith",
 ] as const;
 export type TextComparator = (typeof textComparators)[number];
+
+export const languageComparators = baseComparators;
+export type LanguageComparator = BaseComparator;
 
 export const rangeComparators = ["between"] as const;
 export const numberComparators = [
@@ -35,7 +38,12 @@ export type RangeComparator = (typeof rangeComparators)[number];
 export const booleanComparators = baseComparators;
 export type BooleanComparator = BaseComparator;
 
-export type Comparator = TextComparator | NumberComparator | BooleanComparator;
+export type Comparator =
+  | TextComparator
+  | LanguageComparator
+  | NumberComparator
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
+  | BooleanComparator;
 
 export interface BaseNode {
   id?: number;
@@ -70,6 +78,12 @@ export interface TextNode extends BaseFieldNode {
   comparator: TextComparator;
 }
 
+export interface LanguageNode extends BaseFieldNode {
+  fieldType: "language";
+  value: string;
+  comparator: LanguageComparator;
+}
+
 export type NumberNode = BaseFieldNode & {
   fieldType: "number";
 } & (
@@ -90,7 +104,7 @@ export interface BooleanNode extends BaseFieldNode {
   comparator: BooleanComparator;
 }
 
-export type FieldNode = TextNode | NumberNode | BooleanNode;
+export type FieldNode = TextNode | LanguageNode | NumberNode | BooleanNode;
 
 export type Node = FieldNode | OperatorNode | GroupNode;
 
@@ -128,6 +142,8 @@ function fieldNodeToString(node: BaseFieldNode): string {
 
   if (node.fieldType === "text") {
     result = textNodeToString(node as TextNode);
+  } else if (node.fieldType === "language") {
+    result = languageNodeToString(node as LanguageNode);
   } else if (node.fieldType === "number") {
     result = numberNodeToString(node as NumberNode);
   }
@@ -204,6 +220,10 @@ function textNodeToString(node: TextNode): string {
   return result;
 }
 
+function languageNodeToString(node: LanguageNode): string {
+  return `${getFieldName(node)}.raw:"${node.value}"`;
+}
+
 function numberNodeToString(node: NumberNode): string {
   let result = `${getFieldName(node)}:`;
 
@@ -231,7 +251,7 @@ function booleanNodeToString(node: BooleanNode): string {
 }
 
 function escapeUnquotedValue(value: string): string {
-  const specialCharacters = /[\s+\-&|!(){}[\]^"~*?:\\]/g;
+  const specialCharacters = /[\s+\-&|!(){}[\]^"~*?:\\/]/g;
 
   return value.replace(specialCharacters, "\\$&");
 }

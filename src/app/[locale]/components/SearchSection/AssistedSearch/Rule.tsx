@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
@@ -21,6 +21,7 @@ import {
 } from "@/lib/assistedSearch/ast";
 import { fields } from "@/lib/assistedSearch/fields";
 import { getPossibleValues } from "@/lib/istexApi";
+import { labelizeIsoLanguage } from "@/lib/utils";
 
 interface RuleProps {
   displayErrors: boolean;
@@ -38,6 +39,8 @@ export default function Rule({
   remove,
 }: RuleProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
+  const tLanguages = useTranslations("languages");
+  const locale = useLocale();
   const isNodePartial = node.partial === true;
   const isTextNode = node.fieldType === "text";
   const isNumberNode = node.fieldType === "number" && "value" in node;
@@ -131,10 +134,10 @@ export default function Rule({
       partial = false;
     }
 
-    // Auto set comparator to "equals" when field type is boolean
-    const isBooleanField = newField.type === "boolean";
-    if (isBooleanField) {
-      setComparator("equals");
+    // Auto set the comparator when only one is available
+    const onlyOneComparatorAvailable = newComparators.length === 1;
+    if (onlyOneComparatorAvailable) {
+      setComparator(newComparators[0]);
     }
 
     const implicitNodes = newField.implicitNodes as unknown as AST;
@@ -144,7 +147,9 @@ export default function Rule({
     setNode({
       ...node,
       partial,
-      comparator: isBooleanField ? "equals" : node.comparator,
+      comparator: onlyOneComparatorAvailable
+        ? newComparators[0]
+        : node.comparator,
       fieldType: newField.type,
       field: value,
       implicitNodes: implicitNodes.length > 0 ? implicitNodes : undefined,
@@ -414,13 +419,18 @@ export default function Rule({
           );
         }
 
-        // Text
+        // Text and language
         const freeSolo = comparator !== "equals" || !requiresFetchingValues;
         return (
           <Autocomplete
             size="small"
             fullWidth
             options={valueQuery.data ?? []}
+            getOptionLabel={(option) =>
+              fieldType === "language"
+                ? labelizeIsoLanguage(locale, option, tLanguages)
+                : option
+            }
             freeSolo={freeSolo}
             value={textValue}
             onChange={handleTextValueChange}

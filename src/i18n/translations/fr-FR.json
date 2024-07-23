@@ -530,8 +530,7 @@
       "language": {
         "title": "Langue",
         "inputLabel": "Entrez la langue désirée",
-        "inputPlaceholder": "ex: eng, fre ...",
-        "unknown": "inconnue"
+        "inputPlaceholder": "ex: eng, fre ..."
       },
       "host": {
         "genre": {
@@ -804,5 +803,8 @@
       "6": "moyenne",
       "9": "élevée"
     }
+  },
+  "languages": {
+    "unknown": "inconnue"
   }
 }

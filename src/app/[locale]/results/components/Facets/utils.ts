@@ -28,32 +28,6 @@ export const sortFacets = (
   return sortedFacets;
 };
 
-/**
- * Function to get the language name from the iso code in the user language given
- * @param language user language to use to translate the iso code
- * @param iso iso code of the language
- * @returns the iso language name in the user language given
- */
-export function isoToLanguage(language: string, iso: string) {
-  const dictionary = new Intl.DisplayNames([language], { type: "language" });
-  try {
-    return dictionary.of(iso);
-  } catch {
-    return iso;
-  }
-}
-
-export const getLanguageLabel = (
-  iso: string,
-  locale: string,
-  t: (key: string) => string,
-) => {
-  if (iso === "unknown") return t("language.unknown");
-  const languageName = isoToLanguage(locale, iso);
-  if (languageName !== undefined) return languageName;
-  return iso;
-};
-
 export const FACETS_RANGE_WITH_DECIMAL = ["qualityIndicators.score"];
 
 export const checkRangeInputValue = (facetTitle: string, value: string) => {

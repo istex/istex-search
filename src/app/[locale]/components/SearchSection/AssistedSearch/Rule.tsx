@@ -72,10 +72,6 @@ export default function Rule({
   const [booleanValue, setBooleanValue] = React.useState<boolean | null>(
     !isNodePartial && isBooleanNode ? node.value : null,
   );
-  const hasValidValue =
-    (textValue != null && textValue !== "") ||
-    numberValue !== "" ||
-    booleanValue != null;
   const field = fields.find((field) => field.name === fieldName);
   const requiresFetchingValues = field?.requiresFetchingValues ?? false;
 
@@ -104,15 +100,14 @@ export default function Rule({
   ) => {
     setFieldName(value);
 
-    let partial = true;
+    // When the field name is changed, reset the other inputs because
+    // their values depend on it
+    setComparator(null);
+    setFieldType(null);
+    resetValue();
 
-    // When the field name is reset, reset the other inputs
-    // because their values depend on the field name
     if (value == null) {
-      setComparator(null);
-      setFieldType(null);
-      resetValue();
-      setNode({ ...node, partial });
+      setNode({ ...node });
       return;
     }
 
@@ -121,18 +116,7 @@ export default function Rule({
       throw new Error(`Unexpected field name "${value}"`);
     }
 
-    // If the currently selected comparator isn't supported
-    // for the new field type, reset it
     const newComparators = getComparators(newField.type);
-    if (comparator != null && !newComparators.includes(comparator)) {
-      setComparator(null);
-    }
-
-    // Even if the field name is valid, the comparator and the value
-    // also need to be valid for the node to be complete
-    if (comparator != null && hasValidValue) {
-      partial = false;
-    }
 
     // Auto set the comparator when only one is available
     const onlyOneComparatorAvailable = newComparators.length === 1;
@@ -146,7 +130,6 @@ export default function Rule({
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
     setNode({
       ...node,
-      partial,
       comparator: onlyOneComparatorAvailable
         ? newComparators[0]
         : node.comparator,
@@ -160,29 +143,17 @@ export default function Rule({
     _: React.SyntheticEvent,
     value: Comparator | null,
   ) => {
+    resetValue();
+
     setComparator(value);
 
-    let partial = true;
-
     if (value == null) {
-      setNode({ ...node, partial });
+      setNode({ ...node });
       return;
     }
 
-    // Even if the comparator is valid, the field name and the value
-    // also need to be valid for the node to be complete
-    if (fieldName != null && hasValidValue) {
-      partial = false;
-    }
-
-    if (rangeComparators.includes(value) && "value" in node) {
-      // @ts-expect-error value isn't optional but it breaks the query builder
-      // if min and value are both defined
-      delete node.value;
-    }
-
     // @ts-expect-error TypeScript thinks comparator is narrower than it actually is
-    setNode({ ...node, comparator: value, partial });
+    setNode({ ...node, comparator: value });
   };
 
   const handleTextValueChange = (
@@ -291,6 +262,16 @@ export default function Rule({
     setMinValue("");
     setMaxValue("");
     setBooleanValue(null);
+
+    // @ts-expect-error value isn't optional but we need to synchorize
+    // the React state with the node object
+    delete node.value;
+    // @ts-expect-error same reason as above
+    delete node.min;
+    // @ts-expect-error same reason as above
+    delete node.max;
+
+    setNode({ ...node, partial: true });
   };
 
   return (

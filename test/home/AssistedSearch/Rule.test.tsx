@@ -59,14 +59,28 @@ describe("Rule", () => {
     expect(valueInput).toHaveAttribute("aria-invalid", "true");
   });
 
-  it("resets the comparator when selecting a new field that doesn't support it", async () => {
-    renderRule({ node: partialNode });
+  it("resets the comparator and the values when selecting a new field", async () => {
+    renderRule({ node });
 
     const comparatorInput = getComparatorInput();
-    await selectBetweenComparator();
+    const valueInput = getValueInput();
+    expect(comparatorInput).toHaveValue("contient");
+    expect(valueInput).toHaveValue(node.value);
+
     await selectTextField();
 
     expect(comparatorInput).not.toHaveValue();
+    expect(valueInput).not.toHaveValue();
+  });
+
+  it("resets the values when selecting a new comparator", async () => {
+    renderRule({ node });
+
+    const valueInput = getValueInput();
+    expect(valueInput).toHaveValue();
+
+    await selectEqualsComparator();
+    expect(valueInput).not.toHaveValue();
   });
 
   it("renders two value inputs (min and max) when using the between operator", async () => {
@@ -135,8 +149,9 @@ describe("Rule", () => {
 
     await selectField("Corps du texte sans les métadonnées");
 
+    const { value, ...partialNodeWithoutValue } = partialNode;
     expect(setNode).toHaveBeenCalledWith({
-      ...partialNode,
+      ...partialNodeWithoutValue,
       field: "fulltext@1",
       implicitNodes: [
         {
@@ -186,7 +201,7 @@ function renderRule({
   render(
     <Rule
       displayErrors={displayErrors ?? false}
-      node={node}
+      node={{ ...node }}
       setNode={setNode ?? jest.fn()}
       remove={remove ?? jest.fn()}
     />,
@@ -247,4 +262,10 @@ async function selectBetweenComparator() {
   const comparatorInput = getComparatorInput();
   await userEvent.click(comparatorInput);
   await userEvent.keyboard("est entre{ArrowDown}{Enter}");
+}
+
+async function selectEqualsComparator() {
+  const comparatorInput = getComparatorInput();
+  await userEvent.click(comparatorInput);
+  await userEvent.keyboard("égal{ArrowDown}{Enter}");
 }

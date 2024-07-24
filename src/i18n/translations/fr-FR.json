@@ -715,7 +715,7 @@
       "tutorials": "Tutoriels",
       "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
       "contactTitle": "Écrivez-nous",
-      "message": "Envoyez-nous un courriel à <mailtoLink>contact@istex.fr</mailtoLink>"
+      "message": "Envoyez-nous un message via le <externalLink>formulaire de contact</externalLink>."
     }
   },
   "ErrorCard": {

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Button from "@/components/Button";
 import type { ModalProps } from "@/components/Modal";
-import { mailtoLink } from "@/i18n/i18n";
+import { externalLink } from "@/i18n/i18n";
 import theme from "@/mui/theme";
 
 export default function HelpModal({
@@ -92,7 +92,11 @@ export default function HelpModal({
             <CloseIcon />
           </IconButton>
           <DialogContent>
-            {t.rich("message", { mailtoLink: mailtoLink("contact@istex.fr") })}
+            {t.rich("message", {
+              externalLink: externalLink(
+                "https://www.istex.fr/contactez-nous/",
+              ),
+            })}
           </DialogContent>
         </Box>
       </Stack>

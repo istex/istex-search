@@ -43,6 +43,7 @@ export default function Rule({
   const locale = useLocale();
   const isNodePartial = node.partial === true;
   const isTextNode = node.fieldType === "text";
+  const isLanguageNode = node.fieldType === "language";
   const isNumberNode = node.fieldType === "number" && "value" in node;
   const isRangeNode = node.fieldType === "number" && "min" in node;
   const isBooleanNode = node.fieldType === "boolean";
@@ -56,7 +57,7 @@ export default function Rule({
     !isNodePartial ? node.comparator : null,
   );
   const [textValue, setTextValue] = React.useState(
-    !isNodePartial && isTextNode ? node.value : null,
+    !isNodePartial && (isTextNode || isLanguageNode) ? node.value : null,
   );
   const [numberValue, setNumberValue] = React.useState(
     // The number value is stored as a string because that's what MUI excepts

@@ -54,7 +54,10 @@ export default function ArchiveSettings() {
   };
 
   return (
-    <Stack direction="row" justifyContent="space-between">
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      justifyContent="space-between"
+    >
       {/* Archive type */}
       <Stack direction="row" spacing={1} alignItems="center">
         <InputLabel

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Autocomplete, IconButton, Stack, TextField } from "@mui/material";
+import { Autocomplete, IconButton, Stack } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import {
   AutocompleteInput,
@@ -10,6 +10,7 @@ import {
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
+import NumberInput from "@/components/NumberInput";
 import {
   getFieldName,
   rangeComparators,
@@ -60,15 +61,13 @@ export default function Rule({
     !isNodePartial && (isTextNode || isLanguageNode) ? node.value : null,
   );
   const [numberValue, setNumberValue] = React.useState(
-    // The number value is stored as a string because that's what MUI excepts
-    // MUI doesn't have any number input component just yet (https://mui.com/material-ui/react-text-field/#type-quot-number-quot)
-    !isNodePartial && isNumberNode ? node.value.toString() : "",
+    !isNodePartial && isNumberNode ? node.value : null,
   );
   const [minValue, setMinValue] = React.useState(
-    !isNodePartial && isRangeNode ? node.min.toString() : "",
+    !isNodePartial && isRangeNode ? node.min : null,
   );
   const [maxValue, setMaxValue] = React.useState(
-    !isNodePartial && isRangeNode ? node.max.toString() : "",
+    !isNodePartial && isRangeNode ? node.max : null,
   );
   const [booleanValue, setBooleanValue] = React.useState<boolean | null>(
     !isNodePartial && isBooleanNode ? node.value : null,
@@ -170,16 +169,12 @@ export default function Rule({
     setNode({ ...node, value, partial });
   };
 
-  const handleNumberValueChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    const { value } = event.target;
-    const valueAsNumber = Number(value);
+  const handleNumberValueChange = (value: number | null) => {
     setNumberValue(value);
 
     let partial = true;
 
-    if (value === "" || Number.isNaN(valueAsNumber)) {
+    if (value == null || Number.isNaN(value)) {
       setNode({ ...node, partial });
       return;
     }
@@ -189,51 +184,43 @@ export default function Rule({
     partial = fieldName == null || comparator == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, value: valueAsNumber, partial });
+    setNode({ ...node, value, partial });
   };
 
-  const handleMinValueChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    const { value: min } = event.target;
-    const minAsNumber = Number(min);
+  const handleMinValueChange = (min: number | null) => {
     setMinValue(min);
 
     let partial = true;
 
-    if (min === "" || Number.isNaN(minAsNumber)) {
+    if (min == null || Number.isNaN(min)) {
       setNode({ ...node, partial });
       return;
     }
 
     // Even if the min is valid, the field name the comparator and
     // the max also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null || maxValue === "";
+    partial = fieldName == null || comparator == null || maxValue == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, min: minAsNumber, partial });
+    setNode({ ...node, min, partial });
   };
 
-  const handleMaxValueChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    const { value: max } = event.target;
-    const maxAsNumber = Number(max);
+  const handleMaxValueChange = (max: number | null) => {
     setMaxValue(max);
 
     let partial = true;
 
-    if (max === "" || Number.isNaN(maxAsNumber)) {
+    if (max == null || Number.isNaN(max)) {
       setNode({ ...node, partial });
       return;
     }
 
     // Even if the max is valid, the field name the comparator and
     // the min also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null || minValue === "";
+    partial = fieldName == null || comparator == null || minValue == null;
 
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, max: maxAsNumber, partial });
+    setNode({ ...node, max, partial });
   };
 
   const handleBooleanValueChange = (
@@ -259,9 +246,9 @@ export default function Rule({
 
   const resetValue = () => {
     setTextValue("");
-    setNumberValue("");
-    setMinValue("");
-    setMaxValue("");
+    setNumberValue(null);
+    setMinValue(null);
+    setMaxValue(null);
     setBooleanValue(null);
 
     // @ts-expect-error value isn't optional but we need to synchorize
@@ -338,26 +325,24 @@ export default function Rule({
             return (
               <Stack direction="row" spacing={2} width="100%">
                 {/* Min */}
-                <TextField
+                <NumberInput
                   size="small"
-                  type="number"
                   fullWidth
                   label={t("minValue")}
                   value={minValue}
                   onChange={handleMinValueChange}
-                  error={displayErrors && minValue === ""}
+                  error={displayErrors && minValue == null}
                   sx={fontFamilyStyle}
                 />
 
                 {/* Max */}
-                <TextField
+                <NumberInput
                   size="small"
-                  type="number"
                   fullWidth
                   label={t("maxValue")}
                   value={maxValue}
                   onChange={handleMaxValueChange}
-                  error={displayErrors && maxValue === ""}
+                  error={displayErrors && maxValue == null}
                   sx={fontFamilyStyle}
                 />
               </Stack>
@@ -366,14 +351,13 @@ export default function Rule({
 
           // Number
           return (
-            <TextField
+            <NumberInput
               size="small"
-              type="number"
               fullWidth
               label={t("value")}
               value={numberValue}
               onChange={handleNumberValueChange}
-              error={displayErrors && numberValue === ""}
+              error={displayErrors && numberValue == null}
               sx={fontFamilyStyle}
             />
           );

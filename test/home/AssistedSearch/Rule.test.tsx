@@ -56,7 +56,7 @@ describe("Rule", () => {
     renderRule({ displayErrors: true, node: emptyValueNode });
 
     const valueInput = getValueInput();
-    expect(valueInput).toHaveAttribute("aria-invalid", "true");
+    expect(valueInput).toBeInvalid();
   });
 
   it("resets the comparator and the values when selecting a new field", async () => {
@@ -221,11 +221,11 @@ function getValueInput() {
 }
 
 function getMinInput() {
-  return screen.getByRole("spinbutton", { name: "Valeur min" });
+  return screen.getByRole("textbox", { name: "Valeur min" });
 }
 
 function getMaxInput() {
-  return screen.getByRole("spinbutton", { name: "Valeur max" });
+  return screen.getByRole("textbox", { name: "Valeur max" });
 }
 
 function getBooleanInput() {

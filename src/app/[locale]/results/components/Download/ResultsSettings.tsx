@@ -1,9 +1,10 @@
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";
-import { Box, IconButton, Stack, TextField, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import Sorting from "../Sorting";
 import Button from "@/components/Button";
+import NumberInput from "@/components/NumberInput";
 import { istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
@@ -30,7 +31,7 @@ export default function ResultsSettings() {
       : resultsCount - excludedDocuments.length;
 
   const maxSize = clamp(documentsCount, 0, istexApiConfig.maxSize);
-  const [size, setSize] = React.useState(
+  const [size, setSize] = React.useState<number | null>(
     clamp(searchParams.getSize(), 0, maxSize),
   );
 
@@ -53,15 +54,14 @@ export default function ResultsSettings() {
     [],
   );
 
-  const updateSize = (size: number) => {
+  const updateSize = (size: number | null) => {
     setSize(size);
-    updateUrl(size, searchParams);
+    updateUrl(size ?? 0, searchParams);
   };
 
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    const newValue = event.target.valueAsNumber;
-    if (isNaN(newValue)) {
-      updateSize(0);
+  const handleChange = (newValue: number | null) => {
+    if (newValue == null) {
+      updateSize(newValue);
       return;
     }
 
@@ -90,18 +90,17 @@ export default function ResultsSettings() {
       >
         <Box
           id="size-input-label"
-          component="span"
+          component="label"
           sx={{ display: { xs: "none", sm: "inline" } }}
         >
           {t("download")}
         </Box>
-        <TextField
+        <NumberInput
           id="size-input"
-          type="number"
           size="small"
+          min={0}
+          max={maxSize}
           inputProps={{
-            min: 0,
-            max: maxSize,
             "aria-labelledby": "size-input-label",
           }}
           value={size}

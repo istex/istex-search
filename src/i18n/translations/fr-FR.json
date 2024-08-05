@@ -737,6 +737,10 @@
   "Modal": {
     "closeButton": "Fermer la modale"
   },
+  "NumberInput": {
+    "incrementAriaLabel": "Augmenter la valeur",
+    "decrementAriaLabel": "Diminuer la valeur"
+  },
   "config": {
     "examples": {
       "emmanuelKant": "Emmanuel Kant",

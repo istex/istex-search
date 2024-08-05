@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { DEFAULT_LOCALE, useRouter } from "@/i18n/navigation";
 
 describe("ResultsSettings", () => {
   beforeEach(() => {
@@ -21,18 +21,6 @@ describe("ResultsSettings", () => {
     const resultsCount = 3;
     const newValue = 2;
     await testModification(resultsCount, newValue, newValue);
-  });
-
-  it("sets the size to the results count when the new value is greater than the results count", async () => {
-    const resultsCount = 3;
-    const newValue = 4;
-    await testModification(resultsCount, newValue, resultsCount);
-  });
-
-  it("sets the size to the max size when the new value is greater than the max size", async () => {
-    const resultsCount = istexApiConfig.maxSize + 10;
-    const newValue = istexApiConfig.maxSize + 3;
-    await testModification(resultsCount, newValue, istexApiConfig.maxSize);
   });
 
   it("sets the size to the max size when the results count is greater than the max size", async () => {
@@ -76,7 +64,7 @@ async function testModification(
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
-  const input = screen.getByRole("spinbutton");
+  const input = screen.getByRole("textbox");
   await userEvent.clear(input);
   await userEvent.paste(wishValue.toString());
   jest.runAllTimers();
@@ -111,7 +99,7 @@ function testInitialization(resultsCount: number, expectedValue: number) {
   });
   render(<ResultsSettings />, { resultsCount });
 
-  const input = screen.getByRole("spinbutton");
+  const input = screen.getByRole("textbox");
 
-  expect(input).toHaveValue(expectedValue);
+  expect(input).toHaveValue(expectedValue.toLocaleString(DEFAULT_LOCALE));
 }

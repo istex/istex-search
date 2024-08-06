@@ -600,8 +600,7 @@
       "metadata": "Métadonnées",
       "annexes": "Annexes",
       "enrichments": "Enrichissements",
-      "externalLink": "Ce document est aussi disponible sur sa <externalLink>plateforme d'origine</externalLink>.",
-      "pdfPopover": "Ce document est disponible sur sa <externalLink>plateforme d'origine</externalLink>.<br></br>Vous pouvez aussi accéder à la <istexLink>version Istex</istexLink>.",
+      "openAccess": "Libre accès",
       "selectDocument": "Sélectionner",
       "unselectDocument": "Désélectionner",
       "excludeDocument": "Exclure",
@@ -625,7 +624,8 @@
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",
         "annexes": "Accéder à l'annexe au format {extension}",
-        "enrichments": "Accéder à l'enrichissement {key} au format {extension}"
+        "enrichments": "Accéder à l'enrichissement {key} au format {extension}",
+        "openAccess": "Accéder à ce document sur sa plateforme d'origine"
       }
     },
     "Panel": {

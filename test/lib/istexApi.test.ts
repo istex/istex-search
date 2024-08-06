@@ -1,4 +1,9 @@
-import { MIN_PER_PAGE, NO_FORMAT_SELECTED, formats } from "@/config";
+import {
+  MIN_PER_PAGE,
+  NO_FORMAT_SELECTED,
+  corpusWithExternalFulltextLink,
+  formats,
+} from "@/config";
 import * as Module from "@/lib/istexApi";
 
 describe("Istex API related functions", () => {
@@ -428,6 +433,58 @@ describe("Istex API related functions", () => {
       expect(Module.buildFullApiUrl(params).toString()).toBe(
         "https://api.istex.fr/document?q=hello&size=2&rankBy=qualityOverRelevance&compressionLevel=9&sid=istex-search&extract=fulltext%5Bpdf%5D",
       );
+    });
+  });
+
+  describe("getExternalPdfUrl", () => {
+    const document: Module.Result = {
+      id: "123",
+      corpusName: "Corpus name",
+      arkIstex: "arkIstex",
+      doi: ["doi"],
+      fulltextUrl: "https://foo.bar/",
+    };
+
+    it("returns null when the corpus name is not one of corpusWithExternalFulltextLink", () => {
+      const url = Module.getExternalPdfUrl({
+        ...document,
+        corpusName: "hello",
+      });
+
+      expect(url).toBe(null);
+    });
+
+    it("returns null when the corpus name is one of corpusWithExternalFulltextLink but DOI and fulltextUrl are not defined", () => {
+      const url = Module.getExternalPdfUrl({
+        ...document,
+        corpusName: corpusWithExternalFulltextLink[0],
+        doi: undefined,
+        fulltextUrl: undefined,
+      });
+
+      expect(url).toBe(null);
+    });
+
+    it("returns an URL based on the DOI when the corpus name is one corpusWithExternalFulltextLink and a DOI is present", () => {
+      const url = Module.getExternalPdfUrl({
+        ...document,
+        corpusName: corpusWithExternalFulltextLink[0],
+        doi: ["my-doi"],
+        fulltextUrl: undefined,
+      });
+
+      expect(url?.href).toBe("https://doi.org/my-doi");
+    });
+
+    it("returns an URL based on the fulltextUrl when the corpus name is one corpusWithExternalFulltextLink but DOI is not defined", () => {
+      const url = Module.getExternalPdfUrl({
+        ...document,
+        corpusName: corpusWithExternalFulltextLink[0],
+        doi: undefined,
+        fulltextUrl: "https://example.com/",
+      });
+
+      expect(url?.href).toBe("https://example.com/");
     });
   });
 });

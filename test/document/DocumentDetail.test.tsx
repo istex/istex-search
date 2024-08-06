@@ -7,7 +7,6 @@ import {
 } from "../test-utils";
 import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
-import { corpusWithExternalFulltextLink } from "@/config";
 import type { IstexApiResponse, Result } from "@/lib/istexApi";
 
 describe("DocumentDetail", () => {
@@ -87,51 +86,6 @@ describe("DocumentDetail", () => {
       "title",
       "Accéder à l'enrichissement Teeft au format TEI",
     );
-  });
-
-  it("doesn't render an external link when the corpus name is not one of corpusWithExternalFulltextLink", async () => {
-    await renderDocumentDetail({
-      corpusName: "hello",
-      doi: ["1234"],
-    });
-
-    const externalLink = getExternalLink();
-
-    expect(externalLink).not.toBeInTheDocument();
-  });
-
-  it("doesn't render an external link when the corpus name is one of corpusWithExternalFulltextLink but DOI and fulltextUrl are not defined", async () => {
-    await renderDocumentDetail({
-      corpusName: corpusWithExternalFulltextLink[0],
-    });
-
-    const externalLink = getExternalLink();
-
-    expect(externalLink).not.toBeInTheDocument();
-  });
-
-  it("renders an external link using the DOI when the corpus name is one of corpusWithExternalFulltextLink and a DOI is present", async () => {
-    await renderDocumentDetail({
-      corpusName: corpusWithExternalFulltextLink[0],
-      doi: ["1234"],
-    });
-
-    const externalLink = getExternalLink();
-
-    expect(externalLink).toBeInTheDocument();
-    expect(externalLink).toHaveAttribute("href", "https://doi.org/1234");
-  });
-
-  it("renders an external link using the fulltextUrl when the corpus name is one of corpusWithExternalFulltextLink but DOI is not defined", async () => {
-    await renderDocumentDetail({
-      corpusName: corpusWithExternalFulltextLink[0],
-      fulltextUrl: "https://example.com/",
-    });
-
-    const externalLink = getExternalLink();
-
-    expect(externalLink).toBeInTheDocument();
-    expect(externalLink).toHaveAttribute("href", "https://example.com/");
   });
 
   it("calls handleCloseDocument when the close button is clicked", async () => {
@@ -244,10 +198,4 @@ async function renderDocumentDetail(partialDocument: Partial<Result> = {}) {
   }
 
   await userEvent.click(card);
-}
-
-function getExternalLink() {
-  return screen.queryByRole("link", {
-    name: "plateforme d'origine",
-  });
 }

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Stack, Typography, type StackProps } from "@mui/material";
 import FileButton from "./FileButton";
-import type { Result } from "@/lib/istexApi";
+import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
 
 interface FileListProps {
   document: Result;
@@ -12,6 +12,7 @@ interface FileListProps {
 
 export default function FileList({ document, direction, gap }: FileListProps) {
   const t = useTranslations("results.Document");
+  const externalPdfUrl = getExternalPdfUrl(document);
 
   const data = React.useMemo(
     () => ({
@@ -35,8 +36,18 @@ export default function FileList({ document, direction, gap }: FileListProps) {
               uri: enrichment[1][0].uri,
             }))
           : undefined,
+      openAccess:
+        externalPdfUrl != null
+          ? [
+              {
+                extension: "openAccess",
+                uri: externalPdfUrl.href,
+                enrichmentName: null,
+              },
+            ]
+          : undefined,
     }),
-    [document],
+    [document, externalPdfUrl],
   );
 
   return (
@@ -65,7 +76,6 @@ export default function FileList({ document, direction, gap }: FileListProps) {
                 return (
                   <FileButton
                     key={enrichmentName ?? extension}
-                    document={document}
                     category={category}
                     enrichmentName={enrichmentName}
                     extension={extension}

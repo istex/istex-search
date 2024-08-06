@@ -9,9 +9,7 @@ import { Chip, Drawer, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import { externalLink } from "@/i18n/i18n";
 import { useShare } from "@/lib/hooks";
-import { getExternalPdfUrl } from "@/lib/istexApi";
 
 export default function DocumentDetail() {
   const {
@@ -25,8 +23,6 @@ export default function DocumentDetail() {
   const t = useTranslations("results.Document");
   const tTags = useTranslations("results.Document.tags");
   const share = useShare();
-  const externalPdfUrl =
-    displayedDocument != null ? getExternalPdfUrl(displayedDocument) : null;
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
@@ -234,15 +230,6 @@ export default function DocumentDetail() {
               <FileList document={displayedDocument} gap={1} />
             )}
           </Stack>
-
-          {/* External Url */}
-          {externalPdfUrl != null && (
-            <Typography variant="body2">
-              {t.rich("externalLink", {
-                externalLink: externalLink(externalPdfUrl.href),
-              })}
-            </Typography>
-          )}
 
           {/* Select and exclude buttons */}
           {displayedDocument != null && (

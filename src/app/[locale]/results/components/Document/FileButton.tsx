@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { IconButton, Popover, Typography } from "@mui/material";
+import { IconButton, SvgIcon, Typography } from "@mui/material";
 import BlankIcon from "./BlankIcon";
 import BmpIcon from "./BmpIcon";
 import GifIcon from "./GifIcon";
@@ -14,11 +14,9 @@ import TiffIcon from "./TiffIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
-import { externalLink } from "@/i18n/i18n";
-import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
+import OpenAccessIcon from "@/../public/open-access.svg?svgr";
 
-interface FileButtonProps {
-  document: Result;
+export interface FileButtonProps {
   category: string;
   enrichmentName: string | null;
   extension: string;
@@ -26,20 +24,12 @@ interface FileButtonProps {
 }
 
 export default function FileButton({
-  document,
   category,
   enrichmentName,
   extension,
   uri,
 }: FileButtonProps) {
   const t = useTranslations("results.Document");
-  const externalPdfUrl = getExternalPdfUrl(document);
-
-  if (extension === "pdf" && externalPdfUrl != null) {
-    return (
-      <PdfFileButton externalUrl={externalPdfUrl} istexUrl={new URL(uri)} />
-    );
-  }
 
   return (
     <IconButton
@@ -66,62 +56,7 @@ export default function FileButton({
       }}
     >
       {getIcon(extension)}
-      <Typography
-        variant="caption"
-        sx={{
-          textTransform: "lowercase",
-          fontSize: "0.7rem",
-          color: "colors.blue",
-          maxHeight: "1rem",
-        }}
-      >
-        {enrichmentName ?? extension}
-      </Typography>
-    </IconButton>
-  );
-}
-
-interface PdfFileButtonProps {
-  externalUrl: URL;
-  istexUrl: URL;
-}
-
-function PdfFileButton({ externalUrl, istexUrl }: PdfFileButtonProps) {
-  const t = useTranslations("results.Document");
-  const [popoverAnchorEl, setPopoverAnchorEl] =
-    React.useState<HTMLButtonElement | null>(null);
-  const popoverOpen = Boolean(popoverAnchorEl);
-  const popoverId = popoverOpen ? "pdf-popover" : undefined;
-
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    setPopoverAnchorEl(event.currentTarget);
-  };
-
-  const closePopover = () => {
-    setPopoverAnchorEl(null);
-  };
-
-  return (
-    <>
-      <IconButton
-        aria-label="pdf"
-        aria-describedby={popoverId}
-        disableRipple
-        title={t("formatsLinks.fulltext", {
-          extension: "PDF",
-        })}
-        onClick={handleClick}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          p: 0.5,
-          maxWidth: "4rem",
-          overflow: "hidden",
-          wordBreak: "break-all",
-          borderRadius: 0,
-        }}
-      >
-        {getIcon("pdf")}
+      {extension !== "openAccess" && (
         <Typography
           variant="caption"
           sx={{
@@ -131,33 +66,10 @@ function PdfFileButton({ externalUrl, istexUrl }: PdfFileButtonProps) {
             maxHeight: "1rem",
           }}
         >
-          pdf
+          {enrichmentName ?? extension}
         </Typography>
-      </IconButton>
-
-      <Popover
-        id={popoverId}
-        elevation={5}
-        open={popoverOpen}
-        anchorEl={popoverAnchorEl}
-        onClose={closePopover}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-      >
-        <Typography sx={{ p: 2 }} variant="body2">
-          {t.rich("pdfPopover", {
-            externalLink: externalLink(externalUrl.href),
-            istexLink: externalLink(istexUrl.href),
-          })}
-        </Typography>
-      </Popover>
-    </>
+      )}
+    </IconButton>
   );
 }
 
@@ -202,6 +114,8 @@ function getIcon(extension: string) {
     case "tiff":
       Component = TiffIcon;
       break;
+    case "openAccess":
+      return <SvgIcon htmlColor="#f68212" component={OpenAccessIcon} />;
     default:
       Component = BlankIcon;
   }

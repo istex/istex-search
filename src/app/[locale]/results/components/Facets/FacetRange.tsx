@@ -26,6 +26,8 @@ export default function FacetRange({
   const t = useTranslations(`results.Facets.${facetTitle}`);
   const tResults = useTranslations("results");
 
+  const isDate = facetTitle === "publicationDate";
+  const isScore = facetTitle === "qualityIndicators.score";
   const withDecimal = FACETS_RANGE_WITH_DECIMAL.includes(facetTitle);
 
   const facetItem = facetItems[0];
@@ -40,8 +42,18 @@ export default function FacetRange({
 
   const from = Number(facetItem.fromAsString ?? facetItem.from);
   const to = Number(facetItem.toAsString ?? facetItem.to);
-  const minLabel = !Number.isNaN(from) ? from.toLocaleString(locale) : "*";
-  const maxLabel = !Number.isNaN(to) ? to.toLocaleString(locale) : "*";
+
+  // Localize the string representation except for dates
+  const minLabel = !Number.isNaN(from)
+    ? !isDate
+      ? from.toLocaleString(locale)
+      : from.toString()
+    : "*";
+  const maxLabel = !Number.isNaN(to)
+    ? !isDate
+      ? to.toLocaleString(locale)
+      : to.toString()
+    : "*";
 
   const [min, setMin] = React.useState(initialMin);
 
@@ -134,9 +146,16 @@ export default function FacetRange({
             focused
             placeholder={t("inputPlaceholderMin")}
             fullWidth
-            step={facetTitle === "qualityIndicators.score" ? 0.1 : undefined}
-            min={!Number.isNaN(from) ? from : undefined}
-            max={!Number.isNaN(to) ? to : undefined}
+            step={isScore ? 0.1 : undefined}
+            numericFormatProps={
+              isDate
+                ? {
+                    decimalScale: 0,
+                    thousandSeparator: "",
+                  }
+                : undefined
+            }
+            hideActionButtons
             value={min}
             onChange={setMin}
             disabled={disabled}
@@ -161,9 +180,16 @@ export default function FacetRange({
             focused
             placeholder={t("inputPlaceholderMax")}
             fullWidth
-            step={facetTitle === "qualityIndicators.score" ? 0.1 : undefined}
-            min={!Number.isNaN(from) ? from : undefined}
-            max={!Number.isNaN(to) ? to : undefined}
+            step={isScore ? 0.1 : undefined}
+            numericFormatProps={
+              isDate
+                ? {
+                    decimalScale: 0,
+                    thousandSeparator: "",
+                  }
+                : undefined
+            }
+            hideActionButtons
             value={max}
             onChange={setMax}
             disabled={disabled}
@@ -177,9 +203,16 @@ export default function FacetRange({
           color="primary"
           focused
           placeholder={t("inputPlaceholderSingle")}
-          step={facetTitle === "qualityIndicators.score" ? 0.1 : undefined}
-          min={!Number.isNaN(from) ? from : undefined}
-          max={!Number.isNaN(to) ? to : undefined}
+          step={isScore ? 0.1 : undefined}
+          numericFormatProps={
+            isDate
+              ? {
+                  decimalScale: 0,
+                  thousandSeparator: "",
+                }
+              : undefined
+          }
+          hideActionButtons
           value={singleValue}
           onChange={setSingleValue}
           disabled={disabled}

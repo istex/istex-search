@@ -16,22 +16,23 @@ const NumericFormatCustom = React.forwardRef<
   HTMLInputElement,
   NumericFormatProps
 >(function NumericFormatCustom(props, ref) {
+  const { decimalSeparator, thousandSeparator, ...rest } = props;
   const locale = useLocale();
 
-  const thousandSeparator = React.useMemo(() => {
+  const defaultThousandSeparator = React.useMemo(() => {
     return getThousandSeparator(locale);
   }, [locale]);
 
-  const decimalSeparator = React.useMemo(() => {
+  const defaultDecimalSeparator = React.useMemo(() => {
     return getDecimalSeparator(locale);
   }, [locale]);
 
   return (
     <NumericFormat
-      {...props}
+      {...rest}
       getInputRef={ref}
-      thousandSeparator={thousandSeparator}
-      decimalSeparator={decimalSeparator}
+      thousandSeparator={thousandSeparator ?? defaultThousandSeparator}
+      decimalSeparator={decimalSeparator ?? defaultDecimalSeparator}
     />
   );
 });

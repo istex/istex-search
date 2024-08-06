@@ -164,6 +164,25 @@ describe("Rule", () => {
       ],
     });
   });
+
+  it("removes the thousand separator and decimal from the value input when using a date field", () => {
+    renderRule({
+      node: {
+        ...node,
+        fieldType: "number",
+        field: "publicationDate",
+        comparator: "between",
+        min: 1234.2,
+        max: 5678.3,
+      },
+    });
+
+    const minInput = getMinInput();
+    const maxInput = getMaxInput();
+
+    expect(minInput).toHaveValue("1234");
+    expect(maxInput).toHaveValue("5678");
+  });
 });
 
 describe("RuleUtils", () => {

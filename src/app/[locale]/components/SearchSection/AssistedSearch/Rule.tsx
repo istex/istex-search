@@ -74,6 +74,8 @@ export default function Rule({
   );
   const field = fields.find((field) => field.name === fieldName);
   const requiresFetchingValues = field?.requiresFetchingValues ?? false;
+  const isDateField =
+    fieldName === "publicationDate" || fieldName === "refBibs.publicationDate";
 
   const valueQuery = useQuery({
     queryKey: ["rule-value", fieldName],
@@ -329,6 +331,10 @@ export default function Rule({
                   size="small"
                   fullWidth
                   label={t("minValue")}
+                  numericFormatProps={{
+                    decimalScale: 0,
+                    thousandSeparator: isDateField ? "" : undefined,
+                  }}
                   value={minValue}
                   onChange={handleMinValueChange}
                   error={displayErrors && minValue == null}
@@ -340,6 +346,10 @@ export default function Rule({
                   size="small"
                   fullWidth
                   label={t("maxValue")}
+                  numericFormatProps={{
+                    decimalScale: 0,
+                    thousandSeparator: isDateField ? "" : undefined,
+                  }}
                   value={maxValue}
                   onChange={handleMaxValueChange}
                   error={displayErrors && maxValue == null}
@@ -355,6 +365,10 @@ export default function Rule({
               size="small"
               fullWidth
               label={t("value")}
+              numericFormatProps={{
+                decimalScale: 0,
+                thousandSeparator: isDateField ? "" : undefined,
+              }}
               value={numberValue}
               onChange={handleNumberValueChange}
               error={displayErrors && numberValue == null}

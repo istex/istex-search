@@ -55,12 +55,12 @@ describe("FaceRange", () => {
       "placeholder",
       "Minimum",
     );
-    expect(screen.getAllByRole("textbox")[0]).toHaveValue("2\u202f000");
+    expect(screen.getAllByRole("textbox")[0]).toHaveValue("2000");
     expect(screen.getAllByRole("textbox")[1]).toHaveAttribute(
       "placeholder",
       "Maximum",
     );
-    expect(screen.getAllByRole("textbox")[1]).toHaveValue("2\u202f020");
+    expect(screen.getAllByRole("textbox")[1]).toHaveValue("2020");
   });
 
   it("should call setRangeFacet when changing the min value", () => {
@@ -93,19 +93,6 @@ describe("FaceRange", () => {
       "publicationDate",
       "2000-2005",
     );
-  });
-
-  it("should not update value and call setRangeFacet when changing the min value to a decimal value for non decimal facet", () => {
-    const setRangeFacetMock = jest.fn();
-    (useFacetContext as jest.Mock).mockReturnValue({
-      facetsList: facets,
-      setRangeFacet: setRangeFacetMock,
-    });
-    render(<FacetRange facetTitle={facetTitle} facetItems={facetItems} />);
-    const minInput = screen.getByPlaceholderText("Minimum");
-    fireEvent.change(minInput, { target: { value: "1.5" } });
-    expect(setRangeFacetMock).toHaveBeenCalledTimes(0);
-    expect(minInput).toHaveValue("2\u202f000");
   });
 
   it("should update value and call setRangeFacet when changing the min value to an inside of range decimal value for score facet", async () => {
@@ -156,8 +143,8 @@ describe("FaceRange", () => {
     expect(yearButton).toBeInTheDocument();
     expect(periodButton).toHaveClass("Mui-selected");
     expect(yearButton).not.toHaveClass("Mui-selected");
-    expect(screen.getByPlaceholderText("Minimum")).toHaveValue("2\u202f000");
-    expect(screen.getByPlaceholderText("Maximum")).toHaveValue("2\u202f020");
+    expect(screen.getByPlaceholderText("Minimum")).toHaveValue("2000");
+    expect(screen.getByPlaceholderText("Maximum")).toHaveValue("2020");
     fireEvent.click(yearButton);
     expect(periodButton).not.toHaveClass("Mui-selected");
     expect(yearButton).toHaveClass("Mui-selected");
@@ -203,7 +190,7 @@ describe("FaceRange", () => {
     expect(yearButton).toBeInTheDocument();
     expect(yearButton).toHaveClass("Mui-selected");
     expect(screen.getByPlaceholderText("Année")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Année")).toHaveValue("2\u202f008");
+    expect(screen.getByPlaceholderText("Année")).toHaveValue("2008");
     expect(screen.queryByPlaceholderText("Minimum")).not.toBeInTheDocument();
     expect(screen.queryByPlaceholderText("Maximum")).not.toBeInTheDocument();
   });
@@ -229,7 +216,7 @@ describe("FaceRange", () => {
     expect(yearButton).toBeInTheDocument();
     expect(yearButton).toHaveClass("Mui-selected");
     expect(screen.getByPlaceholderText("Année")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Année")).toHaveValue("2\u202f010");
+    expect(screen.getByPlaceholderText("Année")).toHaveValue("2010");
     expect(screen.queryByPlaceholderText("Minimum")).not.toBeInTheDocument();
     expect(screen.queryByPlaceholderText("Maximum")).not.toBeInTheDocument();
   });

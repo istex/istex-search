@@ -128,6 +128,20 @@ describe("NumberInput", () => {
     expect(incrementButton).toBeDisabled();
     expect(decrementButton).toBeDisabled();
   });
+
+  it("allows to override props passed to NumericFormat", () => {
+    const value = 1234.5678;
+    render(
+      <NumberInput
+        value={value}
+        numericFormatProps={{ thousandSeparator: "/", decimalSeparator: "%" }}
+      />,
+    );
+
+    const input = getInput();
+
+    expect(input).toHaveValue("1/234%5678");
+  });
 });
 
 function getInput() {

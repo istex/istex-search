@@ -62,9 +62,6 @@ export default function DocumentDetail() {
             xs: "100%",
             md: "70%",
           },
-          "@media (min-width:3000px)": {
-            whidth: "50%",
-          },
         },
       }}
       transitionDuration={400}
@@ -186,7 +183,7 @@ export default function DocumentDetail() {
             </Typography>
             {displayedDocument?.host?.genre != null && (
               <Chip
-                label={displayedDocument.host.genre}
+                label={displayedDocument.host.genre.join(" & ")}
                 variant="filled"
                 size="small"
                 sx={{
@@ -202,7 +199,11 @@ export default function DocumentDetail() {
                 displayedDocument?.[tag] != null && (
                   <Chip
                     key={tag}
-                    label={displayedDocument[tag]}
+                    label={
+                      Array.isArray(displayedDocument[tag])
+                        ? displayedDocument[tag].join(" & ")
+                        : displayedDocument[tag]
+                    }
                     variant="filled"
                     size="small"
                     sx={{

@@ -8,7 +8,6 @@ import type { FacetLayoutProps } from "./FacetLayout";
 import { FACETS_RANGE_WITH_DECIMAL } from "./utils";
 import NumberInput from "@/components/NumberInput";
 import Selector from "@/components/Selector";
-import { useSearchParams } from "@/lib/hooks";
 
 export const RANGE_FACETS_WITH_TOGGLE = ["publicationDate"];
 const RANGE_OPTIONS = ["range", "single"] as const;
@@ -21,8 +20,6 @@ export default function FacetRange({
 }: FacetLayoutProps) {
   const locale = useLocale();
   const { setRangeFacet } = useFacetContext();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
   const t = useTranslations(`results.Facets.${facetTitle}`);
   const tResults = useTranslations("results");
 
@@ -62,14 +59,6 @@ export default function FacetRange({
   const withToggle = RANGE_FACETS_WITH_TOGGLE.includes(facetTitle);
 
   const getInitialSingleValue = () => {
-    const filter = filters[facetTitle];
-
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (filter !== undefined) {
-      const [filterMin, filterMax] = filter[0].split("-").map(Number);
-      return filterMin === filterMax ? filterMin : null;
-    }
-
     if (withDecimal) {
       return minValue === maxValue ? minValue : null;
     }

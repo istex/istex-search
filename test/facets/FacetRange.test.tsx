@@ -1,6 +1,5 @@
 import {
   fireEvent,
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -172,27 +171,6 @@ describe("FaceRange", () => {
       "publicationDate",
       "2005-2005",
     );
-  });
-
-  it("should render the range component with single value if min and max are the same from filters", () => {
-    mockSearchParams({
-      filter: JSON.stringify({ publicationDate: ["2008-2008"] }),
-    });
-    (useFacetContext as jest.Mock).mockReturnValue({
-      facetsList: facets,
-      setRangeFacet: jest.fn(),
-    });
-
-    render(<FacetRange facetTitle={facetTitle} facetItems={facetItems} />);
-    const yearButton = screen.getByRole("tab", {
-      name: "Année",
-    });
-    expect(yearButton).toBeInTheDocument();
-    expect(yearButton).toHaveClass("Mui-selected");
-    expect(screen.getByPlaceholderText("Année")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Année")).toHaveValue("2008");
-    expect(screen.queryByPlaceholderText("Minimum")).not.toBeInTheDocument();
-    expect(screen.queryByPlaceholderText("Maximum")).not.toBeInTheDocument();
   });
 
   it("should render the range component with single value if min and max are the same from facets", () => {

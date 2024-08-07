@@ -16,7 +16,7 @@ const NumericFormatCustom = React.forwardRef<
   HTMLInputElement,
   NumericFormatProps
 >(function NumericFormatCustom(props, ref) {
-  const { decimalSeparator, thousandSeparator, ...rest } = props;
+  const { decimalSeparator, thousandSeparator, value, ...rest } = props;
   const locale = useLocale();
 
   const defaultThousandSeparator = React.useMemo(() => {
@@ -30,6 +30,7 @@ const NumericFormatCustom = React.forwardRef<
   return (
     <NumericFormat
       {...rest}
+      value={value ?? ""} // We can't ever pass null to value because it breaks the shrink state of the label, so we pass empty string instead
       getInputRef={ref}
       thousandSeparator={thousandSeparator ?? defaultThousandSeparator}
       decimalSeparator={decimalSeparator ?? defaultDecimalSeparator}

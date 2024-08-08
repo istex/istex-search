@@ -33,7 +33,7 @@ const MultilineTextField = React.forwardRef<
     // textarea elements don't submit the form when pressing Enter by default
     // so we recreate this behavior but still allow to insert new lines by
     // pressing Shift+Enter
-    if (onSubmit != null && event.code === "Enter" && !event.shiftKey) {
+    if (onSubmit != null && event.key === "Enter" && !event.shiftKey) {
       onSubmit(event);
     }
   };

@@ -11,7 +11,7 @@ import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type SearchParams from "@/lib/SearchParams";
-import { useSearchParams } from "@/lib/hooks";
+import { useMaxSize, useSearchParams } from "@/lib/hooks";
 import { clamp, debounce } from "@/lib/utils";
 
 export default function ResultsSettings() {
@@ -24,13 +24,13 @@ export default function ResultsSettings() {
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { resultsCount } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
+  const maxSize = useMaxSize();
 
   const documentsCount =
     selectedDocuments.length > 0
       ? selectedDocuments.length
       : resultsCount - excludedDocuments.length;
 
-  const maxSize = clamp(documentsCount, 0, istexApiConfig.maxSize);
   const [size, setSize] = React.useState<number | null>(
     clamp(searchParams.getSize(), 0, maxSize),
   );

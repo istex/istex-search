@@ -1,7 +1,11 @@
 import { useTranslations } from "next-intl";
 import { useSearchParams as nextUseSearchParams } from "next/navigation";
 import SearchParams from "./SearchParams";
+import { istexApiConfig } from "@/config";
+import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname } from "@/i18n/navigation";
+import { clamp } from "@/lib/utils";
 import type { NextSearchParams } from "@/types/next";
 
 export function useSearchParams(searchParams?: NextSearchParams) {
@@ -40,4 +44,16 @@ export function useDownload() {
 
     link.click();
   };
+}
+
+export function useMaxSize() {
+  const { resultsCount } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
+
+  const documentsCount =
+    selectedDocuments.length > 0
+      ? selectedDocuments.length
+      : resultsCount - excludedDocuments.length;
+
+  return clamp(documentsCount, 0, istexApiConfig.maxSize);
 }

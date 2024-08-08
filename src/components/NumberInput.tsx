@@ -1,8 +1,8 @@
 import * as React from "react";
 import { NumericFormat, type NumericFormatProps } from "react-number-format";
 import { useLocale, useTranslations } from "next-intl";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
   IconButton,
   InputAdornment,
@@ -19,13 +19,15 @@ const NumericFormatCustom = React.forwardRef<
   const { decimalSeparator, thousandSeparator, value, ...rest } = props;
   const locale = useLocale();
 
-  const defaultThousandSeparator = React.useMemo(() => {
-    return getThousandSeparator(locale);
-  }, [locale]);
+  const defaultThousandSeparator = React.useMemo(
+    () => getThousandSeparator(locale),
+    [locale],
+  );
 
-  const defaultDecimalSeparator = React.useMemo(() => {
-    return getDecimalSeparator(locale);
-  }, [locale]);
+  const defaultDecimalSeparator = React.useMemo(
+    () => getDecimalSeparator(locale),
+    [locale],
+  );
 
   return (
     <NumericFormat
@@ -162,7 +164,7 @@ const NumberInput = React.forwardRef<HTMLDivElement, NumberInputProps>(
                   onClick={increment}
                   {...commonAdornmentButtonProps}
                 >
-                  <AddCircleIcon fontSize={size} />
+                  <KeyboardArrowUpIcon fontSize={size} />
                 </IconButton>
                 <IconButton
                   aria-label={t("decrementAriaLabel")}
@@ -170,7 +172,7 @@ const NumberInput = React.forwardRef<HTMLDivElement, NumberInputProps>(
                   onClick={decrement}
                   {...commonAdornmentButtonProps}
                 >
-                  <RemoveCircleIcon fontSize={size} />
+                  <KeyboardArrowDownIcon fontSize={size} />
                 </IconButton>
               </Stack>
             </InputAdornment>

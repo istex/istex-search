@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Box, Checkbox, FormControlLabel, Typography } from "@mui/material";
-import IncludeIcon from "./IncludeIcon";
+import IncludeIcon from "@/components/IncludeIcon";
 
 interface FacetCheckboxItemProps {
   name: string;

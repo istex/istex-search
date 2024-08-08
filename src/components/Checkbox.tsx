@@ -6,6 +6,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import IncludeIcon from "./IncludeIcon";
+import IndeterminateIcon from "./IndeterminateIcon";
 
 interface CustomCheckboxProps extends MuiCheckboxProps {
   label: string;
@@ -33,6 +35,8 @@ function CustomCheckbox(props: CustomCheckboxProps) {
           indeterminate={indeterminate}
           size="small"
           onChange={onChange}
+          checkedIcon={<IncludeIcon />}
+          indeterminateIcon={<IndeterminateIcon />}
           {...rest}
         />
       }

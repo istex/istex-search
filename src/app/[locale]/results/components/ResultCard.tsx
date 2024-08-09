@@ -102,6 +102,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
           <Typography
             variant="body2"
             sx={{
+              color: "colors.blue",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",

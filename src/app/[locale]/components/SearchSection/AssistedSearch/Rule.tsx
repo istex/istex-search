@@ -12,15 +12,16 @@ import {
 } from "./RuleUtils";
 import NumberInput from "@/components/NumberInput";
 import {
-  getFieldName,
   rangeComparators,
   type FieldType,
   type Comparator,
-  type FieldName,
   type FieldNode,
-  type AST,
 } from "@/lib/assistedSearch/ast";
-import { fields } from "@/lib/assistedSearch/fields";
+import {
+  fieldNames,
+  fields,
+  type FieldName,
+} from "@/lib/assistedSearch/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { labelizeIsoLanguage } from "@/lib/utils";
 
@@ -30,8 +31,6 @@ interface RuleProps {
   setNode: (newNode: FieldNode) => void;
   remove: () => void;
 }
-
-const FIELD_NAMES = fields.map(({ name }) => name);
 
 export default function Rule({
   displayErrors,
@@ -49,7 +48,7 @@ export default function Rule({
   const isRangeNode = node.fieldType === "number" && "min" in node;
   const isBooleanNode = node.fieldType === "boolean";
   const [fieldName, setFieldName] = React.useState<FieldName | null>(
-    !isNodePartial ? getFieldName(node) : null,
+    !isNodePartial ? node.field : null,
   );
   const [fieldType, setFieldType] = React.useState<FieldType | null>(
     !isNodePartial ? node.fieldType : null,
@@ -118,15 +117,13 @@ export default function Rule({
       throw new Error(`Unexpected field name "${value}"`);
     }
 
-    const newComparators = getComparators(newField.type);
+    const newComparators = getComparators(newField);
 
     // Auto set the comparator when only one is available
     const onlyOneComparatorAvailable = newComparators.length === 1;
     if (onlyOneComparatorAvailable) {
       setComparator(newComparators[0]);
     }
-
-    const implicitNodes = newField.implicitNodes as unknown as AST;
 
     setFieldType(newField.type);
     // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
@@ -137,7 +134,7 @@ export default function Rule({
         : node.comparator,
       fieldType: newField.type,
       field: value,
-      implicitNodes: implicitNodes.length > 0 ? implicitNodes : undefined,
+      implicitNodes: newField.implicitNodes,
     });
   };
 
@@ -281,7 +278,7 @@ export default function Rule({
       <Autocomplete
         size="small"
         fullWidth
-        options={FIELD_NAMES}
+        options={fieldNames}
         value={fieldName}
         onChange={handleFieldNameChange}
         getOptionLabel={(option) => t(`fields.${option}.title`)}
@@ -305,7 +302,7 @@ export default function Rule({
       <Autocomplete
         size="small"
         fullWidth
-        options={getComparators(fieldType)}
+        options={getComparators(field ?? null)}
         value={comparator}
         onChange={handleComparatorChange}
         getOptionLabel={(option) => t(option)}

@@ -1,6 +1,6 @@
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
-import type { FieldName } from "./assistedSearch/ast";
+import type { FieldName } from "./assistedSearch/fields";
 import { buildExtractParamsFromFormats } from "./formats";
 import {
   COMPATIBILITY_FACETS,

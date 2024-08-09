@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import type { fields } from "./fields";
+import type { FieldName } from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;
 export type NodeType = (typeof nodeTypes)[number];
@@ -49,8 +49,6 @@ export interface BaseNode {
   id?: number;
   nodeType: NodeType;
 }
-
-export type FieldName = (typeof fields)[number]["name"];
 
 export interface BaseFieldNode extends BaseNode {
   nodeType: "node";
@@ -199,7 +197,6 @@ function textNodeToString(node: TextNode): string {
     (node.comparator === "equals" ||
       node.comparator === "startsWith" ||
       node.comparator === "endsWith") &&
-    fieldName !== "fulltext" &&
     fieldName !== "accessCondition.contentType";
 
   if (rawVersionRequired) {
@@ -262,7 +259,7 @@ function escapeQuotedValue(value: string): string {
   return value.replace(specialCharacters, "\\$&");
 }
 
-export function getFieldName(node: BaseFieldNode): FieldName {
+function getFieldName(node: BaseFieldNode): FieldName {
   // Some field names contain an "@" symbol because different versions of them
   // are available in the assisted search, but when building the Lucene query,
   // we only want to keep the base field name. For example, both "fulltext" and

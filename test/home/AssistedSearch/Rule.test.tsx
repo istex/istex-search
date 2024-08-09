@@ -9,6 +9,7 @@ import {
   getEmptyFieldNode,
   type FieldNode,
 } from "@/lib/assistedSearch/ast";
+import type { Field } from "@/lib/assistedSearch/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";
@@ -187,19 +188,41 @@ describe("Rule", () => {
 
 describe("RuleUtils", () => {
   describe("getComparators", () => {
-    it("returns the text comparators when giving a text field type", () => {
-      expect(getComparators("text")).toBe(textComparators);
+    it("returns the text comparators when given a text field type", () => {
+      const field: Field = {
+        name: "abstract",
+        type: "text",
+      };
+      expect(getComparators(field)).toBe(textComparators);
     });
 
-    it("returns the number comparators when giving a number field type", () => {
-      expect(getComparators("number")).toBe(numberComparators);
+    it("returns the number comparators when given a number field type", () => {
+      const field: Field = {
+        name: "qualityIndicators.score",
+        type: "number",
+      };
+      expect(getComparators(field)).toBe(numberComparators);
     });
 
-    it("returns the boolean comparators when giving a number field type", () => {
-      expect(getComparators("boolean")).toBe(booleanComparators);
+    it("returns the boolean comparators when given a number field type", () => {
+      const field: Field = {
+        name: "qualityIndicators.tdmReady",
+        type: "boolean",
+      };
+      expect(getComparators(field)).toBe(booleanComparators);
     });
 
-    it("returns all the comparators when giving no field type", () => {
+    it("returns the custom comparators when given a field with custom comparators", () => {
+      const field: Field = {
+        name: "abstract",
+        type: "text",
+        comparators: ["startsWith"],
+      };
+
+      expect(getComparators(field)).toBe(field.comparators);
+    });
+
+    it("returns all the comparators when given no field type", () => {
       expect(getComparators(null)).toEqual(
         unique([
           ...textComparators,

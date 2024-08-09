@@ -14,10 +14,9 @@ import {
   languageComparators,
   numberComparators,
   textComparators,
-  type FieldType,
   type Comparator,
-  type FieldName,
 } from "@/lib/assistedSearch/ast";
+import type { Field, FieldName } from "@/lib/assistedSearch/fields";
 import { unique } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
 
@@ -106,10 +105,13 @@ export function FieldInputMenuItem(
   );
 }
 
-export function getComparators(
-  fieldType: FieldType | null,
-): readonly Comparator[] {
-  switch (fieldType) {
+export function getComparators(field: Field | null): readonly Comparator[] {
+  // If the field has custom comparators, use them instead of the ones associated with the field type
+  if (field?.comparators != null) {
+    return field.comparators;
+  }
+
+  switch (field?.type) {
     case "text":
       return textComparators;
     case "number":

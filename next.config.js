@@ -40,4 +40,7 @@ export default withNextIntl({
 
     return config;
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 });

@@ -135,8 +135,9 @@ export default function Filters() {
       !isNaN(+left) &&
       !isNaN(+right) &&
       +left > +right
-    )
+    ) {
       return `${right}-${left}`;
+    }
 
     return value;
   };

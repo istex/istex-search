@@ -1,10 +1,9 @@
+import { fixupConfigRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import eslint from "@eslint/js";
 import nextPlugin from "@next/eslint-plugin-next";
-import prettierConfig from "eslint-config-prettier";
-import standardConfig from "eslint-config-standard";
-import standardJsxConfig from "eslint-config-standard-jsx";
-import standardReactConfig from "eslint-config-standard-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
+import neostandard from "neostandard";
 import tseslint from "typescript-eslint";
 
 const compat = new FlatCompat();
@@ -14,24 +13,16 @@ export default tseslint.config(
   eslint.configs.recommended,
 
   // Standard
-  // necessary to transform to flat config until the npm packages are updated
-  ...compat.config(standardConfig),
-  ...compat.config(standardReactConfig),
-  ...compat.config(standardJsxConfig),
+  ...neostandard({ noStyle: true }),
 
   // Next
-  {
-    plugins: {
-      "@next/next": nextPlugin,
-    },
-    rules: {
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs["core-web-vitals"].rules,
-    },
-  },
+  ...fixupConfigRules(compat.config(nextPlugin.configs["core-web-vitals"])),
   {
     ignores: [".next/*"],
   },
+
+  // React hooks
+  ...fixupConfigRules(compat.config(reactHooksPlugin.configs.recommended)),
 
   // TypeScript
   ...tseslint.configs.strictTypeChecked,
@@ -52,6 +43,7 @@ export default tseslint.config(
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
           ignoreRestSiblings: true,
         },
       ],
@@ -82,9 +74,6 @@ export default tseslint.config(
       "react/react-in-jsx-scope": "off",
     },
   },
-
-  // Prettier
-  prettierConfig,
 
   // Disable type-aware linting for config files
   {

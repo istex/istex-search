@@ -16,7 +16,7 @@ export default async function HomePage({
   let queryString: string;
   try {
     queryString = await searchParams.getQueryString();
-  } catch (err) {
+  } catch (_err) {
     // Getting on the home page with an invalid q_id could be a mistake
     // so we just delete it and refresh the page
     searchParams.deleteQueryString();

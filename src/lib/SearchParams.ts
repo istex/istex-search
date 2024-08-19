@@ -306,7 +306,7 @@ export default class SearchParams {
 
     try {
       return JSON.parse(atob(base64Ast)) as AST;
-    } catch (error) {
+    } catch (_err) {
       return getEmptyAst();
     }
   }

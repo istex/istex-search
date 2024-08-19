@@ -32,6 +32,7 @@
     "sharp": "0.33.5"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.1.1",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query-devtools": "^5.28.4",
     "@testing-library/jest-dom": "^6.3.0",
@@ -45,17 +46,17 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-window": "^1.8.8",
     "cross-fetch": "^4.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.3",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-jsx": "^11.0.0",
-    "eslint-config-standard-react": "^13.0.0",
+    "eslint": "^9.9.0",
+    "eslint-config-next": "^14.2.5",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
+    "neostandard": "^0.11.2",
     "prettier": "3.3.3",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0"
+    "typescript-eslint": "^8.1.0"
+  },
+  "overrides": {
+    "eslint": "^9.9.0"
   }
 }

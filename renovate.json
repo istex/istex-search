@@ -25,6 +25,7 @@
       "groupName": "Linters and formatters",
       "extends": ["packages:linters"],
       "matchPackageNames": [
+        "neostandard",
         "typescript-eslint",
         "@trivago/prettier-plugin-sort-imports"
       ]

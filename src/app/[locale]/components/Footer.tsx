@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid2 as Grid, Typography } from "@mui/material";
 import abesLogo from "@/../public/abes.svg";
 import cnrsLogo from "@/../public/cnrs.svg";
 import couperinLogo from "@/../public/couperin.svg";
@@ -71,9 +71,10 @@ export default function Footer() {
             <Grid
               key={alt}
               component="li"
-              item
-              xs={MAX_ITEMS_PER_LINE / 2}
-              md={MAX_ITEMS_PER_LINE / partners.length}
+              size={{
+                xs: MAX_ITEMS_PER_LINE / 2,
+                md: MAX_ITEMS_PER_LINE / partners.length,
+              }}
             >
               <Box
                 sx={{
@@ -118,7 +119,12 @@ export default function Footer() {
               alt="Programme Investissement d'Avenir"
             />
           </a>
-          <Typography variant="body2" color="colors.grey">
+          <Typography
+            variant="body2"
+            sx={{
+              color: "colors.grey",
+            }}
+          >
             {t("funding")}: ANR-10-IDEX-0004-02
           </Typography>
         </Box>

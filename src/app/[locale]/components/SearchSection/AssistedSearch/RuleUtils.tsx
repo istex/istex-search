@@ -31,6 +31,9 @@ type AutocompleteInputProps = TextFieldProps & {
 };
 
 export function AutocompleteInput(props: AutocompleteInputProps) {
+  // NOTE: We can't migrate from InputProps to slotProps.input just yet because of a bug in Autocomplete
+  // described here https://github.com/mui/material-ui/issues/43573
+
   const [focused, setFocused] = React.useState(false);
   const { InputProps, isLoading, ...rest } = props;
 
@@ -92,8 +95,8 @@ export function FieldInputMenuItem(
         {t(`fields.${option}.title`)}
       </Typography>
       <Typography
-        color="text.secondary"
         sx={{
+          color: "text.secondary",
           wordWrap: "break-word",
           whiteSpace: "normal",
           fontSize: "0.75rem",

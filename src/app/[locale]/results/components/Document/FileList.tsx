@@ -51,7 +51,12 @@ export default function FileList({ document, direction, gap }: FileListProps) {
   );
 
   return (
-    <Stack direction={direction} gap={gap}>
+    <Stack
+      direction={direction}
+      sx={{
+        gap,
+      }}
+    >
       {Object.entries(data).map(([category, files]) => {
         if (files == null) {
           return null;
@@ -68,7 +73,13 @@ export default function FileList({ document, direction, gap }: FileListProps) {
             >
               {t(category)}
             </Typography>
-            <Stack direction="row" flexWrap="wrap" gap={0.5}>
+            <Stack
+              direction="row"
+              sx={{
+                flexWrap: "wrap",
+                gap: 0.5,
+              }}
+            >
               {files.map(({ enrichmentName, extension, uri }) => {
                 const fullUri = new URL(uri);
                 fullUri.searchParams.set("sid", "istex-search");

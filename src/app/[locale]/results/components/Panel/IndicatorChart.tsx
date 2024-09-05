@@ -18,28 +18,31 @@ export default function IndicatorChart({
 
   return (
     <Box
-      gridRow={{ sm: 2 }}
-      width={CHART_SIZE - CIRCLE_WIDTH}
-      height={CHART_SIZE - CIRCLE_WIDTH}
-      margin={`${CIRCLE_WIDTH / 2}px`}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      color="colors.lightGreen"
-      fontWeight={700}
-      borderRadius="100%"
-      border={`${CIRCLE_WIDTH / 2}px solid`}
-      borderColor={alpha(theme.palette.colors.lightGreen, 0.2)}
-      position="relative"
-      fontSize="0.8rem"
+      sx={{
+        gridRow: { sm: 2 },
+        width: CHART_SIZE - CIRCLE_WIDTH,
+        height: CHART_SIZE - CIRCLE_WIDTH,
+        margin: `${CIRCLE_WIDTH / 2}px`,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "colors.lightGreen",
+        fontWeight: 700,
+        borderRadius: "100%",
+        border: `${CIRCLE_WIDTH / 2}px solid`,
+        borderColor: alpha(theme.palette.colors.lightGreen, 0.2),
+        position: "relative",
+        fontSize: "0.8rem",
+      }}
     >
       {`${percentage}\u00A0%`}
       <Box
         component="div"
-        position="absolute"
-        width={CHART_SIZE}
-        height={CHART_SIZE}
         sx={{
+          position: "absolute",
+          width: CHART_SIZE,
+          height: CHART_SIZE,
+
           "&:before": {
             content: "''",
             position: "absolute",

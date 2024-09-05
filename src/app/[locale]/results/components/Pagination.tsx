@@ -47,8 +47,8 @@ export default function Pagination() {
     <Stack
       direction="row"
       spacing={2}
-      justifyContent="space-between"
       sx={(theme) => ({
+        justifyContent: "space-between",
         borderTop: `1px solid ${theme.palette.colors.veryLightBlack}`,
         borderBottom: `1px solid ${theme.palette.colors.veryLightBlack}`,
         my: 7.5,
@@ -83,21 +83,21 @@ export default function Pagination() {
       <Stack
         direction="row"
         spacing="10px"
-        alignItems="center"
         sx={{
+          alignItems: "center",
           fontSize: "12px",
         }}
       >
         <p>{t("page")}</p>
         <Box
-          px="25px"
-          py="5px"
+          data-testid="pagination-page"
           sx={(theme) => ({
+            px: "25px",
+            py: "5px",
             backgroundColor: theme.palette.colors.white,
             borderRadius: "5px",
             fontWeight: 700,
           })}
-          data-testid="pagination-page"
         >
           {/* TODO: input here */}
           {page.toLocaleString(locale)}

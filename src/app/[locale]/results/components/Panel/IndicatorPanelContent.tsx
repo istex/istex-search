@@ -28,10 +28,12 @@ export default function IndicatorPanelContent({
 
   return (
     <Box
-      display="grid"
-      gridTemplateColumns={{ xs: "1fr", sm: "repeat(4, 1fr)" }}
-      rowGap={1}
-      justifyItems="center"
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(4, 1fr)" },
+        rowGap: 1,
+        justifyItems: "center",
+      }}
     >
       <Indicator
         label={t("summaryPresence")}

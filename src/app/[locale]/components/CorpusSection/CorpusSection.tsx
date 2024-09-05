@@ -33,7 +33,7 @@ export default function CorpusSection() {
         {/* Ready-to-use corpus */}
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>
-          <Typography variant="subtitle1" paragraph>
+          <Typography variant="subtitle1">
             {t("corpus.subtitle", { corpusLength: corpus.length })}
           </Typography>
           <CorpusGrid />
@@ -70,11 +70,13 @@ export default function CorpusSection() {
             {t("gateways.gatewaySuggestion")}
           </Paragraph>
           <Link
-            color="colors.white"
-            fontWeight="bold"
             href="https://www.istex.fr/contactez-nous/"
             target="_blank"
             rel="noreferrer"
+            sx={{
+              color: "colors.white",
+              fontWeight: "bold",
+            }}
           >
             {t("gateways.contactButton")}
           </Link>
@@ -89,11 +91,21 @@ function Title(props: TypographyProps & { component?: React.ElementType }) {
 }
 
 function Article(props: BoxProps) {
-  return <Box component="article" pt={8} pb={6} {...props} />;
+  return (
+    <Box
+      component="article"
+      {...props}
+      sx={{
+        pt: 8,
+        pb: 6,
+        ...props.sx,
+      }}
+    />
+  );
 }
 
 function Paragraph(props: TypographyProps) {
-  return <Typography variant="body2" paragraph {...props} />;
+  return <Typography variant="body2" {...props} />;
 }
 
 interface ButtonProps {

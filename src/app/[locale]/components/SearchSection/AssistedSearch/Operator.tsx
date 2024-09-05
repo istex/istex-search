@@ -50,8 +50,10 @@ export default function Operator({
         value={node.value}
         onChange={handleChange}
         defaultValue={DEFAULT_OPERATOR}
-        inputProps={{
-          "aria-label": t("operator"),
+        slotProps={{
+          htmlInput: {
+            "aria-label": t("operator"),
+          },
         }}
         sx={{
           backgroundColor: "white",
@@ -77,7 +79,6 @@ export default function Operator({
           </MenuItem>
         ))}
       </TextField>
-
       <Box
         sx={{
           width: "50px",

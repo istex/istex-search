@@ -9,9 +9,12 @@ export default function PanelTitle(
       component="h2"
       variant="h6"
       gutterBottom
-      color="primary"
-      fontSize="0.875rem"
       {...props}
+      sx={{
+        color: "primary.main",
+        fontSize: "0.875rem",
+        ...props.sx,
+      }}
     />
   );
 }

@@ -29,14 +29,14 @@ export default function CompatibilityProgress({
     <>
       <Typography
         id={`${name}-compatibility`}
-        gridRow={{ sm: 1 + gridRow }}
-        gridColumn={{ xs: "span 3", sm: `${gridColumn * 3 - 2} / span 3` }}
-        mx={5}
-        mb={0.625}
-        mt={{ sm: gridRow === 3 ? "-10px" : 1 }}
         variant="body2"
-        textAlign="center"
         sx={{
+          gridRow: { sm: 1 + gridRow },
+          gridColumn: { xs: "span 3", sm: `${gridColumn * 3 - 2} / span 3` },
+          mx: 5,
+          mb: 0.625,
+          mt: { sm: gridRow === 3 ? "-10px" : 1 },
+          textAlign: "center",
           color: "colors.lightBlack",
           fontSize: "0.8rem",
           textTransform: "uppercase",
@@ -48,13 +48,13 @@ export default function CompatibilityProgress({
       {data.map(({ label, count }, index) => (
         <React.Fragment key={label}>
           <Typography
-            gridRow={{ sm: index + 2 + gridRow }}
-            gridColumn={{ sm: gridColumn * 3 - 2 }}
-            ml={5}
-            justifySelf="end"
             variant="subtitle2"
             component="span"
             sx={{
+              gridRow: { sm: index + 2 + gridRow },
+              gridColumn: { sm: gridColumn * 3 - 2 },
+              ml: 5,
+              justifySelf: "end",
               fontStyle: "italic",
               fontSize: "0.5rem",
               textTransform: "uppercase",
@@ -79,12 +79,12 @@ export default function CompatibilityProgress({
             }}
           />
           <Typography
-            gridRow={{ sm: index + 2 + gridRow }}
-            gridColumn={{ sm: gridColumn * 3 }}
-            mr={5}
             variant="subtitle2"
             component="span"
             sx={{
+              gridRow: { sm: index + 2 + gridRow },
+              gridColumn: { sm: gridColumn * 3 },
+              mr: 5,
               fontStyle: "italic",
               fontSize: "0.5rem",
             }}

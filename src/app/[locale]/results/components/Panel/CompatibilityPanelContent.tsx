@@ -33,13 +33,15 @@ export default function CompatibilityPanelContent({
 
   return (
     <Box
-      display="grid"
-      gridTemplateColumns={{
-        xs: "auto 1fr auto",
-        sm: "repeat(2, auto 1fr auto)",
+      sx={{
+        display: "grid",
+        gridTemplateColumns: {
+          xs: "auto 1fr auto",
+          sm: "repeat(2, auto 1fr auto)",
+        },
+        alignItems: "center",
+        columnGap: 0.625,
       }}
-      alignItems="center"
-      columnGap={0.625}
     >
       {Object.entries(usages)
         .filter(([_, { isGateway }]) => isGateway)

@@ -59,7 +59,13 @@ export default function PerPage({
   };
 
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        alignItems: "center",
+      }}
+    >
       <InputLabel id="per-page-label" sx={{ fontSize, color: labelColor }}>
         {t("PerPage")}
       </InputLabel>

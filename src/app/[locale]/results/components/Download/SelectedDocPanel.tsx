@@ -14,12 +14,13 @@ export default function SelectedDocPanel() {
     <Panel>
       <PanelTitle>{t("title")}</PanelTitle>
       <Box
-        display="grid"
-        gridTemplateColumns="auto 1fr auto"
-        alignItems="stretch"
-        maxHeight={470}
-        overflow="auto"
         sx={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr auto",
+          alignItems: "stretch",
+          maxHeight: 470,
+          overflow: "auto",
+
           "& > *:nth-child(6n+1), & > *:nth-child(6n+2), & > *:nth-child(6n+3)":
             {
               bgcolor: "colors.white",
@@ -30,16 +31,22 @@ export default function SelectedDocPanel() {
           <React.Fragment key={doc.arkIstex}>
             <Typography
               variant="body2"
-              px={1}
-              display="flex"
-              alignItems="center"
               sx={(theme) => ({
+                px: 1,
+                display: "flex",
+                alignItems: "center",
                 color: theme.palette.colors.grey,
               })}
             >
               {index + 1}
             </Typography>
-            <Box display="flex" alignItems="center" overflow="hidden">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                overflow: "hidden",
+              }}
+            >
               <Typography
                 variant="body2"
                 sx={{

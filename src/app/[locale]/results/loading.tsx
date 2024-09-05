@@ -19,7 +19,9 @@ export default function Loading() {
       <Stack
         direction={{ xs: "column", md: "row" }}
         spacing={4}
-        alignItems="start"
+        sx={{
+          alignItems: "start",
+        }}
       >
         {/* Facets */}
         <Skeleton
@@ -33,7 +35,13 @@ export default function Loading() {
           }}
         />
 
-        <Stack spacing={1} useFlexGap flexGrow={1}>
+        <Stack
+          spacing={1}
+          useFlexGap
+          sx={{
+            flexGrow: 1,
+          }}
+        >
           {/* Indicators */}
           <Stack spacing={1}>
             <Skeleton

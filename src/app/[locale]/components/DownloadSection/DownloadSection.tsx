@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid2 as Grid, Typography } from "@mui/material";
 import DownloadSteps from "./DownloadSteps";
 import downloadImage from "@/../public/download.jpg";
 
@@ -11,9 +11,10 @@ export default function DownloadSection() {
     <Box component="section">
       <Grid component="article" container>
         <Grid
-          item
-          xs={12}
-          md={6}
+          size={{
+            xs: 12,
+            md: 6,
+          }}
           sx={{ position: "relative", minHeight: "15rem" }}
         >
           <Image
@@ -27,9 +28,10 @@ export default function DownloadSection() {
           />
         </Grid>
         <Grid
-          item
-          xs={12}
-          md={6}
+          size={{
+            xs: 12,
+            md: 6,
+          }}
           sx={{
             bgcolor: "colors.blue",
             color: "colors.white",
@@ -46,9 +48,7 @@ export default function DownloadSection() {
             <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
               {t("title")}
             </Typography>
-            <Typography variant="body2" paragraph>
-              {t("body")}
-            </Typography>
+            <Typography variant="body2">{t("body")}</Typography>
           </Box>
         </Grid>
       </Grid>

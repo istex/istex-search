@@ -135,13 +135,21 @@ export default function FacetCheckboxList({
       />
       <Stack
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        pt={1.25}
-        pb={0.625}
-        color="colors.darkBlack"
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          pt: 1.25,
+          pb: 0.625,
+          color: "colors.darkBlack",
+        }}
       >
-        <Stack direction="row" alignItems="center" ml="25.5px">
+        <Stack
+          direction="row"
+          sx={{
+            alignItems: "center",
+            ml: "25.5px",
+          }}
+        >
           <IconButton
             title={t("sortAsc")}
             aria-label={t("sortAsc")}
@@ -173,8 +181,10 @@ export default function FacetCheckboxList({
         </Stack>
         <Stack
           direction="row"
-          alignItems="center"
-          mr={isScrollable ? "28px" : "13.5px"}
+          sx={{
+            alignItems: "center",
+            mr: isScrollable ? "28px" : "13.5px",
+          }}
         >
           <IconButton
             title={t("sortAsc")}
@@ -210,7 +220,13 @@ export default function FacetCheckboxList({
           </IconButton>
         </Stack>
       </Stack>
-      <Stack maxHeight={140} overflow="auto" ref={listRef}>
+      <Stack
+        ref={listRef}
+        sx={{
+          maxHeight: 140,
+          overflow: "auto",
+        }}
+      >
         {displayedFacets.map((facetItem) => (
           <FacetCheckboxItem
             name={`${facetTitle}-${facetItem.key}`}

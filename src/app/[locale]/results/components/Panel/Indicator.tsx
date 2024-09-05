@@ -17,10 +17,11 @@ export default function Indicator({ label, count, total }: IndicatorProps) {
   return (
     <>
       <Typography
+        component="span"
         variant="body2"
         align="center"
-        gridRow={{ sm: 1 }}
         sx={{
+          gridRow: { sm: 1 },
           color: "colors.lightBlack",
           fontSize: "0.75rem",
         }}
@@ -32,10 +33,10 @@ export default function Indicator({ label, count, total }: IndicatorProps) {
         gradient={`conic-gradient(${theme.palette.colors.lightGreen} ${percentage}%, #0000 0)`}
       />
       <Typography
+        component="span"
         variant="subtitle2"
-        gridRow={{ sm: 3 }}
-        paragraph
         sx={{
+          gridRow: { sm: 3 },
           fontStyle: "italic",
           fontSize: "0.5rem",
         }}

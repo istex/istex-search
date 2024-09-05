@@ -83,11 +83,11 @@ export default function RawRequest() {
         <Typography
           variant="body2"
           sx={{
+            textAlign: "center",
             textOverflow: "ellipsis",
             overflow: "hidden",
             whiteSpace: "nowrap",
           }}
-          textAlign="center"
         >
           <strong>{t("prefix")}</strong>
           <Link

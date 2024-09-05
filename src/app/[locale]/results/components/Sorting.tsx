@@ -77,7 +77,13 @@ export default function Sorting({
   };
 
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        alignItems: "center",
+      }}
+    >
       <InputLabel id="sorting-label" sx={{ fontSize, color: labelColor }}>
         {isLabelLowerCase === true ? t("sortBy").toLowerCase() : t("sortBy")}
       </InputLabel>

@@ -56,10 +56,18 @@ export default function ArchiveSettings() {
   return (
     <Stack
       direction={{ xs: "column", sm: "row" }}
-      justifyContent="space-between"
+      sx={{
+        justifyContent: "space-between",
+      }}
     >
       {/* Archive type */}
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: "center",
+        }}
+      >
         <InputLabel
           sx={{
             fontSize,
@@ -82,9 +90,14 @@ export default function ArchiveSettings() {
           ))}
         </Select>
       </Stack>
-
       {/* Compression level */}
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          alignItems: "center",
+        }}
+      >
         <InputLabel
           sx={{
             fontSize,

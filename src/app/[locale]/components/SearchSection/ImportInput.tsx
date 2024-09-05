@@ -146,21 +146,23 @@ export default function ImportInput() {
               borderBottomRightRadius: { xs: 4, sm: 0 },
             },
           }}
-          InputProps={{
-            endAdornment: (
-              <IconButton
-                onClick={() => {
-                  fileInputRef.current?.click();
-                }}
-              >
-                <Image
-                  src={SearchLogoUpload}
-                  alt={t("uploadIconAlt")}
-                  title={t("uploadIconAlt")}
-                />
-              </IconButton>
-            ),
-            sx: { alignItems: "flex-start" },
+          slotProps={{
+            input: {
+              endAdornment: (
+                <IconButton
+                  onClick={() => {
+                    fileInputRef.current?.click();
+                  }}
+                >
+                  <Image
+                    src={SearchLogoUpload}
+                    alt={t("uploadIconAlt")}
+                    title={t("uploadIconAlt")}
+                  />
+                </IconButton>
+              ),
+              sx: { alignItems: "flex-start" },
+            },
           }}
         />
 

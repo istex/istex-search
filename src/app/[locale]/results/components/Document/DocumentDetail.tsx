@@ -68,9 +68,21 @@ export default function DocumentDetail() {
     >
       <Stack direction={{ xs: "column", md: "row" }}>
         {/* Left panel */}
-        <Stack flexGrow={1} p={{ xs: 7, md: 4, lg: 7 }} gap={0.5}>
+        <Stack
+          sx={{
+            flexGrow: 1,
+            p: { xs: 7, md: 4, lg: 7 },
+            gap: 0.5,
+          }}
+        >
           {displayedDocument?.title != null && (
-            <Typography variant="h6" component="h2" color="common.black">
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                color: "common.black",
+              }}
+            >
               {displayedDocument.title}
             </Typography>
           )}
@@ -114,9 +126,9 @@ export default function DocumentDetail() {
           {/* Go back and share buttons */}
           <Stack
             direction="row"
-            justifyContent="space-between"
-            mt={2}
             sx={{
+              justifyContent: "space-between",
+              mt: 2,
               fontSize: "0.6875rem",
               fontWeight: 400,
               textTransform: "uppercase",
@@ -165,15 +177,24 @@ export default function DocumentDetail() {
 
         {/* Right panel */}
         <Stack
-          bgcolor="colors.lightBlue"
-          p={{ xs: 7, md: 4, lg: 7 }}
-          width={{ xs: "100%", md: 240, lg: 360 }}
-          minHeight={{ xs: "unset", md: "100vh" }}
-          flexShrink={0}
           spacing={3}
+          sx={{
+            bgcolor: "colors.lightBlue",
+            p: { xs: 7, md: 4, lg: 7 },
+            width: { xs: "100%", md: 240, lg: 360 },
+            minHeight: { xs: "unset", md: "100vh" },
+            flexShrink: 0,
+          }}
         >
           {/* Tags */}
-          <Stack spacing={1} direction="row" flexWrap="wrap" useFlexGap>
+          <Stack
+            spacing={1}
+            direction="row"
+            useFlexGap
+            sx={{
+              flexWrap: "wrap",
+            }}
+          >
             <Typography
               component="h3"
               variant="body2"
@@ -218,12 +239,20 @@ export default function DocumentDetail() {
           </Stack>
 
           {/* File lists */}
-          <Stack spacing={1} alignItems="start">
+          <Stack
+            spacing={1}
+            sx={{
+              alignItems: "start",
+            }}
+          >
             <Typography
               component="h3"
               variant="body2"
-              sx={{ color: "colors.blue", fontWeight: 700 }}
-              mt={4}
+              sx={{
+                mt: 4,
+                color: "colors.blue",
+                fontWeight: 700,
+              }}
             >
               {t("seeDoc")}
             </Typography>

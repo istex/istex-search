@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Grid, Typography } from "@mui/material";
+import { Grid2 as Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -24,13 +24,13 @@ export default function ExamplesList({ setError }: ExamplesListProps) {
 
   return (
     <>
-      <Typography variant="subtitle2" paragraph sx={{ mt: 2, mb: 1 }}>
+      <Typography component="p" variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
         {t("examplesTitle")}
       </Typography>
 
       <Grid id="examples-grid" container rowSpacing={1} columnSpacing={2}>
         {Object.entries(examples).map(([name, queryString]) => (
-          <Grid key={name} item>
+          <Grid key={name}>
             <Button
               mainColor="white"
               secondaryColor="darkBlack"

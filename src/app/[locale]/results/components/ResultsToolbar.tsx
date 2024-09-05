@@ -30,11 +30,13 @@ export default function ResultsToolbar({
   return (
     <Stack
       direction="row"
-      justifyContent="space-between"
-      borderBottom="1px solid"
-      borderTop="1px solid"
-      borderColor="colors.lightGrey"
-      mt={1}
+      sx={{
+        justifyContent: "space-between",
+        borderBottom: "1px solid",
+        borderTop: "1px solid",
+        borderColor: "colors.lightGrey",
+        mt: 1,
+      }}
     >
       <Stack direction="row" spacing={1}>
         <PerPage

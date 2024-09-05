@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
+import { Box, FormControl, Grid2 as Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Checkbox from "@/components/Checkbox";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
@@ -20,19 +20,33 @@ export default function FormatPicker() {
   const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Grid container spacing={2} sx={{ display: "flex", mt: "0 !important" }}>
-      <Grid item xs={6} sm={4}>
+    <Grid container spacing={2}>
+      <Grid
+        size={{
+          xs: 6,
+          sm: 4,
+        }}
+      >
         <FormatCategory name="fulltext" />
       </Grid>
-
-      <Grid item xs={6} sm={4} container>
-        <Grid item sm={12}>
+      <Grid
+        container
+        size={{
+          xs: 6,
+          sm: 4,
+        }}
+      >
+        <Grid
+          size={{
+            sm: 12,
+          }}
+        >
           <FormatCategory name="metadata" />
         </Grid>
 
         {!onSmallScreen &&
           Object.keys(formats.others).map((category) => (
-            <Grid key={category} item sm={12}>
+            <Grid key={category} size={12}>
               <Format
                 name={`others.${category}`}
                 value={formats.others[category as keyof typeof formats.others]}
@@ -41,14 +55,19 @@ export default function FormatPicker() {
           ))}
       </Grid>
 
-      <Grid item xs={6} sm={4}>
+      <Grid
+        size={{
+          xs: 6,
+          sm: 4,
+        }}
+      >
         <FormatCategory name="enrichments" />
       </Grid>
 
       {onSmallScreen && (
-        <Grid item xs={6} container sx={{ alignContent: "start" }}>
+        <Grid container size={6} sx={{ alignContent: "start" }}>
           {Object.keys(formats.others).map((category) => (
-            <Grid key={category} item xs={12}>
+            <Grid key={category} size={12}>
               <Format
                 name={`others.${category}`}
                 value={formats.others[category as keyof typeof formats.others]}
@@ -124,11 +143,7 @@ function FormatCategory({ name }: FormatCategoryProps) {
   );
 
   return (
-    <FormControl
-      component="fieldset"
-      variant="standard"
-      disabled={customUsageNotSelected}
-    >
+    <FormControl component="fieldset" disabled={customUsageNotSelected}>
       <Format
         name={`${name}.category`}
         value={wholeCategoryFormat}

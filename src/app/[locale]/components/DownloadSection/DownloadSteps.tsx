@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid2 as Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { lighten } from "@mui/system/colorManipulator";
 import { istexApiConfig } from "@/config";
@@ -31,9 +31,10 @@ export default function DownloadSteps() {
               <Grid
                 key={i}
                 component="li"
-                item
-                xs={12}
-                md={4}
+                size={{
+                  xs: 12,
+                  md: 4,
+                }}
                 sx={{
                   bgcolor: lighterBlue,
                   p: 3,

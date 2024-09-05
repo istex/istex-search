@@ -62,10 +62,12 @@ export default function RegularSearchInput() {
           minRows={1}
           placeholder={t("placeholder")}
           value={queryString}
-          inputProps={{
-            style: {
-              minHeight: "32px",
-              lineHeight: "32px",
+          slotProps={{
+            htmlInput: {
+              style: {
+                minHeight: "32px",
+                lineHeight: "32px",
+              },
             },
           }}
           sx={{

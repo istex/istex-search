@@ -29,7 +29,11 @@ export default function WaitingModal({
   return (
     <Modal title={t("title")} open={open} onClose={onClose} maxWidth="sm">
       <DialogContent>
-        <Stack gap={2}>
+        <Stack
+          sx={{
+            gap: 2,
+          }}
+        >
           <Image
             src={zipIcon}
             alt=""
@@ -38,7 +42,12 @@ export default function WaitingModal({
             style={{ margin: "auto" }}
           />
 
-          <Typography variant="body2" textAlign="center">
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: "center",
+            }}
+          >
             {t("approximately")}{" "}
             <Box
               component="span"

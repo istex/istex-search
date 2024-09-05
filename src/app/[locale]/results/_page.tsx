@@ -147,11 +147,18 @@ export default async function ResultsPage({
       <Stack
         direction={{ xs: "column", md: "row" }}
         spacing={4}
-        alignItems="start"
+        sx={{
+          alignItems: "start",
+        }}
       >
         <FacetsContainer />
 
-        <Stack gap={1} width="100%">
+        <Stack
+          sx={{
+            gap: 1,
+            width: "100%",
+          }}
+        >
           <Panels indicators={indicators} compatibility={compatibility} />
 
           <Filters />

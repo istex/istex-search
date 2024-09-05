@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Grid, Link, Typography, type SxProps } from "@mui/material";
+import { Grid2 as Grid, Link, Typography, type SxProps } from "@mui/material";
 import HighlightedUrl from "../HighlightedUrl";
 import Panel from "./Panel";
 import PanelTitle from "./PanelTitle";
@@ -44,7 +44,7 @@ export default function InfoPanels() {
 
   return (
     <>
-      <Grid item>
+      <Grid>
         <Panel>
           <PanelTitle>{tUsages(`${currentUsageName}.label`)}</PanelTitle>
           <Typography variant="body2" gutterBottom>
@@ -64,7 +64,7 @@ export default function InfoPanels() {
         </Panel>
       </Grid>
 
-      <Grid item>
+      <Grid>
         <Panel>
           <PanelTitle>{t("queryTitle")}</PanelTitle>
           <Panel

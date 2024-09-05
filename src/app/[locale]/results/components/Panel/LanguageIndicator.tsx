@@ -53,19 +53,21 @@ export default function LanguageIndicator({
       <Typography
         variant="body2"
         align="center"
-        gridRow={{ sm: 1 }}
         sx={{
+          gridRow: { sm: 1 },
           color: "colors.lightBlack",
           fontSize: "0.75rem",
         }}
       >
         {label}
       </Typography>
-
       <IndicatorChart percentage={mainPercentage} gradient={createGradient()} />
-
       {data.length > 0 ? (
-        <Stack gridRow={{ sm: 3 }}>
+        <Stack
+          sx={{
+            gridRow: { sm: 3 },
+          }}
+        >
           {data.map(({ key, docCount }, index) => {
             const rawPercentage = (docCount * 100) / total;
             const percentage = rawPercentage.toLocaleString(locale, {
@@ -73,13 +75,22 @@ export default function LanguageIndicator({
             });
 
             return (
-              <Stack key={key} direction="row" gap={0.5} alignItems="center">
+              <Stack
+                key={key}
+                direction="row"
+                sx={{
+                  gap: 0.5,
+                  alignItems: "center",
+                }}
+              >
                 <Box
                   component="span"
-                  bgcolor={COLORS[index]}
-                  width={10}
-                  height={10}
-                  borderRadius="100%"
+                  sx={{
+                    bgcolor: COLORS[index],
+                    width: 10,
+                    height: 10,
+                    borderRadius: "100%",
+                  }}
                 />
                 <Typography
                   variant="subtitle2"
@@ -108,10 +119,10 @@ export default function LanguageIndicator({
         </Stack>
       ) : (
         <Typography
+          component="span"
           variant="subtitle2"
-          gridRow={{ sm: 3 }}
-          paragraph
           sx={{
+            gridRow: { sm: 3 },
             fontStyle: "italic",
             fontSize: "0.5rem",
           }}

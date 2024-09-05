@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid, Divider, Stack } from "@mui/material";
+import { Grid2 as Grid, Divider, Stack } from "@mui/material";
 import ArchiveSettings from "./ArchiveSettings";
 import ArchiveSizeWarning from "./ArchiveSizeWarning";
 import DownloadButton from "./DownloadButton";
@@ -54,7 +54,7 @@ export default function DownloadForm({
       spacing={2}
       sx={{ "& .MuiPaper-root": { bgcolor: "white" } }}
     >
-      <Grid item xs={12} md={hasSelectedDocuments ? 5 : 8}>
+      <Grid size={{ xs: 12, sm: hasSelectedDocuments ? 5 : 8 }}>
         <Panel>
           <Stack spacing={2}>
             <UsageSelector />
@@ -79,9 +79,7 @@ export default function DownloadForm({
       </Grid>
 
       <Grid
-        item
-        xs={12}
-        md={hasSelectedDocuments ? 3 : 4}
+        size={{ xs: 12, sm: hasSelectedDocuments ? 3 : 4 }}
         container
         spacing={2}
         direction="column"
@@ -89,7 +87,7 @@ export default function DownloadForm({
         <InfoPanels />
       </Grid>
       {hasSelectedDocuments && (
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <SelectedDocPanel />
         </Grid>
       )}

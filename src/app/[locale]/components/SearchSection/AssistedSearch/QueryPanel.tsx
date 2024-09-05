@@ -32,10 +32,15 @@ export default function QueryPanel({
         bgcolor: "colors.veryLightBlue",
       }}
     >
-      <Stack alignSelf="center" sx={{ p: 2, width: "100%" }}>
+      <Stack
+        sx={{
+          alignSelf: "center",
+          p: 2,
+          width: "100%",
+        }}
+      >
         <Typography>{astToString(ast)}</Typography>
       </Stack>
-
       <Stack direction="row">
         {displayAssistedEditButton && (
           <QueryPanelButton

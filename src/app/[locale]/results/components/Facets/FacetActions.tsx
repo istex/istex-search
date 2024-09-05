@@ -22,7 +22,13 @@ export default function FacetActions({
     useFacetContext();
 
   return (
-    <Stack direction="row" spacing={1} mt={1}>
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{
+        mt: 1,
+      }}
+    >
       <Button
         size="medium"
         variant="outlined"

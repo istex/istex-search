@@ -117,7 +117,13 @@ export default function Group({
       })}
     >
       {/* Buttons */}
-      <Stack direction="row" justifyContent="end" spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          justifyContent: "end",
+        }}
+      >
         <MuiButton
           startIcon={<AddCircleIcon />}
           onClick={addRule}

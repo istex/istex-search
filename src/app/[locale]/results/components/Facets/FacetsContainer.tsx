@@ -43,13 +43,15 @@ export default function FacetsContainer() {
 
   return (
     <Stack
-      bgcolor="common.white"
-      width={{ xs: "100%", md: 370 }}
-      flexShrink={0}
-      borderRadius={1}
-      pb={1}
-      px={1}
       spacing={1}
+      sx={{
+        bgcolor: "common.white",
+        width: { xs: "100%", md: 370 },
+        flexShrink: 0,
+        borderRadius: 1,
+        pb: 1,
+        px: 1,
+      }}
     >
       {Object.keys(sortFacets()).map((facetTitle) => (
         <FacetLayout

@@ -34,7 +34,6 @@ export default function HelpModal({
           </DialogTitle>
           <DialogContent>
             <Typography
-              paragraph
               sx={{
                 fontSize: "1.25rem",
                 fontWeight: "bold",
@@ -42,7 +41,14 @@ export default function HelpModal({
             >
               {t("description")}
             </Typography>
-            <Stack direction="row" gap={2} sx={{ my: 2, fontWeight: "bold" }}>
+            <Stack
+              direction="row"
+              sx={{
+                gap: 2,
+                my: 2,
+                fontWeight: "bold",
+              }}
+            >
               <Button
                 href="https://www.istex.fr/category/faq/"
                 target="_blank"

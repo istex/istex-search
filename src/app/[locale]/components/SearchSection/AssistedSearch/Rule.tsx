@@ -265,9 +265,9 @@ export default function Rule({
     <Stack
       direction="row"
       spacing={1}
-      justifyContent="space-between"
       className="rule"
       sx={(theme) => ({
+        justifyContent: "space-between",
         ml: 11,
         p: 0.75,
         border: `solid 1px ${theme.palette.primary.light}`,
@@ -322,7 +322,13 @@ export default function Rule({
           if (comparator != null && rangeComparators.includes(comparator)) {
             // Range
             return (
-              <Stack direction="row" spacing={2} width="100%">
+              <Stack
+                direction="row"
+                spacing={2}
+                sx={{
+                  width: "100%",
+                }}
+              >
                 {/* Min */}
                 <NumberInput
                   size="small"

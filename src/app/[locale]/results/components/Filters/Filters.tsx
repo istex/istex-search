@@ -144,7 +144,12 @@ export default function Filters() {
 
   return (
     <Stack spacing={0.625}>
-      <Stack direction="row" alignItems="center">
+      <Stack
+        direction="row"
+        sx={{
+          alignItems: "center",
+        }}
+      >
         <Typography
           variant="body2"
           sx={{
@@ -182,7 +187,14 @@ export default function Filters() {
           </IconButton>
         </Tooltip>
       </Stack>
-      <Stack spacing={0.625} direction="row" flexWrap="wrap" useFlexGap>
+      <Stack
+        spacing={0.625}
+        direction="row"
+        useFlexGap
+        sx={{
+          flexWrap: "wrap",
+        }}
+      >
         {Object.keys(filters).map((filterKey) =>
           filters[filterKey].map((value) => (
             <Chip

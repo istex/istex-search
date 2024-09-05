@@ -55,14 +55,13 @@ const NumberInput = React.forwardRef<HTMLDivElement, NumberInputProps>(
     const t = useTranslations("NumberInput");
     const {
       disabled = false,
-      InputProps,
-      inputProps,
       hideActionButtons = false,
       max = Infinity,
       min = -Infinity,
       numericFormatProps: numericFormatPropsProp,
       onChange,
       size,
+      slotProps,
       step = 1,
       value: valueProp,
       ...rest
@@ -151,36 +150,39 @@ const NumberInput = React.forwardRef<HTMLDivElement, NumberInputProps>(
         value={value ?? ""} // We can't ever pass null to value because it breaks the shrink state of the label, so we pass empty string instead
         disabled={disabled}
         size={size}
-        InputProps={{
-          ...InputProps,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          inputComponent: NumericFormatCustom as any,
-          endAdornment: !hideActionButtons && (
-            <InputAdornment position="end">
-              <Stack>
-                <IconButton
-                  aria-label={t("incrementAriaLabel")}
-                  disabled={disabled || (value ?? 0) + step > max}
-                  onClick={increment}
-                  {...commonAdornmentButtonProps}
-                >
-                  <KeyboardArrowUpIcon fontSize={size} />
-                </IconButton>
-                <IconButton
-                  aria-label={t("decrementAriaLabel")}
-                  disabled={disabled || (value ?? 0) - step < min}
-                  onClick={decrement}
-                  {...commonAdornmentButtonProps}
-                >
-                  <KeyboardArrowDownIcon fontSize={size} />
-                </IconButton>
-              </Stack>
-            </InputAdornment>
-          ),
+        slotProps={{
+          ...slotProps,
+          input: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            inputComponent: NumericFormatCustom as any,
+            endAdornment: !hideActionButtons && (
+              <InputAdornment position="end">
+                <Stack>
+                  <IconButton
+                    aria-label={t("incrementAriaLabel")}
+                    disabled={disabled || (value ?? 0) + step > max}
+                    onClick={increment}
+                    {...commonAdornmentButtonProps}
+                  >
+                    <KeyboardArrowUpIcon fontSize={size} />
+                  </IconButton>
+                  <IconButton
+                    aria-label={t("decrementAriaLabel")}
+                    disabled={disabled || (value ?? 0) - step < min}
+                    onClick={decrement}
+                    {...commonAdornmentButtonProps}
+                  >
+                    <KeyboardArrowDownIcon fontSize={size} />
+                  </IconButton>
+                </Stack>
+              </InputAdornment>
+            ),
+            ...slotProps?.input,
+          },
+          // @ts-expect-error The type should be React.ComponentProps<typeof inputComponent> but instead
+          // it is hard-coded to InputBaseComponentProps
+          htmlInput: { ...slotProps?.htmlInput, ...numericFormatProps },
         }}
-        // @ts-expect-error The type should be React.ComponentProps<typeof inputComponent> but instead
-        // it is hard-coded to InputBaseComponentProps
-        inputProps={{ ...inputProps, ...numericFormatProps }}
       />
     );
   },

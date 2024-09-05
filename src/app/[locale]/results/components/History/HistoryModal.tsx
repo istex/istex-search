@@ -46,7 +46,13 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
       >
         <DialogContent>
           {/* Current request */}
-          <Typography component="h3" variant="h6" fontSize="1rem">
+          <Typography
+            component="h3"
+            variant="h6"
+            sx={{
+              fontSize: "1rem",
+            }}
+          >
             {t("currentRequestTitle")}
           </Typography>
           <TableContainer sx={{ mb: 2 }}>
@@ -62,7 +68,13 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
           </TableContainer>
 
           {/* History */}
-          <Typography component="h3" variant="h6" fontSize="1rem">
+          <Typography
+            component="h3"
+            variant="h6"
+            sx={{
+              fontSize: "1rem",
+            }}
+          >
             {t("historyTitle")}
           </Typography>
           {!isHistoryEmpty ? (

@@ -44,10 +44,10 @@ export default function Header() {
           </Typography>
         </Stack>
         <Typography
-          color="white"
           component="h2"
           variant="subtitle1"
           sx={{
+            color: "white",
             fontSize: "0.875rem",
             lineHeight: 1.25,
           }}

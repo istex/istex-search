@@ -33,8 +33,7 @@ export default function CourseSection() {
         </Typography>
         <Typography
           variant="body2"
-          paragraph
-          sx={{ maxWidth: "65ch", mx: "auto" }}
+          sx={{ maxWidth: "65ch", mx: "auto", mb: 2 }}
         >
           {t("body")}
         </Typography>

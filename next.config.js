@@ -5,7 +5,7 @@ const srcDirPath = join(import.meta.dirname, "src");
 
 const withNextIntl = nextIntlPlugin(join(srcDirPath, "i18n", "i18n.tsx"));
 
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 export default withNextIntl({
   output: "standalone",
   modularizeImports: {

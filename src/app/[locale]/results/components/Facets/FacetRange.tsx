@@ -124,9 +124,11 @@ export default function FacetRange({
       {rangeOption === "range" ? (
         <Stack
           direction="row"
-          alignItems="center"
-          justifyContent="center"
           spacing={2}
+          sx={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
           <NumberInput
             variant="outlined"

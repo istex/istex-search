@@ -78,7 +78,12 @@ export default function SearchTitle() {
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+        }}
+      >
         {/* Title */}
         <Typography variant="h5" component="h1" gutterBottom>
           {t(getTranslationKey())}
@@ -104,7 +109,6 @@ export default function SearchTitle() {
           ))}
         </StyledToggleButtonGroup>
       </Stack>
-
       {/* Results count */}
       {!onHomePage ? (
         loading === true ? (

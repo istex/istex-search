@@ -59,11 +59,17 @@ export default function FacetCheckboxItem({
       }
       label={
         <Box
-          display="grid"
-          gridTemplateColumns="auto auto"
-          justifyContent="space-between"
-          flexGrow={1}
-          color={checked ? "primary.main" : excluded ? "error.main" : undefined}
+          sx={{
+            display: "grid",
+            gridTemplateColumns: "auto auto",
+            justifyContent: "space-between",
+            flexGrow: 1,
+            color: checked
+              ? "primary.main"
+              : excluded
+                ? "error.main"
+                : undefined,
+          }}
         >
           <Typography
             component="span"

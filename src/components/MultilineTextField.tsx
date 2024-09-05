@@ -20,7 +20,7 @@ const MultilineTextField = React.forwardRef<
   const [, forceUpdate] = React.useState(false);
   const lineNumbersRef = React.useRef<React.ElementRef<"div">>(null);
   const inputRef = React.useRef<React.ElementRef<"div">>(null);
-  const { showLineNumbers, errorLines, onSubmit, ...rest } = props;
+  const { showLineNumbers, errorLines, onSubmit, slotProps, ...rest } = props;
   const maxHeight =
     typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
   const lineCount =
@@ -106,11 +106,15 @@ const MultilineTextField = React.forwardRef<
         onKeyDown={handleKeyDown}
         multiline
         inputRef={inputRef}
-        inputProps={{
-          onScroll: handleScroll,
-          // Dirty hack to avoid a flicker with the input height, explained here
-          // https://github.com/mui/material-ui/issues/23031
-          style: { minHeight: LINE_HEIGHT },
+        slotProps={{
+          ...slotProps,
+          htmlInput: {
+            onScroll: handleScroll,
+            // Dirty hack to avoid a flicker with the input height, explained here
+            // https://github.com/mui/material-ui/issues/23031
+            style: { minHeight: LINE_HEIGHT },
+            ...slotProps?.htmlInput,
+          },
         }}
         {...rest}
       />

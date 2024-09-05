@@ -5,7 +5,7 @@ import {
   Checkbox as MuiCheckbox,
   FormControlLabel,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, type Theme } from "@mui/material/styles";
 import IncludeIcon from "./IncludeIcon";
 import IndeterminateIcon from "./IndeterminateIcon";
 
@@ -22,9 +22,9 @@ function CustomCheckbox(props: CustomCheckboxProps) {
       label={label}
       htmlFor={name ?? label}
       disabled={disabled}
-      componentsProps={{
+      slotProps={{
         typography: {
-          sx: (theme) => ({ fontSize: theme.typography.body2.fontSize }),
+          sx: (theme: Theme) => ({ fontSize: theme.typography.body2.fontSize }),
         },
       }}
       control={
@@ -40,6 +40,7 @@ function CustomCheckbox(props: CustomCheckboxProps) {
           {...rest}
         />
       }
+      sx={{ ml: 0 }}
     />
   );
 }

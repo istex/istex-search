@@ -9,21 +9,6 @@ import { examples } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 
 describe("RegularSearchInput", () => {
-  async function search(queryString?: string) {
-    const renderResult = render(<RegularSearchInput />);
-
-    const input = screen.getByRole("textbox");
-    const button = screen.getByRole("button", { name: "Rechercher" });
-
-    if (queryString != null) {
-      await userEvent.type(input, queryString);
-    }
-
-    await userEvent.click(button);
-
-    return renderResult;
-  }
-
   beforeEach(jest.clearAllMocks);
 
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
@@ -78,7 +63,7 @@ describe("RegularSearchInput", () => {
     const firstExample = screen.getByRole("button", {
       name: "Emmanuel Kant",
     });
-    const firstExampleQuery = examples.emmanuelKant;
+    const firstExampleQuery = examples[0];
     await userEvent.click(firstExample);
 
     expect(router.push).toHaveBeenCalledWith(
@@ -94,3 +79,18 @@ describe("RegularSearchInput", () => {
     ); // +4 for the 3 search modes buttons + the search button
   });
 });
+
+async function search(queryString?: string) {
+  const renderResult = render(<RegularSearchInput />);
+
+  const input = screen.getByRole("textbox");
+  const button = screen.getByRole("button", { name: "Rechercher" });
+
+  if (queryString != null) {
+    await userEvent.type(input, queryString);
+  }
+
+  await userEvent.click(button);
+
+  return renderResult;
+}

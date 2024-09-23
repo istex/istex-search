@@ -29,8 +29,8 @@ export default function ExamplesList({ setError }: ExamplesListProps) {
       </Typography>
 
       <Grid id="examples-grid" container rowSpacing={1} columnSpacing={2}>
-        {Object.entries(examples).map(([name, queryString]) => (
-          <Grid key={name}>
+        {examples.map((queryString, index) => (
+          <Grid key={queryString}>
             <Button
               mainColor="white"
               secondaryColor="darkBlack"
@@ -40,7 +40,7 @@ export default function ExamplesList({ setError }: ExamplesListProps) {
               }}
               sx={{ textTransform: "none" }}
             >
-              {tExamples(name)}
+              {tExamples(index.toString())}
             </Button>
           </Grid>
         ))}

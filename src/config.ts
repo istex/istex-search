@@ -30,19 +30,14 @@ export const corpusWithExternalFulltextLink = [
   "open-edition-journals",
 ] as const;
 
-export const examples = {
-  emmanuelKant:
-    'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
-  jeanZayCannesFestival: '"Jean Zay" AND "Festival de Cannes"',
-  diegoVelazquez:
-    '("Diego Rodríguez de Silva y Velázquez" OR "Diego Velázquez" OR "Diego Vélasquez") AND (tableau* OR painting) NOT arkIstex.raw:("ark:/67375/GFS-RHFDF4SC-S" OR "ark:/67375/WNG-486PXL65-6" OR "ark:/67375/6H6-K60DW670-X" OR "ark:/67375/C41-MCK77ZB6-9" OR "ark:/67375/JKT-DQXSSJ89-1" OR "ark:/67375/GFS-QB9B5SB9-C")',
-  alienorAquitaine:
-    '"Aliénor d\'Aquitaine" AND ("Louis VII" OR "Henri II") NOT genre.raw:other',
-  uefaEuro:
-    'title:(uefa OR euro) AND (football OR soccer) NOT ("champions league" OR "ligue des champions" OR "europa league" OR "ligue europa") AND title.raw:/.*[0-9].*/ NOT (" ark:/67375/6H6-2S3V4H7Q-3" " ark:/67375/G14-FM5D3LZN-K"" ark:/67375/WNG-VP5GQ3GB-1" "ark:/67375/6GQ-5CZ9XSTV-5" "ark:/67375/6GQ-TCQLNC54-X")',
-  normandyLandings:
-    '("Débarquement de Normandie" "Debarquement de Normandie" "Normandy landing" "Normandy landings") AND 1944',
-} as const;
+export const examples = [
+  'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
+  '"Jean Zay" AND "Festival de Cannes"',
+  'title:("jeux paralympiques""paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville games") OR abstract:("jeux paralympiques""paralympic games"parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville Games") OR subject.value:("jeux paralympiques""paralympic games"parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville games")',
+  '"Facteur cheval" NOT author.affiliations:"facteur cheval" NOT refBibs.title:"facteur cheval" NOT host.title : "Sociologie du travail"',
+  '"Anatole France" AND "Le crime de Sylvestre Bonnard"',
+  '(subject.value:"frida kahlo" OR keywords.teeft:"frida kahlo" OR namedEntities.unitex.persName:"frida kahlo") AND (subject.value:"Diego Rivera" OR keywords.teeft:"Diego Rivera" OR namedEntities.unitex.persName:"Diego Rivera")',
+] as const;
 
 export const perPageOptions = [10, 20, 30] as const;
 export const MIN_PER_PAGE = perPageOptions[0];

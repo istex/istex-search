@@ -742,14 +742,14 @@
     "decrementAriaLabel": "Diminuer la valeur"
   },
   "config": {
-    "examples": {
-      "emmanuelKant": "Emmanuel Kant",
-      "jeanZayCannesFestival": "Jean Zay et le festival de Cannes",
-      "diegoVelazquez": "Diego Velázquez",
-      "alienorAquitaine": "Aliénor d'Aquitaine",
-      "uefaEuro": "UEFA EURO",
-      "normandyLandings": "Débarquement de Normandie"
-    },
+    "examples": [
+      "Emmanuel Kant",
+      "Jean Zay et le festival de Cannes",
+      "Jeux paralympiques",
+      "Facteur Cheval",
+      "Anatole France 1er succès",
+      "Fieda et Diego"
+    ],
     "formats": {
       "fulltext": {
         "category": "Texte intégral",

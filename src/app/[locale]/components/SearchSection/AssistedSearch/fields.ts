@@ -20,6 +20,7 @@ const fields: readonly Field[] = [
   {
     name: "arkIstex",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "corpusName",
@@ -79,30 +80,37 @@ const fields: readonly Field[] = [
   {
     name: "refBibs.doi",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "host.doi",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "serie.doi",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "doi",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "host.eisbn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "host.eissn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "serie.eissn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "hasFormula",
@@ -111,14 +119,17 @@ const fields: readonly Field[] = [
   {
     name: "host.isbn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "host.issn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "serie.issn",
     type: "text",
+    comparators: ["equals"],
   },
   {
     name: "language",
@@ -253,6 +264,7 @@ const fields: readonly Field[] = [
     name: "qualityIndicators.teiSource",
     type: "text",
     requiresFetchingValues: true,
+    comparators: ["equals"],
   },
   {
     name: "fulltext",
@@ -291,6 +303,7 @@ const fields: readonly Field[] = [
     name: "enrichments.type",
     type: "text",
     requiresFetchingValues: true,
+    comparators: ["equals"],
   },
   {
     name: "genre",
@@ -315,6 +328,8 @@ const fields: readonly Field[] = [
   {
     name: "qualityIndicators.pdfVersion",
     type: "text",
+    requiresFetchingValues: true,
+    comparators: ["equals"],
   },
   {
     name: "host.volume",

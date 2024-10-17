@@ -8,7 +8,7 @@ import {
   type Node,
   type OperatorNode,
   type Operator as OperatorType,
-} from "@/lib/assistedSearch/ast";
+} from "@/lib/ast";
 
 interface OperatorProps {
   node: OperatorNode;

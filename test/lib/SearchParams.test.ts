@@ -16,7 +16,7 @@ import {
 } from "@/config";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
-import { getEmptyAst, type AST } from "@/lib/assistedSearch/ast";
+import { getEmptyAst, type AST } from "@/lib/ast";
 
 describe("SearchParams class", () => {
   describe("getQueryString", () => {
@@ -341,38 +341,60 @@ describe("SearchParams class", () => {
 
   describe("getFilters", () => {
     it("gets the filters", () => {
+      const filters: AST = [
+        {
+          nodeType: "node",
+          fieldType: "number",
+          field: "publicationDate",
+          value: 2010,
+          comparator: "equals",
+        },
+      ];
       const searchParams = new SearchParams({
-        filter: '{"language":["fre","eng"]}',
+        filters: btoa(JSON.stringify(filters)),
       });
 
-      expect(searchParams.getFilters()).toEqual({
-        language: ["fre", "eng"],
-      });
+      expect(searchParams.getFilters()).toEqual(filters);
     });
   });
 
   describe("setFilters", () => {
     it("sets the filters", () => {
+      const filters: AST = [
+        {
+          nodeType: "node",
+          fieldType: "number",
+          field: "publicationDate",
+          value: 2010,
+          comparator: "equals",
+        },
+      ];
       const searchParams = new SearchParams({});
-      searchParams.setFilters({
-        language: ["fre", "eng"],
-      });
 
-      expect(searchParams.getFilters()).toEqual({
-        language: ["fre", "eng"],
-      });
+      searchParams.setFilters(filters);
+
+      expect(searchParams.getFilters()).toEqual(filters);
     });
   });
 
   describe("deleteFilters", () => {
     it("deletes the filters", () => {
+      const filters: AST = [
+        {
+          nodeType: "node",
+          fieldType: "number",
+          field: "publicationDate",
+          value: 2010,
+          comparator: "equals",
+        },
+      ];
       const searchParams = new SearchParams({
-        filter: '{"language":["fre","eng"]}',
+        filters: btoa(JSON.stringify(filters)),
       });
 
       searchParams.deleteFilters();
 
-      expect(searchParams.getFilters()).toEqual({});
+      expect(searchParams.getFilters()).toEqual([]);
     });
   });
 
@@ -689,7 +711,6 @@ describe("SearchParams class", () => {
         extract: "metadata[json]",
         size: "2",
         usage: "lodex",
-        filters: '{"language":["fre","eng"]}',
       });
 
       searchParams.clear();
@@ -698,7 +719,6 @@ describe("SearchParams class", () => {
       expect(searchParams.getSize()).toBe(0);
       expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
       expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
-      expect(searchParams.getFilters()).toEqual({});
     });
   });
 

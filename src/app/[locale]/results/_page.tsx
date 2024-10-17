@@ -1,14 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { Stack } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
-import type { FacetList } from "./components/Facets/FacetContext";
-import FacetsContainer from "./components/Facets/FacetsContainer";
-import {
-  COMPATIBILITY_FACETS,
-  INDICATORS_FACETS,
-  FACETS,
-} from "./components/Facets/constants";
-import Filters from "./components/Filters/Filters";
+import Filters from "./components/Filters";
+import FilterTags from "./components/Filters/FilterTags";
 import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
 import ResultsGrid from "./components/ResultsGrid";
@@ -106,62 +100,35 @@ export default async function ResultsPage({
     }
   }
 
-  const facets: FacetList = {};
-  const indicators: Aggregation = {};
-  const compatibility: Aggregation = {};
-  for (const facetTitle in results.aggregations) {
-    if (FACETS.some((facet) => facet.name === facetTitle)) {
-      const facetItemList = results.aggregations[facetTitle].buckets;
-
-      facets[facetTitle] = facetItemList.map((facetItem) => ({
-        ...facetItem,
-        selected:
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          filters[facetTitle]?.includes(
-            facetItem.keyAsString ?? facetItem.key.toString(),
-          ) ?? false,
-        excluded:
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          filters[facetTitle]?.includes(
-            `!${facetItem.keyAsString ?? facetItem.key.toString()}`,
-          ) ?? false,
-      }));
-    }
-
-    if (INDICATORS_FACETS.some((facet) => facet.name === facetTitle)) {
-      indicators[facetTitle] = results.aggregations[facetTitle];
-    }
-    if (COMPATIBILITY_FACETS.some((facet) => facet.name === facetTitle)) {
-      compatibility[facetTitle] = results.aggregations[facetTitle];
-    }
-  }
+  const indicators: Aggregation = results.aggregations;
+  const compatibility: Aggregation = results.aggregations;
 
   return (
     <ResultsPageShell
       queryString={queryString}
       resultsCount={results.total}
       randomSeed={randomSeedToUse}
-      facets={facets}
       results={results}
     >
       <Stack
         direction={{ xs: "column", md: "row" }}
-        spacing={4}
+        spacing={2}
         sx={{
           alignItems: "start",
         }}
       >
-        <FacetsContainer />
+        <Filters />
 
         <Stack
+          spacing={1}
+          useFlexGap
           sx={{
-            gap: 1,
             width: "100%",
           }}
         >
           <Panels indicators={indicators} compatibility={compatibility} />
 
-          <Filters />
+          <FilterTags />
 
           <ResultsGrid results={results.hits} />
 

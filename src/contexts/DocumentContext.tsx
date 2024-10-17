@@ -9,6 +9,7 @@ export interface SelectedDocument {
 }
 
 export interface DocumentContextValue {
+  results?: IstexApiResponse;
   displayedDocument?: Result;
   displayDocument: (documentId: string) => void;
   closeDocument: () => void;
@@ -109,6 +110,7 @@ export function DocumentProvider({ children, results }: DocumentProviderProps) {
   };
 
   const context = {
+    results,
     displayedDocument,
     displayDocument,
     closeDocument,

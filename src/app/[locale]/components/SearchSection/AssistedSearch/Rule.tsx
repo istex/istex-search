@@ -10,18 +10,16 @@ import {
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
+import fields from "./fields";
 import NumberInput from "@/components/NumberInput";
 import {
-  rangeComparators,
-  type FieldType,
-  type Comparator,
-  type FieldNode,
-} from "@/lib/assistedSearch/ast";
-import {
   fieldNames,
-  fields,
+  rangeComparators,
+  type Comparator,
   type FieldName,
-} from "@/lib/assistedSearch/fields";
+  type FieldNode,
+  type FieldType,
+} from "@/lib/ast";
 import { getPossibleValues } from "@/lib/istexApi";
 import { labelizeIsoLanguage } from "@/lib/utils";
 
@@ -42,11 +40,11 @@ export default function Rule({
   const tLanguages = useTranslations("languages");
   const locale = useLocale();
   const isNodePartial = node.partial === true;
-  const isTextNode = node.fieldType === "text";
-  const isLanguageNode = node.fieldType === "language";
+  const isTextNode = node.fieldType === "text" && "value" in node;
+  const isLanguageNode = node.fieldType === "language" && "value" in node;
   const isNumberNode = node.fieldType === "number" && "value" in node;
   const isRangeNode = node.fieldType === "number" && "min" in node;
-  const isBooleanNode = node.fieldType === "boolean";
+  const isBooleanNode = node.fieldType === "boolean" && "value" in node;
   const [fieldName, setFieldName] = React.useState<FieldName | null>(
     !isNodePartial ? node.field : null,
   );

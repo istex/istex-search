@@ -1,4 +1,4 @@
-import * as Module from "@/lib/assistedSearch/ast";
+import * as Module from "@/lib/ast";
 
 describe("astToString", () => {
   it("skips partial nodes", () => {

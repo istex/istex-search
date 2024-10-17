@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import AssistedSearchInput from "./AssistedSearch/AssistedSearchInput";
 import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
@@ -28,13 +28,7 @@ export default function SearchSection() {
 
   return (
     <Container component="section" sx={{ py: 3 }}>
-      <Box
-        sx={{
-          justifyContent: "flex-end",
-        }}
-      >
-        {getSearchComponent()}
-      </Box>
+      {getSearchComponent()}
     </Container>
   );
 }

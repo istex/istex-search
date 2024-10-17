@@ -2,14 +2,14 @@ import * as React from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
 import { getComparators } from "@/app/[locale]/components/SearchSection/AssistedSearch/RuleUtils";
+import type { Field } from "@/app/[locale]/components/SearchSection/AssistedSearch/fields";
 import {
   textComparators,
   numberComparators,
   booleanComparators,
   getEmptyFieldNode,
   type FieldNode,
-} from "@/lib/assistedSearch/ast";
-import type { Field } from "@/lib/assistedSearch/fields";
+} from "@/lib/ast";
 import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";

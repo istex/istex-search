@@ -4,7 +4,7 @@ import {
   getDefaultOperatorNode,
   getEmptyFieldNode,
   type OperatorNode,
-} from "@/lib/assistedSearch/ast";
+} from "@/lib/ast";
 
 const operatorNode = getDefaultOperatorNode();
 const fieldNode = getEmptyFieldNode();

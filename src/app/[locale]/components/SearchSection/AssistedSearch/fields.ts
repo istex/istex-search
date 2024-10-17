@@ -1,81 +1,4 @@
-import type { AST, Comparator, FieldType } from "./ast";
-
-export const fieldNames = [
-  "author.affiliations",
-  "host.author.affiliations",
-  "arkIstex",
-  "corpusName",
-  "categories.inist",
-  "categories.scienceMetrix",
-  "categories.scopus",
-  "categories.wos",
-  "figure",
-  "table",
-  "fulltext@1",
-  "publicationDate",
-  "refBibs.publicationDate",
-  "refBibs.doi",
-  "host.doi",
-  "serie.doi",
-  "doi",
-  "host.eisbn",
-  "host.eissn",
-  "serie.eissn",
-  "hasFormula",
-  "host.isbn",
-  "host.issn",
-  "serie.issn",
-  "language",
-  "host.language",
-  "subject.lang",
-  "accessCondition.contentType",
-  "subject.value",
-  "host.subject.value",
-  "keywords.teeft",
-  "author.name",
-  "refBibs.author.name",
-  "host.author.name",
-  "refBibs.host.author.name",
-  "namedEntities.unitex.orgName",
-  "namedEntities.unitex.orgName_funder",
-  "host.conference.name",
-  "serie.conference.name",
-  "namedEntities.unitex.placeName",
-  "namedEntities.unitex.geogName",
-  "namedEntities.unitex.persName",
-  "namedEntities.unitex.date",
-  "qualityIndicators.pdfCharCount",
-  "qualityIndicators.abstractCharCount",
-  "qualityIndicators.pdfWordCount",
-  "qualityIndicators.abstractWordCount",
-  "qualityIndicators.pdfWordsPerPage",
-  "qualityIndicators.pdfPageCount",
-  "host.issue",
-  "serie.issue",
-  "qualityIndicators.pdfText",
-  "qualityIndicators.refBibsNative",
-  "abstract",
-  "qualityIndicators.score",
-  "qualityIndicators.teiSource",
-  "fulltext",
-  "title",
-  "refBibs.title",
-  "host.title",
-  "serie.title",
-  "refBibs.host.title",
-  "refBibs.serie.title",
-  "qualityIndicators.tdmReady",
-  "enrichments.type",
-  "genre",
-  "accessCondition.value",
-  "host.genre",
-  "namedEntities.unitex.ref_url",
-  "qualityIndicators.pdfVersion",
-  "host.volume",
-  "refBibs.host.volume",
-] as const;
-
-export type FieldName = (typeof fieldNames)[number];
+import type { AST, Comparator, FieldName, FieldType } from "@/lib/ast";
 
 export interface Field {
   name: FieldName;
@@ -85,7 +8,7 @@ export interface Field {
   comparators?: Comparator[];
 }
 
-export const fields: readonly Field[] = [
+const fields: readonly Field[] = [
   {
     name: "author.affiliations",
     type: "text",
@@ -402,3 +325,5 @@ export const fields: readonly Field[] = [
     type: "number",
   },
 ];
+
+export default fields;

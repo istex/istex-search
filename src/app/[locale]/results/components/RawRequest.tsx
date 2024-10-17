@@ -24,8 +24,8 @@ export default function RawRequest() {
   const searchParams = useSearchParams();
   const { queryString, randomSeed } = useQueryContext();
   const perPage = searchParams.getPerPage();
-  const page = searchParams.getPage();
   const filters = searchParams.getFilters();
+  const page = searchParams.getPage();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
   const resultsApiUrl = buildResultPreviewUrl({

@@ -1,3 +1,4 @@
+import { isoLanguagesToLabelize } from "@/config";
 import { DEFAULT_LOCALE } from "@/i18n/navigation";
 import * as Module from "@/lib/utils";
 
@@ -188,11 +189,31 @@ describe("Utility functions", () => {
       );
     });
 
-    it("calls the translation function when given 'unknown'", () => {
+    it("calls the translation function when given an ISO code not supported by the native implementation", () => {
       const translationFn = jest.fn();
-      Module.labelizeIsoLanguage("fr-FR", "unknown", translationFn);
+      Module.labelizeIsoLanguage(
+        "fr-FR",
+        isoLanguagesToLabelize[0],
+        translationFn,
+      );
 
-      expect(translationFn).toHaveBeenCalledWith("unknown");
+      expect(translationFn).toHaveBeenCalledWith(isoLanguagesToLabelize[0]);
+    });
+  });
+
+  describe("areSetsEqual", () => {
+    it("returns true when both sets are equal", () => {
+      const a = new Set([1, 2, 3]);
+      const b = new Set([1, 2, 3]);
+
+      expect(Module.areSetsEqual(a, b)).toBe(true);
+    });
+
+    it("returns false the sets are different", () => {
+      const a = new Set([1, 2, 3]);
+      const b = new Set([2, 3, 4]);
+
+      expect(Module.areSetsEqual(a, b)).toBe(false);
     });
   });
 });

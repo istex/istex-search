@@ -12,7 +12,7 @@ import {
   type FieldNode,
   type Node,
   type OperatorNode,
-} from "@/lib/assistedSearch/ast";
+} from "@/lib/ast";
 
 interface GroupProps {
   root?: boolean;

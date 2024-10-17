@@ -40,7 +40,7 @@ const NumericFormatCustom = React.forwardRef<
   );
 });
 
-type NumberInputProps = Omit<TextFieldProps, "onChange"> & {
+export type NumberInputProps = Omit<TextFieldProps, "onChange"> & {
   hideActionButtons?: boolean;
   max?: number;
   min?: number;

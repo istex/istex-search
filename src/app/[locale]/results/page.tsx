@@ -28,7 +28,7 @@ export default function _ResultsPage(props: PageProps) {
     q_id: props.searchParams.q_id,
     page: props.searchParams.page,
     perPage: props.searchParams.perPage,
-    filter: props.searchParams.filter,
+    filters: props.searchParams.filters,
   });
 
   return (

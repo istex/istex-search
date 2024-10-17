@@ -5,7 +5,7 @@ import { Box, Paper, Stack, Typography } from "@mui/material";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import ExpertSearchIcon from "@/../public/expert-search-icon.svg";
 import Button from "@/components/Button";
-import { astToString, type AST } from "@/lib/assistedSearch/ast";
+import { astToString, type AST } from "@/lib/ast";
 
 interface QueryPanelProps {
   ast: AST;

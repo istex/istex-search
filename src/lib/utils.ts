@@ -1,4 +1,5 @@
 import type { SxProps } from "@mui/system/styleFunctionSx";
+import { isoLanguagesToLabelize } from "@/config";
 import { DEFAULT_LOCALE, type Locale } from "@/i18n/navigation";
 
 export function lineclamp(lines: number): SxProps {
@@ -96,8 +97,8 @@ export function labelizeIsoLanguage(
   iso: string,
   t: (key: string) => string,
 ) {
-  if (iso === "unknown") {
-    return t("unknown");
+  if (isoLanguagesToLabelize.includes(iso)) {
+    return t(iso);
   }
 
   const dictionary = new Intl.DisplayNames([locale], { type: "language" });
@@ -106,4 +107,17 @@ export function labelizeIsoLanguage(
   } catch {
     return iso;
   }
+}
+
+export function areSetsEqual<T>(first: Set<T>, second: Set<T>) {
+  // Use the native implementation if it's available
+  // Remove this function and just use the native implementation once browser support is >95%
+  if (typeof Set.prototype.symmetricDifference === "function") {
+    return first.symmetricDifference(second).size === 0;
+  }
+
+  return (
+    first.size === second.size &&
+    Array.from(first).every((value) => second.has(value))
+  );
 }

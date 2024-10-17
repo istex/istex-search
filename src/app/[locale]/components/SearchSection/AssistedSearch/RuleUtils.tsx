@@ -8,6 +8,7 @@ import {
   type TextFieldProps,
   type SxProps,
 } from "@mui/material";
+import type { Field } from "./fields";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import {
   booleanComparators,
@@ -15,8 +16,8 @@ import {
   numberComparators,
   textComparators,
   type Comparator,
-} from "@/lib/assistedSearch/ast";
-import type { Field, FieldName } from "@/lib/assistedSearch/fields";
+  type FieldName,
+} from "@/lib/ast";
 import { unique } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
 

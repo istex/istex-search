@@ -500,96 +500,82 @@
       "resultsPerPage": "par page"
     },
     "Filters": {
-      "title": "Vos filtres actifs :",
-      "tooltip": "Cliquer sur les filtres ci-dessous pour les exclure",
-      "clear": "Supprimer le filtre «{value}»"
-    },
-    "Facets": {
-      "corpusName": {
-        "title": "Bouquet"
-      },
-      "categories": {
-        "wos": {
-          "title": "Catégorie WOS"
+      "fields": {
+        "corpusName": {
+          "title": "Bouquet"
         },
-        "scienceMetrix": {
-          "title": "Catégorie Science-Metrix"
+        "language": {
+          "title": "Langue"
         },
-        "scopus": {
-          "title": "Catégorie Scopus"
+        "publicationDate": {
+          "title": "Date de publication"
         },
-        "inist": {
-          "title": "Catégorie Inist"
-        }
-      },
-      "enrichments": {
-        "type": {
-          "title": "Enrichissement"
-        }
-      },
-      "language": {
-        "title": "Langue",
-        "inputLabel": "Entrez la langue désirée",
-        "inputPlaceholder": "ex: eng, fre ..."
-      },
-      "host": {
+        "host": {
+          "genre": {
+            "title": "Type de publication"
+          }
+        },
         "genre": {
-          "title": "Type de publication"
+          "title": "Type de contenu"
+        },
+        "enrichments": {
+          "type": {
+            "title": "Enrichissement"
+          }
+        },
+        "categories": {
+          "wos": {
+            "title": "Catégorie WOS"
+          },
+          "scienceMetrix": {
+            "title": "Catégorie Science-Metrix"
+          },
+          "scopus": {
+            "title": "Catégorie Scopus"
+          },
+          "inist": {
+            "title": "Catégorie Inist"
+          }
+        },
+        "qualityIndicators": {
+          "pdfWordCount": {
+            "title": "Nombre de mots du PDF"
+          },
+          "pdfCharCount": {
+            "title": "Nombre de caractères du PDF"
+          },
+          "score": {
+            "title": "Score"
+          },
+          "pdfVersion": {
+            "title": "Version du PDF"
+          },
+          "refBibsNative": {
+            "title": "Références bibliographiques"
+          }
         }
       },
-      "genre": {
-        "title": "Type de contenu"
-      },
-      "publicationDate": {
-        "title": "Date de publication",
-        "range": "Période",
-        "single": "Année",
-        "inputLabel": "Année ({minLabel} à {maxLabel})",
-        "inputPlaceholderMin": "Minimum",
+      "NumberFilter": {
+        "range": "intervalle",
+        "value": "valeur",
         "to": "à",
-        "inputPlaceholderMax": "Maximum",
-        "inputPlaceholderSingle": "Année"
+        "minPlaceholder": "Minimum",
+        "maxPlaceholder": "Maximum",
+        "valuePlaceholder": "Valeur"
       },
-      "qualityIndicators": {
-        "pdfVersion": {
-          "title": "Version du PDF",
-          "inputPlaceholder": "Rechercher"
-        },
-        "refBibsNative": {
-          "title": "Références bibliographiques",
-          "inputPlaceholder": "Rechercher",
-          "true": "Recherchées via GROBID",
-          "false": "Fournies par l'éditeur"
-        },
-        "pdfWordCount": {
-          "title": "Nombre de mots du PDF",
-          "inputLabel": "Nombre de mots ({minLabel} à {maxLabel})",
-          "inputPlaceholderMin": "Minimum",
-          "to": "à",
-          "inputPlaceholderMax": "Maximum"
-        },
-        "score": {
-          "title": "Score",
-          "inputLabel": "Score ({minLabel} à {maxLabel})",
-          "inputPlaceholderMin": "Minimum",
-          "to": "à",
-          "inputPlaceholderMax": "Maximum"
-        },
-        "pdfCharCount": {
-          "title": "Nombre de caractères du PDF",
-          "inputLabel": "Nombre de caractères ({minLabel} à {maxLabel})",
-          "inputPlaceholderMin": "Minimum",
-          "to": "à",
-          "inputPlaceholderMax": "Maximum"
-        }
+      "TextFilter": {
+        "search": "Rechercher",
+        "sortAsc": "Trier par ordre croissant",
+        "sortDesc": "Trier par ordre décroissant"
       },
-      "search": "Rechercher",
-      "deleteAll": "Effacer tout",
       "apply": "Appliquer",
       "clear": "Effacer",
-      "sortAsc": "Trier par ordre croissant",
-      "sortDesc": "Trier par ordre décroissant",
-      "clearInput": "Effacer le contenu de la zone de recherche"
+      "clearAll": "Effacer tout"
+    },
+    "FilterTags": {
+      "title": "Vos filtres actifs\u00A0:",
+      "tooltip": "Cliquer sur les filtres ci-dessous pour les exclure.",
+      "clear": "Supprimer le filtre «\u00A0{value}\u00A0»"
     },
     "Document": {
       "backToResults": "Revenir aux résultats",
@@ -809,6 +795,24 @@
     }
   },
   "languages": {
-    "unknown": "inconnue"
+    "aar": "afar",
+    "abk": "abkhaze",
+    "alg": "algonquines, langues",
+    "ang": "ancien anglais",
+    "arc": "araméen",
+    "frm": "moyen français",
+    "fro": "ancien français",
+    "glv": "mannois",
+    "grc": "grec ancien",
+    "moh": "mohawk",
+    "mul": "multilingue",
+    "nai": "nord-amérindiennes, langues",
+    "new": "newari",
+    "roa": "romanes, langues",
+    "sco": "écossais",
+    "syr": "syriaque",
+    "und": "indéterminée",
+    "unknown": "inconnue",
+    "zxx": "sans contenu linguistique"
   }
 }

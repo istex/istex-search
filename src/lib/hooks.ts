@@ -3,8 +3,11 @@ import { useSearchParams as nextUseSearchParams } from "next/navigation";
 import SearchParams from "./SearchParams";
 import { istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
+import { useRouter } from "@/i18n/navigation";
 import { usePathname } from "@/i18n/navigation";
+import type { AST } from "@/lib/ast";
 import { clamp } from "@/lib/utils";
 import type { NextSearchParams } from "@/types/next";
 
@@ -56,4 +59,31 @@ export function useMaxSize() {
       : resultsCount - excludedDocuments.length;
 
   return clamp(documentsCount, 0, istexApiConfig.maxSize);
+}
+
+export function useApplyFilters() {
+  const router = useRouter();
+  const history = useHistoryContext();
+  const searchParams = useSearchParams();
+  const { resetSelectedExcludedDocuments } = useDocumentContext();
+
+  return (filters: AST) => {
+    searchParams.deleteSize();
+    searchParams.deletePage();
+    searchParams.deleteRandomSeed();
+
+    if (filters.length > 0) {
+      searchParams.setFilters(filters);
+    } else {
+      searchParams.deleteFilters();
+    }
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams,
+    });
+
+    resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParams.toString()}`);
+  };
 }

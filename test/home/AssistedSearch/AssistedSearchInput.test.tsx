@@ -9,7 +9,7 @@ import {
 import AssistedSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/AssistedSearchInput";
 import ExpertSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/ExpertSearchInput";
 import { useRouter } from "@/i18n/navigation";
-import type { AST } from "@/lib/assistedSearch/ast";
+import type { AST } from "@/lib/ast";
 
 describe("AssistedSearchInput", () => {
   jest.setTimeout(30_000);

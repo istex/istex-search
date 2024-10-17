@@ -1,6 +1,6 @@
 import SvgIcon, { type SvgIconProps } from "@mui/material/SvgIcon";
 
-const ArrowDownIcon = (props: SvgIconProps) => {
+export default function ArrowDownIcon(props: SvgIconProps) {
   return (
     <SvgIcon viewBox="0 0 10 6" {...props}>
       <path
@@ -9,6 +9,4 @@ const ArrowDownIcon = (props: SvgIconProps) => {
       />
     </SvgIcon>
   );
-};
-
-export default ArrowDownIcon;
+}

@@ -18,17 +18,17 @@ export default function Loading() {
     >
       <Stack
         direction={{ xs: "column", md: "row" }}
-        spacing={4}
+        spacing={2}
         sx={{
           alignItems: "start",
         }}
       >
-        {/* Facets */}
+        {/* Filters */}
         <Skeleton
           variant="rectangular"
           sx={{
             borderRadius: 1,
-            width: { xs: "100%", md: 370 },
+            width: { xs: "100%", md: "35%" },
             height: "auto",
             alignSelf: "stretch",
             flexShrink: 0,

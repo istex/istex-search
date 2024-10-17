@@ -372,3 +372,26 @@ export const formatSizes = {
 
 export const ARCHIVE_SIZE_THRESHOLD_WARNING = 1;
 export const ARCHIVE_SIZE_THRESHOLD_ERROR = 6;
+
+// Thank you Chromium for not being compliant with the spec and making us labelize those manually...
+export const isoLanguagesToLabelize = [
+  "aar",
+  "abk",
+  "alg",
+  "ang",
+  "arc",
+  "frm",
+  "fro",
+  "glv",
+  "grc",
+  "moh",
+  "mul",
+  "roa",
+  "nai",
+  "new",
+  "sco",
+  "syr",
+  "und",
+  "unknown",
+  "zxx",
+] as const;

@@ -5,6 +5,7 @@ import ShareButton from "./ShareButton";
 export default function FloatingSideMenu() {
   return (
     <Box
+      component="aside"
       sx={{
         display: "flex",
         flexDirection: "column",

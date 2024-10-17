@@ -14,7 +14,7 @@ import {
   astContainsPartialNode,
   astToString,
   getEmptyFieldNode,
-} from "@/lib/assistedSearch/ast";
+} from "@/lib/ast";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
 
 export default function AssistedSearchInput() {

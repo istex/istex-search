@@ -1,13 +1,8 @@
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
-import type { FieldName } from "./assistedSearch/fields";
+import { astToString, type AST, type FieldName } from "./ast";
 import { buildExtractParamsFromFormats } from "./formats";
-import {
-  COMPATIBILITY_FACETS,
-  FACETS,
-  FACETS_WITH_RANGE,
-  INDICATORS_FACETS,
-} from "@/app/[locale]/results/components/Facets/constants";
+import fields from "@/app/[locale]/results/components/Filters/fields";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -22,8 +17,6 @@ import {
   type SortDir,
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
-
-export type Filter = Record<string, string[]>;
 
 export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
 
@@ -74,6 +67,10 @@ export type Aggregation = Record<
       key: string | number;
       keyAsString?: string;
       docCount: number;
+      from?: number;
+      fromAsString?: string;
+      to?: number;
+      toAsString?: string;
     }[];
   }
 >;
@@ -90,7 +87,7 @@ export interface IstexApiResponse {
 
 export function createCompleteQuery(
   queryString: string,
-  filters?: Filter,
+  filters?: AST,
   selectedDocuments?: SelectedDocument[],
   excludedDocuments?: string[],
 ) {
@@ -100,65 +97,24 @@ export function createCompleteQuery(
       .join(" ")})`;
   }
 
-  const filtersQueryString = Object.entries(filters ?? {})
-    .map(([facetName, values]) => {
-      if (FACETS_WITH_RANGE.includes(facetName)) {
-        const range = values[0].split("-");
-        const isNot = range[0].startsWith("!");
-        if (isNot) {
-          range[0] = range[0].slice(1);
-        }
-        if (range[0].endsWith(".")) {
-          range[0] = range[0].slice(0, -1);
-        }
-        if (range[1].endsWith(".")) {
-          range[1] = range[1].slice(0, -1);
-        }
-        if (range[0] !== "" && range[1] !== "" && +range[0] > +range[1]) {
-          const tmp = range[0];
-          range[0] = range[1];
-          range[1] = tmp;
-        }
-        if (range[0] === "") {
-          range[0] = "*";
-        }
-        if (range[1] === "") {
-          range[1] = "*";
-        }
-        return isNot
-          ? `(NOT ${facetName}:[${range.join(" TO ")}])`
-          : `${facetName}:[${range.join(" TO ")}]`;
-      } else {
-        return `${facetName}:(${`${values
-          .filter((v) => !v.startsWith("!"))
-          .map((v) => `"${v}"`)
-          .join(" OR ")}${values
-          .filter((v) => v.startsWith("!"))
-          .map((v) => ` NOT "${v.slice(1)}"`)
-          .join("")}`.trim()})`;
-      }
-    })
-    .join(" AND ");
+  const filtersQueryString = filters != null ? astToString(filters) : "";
 
   const excludedDocumentsQueryString =
     excludedDocuments != null && excludedDocuments.length > 0
       ? `(NOT arkIstex.raw:(${excludedDocuments
           .map((ark) => `"${ark}"`)
-          .join(" OR ")}))`
+          .join(" ")}))`
       : "";
 
   let completeQueryString = queryString;
 
-  if (filtersQueryString !== "" || excludedDocumentsQueryString !== "") {
-    completeQueryString = `(${completeQueryString})`;
-  }
-
   if (filtersQueryString !== "") {
-    completeQueryString += ` AND ${filtersQueryString}`;
+    // The filter query contains the operator to link it with the base query
+    completeQueryString = `(${completeQueryString})${filtersQueryString}`;
   }
 
   if (excludedDocumentsQueryString !== "") {
-    completeQueryString += ` AND ${excludedDocumentsQueryString}`;
+    completeQueryString = `(${completeQueryString}) AND ${excludedDocumentsQueryString}`;
   }
 
   return completeQueryString;
@@ -184,7 +140,7 @@ export interface BuildResultPreviewUrlOptions {
   perPage?: PerPageOption;
   page?: number;
   fields?: string[];
-  filters?: Filter;
+  filters?: AST;
   selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
@@ -242,10 +198,8 @@ export function buildResultPreviewUrl({
   url.searchParams.set("sid", "istex-search");
   url.searchParams.set(
     "facet",
-    [...FACETS, ...INDICATORS_FACETS, ...COMPATIBILITY_FACETS]
-      .map((facet) => `${facet.name}${facet.requestOption ?? ""}`)
-      .filter((facet, i, arr) => arr.indexOf(facet) === i)
-      .join(","),
+    getFacetUrlParam() +
+      ",qualityIndicators.abstractCharCount[1-1000000],qualityIndicators.pdfText,qualityIndicators.tdmReady,qualityIndicators.teiSource",
   );
 
   return url;
@@ -255,7 +209,7 @@ export interface GetResultsOptions {
   queryString: string;
   perPage: PerPageOption;
   page: number;
-  filters: Filter;
+  filters: AST;
   sortBy: SortBy;
   sortDir: SortDir;
   randomSeed?: string;
@@ -330,7 +284,7 @@ export interface BuildFullApiUrlOptions {
   qId?: string;
   selectedFormats: number;
   size: number;
-  filters?: Filter;
+  filters?: AST;
   selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
@@ -415,4 +369,18 @@ export function getExternalPdfUrl(document: Result) {
   }
 
   return null;
+}
+
+function getFacetUrlParam() {
+  return fields
+    .map((field) => {
+      let value = field.name;
+
+      if (field.type === "text" || field.type === "language") {
+        value += "[*]";
+      }
+
+      return value;
+    })
+    .join(",");
 }

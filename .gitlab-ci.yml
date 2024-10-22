@@ -11,10 +11,6 @@ variables:
 .is-version-tag: &is-version-tag
   if: $CI_COMMIT_TAG =~ $VERSION_PATTERN
 
-.is-not-version-tag: &is-not-version-tag
-  if: $CI_COMMIT_TAG =~ $VERSION_PATTERN
-  when: never
-
 .is-schedule: &is-schedule
   if: $CI_PIPELINE_SOURCE == "schedule"
 
@@ -47,7 +43,6 @@ stages:
 lint:
   stage: lint
   rules:
-    - *is-not-version-tag
     - *is-working-branch
   script:
     - npm run format:check
@@ -56,7 +51,6 @@ lint:
 build:
   stage: build
   rules:
-    - *is-not-version-tag
     - *is-working-branch
   script:
     - npm run build
@@ -64,7 +58,6 @@ build:
 test:
   stage: test
   rules:
-    - *is-not-version-tag
     - *is-working-branch
   script:
     - npm run test:ci

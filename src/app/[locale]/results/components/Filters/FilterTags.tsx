@@ -171,6 +171,7 @@ export default function FilterTags() {
       } else {
         // Insert a NOT operator
         groupNode.nodes.splice(nodeIndex, 0, {
+          id: Math.random(),
           nodeType: "operator",
           value: "NOT",
         });

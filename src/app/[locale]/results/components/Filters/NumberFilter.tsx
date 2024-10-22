@@ -112,6 +112,8 @@ export default function NumberFilter({ field }: NumberFilterProps) {
     variant: "outlined",
     size: "small",
     color: "primary",
+    disabled: isImportSearchMode,
+    title: isImportSearchMode ? tResults("unavailableTitle") : undefined,
     hideActionButtons: true,
     step: hasDecimals ? 0.1 : undefined,
     numericFormatProps: isDate
@@ -149,10 +151,6 @@ export default function NumberFilter({ field }: NumberFilterProps) {
             {...commonNumberInputProps}
             placeholder={t("minPlaceholder")}
             fullWidth
-            disabled={isImportSearchMode}
-            title={
-              isImportSearchMode ? tResults("unavailableTitle") : undefined
-            }
             value={min}
             onChange={setMin}
           />
@@ -163,10 +161,6 @@ export default function NumberFilter({ field }: NumberFilterProps) {
             {...commonNumberInputProps}
             placeholder={t("maxPlaceholder")}
             fullWidth
-            disabled={isImportSearchMode}
-            title={
-              isImportSearchMode ? tResults("unavailableTitle") : undefined
-            }
             value={max}
             onChange={setMax}
           />
@@ -175,8 +169,6 @@ export default function NumberFilter({ field }: NumberFilterProps) {
         <NumberInput
           {...commonNumberInputProps}
           placeholder={t("valuePlaceholder")}
-          disabled={isImportSearchMode}
-          title={isImportSearchMode ? tResults("unavailableTitle") : undefined}
           value={value}
           onChange={setValue}
           sx={{ width: "50%" }}

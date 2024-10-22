@@ -70,7 +70,7 @@ export function mockSearchParams(searchParams: {
   page?: string;
   perPage?: string;
   usage?: UsageName;
-  filter?: string;
+  filters?: string;
   searchMode?: SearchMode;
   sortBy?: SortBy;
   sortDirection?: SortDir;

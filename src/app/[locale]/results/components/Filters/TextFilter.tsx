@@ -106,19 +106,17 @@ export default function TextFilter({ field }: TextFilterProps) {
       newFilters.push(getDefaultOperatorNode(), {
         id: Math.random(),
         nodeType: "group",
-        nodes: Array.from(
-          selectedValues.values().map((value) => ({
-            id: Math.random(),
-            nodeType: "node",
-            field: field.name,
-            fieldType: "text",
-            value,
-            comparator:
-              field.type === "language" || field.type === "text"
-                ? "equals"
-                : "contains",
-          })),
-        ),
+        nodes: Array.from(selectedValues.values()).map((value) => ({
+          id: Math.random(),
+          nodeType: "node",
+          field: field.name,
+          fieldType: "text",
+          value,
+          comparator:
+            field.type === "language" || field.type === "text"
+              ? "equals"
+              : "contains",
+        })),
       });
     }
 
@@ -174,14 +172,16 @@ export default function TextFilter({ field }: TextFilterProps) {
       >
         <Stack direction="row">
           <SortButton
-            direction="up"
+            sortOrder="asc"
+            sortField="key"
             onClick={() => {
               setSortField("key");
               setSortOrder("asc");
             }}
           />
           <SortButton
-            direction="down"
+            sortOrder="desc"
+            sortField="key"
             onClick={() => {
               setSortField("key");
               setSortOrder("desc");
@@ -190,14 +190,16 @@ export default function TextFilter({ field }: TextFilterProps) {
         </Stack>
         <Stack direction="row">
           <SortButton
-            direction="up"
+            sortOrder="asc"
+            sortField="docCount"
             onClick={() => {
               setSortField("docCount");
               setSortOrder("asc");
             }}
           />
           <SortButton
-            direction="down"
+            sortOrder="desc"
+            sortField="docCount"
             onClick={() => {
               setSortField("docCount");
               setSortOrder("desc");
@@ -251,20 +253,22 @@ export default function TextFilter({ field }: TextFilterProps) {
 }
 
 interface SortButtonProps extends IconButtonProps {
-  direction: "up" | "down";
+  sortField: SortField;
+  sortOrder: SortOrder;
 }
 
 function SortButton(props: SortButtonProps) {
-  const { direction, ...rest } = props;
+  const { sortField, sortOrder, ...rest } = props;
   const t = useTranslations("results.Filters.TextFilter");
-  const label = direction === "up" ? t("sortDesc") : t("sortAsc");
+  const label = t(
+    `sort${sortField === "key" ? "Key" : "DocCount"}${sortOrder === "asc" ? "Asc" : "Desc"}`,
+  );
 
   return (
     <IconButton
       title={label}
       aria-label={label}
       size="small"
-      disableRipple
       color="inherit"
       sx={{
         p: 0.3125,
@@ -274,7 +278,7 @@ function SortButton(props: SortButtonProps) {
       }}
       {...rest}
     >
-      {direction === "up" ? <ArrowUpIcon /> : <ArrowDownIcon />}
+      {sortOrder === "asc" ? <ArrowUpIcon /> : <ArrowDownIcon />}
     </IconButton>
   );
 }

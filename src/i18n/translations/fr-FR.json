@@ -565,8 +565,10 @@
       },
       "TextFilter": {
         "search": "Rechercher",
-        "sortAsc": "Trier par ordre croissant",
-        "sortDesc": "Trier par ordre décroissant"
+        "sortKeyAsc": "Trier les valeurs par ordre alphanumérique croissant",
+        "sortKeyDesc": "Trier les valeurs par ordre alphanumérique décroissant",
+        "sortDocCountAsc": "Trier par volumétrie croissante",
+        "sortDocCountDesc": "Trier par volumétrie décroissante"
       },
       "apply": "Appliquer",
       "clear": "Effacer",

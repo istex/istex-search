@@ -111,7 +111,7 @@ export function labelizeIsoLanguage(
 
 export function areSetsEqual<T>(first: Set<T>, second: Set<T>) {
   // Use the native implementation if it's available
-  // Remove this function and just use the native implementation once browser support is >95%
+  // TODO: Remove this function and just use the native implementation once browser support is >95%
   if (typeof Set.prototype.symmetricDifference === "function") {
     return first.symmetricDifference(second).size === 0;
   }

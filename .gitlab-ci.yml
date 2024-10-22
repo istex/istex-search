@@ -101,7 +101,7 @@ deploy:docker:
 
 renovate:
   stage: renovate
-  image: renovate/renovate:37.372-slim
+  image: renovate/renovate:38.129
   interruptible: false
   cache: []
   rules:

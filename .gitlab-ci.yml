@@ -84,20 +84,22 @@ deploy:dev:
 
 deploy:docker:
   stage: deploy
-  image:
-    name: gcr.io/kaniko-project/executor:v1.22.0-debug
-    entrypoint: [""]
+  # image:
+  #   name: gcr.io/kaniko-project/executor:v1.22.0-debug
+  #   entrypoint: [""]
   cache: []
   rules:
     - *is-version-tag
-  before_script:
-    - cat $NEXUS_AUTH_CONFIG | base64 -d > /kaniko/.docker/config.json
+  # before_script:
+  #   - cat $NEXUS_AUTH_CONFIG | base64 -d > /kaniko/.docker/config.json
+  # script:
+  #   - VERSION_NUM=$(echo $CI_COMMIT_TAG | cut -c 2-)
+  #   - /kaniko/executor
+  #     --context "${CI_PROJECT_DIR}"
+  #     --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+  #     --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-search:${VERSION_NUM}"
   script:
-    - VERSION_NUM=$(echo $CI_COMMIT_TAG | cut -c 2-)
-    - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${NEXUS_URL}:${NEXUS_DOCKER_PORT}/istex/istex-search:${VERSION_NUM}"
+    - echo "deploy docker"
 
 renovate:
   stage: renovate

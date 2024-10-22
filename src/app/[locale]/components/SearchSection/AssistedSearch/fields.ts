@@ -50,10 +50,12 @@ const fields: readonly Field[] = [
   {
     name: "figure",
     type: "text",
+    comparators: ["contains"],
   },
   {
     name: "table",
     type: "text",
+    comparators: ["contains"],
   },
   {
     name: "fulltext@1",

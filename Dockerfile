@@ -32,4 +32,4 @@ USER nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./.next/standalone
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/start-prod-server.sh .
 
-CMD ["./start-prod-server.sh"]
+ENTRYPOINT ["./start-prod-server.sh"]

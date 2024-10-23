@@ -185,7 +185,7 @@ export type Node = FieldNode | OperatorNode | GroupNode;
 export type AST = Node[];
 
 export function astToString(ast: AST): string {
-  let result = "";
+  const segments = [];
 
   for (let i = 0; i < ast.length; i++) {
     const node = ast[i];
@@ -196,15 +196,17 @@ export function astToString(ast: AST): string {
       (nextNode?.nodeType === "node" && nextNode.partial === true);
 
     if (node.nodeType === "node") {
-      result += fieldNodeToString(node);
+      segments.push(fieldNodeToString(node));
     } else if (node.nodeType === "operator") {
-      result += operatorNodeToString(node, hasPartialSiblings);
+      segments.push(operatorNodeToString(node, hasPartialSiblings));
     } else {
-      result += groupNodeToString(node);
+      segments.push(groupNodeToString(node));
     }
   }
 
-  return result;
+  // Some segments might be empty strings (e.g. operators before partial nodes) so remove them
+  // before joining to avoid extra spaces
+  return segments.filter(Boolean).join(" ");
 }
 
 function fieldNodeToString(node: BaseFieldNode): string {
@@ -252,7 +254,7 @@ function operatorNodeToString(
     return "";
   }
 
-  return ` ${node.value} `;
+  return node.value;
 }
 
 function groupNodeToString(node: GroupNode): string {

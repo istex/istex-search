@@ -110,7 +110,7 @@ export function createCompleteQuery(
 
   if (filtersQueryString !== "") {
     // The filter query contains the operator to link it with the base query
-    completeQueryString = `(${completeQueryString})${filtersQueryString}`;
+    completeQueryString = `(${completeQueryString}) ${filtersQueryString}`;
   }
 
   if (excludedDocumentsQueryString !== "") {

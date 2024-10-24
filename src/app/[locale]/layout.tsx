@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar";
 import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSideMenu";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import NextIntlProvider from "@/i18n/provider";
+import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
 
@@ -54,6 +55,8 @@ export default function RootLayout({
           </MuiSetup>
         </TanStackQueryProvider>
       </body>
+
+      <Matomo />
     </html>
   );
 }

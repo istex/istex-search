@@ -30,21 +30,18 @@ export default function FileButton({
   uri,
 }: FileButtonProps) {
   const t = useTranslations("results.Document");
+  const label = t(`formatsLinks.${enrichmentName ?? category}`, {
+    extension: extension.toUpperCase(),
+  });
 
   return (
     <IconButton
       href={uri.href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={enrichmentName ?? extension}
+      aria-label={label}
       disableRipple
-      title={t(`formatsLinks.${category}`, {
-        key:
-          enrichmentName != null
-            ? t(`enrichmentNames.${enrichmentName}`)
-            : undefined,
-        extension: extension.toUpperCase(),
-      })}
+      title={label}
       sx={{
         display: "flex",
         flexDirection: "column",

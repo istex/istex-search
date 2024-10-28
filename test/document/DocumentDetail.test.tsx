@@ -76,7 +76,7 @@ describe("DocumentDetail", () => {
     expect(nbLink).toHaveAttribute("href", dummyUriWithSid);
     expect(nbLink).toHaveAttribute(
       "title",
-      "Accéder à l'enrichissement Nb au format TEI",
+      "Accéder aux catégories Pascal-Francis générées par Nb au format TEI",
     );
 
     expect(within(drawer).getByText("teeft")).toBeInTheDocument();
@@ -84,7 +84,7 @@ describe("DocumentDetail", () => {
     expect(teeftLink).toHaveAttribute("href", dummyUriWithSid);
     expect(teeftLink).toHaveAttribute(
       "title",
-      "Accéder à l'enrichissement Teeft au format TEI",
+      "Accéder à l'indexation générée par Teeft au format TEI",
     );
   });
 

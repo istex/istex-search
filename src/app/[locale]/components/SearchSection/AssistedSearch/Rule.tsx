@@ -419,7 +419,9 @@ export default function Rule({
             getOptionLabel={(option) =>
               fieldType === "language"
                 ? labelizeIsoLanguage(locale, option, tLanguages)
-                : option
+                : field?.requiresLabeling === true && option !== ""
+                  ? tFields(`${fieldName}.${option}`)
+                  : option
             }
             freeSolo={freeSolo}
             value={textValue}

@@ -11,23 +11,21 @@ describe("FileButton", () => {
     uri: new URL("https://example.com/"),
   };
 
-  it("uses the extension for the aria-label and text content", () => {
+  it("uses the extension for the text content", () => {
     const extension = "pdf";
     render(<FileButton {...defaultProps} extension={extension} />);
 
     const button = getButton();
 
-    expect(button).toHaveAttribute("aria-label", extension);
     expect(button).toHaveTextContent(extension);
   });
 
-  it("uses the enrichmentName instead of the extension when present for the aria-label and text content", () => {
+  it("uses the enrichmentName instead of the extension when present for the text content", () => {
     const enrichmentName = "nb";
     render(<FileButton {...defaultProps} enrichmentName={enrichmentName} />);
 
     const button = getButton();
 
-    expect(button).toHaveAttribute("aria-label", enrichmentName);
     expect(button).toHaveTextContent(enrichmentName);
   });
 

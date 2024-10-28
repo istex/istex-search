@@ -6,6 +6,7 @@ describe("ResultCard", () => {
   const document: Result = {
     id: "123",
     arkIstex: "arkIstex",
+    corpusName: "elsevier",
     title: "Document title",
     host: {
       title: "Host title",
@@ -35,7 +36,9 @@ describe("ResultCard", () => {
   it("displays the file icons when displayIcons is true", () => {
     render(<ResultCard info={document} displayIcons />);
 
-    const pdfLink = screen.getByRole("link", { name: "pdf" });
+    const pdfLink = screen.getByRole("link", {
+      name: "Accéder au texte intégral au format PDF",
+    });
 
     expect(pdfLink).toBeInTheDocument();
   });

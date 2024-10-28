@@ -133,6 +133,7 @@ const fields: readonly Field[] = [
     type: "text",
     inFilters: true,
     defaultOpen: true,
+    requiresLabeling: true,
     requiresFetchingValues: true,
     comparators: ["equals"],
   },

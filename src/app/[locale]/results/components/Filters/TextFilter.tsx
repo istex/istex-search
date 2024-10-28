@@ -292,6 +292,7 @@ function ChecklistItem({
   checked,
   setValue,
 }: ChecklistItemProps) {
+  const tFields = useTranslations("fields");
   const tLanguages = useTranslations("languages");
   const tResults = useTranslations("results");
   const locale = useLocale();
@@ -301,7 +302,9 @@ function ChecklistItem({
   const label =
     field.type === "language"
       ? labelizeIsoLanguage(locale, key, tLanguages)
-      : key;
+      : field.requiresLabeling === true
+        ? tFields(`${field.name}.${key}`)
+        : key;
 
   return (
     <Checkbox

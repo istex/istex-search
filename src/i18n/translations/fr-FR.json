@@ -208,19 +208,16 @@
       "unselectDocument": "Désélectionner",
       "excludeDocument": "Exclure",
       "includeDocument": "Inclure",
-      "enrichmentNames": {
-        "grobidFulltext": "GrobidFulltext",
-        "multicat": "Multicat",
-        "nb": "Nb",
-        "refBibs": "RefBibs",
-        "teeft": "Teeft",
-        "unitex": "Unitex"
-      },
       "formatsLinks": {
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",
         "annexes": "Accéder à l'annexe au format {extension}",
-        "enrichments": "Accéder à l'enrichissement {key} au format {extension}",
+        "multicat": "Accéder aux catégories WoS, Scopus et Science Metrix générées Multicat au format {extension}",
+        "teeft": "Accéder à l'indexation générée par Teeft au format {extension}",
+        "unitex": "Accéder aux entités nommées générées par Unitex au format {extension}",
+        "nb": "Accéder aux catégories Pascal-Francis générées par Nb au format {extension}",
+        "grobidFulltext": "Accéder au texte structuré par Grobid au format {extension}",
+        "refBibs": "Accéder aux références bibliographiques structurées par Grobid au format {extension}",
         "openAccess": "Accéder à ce document sur sa plateforme d'origine"
       }
     },
@@ -749,7 +746,13 @@
     "enrichments": {
       "type": {
         "title": "Type d'enrichissement",
-        "description": "Recherche de documents comportant un enrichissement"
+        "description": "Recherche de documents comportant un enrichissement",
+        "multicat": "Catégories WoS, Scopus, Science Metrix (multicat)",
+        "teeft": "Indexation (teeft)",
+        "unitex": "Entités nommées (unitex)",
+        "nb": "Catégories Pascal-Francis (nb)",
+        "grobidFulltext": "Texte structuré (grobidFulltext)",
+        "refBibs": "Réf. bib. structurées (refBibs)"
       }
     },
     "genre": {

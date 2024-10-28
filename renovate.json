@@ -10,16 +10,21 @@
   "packageRules": [
     {
       "groupName": "React/Next.js",
-      "matchPackagePrefixes": ["react", "next", "@types/react"],
-      "matchPackageNames": ["sharp", "@types/node"]
+      "matchPackageNames": [
+        "sharp",
+        "@types/node",
+        "react{/,}**",
+        "next{/,}**",
+        "@types/react{/,}**"
+      ]
     },
     {
       "groupName": "React Query",
-      "matchPackagePrefixes": ["@tanstack"]
+      "matchPackageNames": ["@tanstack{/,}**"]
     },
     {
       "groupName": "MUI",
-      "matchPackagePrefixes": ["@emotion", "@mui"]
+      "matchPackageNames": ["@emotion{/,}**", "@mui{/,}**"]
     },
     {
       "groupName": "Linters and formatters",

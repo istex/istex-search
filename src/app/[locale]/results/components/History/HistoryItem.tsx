@@ -55,6 +55,7 @@ export default function HistoryItem({
     queryFn: async () => await entry.searchParams.getQueryString(),
   });
   const idType = getIdTypeFromQueryString(queryStringQuery.data ?? "");
+  const size = entry.searchParams.getSize();
 
   const handleEdit = () => {
     history.populateCurrentRequest(entry);
@@ -150,9 +151,7 @@ export default function HistoryItem({
       </TableCell>
 
       {/* Size */}
-      <TableCell>
-        {entry.searchParams.getSize().toLocaleString(locale)}
-      </TableCell>
+      <TableCell>{size !== 0 ? size.toLocaleString(locale) : ""}</TableCell>
 
       {/* SortBy */}
       <TableCell>{tSorting(entry.searchParams.getSortBy())}</TableCell>

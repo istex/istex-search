@@ -8,7 +8,6 @@ import {
   type TextFieldProps,
   type SxProps,
 } from "@mui/material";
-import type { Field } from "./fields";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import {
   booleanComparators,
@@ -16,8 +15,8 @@ import {
   numberComparators,
   textComparators,
   type Comparator,
-  type FieldName,
 } from "@/lib/ast";
+import type { Field, FieldName } from "@/lib/fields";
 import { unique } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
 
@@ -76,7 +75,7 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
 export function FieldInputMenuItem(
   props: React.HTMLAttributes<HTMLLIElement> & { option: FieldName },
 ) {
-  const t = useTranslations("home.SearchSection.AssistedSearchInput");
+  const t = useTranslations("fields");
   const { option, ...rest } = props;
 
   return (
@@ -93,7 +92,7 @@ export function FieldInputMenuItem(
           fontSize: "0.875rem",
         }}
       >
-        {t(`fields.${option}.title`)}
+        {t(`${option}.title`)}
       </Typography>
       <Typography
         sx={{
@@ -103,7 +102,7 @@ export function FieldInputMenuItem(
           fontSize: "0.75rem",
         }}
       >
-        {t(`fields.${option}.description`)}
+        {t(`${option}.description`)}
       </Typography>
     </MenuItem>
   );

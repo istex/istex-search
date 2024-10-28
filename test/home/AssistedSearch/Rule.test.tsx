@@ -2,7 +2,6 @@ import * as React from "react";
 import { customRender as render, screen, userEvent } from "../../test-utils";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
 import { getComparators } from "@/app/[locale]/components/SearchSection/AssistedSearch/RuleUtils";
-import type { Field } from "@/app/[locale]/components/SearchSection/AssistedSearch/fields";
 import {
   textComparators,
   numberComparators,
@@ -10,6 +9,7 @@ import {
   getEmptyFieldNode,
   type FieldNode,
 } from "@/lib/ast";
+import type { Field } from "@/lib/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";
@@ -121,7 +121,7 @@ describe("Rule", () => {
   it("gets the possible values when selecting a field that requires fetching values", async () => {
     renderRule({ node: partialNode });
 
-    await selectField("Catégorie scientifique Inist");
+    await selectField("Catégorie Inist");
 
     expect(getPossibleValues).toHaveBeenCalledWith("categories.inist");
   });

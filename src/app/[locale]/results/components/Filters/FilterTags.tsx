@@ -4,7 +4,8 @@ import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import type { FieldName, Node } from "@/lib/ast";
+import type { Node } from "@/lib/ast";
+import type { FieldName } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 
 interface Tag {
@@ -17,7 +18,7 @@ interface Tag {
 
 export default function FilterTags() {
   const t = useTranslations("results.FilterTags");
-  const tFields = useTranslations("results.Filters.fields");
+  const tFields = useTranslations("fields");
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();

@@ -2,19 +2,19 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Stack, Typography } from "@mui/material";
-import type { Field } from "./fields";
 import Button from "@/components/Button";
 import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import Selector from "@/components/Selector";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
+import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 
 const INPUT_MODES = ["range", "value"] as const;
 type InputMode = (typeof INPUT_MODES)[number];
 
 interface NumberFilterProps {
-  field: Field;
+  field: Field & { type: "number" };
 }
 
 export default function NumberFilter({ field }: NumberFilterProps) {
@@ -35,9 +35,9 @@ export default function NumberFilter({ field }: NumberFilterProps) {
     ? Number(aggregation?.toAsString)
     : (aggregation?.to ?? null);
   const initialValue = initialMin === initialMax ? initialMin : null;
-  const [min, setMin] = React.useState<number | null>(initialMin);
-  const [max, setMax] = React.useState<number | null>(initialMax);
-  const [value, setValue] = React.useState<number | null>(initialValue);
+  const [min, setMin] = React.useState(initialMin);
+  const [max, setMax] = React.useState(initialMax);
+  const [value, setValue] = React.useState(initialValue);
   const [inputMode, setInputMode] = React.useState<InputMode>(
     initialValue != null ? "value" : "range",
   );

@@ -9,16 +9,20 @@ import {
   AccordionSummary,
   Stack,
 } from "@mui/material";
+import BooleanFilter from "./BooleanFilter";
 import NumberFilter from "./NumberFilter";
 import TextFilter from "./TextFilter";
-import fields, { type Field } from "./fields";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import type { FieldType, Node } from "@/lib/ast";
+import type { Node } from "@/lib/ast";
+import fields, { type Field, type FieldType } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+
+const FIELDS = fields.filter((field) => field.inFilters);
 
 export default function Filters() {
   const t = useTranslations("results.Filters");
+  const tFields = useTranslations("fields");
   const locale = useLocale();
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
@@ -44,7 +48,7 @@ export default function Filters() {
       }}
     >
       <Stack>
-        {fields.map((field) => {
+        {FIELDS.map((field) => {
           const Component = getComponent(field.type);
 
           // When we have filters, only expend the accordions that have an active filter
@@ -84,13 +88,13 @@ export default function Filters() {
                   },
                 }}
               >
-                {t(`fields.${field.name}.title`)}
+                {tFields(`${field.name}.title`)}
 
-                {field.type !== "number" && count != null && (
-                  <>&nbsp;({count.toLocaleString(locale)})</>
-                )}
+                {(field.type === "text" || field.type === "language") &&
+                  count != null && <>&nbsp;({count.toLocaleString(locale)})</>}
               </AccordionSummary>
               <AccordionDetails sx={{ bgcolor: "white" }}>
+                {/* @ts-expect-error The type of the field prop became never here */}
                 <Component field={field} />
               </AccordionDetails>
             </Accordion>
@@ -114,10 +118,11 @@ function getComponent(fieldType: FieldType) {
   switch (fieldType) {
     case "text":
     case "language":
-    case "boolean":
       return TextFilter;
     case "number":
       return NumberFilter;
+    case "boolean":
+      return BooleanFilter;
   }
 }
 

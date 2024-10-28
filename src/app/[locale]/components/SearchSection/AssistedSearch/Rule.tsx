@@ -10,16 +10,13 @@ import {
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
-import fields from "./fields";
 import NumberInput from "@/components/NumberInput";
-import {
+import { rangeComparators, type Comparator, type FieldNode } from "@/lib/ast";
+import fields, {
   fieldNames,
-  rangeComparators,
-  type Comparator,
   type FieldName,
-  type FieldNode,
   type FieldType,
-} from "@/lib/ast";
+} from "@/lib/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { labelizeIsoLanguage } from "@/lib/utils";
 
@@ -37,6 +34,7 @@ export default function Rule({
   remove,
 }: RuleProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
+  const tFields = useTranslations("fields");
   const tLanguages = useTranslations("languages");
   const locale = useLocale();
   const isNodePartial = node.partial === true;
@@ -71,8 +69,7 @@ export default function Rule({
   );
   const field = fields.find((field) => field.name === fieldName);
   const requiresFetchingValues = field?.requiresFetchingValues ?? false;
-  const isDateField =
-    fieldName === "publicationDate" || fieldName === "refBibs.publicationDate";
+  const isDateField = field?.isDate === true;
 
   const valueQuery = useQuery({
     queryKey: ["rule-value", fieldName],
@@ -83,14 +80,22 @@ export default function Rule({
     retry: false,
   });
 
+  const fieldNamesOrderedByTitle = React.useMemo(
+    () =>
+      fieldNames.toSorted((a, b) =>
+        tFields(`${a}.title`).localeCompare(tFields(`${b}.title`)),
+      ),
+    [tFields],
+  );
+
   // Custom search filter to search in the field title and description
   const fieldNameFilterOptions = React.useMemo(
     () =>
       createFilterOptions({
         stringify: (option: FieldName) =>
-          t(`fields.${option}.title`) + " " + t(`fields.${option}.description`),
+          tFields(`${option}.title`) + " " + tFields(`${option}.description`),
       }),
-    [t],
+    [tFields],
   );
 
   const handleFieldNameChange = (
@@ -276,10 +281,10 @@ export default function Rule({
       <Autocomplete
         size="small"
         fullWidth
-        options={fieldNames}
+        options={fieldNamesOrderedByTitle}
         value={fieldName}
         onChange={handleFieldNameChange}
-        getOptionLabel={(option) => t(`fields.${option}.title`)}
+        getOptionLabel={(option) => tFields(`${option}.title`)}
         filterOptions={fieldNameFilterOptions}
         renderInput={(params) => (
           <AutocompleteInput
@@ -387,7 +392,11 @@ export default function Rule({
               options={[true, false]}
               value={booleanValue}
               onChange={handleBooleanValueChange}
-              getOptionLabel={(option) => t(`${option}`)}
+              getOptionLabel={(option) =>
+                field?.requiresLabeling === true
+                  ? tFields(`${fieldName}.${option}`)
+                  : t(option.toString())
+              }
               renderInput={(params) => (
                 <AutocompleteInput
                   label={t("value")}

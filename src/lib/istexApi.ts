@@ -1,8 +1,7 @@
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
-import { astToString, type AST, type FieldName } from "./ast";
+import { astToString, type AST } from "./ast";
 import { buildExtractParamsFromFormats } from "./formats";
-import fields from "@/app/[locale]/results/components/Filters/fields";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
@@ -17,6 +16,7 @@ import {
   type SortDir,
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
+import fields, { type FieldName } from "@/lib/fields";
 
 export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
 
@@ -371,16 +371,16 @@ export function getExternalPdfUrl(document: Result) {
   return null;
 }
 
+const FILTER_FIELDS = fields.filter((field) => field.inFilters);
+
 function getFacetUrlParam() {
-  return fields
-    .map((field) => {
-      let value = field.name;
+  return FILTER_FIELDS.map((field) => {
+    let value = field.name;
 
-      if (field.type === "text" || field.type === "language") {
-        value += "[*]";
-      }
+    if (field.type === "text" || field.type === "language") {
+      value += "[*]";
+    }
 
-      return value;
-    })
-    .join(",");
+    return value;
+  }).join(",");
 }

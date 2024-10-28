@@ -1,14 +1,194 @@
-import type { AST, Comparator, FieldName, FieldType } from "@/lib/ast";
+import type { AST, Comparator } from "./ast";
+
+export const fieldNames = [
+  "corpusName",
+  "language",
+  "publicationDate",
+  "host.genre",
+  "genre",
+  "enrichments.type",
+  "categories.wos",
+  "categories.scienceMetrix",
+  "categories.scopus",
+  "categories.inist",
+  "qualityIndicators.pdfWordCount",
+  "qualityIndicators.pdfCharCount",
+  "qualityIndicators.score",
+  "qualityIndicators.pdfVersion",
+  "qualityIndicators.refBibsNative",
+  "author.affiliations",
+  "host.author.affiliations",
+  "arkIstex",
+  "figure",
+  "table",
+  "fulltext@1",
+  "refBibs.publicationDate",
+  "refBibs.doi",
+  "host.doi",
+  "serie.doi",
+  "doi",
+  "host.eisbn",
+  "host.eissn",
+  "serie.eissn",
+  "hasFormula",
+  "host.isbn",
+  "host.issn",
+  "serie.issn",
+  "host.language",
+  "subject.lang",
+  "accessCondition.contentType",
+  "subject.value",
+  "host.subject.value",
+  "keywords.teeft",
+  "author.name",
+  "refBibs.author.name",
+  "host.author.name",
+  "refBibs.host.author.name",
+  "namedEntities.unitex.orgName",
+  "namedEntities.unitex.orgName_funder",
+  "host.conference.name",
+  "serie.conference.name",
+  "namedEntities.unitex.placeName",
+  "namedEntities.unitex.geogName",
+  "namedEntities.unitex.persName",
+  "namedEntities.unitex.date",
+  "qualityIndicators.abstractCharCount",
+  "qualityIndicators.abstractWordCount",
+  "qualityIndicators.pdfWordsPerPage",
+  "qualityIndicators.pdfPageCount",
+  "host.issue",
+  "serie.issue",
+  "qualityIndicators.pdfText",
+  "abstract",
+  "qualityIndicators.teiSource",
+  "fulltext",
+  "title",
+  "refBibs.title",
+  "host.title",
+  "serie.title",
+  "refBibs.host.title",
+  "refBibs.serie.title",
+  "qualityIndicators.tdmReady",
+  "accessCondition.value",
+  "namedEntities.unitex.ref_url",
+  "host.volume",
+  "refBibs.host.volume",
+] as const;
+export type FieldName = (typeof fieldNames)[number];
+
+export const fieldTypes = ["text", "language", "number", "boolean"] as const;
+export type FieldType = (typeof fieldTypes)[number];
 
 export interface Field {
   name: FieldName;
   type: FieldType;
+  inFilters?: boolean;
+  defaultOpen?: boolean;
+  isDate?: boolean;
+  hasDecimals?: boolean;
+  requiresLabeling?: boolean;
   requiresFetchingValues?: boolean;
   implicitNodes?: AST;
   comparators?: Comparator[];
 }
 
 const fields: readonly Field[] = [
+  {
+    name: "corpusName",
+    type: "text",
+    inFilters: true,
+    defaultOpen: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "language",
+    type: "language",
+    inFilters: true,
+    defaultOpen: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "publicationDate",
+    type: "number",
+    inFilters: true,
+    defaultOpen: true,
+    isDate: true,
+  },
+  {
+    name: "host.genre",
+    type: "text",
+    inFilters: true,
+    defaultOpen: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "genre",
+    type: "text",
+    inFilters: true,
+    defaultOpen: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "enrichments.type",
+    type: "text",
+    inFilters: true,
+    defaultOpen: true,
+    requiresFetchingValues: true,
+    comparators: ["equals"],
+  },
+  {
+    name: "categories.wos",
+    type: "text",
+    inFilters: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "categories.scienceMetrix",
+    type: "text",
+    inFilters: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "categories.scopus",
+    type: "text",
+    inFilters: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "categories.inist",
+    type: "text",
+    inFilters: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "qualityIndicators.pdfWordCount",
+    type: "number",
+    inFilters: true,
+  },
+  {
+    name: "qualityIndicators.pdfCharCount",
+    type: "number",
+    inFilters: true,
+  },
+  {
+    name: "qualityIndicators.score",
+    type: "number",
+    inFilters: true,
+    hasDecimals: true,
+  },
+  {
+    name: "qualityIndicators.pdfVersion",
+    type: "text",
+    inFilters: true,
+    requiresFetchingValues: true,
+    comparators: ["equals"],
+  },
+  {
+    name: "qualityIndicators.refBibsNative",
+    type: "boolean",
+    inFilters: true,
+    requiresLabeling: true,
+  },
   {
     name: "author.affiliations",
     type: "text",
@@ -21,31 +201,6 @@ const fields: readonly Field[] = [
     name: "arkIstex",
     type: "text",
     comparators: ["equals"],
-  },
-  {
-    name: "corpusName",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
-    name: "categories.inist",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
-    name: "categories.scienceMetrix",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
-    name: "categories.scopus",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
-    name: "categories.wos",
-    type: "text",
-    requiresFetchingValues: true,
   },
   {
     name: "figure",
@@ -72,12 +227,9 @@ const fields: readonly Field[] = [
     comparators: ["contains"],
   },
   {
-    name: "publicationDate",
-    type: "number",
-  },
-  {
     name: "refBibs.publicationDate",
     type: "number",
+    isDate: true,
   },
   {
     name: "refBibs.doi",
@@ -132,11 +284,6 @@ const fields: readonly Field[] = [
     name: "serie.issn",
     type: "text",
     comparators: ["equals"],
-  },
-  {
-    name: "language",
-    type: "language",
-    requiresFetchingValues: true,
   },
   {
     name: "host.language",
@@ -215,15 +362,7 @@ const fields: readonly Field[] = [
     type: "text",
   },
   {
-    name: "qualityIndicators.pdfCharCount",
-    type: "number",
-  },
-  {
     name: "qualityIndicators.abstractCharCount",
-    type: "number",
-  },
-  {
-    name: "qualityIndicators.pdfWordCount",
     type: "number",
   },
   {
@@ -251,16 +390,8 @@ const fields: readonly Field[] = [
     type: "boolean",
   },
   {
-    name: "qualityIndicators.refBibsNative",
-    type: "boolean",
-  },
-  {
     name: "abstract",
     type: "text",
-  },
-  {
-    name: "qualityIndicators.score",
-    type: "number",
   },
   {
     name: "qualityIndicators.teiSource",
@@ -302,36 +433,14 @@ const fields: readonly Field[] = [
     type: "boolean",
   },
   {
-    name: "enrichments.type",
-    type: "text",
-    requiresFetchingValues: true,
-    comparators: ["equals"],
-  },
-  {
-    name: "genre",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
     name: "accessCondition.value",
     type: "text",
     requiresFetchingValues: true,
     comparators: ["equals", "startsWith", "endsWith"],
   },
   {
-    name: "host.genre",
-    type: "text",
-    requiresFetchingValues: true,
-  },
-  {
     name: "namedEntities.unitex.ref_url",
     type: "text",
-  },
-  {
-    name: "qualityIndicators.pdfVersion",
-    type: "text",
-    requiresFetchingValues: true,
-    comparators: ["equals"],
   },
   {
     name: "host.volume",

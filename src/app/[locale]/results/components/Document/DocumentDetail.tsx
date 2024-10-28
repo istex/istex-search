@@ -21,7 +21,7 @@ export default function DocumentDetail() {
     excludedDocuments,
   } = useDocumentContext();
   const t = useTranslations("results.Document");
-  const tTags = useTranslations("results.Document.tags");
+  const tFields = useTranslations("fields");
   const share = useShare();
 
   const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
@@ -211,7 +211,7 @@ export default function DocumentDetail() {
                   borderRadius: "3px",
                   backgroundColor: "colors.variantBlue",
                 }}
-                title={tTags("hostGenre")}
+                title={tFields("host.genre.title")}
                 color="info"
               />
             )}
@@ -231,7 +231,7 @@ export default function DocumentDetail() {
                       borderRadius: "3px",
                       backgroundColor: "colors.variantBlue",
                     }}
-                    title={tTags(tag)}
+                    title={tFields(`${tag}.title`)}
                     color="info"
                   />
                 ),

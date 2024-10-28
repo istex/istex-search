@@ -12,17 +12,17 @@ import {
 } from "@mui/material";
 import ArrowDownIcon from "./ArrowDownIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
-import type { Field } from "./fields";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
+import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
 import { areSetsEqual, labelizeIsoLanguage } from "@/lib/utils";
 
 interface TextFilterProps {
-  field: Field;
+  field: Field & { type: "text" | "language" };
 }
 
 type SortField = "key" | "docCount";
@@ -110,12 +110,9 @@ export default function TextFilter({ field }: TextFilterProps) {
           id: Math.random(),
           nodeType: "node",
           field: field.name,
-          fieldType: "text",
+          fieldType: field.type,
           value,
-          comparator:
-            field.type === "language" || field.type === "text"
-              ? "equals"
-              : "contains",
+          comparator: "equals",
         })),
       });
     }

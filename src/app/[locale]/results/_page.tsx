@@ -123,7 +123,7 @@ export default async function ResultsPage({
           spacing={1}
           useFlexGap
           sx={{
-            width: "100%",
+            flexGrow: 1,
           }}
         >
           <Panels indicators={indicators} compatibility={compatibility} />

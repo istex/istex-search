@@ -490,7 +490,7 @@
       },
       "genre": {
         "title": "Type de publication",
-        "description": "Rercherche selon le type de publication"
+        "description": "Recherche selon le type de publication"
       },
       "volume": {
         "title": "Volume de la revue ou monographie",

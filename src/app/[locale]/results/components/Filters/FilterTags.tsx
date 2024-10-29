@@ -1,24 +1,27 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import HelpIcon from "@mui/icons-material/Help";
 import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import type { Node } from "@/lib/ast";
-import type { FieldName } from "@/lib/fields";
+import fields, { type Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import { labelizeIsoLanguage } from "@/lib/utils";
 
 interface Tag {
   nodeId: number;
   groupId?: number;
   hasNot: boolean;
-  field: FieldName;
+  field: Field;
   value: string;
 }
 
 export default function FilterTags() {
   const t = useTranslations("results.FilterTags");
   const tFields = useTranslations("fields");
+  const tLanguages = useTranslations("languages");
+  const locale = useLocale();
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
@@ -50,6 +53,12 @@ export default function FilterTags() {
             }
 
             const previousChild = index > 0 ? node.nodes[index - 1] : null;
+            const field = fields.find(({ name }) => child.field === name);
+            if (field == null) {
+              throw new Error(
+                "Unexpected child node structure, field must be a valid field name",
+              );
+            }
 
             return {
               nodeId: childId,
@@ -57,7 +66,7 @@ export default function FilterTags() {
               hasNot:
                 previousChild?.nodeType === "operator" &&
                 previousChild.value === "NOT",
-              field: child.field,
+              field,
               value: child.value,
             };
           })
@@ -65,12 +74,18 @@ export default function FilterTags() {
       }
 
       const previousNode = index > 0 ? filters[index - 1] : null;
+      const field = fields.find(({ name }) => node.field === name);
+      if (field == null) {
+        throw new Error(
+          "Unexpected child node structure, field must be a valid field name",
+        );
+      }
 
       const tag = {
         nodeId,
         hasNot:
           previousNode?.nodeType === "operator" && previousNode.value === "NOT",
-        field: node.field,
+        field,
       };
 
       if (node.comparator === "between") {
@@ -243,7 +258,13 @@ export default function FilterTags() {
 
       <Stack direction="row" spacing={1}>
         {tags.map((tag) => {
-          const fullValue = tag.hasNot ? `NOT ${tag.value}` : tag.value;
+          const label =
+            tag.field.type === "language"
+              ? labelizeIsoLanguage(locale, tag.value, tLanguages)
+              : tag.field.requiresLabeling === true
+                ? tFields(`${tag.field.name}.${tag.value}`)
+                : tag.value;
+          const fullLabel = tag.hasNot ? `NOT ${label}` : label;
           const ui = tag.hasNot ? (
             <>
               <Typography
@@ -257,20 +278,20 @@ export default function FilterTags() {
               >
                 NOT
               </Typography>
-              {tag.value}
+              {label}
             </>
           ) : (
-            tag.value
+            label
           );
 
           return (
             <Chip
-              key={fullValue}
+              key={fullLabel}
               label={ui}
-              title={tFields(`${tag.field}.title`)}
+              title={tFields(`${tag.field.name}.title`)}
               size="small"
               deleteIcon={
-                <CancelIcon titleAccess={t("clear", { value: fullValue })} />
+                <CancelIcon titleAccess={t("clear", { value: fullLabel })} />
               }
               onClick={() => {
                 toggleNot(tag);

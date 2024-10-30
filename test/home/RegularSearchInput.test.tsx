@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 import { examples } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 
 describe("RegularSearchInput", () => {
   beforeEach(jest.clearAllMocks);

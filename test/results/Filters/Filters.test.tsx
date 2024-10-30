@@ -5,7 +5,7 @@ import {
   userEvent,
 } from "../../test-utils";
 import Filters from "@/app/[locale]/results/components/Filters";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
 
 describe("Filters", () => {

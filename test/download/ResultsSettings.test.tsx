@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
-import { DEFAULT_LOCALE, useRouter } from "@/i18n/navigation";
+import { routing, useRouter } from "@/i18n/routing";
 
 describe("ResultsSettings", () => {
   beforeEach(() => {
@@ -101,5 +101,7 @@ function testInitialization(resultsCount: number, expectedValue: number) {
 
   const input = screen.getByRole("textbox");
 
-  expect(input).toHaveValue(expectedValue.toLocaleString(DEFAULT_LOCALE));
+  expect(input).toHaveValue(
+    expectedValue.toLocaleString(routing.defaultLocale),
+  );
 }

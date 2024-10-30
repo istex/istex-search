@@ -9,7 +9,7 @@ import { istexApiConfig } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/routing";
 import type SearchParams from "@/lib/SearchParams";
 import { useMaxSize, useSearchParams } from "@/lib/hooks";
 import { clamp, debounce } from "@/lib/utils";

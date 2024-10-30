@@ -7,7 +7,7 @@ import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
 import ResultsGrid from "./components/ResultsGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
-import { redirect } from "@/i18n/navigation";
+import { redirect } from "@/i18n/routing";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
 import {
@@ -62,7 +62,7 @@ export default async function ResultsPage({
   }
 
   if (queryString === "") {
-    redirect("/");
+    redirect({ href: "/", locale });
   }
 
   let results;

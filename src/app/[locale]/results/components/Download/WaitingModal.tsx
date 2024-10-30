@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Box, DialogContent, Stack, Typography } from "@mui/material";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
-import type { Locale } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
 import { estimateArchiveSize } from "@/lib/formats";
 import { useSearchParams } from "@/lib/hooks";
 import { bytesToSize } from "@/lib/utils";

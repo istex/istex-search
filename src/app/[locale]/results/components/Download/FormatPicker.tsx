@@ -5,7 +5,7 @@ import { useTheme } from "@mui/material/styles";
 import Checkbox from "@/components/Checkbox";
 import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/routing";
 import {
   deselectFormat,
   getWholeCategoryFormat,

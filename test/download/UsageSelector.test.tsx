@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import UsageSelector from "@/app/[locale]/results/components/Download/UsageSelector";
 import { usages } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("UsageSelector", () => {

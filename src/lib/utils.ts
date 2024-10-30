@@ -1,6 +1,6 @@
 import type { SxProps } from "@mui/system/styleFunctionSx";
 import { isoLanguagesToLabelize } from "@/config";
-import { DEFAULT_LOCALE, type Locale } from "@/i18n/navigation";
+import { routing, type Locale } from "@/i18n/routing";
 
 export function lineclamp(lines: number): SxProps {
   return {
@@ -44,7 +44,10 @@ export function unique<T>(array: T[]): T[] {
   return Array.from(new Set(array));
 }
 
-export function formatDate(timestamp: number, locale: Locale = DEFAULT_LOCALE) {
+export function formatDate(
+  timestamp: number,
+  locale: Locale = routing.defaultLocale,
+) {
   return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",

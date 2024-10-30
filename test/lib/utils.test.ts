@@ -1,5 +1,5 @@
 import { isoLanguagesToLabelize } from "@/config";
-import { DEFAULT_LOCALE } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import * as Module from "@/lib/utils";
 
 describe("Utility functions", () => {
@@ -154,23 +154,23 @@ describe("Utility functions", () => {
 
   describe("bytesToSize", () => {
     it("converts to bytes", () => {
-      expect(Module.bytesToSize(100, DEFAULT_LOCALE)).toBe("100\u202fo");
+      expect(Module.bytesToSize(100, routing.defaultLocale)).toBe("100\u202fo");
     });
 
     it("converts to kilobytes", () => {
-      expect(Module.bytesToSize(100 * 1024, DEFAULT_LOCALE)).toBe(
+      expect(Module.bytesToSize(100 * 1024, routing.defaultLocale)).toBe(
         "100\u202fko",
       );
     });
 
     it("converts to megabytes", () => {
-      expect(Module.bytesToSize(100 * 1024 ** 2, DEFAULT_LOCALE)).toBe(
+      expect(Module.bytesToSize(100 * 1024 ** 2, routing.defaultLocale)).toBe(
         "100\u202fMo",
       );
     });
 
     it("converts to gigabytes", () => {
-      expect(Module.bytesToSize(100 * 1024 ** 3, DEFAULT_LOCALE)).toBe(
+      expect(Module.bytesToSize(100 * 1024 ** 3, routing.defaultLocale)).toBe(
         "100\u202fGo",
       );
     });

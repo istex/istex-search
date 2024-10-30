@@ -9,7 +9,7 @@ import { Box, IconButton, Stack } from "@mui/material";
 import { istexApiConfig } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "@/lib/hooks";
 import { clamp } from "@/lib/utils";
 import { inter } from "@/mui/fonts";

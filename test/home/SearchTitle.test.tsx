@@ -7,7 +7,7 @@ import {
 } from "../test-utils";
 import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
 import { SEARCH_MODE_ASSISTED } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 
 describe("SearchTitle", () => {
   it("highlights the currently selected search mode", () => {

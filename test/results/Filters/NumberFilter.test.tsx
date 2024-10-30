@@ -5,7 +5,7 @@ import {
   userEvent,
 } from "../../test-utils";
 import NumberFilter from "@/app/[locale]/results/components/Filters/NumberFilter";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
 import type { IstexApiResponse } from "@/lib/istexApi";
 

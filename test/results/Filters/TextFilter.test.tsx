@@ -5,7 +5,7 @@ import {
   userEvent,
 } from "../../test-utils";
 import TextFilter from "@/app/[locale]/results/components/Filters/TextFilter";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
 import type { Aggregation, IstexApiResponse } from "@/lib/istexApi";
 

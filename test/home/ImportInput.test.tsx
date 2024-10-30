@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
 import { supportedIdTypes } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { buildQueryStringFromIds } from "@/lib/queryIds";
 
 describe("ImportInput", () => {

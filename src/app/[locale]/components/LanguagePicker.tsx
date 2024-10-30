@@ -1,12 +1,7 @@
 import * as React from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
-import {
-  SUPPORTED_LOCALES,
-  usePathname,
-  useRouter,
-  type Locale,
-} from "@/i18n/navigation";
+import { routing, usePathname, useRouter, type Locale } from "@/i18n/routing";
 
 interface LanguagePickerProps {
   locale: string;
@@ -46,7 +41,7 @@ export default function LanguagePicker({ locale }: LanguagePickerProps) {
           onChange={onLanguageChange}
           sx={smallFontSize}
         >
-          {SUPPORTED_LOCALES.map((locale) => (
+          {routing.locales.map((locale) => (
             <MenuItem key={locale} value={locale} sx={smallFontSize}>
               {languageLabels.of(locale)}
             </MenuItem>

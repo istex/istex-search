@@ -6,7 +6,7 @@ import {
 } from "../test-utils";
 import Pagination from "@/app/[locale]/results/components/Pagination";
 import { MIN_PER_PAGE, istexApiConfig } from "@/config";
-import { DEFAULT_LOCALE, useRouter } from "@/i18n/navigation";
+import { routing, useRouter } from "@/i18n/routing";
 
 describe("Pagination", () => {
   // We only test the next page button because the same logic is applied to all buttons
@@ -72,7 +72,7 @@ describe("Pagination", () => {
     const pageLabel = screen.getByTestId("pagination-page");
 
     expect(pageLabel).toHaveTextContent(
-      lastPage.toLocaleString(DEFAULT_LOCALE),
+      lastPage.toLocaleString(routing.defaultLocale),
       { normalizeWhitespace: false },
     );
   });

@@ -1,20 +1,23 @@
 import { renderAsync, screen } from "../test-utils";
 import ResultsPage from "@/app/[locale]/results/_page";
-import { DEFAULT_LOCALE, redirect } from "@/i18n/navigation";
+import { routing, redirect } from "@/i18n/routing";
 
 describe("Results page", () => {
   it("redirects to home page when no query string is found", async () => {
     await renderAsync(ResultsPage, {
-      params: { locale: DEFAULT_LOCALE },
+      params: { locale: routing.defaultLocale },
       searchParams: {},
     });
 
-    expect(redirect).toHaveBeenCalledWith("/");
+    expect(redirect).toHaveBeenCalledWith({
+      href: "/",
+      locale: routing.defaultLocale,
+    });
   });
 
   it("renders an alert when a syntax error is the query string", async () => {
     await renderAsync(ResultsPage, {
-      params: { locale: DEFAULT_LOCALE },
+      params: { locale: routing.defaultLocale },
       searchParams: { q: "hello:" },
     });
 

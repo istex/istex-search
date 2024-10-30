@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Selector from "@/components/Selector";
 import { usages, type UsageName } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "@/lib/hooks";
 
 export default function UsageSelector() {

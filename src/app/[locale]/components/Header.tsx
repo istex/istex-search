@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import headerBackground from "@/../public/header-background.webp";
 import istexSearchLogo from "@/../public/istex-search.svg";
+import RichText from "@/components/RichText";
 import Link from "@/i18n/next-intl-link";
 
 export default function Header() {
@@ -52,7 +53,7 @@ export default function Header() {
             lineHeight: 1.25,
           }}
         >
-          {t.rich("baseline")}
+          <RichText>{(tags) => t.rich("baseline", tags)}</RichText>
         </Typography>
       </Container>
     </Box>

@@ -6,12 +6,12 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Link,
   Stack,
   Typography,
 } from "@mui/material";
 import Button from "@/components/Button";
 import type { ModalProps } from "@/components/Modal";
-import { externalLink } from "@/i18n/i18n";
 import theme from "@/mui/theme";
 
 export default function HelpModal({
@@ -99,8 +99,14 @@ export default function HelpModal({
           </IconButton>
           <DialogContent>
             {t.rich("message", {
-              externalLink: externalLink(
-                "https://www.istex.fr/contactez-nous/",
+              externalLink: (chunks) => (
+                <Link
+                  href="https://www.istex.fr/contactez-nous/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {chunks}
+                </Link>
               ),
             })}
           </DialogContent>

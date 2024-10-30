@@ -10,7 +10,7 @@ const routerMock = {
   replace: jest.fn(),
 };
 
-mock("@/i18n/navigation", {
+mock("@/i18n/routing", {
   redirect: jest.fn(),
   useRouter: () => routerMock,
   usePathname: jest.fn(() => "/"),

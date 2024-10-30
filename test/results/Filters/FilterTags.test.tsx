@@ -5,7 +5,7 @@ import {
   userEvent,
 } from "../../test-utils";
 import FilterTags from "@/app/[locale]/results/components/Filters/FilterTags";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
 
 describe("FilterTags", () => {

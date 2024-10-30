@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { AbstractIntlMessages } from "next-intl";
+import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { render } from "@testing-library/react";
 import TanStackQueryProvider from "@/app/[locale]/TanStackQueryProvider";
@@ -13,8 +13,7 @@ import type {
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
-import { DEFAULT_LOCALE, usePathname } from "@/i18n/navigation";
-import NextIntlProvider from "@/i18n/provider";
+import { routing, usePathname } from "@/i18n/routing";
 import messages from "@/i18n/translations/fr-FR.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
@@ -25,8 +24,8 @@ export function customRender(
 ) {
   const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
     <TanStackQueryProvider>
-      <NextIntlProvider
-        locale={DEFAULT_LOCALE}
+      <NextIntlClientProvider
+        locale={routing.defaultLocale}
         messages={messages as unknown as AbstractIntlMessages}
       >
         <MuiSetup>
@@ -43,7 +42,7 @@ export function customRender(
             </DocumentProvider>
           </HistoryProvider>
         </MuiSetup>
-      </NextIntlProvider>
+      </NextIntlClientProvider>
     </TanStackQueryProvider>
   );
 

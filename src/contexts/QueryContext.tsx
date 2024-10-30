@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useHistoryContext } from "./HistoryContext";
 import { useDocumentContext } from "@/contexts/DocumentContext";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import type { CustomErrorInfo } from "@/lib/CustomError";
 import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";

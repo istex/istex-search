@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import ResultsPage from "./_page";
 import Loading from "./loading";
+import { redirect, routing } from "@/i18n/routing";
 import type { GenerateMetadataProps, PageProps } from "@/types/next";
 
 export async function generateMetadata({
@@ -21,6 +22,15 @@ export async function generateMetadata({
 // invalidated when the search params change.
 // More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189
 export default function _ResultsPage(props: PageProps) {
+  // Redirect to the current page but with the default locale if the one
+  // from the slot isn't supported
+  if (!routing.locales.includes(props.params.locale)) {
+    redirect({
+      href: { pathname: "/results", query: props.searchParams },
+      locale: routing.defaultLocale,
+    });
+  }
+
   // We want to trigger the Suspense only when search params that require
   // a new API call are changed
   const key = JSON.stringify({

@@ -1,9 +1,6 @@
-import nextIntlPlugin from "next-intl/plugin";
-import { join } from "path";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const srcDirPath = join(import.meta.dirname, "src");
-
-const withNextIntl = nextIntlPlugin(join(srcDirPath, "i18n", "i18n.tsx"));
+const withNextIntl = createNextIntlPlugin();
 
 /** @type {import("next").NextConfig} */
 export default withNextIntl({

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { useMessages, useNow, useTimeZone } from "next-intl";
+import { useMessages } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import TanStackQueryProvider from "./TanStackQueryProvider";
 import Footer from "./components/Footer";
@@ -8,7 +9,7 @@ import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
 import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSideMenu";
 import { HistoryProvider } from "@/contexts/HistoryContext";
-import NextIntlProvider from "@/i18n/provider";
+import { routing } from "@/i18n/routing";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
@@ -24,25 +25,24 @@ export async function generateMetadata({
   };
 }
 
+// This function tells Next.js to pre-render (at build time) all pages in this layout
+// for every supported locale
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export default function RootLayout({
   children,
   params: { locale },
 }: LayoutProps) {
   const messages = useMessages();
-  const timeZone = useTimeZone();
-  const now = useNow();
 
   return (
     <html lang={locale}>
       <body>
         <TanStackQueryProvider>
           <MuiSetup>
-            <NextIntlProvider
-              locale={locale}
-              messages={messages}
-              timeZone={timeZone}
-              now={now}
-            >
+            <NextIntlClientProvider messages={messages}>
               <HistoryProvider>
                 <Navbar />
                 <Header />
@@ -51,7 +51,7 @@ export default function RootLayout({
                 <Footer />
                 <HelpButton />
               </HistoryProvider>
-            </NextIntlProvider>
+            </NextIntlClientProvider>
           </MuiSetup>
         </TanStackQueryProvider>
       </body>

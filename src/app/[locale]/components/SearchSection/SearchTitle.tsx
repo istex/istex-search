@@ -22,7 +22,7 @@ import {
 } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/routing";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
 
 export default function SearchTitle() {

@@ -28,9 +28,16 @@ interface TextFilterProps {
 type SortField = "key" | "docCount";
 type SortOrder = "asc" | "desc";
 
+type LabelizedAggregation = (Aggregation[string]["buckets"][number] & {
+  label?: string;
+})[];
+
 export default function TextFilter({ field }: TextFilterProps) {
   const t = useTranslations("results.Filters.TextFilter");
   const tFilters = useTranslations("results.Filters");
+  const tFields = useTranslations("fields");
+  const tLanguages = useTranslations("languages");
+  const locale = useLocale();
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
@@ -60,7 +67,23 @@ export default function TextFilter({ field }: TextFilterProps) {
     return null;
   }
 
-  const filteredValues = filterValues(aggregation, searchTerm);
+  const labelizedValues: LabelizedAggregation = aggregation.map((value) => {
+    if (field.type === "language") {
+      return {
+        ...value,
+        label: labelizeIsoLanguage(locale, value.key.toString(), tLanguages),
+      };
+    }
+
+    if (field.requiresLabeling === true) {
+      return { ...value, label: tFields(`${field.name}.${value.key}`) };
+    }
+
+    return value;
+  });
+  // TODO:
+  // - add comments to explain how the labeling system works
+  const filteredValues = filterValues(labelizedValues, searchTerm);
   const sortedValues = sortValues(filteredValues, sortField, sortOrder);
 
   const getClearedFilters = () => {
@@ -281,7 +304,7 @@ function SortButton(props: SortButtonProps) {
 }
 
 interface ChecklistItemProps extends TextFilterProps {
-  aggregation: Aggregation[string]["buckets"][number];
+  aggregation: LabelizedAggregation[number];
   checked: boolean;
   setValue: (value: string, checked: boolean) => void;
 }
@@ -292,19 +315,12 @@ function ChecklistItem({
   checked,
   setValue,
 }: ChecklistItemProps) {
-  const tFields = useTranslations("fields");
-  const tLanguages = useTranslations("languages");
   const tResults = useTranslations("results");
   const locale = useLocale();
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const key = aggregation.key.toString();
-  const label =
-    field.type === "language"
-      ? labelizeIsoLanguage(locale, key, tLanguages)
-      : field.requiresLabeling === true
-        ? tFields(`${field.name}.${key}`)
-        : key;
+  const label = aggregation.label ?? key;
 
   return (
     <Checkbox
@@ -348,28 +364,32 @@ function ChecklistItem({
   );
 }
 
-function filterValues(
-  values: Aggregation[string]["buckets"],
-  searchTerm: string,
-) {
+function filterValues(values: LabelizedAggregation, searchTerm: string) {
   const term = searchTerm.toLowerCase();
 
-  return values.filter(({ key }) =>
-    key.toString().toLowerCase().includes(term),
+  return values.filter(({ key, label }) =>
+    // Filter on the label if it exists, on the key otherwise
+    (label ?? key.toString()).toLowerCase().includes(term),
   );
 }
 
 function sortValues(
-  values: Aggregation[string]["buckets"],
+  values: LabelizedAggregation,
   sortField: SortField,
   sortOrder: SortOrder,
 ) {
   return values.sort((a, b) => {
     if (sortField === "key") {
       if (sortOrder === "asc") {
-        return a[sortField].toString().localeCompare(b[sortField].toString());
+        // Sort based on the label if it exists, on the key otherwise
+        return (a.label ?? a[sortField].toString()).localeCompare(
+          b.label ?? b[sortField].toString(),
+        );
       } else {
-        return b[sortField].toString().localeCompare(a[sortField].toString());
+        // Same as above in reverse order
+        return (b.label ?? b[sortField].toString()).localeCompare(
+          a.label ?? a[sortField].toString(),
+        );
       }
     } else {
       if (sortOrder === "asc") {

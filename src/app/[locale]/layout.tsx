@@ -56,7 +56,7 @@ export default function RootLayout({
         </TanStackQueryProvider>
       </body>
 
-      <Matomo />
+      {process.env.NODE_ENV === "production" && <Matomo />}
     </html>
   );
 }

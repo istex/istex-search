@@ -112,7 +112,7 @@ describe("Rule", () => {
 
     await selectBooleanField();
 
-    expect(getComparatorInput()).toHaveValue("égal");
+    expect(getComparatorInput()).toHaveValue("est égal à");
     expect(setNode).toHaveBeenCalledWith(
       expect.objectContaining({ comparator: "equals" }),
     );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { useMessages } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { Box } from "@mui/material";
 import TanStackQueryProvider from "./TanStackQueryProvider";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -46,7 +47,9 @@ export default function RootLayout({
               <HistoryProvider>
                 <Navbar />
                 <Header />
-                <main>{children}</main>
+                <Box component="main" sx={{ flexGrow: 1 }}>
+                  {children}
+                </Box>
                 <FloatingSideMenu />
                 <Footer />
                 <HelpButton />

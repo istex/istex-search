@@ -16,21 +16,12 @@ export default function Loading() {
       resultsCount={0}
       loading
     >
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        spacing={2}
-        sx={{
-          alignItems: "start",
-        }}
-      >
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         {/* Filters */}
         <Skeleton
-          variant="rectangular"
           sx={{
-            borderRadius: 1,
-            width: { xs: "100%", md: "35%" },
+            width: { xs: "100%", md: "21.5rem" },
             height: "auto",
-            alignSelf: "stretch",
             flexShrink: 0,
           }}
         />
@@ -39,26 +30,17 @@ export default function Loading() {
           spacing={1}
           useFlexGap
           sx={{
-            flexGrow: 1,
+            width: "100%",
           }}
         >
           {/* Indicators */}
           <Stack spacing={1}>
-            <Skeleton
-              variant="rectangular"
-              sx={{ borderRadius: 1, height: "13.5rem" }}
-            />
-            <Skeleton
-              variant="rectangular"
-              sx={{ borderRadius: 1, height: "3rem" }}
-            />
+            <Skeleton sx={{ height: "14.5rem" }} />
+            <Skeleton sx={{ height: "3rem" }} />
           </Stack>
 
           {/* Results toolbar */}
-          <Skeleton
-            variant="rectangular"
-            sx={{ mt: 1, borderRadius: 1, height: "3rem" }}
-          />
+          <Skeleton sx={{ mt: 1, height: "3rem" }} />
 
           {/* Results */}
           <Box
@@ -75,7 +57,6 @@ export default function Loading() {
               .map((_, i) => (
                 <Skeleton
                   key={i}
-                  variant="rectangular"
                   sx={{
                     borderRadius: 1,
                     height: "18rem",
@@ -85,10 +66,7 @@ export default function Loading() {
           </Box>
 
           {/* Pagination */}
-          <Skeleton
-            variant="rectangular"
-            sx={{ borderRadius: 1, my: 7.5, height: "2.5rem" }}
-          />
+          <Skeleton sx={{ my: 7.5, height: "2.5rem" }} />
         </Stack>
       </Stack>
     </ResultsPageShell>

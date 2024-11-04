@@ -110,22 +110,10 @@ export default async function ResultsPage({
       randomSeed={randomSeedToUse}
       results={results}
     >
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        spacing={2}
-        sx={{
-          alignItems: "start",
-        }}
-      >
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         <Filters />
 
-        <Stack
-          spacing={1}
-          useFlexGap
-          sx={{
-            flexGrow: 1,
-          }}
-        >
+        <Stack spacing={1} useFlexGap>
           <Panels indicators={indicators} compatibility={compatibility} />
 
           <FilterTags />

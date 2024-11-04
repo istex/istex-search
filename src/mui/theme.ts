@@ -76,6 +76,11 @@ export default createTheme({
     subtitle2: subtitleOptions,
   },
   components: {
+    MuiSkeleton: {
+      defaultProps: {
+        variant: "rounded",
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
         ul, ol {

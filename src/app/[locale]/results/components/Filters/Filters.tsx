@@ -38,7 +38,6 @@ export default function Filters() {
       spacing={1}
       sx={{
         bgcolor: "common.white",
-        width: { xs: "100%", md: "55%" },
         borderRadius: 1,
         px: 1,
         pb: 1,

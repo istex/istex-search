@@ -33,10 +33,10 @@ export const corpusWithExternalFulltextLink = [
 export const examples = [
   'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
   '"Jean Zay" AND "Festival de Cannes"',
-  'title:("jeux paralympiques""paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville games") OR abstract:("jeux paralympiques""paralympic games"parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville Games") OR subject.value:("jeux paralympiques""paralympic games"parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville""Stoke Mandeville games")',
-  '"Facteur cheval" NOT author.affiliations:"facteur cheval" NOT refBibs.title:"facteur cheval" NOT host.title : "Sociologie du travail"',
+  'title:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games") OR abstract:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville Games") OR subject.value:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games")',
+  '"Facteur Cheval" NOT author.affiliations:"Facteur Cheval" NOT refBibs.title:"Facteur Cheval" NOT host.title:"Sociologie du travail"',
   '"Anatole France" AND "Le crime de Sylvestre Bonnard"',
-  '(subject.value:"frida kahlo" OR keywords.teeft:"frida kahlo" OR namedEntities.unitex.persName:"frida kahlo") AND (subject.value:"Diego Rivera" OR keywords.teeft:"Diego Rivera" OR namedEntities.unitex.persName:"Diego Rivera")',
+  '(subject.value:"Frida Kahlo" OR keywords.teeft:"Frida Kahlo" OR namedEntities.unitex.persName:"Frida Kahlo") AND (subject.value:"Diego Rivera" OR keywords.teeft:"Diego Rivera" OR namedEntities.unitex.persName:"Diego Rivera")',
 ] as const;
 
 export const perPageOptions = [10, 20, 30] as const;

@@ -1,6 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Alert, AlertTitle, Typography, type AlertProps } from "@mui/material";
-import { lighten } from "@mui/system/colorManipulator";
+import { lighten } from "@mui/material/styles";
 import { ARCHIVE_SIZE_THRESHOLD_ERROR } from "@/config";
 
 interface ArchiveSizeWarningProps {

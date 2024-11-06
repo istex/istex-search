@@ -10,13 +10,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
+import { visuallyHidden } from "@/lib/utils";
 
 interface BooleanFilterProps {
   field: Field & { type: "boolean" };

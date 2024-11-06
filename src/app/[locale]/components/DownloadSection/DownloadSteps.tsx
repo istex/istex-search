@@ -2,8 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { Container, Grid2 as Grid, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { lighten } from "@mui/system/colorManipulator";
+import { lighten, useTheme } from "@mui/material/styles";
 import { istexApiConfig } from "@/config";
 
 const NUMBER_OF_STEPS = 3;

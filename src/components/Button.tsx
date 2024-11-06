@@ -3,9 +3,7 @@
 import * as React from "react";
 import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
-import type { Palette } from "@mui/material/styles";
-import { lighten } from "@mui/system/colorManipulator";
+import { lighten, styled, type Palette } from "@mui/material/styles";
 import type { KeyOf } from "@/types/utility";
 
 interface CustomButtonProps extends MuiButtonProps {

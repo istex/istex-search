@@ -9,10 +9,10 @@ import { redirect, routing } from "@/i18n/routing";
 import SearchParams from "@/lib/SearchParams";
 import type { PageProps } from "@/types/next";
 
-export default async function HomePage({
-  params: { locale },
-  searchParams: nextSearchParams,
-}: PageProps) {
+export default async function HomePage(props: PageProps) {
+  const nextSearchParams = await props.searchParams;
+  const { locale } = await props.params;
+
   // Redirect to the current page but with the default locale if the one
   // from the slot isn't supported
   if (!routing.locales.includes(locale)) {

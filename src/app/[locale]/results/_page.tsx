@@ -36,10 +36,9 @@ async function getTranslatedResults(
   return response;
 }
 
-export default async function ResultsPage({
-  params: { locale },
-  searchParams: nextSearchParams,
-}: PageProps) {
+export default async function ResultsPage(props: PageProps) {
+  const nextSearchParams = await props.searchParams;
+  const { locale } = await props.params;
   const searchParams = new SearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();

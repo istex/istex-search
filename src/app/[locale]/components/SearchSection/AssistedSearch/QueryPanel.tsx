@@ -65,7 +65,7 @@ export default function QueryPanel({
 }
 
 interface QueryPanelButtonProps {
-  icon: JSX.Element;
+  icon: React.ReactNode;
   onClick: () => void;
   children: React.ReactNode;
 }

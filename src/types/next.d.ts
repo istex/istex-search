@@ -1,12 +1,12 @@
 export type NextSearchParams = Record<string, string | string[] | undefined>;
 
 export interface PageProps {
-  params: { locale: string };
-  searchParams: NextSearchParams;
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<NextSearchParams>;
 }
 
 export interface LayoutProps {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
   children: React.ReactNode;
 }
 

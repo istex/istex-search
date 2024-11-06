@@ -11,7 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { lighten } from "@mui/system/colorManipulator";
+import { lighten } from "@mui/material/styles";
 import FileList from "./Document/FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";

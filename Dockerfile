@@ -5,14 +5,15 @@ FROM base AS deps
 WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci
+# TODO: remove --force once React 19 is stable and supported by all other packages
+RUN npm ci --force
 
 # Copy the source code files and generate the production build
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY tsconfig.json ./
-COPY next.config.js ./
+COPY next.config.ts ./
 COPY package.json ./
 COPY public ./public
 COPY scripts ./scripts

@@ -14,7 +14,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { alpha } from "@mui/system/colorManipulator";
+import { alpha } from "@mui/material/styles";
 import navbarLinks from "./navbarLinks";
 
 export default function Navbar() {

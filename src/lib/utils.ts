@@ -1,4 +1,4 @@
-import type { SxProps } from "@mui/system/styleFunctionSx";
+import type { SxProps } from "@mui/material";
 import { isoLanguagesToLabelize } from "@/config";
 import { routing, type Locale } from "@/i18n/routing";
 
@@ -11,6 +11,20 @@ export function lineclamp(lines: number): SxProps {
     textOverflow: "ellipsis",
   };
 }
+
+// Taken from @mui/utils
+// https://github.com/mui/material-ui/blob/master/packages/mui-utils/src/visuallyHidden/visuallyHidden.ts
+export const visuallyHidden: SxProps = {
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: "1px",
+  margin: "-1px",
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  whiteSpace: "nowrap",
+  width: "1px",
+};
 
 export function clamp(number: number, min: number, max: number) {
   return Math.max(min, Math.min(number, max));

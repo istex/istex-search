@@ -18,8 +18,8 @@ const MultilineTextField = React.forwardRef<
   MultilineTextFieldProps
 >(function MultilineTextField(props, forwardedRef) {
   const [, forceUpdate] = React.useState(false);
-  const lineNumbersRef = React.useRef<React.ElementRef<"div">>(null);
-  const inputRef = React.useRef<React.ElementRef<"div">>(null);
+  const lineNumbersRef = React.useRef<React.ComponentRef<"div">>(null);
+  const inputRef = React.useRef<React.ComponentRef<"div">>(null);
   const { showLineNumbers, errorLines, onSubmit, slotProps, ...rest } = props;
   const maxHeight =
     typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
@@ -99,6 +99,7 @@ const MultilineTextField = React.forwardRef<
   return (
     <>
       {requiresLineNumbers &&
+        inputRef.current?.parentElement != null &&
         createPortal(lineNumbersElement, inputRef.current.parentElement)}
 
       <StyledTextField

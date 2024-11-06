@@ -1,3 +1,4 @@
+import { use } from "react";
 import type { Metadata } from "next";
 import { useMessages } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
@@ -15,9 +16,10 @@ import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
 
-export async function generateMetadata({
-  params: { locale },
-}: GenerateMetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: GenerateMetadataProps,
+): Promise<Metadata> {
+  const { locale } = await props.params;
   const t = await getTranslations({ locale, namespace: "home.metadata" });
 
   return {
@@ -32,14 +34,12 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default function RootLayout({
-  children,
-  params: { locale },
-}: LayoutProps) {
+export default function RootLayout(props: LayoutProps) {
+  const params = use(props.params);
   const messages = useMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={params.locale}>
       <body>
         <TanStackQueryProvider>
           <MuiSetup>
@@ -48,7 +48,7 @@ export default function RootLayout({
                 <Navbar />
                 <Header />
                 <Box component="main" sx={{ flexGrow: 1 }}>
-                  {children}
+                  {props.children}
                 </Box>
                 <FloatingSideMenu />
                 <Footer />

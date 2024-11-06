@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { alpha } from "@mui/system/colorManipulator";
+import { alpha } from "@mui/material/styles";
 
 interface IndicatorChartProps {
   percentage: number;

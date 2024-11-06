@@ -2,7 +2,6 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
-/** @type {import("next").NextConfig} */
 export default withNextIntl({
   output: "standalone",
   modularizeImports: {
@@ -15,7 +14,7 @@ export default withNextIntl({
   webpack: (config) => {
     // Get the default SVG loader from Next.js
     const defaultSvgLoader = config.module.rules.find(
-      (rule) =>
+      (rule: { test?: { test: (a: string) => boolean } } | null) =>
         typeof rule?.test?.test === "function" && rule.test.test(".svg"),
     );
 

@@ -2,7 +2,6 @@ import * as React from "react";
 import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { render } from "@testing-library/react";
-import TanStackQueryProvider from "@/app/[locale]/TanStackQueryProvider";
 import type {
   ArchiveType,
   SearchMode,
@@ -13,6 +12,7 @@ import type {
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
+import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import { routing, usePathname } from "@/i18n/routing";
 import messages from "@/i18n/translations/fr-FR.json";
 import type { IstexApiResponse } from "@/lib/istexApi";

@@ -103,7 +103,7 @@ export const usages = {
   },
   lodex: {
     isGateway: true,
-    url: "https://lodex.inist.fr/",
+    url: "https://www.lodex.fr/",
     formats: formats.metadata.json,
     archiveTypes,
     column: 1,

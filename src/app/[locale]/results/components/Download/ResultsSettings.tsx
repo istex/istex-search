@@ -35,6 +35,7 @@ export default function ResultsSettings() {
     clamp(searchParams.getSize(), 0, maxSize),
   );
 
+  // eslint-disable-next-line react-compiler/react-compiler
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateUrl = React.useCallback(
     // We debounce the URL update to avoid a roundtrip to the server on each change
@@ -74,6 +75,7 @@ export default function ResultsSettings() {
       setSize(maxSize);
       updateUrl(maxSize, searchParams);
     }
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -100,8 +102,10 @@ export default function ResultsSettings() {
           size="small"
           min={0}
           max={maxSize}
-          inputProps={{
-            "aria-labelledby": "size-input-label",
+          slotProps={{
+            htmlInput: {
+              "aria-labelledby": "size-input-label",
+            },
           }}
           value={size}
           onChange={handleChange}

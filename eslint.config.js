@@ -1,8 +1,6 @@
-import { fixupConfigRules } from "@eslint/compat";
 import { FlatCompat } from "@eslint/eslintrc";
 import eslint from "@eslint/js";
-import nextPlugin from "@next/eslint-plugin-next";
-import reactHooksPlugin from "eslint-plugin-react-hooks";
+import reactCompiler from "eslint-plugin-react-compiler";
 import neostandard from "neostandard";
 import tseslint from "typescript-eslint";
 
@@ -16,13 +14,11 @@ export default tseslint.config(
   ...neostandard({ noStyle: true }),
 
   // Next
-  ...fixupConfigRules(compat.config(nextPlugin.configs["core-web-vitals"])),
+  ...compat.extends("next/core-web-vitals"),
+  ...compat.extends("next/typescript"),
   {
     ignores: [".next/*"],
   },
-
-  // React hooks
-  ...fixupConfigRules(compat.config(reactHooksPlugin.configs.recommended)),
 
   // TypeScript
   ...tseslint.configs.strictTypeChecked,
@@ -32,6 +28,16 @@ export default tseslint.config(
       parserOptions: {
         project: "./tsconfig.json",
       },
+    },
+  },
+
+  // React Compiler
+  {
+    plugins: {
+      "react-compiler": reactCompiler,
+    },
+    rules: {
+      "react-compiler/react-compiler": "error",
     },
   },
 
@@ -71,7 +77,6 @@ export default tseslint.config(
           fixStyle: "inline-type-imports",
         },
       ],
-      "react/react-in-jsx-scope": "off",
     },
   },
 

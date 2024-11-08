@@ -26,7 +26,8 @@ export default function Panels({ indicators, compatibility }: PanelProps) {
   );
 
   const setExpanded = (name: PanelName, expanded: boolean) => {
-    panelStates[name] = expanded;
+    const newPanelStates = { ...panelStates };
+    newPanelStates[name] = expanded;
 
     // The panel states are stored in local storage to be persistent across pages
     localStorage.setItem(
@@ -34,7 +35,7 @@ export default function Panels({ indicators, compatibility }: PanelProps) {
       JSON.stringify(panelStates),
     );
 
-    setPanelStates({ ...panelStates });
+    setPanelStates(newPanelStates);
   };
 
   React.useEffect(() => {

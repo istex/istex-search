@@ -110,8 +110,10 @@ export default function Rule({
     setFieldType(null);
     resetValue();
 
+    const newNode = getNodeWithoutValue();
+
     if (value == null) {
-      setNode({ ...node });
+      setNode(newNode);
       return;
     }
 
@@ -129,16 +131,14 @@ export default function Rule({
     }
 
     setFieldType(newField.type);
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({
-      ...node,
-      comparator: onlyOneComparatorAvailable
-        ? newComparators[0]
-        : node.comparator,
-      fieldType: newField.type,
-      field: value,
-      implicitNodes: newField.implicitNodes,
-    });
+
+    newNode.comparator = onlyOneComparatorAvailable
+      ? newComparators[0]
+      : newNode.comparator;
+    newNode.fieldType = newField.type;
+    newNode.field = value;
+    newNode.implicitNodes = newField.implicitNodes;
+    setNode(newNode);
   };
 
   const handleComparatorChange = (
@@ -146,16 +146,17 @@ export default function Rule({
     value: Comparator | null,
   ) => {
     resetValue();
+    const newNode = getNodeWithoutValue();
 
     setComparator(value);
 
     if (value == null) {
-      setNode({ ...node });
+      setNode(newNode);
       return;
     }
 
-    // @ts-expect-error TypeScript thinks comparator is narrower than it actually is
-    setNode({ ...node, comparator: value });
+    newNode.comparator = value;
+    setNode(newNode);
   };
 
   const handleTextValueChange = (
@@ -252,16 +253,19 @@ export default function Rule({
     setMinValue(null);
     setMaxValue(null);
     setBooleanValue(null);
+  };
 
-    // @ts-expect-error value isn't optional but we need to synchorize
-    // the React state with the node object
-    delete node.value;
-    // @ts-expect-error same reason as above
-    delete node.min;
-    // @ts-expect-error same reason as above
-    delete node.max;
+  const getNodeWithoutValue = () => {
+    const nodeWithoutValue = { ...node };
 
-    setNode({ ...node, partial: true });
+    // @ts-expect-error value isn't in the TypeScript type but it can be here at runtime
+    delete nodeWithoutValue.value;
+    // @ts-expect-error same as above but for min
+    delete nodeWithoutValue.min;
+    // @ts-expect-error same as above but for max
+    delete nodeWithoutValue.max;
+
+    return nodeWithoutValue;
   };
 
   return (

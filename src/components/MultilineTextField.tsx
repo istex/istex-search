@@ -17,17 +17,22 @@ const MultilineTextField = React.forwardRef<
   HTMLDivElement,
   MultilineTextFieldProps
 >(function MultilineTextField(props, forwardedRef) {
-  const [, forceUpdate] = React.useState(false);
   const lineNumbersRef = React.useRef<React.ComponentRef<"div">>(null);
-  const inputRef = React.useRef<React.ComponentRef<"div">>(null);
-  const { showLineNumbers, errorLines, onSubmit, slotProps, ...rest } = props;
+  const inputRef = React.useRef<React.ComponentRef<"input">>(null);
+  const [inputElement, setInputElement] =
+    React.useState<HTMLInputElement | null>(null);
+  const {
+    showLineNumbers = false,
+    errorLines = [],
+    onSubmit,
+    slotProps,
+    ...rest
+  } = props;
   const maxHeight =
     typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
   const lineCount =
     typeof props.value === "string" ? props.value.split("\n").length : 0;
   const digitCount = Math.floor(Math.log10(lineCount) + 1);
-  const requiresLineNumbers =
-    showLineNumbers === true && inputRef.current?.parentElement != null;
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
     // textarea elements don't submit the form when pressing Enter by default
@@ -69,7 +74,7 @@ const MultilineTextField = React.forwardRef<
       >
         {({ index, style }) => {
           const lineNumber = index + 1;
-          const hasError = errorLines?.includes(lineNumber) ?? false;
+          const hasError = errorLines.includes(lineNumber);
 
           return (
             <Box
@@ -91,16 +96,16 @@ const MultilineTextField = React.forwardRef<
   );
 
   React.useEffect(() => {
-    // The inputRef isn't populated on the first render so we need to rerender
-    // immediately to be able to use the inputRef in the portal for the line numbers
-    forceUpdate(true);
+    if (inputRef.current != null) {
+      setInputElement(inputRef.current);
+    }
   }, []);
 
   return (
     <>
-      {requiresLineNumbers &&
-        inputRef.current?.parentElement != null &&
-        createPortal(lineNumbersElement, inputRef.current.parentElement)}
+      {showLineNumbers &&
+        inputElement?.parentElement != null &&
+        createPortal(lineNumbersElement, inputElement.parentElement)}
 
       <StyledTextField
         ref={forwardedRef}

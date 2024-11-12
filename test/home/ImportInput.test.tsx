@@ -12,7 +12,7 @@ import { buildQueryStringFromIds } from "@/lib/queryIds";
 describe("ImportInput", () => {
   afterEach(jest.resetAllMocks);
 
-  it("should go to the results page when submitting the form with valid IDs", async () => {
+  it("goes to the results page when submitting the form with valid IDs", async () => {
     const router = useRouter();
     const ids = [
       "ark:/67375/NVC-Z7G9LN4W-1",
@@ -34,7 +34,7 @@ describe("ImportInput", () => {
     );
   }, 10_000);
 
-  it("should initialize the input when an ID query string is in the URL", () => {
+  it("initializes the input when an ID query string is in the URL", () => {
     const ids = ["ark:/67375/NVC-Z7G9LN4W-1", "ark:/67375/NVC-Z7GF9ML4-0"];
     const queryString = buildQueryStringFromIds(supportedIdTypes[1], ids);
     render(<ImportInput />, { queryString });
@@ -44,7 +44,7 @@ describe("ImportInput", () => {
     expect(input).toHaveValue(ids.join("\n"));
   });
 
-  it("should not initialize the input when a non-ID query string is in the URL", () => {
+  it("doesn't initialize the input when a non-ID query string is in the URL", () => {
     const queryString = "hello";
     render(<ImportInput />, { queryString });
 
@@ -53,7 +53,7 @@ describe("ImportInput", () => {
     expect(input).toHaveValue("");
   });
 
-  it("should display an error when trying to submit to form when the input is empty", async () => {
+  it("displays an error when trying to submit to form when the input is empty", async () => {
     const router = useRouter();
     render(<ImportInput />);
 
@@ -65,7 +65,7 @@ describe("ImportInput", () => {
     expect(router.push).not.toHaveBeenCalled();
   });
 
-  it("should display an error when some IDs have syntax errors", async () => {
+  it("displays an error when some IDs have syntax errors", async () => {
     const ids = [
       "ark:/67375/NVC-Z7G9LN4W-1",
       "ark:/67375/NVC-Z7GF9ML4-", // missing last character
@@ -81,7 +81,27 @@ describe("ImportInput", () => {
     expect(alert).toBeInTheDocument();
   }, 10_000);
 
-  it("should go to the results page when uploading a valid .corpus file", async () => {
+  it("tolerates empty lines before the list of IDs", async () => {
+    const ids = [
+      "   ",
+      "",
+      "ark:/67375/NVC-Z7G9LN4W-1",
+      "ark:/67375/NVC-Z7GF9ML4-", // missing last character
+    ];
+    render(<ImportInput />);
+
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", { name: "Rechercher" });
+    await userEvent.type(input, ids.join("\n"));
+    await userEvent.click(button);
+    const alert = screen.queryByRole("alert");
+
+    expect(alert).toHaveTextContent(
+      "Une erreur de syntaxe a été détectée à la ligne 4.",
+    );
+  }, 10_000);
+
+  it("goes to the results page when uploading a valid .corpus file", async () => {
     const router = useRouter();
     const ids = ["ark:/67375/NVC-Z7G9LN4W-1", "ark:/67375/NVC-Z7GF9ML4-0"];
     const queryString = buildQueryStringFromIds(supportedIdTypes[1], ids);
@@ -99,7 +119,7 @@ describe("ImportInput", () => {
     );
   });
 
-  it("should display an error when uploading an invalid .corpus file", async () => {
+  it("displays an error when uploading an invalid .corpus file", async () => {
     const ids = [
       "ark:/67375/NVC-Z7G9LN4W-1",
       "ark:/67375/NVC-Z7GF9ML4-", // missing last character

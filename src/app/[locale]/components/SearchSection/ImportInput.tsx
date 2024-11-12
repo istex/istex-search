@@ -27,7 +27,7 @@ export default function ImportInput() {
   const [error, setError] = React.useState<CustomError | null>(
     errorInfo != null ? new CustomError(errorInfo) : null,
   );
-  const fileInputRef = React.useRef<React.ElementRef<"input">>(null);
+  const fileInputRef = React.useRef<React.ComponentRef<"input">>(null);
 
   // error.info.lines is a string because that's what the next-intl expects for translation
   // values, so we need to split it to get the IDs as numbers
@@ -48,10 +48,10 @@ export default function ImportInput() {
     event.preventDefault();
     setError(null);
 
-    const ids = idList.trim().split("\n");
-    const firstId = ids[0];
+    const ids = idList.split("\n");
+    const firstId = ids.find((id) => id.trim() !== "");
 
-    if (firstId === "") {
+    if (firstId == null) {
       setError(new CustomError({ name: "EmptyIdsError" }));
       return;
     }

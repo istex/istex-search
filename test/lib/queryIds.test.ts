@@ -4,7 +4,7 @@ import * as Module from "@/lib/queryIds";
 
 describe("Import search related functions", () => {
   describe("parseCorpusFileContent", () => {
-    it("should parse a .corpus file containing DOIs", () => {
+    it("parses a .corpus file containing DOIs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -24,7 +24,7 @@ doi  10.1111/j.1365-2923.2011.04210.x # very cool comment`;
       expect(parseResult.ids.length).toBe(3);
     });
 
-    it("should parse a .corpus file containing ARKs", () => {
+    it("parses a .corpus file containing ARKs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -45,7 +45,7 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z    # very cool comment`;
       expect(parseResult.ids.length).toBe(3);
     });
 
-    it("should parse a .corpus file containing Istex IDs", () => {
+    it("parses a .corpus file containing Istex IDs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -65,7 +65,7 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
       expect(parseResult.ids.length).toBe(3);
     });
 
-    it("should detect files without the [ISTEX] line", () => {
+    it("detects files without the [ISTEX] line", () => {
       const corpusFileContent = "garbage";
 
       const error = getError(() =>
@@ -74,7 +74,7 @@ id  59E080581FC0350BC92AD9975484E4127E8803A0 # very cool comment`;
       expect(error?.info).toMatchObject({ name: "CorpusFileFormatError" });
     });
 
-    it("should invalid IDs", () => {
+    it("detects invalid IDs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -94,7 +94,7 @@ ark  ark:/67375/NVC-8SNSRJ6Z-Z`;
       expect(error?.info).toMatchObject({ count: 2, lines: "9, 11" });
     });
 
-    it("should detect syntax errors in DOIs", () => {
+    it("detects syntax errors in DOIs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -110,7 +110,7 @@ doi   1.1007/s12291-008-0044-0   # wrong prefix`;
       expect(error?.info).toMatchObject({ count: 1, lines: "8" });
     });
 
-    it("should detect syntax errors in ARKs", () => {
+    it("detects syntax errors in ARKs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -126,7 +126,7 @@ ark ark:/67375/NVC-S58LP3M2-    # missing last character`;
       expect(error?.info).toMatchObject({ count: 1, lines: "8" });
     });
 
-    it("should detect syntax errors in Istex IDs", () => {
+    it("detects syntax errors in Istex IDs", () => {
       const corpusFileContent = `#
 # Fichier .corpus
 #
@@ -144,7 +144,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   describe("buildQueryStringFromIds", () => {
-    it("should build a DOI query string", () => {
+    it("builds a DOI query string", () => {
       const ids = [
         "10.1007/s12291-008-0044-0",
         "10.1016/S0041-1345(00)01436-6",
@@ -158,7 +158,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should build an ARK query string", () => {
+    it("builds an ARK query string", () => {
       const ids = [
         "ark:/67375/NVC-8SNSRJ6Z-Z ",
         " ark:/67375/NVC-RBP335V7-7",
@@ -172,7 +172,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should build an Istex ID query string", () => {
+    it("builds an Istex ID query string", () => {
       const ids = [
         "59E080581FC0350BC92AD9975484E4127E8803A0",
         "CAE51D9B29CBA1B8C81A136946C75A51055C7066",
@@ -185,10 +185,29 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
         queryString,
       );
     });
+
+    it("skips empty lines but takes them into account when returning error line numbers", () => {
+      const ids = [
+        "  ",
+        "",
+        "ark:/67375/NVC-8SNSRJ6Z-Z",
+        "ark:/67375/NVC-RBP335V7-", // missing last character
+        "ark:/67375/NVC-S58LP3M2-S",
+      ];
+
+      const error = getError(() =>
+        Module.buildQueryStringFromIds(supportedIdTypes[1], ids),
+      );
+      expect(error?.info).toMatchObject({
+        name: "IdsError",
+        count: 1,
+        lines: "4",
+      });
+    });
   });
 
   describe("isIdQueryString", () => {
-    it("should detect DOI query strings", () => {
+    it("detects DOI query strings", () => {
       const queryString =
         'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
 
@@ -197,7 +216,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should detect ARK query strings", () => {
+    it("detects ARK query strings", () => {
       const queryString =
         'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
 
@@ -206,7 +225,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should detect Istex ID query strings", () => {
+    it("detects Istex ID query strings", () => {
       const queryString =
         'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9")';
 
@@ -215,7 +234,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should reject other query strings", () => {
+    it("rejects other query strings", () => {
       const queryString = "foo:bar";
 
       for (const idType of supportedIdTypes) {
@@ -225,7 +244,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   describe("getIdTypeFromQueryString", () => {
-    it("should extract the ID type for DOI query strings", () => {
+    it("extracts the ID type for DOI query strings", () => {
       const queryString =
         'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6" "10.1111/j.1365-2923.2011.04210.x")';
 
@@ -234,7 +253,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should extract the ID type for ARK query strings", () => {
+    it("extracts the ID type for ARK query strings", () => {
       const queryString =
         'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
 
@@ -243,7 +262,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should extract the ID type for Istex ID query strings", () => {
+    it("extracts the ID type for Istex ID query strings", () => {
       const queryString =
         'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9")';
 
@@ -252,7 +271,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       );
     });
 
-    it("should return null for other query strings", () => {
+    it("returns null for other query strings", () => {
       const queryString = "foo:bar";
 
       expect(Module.getIdTypeFromQueryString(queryString)).toBe(null);
@@ -260,25 +279,25 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   describe("getIdTypeFromId", () => {
-    it("should extract the ID type for a DOI", () => {
+    it("extracts the ID type for a DOI", () => {
       const id = "10.1007/s12291-008-0044-0";
 
       expect(Module.getIdTypeFromId(id)).toBe(supportedIdTypes[0]);
     });
 
-    it("should extract the ID type for an ARK", () => {
+    it("extracts the ID type for an ARK", () => {
       const id = "ark:/67375/NVC-15SZV86B-F";
 
       expect(Module.getIdTypeFromId(id)).toBe(supportedIdTypes[1]);
     });
 
-    it("should extract the ID type for an Istex ID", () => {
+    it("extracts the ID type for an Istex ID", () => {
       const id = "59E080581FC0350BC92AD9975484E4127E8803A0";
 
       expect(Module.getIdTypeFromId(id)).toBe(supportedIdTypes[2]);
     });
 
-    it("should return null for invalid IDs", () => {
+    it("returns null for invalid IDs", () => {
       const id = "abc";
 
       expect(Module.getIdTypeFromId(id)).toBe(null);
@@ -286,7 +305,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
   });
 
   describe("getIdsFromQueryString", () => {
-    it("should extract DOIs from a DOI query string", () => {
+    it("extracts DOIs from a DOI query string", () => {
       const queryString =
         'doi.raw:("10.1007/s12291-008-0044-0" "10.1016/S0041-1345(00)01436-6")';
 
@@ -295,7 +314,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       ).toEqual(["10.1007/s12291-008-0044-0", "10.1016/S0041-1345(00)01436-6"]);
     });
 
-    it("should extract ARKs from an ARK query string", () => {
+    it("extracts ARKs from an ARK query string", () => {
       const queryString =
         'arkIstex.raw:("ark:/67375/NVC-15SZV86B-F" "ark:/67375/NVC-XMM4B8LD-H")';
 
@@ -304,7 +323,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       ).toEqual(["ark:/67375/NVC-15SZV86B-F", "ark:/67375/NVC-XMM4B8LD-H"]);
     });
 
-    it("should extract Istex IDs from an Istex ID query string", () => {
+    it("extracts Istex IDs from an Istex ID query string", () => {
       const queryString =
         'id:("59E080581FC0350BC92AD9975484E4127E8803A0" "8BCCF3BB7437DC06D22134B90DFF2F736E3C6BB9")';
 
@@ -316,7 +335,7 @@ id CAE51D9B29CBA1B8C81A136946C75A51055C706    # missing last character`;
       ]);
     });
 
-    it("should return an empty array when not passing a supported ID type", () => {
+    it("returns an empty array when not passing a supported ID type", () => {
       expect(Module.getIdsFromQueryString(null, "")).toEqual([]);
     });
   });

@@ -121,8 +121,14 @@ export function buildQueryStringFromIds(
 
   const formattedIds = ids
     .map((id) => id.trim())
-    .filter(Boolean)
     .map((id, lineIndex) => {
+      // We don't simply filter the empty IDs because we need to get correct
+      // line numbers if an error is detected. The empty IDs are filtered
+      // when creating the Lucene query
+      if (id === "") {
+        return "";
+      }
+
       if (!idType.isValidId(id)) {
         errorLines.push(lineIndex + 1);
 
@@ -148,7 +154,7 @@ export function buildQueryStringFromIds(
     });
   }
 
-  return `${idType.fieldName}:(${formattedIds.join(" ")})`;
+  return `${idType.fieldName}:(${formattedIds.filter(Boolean).join(" ")})`;
 }
 
 export function isIdQueryString(

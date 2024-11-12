@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { createPortal } from "react-dom";
 import { FixedSizeList } from "react-window";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
 
 const LINE_HEIGHT = 23;
 
@@ -18,9 +16,6 @@ const MultilineTextField = React.forwardRef<
   MultilineTextFieldProps
 >(function MultilineTextField(props, forwardedRef) {
   const lineNumbersRef = React.useRef<React.ComponentRef<"div">>(null);
-  const inputRef = React.useRef<React.ComponentRef<"input">>(null);
-  const [inputElement, setInputElement] =
-    React.useState<HTMLInputElement | null>(null);
   const {
     showLineNumbers = false,
     errorLines = [],
@@ -50,15 +45,12 @@ const MultilineTextField = React.forwardRef<
     }
   };
 
-  const lineNumbersElement = (
+  const lineNumbersElement = showLineNumbers ? (
     <Box
       data-testid="line-numbers"
       sx={{
         textAlign: "right",
         pr: 2,
-        "&.MuiBox-root": {
-          order: 0,
-        },
         "& > *": {
           overflow: maxHeight != null ? "hidden !important" : "inherit",
         },
@@ -93,45 +85,30 @@ const MultilineTextField = React.forwardRef<
         }}
       </FixedSizeList>
     </Box>
-  );
-
-  React.useEffect(() => {
-    if (inputRef.current != null) {
-      setInputElement(inputRef.current);
-    }
-  }, []);
+  ) : undefined;
 
   return (
-    <>
-      {showLineNumbers &&
-        inputElement?.parentElement != null &&
-        createPortal(lineNumbersElement, inputElement.parentElement)}
-
-      <StyledTextField
-        ref={forwardedRef}
-        onKeyDown={handleKeyDown}
-        multiline
-        inputRef={inputRef}
-        slotProps={{
-          ...slotProps,
-          htmlInput: {
-            onScroll: handleScroll,
-            // Dirty hack to avoid a flicker with the input height, explained here
-            // https://github.com/mui/material-ui/issues/23031
-            style: { minHeight: LINE_HEIGHT },
-            ...slotProps?.htmlInput,
-          },
-        }}
-        {...rest}
-      />
-    </>
+    <TextField
+      ref={forwardedRef}
+      onKeyDown={handleKeyDown}
+      multiline
+      slotProps={{
+        ...slotProps,
+        input: {
+          startAdornment: lineNumbersElement,
+          ...slotProps?.input,
+        },
+        htmlInput: {
+          onScroll: handleScroll,
+          // Dirty hack to avoid a flicker with the input height, explained here
+          // https://github.com/mui/material-ui/issues/23031
+          style: { minHeight: LINE_HEIGHT },
+          ...slotProps?.htmlInput,
+        },
+      }}
+      {...rest}
+    />
   );
-});
-
-const StyledTextField = styled(TextField)({
-  "& .MuiInputBase-root > *": {
-    order: 1,
-  },
 });
 
 export default MultilineTextField;

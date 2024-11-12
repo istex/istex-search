@@ -99,7 +99,6 @@ export default function Pagination() {
             fontWeight: 700,
           })}
         >
-          {/* TODO: input here */}
           {page.toLocaleString(locale)}
         </Box>
         <p>{t("on", { total: lastPage.toLocaleString(locale) })}</p>

@@ -81,8 +81,6 @@ export default function TextFilter({ field }: TextFilterProps) {
 
     return value;
   });
-  // TODO:
-  // - add comments to explain how the labeling system works
   const filteredValues = filterValues(labelizedValues, searchTerm);
   const sortedValues = sortValues(filteredValues, sortField, sortOrder);
 

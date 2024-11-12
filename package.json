@@ -40,7 +40,7 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.10",
     "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
+    "@types/react-dom": "npm:types-react-dom@19.0.0",
     "@types/react-window": "^1.8.8",
     "cross-fetch": "^4.0.0",
     "eslint": "^9.9.0",
@@ -56,6 +56,6 @@
   },
   "overrides": {
     "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
+    "@types/react-dom": "npm:types-react-dom@19.0.0"
   }
 }

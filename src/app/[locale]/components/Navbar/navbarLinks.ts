@@ -22,7 +22,7 @@ const navbarLinks = {
     },
     {
       label: "loterre",
-      url: "https://www.loterre.fr/",
+      url: "https://loterre.istex.fr/",
     },
   ],
 } as const;

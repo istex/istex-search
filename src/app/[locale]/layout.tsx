@@ -11,7 +11,6 @@ import Navbar from "./components/Navbar";
 import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSideMenu";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
-import { routing } from "@/i18n/routing";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
 import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
@@ -26,12 +25,6 @@ export async function generateMetadata(
     title: "Istex Search",
     description: t("description"),
   };
-}
-
-// This function tells Next.js to pre-render (at build time) all pages in this layout
-// for every supported locale
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default function RootLayout(props: LayoutProps) {

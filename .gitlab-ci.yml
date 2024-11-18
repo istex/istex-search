@@ -31,8 +31,7 @@ default:
     - paths:
         - $npm_config_cache
   before_script:
-    # TODO: remove --force once React 19 is stable and supported by all other packages
-    - npm ci --prefer-offline --force
+    - npm ci --prefer-offline
 
 stages:
   - lint

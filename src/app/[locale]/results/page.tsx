@@ -46,9 +46,7 @@ export default async function _ResultsPage(props: PageProps) {
 
   return (
     <React.Suspense key={key} fallback={<Loading />}>
-      <ResultsPage /* @next-codemod-error 'props' is used with spread syntax (...). Any asynchronous properties of 'props' must be awaited when accessed. */
-        {...props}
-      />
+      <ResultsPage {...props} />
     </React.Suspense>
   );
 }

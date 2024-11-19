@@ -35,7 +35,7 @@ export default function SelectedDocPanel() {
                 px: 1,
                 display: "flex",
                 alignItems: "center",
-                color: theme.palette.colors.grey,
+                color: theme.vars.palette.colors.grey,
               })}
             >
               {index + 1}

@@ -104,7 +104,7 @@ export default function HistoryItem({
     <TableRow
       sx={(theme) => ({
         "&:nth-of-type(even)": {
-          backgroundColor: theme.palette.action.hover,
+          backgroundColor: theme.vars.palette.action.hover,
         },
         "& td, th": {
           border: 0,

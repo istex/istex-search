@@ -41,7 +41,7 @@ export default function Selector(props: SelectorProps) {
 const StyledTabs = styled(Tabs)(({ theme }) => ({
   "&.MuiTabs-root": {
     borderRadius: 999,
-    backgroundColor: theme.palette.colors.white,
+    backgroundColor: theme.vars.palette.colors.white,
     padding: theme.spacing(1),
     minHeight: "fit-content",
   },

@@ -10,15 +10,16 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Button from "@/components/Button";
 import type { ModalProps } from "@/components/Modal";
-import theme from "@/mui/theme";
 
 export default function HelpModal({
   open,
   onClose,
 }: Omit<ModalProps, "title" | "children">) {
   const t = useTranslations("help.modal");
+  const theme = useTheme();
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xl" scroll="body">

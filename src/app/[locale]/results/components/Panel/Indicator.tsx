@@ -30,7 +30,7 @@ export default function Indicator({ label, count, total }: IndicatorProps) {
       </Typography>
       <IndicatorChart
         percentage={percentage}
-        gradient={`conic-gradient(${theme.palette.colors.lightGreen} ${percentage}%, #0000 0)`}
+        gradient={`conic-gradient(${theme.vars.palette.colors.lightGreen} ${percentage}%, #0000 0)`}
       />
       <Typography
         component="span"

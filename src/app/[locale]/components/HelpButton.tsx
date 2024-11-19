@@ -43,7 +43,7 @@ export default function HelpButton() {
             sx={(theme) => ({
               p: "0.62rem",
               borderRadius: "0.3125rem",
-              backgroundColor: theme.palette.colors.lightGreen,
+              backgroundColor: theme.vars.palette.colors.lightGreen,
               height: "2.4rem",
               mr: "-0.62rem",
               zIndex: 2,

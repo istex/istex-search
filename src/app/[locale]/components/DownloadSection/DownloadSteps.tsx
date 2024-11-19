@@ -11,16 +11,12 @@ export default function DownloadSteps() {
   const t = useTranslations("home.DownloadSection.downloadSteps");
   const locale = useLocale();
   const theme = useTheme();
-  const { white } = theme.palette.colors;
+  const { white } = theme.vars.palette.colors;
   const length = "0.0382rem";
 
   return (
     <Container component="article" sx={{ transform: "translateY(-3rem)" }}>
-      <Grid
-        component="ol"
-        container
-        sx={{ color: "colors.white", textAlign: "center" }}
-      >
+      <Grid component="ol" container sx={{ color: white, textAlign: "center" }}>
         {Array(NUMBER_OF_STEPS)
           .fill(0)
           .map((_, i) => {

@@ -277,7 +277,7 @@ export default function Rule({
         justifyContent: "space-between",
         ml: 11,
         p: 0.75,
-        border: `solid 1px ${theme.palette.primary.light}`,
+        border: `solid 1px ${theme.vars.palette.primary.light}`,
         borderRadius: 1,
       })}
     >

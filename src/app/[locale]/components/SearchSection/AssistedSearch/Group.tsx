@@ -22,13 +22,14 @@ interface GroupProps {
   remove: () => void;
 }
 
-export default function Group({
-  root,
-  displayErrors,
-  childNodes,
-  setChildNodes,
-  remove,
-}: GroupProps) {
+export default function Group(props: GroupProps) {
+  const {
+    root = false,
+    displayErrors,
+    childNodes,
+    setChildNodes,
+    remove,
+  } = props;
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const firstOperator = childNodes.find(
     (child) => child.nodeType === "operator",
@@ -36,7 +37,6 @@ export default function Group({
   const lastOperator = childNodes.findLast(
     (child) => child.nodeType === "operator",
   );
-  const isRoot = root === true;
 
   const addRule = () => {
     setChildNodes([
@@ -100,10 +100,10 @@ export default function Group({
         px: 0.5,
         pb: 0.5,
         borderRadius: `${theme.shape.borderRadius}px`,
-        ...(!isRoot && {
+        ...(!root && {
           mt: 1,
           ml: 11,
-          border: `solid 1px ${theme.palette.colors.blue}`,
+          border: `solid 1px ${theme.vars.palette.colors.blue}`,
           "&:hover:not(:has(.group:hover))": {
             backgroundColor: "colors.lightBlue",
             ".group": {
@@ -139,11 +139,11 @@ export default function Group({
           {t("addGroup")}
         </MuiButton>
         <MuiButton
-          color={isRoot ? "warning" : "error"}
-          startIcon={isRoot ? <RestartAltIcon /> : <CancelIcon />}
+          color={root ? "warning" : "error"}
+          startIcon={root ? <RestartAltIcon /> : <CancelIcon />}
           onClick={remove}
         >
-          {isRoot ? t("reset") : t("removeGroup")}
+          {root ? t("reset") : t("removeGroup")}
         </MuiButton>
       </Stack>
 

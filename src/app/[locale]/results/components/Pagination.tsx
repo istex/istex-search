@@ -49,10 +49,10 @@ export default function Pagination() {
       spacing={2}
       sx={(theme) => ({
         justifyContent: "space-between",
-        borderTop: `1px solid ${theme.palette.colors.veryLightBlack}`,
-        borderBottom: `1px solid ${theme.palette.colors.veryLightBlack}`,
+        borderTop: `1px solid ${theme.vars.palette.colors.veryLightBlack}`,
+        borderBottom: `1px solid ${theme.vars.palette.colors.veryLightBlack}`,
         my: 7.5,
-        color: theme.palette.colors.lightBlack,
+        color: theme.vars.palette.colors.lightBlack,
         fontFamily: inter.style.fontFamily,
       })}
     >
@@ -94,7 +94,7 @@ export default function Pagination() {
           sx={(theme) => ({
             px: "25px",
             py: "5px",
-            backgroundColor: theme.palette.colors.white,
+            backgroundColor: theme.vars.palette.colors.white,
             borderRadius: "5px",
             fontWeight: 700,
           })}

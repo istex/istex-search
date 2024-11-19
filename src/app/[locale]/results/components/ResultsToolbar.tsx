@@ -78,7 +78,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     margin: theme.spacing(0.5),
     border: 0,
     "&.Mui-selected": {
-      color: theme.palette.colors.blue,
+      color: theme.vars.palette.colors.blue,
       backgroundColor: "unset",
     },
     "&:not(:first-of-type)": {

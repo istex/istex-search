@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
-import { useTheme, type Theme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import {
   DEFAULT_OPERATOR,
   operators,
@@ -29,10 +29,10 @@ export default function Operator({
 }: OperatorProps) {
   const t = useTranslations("home.SearchSection.AssistedSearchInput");
   const theme = useTheme();
-  const gap = spacing(1, theme);
-  const currentNodeHeight = getNodeHeight(node, theme);
-  const previousNodeHeight = getNodeHeight(previousNode, theme);
-  const nextNodeHeight = getNodeHeight(nextNode, theme);
+  const gap = spacing(1);
+  const currentNodeHeight = getNodeHeight(node);
+  const previousNodeHeight = getNodeHeight(previousNode);
+  const nextNodeHeight = getNodeHeight(nextNode);
   const lineBoxHeight = previousNodeHeight / 2 + gap + nextNodeHeight / 2;
   const lineBoxMarginTop =
     currentNodeHeight / 2 + gap / 2 + previousNodeHeight / 2;
@@ -58,7 +58,7 @@ export default function Operator({
         sx={{
           backgroundColor: "white",
           "& .MuiOutlinedInput-notchedOutline": {
-            border: `1px solid ${theme.palette.primary.light}`,
+            border: `1px solid ${theme.vars.palette.primary.light}`,
           },
           "& .MuiInputBase-root": {
             fontWeight: "bold",
@@ -85,10 +85,10 @@ export default function Operator({
           height: `${lineBoxHeight}px`,
           marginTop: `-${lineBoxMarginTop}px`,
           marginLeft: theme.spacing(4.75),
-          border: `1px solid ${theme.palette.primary.light}`,
+          border: `1px solid ${theme.vars.palette.primary.light}`,
           borderRight: "none",
           borderBottom: last
-            ? `1px solid ${theme.palette.primary.light}`
+            ? `1px solid ${theme.vars.palette.primary.light}`
             : "none",
           borderTopLeftRadius: first ? 10 : 0,
           borderBottomLeftRadius: last ? 10 : 0,
@@ -98,27 +98,27 @@ export default function Operator({
   );
 }
 
-function spacing(multiplier: number, theme: Theme) {
-  // This returns `${scalingFactor * multiplier}px` so we need to remove the
-  // last 2 characters to get the number
-  const spacingAsString = theme.spacing(multiplier).slice(0, -2);
+function spacing(multiplier: number) {
+  const spacingAsString = getComputedStyle(document.documentElement)
+    .getPropertyValue("--mui-spacing")
+    .slice(0, -2);
 
   const spacingAsNumber = Number(spacingAsString);
   if (Number.isNaN(spacingAsNumber)) {
     throw new Error("theme.spacing returned an unexpected value");
   }
 
-  return spacingAsNumber;
+  return spacingAsNumber * multiplier;
 }
 
-function getNodeHeight(node: Node, theme: Theme) {
+function getNodeHeight(node: Node) {
   // This implementation is very fragile because most values are hard-coded.
   // A more proper way to calculate a node's height would be to use something
   // like useLayoutEffect with useRef but it'd be more complex to implement
   // and would most likely hurt performance.
   const buttonsHeight = 36.5;
-  const padding = spacing(0.5, theme);
-  const gap = spacing(1, theme);
+  const padding = spacing(0.5);
+  const gap = spacing(1);
   const ruleHeight = 54;
   const operatorHeight = 40;
 
@@ -131,7 +131,7 @@ function getNodeHeight(node: Node, theme: Theme) {
       (currentNode) => currentNode.nodeType !== "operator",
     );
     for (const currentNode of ruleNodes) {
-      groupHeight += getNodeHeight(currentNode, theme);
+      groupHeight += getNodeHeight(currentNode);
     }
 
     // The gap between each rule

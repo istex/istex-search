@@ -95,7 +95,7 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
           ) : (
             <Typography
               sx={(theme) => ({
-                color: theme.palette.text.disabled,
+                color: theme.vars.palette.text.disabled,
                 px: 2,
                 py: 1,
               })}

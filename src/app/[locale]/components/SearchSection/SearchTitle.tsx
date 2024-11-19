@@ -171,10 +171,10 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
     width: 40,
     height: 40,
-    backgroundColor: theme.palette.colors.lightBlue,
-    color: theme.palette.primary.main,
+    backgroundColor: theme.vars.palette.colors.lightBlue,
+    color: theme.vars.palette.primary.main,
     "&:hover": {
-      backgroundColor: theme.palette.colors.lightBlue,
+      backgroundColor: theme.vars.palette.colors.lightBlue,
     },
   },
   [`& .${toggleButtonGroupClasses.lastButton}`]: {
@@ -184,12 +184,12 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   [`&.${toggleButtonClasses.selected}`]: {
-    backgroundColor: theme.palette.colors.lightBlue,
-    color: theme.palette.primary.main,
-    border: `solid 1px ${theme.palette.primary.main}`,
+    backgroundColor: theme.vars.palette.colors.lightBlue,
+    color: theme.vars.palette.primary.main,
+    border: `solid 1px ${theme.vars.palette.primary.main}`,
     boxShadow: "0px 3px 3px 0px rgba(0,0,0,0.25)",
     "&:hover": {
-      backgroundColor: theme.palette.colors.lightBlue,
+      backgroundColor: theme.vars.palette.colors.lightBlue,
     },
   },
 }));

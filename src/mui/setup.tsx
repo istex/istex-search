@@ -12,10 +12,15 @@ interface MuiSetupProps {
   children: React.ReactNode;
 }
 
+// Using the theme as is throws with "`vars` is a private field used for CSS variables support." because the initial
+// call to createTheme generated the CSS variables so we need to remove them first.
+// With this workaround, the CSS variables are generated, removed, then generated again so it's far from optimal...
+const { vars, ...themeWithoutVars } = theme;
+
 export default function MuiSetup({ children }: MuiSetupProps) {
   const locale = useLocale();
   const themeWithLocale = React.useMemo(
-    () => createTheme(theme, locales[localeToMuiImportName(locale)]),
+    () => createTheme(themeWithoutVars, locales[localeToMuiImportName(locale)]),
     [locale],
   );
 

@@ -29,8 +29,9 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
   secondaryColor,
   theme,
 }) => {
-  const _mainColor = theme.palette.colors[mainColor ?? "blue"];
-  const _secondaryColor = theme.palette.colors[secondaryColor ?? "white"];
+  const _mainColor = theme.vars.palette.colors[mainColor ?? "blue"];
+  const _mainColorNotFromVars = theme.palette.colors[mainColor ?? "blue"];
+  const _secondaryColor = theme.vars.palette.colors[secondaryColor ?? "white"];
 
   if (variant === "outlined") {
     return {
@@ -48,7 +49,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     return {
       color: _mainColor,
       "&:hover": {
-        backgroundColor: lighten(_mainColor, 0.85),
+        backgroundColor: lighten(_mainColorNotFromVars, 0.85),
       },
     };
   }
@@ -59,7 +60,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     boxShadow: "none",
     "&:hover": {
       background: `linear-gradient(to left, ${lighten(
-        _mainColor,
+        _mainColorNotFromVars,
         0.15,
       )}, ${_mainColor})`,
       backgroundColor: _mainColor,

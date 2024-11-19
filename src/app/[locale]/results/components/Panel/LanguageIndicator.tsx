@@ -24,10 +24,10 @@ export default function LanguageIndicator({
       ? Math.floor((data[0].docCount * 100) / total)
       : 0;
   const COLORS = [
-    theme.palette.colors.lightGreen,
-    theme.palette.colors.red,
-    theme.palette.colors.blue,
-    theme.palette.colors.grey,
+    theme.vars.palette.colors.lightGreen,
+    theme.vars.palette.colors.red,
+    theme.vars.palette.colors.blue,
+    theme.vars.palette.colors.grey,
   ];
 
   const createGradient = () => {

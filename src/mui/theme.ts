@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 import type { TypographyStyleOptions } from "@mui/material/styles/createTypography";
+import type {} from "@mui/material/themeCssVarsAugmentation";
 import { montserrat, openSans } from "./fonts";
 
 const colors = {
@@ -42,6 +43,7 @@ const subtitleOptions: TypographyStyleOptions = {
 };
 
 export default createTheme({
+  cssVariables: true,
   palette: {
     colors,
     primary: {

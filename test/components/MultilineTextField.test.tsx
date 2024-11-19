@@ -48,7 +48,6 @@ describe("MultilineTextField", () => {
   it("displays the error lines with bold red text", () => {
     const value = ["id1", "id2", "id3"].join("\n");
     const errorLines = [2, 3];
-    const redColor = "rgb(211, 67, 21)";
     const bold = "700";
     render(
       <MultilineTextField
@@ -65,11 +64,10 @@ describe("MultilineTextField", () => {
     const [firstLineNumber, secondLineNumber, thirdLineNumber] =
       Array.from(lineNumbers);
 
-    expect(getComputedStyle(firstLineNumber).fontWeight).toBe("normal");
-    expect(getComputedStyle(firstLineNumber).color).toBe("");
-    expect(getComputedStyle(secondLineNumber).fontWeight).toBe(bold);
-    expect(getComputedStyle(secondLineNumber).color).toBe(redColor);
-    expect(getComputedStyle(thirdLineNumber).fontWeight).toBe(bold);
-    expect(getComputedStyle(thirdLineNumber).color).toBe(redColor);
+    // It'd be nice to test the color but getComputedStyle doesn't seem to work with CSS variables
+    // in jsdom
+    expect(firstLineNumber).toHaveStyle({ fontWeight: "normal" });
+    expect(secondLineNumber).toHaveStyle({ fontWeight: bold });
+    expect(thirdLineNumber).toHaveStyle({ fontWeight: bold });
   });
 });

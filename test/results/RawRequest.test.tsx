@@ -42,8 +42,8 @@ describe("RawRequest", () => {
       }
 
       // Make sure the current search param as a different color than the previous one
-      expect(window.getComputedStyle(searchParams[i]).color).not.toBe(
-        window.getComputedStyle(searchParams[i - 1]).color,
+      expect(getComputedStyle(searchParams[i]).color).not.toBe(
+        getComputedStyle(searchParams[i - 1]).color,
       );
     }
   });

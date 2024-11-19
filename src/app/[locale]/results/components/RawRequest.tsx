@@ -105,7 +105,7 @@ export default function RawRequest() {
             alignItems: "center",
             flexGrow: 1,
             fontSize: "0.4375rem",
-            color: theme.palette.colors.darkBlack,
+            color: theme.vars.palette.colors.darkBlack,
             whiteSpace: "nowrap",
           })}
         >

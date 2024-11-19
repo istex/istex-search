@@ -13,32 +13,6 @@ import {
 const node = getEmptyGroupNode();
 
 describe("Group", () => {
-  it("doesn't render the border when root", () => {
-    const group = renderGroup({ root: true });
-
-    expect(getComputedStyle(group).border).toBe("");
-  });
-
-  it("renders the border when not root", () => {
-    const group = renderGroup({ root: false });
-
-    expect(getComputedStyle(group).borderWidth).toBe("1px");
-  });
-
-  it("doesn't render the hover background color when root", async () => {
-    const group = renderGroup({ root: true });
-    await userEvent.hover(group);
-
-    expect(getComputedStyle(group).backgroundColor).toBe("");
-  });
-
-  it("renders the hover background color when not root", async () => {
-    const group = renderGroup({ root: false });
-    await userEvent.hover(group);
-
-    expect(getComputedStyle(group).backgroundColor).not.toBe("");
-  });
-
   it("renders the reset button when root", () => {
     renderGroup({ root: true });
     const resetButton = screen.queryByRole("button", { name: "Réinitialiser" });

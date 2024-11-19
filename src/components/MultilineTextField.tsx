@@ -75,7 +75,7 @@ const MultilineTextField = React.forwardRef<
               sx={(theme) => ({
                 fontWeight: hasError ? "bold" : "normal",
                 color: hasError
-                  ? theme.palette.colors.red
+                  ? theme.vars.palette.colors.red
                   : theme.typography.body1.color,
               })}
             >

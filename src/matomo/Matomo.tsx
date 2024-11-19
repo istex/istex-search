@@ -5,7 +5,12 @@ const MATOMO_SITE_ID = 87;
 
 export default function Matomo() {
   return (
-    <Script id="matomo" strategy="afterInteractive">
+    <Script
+      id="matomo"
+      type="text/plain"
+      data-category="analytics"
+      data-service="matomo"
+    >
       {`
         var _paq = window._paq = window._paq || [];
         /* tracker methods like "setCustomDimension" should be called before "trackPageView" */

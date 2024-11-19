@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
 import FloatingSideMenu from "./results/components/FloatingSideMenu/FloatingSideMenu";
+import CookieConsent from "@/components/CookieConsent";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import Matomo from "@/matomo";
@@ -47,12 +48,13 @@ export default function RootLayout(props: LayoutProps) {
                 <Footer />
                 <HelpButton />
               </HistoryProvider>
+
+              <Matomo />
+              <CookieConsent />
             </NextIntlClientProvider>
           </MuiSetup>
         </TanStackQueryProvider>
       </body>
-
-      {process.env.NODE_ENV === "production" && <Matomo />}
     </html>
   );
 }

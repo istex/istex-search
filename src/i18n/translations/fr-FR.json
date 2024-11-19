@@ -311,6 +311,80 @@
       "message": "Envoyez-nous un message via le <externalLink>formulaire de contact</externalLink>."
     }
   },
+  "cookieConsent": {
+    "consentModal": {
+      "title": "Cookies",
+      "description": "Nous utilisons des cookies et collectons des données pour améliorer votre expérience sur notre site.",
+      "acceptAllBtn": "Tout accepter",
+      "acceptNecessaryBtn": "Tout rejeter",
+      "showPreferencesBtn": "Gérer les préférences"
+    },
+    "preferencesModal": {
+      "title": "Gérer les préférences",
+      "acceptAllBtn": "Tout accepter",
+      "acceptNecessaryBtn": "Tout rejeter",
+      "savePreferencesBtn": "Accepter la sélection",
+      "closeIconLabel": "Fermer la modale",
+      "sections": [
+        {
+          "title": "Cookies",
+          "description": "Nous utilisons des cookies et collectons des données pour améliorer votre expérience sur notre site."
+        },
+        {
+          "title": "Cookies strictement nécessaires",
+          "description": "Ces cookies sont nécessaires au bon fonctionnement du site.",
+          "linkedCategory": "necessary",
+          "cookieTable": {
+            "headers": {
+              "name": "Nom",
+              "description": "Description",
+              "duration": "Durée"
+            },
+            "body": [
+              {
+                "name": "NEXT_LOCALE",
+                "description": "Cookie pour stocker la langue à afficher.",
+                "duration": "1 an"
+              },
+              {
+                "name": "cc_cookie",
+                "description": "Cookie pour stocker vos préférences de cookies.",
+                "duration": "6 mois"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Mesure des usages",
+          "description": "Ces cookies collectent des informations sur votre utilisation du site via l'outil <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a>. Toutes les données sont anonymisées et ne peuvent pas être utilisées pour vous identifier.",
+          "linkedCategory": "analytics",
+          "cookieTable": {
+            "headers": {
+              "name": "Nom",
+              "description": "Description",
+              "duration": "Durée"
+            },
+            "body": [
+              {
+                "name": "_pk_id.*",
+                "description": "Ces cookies sont utilisés par <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a> pour distinguer les utilisateurs en attribuant un identifiant unique et permet de traquer la navigation.",
+                "duration": "13 mois"
+              },
+              {
+                "name": "_pk_ses.*",
+                "description": "Ces cookies sont utilisés par <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a> pour distinguer les utilisateurs en attribuant une session unique.",
+                "duration": "30 minutes"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Plus d'informations",
+          "description": "Pour avoir plus d'informations, vous pouvez consulter notre <a href=\"https://www.istex.fr/politique-de-confidentialite/\" target=\"_blank\" rel=\"noreferrer\">politique de confidentialité</a>."
+        }
+      ]
+    }
+  },
   "ErrorCard": {
     "title": "Erreur"
   },

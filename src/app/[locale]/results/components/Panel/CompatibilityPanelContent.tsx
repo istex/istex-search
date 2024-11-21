@@ -1,48 +1,40 @@
-import { Box } from "@mui/material";
+import { Grid2 as Grid } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
 import { usages, formats } from "@/config";
-import { useQueryContext } from "@/contexts/QueryContext";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { isFormatSelected } from "@/lib/formats";
-import type { Aggregation } from "@/lib/istexApi";
 
-interface CompatibilityPanelContentProps {
-  compatibility: Aggregation;
-}
+export default function CompatibilityPanelContent() {
+  const { results } = useDocumentContext();
+  if (results == null) {
+    return null;
+  }
 
-export default function CompatibilityPanelContent({
-  compatibility,
-}: CompatibilityPanelContentProps) {
-  const { resultsCount } = useQueryContext();
-
-  // JSON format is always available
-  const jsonCount = resultsCount;
+  // Some formats are always available
+  const jsonCount = results.total;
+  const modsCount = results.total;
+  const txtCount =
+    results.aggregations["qualityIndicators.pdfText"].buckets.find(
+      ({ keyAsString }) => keyAsString === "true",
+    )?.docCount ?? 0;
   const teiCount =
-    (compatibility["qualityIndicators.teiSource"].buckets.find(
+    (results.aggregations["qualityIndicators.teiSource"].buckets.find(
       ({ key }) => key === "pub2tei",
     )?.docCount ?? 0) +
-    (compatibility["qualityIndicators.teiSource"].buckets.find(
+    (results.aggregations["qualityIndicators.teiSource"].buckets.find(
       ({ key }) => key === "grobid",
     )?.docCount ?? 0);
   const cleanedCount =
-    compatibility["qualityIndicators.tdmReady"].buckets.find(
+    results.aggregations["qualityIndicators.tdmReady"].buckets.find(
       ({ keyAsString }) => keyAsString === "true",
     )?.docCount ?? 0;
   const teeftCount =
-    compatibility["enrichments.type"].buckets.find(({ key }) => key === "teeft")
-      ?.docCount ?? 0;
+    results.aggregations["enrichments.type"].buckets.find(
+      ({ key }) => key === "teeft",
+    )?.docCount ?? 0;
 
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: {
-          xs: "auto 1fr auto",
-          sm: "repeat(2, auto 1fr auto)",
-        },
-        alignItems: "center",
-        columnGap: 0.625,
-      }}
-    >
+    <Grid container spacing={1}>
       {Object.entries(usages)
         .filter(([_, { isGateway }]) => isGateway)
         .map(([name, usage]) => {
@@ -65,6 +57,14 @@ export default function CompatibilityPanelContent({
             data.push({ label: "json", count: jsonCount });
             compatibilityCount = Math.max(jsonCount, compatibilityCount);
           }
+          if (isFormatSelected(usage.formats, formats.metadata.mods)) {
+            data.push({ label: "mods", count: modsCount });
+            compatibilityCount = Math.max(modsCount, compatibilityCount);
+          }
+          if (isFormatSelected(usage.formats, formats.fulltext.txt)) {
+            data.push({ label: "txt", count: txtCount });
+            compatibilityCount = Math.max(txtCount, compatibilityCount);
+          }
 
           return (
             <CompatibilityProgress
@@ -72,11 +72,9 @@ export default function CompatibilityPanelContent({
               name={name}
               compatibilityCount={compatibilityCount}
               data={data}
-              gridColumn={usage.column}
-              gridRow={usage.row}
             />
           );
         })}
-    </Box>
+    </Grid>
   );
 }

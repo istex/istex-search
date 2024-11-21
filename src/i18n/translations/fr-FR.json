@@ -228,7 +228,7 @@
       "pdfPresence": "PDF texte",
       "cleanedTextPresence": "Texte nettoyé",
       "publicationLanguage": "Langue de publication",
-      "docCount": "{count} doc.",
+      "docCount": "{count}\u00A0doc.",
       "languageCount": "{language} : {count} doc. ({percentage}\u00A0%)",
       "otherLanguage": "autres",
       "compatibility": "Compatibilité avec les passerelles"
@@ -468,6 +468,10 @@
       "gargantext": {
         "label": "GarganText",
         "description": "Logiciel libre dédié à l'exploration collaborative d'ensembles de documents combinant des outils de traitement du langage naturel, d'analyse de réseaux complexes et de visualisation interactive de données."
+      },
+      "nooj": {
+        "label": "Nooj",
+        "description": "TODO: À RÉDIGER"
       }
     },
     "archiveTypes": {

@@ -1,80 +1,125 @@
-import { customRender as render, screen } from "../test-utils";
+import { customRender as render, screen, within } from "../test-utils";
 import CompatibilityPanelContent from "@/app/[locale]/results/components/Panel/CompatibilityPanelContent";
-import type { Aggregation } from "@/lib/istexApi";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("CompatibilityPanelContent", () => {
-  const resultsCount = 50;
-
-  const compatibility: Aggregation = {
-    "qualityIndicators.teiSource": {
-      buckets: [
-        { key: "pub2tei", docCount: 30 },
-        { key: "grobid", docCount: 10 },
-      ],
-    },
-    "qualityIndicators.tdmReady": {
-      buckets: [
-        { docCount: 15, keyAsString: "true", key: "" },
-        { docCount: 35, keyAsString: "false", key: "" },
-      ],
-    },
-    "enrichments.type": {
-      buckets: [
-        { key: "multicat", docCount: 20 },
-        { key: "teeft", docCount: 18 },
-        { key: "unitex", docCount: 7 },
-      ],
+  const results: IstexApiResponse = {
+    total: 50,
+    hits: [],
+    aggregations: {
+      "qualityIndicators.teiSource": {
+        buckets: [
+          { key: "pub2tei", docCount: 30 },
+          { key: "grobid", docCount: 10 },
+        ],
+      },
+      "qualityIndicators.tdmReady": {
+        buckets: [
+          { docCount: 15, keyAsString: "true", key: "" },
+          { docCount: 35, keyAsString: "false", key: "" },
+        ],
+      },
+      "qualityIndicators.pdfText": {
+        buckets: [
+          { docCount: 25, keyAsString: "true", key: 1 },
+          { docCount: 15, keyAsString: "false", key: 0 },
+        ],
+      },
+      "enrichments.type": {
+        buckets: [
+          { key: "multicat", docCount: 20 },
+          { key: "teeft", docCount: 18 },
+          { key: "unitex", docCount: 7 },
+        ],
+      },
     },
   };
 
   beforeEach(() => {
-    render(<CompatibilityPanelContent compatibility={compatibility} />, {
-      resultsCount,
+    render(<CompatibilityPanelContent />, {
+      results,
     });
   });
 
-  it("should render the lodex compatibility progress", () => {
-    expect(screen.getByText("lodex (100 %)")).toBeInTheDocument();
-    expect(screen.getAllByText("json")).toHaveLength(2);
-    expect(screen.getAllByRole("progressbar")[0]).toHaveAttribute(
-      "aria-valuenow",
-      "100",
+  it("renders the lodex compatibility progress", () => {
+    const compatibilityGroup = screen.getByTestId("lodex-compatibility");
+    const title = within(compatibilityGroup).queryByText("lodex (100 %)");
+    const jsonLabel = within(compatibilityGroup).queryByText("json");
+    const progressBars = within(compatibilityGroup).getAllByRole("progressbar");
+    const jsonDocCount = within(compatibilityGroup).queryByText(
+      `${results.total} doc.`,
     );
-    expect(screen.getAllByText("50 doc.")).toHaveLength(2);
+
+    expect(title).toBeInTheDocument();
+    expect(jsonLabel).toBeInTheDocument();
+    expect(progressBars).toHaveLength(1);
+    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "100");
+    expect(jsonDocCount).toBeInTheDocument();
   });
 
-  it("should render the gargantext compatibility progress", () => {
-    expect(screen.getByText("gargantext (100 %)")).toBeInTheDocument();
-    expect(screen.getAllByText("json")).toHaveLength(2);
-    expect(screen.getAllByRole("progressbar")[4]).toHaveAttribute(
-      "aria-valuenow",
-      "100",
+  it("renders the gargantext compatibility progress", () => {
+    const compatibilityGroup = screen.getByTestId("gargantext-compatibility");
+    const title = within(compatibilityGroup).queryByText("gargantext (100 %)");
+    const jsonLabel = within(compatibilityGroup).queryByText("json");
+    const progressBars = within(compatibilityGroup).getAllByRole("progressbar");
+    const jsonDocCount = within(compatibilityGroup).queryByText(
+      `${results.total} doc.`,
     );
-    expect(screen.getAllByText("50 doc.")).toHaveLength(2);
+
+    expect(title).toBeInTheDocument();
+    expect(jsonLabel).toBeInTheDocument();
+    expect(progressBars).toHaveLength(1);
+    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "100");
+    expect(jsonDocCount).toBeInTheDocument();
   });
 
-  it("should render the cortext compatibility progress", () => {
-    expect(screen.getByText("cortext (80 %)")).toBeInTheDocument();
+  it("renders the cortext compatibility progress", () => {
+    const compatibilityGroup = screen.getByTestId("cortext-compatibility");
+    const title = within(compatibilityGroup).queryByText("cortext (80 %)");
+    const teiLabel = within(compatibilityGroup).queryByText("tei");
+    const cleanedLabel = within(compatibilityGroup).queryByText("cleaned");
+    const teeftLabel = within(compatibilityGroup).queryByText("teeft");
+    const progressBars = within(compatibilityGroup).getAllByRole("progressbar");
+    const teiDocCount = within(compatibilityGroup).queryByText("40 doc.");
+    const cleanedDocCount = within(compatibilityGroup).queryByText("15 doc.");
+    const teeftDocCount = within(compatibilityGroup).queryByText("18 doc.");
 
-    expect(screen.getByText("tei")).toBeInTheDocument();
-    expect(screen.getAllByRole("progressbar")[1]).toHaveAttribute(
-      "aria-valuenow",
-      "80",
-    );
-    expect(screen.getByText("40 doc.")).toBeInTheDocument();
+    expect(title).toBeInTheDocument();
+    expect(teiLabel).toBeInTheDocument();
+    expect(cleanedLabel).toBeInTheDocument();
+    expect(teeftLabel).toBeInTheDocument();
+    expect(progressBars).toHaveLength(3);
+    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "80");
+    expect(progressBars[1]).toHaveAttribute("aria-valuenow", "30");
+    expect(progressBars[2]).toHaveAttribute("aria-valuenow", "36");
+    expect(teiDocCount).toBeInTheDocument();
+    expect(cleanedDocCount).toBeInTheDocument();
+    expect(teeftDocCount).toBeInTheDocument();
+  });
 
-    expect(screen.getByText("cleaned")).toBeInTheDocument();
-    expect(screen.getAllByRole("progressbar")[2]).toHaveAttribute(
-      "aria-valuenow",
-      "30",
+  it("renders the nooj compatibility progress", () => {
+    const compatibilityGroup = screen.getByTestId("nooj-compatibility");
+    const title = within(compatibilityGroup).queryByText("nooj (100 %)");
+    const cleanedLabel = within(compatibilityGroup).queryByText("cleaned");
+    const modsLabel = within(compatibilityGroup).queryByText("mods");
+    const txtLabel = within(compatibilityGroup).queryByText("txt");
+    const progressBars = within(compatibilityGroup).getAllByRole("progressbar");
+    const cleanedDocCount = within(compatibilityGroup).queryByText("15 doc.");
+    const modsDocCount = within(compatibilityGroup).queryByText(
+      `${results.total} doc.`,
     );
-    expect(screen.getByText("15 doc.")).toBeInTheDocument();
+    const txtDocCount = within(compatibilityGroup).queryByText("25 doc.");
 
-    expect(screen.getByText("teeft")).toBeInTheDocument();
-    expect(screen.getAllByRole("progressbar")[3]).toHaveAttribute(
-      "aria-valuenow",
-      "36",
-    );
-    expect(screen.getByText("18 doc.")).toBeInTheDocument();
+    expect(title).toBeInTheDocument();
+    expect(modsLabel).toBeInTheDocument();
+    expect(cleanedLabel).toBeInTheDocument();
+    expect(txtLabel).toBeInTheDocument();
+    expect(progressBars).toHaveLength(3);
+    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "30");
+    expect(progressBars[1]).toHaveAttribute("aria-valuenow", "100");
+    expect(progressBars[2]).toHaveAttribute("aria-valuenow", "50");
+    expect(modsDocCount).toBeInTheDocument();
+    expect(cleanedDocCount).toBeInTheDocument();
+    expect(txtDocCount).toBeInTheDocument();
   });
 });

@@ -98,16 +98,12 @@ export const usages = {
     url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
     formats: NO_FORMAT_SELECTED,
     archiveTypes,
-    column: 0,
-    row: 0,
   },
   lodex: {
     isGateway: true,
     url: "https://www.lodex.fr/",
     formats: formats.metadata.json,
     archiveTypes,
-    column: 1,
-    row: 0,
   },
   cortext: {
     isGateway: true,
@@ -117,16 +113,19 @@ export const usages = {
       formats.fulltext.cleaned |
       formats.enrichments.teeft,
     archiveTypes: ["zip"],
-    column: 2,
-    row: 0,
   },
   gargantext: {
     isGateway: true,
     url: "https://gargantext.org/",
     formats: formats.metadata.json,
     archiveTypes: ["zip"],
-    column: 1,
-    row: 3,
+  },
+  nooj: {
+    isGateway: true,
+    url: "https://nooj.univ-fcomte.fr/",
+    formats:
+      formats.metadata.mods | formats.fulltext.txt | formats.fulltext.cleaned,
+    archiveTypes: ["zip"],
   },
 } as const;
 export type UsageName = keyof typeof usages;

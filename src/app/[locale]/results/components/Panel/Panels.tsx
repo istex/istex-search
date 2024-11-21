@@ -4,11 +4,6 @@ import * as React from "react";
 import CompatibilityPanelContent from "./CompatibilityPanelContent";
 import IndicatorPanelContent from "./IndicatorPanelContent";
 import Panel, { type PanelName } from "./Panel";
-import type { Aggregation } from "@/lib/istexApi";
-
-type PanelProps = {
-  [TName in PanelName]: Aggregation;
-};
 
 type PanelStates = {
   [TName in PanelName]: boolean;
@@ -20,7 +15,7 @@ const DEFAULT_PANEL_EXPANDED_STATES: PanelStates = {
   compatibility: false,
 };
 
-export default function Panels({ indicators, compatibility }: PanelProps) {
+export default function Panels() {
   const [panelStates, setPanelStates] = React.useState(
     DEFAULT_PANEL_EXPANDED_STATES,
   );
@@ -32,7 +27,7 @@ export default function Panels({ indicators, compatibility }: PanelProps) {
     // The panel states are stored in local storage to be persistent across pages
     localStorage.setItem(
       PANEL_EXPANDED_STATES_KEY,
-      JSON.stringify(panelStates),
+      JSON.stringify(newPanelStates),
     );
 
     setPanelStates(newPanelStates);
@@ -65,14 +60,14 @@ export default function Panels({ indicators, compatibility }: PanelProps) {
         expanded={panelStates.indicators}
         setExpanded={setExpanded}
       >
-        <IndicatorPanelContent indicators={indicators} />
+        <IndicatorPanelContent />
       </Panel>
       <Panel
         title="compatibility"
         expanded={panelStates.compatibility}
         setExpanded={setExpanded}
       >
-        <CompatibilityPanelContent compatibility={compatibility} />
+        <CompatibilityPanelContent />
       </Panel>
     </>
   );

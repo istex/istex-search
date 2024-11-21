@@ -12,7 +12,6 @@ import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
 import {
   getResults,
-  type Aggregation,
   type GetResultsOptions,
   type IstexApiResponse,
 } from "@/lib/istexApi";
@@ -99,9 +98,6 @@ export default async function ResultsPage(props: PageProps) {
     }
   }
 
-  const indicators: Aggregation = results.aggregations;
-  const compatibility: Aggregation = results.aggregations;
-
   return (
     <ResultsPageShell
       queryString={queryString}
@@ -113,7 +109,7 @@ export default async function ResultsPage(props: PageProps) {
         <Filters />
 
         <Stack spacing={1} useFlexGap>
-          <Panels indicators={indicators} compatibility={compatibility} />
+          <Panels />
 
           <FilterTags />
 

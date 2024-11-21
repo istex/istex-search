@@ -1,98 +1,87 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { LinearProgress, Typography } from "@mui/material";
-import { useQueryContext } from "@/contexts/QueryContext";
+import { Grid2 as Grid, LinearProgress, Typography } from "@mui/material";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 
 interface CompatibilityProgressProps {
   name: string;
   compatibilityCount: number;
   data: { label: string; count: number }[];
-  gridColumn: number;
-  gridRow: number;
 }
 
 export default function CompatibilityProgress({
   name,
   compatibilityCount,
   data,
-  gridColumn,
-  gridRow,
 }: CompatibilityProgressProps) {
   const t = useTranslations("results.Panel");
-  const { resultsCount } = useQueryContext();
+  const { results } = useDocumentContext();
+  if (results == null) {
+    return null;
+  }
+
   const percentage =
-    resultsCount > 0
-      ? Math.round((compatibilityCount * 100) / resultsCount)
+    results.total > 0
+      ? Math.round((compatibilityCount * 100) / results.total)
       : 0;
 
   return (
-    <>
+    <Grid size={{ xs: 12, sm: 6 }} data-testid={`${name}-compatibility`}>
       <Typography
-        id={`${name}-compatibility`}
+        id={`${name}-compatibility-label`}
         variant="body2"
         sx={{
-          gridRow: { sm: 1 + gridRow },
-          gridColumn: { xs: "span 3", sm: `${gridColumn * 3 - 2} / span 3` },
-          mx: 5,
-          mb: 0.625,
-          mt: { sm: gridRow === 3 ? "-10px" : 1 },
           textAlign: "center",
           color: "colors.lightBlack",
-          fontSize: "0.8rem",
           textTransform: "uppercase",
-          fontWeight: 700,
+          fontWeight: "bold",
         }}
       >
         {`${name} (${percentage}\u00A0%)`}
       </Typography>
-      {data.map(({ label, count }, index) => (
-        <React.Fragment key={label}>
-          <Typography
-            variant="subtitle2"
-            component="span"
-            sx={{
-              gridRow: { sm: index + 2 + gridRow },
-              gridColumn: { sm: gridColumn * 3 - 2 },
-              ml: 5,
-              justifySelf: "end",
-              fontStyle: "italic",
-              fontSize: "0.5rem",
-              textTransform: "uppercase",
-            }}
-          >
-            {label}
-          </Typography>
-          <LinearProgress
-            variant="determinate"
-            value={resultsCount > 0 ? (count * 100) / resultsCount : 0}
-            aria-labelledby={`${name}-compatibility`}
-            sx={{
-              gridRow: { sm: index + 2 + gridRow },
-              gridColumn: { sm: gridColumn * 3 - 1 },
-              width: "100%",
-              height: 5,
-              borderRadius: 2.5,
-              bgcolor: "colors.lightGrey",
-              "& .MuiLinearProgress-bar": {
-                bgcolor: "colors.lightGreen",
-              },
-            }}
-          />
-          <Typography
-            variant="subtitle2"
-            component="span"
-            sx={{
-              gridRow: { sm: index + 2 + gridRow },
-              gridColumn: { sm: gridColumn * 3 },
-              mr: 5,
-              fontStyle: "italic",
-              fontSize: "0.5rem",
-            }}
-          >
-            {t("docCount", { count })}
-          </Typography>
-        </React.Fragment>
-      ))}
-    </>
+      <Grid
+        container
+        columnSpacing={1}
+        sx={{
+          "& > *": { fontSize: "0.5rem" },
+          "& .MuiTypography-root": { fontSize: "inherit", fontStyle: "italic" },
+        }}
+      >
+        {data.map(({ label, count }) => (
+          <React.Fragment key={label}>
+            <Grid size={3} sx={{ textAlign: "end" }}>
+              <Typography
+                variant="subtitle2"
+                component="span"
+                sx={{
+                  textTransform: "uppercase",
+                }}
+              >
+                {label}
+              </Typography>
+            </Grid>
+            <Grid size={6} sx={{ alignSelf: "center" }}>
+              <LinearProgress
+                variant="determinate"
+                value={results.total > 0 ? (count * 100) / results.total : 0}
+                aria-labelledby={`${name}-compatibility-label`}
+                sx={{
+                  borderRadius: 2.5,
+                  bgcolor: "colors.lightGrey",
+                  "& .MuiLinearProgress-bar": {
+                    bgcolor: "colors.lightGreen",
+                  },
+                }}
+              />
+            </Grid>
+            <Grid size={3}>
+              <Typography variant="subtitle2" component="span">
+                {t("docCount", { count })}
+              </Typography>
+            </Grid>
+          </React.Fragment>
+        ))}
+      </Grid>
+    </Grid>
   );
 }

@@ -212,7 +212,7 @@
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",
         "annexes": "Accéder à l'annexe au format {extension}",
-        "multicat": "Accéder aux catégories WoS, Scopus et Science Metrix générées Multicat au format {extension}",
+        "multicat": "Accéder aux catégories WoS, Scopus et Science Metrix générées par Multicat au format {extension}",
         "teeft": "Accéder à l'indexation générée par Teeft au format {extension}",
         "unitex": "Accéder aux entités nommées générées par Unitex au format {extension}",
         "nb": "Accéder aux catégories Pascal-Francis générées par Nb au format {extension}",
@@ -830,12 +830,12 @@
       "type": {
         "title": "Type d'enrichissement",
         "description": "Recherche de documents comportant un enrichissement",
-        "multicat": "Catégories WoS, Scopus, Science Metrix (multicat)",
-        "teeft": "Indexation (teeft)",
-        "unitex": "Entités nommées (unitex)",
-        "nb": "Catégories Pascal-Francis (nb)",
-        "grobidFulltext": "Texte structuré (grobidFulltext)",
-        "refBibs": "Réf. bib. structurées (refBibs)"
+        "multicat": "Catégories WoS, Scopus, Science Metrix (Multicat)",
+        "teeft": "Indexation (Teeft)",
+        "unitex": "Entités nommées (Unitex)",
+        "nb": "Catégories Inist (bayésien naïf)",
+        "grobidFulltext": "Texte structuré (Grobid)",
+        "refBibs": "Réf. bib. structurées (Grobid)"
       }
     },
     "genre": {

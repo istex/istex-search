@@ -20,8 +20,14 @@ import MuiSetup from "@/mui/setup";
 
 export function customRender(
   ui: Parameters<typeof render>[0],
-  context?: Partial<QueryContextProps & { results?: IstexApiResponse }>,
+  context?: Partial<QueryContextProps>,
 ) {
+  const emptyResults: IstexApiResponse = {
+    total: 0,
+    hits: [],
+    aggregations: {},
+  };
+
   const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
     <TanStackQueryProvider>
       <NextIntlClientProvider
@@ -30,16 +36,14 @@ export function customRender(
       >
         <MuiSetup>
           <HistoryProvider>
-            <DocumentProvider results={context?.results}>
-              <QueryProvider
-                queryString={context?.queryString ?? ""}
-                resultsCount={context?.resultsCount ?? 0}
-                loading={context?.loading}
-                randomSeed={context?.randomSeed}
-              >
-                {children}
-              </QueryProvider>
-            </DocumentProvider>
+            <QueryProvider
+              queryString={context?.queryString ?? ""}
+              results={context?.results ?? emptyResults}
+              loading={context?.loading}
+              randomSeed={context?.randomSeed}
+            >
+              <DocumentProvider>{children}</DocumentProvider>
+            </QueryProvider>
           </HistoryProvider>
         </MuiSetup>
       </NextIntlClientProvider>

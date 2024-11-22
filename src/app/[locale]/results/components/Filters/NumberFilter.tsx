@@ -5,7 +5,7 @@ import { Stack, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import Selector from "@/components/Selector";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
@@ -26,14 +26,14 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const filters = searchParams.getFilters();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { isDate = false, hasDecimals = false } = field;
-  const { results } = useDocumentContext();
-  const aggregation = results?.aggregations[field.name].buckets[0];
+  const { results } = useQueryContext();
+  const aggregation = results.aggregations[field.name].buckets[0];
   const initialMin = isDate
-    ? Number(aggregation?.fromAsString)
-    : (aggregation?.from ?? null);
+    ? Number(aggregation.fromAsString)
+    : (aggregation.from ?? null);
   const initialMax = isDate
-    ? Number(aggregation?.toAsString)
-    : (aggregation?.to ?? null);
+    ? Number(aggregation.toAsString)
+    : (aggregation.to ?? null);
   const initialValue = initialMin === initialMax ? initialMin : null;
   const [min, setMin] = React.useState(initialMin);
   const [max, setMax] = React.useState(initialMax);

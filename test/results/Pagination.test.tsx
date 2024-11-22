@@ -7,12 +7,13 @@ import {
 import Pagination from "@/app/[locale]/results/components/Pagination";
 import { MIN_PER_PAGE, istexApiConfig } from "@/config";
 import { routing, useRouter } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("Pagination", () => {
   // We only test the next page button because the same logic is applied to all buttons
   it("goes to the next page when clicking the next page button", async () => {
     const router = useRouter();
-    render(<Pagination />, { resultsCount: 20 });
+    render(<Pagination />, { results: generateResults(20) });
 
     const button = screen.getByTestId("KeyboardArrowRightIcon");
     await userEvent.click(button);
@@ -23,7 +24,7 @@ describe("Pagination", () => {
   it("uses the randomSeed when present", async () => {
     const randomSeed = "1234";
     const router = useRouter();
-    render(<Pagination />, { resultsCount: 20, randomSeed });
+    render(<Pagination />, { results: generateResults(20), randomSeed });
 
     const button = screen.getByTestId("KeyboardArrowRightIcon");
     await userEvent.click(button);
@@ -38,7 +39,7 @@ describe("Pagination", () => {
     mockSearchParams({
       page,
     });
-    render(<Pagination />, { resultsCount: 100 });
+    render(<Pagination />, { results: generateResults(100) });
 
     const pageLabel = screen.getByTestId("pagination-page");
 
@@ -47,10 +48,10 @@ describe("Pagination", () => {
 
   it("limits the last page when the results count is greater than the max pagination offset", async () => {
     const router = useRouter();
-    const resultsCount = istexApiConfig.maxPaginationOffset + 1000;
-    render(<Pagination />, { resultsCount });
+    const resultCount = istexApiConfig.maxPaginationOffset + 1000;
+    render(<Pagination />, { results: generateResults(resultCount) });
 
-    // The last page is based on the maxPaginationOffset because resultsCount is too large
+    // The last page is based on the maxPaginationOffset because resultCount is too large
     const lastPage = Math.ceil(
       istexApiConfig.maxPaginationOffset / MIN_PER_PAGE,
     );
@@ -61,13 +62,13 @@ describe("Pagination", () => {
   });
 
   it("limits the page number based on the results count", () => {
-    const resultsCount = 1000;
-    const lastPage = Math.ceil(resultsCount / MIN_PER_PAGE);
+    const resultCount = 1000;
+    const lastPage = Math.ceil(resultCount / MIN_PER_PAGE);
 
     mockSearchParams({
       page: (lastPage + 2).toString(),
     });
-    render(<Pagination />, { resultsCount });
+    render(<Pagination />, { results: generateResults(resultCount) });
 
     const pageLabel = screen.getByTestId("pagination-page");
 
@@ -77,3 +78,11 @@ describe("Pagination", () => {
     );
   });
 });
+
+function generateResults(resultCount: number): IstexApiResponse {
+  return {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
+}

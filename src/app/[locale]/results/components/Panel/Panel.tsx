@@ -25,7 +25,7 @@ export default function Panel({
   children,
 }: PanelProps) {
   const t = useTranslations("results.Panel");
-  const { resultsCount } = useQueryContext();
+  const { results } = useQueryContext();
 
   return (
     <Accordion
@@ -69,7 +69,7 @@ export default function Panel({
         >
           {t(title)}
         </Typography>
-        {resultsCount > 0 && (
+        {results.total > 0 && (
           <Typography
             variant="body2"
             component="span"
@@ -77,7 +77,7 @@ export default function Panel({
               fontSize: "0.8rem",
             }}
           >
-            {t("resultsCount", { count: resultsCount })}
+            {t("resultCount", { count: results.total })}
           </Typography>
         )}
       </AccordionSummary>

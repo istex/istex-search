@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import Button from "@/components/Button";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
@@ -32,8 +32,8 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
-  const { results } = useDocumentContext();
-  const aggregation = results?.aggregations[field.name].buckets;
+  const { results } = useQueryContext();
+  const aggregation = results.aggregations[field.name].buckets;
   const activeFilter = filters.find((node) => isMatchingNode(node, field));
   const initialValue =
     activeFilter?.nodeType === "node" && activeFilter.fieldType === "boolean"
@@ -105,7 +105,7 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
             <RadioGroupItem
               key={v}
               field={field}
-              aggregation={aggregation?.find(
+              aggregation={aggregation.find(
                 ({ keyAsString }) => keyAsString === v,
               )}
               value={v}

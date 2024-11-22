@@ -18,15 +18,19 @@ export default function Pagination() {
   const locale = useLocale();
   const t = useTranslations("results.Pagination");
   const history = useHistoryContext();
-  const { resultsCount, randomSeed } = useQueryContext();
-  const maxResults = clamp(resultsCount, 0, istexApiConfig.maxPaginationOffset);
+  const { results, randomSeed } = useQueryContext();
+  const maxResults = clamp(
+    results.total,
+    0,
+    istexApiConfig.maxPaginationOffset,
+  );
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const perPage = searchParams.getPerPage();
   const lastPage = Math.ceil(maxResults / perPage);
   const page =
-    resultsCount > 0 ? clamp(searchParams.getPage(), 1, lastPage) : 0;
+    results.total > 0 ? clamp(searchParams.getPage(), 1, lastPage) : 0;
 
   const handleChangePage = (newPage: number) => {
     searchParams.setPage(newPage);

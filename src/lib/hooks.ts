@@ -2,7 +2,10 @@ import { useTranslations } from "next-intl";
 import { useSearchParams as nextUseSearchParams } from "next/navigation";
 import SearchParams from "./SearchParams";
 import { istexApiConfig } from "@/config";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import {
+  resetSelectedExcludedDocuments,
+  useDocumentContext,
+} from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useRouter } from "@/i18n/routing";
@@ -49,23 +52,25 @@ export function useDownload() {
   };
 }
 
-export function useMaxSize() {
-  const { resultsCount } = useQueryContext();
+export function useDocumentCount() {
+  const { results } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
 
-  const documentsCount =
-    selectedDocuments.length > 0
-      ? selectedDocuments.length
-      : resultsCount - excludedDocuments.length;
+  return selectedDocuments.length > 0
+    ? selectedDocuments.length
+    : results.total - excludedDocuments.length;
+}
 
-  return clamp(documentsCount, 0, istexApiConfig.maxSize);
+export function useMaxSize() {
+  const documentCount = useDocumentCount();
+
+  return clamp(documentCount, 0, istexApiConfig.maxSize);
 }
 
 export function useApplyFilters() {
   const router = useRouter();
   const history = useHistoryContext();
   const searchParams = useSearchParams();
-  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   return (filters: AST) => {
     searchParams.deleteSize();

@@ -6,12 +6,10 @@ import Sorting from "../Sorting";
 import Button from "@/components/Button";
 import NumberInput from "@/components/NumberInput";
 import { istexApiConfig } from "@/config";
-import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
 import type SearchParams from "@/lib/SearchParams";
-import { useMaxSize, useSearchParams } from "@/lib/hooks";
+import { useDocumentCount, useMaxSize, useSearchParams } from "@/lib/hooks";
 import { clamp, debounce } from "@/lib/utils";
 
 export default function ResultsSettings() {
@@ -22,14 +20,8 @@ export default function ResultsSettings() {
   const searchParams = useSearchParams();
   const history = useHistoryContext();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
-  const { resultsCount } = useQueryContext();
-  const { selectedDocuments, excludedDocuments } = useDocumentContext();
+  const documentCount = useDocumentCount();
   const maxSize = useMaxSize();
-
-  const documentsCount =
-    selectedDocuments.length > 0
-      ? selectedDocuments.length
-      : resultsCount - excludedDocuments.length;
 
   const [size, setSize] = React.useState<number | null>(
     clamp(searchParams.getSize(), 0, maxSize),
@@ -110,11 +102,11 @@ export default function ResultsSettings() {
           value={size}
           onChange={handleChange}
         />
-        <span>/&nbsp;{documentsCount.toLocaleString(locale)}</span>
-        {documentsCount > maxSize && (
+        <span>/&nbsp;{documentCount.toLocaleString(locale)}</span>
+        {documentCount > maxSize && (
           <Tooltip
             title={t("warningTooltip", {
-              resultsCount: documentsCount.toLocaleString(locale),
+              resultCount: documentCount.toLocaleString(locale),
               maxSize: istexApiConfig.maxSize.toLocaleString(locale),
             })}
             placement="top"

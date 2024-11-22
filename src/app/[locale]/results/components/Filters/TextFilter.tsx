@@ -14,7 +14,7 @@ import ArrowDownIcon from "./ArrowDownIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
@@ -41,8 +41,8 @@ export default function TextFilter({ field }: TextFilterProps) {
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
-  const { results } = useDocumentContext();
-  const aggregation = results?.aggregations[field.name].buckets;
+  const { results } = useQueryContext();
+  const aggregation = results.aggregations[field.name].buckets;
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("desc");
   const [sortField, setSortField] = React.useState<SortField>("docCount");
@@ -62,10 +62,6 @@ export default function TextFilter({ field }: TextFilterProps) {
     initiallySelectedValues,
     selectedValues,
   );
-
-  if (aggregation == null) {
-    return null;
-  }
 
   const labelizedValues: LabelizedAggregation = aggregation.map((value) => {
     if (field.type === "language") {

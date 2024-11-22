@@ -7,6 +7,7 @@ import {
 import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
 import { istexApiConfig } from "@/config";
 import { routing, useRouter } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("ResultsSettings", () => {
   beforeEach(() => {
@@ -18,29 +19,29 @@ describe("ResultsSettings", () => {
   });
 
   it("changes the size in the URL when changing the input value", async () => {
-    const resultsCount = 3;
+    const resultCount = 3;
     const newValue = 2;
-    await testModification(resultsCount, newValue, newValue);
+    await testModification(resultCount, newValue, newValue);
   });
 
   it("sets the size to the max size when the results count is greater than the max size", async () => {
-    const resultsCount = istexApiConfig.maxSize + 10;
-    await testAllButton(resultsCount, istexApiConfig.maxSize);
+    const resultCount = istexApiConfig.maxSize + 10;
+    await testAllButton(resultCount, istexApiConfig.maxSize);
   });
 
   it("sets the size to the results count when the results count is smaller than the max size", async () => {
-    const resultsCount = 10;
-    await testAllButton(resultsCount, resultsCount);
+    const resultCount = 10;
+    await testAllButton(resultCount, resultCount);
   });
 
   it("initializes the input value based on the results count", () => {
-    const resultsCount = 3;
-    testInitialization(resultsCount, resultsCount);
+    const resultCount = 3;
+    testInitialization(resultCount, resultCount);
   });
 
   it("initializes the input value to the max size when the results count is greater than the max size", () => {
-    const resultsCount = istexApiConfig.maxSize + 10;
-    testInitialization(resultsCount, istexApiConfig.maxSize);
+    const resultCount = istexApiConfig.maxSize + 10;
+    testInitialization(resultCount, istexApiConfig.maxSize);
   });
 
   it("disables the sorting when in import mode", () => {
@@ -56,11 +57,16 @@ describe("ResultsSettings", () => {
 
 // Common logic between tests that interact with the size input
 async function testModification(
-  resultsCount: number,
+  resultCount: number,
   wishValue: number,
   expectedValue: number,
 ) {
-  render(<ResultsSettings />, { resultsCount });
+  const results: IstexApiResponse = {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
+  render(<ResultsSettings />, { results });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
@@ -74,11 +80,16 @@ async function testModification(
   });
 }
 
-async function testAllButton(resultsCount: number, expectedValue: number) {
+async function testAllButton(resultCount: number, expectedValue: number) {
+  const results: IstexApiResponse = {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
   mockSearchParams({
     size: "1",
   });
-  render(<ResultsSettings />, { resultsCount });
+  render(<ResultsSettings />, { results });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
@@ -93,11 +104,16 @@ async function testAllButton(resultsCount: number, expectedValue: number) {
 
 // Common logic between tests that make sure the size input value is properly
 // set based on the results count
-function testInitialization(resultsCount: number, expectedValue: number) {
+function testInitialization(resultCount: number, expectedValue: number) {
+  const results: IstexApiResponse = {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
   mockSearchParams({
-    size: resultsCount.toString(),
+    size: resultCount.toString(),
   });
-  render(<ResultsSettings />, { resultsCount });
+  render(<ResultsSettings />, { results });
 
   const input = screen.getByRole("textbox");
 

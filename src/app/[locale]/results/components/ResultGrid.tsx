@@ -6,19 +6,16 @@ import { useTheme } from "@mui/material/styles";
 import DocumentDetail from "./Document/DocumentDetail";
 import ResultCard from "./ResultCard";
 import ResultsToolbar from "./ResultsToolbar";
-import type { Result } from "@/lib/istexApi";
-
-interface ResultsGridProps {
-  results: Result[];
-}
+import { useQueryContext } from "@/contexts/QueryContext";
 
 const COLUMN_COUNT_KEY = "columnState";
 const DEFAULT_COLUMN_COUNT = 2;
 
-export default function ResultsGrid({ results }: ResultsGridProps) {
-  const [columnCount, setColumnCount] = React.useState(DEFAULT_COLUMN_COUNT);
+export default function ResultGrid() {
+  const { results } = useQueryContext();
   const theme = useTheme();
   const xs = useMediaQuery(theme.breakpoints.down("sm"));
+  const [columnCount, setColumnCount] = React.useState(DEFAULT_COLUMN_COUNT);
 
   const changeColumnCount = (newColumnCount: number) => {
     // The column count is stored in local storage to be persistent across pages
@@ -59,10 +56,10 @@ export default function ResultsGrid({ results }: ResultsGridProps) {
           gap: 2,
         }}
       >
-        {results.map((result) => (
+        {results.hits.map((hit) => (
           <ResultCard
-            key={result.id}
-            info={result}
+            key={hit.id}
+            info={hit}
             displayIcons={columnCount === 1 && !xs}
           />
         ))}

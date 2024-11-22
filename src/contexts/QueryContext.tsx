@@ -2,15 +2,16 @@
 
 import * as React from "react";
 import { useHistoryContext } from "./HistoryContext";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/routing";
 import type { CustomErrorInfo } from "@/lib/CustomError";
 import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 interface QueryContextValue {
   queryString: string;
-  resultsCount: number;
+  results: IstexApiResponse;
   goToResultsPage: (
     queryString: string,
     searchParams?: SearchParams,
@@ -31,7 +32,6 @@ export function QueryProvider(props: QueryContextProps) {
   const router = useRouter();
   const defaultSearchParams = useSearchParams();
   const history = useHistoryContext();
-  const { resetSelectedExcludedDocuments } = useDocumentContext();
 
   const goToResultsPage: QueryContextValue["goToResultsPage"] = async (
     newQueryString,

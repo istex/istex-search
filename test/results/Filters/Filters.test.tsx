@@ -7,13 +7,15 @@ import {
 import Filters from "@/app/[locale]/results/components/Filters";
 import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
+import fields from "@/lib/fields";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("Filters", () => {
   it("expands the accordion when the field has an active filter", () => {
     mockSearchParams({
       filters: getWosCategoriesFilter(),
     });
-    const { container } = render(<Filters />);
+    const { container } = renderFilters();
 
     const wosCategoriesAccordionHeader = container.querySelector(
       "#categories\\.wos-header",
@@ -27,7 +29,7 @@ describe("Filters", () => {
 
   it("expands the accordion when the field is open by default and no filters are active", () => {
     mockSearchParams({});
-    const { container } = render(<Filters />);
+    const { container } = renderFilters();
 
     const corpusNameAccordionHeader =
       container.querySelector("#corpusName-header");
@@ -39,7 +41,7 @@ describe("Filters", () => {
     mockSearchParams({
       filters: getWosCategoriesFilter(),
     });
-    const { container } = render(<Filters />);
+    const { container } = renderFilters();
 
     const corpusNameAccordionHeader =
       container.querySelector("#corpusName-header");
@@ -49,7 +51,7 @@ describe("Filters", () => {
 
   it("disables the clear button when no filters are active", () => {
     mockSearchParams({});
-    render(<Filters />);
+    renderFilters();
 
     const clearButton = screen.getByRole("button", { name: "Effacer tout" });
 
@@ -61,7 +63,7 @@ describe("Filters", () => {
     mockSearchParams({
       filters: getWosCategoriesFilter(),
     });
-    render(<Filters />);
+    renderFilters();
 
     const clearButton = screen.getByRole("button", { name: "Effacer tout" });
     await userEvent.click(clearButton);
@@ -89,4 +91,35 @@ function getWosCategoriesFilter() {
   ];
 
   return btoa(JSON.stringify(filters));
+}
+
+const results: IstexApiResponse = {
+  total: 10,
+  hits: [],
+  aggregations: Object.fromEntries(
+    fields
+      .filter((field) => field.inFilters)
+      .map((field) => {
+        const buckets = [];
+        if (field.isDate === true) {
+          buckets.push({
+            key: 0,
+            docCount: 3,
+            fromAsString: "2010",
+            toAsString: "2020",
+          });
+        }
+
+        return [
+          field.name,
+          {
+            buckets,
+          },
+        ];
+      }),
+  ),
+};
+
+function renderFilters() {
+  return render(<Filters />, { results });
 }

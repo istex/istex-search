@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Grid2 as Grid, LinearProgress, Typography } from "@mui/material";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 
 interface CompatibilityProgressProps {
   name: string;
@@ -15,10 +15,7 @@ export default function CompatibilityProgress({
   data,
 }: CompatibilityProgressProps) {
   const t = useTranslations("results.Panel");
-  const { results } = useDocumentContext();
-  if (results == null) {
-    return null;
-  }
+  const { results } = useQueryContext();
 
   const percentage =
     results.total > 0

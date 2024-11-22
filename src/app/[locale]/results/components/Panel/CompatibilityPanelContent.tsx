@@ -1,14 +1,11 @@
 import { Grid2 as Grid } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
 import { usages, formats } from "@/config";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { isFormatSelected } from "@/lib/formats";
 
 export default function CompatibilityPanelContent() {
-  const { results } = useDocumentContext();
-  if (results == null) {
-    return null;
-  }
+  const { results } = useQueryContext();
 
   // Some formats are always available
   const jsonCount = results.total;

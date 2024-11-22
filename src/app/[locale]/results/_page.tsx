@@ -5,7 +5,7 @@ import Filters from "./components/Filters";
 import FilterTags from "./components/Filters/FilterTags";
 import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
-import ResultsGrid from "./components/ResultsGrid";
+import ResultGrid from "./components/ResultGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { redirect } from "@/i18n/routing";
 import CustomError from "@/lib/CustomError";
@@ -46,6 +46,12 @@ export default async function ResultsPage(props: PageProps) {
   const sortDir = searchParams.getSortDirection();
   const randomSeedFromSearchParams = searchParams.getRandomSeed();
 
+  const emptyResults: IstexApiResponse = {
+    total: 0,
+    hits: [],
+    aggregations: {},
+  };
+
   let queryString: string;
   try {
     queryString = await searchParams.getQueryString();
@@ -53,7 +59,7 @@ export default async function ResultsPage(props: PageProps) {
     return (
       <ResultsPageShell
         queryString=""
-        resultsCount={0}
+        results={emptyResults}
         errorInfo={err instanceof CustomError ? err.info : { name: "default" }}
       />
     );
@@ -79,7 +85,7 @@ export default async function ResultsPage(props: PageProps) {
     return (
       <ResultsPageShell
         queryString={queryString}
-        resultsCount={0}
+        results={emptyResults}
         errorInfo={err instanceof CustomError ? err.info : { name: "default" }}
       />
     );
@@ -101,20 +107,16 @@ export default async function ResultsPage(props: PageProps) {
   return (
     <ResultsPageShell
       queryString={queryString}
-      resultsCount={results.total}
-      randomSeed={randomSeedToUse}
       results={results}
+      randomSeed={randomSeedToUse}
     >
       <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         <Filters />
 
         <Stack spacing={1} useFlexGap>
           <Panels />
-
           <FilterTags />
-
-          <ResultsGrid results={results.hits} />
-
+          <ResultGrid />
           <Pagination />
         </Stack>
       </Stack>

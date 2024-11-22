@@ -13,7 +13,7 @@ import BooleanFilter from "./BooleanFilter";
 import NumberFilter from "./NumberFilter";
 import TextFilter from "./TextFilter";
 import Button from "@/components/Button";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import type { Node } from "@/lib/ast";
 import fields, { type Field, type FieldType } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
@@ -27,7 +27,7 @@ export default function Filters() {
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
-  const { results } = useDocumentContext();
+  const { results } = useQueryContext();
 
   const clearAll = () => {
     applyFilters([]);
@@ -60,7 +60,7 @@ export default function Filters() {
                 )
               : field.defaultOpen;
 
-          const count = results?.aggregations[field.name].buckets.length;
+          const count = results.aggregations[field.name].buckets.length;
 
           return (
             <Accordion
@@ -89,8 +89,9 @@ export default function Filters() {
               >
                 {tFields(`${field.name}.title`)}
 
-                {(field.type === "text" || field.type === "language") &&
-                  count != null && <>&nbsp;({count.toLocaleString(locale)})</>}
+                {(field.type === "text" || field.type === "language") && (
+                  <>&nbsp;({count.toLocaleString(locale)})</>
+                )}
               </AccordionSummary>
               <AccordionDetails sx={{ bgcolor: "white" }}>
                 {/* @ts-expect-error The type of the field prop became never here */}

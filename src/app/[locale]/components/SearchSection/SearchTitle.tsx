@@ -20,7 +20,7 @@ import {
   searchModes,
   type SearchMode,
 } from "@/config";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useRouter } from "@/i18n/routing";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
@@ -30,8 +30,7 @@ export default function SearchTitle() {
   const searchParams = useSearchParams();
   const searchMode = searchParams.getSearchMode();
   const router = useRouter();
-  const { resetSelectedExcludedDocuments } = useDocumentContext();
-  const { resultsCount, loading } = useQueryContext();
+  const { results, loading } = useQueryContext();
   const onHomePage = useOnHomePage();
 
   const getTranslationKey = () => {
@@ -121,7 +120,7 @@ export default function SearchTitle() {
               color: "colors.grey",
             }}
           >
-            {t.rich("resultsCount", {
+            {t.rich("resultCount", {
               resultsSpan: (chunks) => (
                 <Typography
                   component="span"
@@ -134,7 +133,7 @@ export default function SearchTitle() {
                   {chunks}
                 </Typography>
               ),
-              count: resultsCount,
+              count: results.total,
             })}
           </Typography>
         )

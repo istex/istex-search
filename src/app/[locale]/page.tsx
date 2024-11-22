@@ -3,10 +3,10 @@ import CorpusSection from "./components/CorpusSection";
 import CourseSection from "./components/CourseSection";
 import DownloadSection from "./components/DownloadSection";
 import SearchSection from "./components/SearchSection";
-import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider } from "@/contexts/QueryContext";
 import { redirect, routing } from "@/i18n/routing";
 import SearchParams from "@/lib/SearchParams";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import type { PageProps } from "@/types/next";
 
 // This function tells Next.js to pre-render (at build time) all pages in this layout
@@ -47,14 +47,18 @@ export default async function HomePage(props: PageProps) {
     return null;
   }
 
+  const emptyResults: IstexApiResponse = {
+    total: 0,
+    hits: [],
+    aggregations: {},
+  };
+
   return (
-    <DocumentProvider>
-      <QueryProvider queryString={queryString} resultsCount={0}>
-        <SearchSection />
-        <CorpusSection />
-        <DownloadSection />
-        <CourseSection />
-      </QueryProvider>
-    </DocumentProvider>
+    <QueryProvider queryString={queryString} results={emptyResults}>
+      <SearchSection />
+      <CorpusSection />
+      <DownloadSection />
+      <CourseSection />
+    </QueryProvider>
   );
 }

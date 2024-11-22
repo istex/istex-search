@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import type { IstexApiResponse, Result } from "@/lib/istexApi";
+import { useQueryContext } from "./QueryContext";
+import type { Result } from "@/lib/istexApi";
 
 export interface SelectedDocument {
   arkIstex: string;
@@ -9,7 +10,6 @@ export interface SelectedDocument {
 }
 
 export interface DocumentContextValue {
-  results?: IstexApiResponse;
   displayedDocument?: Result;
   displayDocument: (documentId: string) => void;
   closeDocument: () => void;
@@ -17,20 +17,25 @@ export interface DocumentContextValue {
   excludedDocuments: string[];
   toggleSelectedDocument: (documentArkIstex: string) => void;
   toggleExcludedDocument: (documentArkIstex: string) => void;
-  resetSelectedExcludedDocuments: () => void;
 }
 
 const DocumentContext = React.createContext<DocumentContextValue | null>(null);
 
 interface DocumentProviderProps {
-  results?: IstexApiResponse;
   children: React.ReactNode;
 }
 
-export function DocumentProvider({ children, results }: DocumentProviderProps) {
+export function DocumentProvider({ children }: DocumentProviderProps) {
   const [displayedDocument, setDisplayedDocument] = React.useState<
     Result | undefined
   >(undefined);
+  const [selectedDocuments, setSelectedDocuments] = React.useState<
+    SelectedDocument[]
+  >([]);
+  const [excludedDocuments, setExcludedDocuments] = React.useState<string[]>(
+    [],
+  );
+  const { results } = useQueryContext();
 
   React.useEffect(() => {
     const selectedDocumentsString = localStorage.getItem("selectedDocuments");
@@ -45,17 +50,8 @@ export function DocumentProvider({ children, results }: DocumentProviderProps) {
     }
   }, []);
 
-  const [selectedDocuments, setSelectedDocuments] = React.useState<
-    SelectedDocument[]
-  >([]);
-  const [excludedDocuments, setExcludedDocuments] = React.useState<string[]>(
-    [],
-  );
-
   const displayDocument = (documentId: string) => {
-    const newDocument = results?.hits.find(
-      (result) => result.id === documentId,
-    );
+    const newDocument = results.hits.find((result) => result.id === documentId);
     setDisplayedDocument(newDocument);
   };
 
@@ -70,7 +66,7 @@ export function DocumentProvider({ children, results }: DocumentProviderProps) {
         (doc) => doc.arkIstex !== documentArkIstex,
       );
     } else {
-      const selectedDocument = results?.hits.find(
+      const selectedDocument = results.hits.find(
         (result) => result.arkIstex === documentArkIstex,
       );
       newSelectedDocuments = [
@@ -104,13 +100,7 @@ export function DocumentProvider({ children, results }: DocumentProviderProps) {
     );
   };
 
-  const resetSelectedExcludedDocuments = () => {
-    localStorage.removeItem("selectedDocuments");
-    localStorage.removeItem("excludedDocuments");
-  };
-
   const context = {
-    results,
     displayedDocument,
     displayDocument,
     closeDocument,
@@ -118,13 +108,18 @@ export function DocumentProvider({ children, results }: DocumentProviderProps) {
     excludedDocuments,
     toggleSelectedDocument,
     toggleExcludedDocument,
-    resetSelectedExcludedDocuments,
   };
+
   return (
     <DocumentContext.Provider value={context}>
       {children}
     </DocumentContext.Provider>
   );
+}
+
+export function resetSelectedExcludedDocuments() {
+  localStorage.removeItem("selectedDocuments");
+  localStorage.removeItem("excludedDocuments");
 }
 
 export function useDocumentContext() {

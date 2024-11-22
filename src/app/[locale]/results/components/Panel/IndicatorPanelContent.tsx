@@ -2,15 +2,11 @@ import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
 import Indicator from "./Indicator";
 import LanguageIndicator from "./LanguageIndicator";
-import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 
 export default function IndicatorPanelContent() {
   const t = useTranslations("results.Panel");
-  const { results } = useDocumentContext();
-  if (results == null) {
-    return null;
-  }
-
+  const { results } = useQueryContext();
   const [
     mostUsedLanguage,
     secondMostUsedLanguage,

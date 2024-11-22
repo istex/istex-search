@@ -3,6 +3,7 @@
 import { Box, Skeleton, Stack } from "@mui/material";
 import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 export default function Loading() {
   let lastSavedQueryString = "";
@@ -10,10 +11,16 @@ export default function Loading() {
     lastSavedQueryString = localStorage.getItem("lastQueryString") ?? "";
   }
 
+  const emptyResults: IstexApiResponse = {
+    total: 0,
+    hits: [],
+    aggregations: {},
+  };
+
   return (
     <ResultsPageShell
       queryString={lastSavedQueryString}
-      resultsCount={0}
+      results={emptyResults}
       loading
     >
       <Stack direction={{ xs: "column", md: "row" }} spacing={2}>

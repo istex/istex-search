@@ -8,6 +8,7 @@ import {
 import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
 import { SEARCH_MODE_ASSISTED } from "@/config";
 import { useRouter } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("SearchTitle", () => {
   it("highlights the currently selected search mode", () => {
@@ -51,18 +52,23 @@ describe("SearchTitle", () => {
     mockPathname("/");
     render(<SearchTitle />);
 
-    const resultsCountText = screen.queryByText("documents trouvés");
+    const resultCountText = screen.queryByText("documents trouvés");
 
-    expect(resultsCountText).not.toBeInTheDocument();
+    expect(resultCountText).not.toBeInTheDocument();
   });
 
   it("renders the results count when not on the home page", () => {
+    const results: IstexApiResponse = {
+      total: 3,
+      hits: [],
+      aggregations: {},
+    };
     mockPathname("/results");
-    render(<SearchTitle />, { resultsCount: 3 });
+    render(<SearchTitle />, { results });
 
-    const resultsCountText = screen.getByText("documents trouvés");
+    const resultCountText = screen.getByText("documents trouvés");
 
-    expect(resultsCountText).toBeInTheDocument();
+    expect(resultCountText).toBeInTheDocument();
   });
 
   beforeEach(() => {

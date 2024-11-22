@@ -7,22 +7,15 @@ import DownloadForm from "./Download/DownloadForm";
 import WaitingModal from "./Download/WaitingModal";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
-import { useDocumentContext } from "@/contexts/DocumentContext";
-import { useQueryContext } from "@/contexts/QueryContext";
+import { useDocumentCount } from "@/lib/hooks";
 
 export default function DownloadButton() {
   const t = useTranslations("results");
   const tDownload = useTranslations("download");
   const locale = useLocale();
-  const { resultsCount } = useQueryContext();
-  const { selectedDocuments, excludedDocuments } = useDocumentContext();
+  const documentCount = useDocumentCount();
   const [downloadModalOpen, setDownloadModalOpen] = React.useState(false);
   const [waitingModalOpen, setWaitingModalOpen] = React.useState(false);
-
-  const documentsCount =
-    selectedDocuments.length > 0
-      ? selectedDocuments.length
-      : resultsCount - excludedDocuments.length;
 
   const openDownloadModal = () => {
     setDownloadModalOpen(true);
@@ -58,7 +51,7 @@ export default function DownloadButton() {
           onClick={openDownloadModal}
         >
           {t("DownloadButton", {
-            resultsCount: documentsCount.toLocaleString(locale),
+            resultCount: documentCount.toLocaleString(locale),
           })}
         </Button>
       </Box>

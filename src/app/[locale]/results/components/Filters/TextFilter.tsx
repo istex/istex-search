@@ -348,7 +348,7 @@ function ChecklistItem({
         </Box>
       }
       disabled={isImportSearchMode}
-      title={isImportSearchMode ? tResults("unavailableTitle") : undefined}
+      title={isImportSearchMode ? tResults("unavailableTitle") : label}
       checked={checked}
       onChange={(event) => {
         setValue(key, event.target.checked);

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   MenuItem,
   TextField,
@@ -33,35 +32,15 @@ type AutocompleteInputProps = TextFieldProps & {
 export function AutocompleteInput(props: AutocompleteInputProps) {
   // NOTE: We can't migrate from InputProps to slotProps.input just yet because of a bug in Autocomplete
   // described here https://github.com/mui/material-ui/issues/43573
-
-  const [focused, setFocused] = React.useState(false);
-  const { InputProps, isLoading, ...rest } = props;
-
-  const getEndAdornment = () => {
-    if (isLoading === true) {
-      return <DelayedCircularProgress color="inherit" size={20} />;
-    }
-
-    if (focused) {
-      return <SearchIcon />;
-    }
-
-    return null;
-  };
+  const { InputProps, isLoading = false, ...rest } = props;
 
   return (
     <TextField
-      onFocus={(_) => {
-        setFocused(true);
-      }}
-      onBlur={(_) => {
-        setFocused(false);
-      }}
       InputProps={{
         ...InputProps,
         endAdornment: (
           <>
-            {getEndAdornment()}
+            {isLoading && <DelayedCircularProgress color="inherit" size={20} />}
             {InputProps?.endAdornment}
           </>
         ),

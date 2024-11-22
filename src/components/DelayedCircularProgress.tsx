@@ -1,8 +1,9 @@
-import Box from "@mui/material/Box";
-import CircularProgress, {
+import {
+  Box,
+  CircularProgress,
+  Fade,
   type CircularProgressProps,
-} from "@mui/material/CircularProgress";
-import Fade from "@mui/material/Fade";
+} from "@mui/material";
 
 interface DelayedCircularProgressProps extends CircularProgressProps {
   isLoading?: boolean;

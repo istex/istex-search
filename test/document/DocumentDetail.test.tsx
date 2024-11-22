@@ -76,7 +76,7 @@ describe("DocumentDetail", () => {
     expect(nbLink).toHaveAttribute("href", dummyUriWithSid);
     expect(nbLink).toHaveAttribute(
       "title",
-      "Accéder aux catégories Pascal-Francis générées par Nb au format TEI",
+      "Accéder aux catégories Inist générées par Nb au format TEI",
     );
 
     expect(within(drawer).getByText("teeft")).toBeInTheDocument();

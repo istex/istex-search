@@ -212,10 +212,10 @@
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",
         "annexes": "Accéder à l'annexe au format {extension}",
-        "multicat": "Accéder aux catégories WoS, Scopus et Science Metrix générées par Multicat au format {extension}",
+        "multicat": "Accéder aux catégories WoS, Scopus et Science-Metrix générées par Multicat au format {extension}",
         "teeft": "Accéder à l'indexation générée par Teeft au format {extension}",
         "unitex": "Accéder aux entités nommées générées par Unitex au format {extension}",
-        "nb": "Accéder aux catégories Pascal-Francis générées par Nb au format {extension}",
+        "nb": "Accéder aux catégories Inist générées par Nb au format {extension}",
         "grobidFulltext": "Accéder au texte structuré par Grobid au format {extension}",
         "refBibs": "Accéder aux références bibliographiques structurées par Grobid au format {extension}",
         "openAccess": "Accéder à ce document sur sa plateforme d'origine"
@@ -830,7 +830,7 @@
       "type": {
         "title": "Type d'enrichissement",
         "description": "Recherche de documents comportant un enrichissement",
-        "multicat": "Catégories WoS, Scopus, Science Metrix (Multicat)",
+        "multicat": "Catégories WoS, Scopus, Science-Metrix (Multicat)",
         "teeft": "Indexation (Teeft)",
         "unitex": "Entités nommées (Unitex)",
         "nb": "Catégories Inist (bayésien naïf)",

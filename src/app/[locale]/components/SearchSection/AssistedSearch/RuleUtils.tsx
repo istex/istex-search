@@ -30,20 +30,28 @@ type AutocompleteInputProps = TextFieldProps & {
 };
 
 export function AutocompleteInput(props: AutocompleteInputProps) {
-  // NOTE: We can't migrate from InputProps to slotProps.input just yet because of a bug in Autocomplete
-  // described here https://github.com/mui/material-ui/issues/43573
-  const { InputProps, isLoading = false, ...rest } = props;
+  // NOTE: We still have to spread InputProps in slotProps.input because of a consistency problem about
+  // the slotProps pattern in TextField described here https://github.com/mui/material-ui/issues/43573
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  const { InputProps, isLoading = false, slotProps, ...rest } = props;
 
   return (
     <TextField
-      InputProps={{
-        ...InputProps,
-        endAdornment: (
-          <>
-            {isLoading && <DelayedCircularProgress color="inherit" size={20} />}
-            {InputProps?.endAdornment}
-          </>
-        ),
+      slotProps={{
+        ...slotProps,
+        input: {
+          // TODO: replace the next line with slotProps?.input once the slotProps pattern is standardized everywhere in MUI
+          ...InputProps,
+          endAdornment: (
+            <>
+              {isLoading && (
+                <DelayedCircularProgress color="inherit" size={20} />
+              )}
+              {/* TODO: replace the next line with slotProps?.input?.endAdornment when it becomes available */}
+              {InputProps?.endAdornment}
+            </>
+          ),
+        },
       }}
       sx={fontFamilyStyle}
       {...rest}

@@ -5,9 +5,7 @@ import CompatibilityPanelContent from "./CompatibilityPanelContent";
 import IndicatorPanelContent from "./IndicatorPanelContent";
 import Panel, { type PanelName } from "./Panel";
 
-type PanelStates = {
-  [TName in PanelName]: boolean;
-};
+type PanelStates = Record<PanelName, boolean>;
 
 const PANEL_EXPANDED_STATES_KEY = "panelExpandedStates";
 const DEFAULT_PANEL_EXPANDED_STATES: PanelStates = {

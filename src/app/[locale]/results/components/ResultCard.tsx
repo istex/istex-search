@@ -122,7 +122,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
               color: "colors.grey",
               maxHeight: "10em",
               mb: 1,
-              ...lineclamp(6),
+              ...lineclamp(3),
             }}
           >
             {info.abstract}

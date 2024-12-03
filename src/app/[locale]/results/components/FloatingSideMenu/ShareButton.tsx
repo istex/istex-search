@@ -4,18 +4,19 @@ import { useTranslations } from "next-intl";
 import { SvgIcon } from "@mui/material";
 import FloatingSideButton from "./FloatingSideButton";
 import ShareIcon from "@/../public/share.svg?svgr";
-import { useOnHomePage, useShare } from "@/lib/hooks";
+import { usePathname } from "@/i18n/routing";
+import { useShare } from "@/lib/hooks";
 
 export default function ShareButton() {
   const t = useTranslations("results.FloatingSideMenu");
-  const onHomePage = useOnHomePage();
+  const onResultsPage = usePathname() === "/results";
   const share = useShare();
 
   const handleShareButton = () => {
     share("corpus", new URL(window.location.href));
   };
 
-  if (onHomePage) {
+  if (!onResultsPage) {
     return null;
   }
 

@@ -389,9 +389,13 @@
     "title": "Erreur"
   },
   "NotFoundPage": {
-    "title": "Oups, cette page s'est évaporée !",
-    "body": "Comme une étoile filante, elle est là un instant et disparaît.",
-    "goBackLink": "Continuons notre voyage ensemble en <link>retournant à l'accueil</link>."
+    "title": "Oups, page introuvable !",
+    "body": "Il semblerait que vous soyez tombé dans une impasse… La page que vous recherchez n'existe pas (ou plus). Voici quelques options pour retrouver votre chemin :",
+    "list": [
+      "Revenir à la <homeLink><strong>page d'accueil</strong></homeLink> d'Istex Search pour effectuer une nouvelle requête.",
+      "Utiliser la <assistedSearchLink><strong>recherche assistée</strong></assistedSearchLink> pour être accompagné dans le requêtage du réservoir Istex."
+    ],
+    "contact": "Si vous pensez qu’il s’agit d’une erreur, n’hésitez pas à <link>nous contacter</link> pour nous le signaler."
   },
   "errors": {
     "SyntaxError": "Une erreur de syntaxe a été détectée.",

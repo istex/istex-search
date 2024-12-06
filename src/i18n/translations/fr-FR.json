@@ -130,7 +130,7 @@
     "RawRequest": {
       "prefix": "Requête brute : ",
       "copy": {
-        "button": "REQUÊTE BRUTE",
+        "label": "Copier la requête brute dans le presse-papiers.",
         "success": "Requête brute copiée dans le presse-papier.",
         "error": "Erreur dans la copie de la requête brute.",
         "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."

@@ -2,10 +2,9 @@
 
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+import CopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Alert,
-  Box,
   Container,
   IconButton,
   Link,
@@ -14,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import HighlightedUrl from "./HighlightedUrl";
-import CopyLogo from "@/../public/copy-icon.svg";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
@@ -74,10 +72,10 @@ export default function RawRequest() {
         elevation={0}
         sx={{
           bgcolor: "colors.veryLightBlue",
-          p: 2,
+          p: 1,
           display: "flex",
           alignItems: "center",
-          gap: "1rem",
+          gap: 2,
         }}
       >
         <Typography
@@ -98,30 +96,13 @@ export default function RawRequest() {
             <HighlightedUrl url={resultsApiUrl} />
           </Link>
         </Typography>
-        <Box
-          sx={(theme) => ({
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            flexGrow: 1,
-            fontSize: "0.4375rem",
-            color: theme.vars.palette.colors.darkBlack,
-            whiteSpace: "nowrap",
-          })}
+        <IconButton
+          title={t("copy.label")}
+          aria-label={t("copy.label")}
+          onClick={handleCopy}
         >
-          <IconButton
-            aria-labelledby="copy-raw-request-button-label"
-            onClick={handleCopy}
-            sx={{
-              backgroundColor: "white",
-              borderRadius: "100%",
-              mb: "0.12rem",
-            }}
-          >
-            <Image src={CopyLogo} alt="" />
-          </IconButton>
-          <span id="copy-raw-request-button-label">{t("copy.button")}</span>
-        </Box>
+          <CopyIcon />
+        </IconButton>
       </Paper>
       <Snackbar
         open={snackbarOpen}

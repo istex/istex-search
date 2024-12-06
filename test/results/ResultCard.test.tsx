@@ -8,6 +8,7 @@ describe("ResultCard", () => {
     arkIstex: "arkIstex",
     corpusName: "elsevier",
     title: "Document title",
+    publicationDate: "2010",
     host: {
       title: "Host title",
     },
@@ -25,11 +26,12 @@ describe("ResultCard", () => {
     ],
   };
 
-  it("should render correctly", () => {
+  it("renders correctly", () => {
     render(<ResultCard info={document} />);
     expect(screen.getByText("Document title")).toBeInTheDocument();
     expect(screen.getByText("Host title")).toBeInTheDocument();
     expect(screen.getByText("Author name")).toBeInTheDocument();
+    expect(screen.getByText("2010")).toBeInTheDocument();
     expect(screen.getByText("Abstract")).toBeInTheDocument();
   });
 

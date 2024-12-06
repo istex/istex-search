@@ -69,6 +69,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
             borderRadius: 1.5,
           }}
         >
+          {/* Title */}
           <Typography
             component="div"
             sx={{
@@ -82,6 +83,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
             {info.title}
           </Typography>
 
+          {/* Host title */}
           {info.host?.title != null && (
             <Typography
               variant="subtitle2"
@@ -99,22 +101,41 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
             </Typography>
           )}
 
-          <Typography
-            variant="body2"
-            sx={{
-              color: "colors.blue",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              mb: 2,
-            }}
+          <Stack
+            direction="row"
+            sx={{ justifyContent: "space-between", gap: 3 }}
           >
-            {info.author
-              ?.filter(({ name }) => name)
-              .map(({ name }) => name)
-              .join(", ")}
-          </Typography>
+            {/* Author names */}
+            <Typography
+              component="div"
+              variant="body2"
+              sx={{
+                color: "colors.blue",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                mb: 2,
+              }}
+            >
+              {info.author
+                ?.filter(({ name }) => name)
+                .map(({ name }) => name)
+                .join(", ")}
+            </Typography>
 
+            {/* Publication date */}
+            <Typography
+              component="div"
+              variant="subtitle2"
+              sx={{
+                color: "colors.grey",
+              }}
+            >
+              {info.publicationDate}
+            </Typography>
+          </Stack>
+
+          {/* Abstract */}
           <Typography
             variant="body2"
             sx={{

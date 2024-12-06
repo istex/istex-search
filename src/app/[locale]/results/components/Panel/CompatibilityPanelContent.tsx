@@ -9,7 +9,6 @@ export default function CompatibilityPanelContent() {
 
   // Some formats are always available
   const jsonCount = results.total;
-  const modsCount = results.total;
   const txtCount =
     results.aggregations["qualityIndicators.pdfText"].buckets.find(
       ({ keyAsString }) => keyAsString === "true",
@@ -53,10 +52,6 @@ export default function CompatibilityPanelContent() {
           if (isFormatSelected(usage.formats, formats.metadata.json)) {
             data.push({ label: "json", count: jsonCount });
             compatibilityCount = Math.max(jsonCount, compatibilityCount);
-          }
-          if (isFormatSelected(usage.formats, formats.metadata.mods)) {
-            data.push({ label: "mods", count: modsCount });
-            compatibilityCount = Math.max(modsCount, compatibilityCount);
           }
           if (isFormatSelected(usage.formats, formats.fulltext.txt)) {
             data.push({ label: "txt", count: txtCount });

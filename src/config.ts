@@ -123,8 +123,7 @@ export const usages = {
   nooj: {
     isGateway: true,
     url: "https://nooj.univ-fcomte.fr/",
-    formats:
-      formats.metadata.mods | formats.fulltext.txt | formats.fulltext.cleaned,
+    formats: formats.metadata.json | formats.fulltext.txt,
     archiveTypes: ["zip"],
   },
 } as const;

@@ -474,8 +474,8 @@
         "description": "Logiciel libre dédié à l'exploration collaborative d'ensembles de documents combinant des outils de traitement du langage naturel, d'analyse de réseaux complexes et de visualisation interactive de données."
       },
       "nooj": {
-        "label": "Nooj",
-        "description": "TODO: À RÉDIGER"
+        "label": "NooJ",
+        "description": "Application destinée à l'analyse de corpus permettant de construire des ressources linguistiques (dictionnaires, grammaires) et de les appliquer à des fins d'annotation ou d'interrogation (analyse sémantique, concordances, extraction d'information, etc.)."
       }
     },
     "archiveTypes": {

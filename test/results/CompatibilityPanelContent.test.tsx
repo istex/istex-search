@@ -100,26 +100,21 @@ describe("CompatibilityPanelContent", () => {
   it("renders the nooj compatibility progress", () => {
     const compatibilityGroup = screen.getByTestId("nooj-compatibility");
     const title = within(compatibilityGroup).queryByText("nooj (100 %)");
-    const cleanedLabel = within(compatibilityGroup).queryByText("cleaned");
-    const modsLabel = within(compatibilityGroup).queryByText("mods");
+    const jsonLabel = within(compatibilityGroup).queryByText("json");
     const txtLabel = within(compatibilityGroup).queryByText("txt");
     const progressBars = within(compatibilityGroup).getAllByRole("progressbar");
-    const cleanedDocCount = within(compatibilityGroup).queryByText("15 doc.");
-    const modsDocCount = within(compatibilityGroup).queryByText(
+    const jsonDocCount = within(compatibilityGroup).queryByText(
       `${results.total} doc.`,
     );
     const txtDocCount = within(compatibilityGroup).queryByText("25 doc.");
 
     expect(title).toBeInTheDocument();
-    expect(modsLabel).toBeInTheDocument();
-    expect(cleanedLabel).toBeInTheDocument();
+    expect(jsonLabel).toBeInTheDocument();
     expect(txtLabel).toBeInTheDocument();
-    expect(progressBars).toHaveLength(3);
-    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "30");
-    expect(progressBars[1]).toHaveAttribute("aria-valuenow", "100");
-    expect(progressBars[2]).toHaveAttribute("aria-valuenow", "50");
-    expect(modsDocCount).toBeInTheDocument();
-    expect(cleanedDocCount).toBeInTheDocument();
+    expect(progressBars).toHaveLength(2);
+    expect(progressBars[0]).toHaveAttribute("aria-valuenow", "100");
+    expect(progressBars[1]).toHaveAttribute("aria-valuenow", "50");
+    expect(jsonDocCount).toBeInTheDocument();
     expect(txtDocCount).toBeInTheDocument();
   });
 });

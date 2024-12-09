@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom";
-import "cross-fetch/polyfill";
 
 const routerMock = {
   back: jest.fn(),

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-type Tag = "strong" | "br";
+type Tag = "strong" | "br" | "pre" | "i";
 
 interface RichTextProps {
   children: (
@@ -12,5 +12,7 @@ export default function RichText({ children }: RichTextProps) {
   return children({
     strong: (chunks) => <strong>{chunks}</strong>,
     br: () => <br />,
+    pre: (chunks) => <pre>{chunks}</pre>,
+    i: (chunks) => <i>{chunks}</i>,
   });
 }

@@ -233,9 +233,80 @@
       "otherLanguage": "autres",
       "compatibility": "Compatibilité avec les passerelles"
     },
+    "MemoModal": {
+      "title": "Rechercher avec Lucene",
+      "subtitle": "Lucene est le language de requêtage du moteur de recherche Istex (<link>Elasticsearch</link>). La syntaxe Lucene permet de cibler efficacement les documents qui vous intéressent.",
+      "general": {
+        "title": "Éléments généraux",
+        "list": [
+          "Par défaut, la recherche est insensible à la casse mais sensible aux diacritiques.<pre>évolution ≠ evolution</pre>",
+          "La recherche d'expressions multitermes s'effectue avec des guillemets.<pre>\"speech therapy\"</pre>"
+        ]
+      },
+      "operators": {
+        "title": "Opérateurs",
+        "list": [
+          "Il est possible d'utiliser trois opérateurs <strong>OR</strong> (ou inclusif), <strong>AND</strong> (et) et <strong>NOT</strong> (sauf).<pre>comics AND host.eissn.raw:1476-4687</pre>comics OR host.eissn.raw:1476-4687<pre>comics NOT host.eissn.raw:1476-4687</pre>",
+          "Par défaut, l'espace blanc est un <strong>OR</strong>."
+        ]
+      },
+      "fields": {
+        "title": "Champs",
+        "list": [
+          "Tous les champs sont interrogés par défaut.",
+          "Le requêtage d'un champ spécifique s'effectue avec le nom technique du champ suivi de <strong>:</strong>.<pre>title:Rimbaud</pre>",
+          "Le requêtage exact d'un champ est possible grâce au <strong>.raw</strong>.<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
+        ]
+      },
+      "metacharacters": {
+        "title": "Métacaractères * et ?",
+        "list": [
+          "<strong>*</strong> remplace 0 à <i>n</i> caractère(s).<pre>title:lang*ge AND language:fre</pre><pre>title:*stellar</pre><pre>title:/[frc]at/</pre>",
+          "<strong>?</strong> remplace 1 caractère.<pre>title:(thermal AND polari?ation)</pre>"
+        ]
+      },
+      "parentheses": {
+        "title": "Parenthésage",
+        "list": [
+          "Les parenthèses permettent de prioriser les opérations et d'effectuer des regroupements.<pre>(Luke OR Leia) AND Skywalker</pre><pre>title:(plastic NOT bertrand)</pre>"
+        ]
+      },
+      "intervals": {
+        "title": "Recherche par intervalle",
+        "list": [
+          "Il est possible de rechercher par intervalles grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
+        ]
+      },
+      "boosting": {
+        "title": "Pondération",
+        "list": [
+          "<strong>^</strong> suivi d'un chiffre permet de donner plus de poids à un terme de recherche.<pre>\"star wars\"^2 skywalker</pre>"
+        ]
+      },
+      "fuzzy": {
+        "title": "Recherche floue",
+        "list": [
+          "<strong>~</strong> permet de rechercher les variantes d'écriture d'un terme (2 caractères de différence max.).<pre>title:france~</pre>"
+        ]
+      },
+      "proximity": {
+        "title": "Recherche de proximité",
+        "list": [
+          "<strong>~</strong> suivi d'un chiffre permet de rechercher une expression comportant 2 termes plus ou moins distants.<pre>title:\"pomme terre\"~1</pre><pre>title:\"return jedi\"~2</pre>"
+        ]
+      },
+      "regex": {
+        "title": "Expressions régulières",
+        "list": [
+          "Les expressions régulières doivent être placées entre <strong>//</strong>."
+        ]
+      },
+      "seeMoreLink": "EN SAVOIR PLUS"
+    },
     "FloatingSideMenu": {
       "historyButton": "Historique de recherches",
-      "shareButton": "Partager votre recherche"
+      "shareButton": "Partager votre recherche",
+      "memoButton": "Mémo de syntaxe de requêtage"
     },
     "History": {
       "title": "Historique",
@@ -395,7 +466,7 @@
       "Revenir à la <homeLink><strong>page d'accueil</strong></homeLink> d'Istex Search pour effectuer une nouvelle requête.",
       "Utiliser la <assistedSearchLink><strong>recherche assistée</strong></assistedSearchLink> pour être accompagné dans le requêtage du réservoir Istex."
     ],
-    "contact": "Si vous pensez qu’il s’agit d’une erreur, n’hésitez pas à <link>nous contacter</link> pour nous le signaler."
+    "contact": "Si vous pensez qu'il s'agit d'une erreur, n'hésitez pas à <link>nous contacter</link> pour nous le signaler."
   },
   "errors": {
     "SyntaxError": "Une erreur de syntaxe a été détectée.",

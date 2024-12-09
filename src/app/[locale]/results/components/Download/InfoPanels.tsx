@@ -1,21 +1,13 @@
 import { useTranslations } from "next-intl";
-import { Grid2 as Grid, Link, Typography, type SxProps } from "@mui/material";
+import { Grid2 as Grid, Link, Typography } from "@mui/material";
 import HighlightedUrl from "../HighlightedUrl";
-import Panel from "./Panel";
-import PanelTitle from "./PanelTitle";
+import Panel, { PanelTitle } from "@/components/Panel";
 import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
-
-const panelStyles: SxProps = {
-  "&.MuiPaper-root": {
-    bgcolor: "colors.white",
-  },
-  p: 2,
-};
 
 export default function InfoPanels() {
   const t = useTranslations("download.InfoPanels");
@@ -45,8 +37,7 @@ export default function InfoPanels() {
   return (
     <>
       <Grid>
-        <Panel>
-          <PanelTitle>{tUsages(`${currentUsageName}.label`)}</PanelTitle>
+        <Panel heading={tUsages(`${currentUsageName}.label`)}>
           <Typography variant="body2" gutterBottom>
             {tUsages(`${currentUsageName}.description`)}
           </Typography>
@@ -65,11 +56,12 @@ export default function InfoPanels() {
       </Grid>
 
       <Grid>
-        <Panel>
-          <PanelTitle>{t("queryTitle")}</PanelTitle>
+        <Panel heading={t("queryTitle")}>
           <Panel
             sx={{
-              ...panelStyles,
+              "&&": {
+                bgcolor: "colors.white",
+              },
               mb: 2,
             }}
           >
@@ -88,7 +80,13 @@ export default function InfoPanels() {
           </Panel>
 
           <PanelTitle>{t("rawRequestTitle")}</PanelTitle>
-          <Panel sx={panelStyles}>
+          <Panel
+            sx={{
+              "&&": {
+                bgcolor: "colors.white",
+              },
+            }}
+          >
             <Typography
               data-testid="raw-request"
               variant="body2"

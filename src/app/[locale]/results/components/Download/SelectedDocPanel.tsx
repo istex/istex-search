@@ -2,8 +2,7 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Box, IconButton, Typography } from "@mui/material";
-import Panel from "./Panel";
-import PanelTitle from "./PanelTitle";
+import Panel from "@/components/Panel";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 
 export default function SelectedDocPanel() {
@@ -11,8 +10,7 @@ export default function SelectedDocPanel() {
   const { selectedDocuments, toggleSelectedDocument } = useDocumentContext();
 
   return (
-    <Panel>
-      <PanelTitle>{t("title")}</PanelTitle>
+    <Panel heading={t("title")}>
       <Box
         sx={{
           display: "grid",

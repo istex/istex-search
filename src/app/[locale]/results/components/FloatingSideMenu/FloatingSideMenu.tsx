@@ -1,15 +1,15 @@
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 import HistoryButton from "./HistoryButton";
+import MemoButton from "./MemoButton";
 import ShareButton from "./ShareButton";
 
 export default function FloatingSideMenu() {
   return (
-    <Box
+    <Stack
       component="aside"
       sx={{
-        display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
+        alignItems: "end",
         gap: 0.5,
         position: "fixed",
         height: "100vh",
@@ -20,6 +20,7 @@ export default function FloatingSideMenu() {
     >
       <HistoryButton />
       <ShareButton />
-    </Box>
+      <MemoButton />
+    </Stack>
   );
 }

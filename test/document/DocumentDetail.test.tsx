@@ -7,7 +7,57 @@ import {
 } from "../test-utils";
 import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
-import type { IstexApiResponse, Result } from "@/lib/istexApi";
+import type { IstexApiResponse } from "@/lib/istexApi";
+
+const dummyUri = "https://foo.bar/";
+const dummyUriWithSid = `${dummyUri}?sid=istex-search`;
+const results: IstexApiResponse = {
+  total: 3,
+  firstPageURI: "",
+  lastPageURI: "",
+  hits: ["123", "456", "789"].map((id) => ({
+    id,
+    title: `Document title ${id}`,
+    host: {
+      title: "Host title",
+      genre: ["Host genre"],
+    },
+    author: [
+      {
+        name: "Author name",
+      },
+    ],
+    genre: ["Genre"],
+    abstract: "Abstract",
+    corpusName: "Corpus name",
+    publicationDate: "2021",
+    arkIstex: "arkIstex",
+    fulltext: [
+      { extension: "pdf", uri: dummyUri },
+      { extension: "zip", uri: dummyUri },
+    ],
+    metadata: [
+      { extension: "xml", uri: dummyUri },
+      { extension: "json", uri: dummyUri },
+    ],
+    annexes: [{ extension: "jpg", uri: dummyUri }],
+    enrichments: {
+      nb: [
+        {
+          extension: "tei",
+          uri: dummyUri,
+        },
+      ],
+      teeft: [
+        {
+          extension: "tei",
+          uri: dummyUri,
+        },
+      ],
+    },
+  })),
+  aggregations: {},
+};
 
 describe("DocumentDetail", () => {
   it("doesn't render the document details when the displayedDocument is not defined", () => {
@@ -21,7 +71,7 @@ describe("DocumentDetail", () => {
 
     const drawer = screen.getByRole("presentation");
     expect(drawer).toBeInTheDocument();
-    expect(within(drawer).getByText("Document title")).toBeInTheDocument();
+    expect(within(drawer).getByText("Document title 123")).toBeInTheDocument();
     expect(within(drawer).getByText("Host title")).toBeInTheDocument();
     expect(within(drawer).getByText("Author name")).toBeInTheDocument();
     expect(within(drawer).getByText("Genre")).toBeInTheDocument();
@@ -99,6 +149,56 @@ describe("DocumentDetail", () => {
     });
   });
 
+  it("displays the previous document when clicking on the previous button", async () => {
+    await renderDocumentDetail(1);
+
+    const drawer = screen.getByRole("presentation");
+    const previousTitle = within(drawer).getByRole("heading", { level: 2 });
+    expect(previousTitle).toHaveTextContent(results.hits[1].title ?? "");
+
+    const previousButton = within(drawer).getByRole("button", {
+      name: "Aller au document précédent",
+    });
+    await userEvent.click(previousButton);
+    const newTitle = within(drawer).getByRole("heading", { level: 2 });
+    expect(newTitle).toHaveTextContent(results.hits[0].title ?? "");
+  });
+
+  it("displays the next document when clicking on the next button", async () => {
+    await renderDocumentDetail(1);
+
+    const drawer = screen.getByRole("presentation");
+    const previousTitle = within(drawer).getByRole("heading", { level: 2 });
+    expect(previousTitle).toHaveTextContent(results.hits[1].title ?? "");
+
+    const nextButton = within(drawer).getByRole("button", {
+      name: "Aller au document suivant",
+    });
+    await userEvent.click(nextButton);
+    const newTitle = within(drawer).getByRole("heading", { level: 2 });
+    expect(newTitle).toHaveTextContent(results.hits[2].title ?? "");
+  });
+
+  it("disables the previous button when on the first document of the page", async () => {
+    await renderDocumentDetail(0);
+
+    const drawer = screen.getByRole("presentation");
+    const previousButton = within(drawer).getByRole("button", {
+      name: "Aller au document précédent",
+    });
+    expect(previousButton).toBeDisabled();
+  });
+
+  it("disables the next button when on the last document of the page", async () => {
+    await renderDocumentDetail(results.hits.length - 1);
+
+    const drawer = screen.getByRole("presentation");
+    const nextButton = within(drawer).getByRole("button", {
+      name: "Aller au document suivant",
+    });
+    expect(nextButton).toBeDisabled();
+  });
+
   it("toggles the selection when the select button is clicked", async () => {
     await renderDocumentDetail();
 
@@ -130,69 +230,18 @@ describe("DocumentDetail", () => {
   });
 });
 
-const dummyUri = "https://foo.bar/";
-const dummyUriWithSid = `${dummyUri}?sid=istex-search`;
-const document: Result = {
-  id: "123",
-  title: "Document title",
-  host: {
-    title: "Host title",
-    genre: ["Host genre"],
-  },
-  author: [
-    {
-      name: "Author name",
-    },
-  ],
-  genre: ["Genre"],
-  abstract: "Abstract",
-  corpusName: "Corpus name",
-  publicationDate: "2021",
-  arkIstex: "arkIstex",
-  fulltext: [
-    { extension: "pdf", uri: dummyUri },
-    { extension: "zip", uri: dummyUri },
-  ],
-  metadata: [
-    { extension: "xml", uri: dummyUri },
-    { extension: "json", uri: dummyUri },
-  ],
-  annexes: [{ extension: "jpg", uri: dummyUri }],
-  enrichments: {
-    nb: [
-      {
-        extension: "tei",
-        uri: dummyUri,
-      },
-    ],
-    teeft: [
-      {
-        extension: "tei",
-        uri: dummyUri,
-      },
-    ],
-  },
-};
-
-const results: IstexApiResponse = {
-  total: 1,
-  firstPageURI: "",
-  lastPageURI: "",
-  hits: [document],
-  aggregations: {},
-};
-
-async function renderDocumentDetail(partialDocument: Partial<Result> = {}) {
-  const newDocument = { ...document, ...partialDocument };
+async function renderDocumentDetail(index = 0) {
   render(
     <>
-      <ResultCard info={newDocument} />
+      <ResultCard index={index} />
       <DocumentDetail />
     </>,
-    { results: { ...results, hits: [newDocument] } },
+    { results },
   );
 
-  const card = screen.getByText(newDocument.title ?? "").closest("button");
+  const card = screen
+    .getByText(results.hits[index].title ?? "")
+    .closest("button");
   if (card == null) {
     throw new Error("Couldn't find click area on result card");
   }

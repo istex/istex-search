@@ -197,6 +197,8 @@
     "Document": {
       "backToResults": "Revenir aux résultats",
       "share": "Partager le document",
+      "previousButtonLabel": "Aller au document précédent",
+      "nextButtonLabel": "Aller au document suivant",
       "docInfos": "Informations sur ce document",
       "seeDoc": "Consulter ce document",
       "fulltext": "Texte intégral",

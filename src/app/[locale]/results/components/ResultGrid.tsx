@@ -56,10 +56,10 @@ export default function ResultGrid() {
           gap: 2,
         }}
       >
-        {results.hits.map((hit) => (
+        {results.hits.map((hit, i) => (
           <ResultCard
             key={hit.id}
-            info={hit}
+            index={i}
             displayIcons={columnCount === 1 && !xs}
           />
         ))}

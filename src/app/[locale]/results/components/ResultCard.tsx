@@ -15,17 +15,17 @@ import { lighten } from "@mui/material/styles";
 import FileList from "./Document/FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
-import type { Result } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
 
 interface ResultCardProps {
-  info: Result;
+  index: number;
   displayIcons?: boolean;
 }
 
-export default function ResultCard({ info, displayIcons }: ResultCardProps) {
+export default function ResultCard({ index, displayIcons }: ResultCardProps) {
   const {
     displayDocument,
     toggleSelectedDocument,
@@ -33,14 +33,16 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
     selectedDocuments,
     excludedDocuments,
   } = useDocumentContext();
+  const { results } = useQueryContext();
   const t = useTranslations("results.ResultsCard");
   const searchParams = useSearchParams();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const document = results.hits[index];
 
   const isSelected = selectedDocuments.some(
-    (doc) => doc.arkIstex === info.arkIstex,
+    (doc) => doc.arkIstex === document.arkIstex,
   );
-  const isExcluded = excludedDocuments.includes(info.arkIstex);
+  const isExcluded = excludedDocuments.includes(document.arkIstex);
 
   const cardColor = isSelected ? "darkGreen" : isExcluded ? "grey" : "blue";
 
@@ -62,7 +64,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
       >
         <CardActionArea
           onClick={() => {
-            displayDocument(info.id);
+            displayDocument(index);
           }}
           sx={{
             flexGrow: 1,
@@ -80,11 +82,11 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
               ...lineclamp(3),
             }}
           >
-            {info.title}
+            {document.title}
           </Typography>
 
           {/* Host title */}
-          {info.host?.title != null && (
+          {document.host?.title != null && (
             <Typography
               variant="subtitle2"
               component="div"
@@ -97,7 +99,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
                 mb: 1,
               }}
             >
-              {info.host.title}
+              {document.host.title}
             </Typography>
           )}
 
@@ -117,7 +119,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
                 mb: 2,
               }}
             >
-              {info.author
+              {document.author
                 ?.filter(({ name }) => name)
                 .map(({ name }) => name)
                 .join(", ")}
@@ -131,7 +133,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
                 color: "colors.grey",
               }}
             >
-              {info.publicationDate}
+              {document.publicationDate}
             </Typography>
           </Stack>
 
@@ -146,12 +148,12 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
               ...lineclamp(3),
             }}
           >
-            {info.abstract}
+            {document.abstract}
           </Typography>
         </CardActionArea>
 
         {displayIcons === true && (
-          <FileList document={info} direction="row" gap={2} />
+          <FileList document={document} direction="row" gap={2} />
         )}
       </CardContent>
       <Stack
@@ -176,7 +178,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
             size="small"
             disabled={isImportSearchMode}
             onClick={() => {
-              toggleSelectedDocument(info.arkIstex);
+              toggleSelectedDocument(document.arkIstex);
             }}
           >
             {isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
@@ -193,7 +195,7 @@ export default function ResultCard({ info, displayIcons }: ResultCardProps) {
             size="small"
             disabled={isImportSearchMode}
             onClick={() => {
-              toggleExcludedDocument(info.arkIstex);
+              toggleExcludedDocument(document.arkIstex);
             }}
           >
             {isExcluded ? <AddCircleIcon /> : <CancelIcon />}

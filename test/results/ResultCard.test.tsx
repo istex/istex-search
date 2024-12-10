@@ -1,33 +1,10 @@
 import { customRender as render, screen, userEvent } from "../test-utils";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
-import type { Result } from "@/lib/istexApi";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("ResultCard", () => {
-  const document: Result = {
-    id: "123",
-    arkIstex: "arkIstex",
-    corpusName: "elsevier",
-    title: "Document title",
-    publicationDate: "2010",
-    host: {
-      title: "Host title",
-    },
-    author: [
-      {
-        name: "Author name",
-      },
-    ],
-    abstract: "Abstract",
-    fulltext: [
-      {
-        uri: "https://example.com",
-        extension: "pdf",
-      },
-    ],
-  };
-
   it("renders correctly", () => {
-    render(<ResultCard info={document} />);
+    renderResultCard();
     expect(screen.getByText("Document title")).toBeInTheDocument();
     expect(screen.getByText("Host title")).toBeInTheDocument();
     expect(screen.getByText("Author name")).toBeInTheDocument();
@@ -36,7 +13,7 @@ describe("ResultCard", () => {
   });
 
   it("displays the file icons when displayIcons is true", () => {
-    render(<ResultCard info={document} displayIcons />);
+    renderResultCard(true);
 
     const pdfLink = screen.getByRole("link", {
       name: "Accéder au texte intégral au format PDF",
@@ -46,7 +23,7 @@ describe("ResultCard", () => {
   });
 
   it("doesn't display the file icons when displayIcons not true", () => {
-    render(<ResultCard info={document} />);
+    renderResultCard();
 
     const pdfLink = screen.queryByRole("link", { name: "pdf" });
 
@@ -54,7 +31,7 @@ describe("ResultCard", () => {
   });
 
   it("should handle selection correctly", async () => {
-    render(<ResultCard info={document} />);
+    renderResultCard();
     const selectButton = screen.getByRole("button", { name: "Sélectionner" });
     const excludeButton = screen.getByRole("button", { name: "Exclure" });
     expect(selectButton).toBeInTheDocument();
@@ -72,7 +49,7 @@ describe("ResultCard", () => {
   });
 
   it("should handle exclusion correctly", async () => {
-    render(<ResultCard info={document} />);
+    renderResultCard();
     const selectButton = screen.getByRole("button", { name: "Sélectionner" });
     const excludeButton = screen.getByRole("button", { name: "Exclure" });
     expect(selectButton).toBeInTheDocument();
@@ -91,3 +68,38 @@ describe("ResultCard", () => {
     expect(newSelectButton).toBeInTheDocument();
   });
 });
+
+const results: IstexApiResponse = {
+  total: 1,
+  firstPageURI: "",
+  lastPageURI: "",
+  hits: [
+    {
+      id: "123",
+      arkIstex: "arkIstex",
+      corpusName: "elsevier",
+      title: "Document title",
+      publicationDate: "2010",
+      host: {
+        title: "Host title",
+      },
+      author: [
+        {
+          name: "Author name",
+        },
+      ],
+      abstract: "Abstract",
+      fulltext: [
+        {
+          uri: "https://example.com",
+          extension: "pdf",
+        },
+      ],
+    },
+  ],
+  aggregations: {},
+};
+
+function renderResultCard(displayIcons = false) {
+  render(<ResultCard index={0} displayIcons={displayIcons} />, { results });
+}

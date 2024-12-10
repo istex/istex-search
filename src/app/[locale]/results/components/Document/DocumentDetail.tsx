@@ -4,27 +4,34 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CloseIcon from "@mui/icons-material/Close";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ShareIcon from "@mui/icons-material/Share";
-import { Chip, Drawer, Stack, Typography } from "@mui/material";
+import { Chip, Drawer, IconButton, Stack, Typography } from "@mui/material";
 import FileList from "./FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
+import { useQueryContext } from "@/contexts/QueryContext";
 import { useShare } from "@/lib/hooks";
+
+const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
 export default function DocumentDetail() {
   const {
-    displayedDocument,
+    displayedDocumentIndex,
+    displayDocument,
     closeDocument,
     toggleSelectedDocument,
     toggleExcludedDocument,
     selectedDocuments,
     excludedDocuments,
   } = useDocumentContext();
+  const { results } = useQueryContext();
   const t = useTranslations("results.Document");
   const tFields = useTranslations("fields");
   const share = useShare();
-
-  const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
+  const displayedDocument =
+    displayedDocumentIndex !== -1 ? results.hits[displayedDocumentIndex] : null;
 
   const isSelected =
     displayedDocument != null
@@ -46,6 +53,14 @@ export default function DocumentDetail() {
     url.search = `?q=${encodeURIComponent(`arkIstex.raw:"${displayedDocument.arkIstex}"`)}`;
 
     share("document", url);
+  };
+
+  const displayPreviousDocument = () => {
+    displayDocument(displayedDocumentIndex - 1);
+  };
+
+  const displayNextDocument = () => {
+    displayDocument(displayedDocumentIndex + 1);
   };
 
   return (
@@ -172,6 +187,36 @@ export default function DocumentDetail() {
               <ShareIcon fontSize="small" />
               {t("share")}
             </Typography>
+          </Stack>
+
+          {/* Previous and next buttons */}
+          <Stack
+            direction="row"
+            sx={{ mt: "auto", pt: 2, justifyContent: "space-between" }}
+          >
+            <IconButton
+              color="inherit"
+              aria-label={t("previousButtonLabel")}
+              title={t("previousButtonLabel")}
+              disabled={
+                displayedDocument == null || displayedDocumentIndex === 0
+              }
+              onClick={displayPreviousDocument}
+            >
+              <KeyboardArrowLeftIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label={t("nextButtonLabel")}
+              title={t("nextButtonLabel")}
+              disabled={
+                displayedDocument == null ||
+                displayedDocumentIndex === results.hits.length - 1
+              }
+              onClick={displayNextDocument}
+            >
+              <KeyboardArrowRightIcon />
+            </IconButton>
           </Stack>
         </Stack>
 

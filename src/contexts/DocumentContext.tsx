@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useQueryContext } from "./QueryContext";
-import type { Result } from "@/lib/istexApi";
 
 export interface SelectedDocument {
   arkIstex: string;
@@ -10,8 +9,8 @@ export interface SelectedDocument {
 }
 
 export interface DocumentContextValue {
-  displayedDocument?: Result;
-  displayDocument: (documentId: string) => void;
+  displayedDocumentIndex: number;
+  displayDocument: (documentIndex: number) => void;
   closeDocument: () => void;
   selectedDocuments: SelectedDocument[];
   excludedDocuments: string[];
@@ -26,9 +25,8 @@ interface DocumentProviderProps {
 }
 
 export function DocumentProvider({ children }: DocumentProviderProps) {
-  const [displayedDocument, setDisplayedDocument] = React.useState<
-    Result | undefined
-  >(undefined);
+  const [displayedDocumentIndex, setDisplayedDocumentIndex] =
+    React.useState(-1);
   const [selectedDocuments, setSelectedDocuments] = React.useState<
     SelectedDocument[]
   >([]);
@@ -50,13 +48,12 @@ export function DocumentProvider({ children }: DocumentProviderProps) {
     }
   }, []);
 
-  const displayDocument = (documentId: string) => {
-    const newDocument = results.hits.find((result) => result.id === documentId);
-    setDisplayedDocument(newDocument);
+  const displayDocument = (documentIndex: number) => {
+    setDisplayedDocumentIndex(documentIndex);
   };
 
   const closeDocument = () => {
-    setDisplayedDocument(undefined);
+    setDisplayedDocumentIndex(-1);
   };
 
   const toggleSelectedDocument = (documentArkIstex: string) => {
@@ -101,7 +98,7 @@ export function DocumentProvider({ children }: DocumentProviderProps) {
   };
 
   const context = {
-    displayedDocument,
+    displayedDocumentIndex,
     displayDocument,
     closeDocument,
     selectedDocuments,

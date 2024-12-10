@@ -18,11 +18,11 @@ interface MemoModalProps {
 const sections = [
   {
     name: "general",
-    listLength: 2,
+    listLength: 3,
   },
   {
     name: "operators",
-    listLength: 2,
+    listLength: 3,
   },
   {
     name: "fields",
@@ -30,7 +30,7 @@ const sections = [
   },
   {
     name: "metacharacters",
-    listLength: 2,
+    listLength: 3,
   },
   {
     name: "parentheses",
@@ -42,7 +42,7 @@ const sections = [
   },
   {
     name: "boosting",
-    listLength: 1,
+    listLength: 2,
   },
   {
     name: "fuzzy",

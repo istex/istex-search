@@ -237,34 +237,37 @@
     },
     "MemoModal": {
       "title": "Rechercher avec Lucene",
-      "subtitle": "Lucene est le language de requêtage du moteur de recherche Istex (<link>Elasticsearch</link>). La syntaxe Lucene permet de cibler efficacement les documents qui vous intéressent.",
+      "subtitle": "Lucene est le langage de requêtage du moteur de recherche Istex (<link>Elasticsearch</link>). Dans le mode de recherche simple, la syntaxe Lucene permet de cibler efficacement les documents qui vous intéressent.",
       "general": {
         "title": "Éléments généraux",
         "list": [
           "Par défaut, la recherche est insensible à la casse mais sensible aux diacritiques.<pre>évolution ≠ evolution</pre>",
-          "La recherche d'expressions multitermes s'effectue avec des guillemets.<pre>\"speech therapy\"</pre>"
+          "La recherche d'expressions multitermes s'effectue avec des guillemets.<pre>\"speech therapy\"</pre>",
+          "L'espace blanc équivaut à l'opérateur <strong>OR</strong>.<pre>orthophonie OR logopédie = orthophonie logopédie</pre>"
         ]
       },
       "operators": {
         "title": "Opérateurs",
         "list": [
-          "Il est possible d'utiliser trois opérateurs <strong>OR</strong> (ou inclusif), <strong>AND</strong> (et) et <strong>NOT</strong> (sauf).<pre>comics AND host.eissn.raw:1476-4687</pre>comics OR host.eissn.raw:1476-4687<pre>comics NOT host.eissn.raw:1476-4687</pre>",
-          "Par défaut, l'espace blanc est un <strong>OR</strong>."
+          "<strong>AND</strong> (ou <strong>&&</strong>) renvoie les documents qui contiennent tous les termes recherchés. Le métacaractère <strong>+</strong> peut également être utilisé directement devant un terme pour le rendre obligatoire.<pre>cinéma AND Chaplin = +cinéma +Chaplin</pre>",
+          "<strong>OR</strong> (ou <strong>||</strong>) renvoie les documents qui contiennent au moins l'un des termes recherchés.<pre>Greenland OR subarctic</pre>",
+          "<strong>NOT</strong> (ou <strong>!</strong> ou <strong>-</strong>) renvoie les documents qui ne contiennent pas le terme recherché.<pre>linguistics NOT syntax</pre>"
         ]
       },
       "fields": {
         "title": "Champs",
         "list": [
-          "Tous les champs sont interrogés par défaut.",
-          "Le requêtage d'un champ spécifique s'effectue avec le nom technique du champ suivi de <strong>:</strong>.<pre>title:Rimbaud</pre>",
-          "Le requêtage exact d'un champ est possible grâce au <strong>.raw</strong>.<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
+          "Par défaut, tous les champs sont interrogés.",
+          "Le requêtage d'un champ spécifique s'effectue avec le nom technique du champ suivi de <strong>:</strong> (ex. <i>title</i>, <i>publicationDate</i>, <i>doi</i>).<pre>title:Rimbaud</pre>",
+          "Le requêtage exact d'un champ est possible grâce au <strong>.raw</strong> (ex. <i>host.title.raw</i>).<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
         ]
       },
       "metacharacters": {
         "title": "Métacaractères * et ?",
         "list": [
-          "<strong>*</strong> remplace 0 à <i>n</i> caractère(s).<pre>title:lang*ge AND language:fre</pre><pre>title:*stellar</pre><pre>title:/[frc]at/</pre>",
-          "<strong>?</strong> remplace 1 caractère.<pre>title:(thermal AND polari?ation)</pre>"
+          "Le métacaractère <strong>*</strong> remplace 0 à <i>n</i> caractère(s).<pre>title:mémoris*</pre>",
+          "Le métacaractère <strong>?</strong> remplace 1 caractère.<pre>title:m?mori?ation</pre>",
+          "Les métacaractères <strong>*</strong> et <strong>?</strong> ne sont pas autorisés dans les expressions multitermes."
         ]
       },
       "parentheses": {
@@ -276,31 +279,32 @@
       "intervals": {
         "title": "Recherche par intervalle",
         "list": [
-          "Il est possible de rechercher par intervalles grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
+          "Il est possible de rechercher par <strong>intervalles</strong> grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
         ]
       },
       "boosting": {
         "title": "Pondération",
         "list": [
-          "<strong>^</strong> suivi d'un chiffre permet de donner plus de poids à un terme de recherche.<pre>\"star wars\"^2 skywalker</pre>"
+          "Le métacaractère <strong>^ suivi d'un chiffre</strong> permet de donner plus de poids à un terme de recherche.<pre>\"star wars\"^2 skywalker</pre>",
+          "La pondération impacte le tri des résultats mais pas leur nombre."
         ]
       },
       "fuzzy": {
         "title": "Recherche floue",
         "list": [
-          "<strong>~</strong> permet de rechercher les variantes d'écriture d'un terme (2 caractères de différence max.).<pre>title:france~</pre>"
+          "Le métacaractère <strong>~</strong> permet de rechercher les <strong>variantes d'écriture</strong> d'un terme (2 caractères de différence maximum).<pre>title:mémorisation~2</pre>"
         ]
       },
       "proximity": {
         "title": "Recherche de proximité",
         "list": [
-          "<strong>~</strong> suivi d'un chiffre permet de rechercher une expression comportant 2 termes plus ou moins distants.<pre>title:\"pomme terre\"~1</pre><pre>title:\"return jedi\"~2</pre>"
+          "Le métacaractère <strong>~ suivi d'un chiffre</strong> permet de rechercher une expression comportant 2 termes plus ou moins distants.<pre>title:\"reading child\"~10</pre><pre>title:\"return jedi\"~2</pre>"
         ]
       },
       "regex": {
         "title": "Expressions régulières",
         "list": [
-          "Les expressions régulières doivent être placées entre <strong>//</strong>."
+          "Les expressions régulières doivent être placées entre <strong>//</strong> pour être identifiées.<pre>title:/[frc]at/</pre>"
         ]
       },
       "seeMoreLink": "EN SAVOIR PLUS"
@@ -308,7 +312,7 @@
     "FloatingSideMenu": {
       "historyButton": "Historique de recherches",
       "shareButton": "Partager votre recherche",
-      "memoButton": "Mémo de syntaxe de requêtage"
+      "memoButton": "Astuces de recherche"
     },
     "History": {
       "title": "Historique",

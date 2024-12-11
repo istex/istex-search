@@ -18,18 +18,18 @@
     "@emotion/cache": "11.13.5",
     "@emotion/react": "11.13.5",
     "@emotion/styled": "11.13.5",
-    "@mui/icons-material": "6.1.10",
-    "@mui/material": "6.1.10",
-    "@mui/material-nextjs": "^6.0.0",
-    "@tanstack/react-query": "^5.28.4",
+    "@mui/icons-material": "6.2.0",
+    "@mui/material": "6.2.0",
+    "@mui/material-nextjs": "6.2.0",
+    "@tanstack/react-query": "5.62.7",
     "js-md5": "0.8.3",
-    "next": "15.0.3",
-    "next-intl": "3.25.3",
-    "react": "19.0.0-rc-fb9a90fa48-20240614",
-    "react-dom": "19.0.0-rc-fb9a90fa48-20240614",
-    "react-number-format": "^5.4.0",
-    "react-window": "^1.8.10",
-    "vanilla-cookieconsent": "^3.0.1"
+    "next": "15.1.0",
+    "next-intl": "3.26.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-number-format": "5.4.2",
+    "react-window": "1.8.10",
+    "vanilla-cookieconsent": "3.0.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
@@ -40,8 +40,8 @@
     "@trivago/prettier-plugin-sort-imports": "^5.2.0",
     "@types/jest": "^29.5.11",
     "@types/node": "^22.0.0",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@types/react-window": "^1.8.8",
     "eslint": "^9.9.0",
     "eslint-config-next": "15.0.4",
@@ -55,9 +55,7 @@
     "typescript-eslint": "^8.1.0"
   },
   "overrides": {
-    "react": "19.0.0-rc-fb9a90fa48-20240614",
-    "react-dom": "19.0.0-rc-fb9a90fa48-20240614",
-    "@types/react": "npm:types-react@19.0.0-rc.1",
-    "@types/react-dom": "npm:types-react-dom@19.0.0"
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   }
 }

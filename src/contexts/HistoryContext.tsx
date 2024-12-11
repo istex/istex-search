@@ -148,11 +148,7 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
     isEmpty,
   };
 
-  return (
-    <HistoryContext.Provider value={contextValue}>
-      {children}
-    </HistoryContext.Provider>
-  );
+  return <HistoryContext value={contextValue}>{children}</HistoryContext>;
 }
 
 function parseHistory(historyFromLocalStorage: string) {

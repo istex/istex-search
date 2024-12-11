@@ -59,9 +59,9 @@ export function QueryProvider(props: QueryContextProps) {
   };
 
   return (
-    <QueryContext.Provider value={{ goToResultsPage, ...props }}>
+    <QueryContext value={{ goToResultsPage, ...props }}>
       {props.children}
-    </QueryContext.Provider>
+    </QueryContext>
   );
 }
 

@@ -107,11 +107,7 @@ export function DocumentProvider({ children }: DocumentProviderProps) {
     toggleExcludedDocument,
   };
 
-  return (
-    <DocumentContext.Provider value={context}>
-      {children}
-    </DocumentContext.Provider>
-  );
+  return <DocumentContext value={context}>{children}</DocumentContext>;
 }
 
 export function resetSelectedExcludedDocuments() {

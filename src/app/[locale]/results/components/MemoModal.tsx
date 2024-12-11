@@ -80,13 +80,16 @@ export default function HistoryModal({ open, onClose }: MemoModalProps) {
 
         <Box
           sx={{
-            columnCount: { xs: 1, sm: 2 },
+            columnCount: { sm: 1, md: 2 },
             columnGap: 1,
             "& > *": {
               breakInside: "avoid",
               "&:not(:last-child)": {
                 mb: 1,
               },
+            },
+            "& pre": {
+              overflowX: "auto",
             },
           }}
         >

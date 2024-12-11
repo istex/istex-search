@@ -654,7 +654,12 @@
       },
       "genre": {
         "title": "Type de publication",
-        "description": "Recherche selon le type de publication"
+        "description": "Recherche selon le type de publication",
+        "journal": "Revue",
+        "book-series": "Monographie en séries",
+        "database": "Base de données",
+        "book": "Monographie",
+        "reference-works": "Ouvrage de référence"
       },
       "volume": {
         "title": "Volume de la revue ou monographie",
@@ -921,7 +926,20 @@
     },
     "genre": {
       "title": "Type de contenu",
-      "description": "Recherche selon le type du document"
+      "description": "Recherche selon le type du document",
+      "research-article": "Article de recherche",
+      "article": "Article",
+      "other": "Autre",
+      "abstract": "Résumé",
+      "brief-communication": "Courte communication",
+      "book-reviews": "Compte rendu de monographie",
+      "review-article": "Article de synthèse",
+      "conference": "Congrès",
+      "editorial": "Éditorial",
+      "chapter": "Chapitre",
+      "case-report": "Étude de cas",
+      "collected-courses": "Recueil de cours",
+      "book": "Monographie"
     }
   }
 }

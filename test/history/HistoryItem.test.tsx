@@ -1,6 +1,6 @@
 import { Table, TableBody } from "@mui/material";
 import { customRender as render, screen, userEvent } from "../test-utils";
-import HistoryItem from "@/app/[locale]/results/components/History/HistoryItem";
+import HistoryItem from "@/app/[locale]/components/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/routing";

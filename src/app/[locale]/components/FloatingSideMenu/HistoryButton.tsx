@@ -7,7 +7,7 @@ import HistoryModal from "../History/HistoryModal";
 import FloatingSideButton from "./FloatingSideButton";
 
 export default function HistoryButton() {
-  const t = useTranslations("results.FloatingSideMenu");
+  const t = useTranslations("FloatingSideMenu");
   const [openModal, setOpenModal] = React.useState(false);
 
   const openHistory = () => {

@@ -1,5 +1,5 @@
 import { customRender as render, screen, userEvent } from "../test-utils";
-import HistoryModal from "@/app/[locale]/results/components/History/HistoryModal";
+import HistoryModal from "@/app/[locale]/components/History/HistoryModal";
 import {
   useHistoryContext,
   type HistoryEntry,

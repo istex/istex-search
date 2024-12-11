@@ -44,7 +44,7 @@ export default function HistoryItem({
   index = 0,
   isCurrentRequest = false,
 }: HistoryItemProps) {
-  const t = useTranslations("results.History");
+  const t = useTranslations("History");
   const tSorting = useTranslations("results.Sorting");
   const router = useRouter();
   const locale = useLocale() as Locale;

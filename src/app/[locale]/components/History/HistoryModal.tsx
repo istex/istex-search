@@ -19,7 +19,7 @@ interface HistoryModalProps {
 }
 
 export default function HistoryModal({ open, onClose }: HistoryModalProps) {
-  const t = useTranslations("results.History");
+  const t = useTranslations("History");
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const history = useHistoryContext();
   const isHistoryEmpty = history.isEmpty();
@@ -130,7 +130,7 @@ interface ConfirmModalProps extends HistoryModalProps {
 }
 
 function ConfirmModal({ open, onClose, onConfirm }: ConfirmModalProps) {
-  const t = useTranslations("results.History.ConfirmModal");
+  const t = useTranslations("History.ConfirmModal");
 
   const confirm = () => {
     onConfirm();

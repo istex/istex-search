@@ -8,7 +8,7 @@ import { usePathname } from "@/i18n/routing";
 import { useShare } from "@/lib/hooks";
 
 export default function ShareButton() {
-  const t = useTranslations("results.FloatingSideMenu");
+  const t = useTranslations("FloatingSideMenu");
   const onResultsPage = usePathname() === "/results";
   const share = useShare();
 

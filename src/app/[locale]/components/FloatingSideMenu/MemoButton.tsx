@@ -7,7 +7,7 @@ import MemoModal from "../MemoModal";
 import FloatingSideButton from "./FloatingSideButton";
 
 export default function MemoButton() {
-  const t = useTranslations("results.FloatingSideMenu");
+  const t = useTranslations("FloatingSideMenu");
   const [openModal, setOpenModal] = React.useState(false);
 
   const openMemo = () => {

@@ -309,27 +309,6 @@
       },
       "seeMoreLink": "EN SAVOIR PLUS"
     },
-    "FloatingSideMenu": {
-      "historyButton": "Historique de recherches",
-      "shareButton": "Partager votre recherche",
-      "memoButton": "Astuces de recherche"
-    },
-    "History": {
-      "title": "Historique",
-      "currentRequestTitle": "Recherche en cours",
-      "historyTitle": "Derniers téléchargements",
-      "emptyHistoryContent": "Votre historique est vide.",
-      "editAriaLabel": "Éditer cette requête",
-      "shareAriaLabel": "Partager cette requête",
-      "downloadAriaLabel": "Télécharger le corpus correspondant à cette requête",
-      "deleteAriaLabel": "Supprimer cette requête",
-      "clearHistory": "Supprimer l'historique",
-      "ConfirmModal": {
-        "title": "Confirmation",
-        "content": "Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements ?",
-        "confirm": "Supprimer"
-      }
-    },
     "Share": {
       "email": {
         "corpus": {
@@ -386,6 +365,27 @@
       "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
       "contactTitle": "Écrivez-nous",
       "message": "Envoyez-nous un message via le <externalLink>formulaire de contact</externalLink>."
+    }
+  },
+  "FloatingSideMenu": {
+    "historyButton": "Historique de recherches",
+    "shareButton": "Partager votre recherche",
+    "memoButton": "Astuces de recherche"
+  },
+  "History": {
+    "title": "Historique",
+    "currentRequestTitle": "Recherche en cours",
+    "historyTitle": "Derniers téléchargements",
+    "emptyHistoryContent": "Votre historique est vide.",
+    "editAriaLabel": "Éditer cette requête",
+    "shareAriaLabel": "Partager cette requête",
+    "downloadAriaLabel": "Télécharger le corpus correspondant à cette requête",
+    "deleteAriaLabel": "Supprimer cette requête",
+    "clearHistory": "Supprimer l'historique",
+    "ConfirmModal": {
+      "title": "Confirmation",
+      "content": "Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements ?",
+      "confirm": "Supprimer"
     }
   },
   "cookieConsent": {

@@ -22,7 +22,7 @@ const sections = [
   },
   {
     name: "operators",
-    listLength: 3,
+    listLength: 5,
   },
   {
     name: "fields",
@@ -65,31 +65,37 @@ export default function HistoryModal({ open, onClose }: MemoModalProps) {
     <Modal title={t("title")} open={open} onClose={onClose}>
       <DialogContent>
         <Typography variant="body2" sx={{ mb: 1 }}>
-          {t.rich("subtitle", {
-            link: (chunks) => (
-              <Link
-                href="https://www.elastic.co/elasticsearch"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {chunks}
-              </Link>
-            ),
-          })}
+          <RichText>
+            {(tags) =>
+              t.rich("subtitle", {
+                link: (chunks) => (
+                  <Link
+                    href="https://www.elastic.co/elasticsearch"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+                ...tags,
+              })
+            }
+          </RichText>
         </Typography>
 
         <Box
           sx={{
             columnCount: { sm: 1, md: 2 },
-            columnGap: 1,
+            columnGap: 2,
             "& > *": {
               breakInside: "avoid",
               "&:not(:last-child)": {
-                mb: 1,
+                mb: 2,
               },
             },
             "& pre": {
               overflowX: "auto",
+              my: 1,
             },
           }}
         >

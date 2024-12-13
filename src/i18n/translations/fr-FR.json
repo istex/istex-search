@@ -237,28 +237,30 @@
     },
     "MemoModal": {
       "title": "Rechercher avec Lucene",
-      "subtitle": "Lucene est le langage de requêtage du moteur de recherche Istex (<link>Elasticsearch</link>). Dans le mode de recherche simple, la syntaxe Lucene permet de cibler efficacement les documents qui vous intéressent.",
+      "subtitle": "Lucene est le langage de requêtage du moteur de recherche Istex (<link>Elasticsearch</link>). Dans le mode de <strong>recherche simple</strong>, la syntaxe Lucene permet de cibler efficacement les documents qui vous intéressent.",
       "general": {
         "title": "Éléments généraux",
         "list": [
           "Par défaut, la recherche est insensible à la casse mais sensible aux diacritiques.<pre>évolution ≠ evolution</pre>",
-          "La recherche d'expressions multitermes s'effectue avec des guillemets.<pre>\"speech therapy\"</pre>",
+          "La recherche <strong>d'expressions multitermes</strong> s'effectue avec des guillemets.<pre>\"speech therapy\"</pre>",
           "L'espace blanc équivaut à l'opérateur <strong>OR</strong>.<pre>fungi OR fungus = fungi fungus</pre>"
         ]
       },
       "operators": {
         "title": "Opérateurs",
         "list": [
-          "<strong>AND</strong> (ou <strong>&&</strong>) renvoie les documents qui contiennent tous les termes recherchés. Le métacaractère <strong>+</strong> peut également être utilisé directement devant un terme pour le rendre obligatoire.<pre>cinéma AND Chaplin = +cinéma +Chaplin</pre>",
+          "<strong>AND</strong> (ou <strong>&&</strong>) renvoie les documents qui contiennent tous les termes recherchés.<pre>cinéma AND Chaplin</pre>",
           "<strong>OR</strong> (ou <strong>||</strong>) renvoie les documents qui contiennent au moins l'un des termes recherchés.<pre>Greenland OR subarctic</pre>",
-          "<strong>NOT</strong> (ou <strong>!</strong> ou <strong>-</strong>) renvoie les documents qui ne contiennent pas le terme recherché.<pre>linguistics NOT syntax</pre>"
+          "<strong>+</strong> peut être utilisé directement devant un terme pour le rendre obligatoire.<pre>+cinéma +Chaplin</pre>",
+          "<strong>NOT</strong> (ou <strong>!</strong>) renvoie les documents qui ne contiennent pas le terme recherché.<pre>linguistics NOT syntax</pre>",
+          "<strong>-</strong> peut être utilisé directement devant un terme pour l'exclure.<pre>linguistics -syntax</pre>"
         ]
       },
       "fields": {
         "title": "Champs",
         "list": [
-          "Par défaut, tous les champs sont interrogés.",
           "Le requêtage d'un champ spécifique s'effectue avec le nom technique du champ suivi de <strong>:</strong> (ex. <i>title</i>, <i>publicationDate</i>, <i>doi</i>).<pre>title:Rimbaud</pre>",
+          "Sans spécification, tous les champs sont interrogés.",
           "Le requêtage exact d'un champ est possible grâce au <strong>.raw</strong> (ex. <i>host.title.raw</i>).<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
         ]
       },
@@ -279,7 +281,7 @@
       "intervals": {
         "title": "Recherche par intervalle",
         "list": [
-          "Il est possible de rechercher par <strong>intervalles</strong> grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
+          "Il est possible de rechercher par intervalles grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
         ]
       },
       "boosting": {
@@ -292,7 +294,7 @@
       "fuzzy": {
         "title": "Recherche floue",
         "list": [
-          "Le métacaractère <strong>~</strong> permet de rechercher les <strong>variantes d'écriture</strong> d'un terme (2 caractères de différence maximum).<pre>title:mémorisation~2</pre>"
+          "Le métacaractère <strong>~</strong> permet de rechercher les variantes d'écriture d'un terme (2 caractères de différence maximum).<pre>title:mémorisation~2</pre>"
         ]
       },
       "proximity": {

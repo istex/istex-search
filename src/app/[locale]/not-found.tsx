@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Container, Link, List, ListItem, Typography } from "@mui/material";
+import { Box, Container, Link, Typography } from "@mui/material";
 import RichText from "@/components/RichText";
 import { SEARCH_MODE_ASSISTED } from "@/config";
 import NextIntlLink from "@/i18n/next-intl-link";
@@ -22,11 +22,17 @@ export default function NotFound() {
 
       <section>
         <Typography>{t("body")}</Typography>
-        <List>
+        <Box
+          component="ul"
+          sx={{
+            listStyle: "unset",
+            pl: 2.5,
+          }}
+        >
           {Array(2)
             .fill(0)
             .map((_, i) => (
-              <ListItem key={i} sx={{ display: "block" }}>
+              <Box key={i} component="li" sx={{ py: 1 }}>
                 <RichText>
                   {(tags) =>
                     t.rich(`list.${i}`, {
@@ -50,9 +56,9 @@ export default function NotFound() {
                     })
                   }
                 </RichText>
-              </ListItem>
+              </Box>
             ))}
-        </List>
+        </Box>
       </section>
 
       <Typography>

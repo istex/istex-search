@@ -15,9 +15,9 @@
     "test:ci": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "dependencies": {
-    "@emotion/cache": "11.13.5",
-    "@emotion/react": "11.13.5",
-    "@emotion/styled": "11.13.5",
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
     "@mui/icons-material": "6.2.0",
     "@mui/material": "6.2.0",
     "@mui/material-nextjs": "6.2.0",

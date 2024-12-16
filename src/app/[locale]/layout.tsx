@@ -1,7 +1,6 @@
 import { use } from "react";
 import type { Metadata } from "next";
-import { useMessages } from "next-intl";
-import { NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider, useMessages } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Box } from "@mui/material";
 import FloatingSideMenu from "./components/FloatingSideMenu";

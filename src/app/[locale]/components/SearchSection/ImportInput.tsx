@@ -92,7 +92,9 @@ export default function ImportInput() {
     reader.readAsText(file, "utf-8");
 
     reader.onload = (event) => {
-      const corpusFileContent = event.target?.result?.toString();
+      const corpusFileContent =
+        typeof event.target?.result === "string" ? event.target.result : null;
+
       if (corpusFileContent == null) {
         return;
       }

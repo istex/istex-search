@@ -8,8 +8,7 @@ import {
 } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useRouter } from "@/i18n/routing";
-import { usePathname } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/routing";
 import type { AST } from "@/lib/ast";
 import { clamp } from "@/lib/utils";
 import type { NextSearchParams } from "@/types/next";

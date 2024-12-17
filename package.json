@@ -28,7 +28,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-number-format": "5.4.2",
-    "react-window": "1.8.10",
+    "react-window": "1.8.11",
     "vanilla-cookieconsent": "3.0.1"
   },
   "devDependencies": {

@@ -27,7 +27,7 @@
     "next-intl": "3.26.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-number-format": "5.4.2",
+    "react-number-format": "5.4.3",
     "react-window": "1.8.11",
     "vanilla-cookieconsent": "3.0.1"
   },
@@ -53,9 +53,5 @@
     "prettier": "3.4.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^8.1.0"
-  },
-  "overrides": {
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
   }
 }

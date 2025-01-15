@@ -121,7 +121,7 @@ export default function DocumentDetail() {
               }}
             >
               {displayedDocument.author
-                .filter(({ name }) => name)
+                .filter(({ name }) => name != null && name !== "")
                 .map(({ name }) => name)
                 .join(", ")}
             </Typography>

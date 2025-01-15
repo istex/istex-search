@@ -18,7 +18,9 @@ import type { Node } from "@/lib/ast";
 import fields, { type Field, type FieldType } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 
-const FIELDS = fields.filter((field) => field.inFilters);
+const FIELDS = fields.filter(
+  (field) => field.inFilters != null && field.inFilters,
+);
 
 export default function Filters() {
   const t = useTranslations("results.Filters");

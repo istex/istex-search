@@ -44,6 +44,9 @@ export default tseslint.config(
   // Custom rules
   {
     rules: {
+      // It'd be nice to only disable this rule for the SxProps I don't know how to target
+      // types that you don't import explicitly
+      "@typescript-eslint/no-misused-spread": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {

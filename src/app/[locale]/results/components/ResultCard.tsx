@@ -120,7 +120,7 @@ export default function ResultCard({ index, displayIcons }: ResultCardProps) {
               }}
             >
               {document.author
-                ?.filter(({ name }) => name)
+                ?.filter(({ name }) => name != null && name !== "")
                 .map(({ name }) => name)
                 .join(", ")}
             </Typography>

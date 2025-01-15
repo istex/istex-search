@@ -371,7 +371,9 @@ export function getExternalPdfUrl(document: Result) {
   return null;
 }
 
-const FILTER_FIELDS = fields.filter((field) => field.inFilters);
+const FILTER_FIELDS = fields.filter(
+  (field) => field.inFilters != null && field.inFilters,
+);
 
 function getFacetUrlParam() {
   return FILTER_FIELDS.map((field) => {

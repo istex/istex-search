@@ -98,7 +98,7 @@ const results: IstexApiResponse = {
   hits: [],
   aggregations: Object.fromEntries(
     fields
-      .filter((field) => field.inFilters)
+      .filter((field) => field.inFilters != null && field.inFilters)
       .map((field) => {
         const buckets = [];
         if (field.isDate === true) {

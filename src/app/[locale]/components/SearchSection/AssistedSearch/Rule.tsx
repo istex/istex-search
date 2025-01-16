@@ -163,88 +163,105 @@ export default function Rule({
     _: React.SyntheticEvent,
     value: string | null,
   ) => {
+    const newNode = getNodeWithoutValue();
+
     setTextValue(value);
 
-    const partial =
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    newNode.value = value;
+    newNode.partial =
       value == null || value === "" || fieldName == null || comparator == null;
 
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, value, partial });
+    setNode(newNode);
   };
 
   const handleNumberValueChange = (value: number | null) => {
+    const newNode = getNodeWithoutValue();
+
     setNumberValue(value);
 
-    let partial = true;
-
     if (value == null || Number.isNaN(value)) {
-      setNode({ ...node, partial });
+      newNode.partial = true;
+      setNode(newNode);
       return;
     }
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    newNode.value = value;
 
     // Even if the value is valid, the field name and the comparator
     // also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null;
+    newNode.partial = fieldName == null || comparator == null;
 
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, value, partial });
+    setNode(newNode);
   };
 
   const handleMinValueChange = (min: number | null) => {
+    const newNode = getNodeWithoutValue(false);
+
     setMinValue(min);
 
-    let partial = true;
-
     if (min == null || Number.isNaN(min)) {
-      setNode({ ...node, partial });
+      newNode.partial = true;
+      setNode(newNode);
       return;
     }
+
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    newNode.min = min;
 
     // Even if the min is valid, the field name the comparator and
     // the max also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null || maxValue == null;
+    newNode.partial =
+      fieldName == null || comparator == null || maxValue == null;
 
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, min, partial });
+    setNode(newNode);
   };
 
   const handleMaxValueChange = (max: number | null) => {
+    const newNode = getNodeWithoutValue(false);
+
     setMaxValue(max);
 
-    let partial = true;
-
     if (max == null || Number.isNaN(max)) {
-      setNode({ ...node, partial });
+      newNode.partial = true;
+      setNode(newNode);
       return;
     }
 
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    newNode.max = max;
+
     // Even if the max is valid, the field name the comparator and
     // the min also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null || minValue == null;
+    newNode.partial =
+      fieldName == null || comparator == null || minValue == null;
 
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, max, partial });
+    setNode(newNode);
   };
 
   const handleBooleanValueChange = (
     _: React.SyntheticEvent,
     value: boolean | null,
   ) => {
+    const newNode = getNodeWithoutValue();
+
     setBooleanValue(value);
 
-    let partial = true;
-
     if (value == null) {
-      setNode({ ...node, partial });
+      newNode.partial = true;
+      setNode(newNode);
       return;
     }
 
+    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
+    newNode.value = value;
+
     // Even if the value is valid, the field name and the comparator
     // also need to be valid for the node to be complete
-    partial = fieldName == null || comparator == null;
+    newNode.partial = fieldName == null || comparator == null;
 
-    // @ts-expect-error TypeScript thinks fieldType is narrower than it actually is
-    setNode({ ...node, value, partial });
+    setNode(newNode);
   };
 
   const resetValue = () => {
@@ -255,15 +272,18 @@ export default function Rule({
     setBooleanValue(null);
   };
 
-  const getNodeWithoutValue = () => {
+  const getNodeWithoutValue = (resetMinAndMax = true) => {
     const nodeWithoutValue = { ...node };
 
     // @ts-expect-error value isn't in the TypeScript type but it can be here at runtime
     delete nodeWithoutValue.value;
-    // @ts-expect-error same as above but for min
-    delete nodeWithoutValue.min;
-    // @ts-expect-error same as above but for max
-    delete nodeWithoutValue.max;
+
+    if (resetMinAndMax) {
+      // @ts-expect-error same as above but for min
+      delete nodeWithoutValue.min;
+      // @ts-expect-error same as above but for max
+      delete nodeWithoutValue.max;
+    }
 
     return nodeWithoutValue;
   };

@@ -50,7 +50,9 @@ describe("Rule", () => {
 
     expect(fieldInput).toHaveValue("Résumé");
     expect(comparatorInput).toHaveValue("contient");
-    expect(valueInput).toHaveValue("hello");
+    expect(valueInput).toHaveValue(
+      "_YOU_SHOULD_NOT_SEE_THIS_MAKE_A_BUG_REPORT_",
+    );
   });
 
   it("displays errors when at least one input is empty", () => {

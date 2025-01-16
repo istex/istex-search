@@ -163,8 +163,9 @@ export default function Group(props: GroupProps) {
                   displayErrors={displayErrors}
                   node={child}
                   setNode={(newNode: FieldNode) => {
-                    Object.assign(child, newNode);
-                    setChildNodes([...childNodes]);
+                    const newChildNodes = [...childNodes];
+                    newChildNodes[i] = newNode;
+                    setChildNodes(newChildNodes);
                   }}
                   remove={() => {
                     removeNode(i);

@@ -278,7 +278,7 @@ export function getEmptyFieldNode(): TextNode {
     partial: true,
     fieldType: "text",
     field: "abstract",
-    value: "hello",
+    value: "_YOU_SHOULD_NOT_SEE_THIS_MAKE_A_BUG_REPORT_",
     comparator: "contains",
   };
 }

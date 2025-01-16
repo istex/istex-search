@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useLocale } from "next-intl";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as locales from "@mui/material/locale";
@@ -9,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 
 interface MuiSetupProps {
+  locale: string;
   children: React.ReactNode;
 }
 
@@ -17,8 +17,7 @@ interface MuiSetupProps {
 // With this workaround, the CSS variables are generated, removed, then generated again so it's far from optimal...
 const { vars, ...themeWithoutVars } = theme;
 
-export default function MuiSetup({ children }: MuiSetupProps) {
-  const locale = useLocale();
+export default function MuiSetup({ locale, children }: MuiSetupProps) {
   const themeWithLocale = React.useMemo(
     () => createTheme(themeWithoutVars, locales[localeToMuiImportName(locale)]),
     [locale],

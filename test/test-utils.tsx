@@ -30,11 +30,11 @@ export function customRender(
 
   const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
     <TanStackQueryProvider>
-      <NextIntlClientProvider
-        locale={routing.defaultLocale}
-        messages={messages as unknown as AbstractIntlMessages}
-      >
-        <MuiSetup>
+      <MuiSetup locale={routing.defaultLocale}>
+        <NextIntlClientProvider
+          locale={routing.defaultLocale}
+          messages={messages as unknown as AbstractIntlMessages}
+        >
           <HistoryProvider>
             <QueryProvider
               queryString={context?.queryString ?? ""}
@@ -45,8 +45,8 @@ export function customRender(
               <DocumentProvider>{children}</DocumentProvider>
             </QueryProvider>
           </HistoryProvider>
-        </MuiSetup>
-      </NextIntlClientProvider>
+        </NextIntlClientProvider>
+      </MuiSetup>
     </TanStackQueryProvider>
   );
 

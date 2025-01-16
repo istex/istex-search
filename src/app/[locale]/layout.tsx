@@ -35,7 +35,7 @@ export default function RootLayout(props: LayoutProps) {
     <html lang={params.locale}>
       <body>
         <TanStackQueryProvider>
-          <MuiSetup>
+          <MuiSetup locale={params.locale}>
             <NextIntlClientProvider messages={messages}>
               <HistoryProvider>
                 <Navbar />

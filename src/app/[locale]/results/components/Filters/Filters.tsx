@@ -8,6 +8,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Stack,
+  Typography,
 } from "@mui/material";
 import BooleanFilter from "./BooleanFilter";
 import NumberFilter from "./NumberFilter";
@@ -39,6 +40,7 @@ export default function Filters() {
     <Stack
       spacing={1}
       sx={{
+        flex: 1,
         bgcolor: "common.white",
         borderRadius: 1,
         px: 1,
@@ -79,7 +81,6 @@ export default function Filters() {
                 expandIcon={<ExpandMoreIcon />}
                 sx={{
                   textTransform: "uppercase",
-                  fontWeight: "bold",
                   color: "primary.main",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
@@ -89,11 +90,13 @@ export default function Filters() {
                   },
                 }}
               >
-                {tFields(`${field.name}.title`)}
+                <Typography component="span" sx={{ fontWeight: "bold" }}>
+                  {tFields(`${field.name}.title`)}
 
-                {(field.type === "text" || field.type === "language") && (
-                  <>&nbsp;({count.toLocaleString(locale)})</>
-                )}
+                  {(field.type === "text" || field.type === "language") && (
+                    <>&nbsp;({count.toLocaleString(locale)})</>
+                  )}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ bgcolor: "white" }}>
                 {/* @ts-expect-error The type of the field prop became never here */}

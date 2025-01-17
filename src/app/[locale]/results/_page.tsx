@@ -113,7 +113,7 @@ export default async function ResultsPage(props: PageProps) {
       <Stack direction={{ xs: "column", md: "row" }} spacing={2}>
         <Filters />
 
-        <Stack spacing={1} useFlexGap>
+        <Stack spacing={1} useFlexGap sx={{ flex: 2 }}>
           <Panels />
           <FilterTags />
           <ResultGrid />

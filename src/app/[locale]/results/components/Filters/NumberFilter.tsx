@@ -144,13 +144,13 @@ export default function NumberFilter({ field }: NumberFilterProps) {
           direction="row"
           spacing={{ xs: 2, md: 1 }}
           sx={{
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
           <NumberInput
             {...commonNumberInputProps}
             placeholder={t("minPlaceholder")}
-            fullWidth
             value={min}
             onChange={setMin}
           />
@@ -160,7 +160,6 @@ export default function NumberFilter({ field }: NumberFilterProps) {
           <NumberInput
             {...commonNumberInputProps}
             placeholder={t("maxPlaceholder")}
-            fullWidth
             value={max}
             onChange={setMax}
           />

@@ -64,7 +64,7 @@ export default function Panel({
           variant="body2"
           component="span"
           sx={{
-            fontWeight: 700,
+            fontWeight: "bold",
           }}
         >
           {t(title)}

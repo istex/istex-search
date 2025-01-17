@@ -256,7 +256,7 @@ export default function FilterTags() {
         </Tooltip>
       </Stack>
 
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
         {tags.map((tag) => {
           const label =
             tag.field.type === "language"

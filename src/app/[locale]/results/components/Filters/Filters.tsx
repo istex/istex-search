@@ -40,7 +40,7 @@ export default function Filters() {
     <Stack
       spacing={1}
       sx={{
-        flex: 1,
+        width: "min-content",
         bgcolor: "common.white",
         borderRadius: 1,
         px: 1,

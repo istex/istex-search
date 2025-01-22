@@ -61,7 +61,7 @@ describe("RegularSearchInput", () => {
     render(<RegularSearchInput />);
 
     const firstExample = screen.getByRole("button", {
-      name: "Emmanuel Kant",
+      name: "50 ans de la loi Veil",
     });
     const firstExampleQuery = examples[0];
     await userEvent.click(firstExample);

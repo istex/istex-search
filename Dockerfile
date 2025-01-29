@@ -32,4 +32,7 @@ USER nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./.next/standalone
 COPY --from=builder --chown=nextjs:nodejs /app/scripts/start-prod-server.sh .
 
+# Necessary to run in Kubernetes
+ENV HOSTNAME "0.0.0.0"
+
 ENTRYPOINT ["./start-prod-server.sh"]

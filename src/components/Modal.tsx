@@ -49,7 +49,7 @@ export default function Modal(props: ModalProps) {
     <Dialog
       open={open}
       onClose={onClose}
-      TransitionComponent={slideDirection != null ? Transition : undefined}
+      slots={slideDirection != null ? { transition: Transition } : undefined}
       fullWidth={fullWidth}
       maxWidth={maxWidth}
       scroll={scroll}

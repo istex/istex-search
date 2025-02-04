@@ -1,5 +1,7 @@
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Box, Container, Link, Typography } from "@mui/material";
+import notFoundImage from "@/../public/404.png";
 import RichText from "@/components/RichText";
 import { SEARCH_MODE_ASSISTED } from "@/config";
 import NextIntlLink from "@/i18n/next-intl-link";
@@ -12,13 +14,30 @@ export default function NotFound() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
+        gap: 1,
         pb: 4,
       }}
     >
       <Typography variant="h4" component="h1" gutterBottom sx={{ mt: 3 }}>
         {t("title")}
       </Typography>
+
+      <Box
+        sx={{
+          position: "relative",
+          height: { xs: "10rem", sm: "20rem" },
+        }}
+      >
+        <Image
+          src={notFoundImage}
+          alt=""
+          fill
+          priority
+          style={{
+            objectFit: "contain",
+          }}
+        />
+      </Box>
 
       <section>
         <Typography>{t("body")}</Typography>

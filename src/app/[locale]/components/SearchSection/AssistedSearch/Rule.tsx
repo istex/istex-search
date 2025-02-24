@@ -310,6 +310,15 @@ export default function Rule({
         onChange={handleFieldNameChange}
         getOptionLabel={(option) => tFields(`${option}.title`)}
         filterOptions={fieldNameFilterOptions}
+        slotProps={{
+          listbox: {
+            sx: {
+              "& .MuiMenuItem-root": {
+                whiteSpace: "wrap",
+              },
+            },
+          },
+        }}
         renderInput={(params) => (
           <AutocompleteInput
             label={t("field")}

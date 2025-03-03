@@ -71,11 +71,13 @@ export default function DocumentDetail() {
       sx={{
         backdropFilter: "blur(5px)",
       }}
-      PaperProps={{
-        sx: {
-          width: {
-            xs: "100%",
-            md: "70%",
+      slotProps={{
+        paper: {
+          sx: {
+            width: {
+              xs: "100%",
+              md: "70%",
+            },
           },
         },
       }}

@@ -7,6 +7,7 @@ import { QueryProvider } from "@/contexts/QueryContext";
 import { redirect, routing } from "@/i18n/routing";
 import SearchParams from "@/lib/SearchParams";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import logger from "@/lib/logger";
 import type { PageProps } from "@/types/next";
 
 // This function tells Next.js to pre-render (at build time) all pages in this layout
@@ -19,9 +20,17 @@ export default async function HomePage(props: PageProps) {
   const nextSearchParams = await props.searchParams;
   const { locale } = await props.params;
 
+  logger.info({
+    status: 200,
+    pathname: `/${locale}`,
+  });
+
   // Redirect to the current page but with the default locale if the one
   // from the slot isn't supported
   if (!routing.locales.includes(locale)) {
+    logger.warn(
+      `Unsupported locale "${locale}", redirecting to "/${routing.defaultLocale}".`,
+    );
     redirect({
       href: "/",
       locale: routing.defaultLocale,
@@ -39,6 +48,9 @@ export default async function HomePage(props: PageProps) {
     // Getting on the home page with an invalid q_id could be a mistake
     // so we just delete it and refresh the page
     searchParams.deleteQueryString();
+    logger.warn(
+      `Tried to access the "/" with a q_id, this is probably a mistake. Redirecting to "/${locale}"`,
+    );
     redirect({ href: `/?${searchParams.toString()}`, locale });
 
     // This return is unnecessary because redirect throws an error internally but

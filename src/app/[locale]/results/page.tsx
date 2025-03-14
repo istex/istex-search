@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import ResultsPage from "./_page";
 import Loading from "./loading";
 import { redirect, routing } from "@/i18n/routing";
+import logger from "@/lib/logger";
 import type { GenerateMetadataProps, PageProps } from "@/types/next";
 
 export async function generateMetadata(
@@ -23,10 +24,19 @@ export async function generateMetadata(
 // invalidated when the search params change.
 // More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189
 export default async function _ResultsPage(props: PageProps) {
+  const { locale } = await props.params;
+
+  logger.info({
+    status: 200,
+    pathname: `/${locale}/results`,
+  });
+
   // Redirect to the current page but with the default locale if the one
   // from the slot isn't supported
-  const { locale } = await props.params;
   if (!routing.locales.includes(locale)) {
+    logger.warn(
+      `Unsupported locale "${locale}", redirecting to "/${routing.defaultLocale}".`,
+    );
     redirect({
       href: { pathname: "/results", query: await props.searchParams },
       locale: routing.defaultLocale,

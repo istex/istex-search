@@ -2,11 +2,16 @@ import nextJest from "next/jest";
 
 const createJestConfig = nextJest({ dir: "./" });
 
-export default createJestConfig({
-  setupFilesAfterEnv: ["<rootDir>/test/jest-setup.ts"],
-  testEnvironment: "jest-environment-jsdom",
-  moduleNameMapper: {
-    "^@/(.*)$": ["<rootDir>/src/$1"],
-    "^.+\\.svg\\?svgr$": "<rootDir>/test/svgFileMock.ts",
-  },
+const config = async () => ({
+  ...(await createJestConfig({
+    setupFilesAfterEnv: ["<rootDir>/test/jest-setup.ts"],
+    testEnvironment: "jsdom",
+    moduleNameMapper: {
+      "^@/(.*)$": ["<rootDir>/src/$1"],
+      "^.+\\.svg\\?svgr$": "<rootDir>/test/svgFileMock.ts",
+    },
+  })()),
+  transformIgnorePatterns: ["node_modules/(?!next-intl)/"],
 });
+
+export default config;

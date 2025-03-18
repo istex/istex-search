@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Box, DialogContent, Stack, Typography } from "@mui/material";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
-import type { Locale } from "@/i18n/routing";
 import { estimateArchiveSize } from "@/lib/formats";
 import { useSearchParams } from "@/lib/hooks";
 import { bytesToSize } from "@/lib/utils";
@@ -53,7 +52,7 @@ export default function WaitingModal({
               component="span"
               style={{ fontSize: "1.2rem", fontWeight: "bold" }}
             >
-              {bytesToSize(archiveSize, locale as Locale)}
+              {bytesToSize(archiveSize, locale)}
             </Box>
           </Typography>
 

@@ -5,13 +5,10 @@ import ResultsPage from "./_page";
 import Loading from "./loading";
 import { redirect, routing } from "@/i18n/routing";
 import logger from "@/lib/logger";
-import type { GenerateMetadataProps, PageProps } from "@/types/next";
+import type { PageProps } from "@/types/next";
 
-export async function generateMetadata(
-  props: GenerateMetadataProps,
-): Promise<Metadata> {
-  const { locale } = await props.params;
-  const t = await getTranslations({ locale, namespace: "results.metadata" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("results.metadata");
 
   return {
     title: `Istex Search - ${t("title")}`,

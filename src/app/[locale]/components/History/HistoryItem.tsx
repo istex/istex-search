@@ -19,7 +19,7 @@ import {
   useHistoryContext,
   type HistoryEntry,
 } from "@/contexts/HistoryContext";
-import { useRouter, type Locale } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 import { useDownload, useShare } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
@@ -47,7 +47,7 @@ export default function HistoryItem({
   const t = useTranslations("History");
   const tSorting = useTranslations("results.Sorting");
   const router = useRouter();
-  const locale = useLocale() as Locale;
+  const locale = useLocale();
   const history = useHistoryContext();
   const share = useShare();
   const download = useDownload();

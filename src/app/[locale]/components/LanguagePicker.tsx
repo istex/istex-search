@@ -1,11 +1,8 @@
 import * as React from "react";
+import { useLocale, type Locale } from "next-intl";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
-import { routing, usePathname, useRouter, type Locale } from "@/i18n/routing";
-
-interface LanguagePickerProps {
-  locale: string;
-}
+import { routing, usePathname, useRouter } from "@/i18n/routing";
 
 const smallFontSize = {
   fontSize: "0.625rem",
@@ -13,18 +10,20 @@ const smallFontSize = {
 
 // This component is not used right now because only one language is supported
 // but we still keep it just in case we support more languages in the future.
-export default function LanguagePicker({ locale }: LanguagePickerProps) {
-  const [language, setLanguage] = React.useState(locale);
-  const pathname = usePathname();
+export default function LanguagePicker() {
   const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+  const [language, setLanguage] = React.useState(locale);
 
   const languageLabels = new Intl.DisplayNames([locale], {
     type: "language",
   });
 
   const onLanguageChange = (event: SelectChangeEvent) => {
-    setLanguage(event.target.value);
-    router.push(pathname, { locale: event.target.value as Locale });
+    const newLanguage = event.target.value as Locale;
+    setLanguage(newLanguage);
+    router.push(pathname, { locale: newLanguage });
   };
 
   return (

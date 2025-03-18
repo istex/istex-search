@@ -1,6 +1,7 @@
+import type { Locale } from "next-intl";
 import type { SxProps } from "@mui/material";
 import { isoLanguagesToLabelize } from "@/config";
-import { routing, type Locale } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 
 export function lineclamp(lines: number): SxProps {
   return {
@@ -58,10 +59,7 @@ export function unique<T>(array: T[]): T[] {
   return Array.from(new Set(array));
 }
 
-export function formatDate(
-  timestamp: number,
-  locale: Locale = routing.defaultLocale,
-) {
+export function formatDate(timestamp: number, locale = routing.defaultLocale) {
   return new Intl.DateTimeFormat(locale, {
     day: "2-digit",
     month: "2-digit",

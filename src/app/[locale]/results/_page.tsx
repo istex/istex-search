@@ -18,12 +18,9 @@ import {
 import type { PageProps } from "@/types/next";
 
 async function getTranslatedResults(
-  options: GetResultsOptions & { locale: string },
+  options: GetResultsOptions,
 ): Promise<IstexApiResponse> {
-  const t = await getTranslations({
-    locale: options.locale,
-    namespace: "results",
-  });
+  const t = await getTranslations("results");
   const response = await getResults(options);
 
   // Fill some missing fields with placeholder texts
@@ -78,7 +75,6 @@ export default async function ResultsPage(props: PageProps) {
       filters,
       sortBy,
       sortDir,
-      locale,
       randomSeed: randomSeedFromSearchParams,
     });
   } catch (err) {

@@ -1,6 +1,6 @@
 import { use } from "react";
 import type { Metadata } from "next";
-import { NextIntlClientProvider, useMessages } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Box } from "@mui/material";
 import FloatingSideMenu from "./components/FloatingSideMenu";
@@ -13,13 +13,10 @@ import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
-import type { GenerateMetadataProps, LayoutProps } from "@/types/next";
+import type { LayoutProps } from "@/types/next";
 
-export async function generateMetadata(
-  props: GenerateMetadataProps,
-): Promise<Metadata> {
-  const { locale } = await props.params;
-  const t = await getTranslations({ locale, namespace: "home.metadata" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("home.metadata");
 
   return {
     title: "Istex Search",
@@ -29,14 +26,13 @@ export async function generateMetadata(
 
 export default function RootLayout(props: LayoutProps) {
   const params = use(props.params);
-  const messages = useMessages();
 
   return (
     <html lang={params.locale}>
       <body>
         <TanStackQueryProvider>
           <MuiSetup locale={params.locale}>
-            <NextIntlClientProvider messages={messages}>
+            <NextIntlClientProvider>
               <HistoryProvider>
                 <Navbar />
                 <Header />

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import Sorting from "../Sorting";
@@ -14,7 +14,6 @@ import { clamp, debounce } from "@/lib/utils";
 
 export default function ResultsSettings() {
   const t = useTranslations("download.ResultsSettings");
-  const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -102,12 +101,12 @@ export default function ResultsSettings() {
           value={size}
           onChange={handleChange}
         />
-        <span>/&nbsp;{documentCount.toLocaleString(locale)}</span>
+        <span>/&nbsp;{t("resultCount", { count: documentCount })}</span>
         {documentCount > maxSize && (
           <Tooltip
             title={t("warningTooltip", {
-              resultCount: documentCount.toLocaleString(locale),
-              maxSize: istexApiConfig.maxSize.toLocaleString(locale),
+              resultCount: documentCount,
+              maxSize: istexApiConfig.maxSize,
             })}
             placement="top"
             arrow

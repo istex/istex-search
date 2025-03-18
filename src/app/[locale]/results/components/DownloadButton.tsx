@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Box, DialogContent } from "@mui/material";
 import DownloadForm from "./Download/DownloadForm";
 import WaitingModal from "./Download/WaitingModal";
@@ -12,7 +12,6 @@ import { useDocumentCount } from "@/lib/hooks";
 export default function DownloadButton() {
   const t = useTranslations("results");
   const tDownload = useTranslations("download");
-  const locale = useLocale();
   const documentCount = useDocumentCount();
   const [downloadModalOpen, setDownloadModalOpen] = React.useState(false);
   const [waitingModalOpen, setWaitingModalOpen] = React.useState(false);
@@ -51,7 +50,7 @@ export default function DownloadButton() {
           onClick={openDownloadModal}
         >
           {t("DownloadButton", {
-            resultCount: documentCount.toLocaleString(locale),
+            resultCount: documentCount,
           })}
         </Button>
       </Box>

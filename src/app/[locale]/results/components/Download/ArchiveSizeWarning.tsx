@@ -1,4 +1,4 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Alert, AlertTitle, Typography, type AlertProps } from "@mui/material";
 import { lighten } from "@mui/material/styles";
 import { ARCHIVE_SIZE_THRESHOLD_ERROR } from "@/config";
@@ -9,7 +9,6 @@ interface ArchiveSizeWarningProps {
 
 export default function ArchiveSizeWarning({ size }: ArchiveSizeWarningProps) {
   const t = useTranslations("download.ArchiveSizeWarning");
-  const locale = useLocale();
   const severity: AlertProps["severity"] =
     size >= ARCHIVE_SIZE_THRESHOLD_ERROR ? "error" : "warning";
 
@@ -25,7 +24,7 @@ export default function ArchiveSizeWarning({ size }: ArchiveSizeWarningProps) {
     >
       <AlertTitle>{t("title")}</AlertTitle>
       <Typography variant="body2">
-        {t("message", { sizeInGigabytes: size.toLocaleString(locale) })}
+        {t("message", { sizeInGigabytes: size })}
       </Typography>
     </Alert>
   );

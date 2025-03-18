@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
@@ -15,7 +15,6 @@ import { clamp } from "@/lib/utils";
 import { inter } from "@/mui/fonts";
 
 export default function Pagination() {
-  const locale = useLocale();
   const t = useTranslations("results.Pagination");
   const history = useHistoryContext();
   const { results, randomSeed } = useQueryContext();
@@ -103,9 +102,9 @@ export default function Pagination() {
             fontWeight: 700,
           })}
         >
-          {page.toLocaleString(locale)}
+          {t("currentPageIndex", { page })}
         </Box>
-        <p>{t("on", { total: lastPage.toLocaleString(locale) })}</p>
+        <p>{t("on", { total: lastPage })}</p>
       </Stack>
       <Box>
         <IconButton

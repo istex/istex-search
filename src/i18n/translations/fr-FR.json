@@ -104,7 +104,7 @@
         },
         {
           "title": "Télécharger massivement",
-          "body": "Istex\u00A0Search propose de télécharger jusqu'à {maxSize} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
+          "body": "Istex\u00A0Search propose de télécharger jusqu'à {maxSize, number} documents en choisissant les données (métadonnées, textes intégraux, enrichissements) dans des formats adaptés à vos besoins."
         }
       ]
     },
@@ -159,14 +159,15 @@
       "include": "Inclure",
       "exclude": "Exclure"
     },
-    "DownloadButton": "Télécharger le corpus ({resultCount})",
+    "DownloadButton": "Télécharger le corpus ({resultCount, number})",
     "Pagination": {
       "firstPage": "Aller à la première page",
       "lastPage": "Aller à la dernière page",
       "previousPage": "Aller à la page précédente",
       "nextPage": "Aller à la page suivante",
+      "currentPageIndex": "{page, number}",
       "page": "PAGE",
-      "on": "SUR {total}",
+      "on": "SUR {total, number}",
       "resultsPerPage": "par page"
     },
     "Filters": {
@@ -335,7 +336,8 @@
     "ResultsSettings": {
       "download": "Télécharger",
       "allButton": "Tout",
-      "warningTooltip": "Votre requête ramène {resultCount} résultats mais la limite autorisée est {maxSize}."
+      "resultCount": "{count, number}",
+      "warningTooltip": "Votre requête ramène {resultCount, number} résultats mais la limite autorisée est {maxSize, number}."
     },
     "SelectedDoc": {
       "title": "Documents sélectionnés",
@@ -348,7 +350,7 @@
     },
     "ArchiveSizeWarning": {
       "title": "Avertissement",
-      "message": "Taille estimée > {sizeInGigabytes} Go"
+      "message": "Taille estimée > {sizeInGigabytes, number} Go"
     },
     "WaitingModal": {
       "title": "Téléchargement de votre corpus",

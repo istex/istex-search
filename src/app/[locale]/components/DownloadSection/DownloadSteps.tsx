@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Container, Grid2 as Grid, Typography } from "@mui/material";
 import { lighten, useTheme } from "@mui/material/styles";
 import { istexApiConfig } from "@/config";
@@ -9,7 +9,6 @@ const NUMBER_OF_STEPS = 3;
 
 export default function DownloadSteps() {
   const t = useTranslations("home.DownloadSection.downloadSteps");
-  const locale = useLocale();
   const theme = useTheme();
   const { white } = theme.vars.palette.colors;
   const length = "0.0382rem";
@@ -63,7 +62,7 @@ export default function DownloadSteps() {
 
                 <Typography variant="body2">
                   {t(`${i}.body`, {
-                    maxSize: istexApiConfig.maxSize.toLocaleString(locale),
+                    maxSize: istexApiConfig.maxSize,
                   })}
                 </Typography>
               </Grid>

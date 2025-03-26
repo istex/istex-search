@@ -12,7 +12,7 @@ import Panel from "@/components/Panel";
 import { ARCHIVE_SIZE_THRESHOLD_WARNING } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { estimateArchiveSize } from "@/lib/formats";
-import { useSearchParams } from "@/lib/hooks";
+import { useMaxSize, useSearchParams } from "@/lib/hooks";
 
 const ONE_GIGABYTE = 1 * 1024 * 1024 * 1024;
 
@@ -27,9 +27,9 @@ export default function DownloadForm({
 }: DownloadFormProps) {
   const searchParams = useSearchParams();
   const selectedFormats = searchParams.getFormats();
-  const size = searchParams.getSize();
   const compressionLevel = searchParams.getCompressionLevel();
   const archiveType = searchParams.getArchiveType();
+  const maxSize = useMaxSize();
   const { selectedDocuments } = useDocumentContext();
   const hasSelectedDocuments = selectedDocuments.length > 0;
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = React.useState(0);
@@ -37,7 +37,7 @@ export default function DownloadForm({
   React.useEffect(() => {
     const archiveSize = estimateArchiveSize(
       selectedFormats,
-      size,
+      maxSize,
       compressionLevel,
       archiveType,
     );
@@ -46,7 +46,7 @@ export default function DownloadForm({
     );
 
     setArchiveSizeInGigabytes(archiveSizeRoundedToLowerGigabyte);
-  }, [selectedFormats, size, compressionLevel, archiveType]);
+  }, [selectedFormats, maxSize, compressionLevel, archiveType]);
 
   return (
     <Grid

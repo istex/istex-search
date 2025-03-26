@@ -4,10 +4,14 @@ import {
   screen,
 } from "../test-utils";
 import DownloadForm from "@/app/[locale]/results/components/Download/DownloadForm";
-import type { SelectedDocument } from "@/contexts/DocumentContext";
+import {
+  resetSelectedExcludedDocuments,
+  type SelectedDocument,
+} from "@/contexts/DocumentContext";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("DownloadForm", () => {
-  it("should not render SelectedDocPanel when no documents are selected", () => {
+  it("doesn't render SelectedDocPanel when no documents are selected", () => {
     const mockedSelectedDocuments: SelectedDocument[] = [];
     localStorage.setItem(
       "selectedDocuments",
@@ -21,7 +25,7 @@ describe("DownloadForm", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("should render SelectedDocPanel when documents are selected", () => {
+  it("renders SelectedDocPanel when documents are selected", () => {
     const mockedSelectedDocuments: SelectedDocument[] = [
       { title: "title", arkIstex: "arkIstex" },
     ];
@@ -38,10 +42,10 @@ describe("DownloadForm", () => {
   it("renders an alert when the estimated archive size is greater than 1GB", () => {
     mockSearchParams({
       extract: "fulltext[pdf]",
-      size: "10000",
     });
     render(
       <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+      { results: generateResults(10000) },
     );
 
     const alert = screen.getByRole("alert");
@@ -52,14 +56,26 @@ describe("DownloadForm", () => {
   it("doesn't render any alert when the estimated archive size is less than 1GB", () => {
     mockSearchParams({
       extract: "fulltext[pdf]",
-      size: "3",
     });
     render(
       <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+      { results: generateResults(3) },
     );
 
     const alert = screen.queryByRole("alert");
 
     expect(alert).not.toBeInTheDocument();
   });
+
+  afterEach(() => {
+    resetSelectedExcludedDocuments();
+  });
 });
+
+function generateResults(resultCount: number): IstexApiResponse {
+  return {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
+}

@@ -298,21 +298,20 @@ export default class SearchParams {
   }
 
   getAst(): AST {
-    const base64Ast = this.searchParams.get("ast");
-    if (base64Ast === null) {
+    const jsonAst = this.searchParams.get("ast");
+    if (jsonAst === null) {
       return getEmptyAst();
     }
 
     try {
-      return JSON.parse(atob(base64Ast)) as AST;
+      return JSON.parse(jsonAst) as AST;
     } catch (_err) {
       return getEmptyAst();
     }
   }
 
   setAst(ast: AST): void {
-    const base64Ast = btoa(JSON.stringify(ast));
-    this.searchParams.set("ast", base64Ast);
+    this.searchParams.set("ast", JSON.stringify(ast));
   }
 
   deleteAst(): void {

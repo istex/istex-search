@@ -450,7 +450,7 @@ describe("SearchParams class", () => {
         },
       ];
       const searchParams = new SearchParams({
-        ast: btoa(JSON.stringify(ast)),
+        ast: JSON.stringify(ast),
       });
 
       expect(searchParams.getAst()).toEqual(ast);
@@ -488,7 +488,7 @@ describe("SearchParams class", () => {
         },
       ];
       const searchParams = new SearchParams({
-        ast: btoa(JSON.stringify(ast)),
+        ast: JSON.stringify(ast),
       });
 
       searchParams.deleteAst();

@@ -146,7 +146,7 @@ function renderAssistedSearchInput(onHomePage = false) {
   ];
 
   mockSearchParams({
-    ast: btoa(JSON.stringify(ast)),
+    ast: JSON.stringify(ast),
   });
 
   if (!onHomePage) {

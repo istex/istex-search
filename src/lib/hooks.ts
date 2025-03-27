@@ -66,6 +66,13 @@ export function useMaxSize() {
   return clamp(documentCount, 0, istexApiConfig.maxSize);
 }
 
+export function useSize() {
+  const searchParams = useSearchParams();
+  const maxSize = useMaxSize();
+
+  return clamp(searchParams.getSize(), 0, maxSize);
+}
+
 export function useApplyFilters() {
   const router = useRouter();
   const history = useHistoryContext();

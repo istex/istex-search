@@ -4,7 +4,7 @@ import { Box, DialogContent, Stack, Typography } from "@mui/material";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
 import { estimateArchiveSize } from "@/lib/formats";
-import { useSearchParams } from "@/lib/hooks";
+import { useSearchParams, useSize } from "@/lib/hooks";
 import { bytesToSize } from "@/lib/utils";
 
 export default function WaitingModal({
@@ -15,9 +15,9 @@ export default function WaitingModal({
   const locale = useLocale();
   const searchParams = useSearchParams();
   const selectedFormats = searchParams.getFormats();
-  const size = searchParams.getSize();
   const compressionLevel = searchParams.getCompressionLevel();
   const archiveType = searchParams.getArchiveType();
+  const size = useSize();
   const archiveSize = estimateArchiveSize(
     selectedFormats,
     size,

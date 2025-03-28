@@ -68,9 +68,12 @@ export function useMaxSize() {
 
 export function useSize() {
   const searchParams = useSearchParams();
+  const sizeFromSearchParams = searchParams.getSize();
   const maxSize = useMaxSize();
 
-  return clamp(searchParams.getSize(), 0, maxSize);
+  return sizeFromSearchParams !== 0
+    ? clamp(sizeFromSearchParams, 0, maxSize)
+    : maxSize;
 }
 
 export function useApplyFilters() {

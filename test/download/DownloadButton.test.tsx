@@ -5,6 +5,7 @@ import {
   userEvent,
 } from "../test-utils";
 import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
+import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("DownloadButton (download modal)", () => {
   it("disables the button when the query string is missing", () => {
@@ -95,7 +96,7 @@ describe("DownloadButton (download modal)", () => {
         closeModal={closeModal}
         openWaitingModal={openWaitingModal}
       />,
-      { queryString },
+      { queryString, results: generateResults(3) },
     );
 
     const button = screen.getByRole("button");
@@ -116,6 +117,10 @@ function testButtonState(
     <DownloadButton closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
     {
       queryString: searchParams.q,
+      results:
+        searchParams.size != null
+          ? generateResults(Number(searchParams.size))
+          : undefined,
     },
   );
 
@@ -126,4 +131,12 @@ function testButtonState(
   } else {
     expect(button).toBeDisabled();
   }
+}
+
+function generateResults(resultCount: number): IstexApiResponse {
+  return {
+    total: resultCount,
+    hits: [],
+    aggregations: {},
+  };
 }

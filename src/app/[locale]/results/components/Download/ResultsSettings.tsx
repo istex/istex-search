@@ -9,7 +9,12 @@ import { istexApiConfig } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
 import type SearchParams from "@/lib/SearchParams";
-import { useDocumentCount, useMaxSize, useSearchParams } from "@/lib/hooks";
+import {
+  useDocumentCount,
+  useMaxSize,
+  useSearchParams,
+  useSize,
+} from "@/lib/hooks";
 import { clamp, debounce } from "@/lib/utils";
 
 export default function ResultsSettings() {
@@ -21,10 +26,7 @@ export default function ResultsSettings() {
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const documentCount = useDocumentCount();
   const maxSize = useMaxSize();
-
-  const [size, setSize] = React.useState<number | null>(
-    clamp(searchParams.getSize(), 0, maxSize),
-  );
+  const [size, setSize] = React.useState<number | null>(useSize());
 
   // eslint-disable-next-line react-compiler/react-compiler
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,16 +62,6 @@ export default function ResultsSettings() {
     updateSize(clamp(newValue, 0, maxSize));
   };
 
-  React.useEffect(() => {
-    // If the size is not set, make it the maxSize by default
-    if (size === 0) {
-      setSize(maxSize);
-      updateUrl(maxSize, searchParams);
-    }
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Stack spacing={1.875}>
       <Sorting
@@ -91,7 +83,7 @@ export default function ResultsSettings() {
         <NumberInput
           id="size-input"
           size="small"
-          min={0}
+          min={1}
           max={maxSize}
           slotProps={{
             htmlInput: {

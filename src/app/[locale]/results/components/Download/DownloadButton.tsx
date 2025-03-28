@@ -5,9 +5,8 @@ import { NO_FORMAT_SELECTED } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useDownload, useMaxSize, useSearchParams } from "@/lib/hooks";
+import { useDownload, useSearchParams, useSize } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";
-import { clamp } from "@/lib/utils";
 
 interface DownloadButtonProps {
   closeModal: () => void;
@@ -25,25 +24,20 @@ export default function DownloadButton({
   const { queryString, randomSeed } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const selectedFormats = searchParams.getFormats();
-  const size = searchParams.getSize();
   const filters = searchParams.getFilters();
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
   const archiveType = searchParams.getArchiveType();
   const compressionLevel = searchParams.getCompressionLevel();
-  const maxSize = useMaxSize();
+  const size = useSize();
   const isFormComplete =
     queryString !== "" && selectedFormats !== NO_FORMAT_SELECTED && size !== 0;
 
   const handleDownload: React.MouseEventHandler<HTMLButtonElement> = () => {
-    // Clamp the size between 0 and what is possible to download
-    const actualSize = clamp(size, 0, maxSize);
-    searchParams.setSize(actualSize);
-
     const url = buildFullApiUrl({
       queryString,
       selectedFormats,
-      size: actualSize,
+      size,
       filters,
       selectedDocuments,
       excludedDocuments,
@@ -57,6 +51,7 @@ export default function DownloadButton({
     // This hook is synchronous
     download(url);
 
+    searchParams.setSize(size);
     history.push({
       date: Date.now(),
       searchParams,

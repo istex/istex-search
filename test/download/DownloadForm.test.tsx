@@ -39,8 +39,7 @@ describe("DownloadForm", () => {
     expect(screen.getByText("Documents sélectionnés")).toBeInTheDocument();
   });
 
-  // TODO: re-enabled this test once the size inconsistency problem is figured out
-  it.skip("renders an alert when the estimated archive size is greater than 1GB", () => {
+  it("renders an alert when the estimated archive size is greater than 1GB", () => {
     mockSearchParams({
       extract: "fulltext[pdf]",
     });

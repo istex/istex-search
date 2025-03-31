@@ -86,6 +86,7 @@ export default function DownloadForm({
       >
         <InfoPanels />
       </Grid>
+
       {hasSelectedDocuments && (
         <Grid size={{ xs: 12, md: 4 }}>
           <SelectedDocPanel />

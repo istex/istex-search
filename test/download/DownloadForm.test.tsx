@@ -2,6 +2,7 @@ import {
   mockSearchParams,
   customRender as render,
   screen,
+  userEvent,
 } from "../test-utils";
 import DownloadForm from "@/app/[locale]/results/components/Download/DownloadForm";
 import {
@@ -37,6 +38,34 @@ describe("DownloadForm", () => {
       <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
     );
     expect(screen.getByText("Documents sélectionnés")).toBeInTheDocument();
+  });
+
+  it("sets the current size to the max size if the max size becomes smaller than the current size", async () => {
+    const mockedSelectedDocuments: SelectedDocument[] = [
+      { title: "title1", arkIstex: "arkIstex1" },
+      { title: "title2", arkIstex: "arkIstex2" },
+    ];
+    localStorage.setItem(
+      "selectedDocuments",
+      JSON.stringify(mockedSelectedDocuments),
+    );
+    render(
+      <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
+      { results: generateResults(10000) },
+    );
+
+    const sizeInput = screen.getByRole("textbox");
+    const firstSelectedDocumentRemoveButton = screen.getAllByRole("button", {
+      name: "Désélectionner",
+    })[0];
+
+    expect(sizeInput).toHaveValue(mockedSelectedDocuments.length.toString());
+
+    await userEvent.click(firstSelectedDocumentRemoveButton);
+
+    expect(sizeInput).toHaveValue(
+      (mockedSelectedDocuments.length - 1).toString(),
+    );
   });
 
   it("renders an alert when the estimated archive size is greater than 1GB", () => {

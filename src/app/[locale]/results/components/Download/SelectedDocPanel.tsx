@@ -47,6 +47,7 @@ export default function SelectedDocPanel() {
             >
               <Typography
                 variant="body2"
+                title={doc.title}
                 sx={{
                   textOverflow: "ellipsis",
                   overflow: "hidden",

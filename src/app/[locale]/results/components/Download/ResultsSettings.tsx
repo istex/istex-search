@@ -62,6 +62,14 @@ export default function ResultsSettings() {
     updateSize(clamp(newValue, 0, maxSize));
   };
 
+  // If maxSize changed because we have selected documents and some of them were removed from the
+  // SelectedDocPanel, we need to make sure our current size isn't greater than maxSize
+  React.useEffect(() => {
+    if (size != null && size > maxSize) {
+      setSize(maxSize);
+    }
+  }, [size, maxSize]);
+
   return (
     <Stack spacing={1.875}>
       <Sorting

@@ -55,6 +55,8 @@ export default function DownloadButton({
     history.push({
       date: Date.now(),
       searchParams,
+      selectedDocuments,
+      excludedDocuments,
     });
 
     closeModal();

@@ -14,7 +14,6 @@ import {
   type IconButtonProps,
 } from "@mui/material";
 import ShareIcon from "@/../public/share.svg?svgr";
-import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import {
   useHistoryContext,
   type HistoryEntry,
@@ -60,7 +59,16 @@ export default function HistoryItem({
 
   const handleEdit = () => {
     history.populateCurrentRequest(entry);
-    resetSelectedExcludedDocuments();
+
+    localStorage.setItem(
+      "selectedDocuments",
+      JSON.stringify(entry.selectedDocuments ?? []),
+    );
+    localStorage.setItem(
+      "excludedDocuments",
+      JSON.stringify(entry.excludedDocuments ?? []),
+    );
+
     router.push(`/results?${entry.searchParams.toString()}`);
     onClose();
   };

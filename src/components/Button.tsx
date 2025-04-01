@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-import { lighten, styled, type Palette } from "@mui/material/styles";
+import { styled, type Palette } from "@mui/material/styles";
 import type { KeyOf } from "@/types/utility";
 
 interface CustomButtonProps extends MuiButtonProps {
@@ -26,7 +26,6 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
   theme,
 }) => {
   const _mainColor = theme.vars.palette.colors[mainColor ?? "blue"];
-  const _mainColorNotFromVars = theme.palette.colors[mainColor ?? "blue"];
   const _secondaryColor = theme.vars.palette.colors[secondaryColor ?? "white"];
 
   if (variant === "outlined") {
@@ -45,7 +44,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     return {
       color: _mainColor,
       "&:hover": {
-        backgroundColor: lighten(_mainColorNotFromVars, 0.85),
+        backgroundColor: `color-mix(in srgb, ${_mainColor}, white 85%)`,
       },
     };
   }
@@ -55,10 +54,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     color: _secondaryColor,
     boxShadow: "none",
     "&:hover": {
-      background: `linear-gradient(to left, ${lighten(
-        _mainColorNotFromVars,
-        0.15,
-      )}, ${_mainColor})`,
+      background: `linear-gradient(to left, color-mix(in srgb, ${_mainColor}, white 15%), ${_mainColor})`,
       backgroundColor: _mainColor,
       boxShadow: "none",
     },

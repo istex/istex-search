@@ -14,7 +14,6 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { alpha } from "@mui/material/styles";
 import navbarLinks from "./navbarLinks";
 
 export default function Navbar() {
@@ -95,7 +94,7 @@ export default function Navbar() {
             sx={(theme) => ({
               gap: 1,
               color: "text.primary",
-              bgcolor: alpha(theme.palette.colors.blue, 0.2),
+              bgcolor: `color-mix(in srgb, ${theme.vars.palette.colors.blue}, transparent 80%)`,
               borderRadius: 0,
               textDecoration: "none",
               fontSize: "0.625rem",

@@ -99,7 +99,7 @@ export default function Group(props: GroupProps) {
       sx={(theme) => ({
         px: 0.5,
         pb: 0.5,
-        borderRadius: `${theme.shape.borderRadius}px`,
+        borderRadius: theme.vars.shape.borderRadius,
         ...(!root && {
           mt: 1,
           ml: 11,

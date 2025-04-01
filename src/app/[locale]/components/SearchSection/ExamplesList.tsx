@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Grid2 as Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Button from "@/components/Button";
 import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";

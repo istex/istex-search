@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { alpha, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 interface IndicatorChartProps {
   percentage: number;
@@ -29,7 +29,7 @@ export default function IndicatorChart({
         fontWeight: 700,
         borderRadius: "100%",
         border: `${CIRCLE_WIDTH / 2}px solid`,
-        borderColor: alpha(theme.palette.colors.lightGreen, 0.2),
+        borderColor: `color-mix(in srgb, ${theme.vars.palette.colors.lightGreen}, transparent 80%)`,
         position: "relative",
         fontSize: "0.8rem",
       }}

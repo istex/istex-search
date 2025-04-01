@@ -11,7 +11,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { lighten } from "@mui/material/styles";
 import FileList from "./Document/FileList";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
@@ -51,7 +50,7 @@ export default function ResultCard({ index, displayIcons }: ResultCardProps) {
       variant="outlined"
       sx={(theme) => ({
         height: "100%",
-        bgcolor: lighten(theme.palette.colors[cardColor], 0.95),
+        bgcolor: `color-mix(in srgb, ${theme.vars.palette.colors[cardColor]}, white 95%)`,
         borderColor: theme.vars.palette.colors[cardColor],
         display: "flex",
         flexDirection: "column",

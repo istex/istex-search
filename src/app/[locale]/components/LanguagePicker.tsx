@@ -1,7 +1,13 @@
 import * as React from "react";
 import { useLocale, type Locale } from "next-intl";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import type { SelectChangeEvent } from "@mui/material/Select";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  type SelectChangeEvent,
+} from "@mui/material";
 import { routing, usePathname, useRouter } from "@/i18n/routing";
 
 const smallFontSize = {

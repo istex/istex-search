@@ -1,8 +1,13 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { Box, Container, Link, Typography } from "@mui/material";
-import type { BoxProps } from "@mui/material/Box";
-import type { TypographyProps } from "@mui/material/Typography";
+import {
+  Box,
+  Container,
+  Link,
+  Typography,
+  type BoxProps,
+  type TypographyProps,
+} from "@mui/material";
 import CorpusGrid from "./CorpusGrid";
 import corpus from "./corpus";
 import wires from "@/../public/wires.svg";

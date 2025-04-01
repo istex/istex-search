@@ -167,7 +167,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     marginLeft: theme.spacing(0.5),
     marginRight: theme.spacing(0.5),
     border: 0,
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: theme.vars.shape.borderRadius,
     width: 40,
     height: 40,
     backgroundColor: theme.vars.palette.colors.lightBlue,
@@ -185,7 +185,7 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   [`&.${toggleButtonClasses.selected}`]: {
     backgroundColor: theme.vars.palette.colors.lightBlue,
     color: theme.vars.palette.primary.main,
-    border: `solid 1px ${theme.vars.palette.primary.main}`,
+    border: `solid 1px ${theme.vars.palette.primary.main} !important`,
     boxShadow: "0px 3px 3px 0px rgba(0,0,0,0.25)",
     "&:hover": {
       backgroundColor: theme.vars.palette.colors.lightBlue,

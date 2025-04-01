@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Grid2 as Grid, Link, Typography } from "@mui/material";
+import { Grid, Link, Typography } from "@mui/material";
 import HighlightedUrl from "../HighlightedUrl";
 import Panel, { PanelTitle } from "@/components/Panel";
 import { usages } from "@/config";

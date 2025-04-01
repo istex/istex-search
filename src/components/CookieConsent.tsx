@@ -5,7 +5,6 @@ import { useLocale, useMessages } from "next-intl";
 import * as cookieConsent from "vanilla-cookieconsent";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import { GlobalStyles } from "@mui/material";
-import { alpha, lighten } from "@mui/material/styles";
 import { routing } from "@/i18n/routing";
 
 const config: cookieConsent.CookieConsentConfig = {
@@ -66,35 +65,36 @@ export default function CookieConsent() {
       styles={(theme) => ({
         "#cc-main": {
           "--cc-font-family": theme.typography.fontFamily,
-          "--cc-modal-border-radius": `${theme.shape.borderRadius}px`,
-          "--cc-btn-border-radius": `${theme.shape.borderRadius}px`,
+          "--cc-modal-border-radius": theme.vars.shape.borderRadius,
+          "--cc-btn-border-radius": theme.vars.shape.borderRadius,
           "--cc-link-color": "var(--cc-btn-primary-bg)",
-          "--cc-primary-color": theme.palette.text.primary,
+          "--cc-primary-color": theme.vars.palette.text.primary,
           "--cc-separator-border-color": "rgba(0, 0, 0, 0.12)",
 
-          "--cc-btn-primary-bg": theme.palette.primary.main,
+          "--cc-btn-primary-bg": theme.vars.palette.primary.main,
           "--cc-btn-primary-border-color": "var(--cc-btn-primary-bg)",
-          "--cc-btn-primary-hover-bg": lighten(theme.palette.primary.main, 0.1),
+          "--cc-btn-primary-hover-bg": `color-mix(in srgb, ${theme.vars.palette.primary.main}, white 10%)`,
           "--cc-btn-primary-hover-border-color": "transparent",
 
           "--cc-btn-secondary-bg": "transparent",
-          "--cc-btn-secondary-color": theme.palette.primary.main,
-          "--cc-btn-secondary-border-color": theme.palette.primary.main,
-          "--cc-btn-secondary-hover-bg": theme.palette.primary.main,
+          "--cc-btn-secondary-color": theme.vars.palette.primary.main,
+          "--cc-btn-secondary-border-color": theme.vars.palette.primary.main,
+          "--cc-btn-secondary-hover-bg": theme.vars.palette.primary.main,
           "--cc-btn-secondary-hover-color": "#ffffff",
-          "--cc-btn-secondary-hover-border-color": theme.palette.primary.main,
+          "--cc-btn-secondary-hover-border-color":
+            theme.vars.palette.primary.main,
 
           "--cc-toggle-on-bg": "var(--cc-btn-primary-bg)",
-          "--cc-toggle-off-bg": theme.palette.colors.grey,
+          "--cc-toggle-off-bg": theme.vars.palette.colors.grey,
 
           // Replicate the styles of the MUI Link
           "& a": {
-            color: theme.palette.primary.main,
+            color: theme.vars.palette.primary.main,
             textDecoration: "underline",
-            textDecorationColor: alpha(theme.palette.primary.main, 0.4),
+            textDecorationColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 60%)`,
             background: "none",
             "&:hover": {
-              color: theme.palette.primary.main,
+              color: theme.vars.palette.primary.main,
               textDecorationColor: "inherit",
               background: "none",
             },

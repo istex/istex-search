@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Grid2 as Grid, Divider, Stack } from "@mui/material";
+import { Grid, Divider, Stack } from "@mui/material";
 import ArchiveSettings from "./ArchiveSettings";
 import ArchiveSizeWarning from "./ArchiveSizeWarning";
 import DownloadButton from "./DownloadButton";

@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import type { TypographyStyleOptions } from "@mui/material/styles/createTypography";
+import type { TypographyStyle } from "@mui/material/styles";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import { montserrat, openSans } from "./fonts";
 
@@ -23,7 +23,7 @@ const colors = {
 } as const;
 
 // Extend the PaletteOptions definition with our custom colors
-declare module "@mui/material/styles/createPalette" {
+declare module "@mui/material/styles" {
   interface Palette {
     colors: typeof colors;
   }
@@ -33,12 +33,12 @@ declare module "@mui/material/styles/createPalette" {
   }
 }
 
-const headingOptions: TypographyStyleOptions = {
+const headingOptions: TypographyStyle = {
   fontFamily: montserrat.style.fontFamily,
   fontWeight: "bold",
 };
 
-const subtitleOptions: TypographyStyleOptions = {
+const subtitleOptions: TypographyStyle = {
   fontFamily: montserrat.style.fontFamily,
 };
 

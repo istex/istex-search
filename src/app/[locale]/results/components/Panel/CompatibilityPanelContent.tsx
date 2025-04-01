@@ -1,4 +1,4 @@
-import { Grid2 as Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import CompatibilityProgress from "./CompatibilityProgress";
 import { usages, formats } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";

@@ -82,10 +82,10 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       backgroundColor: "unset",
     },
     "&:not(:first-of-type)": {
-      borderRadius: theme.shape.borderRadius,
+      borderRadius: theme.vars.shape.borderRadius,
     },
     "&:first-of-type": {
-      borderRadius: theme.shape.borderRadius,
+      borderRadius: theme.vars.shape.borderRadius,
     },
   },
 }));

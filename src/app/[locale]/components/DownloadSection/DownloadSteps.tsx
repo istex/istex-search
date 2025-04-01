@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Container, Grid2 as Grid, Typography } from "@mui/material";
-import { lighten, useTheme } from "@mui/material/styles";
+import { Container, Grid, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { istexApiConfig } from "@/config";
 
 const NUMBER_OF_STEPS = 3;
@@ -10,7 +10,7 @@ const NUMBER_OF_STEPS = 3;
 export default function DownloadSteps() {
   const t = useTranslations("home.DownloadSection.downloadSteps");
   const theme = useTheme();
-  const { white } = theme.vars.palette.colors;
+  const { white, blue } = theme.vars.palette.colors;
   const length = "0.0382rem";
 
   return (
@@ -19,7 +19,7 @@ export default function DownloadSteps() {
         {Array(NUMBER_OF_STEPS)
           .fill(0)
           .map((_, i) => {
-            const lighterBlue = lighten(theme.palette.colors.blue, i * 0.2);
+            const lighterBlue = `color-mix(in srgb, ${blue}, white ${i * 20}%)`;
 
             return (
               <Grid

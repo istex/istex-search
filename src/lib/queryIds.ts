@@ -50,11 +50,9 @@ export function parseCorpusFileContent(
     const [corpusFilePrefix, id] = lineSegments;
 
     // If the idType hasn't been found yet, find it based on the id prefix
-    if (idType == null) {
-      idType = supportedIdTypes.find(
-        (idType) => idType.corpusFilePrefix === corpusFilePrefix,
-      );
-    }
+    idType ??= supportedIdTypes.find(
+      (idType) => idType.corpusFilePrefix === corpusFilePrefix,
+    );
 
     // If the idType hasn't been found at this point, it means there's a syntax error
     if (idType == null) {

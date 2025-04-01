@@ -14,11 +14,7 @@ interface CustomButtonProps extends MuiButtonProps {
 
 // Wrapper component to change the default value of the 'variant' prop from 'text' to 'contained'
 function CustomButton(props: CustomButtonProps) {
-  let { variant, mainColor, secondaryColor, ...rest } = props;
-
-  if (variant == null) {
-    variant = "contained";
-  }
+  const { variant = "contained", mainColor, secondaryColor, ...rest } = props;
 
   return <MuiButton variant={variant} {...rest} />;
 }

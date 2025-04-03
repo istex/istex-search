@@ -44,29 +44,9 @@ interface HistoryProviderProps {
 }
 
 export function HistoryProvider({ children }: HistoryProviderProps) {
-  // The context is first rendered on the server before client hydration and local storage isn't
-  // available on the server, so we skip the initialization in that case
-  let historyFromLocalStorage;
-  let currentRequestFromLocalStorage;
-  let historyInitialized = false;
-  let currentRequestInitialized = false;
-  if (typeof window !== "undefined") {
-    historyFromLocalStorage = window.localStorage.getItem(HISTORY_KEY);
-    currentRequestFromLocalStorage =
-      window.localStorage.getItem(CURRENT_REQUEST_KEY);
-    historyInitialized = historyFromLocalStorage != null;
-    currentRequestInitialized = currentRequestFromLocalStorage != null;
-  }
-
-  const [history, setHistory] = React.useState<HistoryEntry[]>(
-    historyInitialized && historyFromLocalStorage != null
-      ? parseHistory(historyFromLocalStorage)
-      : [],
-  );
-  const [currentRequest, setCurrentRequest] = React.useState<HistoryEntry>(
-    currentRequestInitialized && currentRequestFromLocalStorage != null
-      ? parseCurrentRequest(currentRequestFromLocalStorage)
-      : initialCurrentRequest,
+  const [history, setHistory] = React.useState(getHistoryFromLocalStorage());
+  const [currentRequest, setCurrentRequest] = React.useState(
+    getCurrentRequestFromLocalStorage(),
   );
 
   const get: HistoryContextValue["get"] = () => {
@@ -74,13 +54,15 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
   };
 
   const push: HistoryContextValue["push"] = (item) => {
-    history.unshift(item);
+    const newHistory = [...history];
 
-    if (history.length > HISTORY_LIMIT) {
+    newHistory.unshift(item);
+
+    if (newHistory.length > HISTORY_LIMIT) {
       history.pop();
     }
 
-    updateHistory();
+    setHistory(newHistory);
   };
 
   const _delete: HistoryContextValue["delete"] = (index) => {
@@ -88,13 +70,11 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
       return;
     }
 
-    history.splice(index, 1);
-    updateHistory();
+    setHistory(history.toSpliced(index, 1));
   };
 
   const clear: HistoryContextValue["clear"] = () => {
-    history.splice(0, history.length);
-    updateHistory();
+    setHistory([]);
   };
 
   const getCurrentRequest: HistoryContextValue["getCurrentRequest"] = () => {
@@ -103,43 +83,27 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
 
   const populateCurrentRequest: HistoryContextValue["populateCurrentRequest"] =
     (newCurrentRequest) => {
-      Object.assign(currentRequest, newCurrentRequest);
-
-      updateCurrentRequest();
+      setCurrentRequest(newCurrentRequest);
     };
 
   const isEmpty: HistoryContextValue["isEmpty"] = () => {
     return history.length === 0;
   };
 
-  const updateHistory = () => {
-    setHistory([...history]);
-    window.localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  };
-
-  const updateCurrentRequest = () => {
-    setCurrentRequest({ ...currentRequest });
-    window.localStorage.setItem(
-      CURRENT_REQUEST_KEY,
-      JSON.stringify(currentRequest),
-    );
-  };
-
-  const update = () => {
-    updateHistory();
-    updateCurrentRequest();
-  };
-
   const isIndexValid = (index: number) => {
     return index >= 0 || index < history.length;
   };
 
-  if (
-    typeof window !== "undefined" &&
-    (!historyInitialized || !currentRequestInitialized)
-  ) {
-    update();
-  }
+  React.useEffect(() => {
+    window.localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  }, [history]);
+
+  React.useEffect(() => {
+    window.localStorage.setItem(
+      CURRENT_REQUEST_KEY,
+      JSON.stringify(currentRequest),
+    );
+  }, [currentRequest]);
 
   const contextValue: HistoryContextValue = {
     get,
@@ -154,7 +118,18 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
   return <HistoryContext value={contextValue}>{children}</HistoryContext>;
 }
 
-function parseHistory(historyFromLocalStorage: string) {
+function getHistoryFromLocalStorage() {
+  // We can't use local storage while running in a server environment so we just return the
+  // default value
+  if (typeof window === "undefined") {
+    return [];
+  }
+
+  const historyFromLocalStorage = window.localStorage.getItem(HISTORY_KEY);
+  if (historyFromLocalStorage == null) {
+    return [];
+  }
+
   const result: HistoryEntry[] = [];
   const parsed = JSON.parse(historyFromLocalStorage);
   if (!Array.isArray(parsed)) {
@@ -163,7 +138,7 @@ function parseHistory(historyFromLocalStorage: string) {
 
   for (const entry of parsed) {
     if (
-      typeof entry.date !== "number" &&
+      typeof entry.date !== "number" ||
       typeof entry.searchParams !== "string"
     ) {
       throw new Error("Unexpected history entry structure");
@@ -172,16 +147,34 @@ function parseHistory(historyFromLocalStorage: string) {
     result.push({
       date: entry.date,
       searchParams: new SearchParams(entry.searchParams as string),
+      selectedDocuments: Array.isArray(entry.selectedDocuments)
+        ? entry.selectedDocuments
+        : [],
+      excludedDocuments: Array.isArray(entry.excludedDocuments)
+        ? entry.excludedDocuments
+        : [],
     });
   }
 
   return result;
 }
 
-function parseCurrentRequest(currentRequestFromLocalStorage: string) {
+function getCurrentRequestFromLocalStorage() {
+  // We can't use local storage while running in a server environment so we just return the
+  // default value
+  if (typeof window === "undefined") {
+    return initialCurrentRequest;
+  }
+
+  const currentRequestFromLocalStorage =
+    window.localStorage.getItem(CURRENT_REQUEST_KEY);
+  if (currentRequestFromLocalStorage == null) {
+    return initialCurrentRequest;
+  }
+
   const parsed = JSON.parse(currentRequestFromLocalStorage);
   if (
-    typeof parsed.date !== "number" &&
+    typeof parsed.date !== "number" ||
     typeof parsed.searchParams !== "string"
   ) {
     throw new Error("Unexpected current request structure");
@@ -190,6 +183,12 @@ function parseCurrentRequest(currentRequestFromLocalStorage: string) {
   const result: HistoryEntry = {
     date: parsed.date,
     searchParams: new SearchParams(parsed.searchParams as string),
+    selectedDocuments: Array.isArray(parsed.selectedDocuments)
+      ? parsed.selectedDocuments
+      : [],
+    excludedDocuments: Array.isArray(parsed.excludedDocuments)
+      ? parsed.excludedDocuments
+      : [],
   };
 
   return result;

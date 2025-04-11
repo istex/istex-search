@@ -253,8 +253,8 @@
           "<strong>AND</strong> (ou <strong>&&</strong>) renvoie les documents qui contiennent tous les termes recherchés.<pre>cinéma AND Chaplin</pre>",
           "<strong>OR</strong> (ou <strong>||</strong>) renvoie les documents qui contiennent au moins l'un des termes recherchés.<pre>Greenland OR subarctic</pre>",
           "<strong>+</strong> peut être utilisé directement devant un terme pour le rendre obligatoire.<pre>+cinéma +Chaplin</pre>",
-          "<strong>NOT</strong> (ou <strong>!</strong>) renvoie les documents qui ne contiennent pas le terme recherché.<pre>linguistics NOT syntax</pre>",
-          "<strong>-</strong> peut être utilisé directement devant un terme pour l'exclure.<pre>linguistics -syntax</pre>"
+          "<strong>NOT</strong> renvoie les documents qui ne contiennent pas le terme recherché.<pre>linguistics NOT syntax</pre>",
+          "<strong>-</strong> (ou <strong>!</strong>) peut être utilisé directement devant un terme pour l'exclure.<pre>linguistics -syntax</pre>"
         ]
       },
       "fields": {

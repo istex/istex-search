@@ -60,7 +60,7 @@
           "goBackButton": "Annuler l'édition experte",
           "validate": "Valider vos modifications",
           "Dialog": {
-            "title": "Êtes-vous sûr ?",
+            "title": "Êtes-vous sûr\u00A0?",
             "content": "En validant vos modifications, vous n'aurez plus la possibilité de poursuivre avec l'assistant à la construction de requête.",
             "confirm": "Confirmer"
           }
@@ -128,7 +128,7 @@
     },
     "unavailableTitle": "Fonctionnalité indisponible dans ce mode de recherche",
     "RawRequest": {
-      "prefix": "Requête brute : ",
+      "prefix": "Requête brute\u00A0: ",
       "copy": {
         "label": "Copier la requête brute dans le presse-papiers.",
         "success": "Requête brute copiée dans le presse-papier.",
@@ -141,9 +141,9 @@
       "gridAriaLabel": "Affichage en grille",
       "listAriaLabel": "Affichage en liste"
     },
-    "PerPage": "afficher : ",
+    "PerPage": "afficher\u00A0: ",
     "Sorting": {
-      "sortBy": "Trier par : ",
+      "sortBy": "Trier par\u00A0: ",
       "asc": "ordre croissant",
       "desc": "ordre décroissant",
       "qualityOverRelevance": "pertinence & qualité",
@@ -232,7 +232,7 @@
       "cleanedTextPresence": "Texte nettoyé",
       "publicationLanguage": "Langue de publication",
       "docCount": "{count}\u00A0doc.",
-      "languageCount": "{language} : {count} doc. ({percentage}\u00A0%)",
+      "languageCount": "{language}\u00A0: {count} doc. ({percentage}\u00A0%)",
       "otherLanguage": "autres",
       "compatibility": "Compatibilité avec les passerelles"
     },
@@ -345,12 +345,12 @@
       "noDocTitle": "Sans titre"
     },
     "ArchiveSettings": {
-      "archiveType": "Format de l'archive :",
-      "compressionLevel": "Compression :"
+      "archiveType": "Format de l'archive\u00A0:",
+      "compressionLevel": "Compression\u00A0:"
     },
     "ArchiveSizeWarning": {
       "title": "Avertissement",
-      "message": "Taille estimée > {sizeInGigabytes, number} Go"
+      "message": "Taille estimée > {sizeInGigabytes, number}\u00A0Go"
     },
     "WaitingModal": {
       "title": "Téléchargement de votre corpus",
@@ -361,14 +361,14 @@
     }
   },
   "help": {
-    "button": "BESOIN D'AIDE ?",
+    "button": "BESOIN D'AIDE\u00A0?",
     "modal": {
-      "title": "Besoin d'aide ?",
+      "title": "Besoin d'aide\u00A0?",
       "description": "Consultez notre Faq, la documentation Istex ou nos tutoriels",
       "faq": "Faq",
       "documentation": "Documentation",
       "tutorials": "Tutoriels",
-      "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous !",
+      "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous\u00A0!",
       "contactTitle": "Écrivez-nous",
       "message": "Envoyez-nous un message via le <externalLink>formulaire de contact</externalLink>."
     }
@@ -390,7 +390,7 @@
     "clearHistory": "Supprimer l'historique",
     "ConfirmModal": {
       "title": "Confirmation",
-      "content": "Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements ?",
+      "content": "Êtes-vous sûr de vouloir supprimer l'historique de vos téléchargements\u00A0?",
       "confirm": "Supprimer"
     }
   },

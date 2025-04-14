@@ -1,6 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, DialogContent, Stack, Typography } from "@mui/material";
+import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
 import { estimateArchiveSize } from "@/lib/formats";
@@ -56,7 +56,18 @@ export default function WaitingModal({
             </Box>
           </Typography>
 
-          <Typography>{t("content")}</Typography>
+          <Box>
+            <Typography component="h3" variant="h6">
+              {t("citationTitle")}
+            </Typography>
+            <Typography>
+              {t("citationContent", { year: new Date().getFullYear() })}
+            </Typography>
+          </Box>
+
+          <Divider />
+
+          <Typography>{t("closeModal")}</Typography>
         </Stack>
       </DialogContent>
     </Modal>

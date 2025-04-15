@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
-import { IconButton, SvgIcon, Typography } from "@mui/material";
+import Image from "next/image";
+import { IconButton, Typography } from "@mui/material";
 import BlankIcon from "./BlankIcon";
 import BmpIcon from "./BmpIcon";
 import GifIcon from "./GifIcon";
@@ -14,7 +15,7 @@ import TiffIcon from "./TiffIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
-import OpenAccessIcon from "@/../public/open-access.svg?svgr";
+import OpenAccessIcon from "@/../public/open-access.svg";
 
 export interface FileButtonProps {
   category: string;
@@ -112,7 +113,7 @@ function getIcon(extension: string) {
       Component = TiffIcon;
       break;
     case "openAccess":
-      return <SvgIcon htmlColor="#f68212" component={OpenAccessIcon} />;
+      return <Image src={OpenAccessIcon} alt="" />;
     default:
       Component = BlankIcon;
   }

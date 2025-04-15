@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="24" height="24" version="1.1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
   <g transform="matrix(.75031 0 0 .75089 4.4759 -.14071)">
-    <path d="m3.25 9.8725v-1.169a6.7971 6.8454 0 0 1 13.594 0v8.4555" fill="none" stroke="currentColor" stroke-width="3.4157"/>
-    <ellipse cx="10.028" cy="22.064" rx="8.32" ry="8.3789" fill="none" stroke="currentColor" stroke-width="3.4157"/>
-    <ellipse cx="10.061" cy="22.094" rx="2.808" ry="2.8279" fill="currentColor" stroke-width=".032604"/>
+    <path d="m3.25 9.8725v-1.169a6.7971 6.8454 0 0 1 13.594 0v8.4555" fill="none" stroke="#f68212" stroke-width="3.4157"/>
+    <ellipse cx="10.028" cy="22.064" rx="8.32" ry="8.3789" fill="none" stroke="#f68212" stroke-width="3.4157"/>
+    <ellipse cx="10.061" cy="22.094" rx="2.808" ry="2.8279" fill="#f68212" stroke-width=".032604"/>
   </g>
 </svg>

@@ -1,9 +1,9 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { SvgIcon } from "@mui/material";
+import Image from "next/image";
 import FloatingSideButton from "./FloatingSideButton";
-import ShareIcon from "@/../public/share.svg?svgr";
+import ShareIcon from "@/../public/share.svg";
 import { usePathname } from "@/i18n/routing";
 import { useShare } from "@/lib/hooks";
 
@@ -23,7 +23,7 @@ export default function ShareButton() {
   return (
     <FloatingSideButton
       id="share-button"
-      icon={<SvgIcon component={ShareIcon} />}
+      icon={<Image src={ShareIcon} width={18} height={18} alt="" />}
       label={t("shareButton")}
       onClick={handleShareButton}
     />

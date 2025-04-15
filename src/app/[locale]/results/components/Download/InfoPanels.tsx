@@ -22,6 +22,12 @@ export default function InfoPanels() {
   const sortDir = searchParams.getSortDirection();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
+  const completeQuery = createCompleteQuery(
+    queryString,
+    filters,
+    selectedDocuments,
+    excludedDocuments,
+  );
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
@@ -68,14 +74,10 @@ export default function InfoPanels() {
             <Typography
               data-testid="query-string"
               variant="body2"
+              title={completeQuery}
               sx={{ ...lineclamp(6), wordBreak: "break-word" }}
             >
-              {createCompleteQuery(
-                queryString,
-                filters,
-                selectedDocuments,
-                excludedDocuments,
-              )}
+              {completeQuery}
             </Typography>
           </Panel>
 

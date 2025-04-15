@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container } from "@mui/material";
 import SearchSection from "../../components/SearchSection";
-import RawRequest from "./RawRequest";
+import CompleteQuery from "./CompleteQuery";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 
@@ -34,7 +34,7 @@ export default function ResultsPageShell({
     >
       <DocumentProvider>
         <SearchSection />
-        {errorInfo == null ? <RawRequest /> : null}
+        {errorInfo == null ? <CompleteQuery /> : null}
 
         <Container component="section" sx={{ pb: 6 }}>
           {children}

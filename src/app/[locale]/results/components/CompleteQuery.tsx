@@ -7,38 +7,31 @@ import {
   Alert,
   Container,
   IconButton,
-  Link,
   Paper,
   Snackbar,
   Typography,
 } from "@mui/material";
-import HighlightedUrl from "./HighlightedUrl";
+import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
-import { buildResultPreviewUrl } from "@/lib/istexApi";
+import { createCompleteQuery } from "@/lib/istexApi";
 
-export default function RawRequest() {
-  const t = useTranslations("results.RawRequest");
+export default function CompleteQuery() {
+  const t = useTranslations("results.CompleteQuery");
   const searchParams = useSearchParams();
-  const { queryString, randomSeed } = useQueryContext();
-  const perPage = searchParams.getPerPage();
+  const { queryString } = useQueryContext();
+  const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const filters = searchParams.getFilters();
-  const page = searchParams.getPage();
-  const sortBy = searchParams.getSortBy();
-  const sortDir = searchParams.getSortDirection();
-  const resultsApiUrl = buildResultPreviewUrl({
-    queryString,
-    perPage,
-    page,
-    filters,
-    sortBy,
-    sortDir,
-    randomSeed,
-  });
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [copyState, setCopyState] = React.useState<
     "success" | "error" | "badEnv"
   >("success");
+  const completeQuery = createCompleteQuery(
+    queryString,
+    filters,
+    selectedDocuments,
+    excludedDocuments,
+  );
 
   const openSnackbar = () => {
     setSnackbarOpen(true);
@@ -56,7 +49,7 @@ export default function RawRequest() {
     }
 
     navigator.clipboard
-      .writeText(resultsApiUrl.toString())
+      .writeText(completeQuery)
       .then(() => {
         setCopyState("success");
       })
@@ -74,6 +67,7 @@ export default function RawRequest() {
           bgcolor: "colors.veryLightBlue",
           p: 1,
           display: "flex",
+          justifyContent: "space-between",
           alignItems: "center",
           gap: 2,
         }}
@@ -88,13 +82,7 @@ export default function RawRequest() {
           }}
         >
           <strong>{t("prefix")}</strong>
-          <Link
-            href={resultsApiUrl.toString()}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <HighlightedUrl url={resultsApiUrl} />
-          </Link>
+          <code title={completeQuery}>{completeQuery}</code>
         </Typography>
         <IconButton
           title={t("copy.label")}

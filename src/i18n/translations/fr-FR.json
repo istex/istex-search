@@ -127,12 +127,12 @@
       "noAbstract": "Pas de résumé"
     },
     "unavailableTitle": "Fonctionnalité indisponible dans ce mode de recherche",
-    "RawRequest": {
-      "prefix": "Requête brute\u00A0: ",
+    "CompleteQuery": {
+      "prefix": "Requête\u00A0: ",
       "copy": {
-        "label": "Copier la requête brute dans le presse-papiers.",
-        "success": "Requête brute copiée dans le presse-papier.",
-        "error": "Erreur dans la copie de la requête brute.",
+        "label": "Copier la requête dans le presse-papiers.",
+        "success": "Requête copiée dans le presse-papier.",
+        "error": "Erreur dans la copie de la requête.",
         "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."
       }
     },

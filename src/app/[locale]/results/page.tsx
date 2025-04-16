@@ -32,7 +32,7 @@ export default async function _ResultsPage(props: PageProps) {
   // from the slot isn't supported
   if (!routing.locales.includes(locale)) {
     logger.warn(
-      `Unsupported locale "${locale}", redirecting to "/${routing.defaultLocale}".`,
+      `Unsupported locale '${locale}', redirecting to '/${routing.defaultLocale}'.`,
     );
     redirect({
       href: { pathname: "/results", query: await props.searchParams },

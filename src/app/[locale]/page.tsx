@@ -29,7 +29,7 @@ export default async function HomePage(props: PageProps) {
   // from the slot isn't supported
   if (!routing.locales.includes(locale)) {
     logger.warn(
-      `Unsupported locale "${locale}", redirecting to "/${routing.defaultLocale}".`,
+      `Unsupported locale '${locale}', redirecting to '/${routing.defaultLocale}'.`,
     );
     redirect({
       href: "/",
@@ -49,7 +49,7 @@ export default async function HomePage(props: PageProps) {
     // so we just delete it and refresh the page
     searchParams.deleteQueryString();
     logger.warn(
-      `Tried to access the "/" with a q_id, this is probably a mistake. Redirecting to "/${locale}"`,
+      `Tried to access '/' with a q_id, this is probably a mistake. Redirecting to '/${locale}'`,
     );
     redirect({ href: `/?${searchParams.toString()}`, locale });
 

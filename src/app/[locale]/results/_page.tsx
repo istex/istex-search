@@ -15,6 +15,7 @@ import {
   type GetResultsOptions,
   type IstexApiResponse,
 } from "@/lib/istexApi";
+import logger from "@/lib/logger";
 import type { PageProps } from "@/types/next";
 
 async function getTranslatedResults(
@@ -63,6 +64,9 @@ export default async function ResultsPage(props: PageProps) {
   }
 
   if (queryString === "") {
+    logger.warn(
+      `Access to '/results' without a query string, redirecting to '/${locale}'.`,
+    );
     redirect({ href: "/", locale });
   }
 

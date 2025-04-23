@@ -40,7 +40,8 @@ export default function Filters() {
     <Stack
       spacing={1}
       sx={{
-        width: "min-content",
+        width: { xs: undefined, md: "min-content" },
+        height: "min-content",
         bgcolor: "common.white",
         borderRadius: 1,
         px: 1,

@@ -132,6 +132,17 @@ describe("Istex API related functions", () => {
       expect(url.searchParams.get("randomSeed")).toBe(params.randomSeed);
     });
 
+    it("builds the result preview URL with stats", () => {
+      const params: Module.BuildResultPreviewUrlOptions = {
+        queryString: "hello",
+        sortBy: "random",
+        stats: true,
+      };
+      const url = Module.buildResultPreviewUrl(params);
+
+      expect(url.searchParams.get("stats")).not.toBeNull();
+    });
+
     it("builds the result preview URL with selected documents", () => {
       const params: Module.BuildResultPreviewUrlOptions = {
         queryString: "hello",

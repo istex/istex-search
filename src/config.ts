@@ -1,5 +1,9 @@
 import { isValidDoi, isValidArk, isValidIstexId } from "./lib/utils";
 
+export const DISPLAY_PERF_METRICS =
+  process.env.DISPLAY_PERF_METRICS != null ||
+  process.env.NODE_ENV !== "production";
+
 export const istexApiConfig = {
   baseUrl: "https://api.istex.fr",
   maxSize: 100_000,

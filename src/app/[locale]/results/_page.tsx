@@ -5,8 +5,10 @@ import Filters from "./components/Filters";
 import FilterTags from "./components/Filters/FilterTags";
 import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
+import PerfMetrics from "./components/PerfMetrics";
 import ResultGrid from "./components/ResultGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
+import { DISPLAY_PERF_METRICS } from "@/config";
 import { redirect } from "@/i18n/routing";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
@@ -80,6 +82,7 @@ export default async function ResultsPage(props: PageProps) {
       sortBy,
       sortDir,
       randomSeed: randomSeedFromSearchParams,
+      stats: DISPLAY_PERF_METRICS,
     });
   } catch (err) {
     return (
@@ -118,6 +121,10 @@ export default async function ResultsPage(props: PageProps) {
           <FilterTags />
           <ResultGrid />
           <Pagination />
+
+          {DISPLAY_PERF_METRICS && (
+            <PerfMetrics istexApiStats={results.stats} />
+          )}
         </Stack>
       </Stack>
 

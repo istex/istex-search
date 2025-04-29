@@ -5,6 +5,7 @@ import { buildExtractParamsFromFormats } from "./formats";
 import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
+  DISPLAY_PERF_METRICS,
   MIN_PER_PAGE,
   corpusWithExternalFulltextLink,
   istexApiConfig,
@@ -76,6 +77,14 @@ export type Aggregation = Record<
 >;
 
 export interface IstexApiResponse {
+  stats?: {
+    elasticsearch: {
+      took: number;
+    };
+    "istex-api": {
+      took: number;
+    };
+  };
   total: number;
   prevPageURI?: string;
   nextPageURI?: string;
@@ -146,6 +155,7 @@ export interface BuildResultPreviewUrlOptions {
   sortBy?: SortBy;
   sortDir?: SortDir;
   randomSeed?: string;
+  stats?: boolean;
 }
 
 export function buildResultPreviewUrl({
@@ -159,6 +169,7 @@ export function buildResultPreviewUrl({
   sortBy,
   sortDir,
   randomSeed,
+  stats = false,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -201,6 +212,9 @@ export function buildResultPreviewUrl({
     getFacetUrlParam() +
       ",qualityIndicators.abstractCharCount[1-1000000],qualityIndicators.pdfText,qualityIndicators.tdmReady,qualityIndicators.teiSource",
   );
+  if (stats) {
+    url.searchParams.set("stats", "");
+  }
 
   return url;
 }
@@ -213,6 +227,7 @@ export interface GetResultsOptions {
   sortBy: SortBy;
   sortDir: SortDir;
   randomSeed?: string;
+  stats?: boolean;
 }
 
 export async function getResults({
@@ -223,6 +238,7 @@ export async function getResults({
   sortBy,
   sortDir,
   randomSeed,
+  stats,
 }: GetResultsOptions) {
   // Create the URL
   const url = buildResultPreviewUrl({
@@ -233,6 +249,7 @@ export async function getResults({
     sortBy,
     sortDir,
     randomSeed,
+    stats,
   });
 
   // The final query string is built from the initial query string + the filters
@@ -240,7 +257,9 @@ export async function getResults({
 
   // If the query string is too long some browsers won't accept to send a GET request
   // so we send a POST request instead and pass the query string in the body
-  const fetchOptions: RequestInit = { next: { revalidate: 60 } };
+  const fetchOptions: RequestInit = {
+    next: { revalidate: DISPLAY_PERF_METRICS ? 0 : 60 },
+  };
   if (finalQueryString.length > istexApiConfig.queryStringMaxLength) {
     url.searchParams.delete("q");
     fetchOptions.method = "POST";
@@ -250,14 +269,20 @@ export async function getResults({
     fetchOptions.body = JSON.stringify({ qString: finalQueryString });
   }
 
+  if (DISPLAY_PERF_METRICS) performance.mark("before_fetch");
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     throw new CustomError(
       response.status === 400 ? { name: "SyntaxError" } : { name: "default" },
     );
   }
+  if (DISPLAY_PERF_METRICS) performance.mark("after_fetch");
 
-  return (await response.json()) as IstexApiResponse;
+  if (DISPLAY_PERF_METRICS) performance.mark("before_parsing");
+  const res = (await response.json()) as IstexApiResponse;
+  if (DISPLAY_PERF_METRICS) performance.mark("after_parsing");
+
+  return res;
 }
 
 export async function getPossibleValues(fieldName: FieldName) {

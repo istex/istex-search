@@ -56,6 +56,10 @@ export default function WaitingModal({
             </Box>
           </Typography>
 
+          <Typography>{t("closeModal")}</Typography>
+
+          <Divider />
+
           <Box>
             <Typography component="h3" variant="h6">
               {t("citationTitle")}
@@ -64,10 +68,6 @@ export default function WaitingModal({
               {t("citationContent", { year: new Date().getFullYear() })}
             </Typography>
           </Box>
-
-          <Divider />
-
-          <Typography>{t("closeModal")}</Typography>
         </Stack>
       </DialogContent>
     </Modal>

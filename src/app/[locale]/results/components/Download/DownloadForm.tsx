@@ -52,7 +52,7 @@ export default function DownloadForm({
     <Grid
       container
       spacing={2}
-      sx={{ "& .MuiPaper-root": { bgcolor: "white" } }}
+      sx={{ "& > .MuiPaper-root": { bgcolor: "white" } }}
     >
       <Grid size={{ xs: 12, sm: hasSelectedDocuments ? 5 : 8 }}>
         <Panel>

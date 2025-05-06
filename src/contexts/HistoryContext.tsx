@@ -144,9 +144,17 @@ function getHistoryFromLocalStorage() {
       throw new Error("Unexpected history entry structure");
     }
 
+    // Sanity check to remove any entry still using the old base64 AST
+    // TODO: remove this in a few months, so around September 2025, when every user's history is cleaned
+    const searchParams = new URLSearchParams(entry.searchParams as string);
+    const astString = searchParams.get("ast");
+    if (astString != null && !isValidJson(astString)) {
+      continue;
+    }
+
     result.push({
       date: entry.date,
-      searchParams: new SearchParams(entry.searchParams as string),
+      searchParams: new SearchParams(searchParams.toString()),
       selectedDocuments: Array.isArray(entry.selectedDocuments)
         ? entry.selectedDocuments
         : [],
@@ -202,4 +210,14 @@ export function useHistoryContext() {
   }
 
   return context;
+}
+
+// TODO: remove this function when the above sanity check is removed
+function isValidJson(content: string) {
+  try {
+    JSON.parse(content);
+    return true;
+  } catch (_error) {
+    return false;
+  }
 }

@@ -8,7 +8,6 @@ const config = async () => ({
     testEnvironment: "jsdom",
     moduleNameMapper: {
       "^@/(.*)$": ["<rootDir>/src/$1"],
-      "^.+\\.svg\\?svgr$": "<rootDir>/test/svgFileMock.ts",
     },
   })()),
   transformIgnorePatterns: ["node_modules/(?!next-intl)/"],

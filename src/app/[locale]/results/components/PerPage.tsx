@@ -48,7 +48,7 @@ export default function PerPage({
 
   const handlePerPageChange = (event: SelectChangeEvent<PerPageOption>) => {
     searchParams.deletePage();
-    searchParams.setPerPage(event.target.value as PerPageOption);
+    searchParams.setPerPage(event.target.value);
 
     history.populateCurrentRequest({
       date: Date.now(),

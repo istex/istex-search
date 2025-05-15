@@ -33,14 +33,14 @@ export default function ArchiveSettings() {
   const fontSize = theme.typography.fontSize;
 
   const handleArchiveTypeChange = (event: SelectChangeEvent<ArchiveType>) => {
-    searchParams.setArchiveType(event.target.value as ArchiveType);
+    searchParams.setArchiveType(event.target.value);
     common();
   };
 
   const handleCompressionLevelChange = (
     event: SelectChangeEvent<CompressionLevel>,
   ) => {
-    searchParams.setCompressionLevel(event.target.value as CompressionLevel);
+    searchParams.setCompressionLevel(event.target.value);
     common();
   };
 

@@ -130,7 +130,7 @@
     "CompleteQuery": {
       "prefix": "Requête\u00A0: ",
       "copy": {
-        "label": "Copier la requête dans le presse-papiers.",
+        "label": "Copier la requête dans le presse-papier",
         "success": "Requête copiée dans le presse-papier.",
         "error": "Erreur dans la copie de la requête.",
         "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."

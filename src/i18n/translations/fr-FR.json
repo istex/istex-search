@@ -270,7 +270,7 @@
         "list": [
           "Le métacaractère <strong>*</strong> remplace 0 à <i>n</i> caractère(s).<pre>title:mémoris*</pre>",
           "Le métacaractère <strong>?</strong> remplace 1 caractère.<pre>title:m?mori?ation</pre>",
-          "Les métacaractères <strong>*</strong> et <strong>?</strong> ne sont pas autorisés dans les expressions multitermes."
+          "Les métacaractères <strong>*</strong> et <strong>?</strong> ne sont pas autorisés dans les recherches entre guillemets."
         ]
       },
       "parentheses": {

@@ -21,7 +21,7 @@
     "@mui/icons-material": "7.1.0",
     "@mui/material": "7.1.0",
     "@mui/material-nextjs": "7.1.0",
-    "@tanstack/react-query": "5.76.1",
+    "@tanstack/react-query": "5.79.0",
     "js-md5": "0.8.3",
     "next": "15.3.3",
     "next-intl": "4.1.0",

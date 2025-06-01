@@ -23,7 +23,7 @@
     "@mui/material-nextjs": "7.1.0",
     "@tanstack/react-query": "5.76.1",
     "js-md5": "0.8.3",
-    "next": "15.3.2",
+    "next": "15.3.3",
     "next-intl": "4.1.0",
     "pino": "9.6.0",
     "react": "19.1.0",

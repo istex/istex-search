@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { fieldTypes, type FieldName, type FieldType } from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;

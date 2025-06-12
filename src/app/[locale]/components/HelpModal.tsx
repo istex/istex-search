@@ -67,12 +67,12 @@ export default function HelpModal({
                 {t("documentation")}
               </Button>
               <Button
-                href="https://istex-tutorial.data.istex.fr/"
+                href="https://callisto-formation.fr/pluginfile.php/52002/mod_scorm/content/1/scormcontent/index.html"
                 target="_blank"
                 rel="noreferrer"
                 sx={{ fontWeight: "bold" }}
               >
-                {t("tutorials")}
+                {t("tutorial")}
               </Button>
             </Stack>
             {t("contact")}

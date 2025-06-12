@@ -26,7 +26,7 @@ const sections = [
   },
   {
     name: "fields",
-    listLength: 3,
+    listLength: 4,
   },
   {
     name: "metacharacters",
@@ -114,7 +114,20 @@ export default function HistoryModal({ open, onClose }: MemoModalProps) {
                   .map((_, i) => (
                     <li key={i}>
                       <RichText>
-                        {(tags) => t.rich(`${name}.list.${i}`, tags)}
+                        {(tags) =>
+                          t.rich(`${name}.list.${i}`, {
+                            ...tags,
+                            fieldsLink: (chunks) => (
+                              <Link
+                                href="https://callisto-formation.fr/pluginfile.php/52002/mod_scorm/content/1/scormcontent/index.html#/lessons/2AgMpAeXpq3vCDVPV78FZKAkQ_qAUrSD"
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                {chunks}
+                              </Link>
+                            ),
+                          })
+                        }
                       </RichText>
                     </li>
                   ))}

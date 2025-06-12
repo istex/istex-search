@@ -260,6 +260,7 @@
       "fields": {
         "title": "Champs",
         "list": [
+          "La liste des champs est accessible en <fieldsLink>annexe du tutoriel</fieldsLink>.",
           "Le requêtage d'un champ spécifique s'effectue avec le nom technique du champ suivi de <strong>:</strong> (ex. <i>title</i>, <i>publicationDate</i>, <i>doi</i>).<pre>title:Rimbaud</pre>",
           "Sans spécification, tous les champs sont interrogés.",
           "Le requêtage exact d'un champ est possible grâce au <strong>.raw</strong> (ex. <i>host.title.raw</i>).<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
@@ -367,7 +368,7 @@
       "description": "Consultez notre Faq, la documentation Istex ou nos tutoriels",
       "faq": "Faq",
       "documentation": "Documentation",
-      "tutorials": "Tutoriels",
+      "tutorial": "Tutoriel",
       "contact": "N'hésitez pas à nous contacter si besoin, nous reviendrons rapidement vers vous\u00A0!",
       "contactTitle": "Écrivez-nous",
       "message": "Envoyez-nous un message via le <externalLink>formulaire de contact</externalLink>."

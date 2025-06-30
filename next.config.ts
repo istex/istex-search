@@ -6,6 +6,11 @@ export default withNextIntl({
   // Necessary to run in a docker container
   output: "standalone",
 
+  // React Compiler
+  experimental: {
+    reactCompiler: true,
+  },
+
   // Automatically transform `import { Stack } from "@mui/material"`
   // into `import Stack from "@mui/material/Stack"` for better tree-shaking
   // and prevent someone from including all of MUI in the final bundle

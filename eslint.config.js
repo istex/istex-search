@@ -32,14 +32,7 @@ export default tseslint.config(
   },
 
   // React Compiler
-  {
-    plugins: {
-      "react-compiler": reactCompiler,
-    },
-    rules: {
-      "react-compiler/react-compiler": "error",
-    },
-  },
+  reactCompiler.configs.recommended,
 
   // Custom rules
   {

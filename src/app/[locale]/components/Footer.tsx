@@ -1,12 +1,11 @@
-import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import abesLogo from "@/../public/abes.svg";
 import cnrsLogo from "@/../public/cnrs.svg";
 import couperinLogo from "@/../public/couperin.svg";
 import franceUniversitesLogo from "@/../public/france_universites.svg";
-import investissementLogo from "@/../public/investissement.png";
 import mesrLogo from "@/../public/mesr.svg";
+import opereInistLogo from "@/../public/opere-par-inist.svg";
 import ulLogo from "@/../public/ul.svg";
 
 const partners = [
@@ -50,8 +49,6 @@ const partners = [
 const MAX_ITEMS_PER_LINE = 12;
 
 export default function Footer() {
-  const t = useTranslations("home.Footer");
-
   return (
     <Box
       component="footer"
@@ -108,25 +105,26 @@ export default function Footer() {
           ))}
         </Grid>
 
-        <Box sx={{ textAlign: "center", py: 3 }}>
+        <Box
+          sx={{
+            m: "auto",
+            position: "relative",
+            minHeight: 100,
+            maxWidth: 120,
+          }}
+        >
           <a
-            href="https://anr.fr/ProjetIA-10-IDEX-0004"
+            href="https://inist.fr/"
             target="_blank"
             rel="noreferrer"
-          >
-            <Image
-              src={investissementLogo}
-              alt="Programme Investissement d'Avenir"
-            />
-          </a>
-          <Typography
-            variant="body2"
-            sx={{
-              color: "colors.grey",
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
             }}
           >
-            {t("funding")}: ANR-10-IDEX-0004-02
-          </Typography>
+            <Image src={opereInistLogo} alt="Opéré par l'Inist-CNRS" fill />
+          </a>
         </Box>
       </Container>
     </Box>

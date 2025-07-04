@@ -5,6 +5,10 @@ import RenderingMetric from "./RenderingMetric";
 import Panel from "@/components/Panel";
 import type { IstexApiResponse } from "@/lib/istexApi";
 
+// Very arbitrary time in milliseconds below which we consider the fetch
+// call hit cache
+const CACHE_TIME_THRESHOLD = 100;
+
 export interface PerfMetricsProps {
   istexApiStats: IstexApiResponse["stats"];
 }
@@ -29,9 +33,13 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
   performance.clearMarks();
   performance.clearMeasures();
 
-  const istexApiTime = istexApiStats["istex-api"].took;
-  const elasticTime = istexApiStats.elasticsearch.took;
-  const networkOverhead = fetchMesure.duration - (istexApiTime + elasticTime);
+  const hitCache = fetchMesure.duration < CACHE_TIME_THRESHOLD;
+
+  const istexApiTime = !hitCache ? istexApiStats["istex-api"].took : 0;
+  const elasticTime = !hitCache ? istexApiStats.elasticsearch.took : 0;
+  const networkOverhead = !hitCache
+    ? fetchMesure.duration - (istexApiTime + elasticTime)
+    : 0;
 
   const endFetchTime =
     performance.timeOrigin + fetchMesure.startTime + fetchMesure.duration;
@@ -56,7 +64,10 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
             </>
           }
         >
-          Istex API: <strong>{istexApiTime}ms</strong>
+          Istex API:{" "}
+          <strong>
+            {istexApiTime}ms{hitCache && " (cached)"}
+          </strong>
         </PerfMetric>
 
         <PerfMetric
@@ -67,7 +78,10 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
             </>
           }
         >
-          Elasticsearch: <strong>{istexApiStats.elasticsearch.took}ms</strong>
+          Elasticsearch:{" "}
+          <strong>
+            {elasticTime}ms{hitCache && " (cached)"}
+          </strong>
         </PerfMetric>
 
         <PerfMetric
@@ -79,7 +93,10 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
             </>
           }
         >
-          Complete request: <strong>{fetchMesure.duration.toFixed(0)}ms</strong>
+          Complete request:{" "}
+          <strong>
+            {fetchMesure.duration.toFixed(0)}ms{hitCache && " (cached)"}
+          </strong>
         </PerfMetric>
 
         <PerfMetric
@@ -103,7 +120,10 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
             </>
           }
         >
-          Network overhead: <strong>{networkOverhead.toFixed(0)}ms</strong>
+          Network overhead:{" "}
+          <strong>
+            {networkOverhead.toFixed(0)}ms{hitCache && " (cached)"}
+          </strong>
         </PerfMetric>
 
         <RenderingMetric endFetchTime={endFetchTime} />

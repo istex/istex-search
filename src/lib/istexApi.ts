@@ -257,9 +257,7 @@ export async function getResults({
 
   // If the query string is too long some browsers won't accept to send a GET request
   // so we send a POST request instead and pass the query string in the body
-  const fetchOptions: RequestInit = {
-    next: { revalidate: DISPLAY_PERF_METRICS ? 0 : 60 },
-  };
+  const fetchOptions: RequestInit = { next: { revalidate: 60 } };
   if (finalQueryString.length > istexApiConfig.queryStringMaxLength) {
     url.searchParams.delete("q");
     fetchOptions.method = "POST";

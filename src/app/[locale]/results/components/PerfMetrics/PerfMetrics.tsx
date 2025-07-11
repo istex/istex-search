@@ -20,6 +20,15 @@ export default function PerfMetrics({ istexApiStats }: PerfMetricsProps) {
     );
   }
 
+  const hasMarkers =
+    performance.getEntriesByName("before_fetch").length > 0 &&
+    performance.getEntriesByName("after_fetch").length > 0 &&
+    performance.getEntriesByName("before_parsing").length > 0 &&
+    performance.getEntriesByName("after_parsing").length > 0;
+  if (!hasMarkers) {
+    return null;
+  }
+
   const fetchMesure = performance.measure(
     "fetch",
     "before_fetch",

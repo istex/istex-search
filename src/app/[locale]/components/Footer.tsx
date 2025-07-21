@@ -4,15 +4,15 @@ import abesLogo from "@/../public/abes.svg";
 import cnrsLogo from "@/../public/cnrs.svg";
 import couperinLogo from "@/../public/couperin.svg";
 import franceUniversitesLogo from "@/../public/france_universites.svg";
-import mesrLogo from "@/../public/mesr.svg";
+import inriaLogo from "@/../public/inria.svg";
 import opereInistLogo from "@/../public/opere-par-inist.svg";
 import ulLogo from "@/../public/ul.svg";
 
 const partners = [
   {
-    logo: mesrLogo,
-    alt: "Ministère de l'Enseignement Supérieur et de la Recherche",
-    url: "https://www.enseignementsup-recherche.gouv.fr/",
+    logo: inriaLogo,
+    alt: "Institut national de recherche en sciences et technologies du numérique",
+    url: "https://www.inria.fr/",
   },
   {
     logo: cnrsLogo,

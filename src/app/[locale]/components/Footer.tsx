@@ -10,11 +10,6 @@ import ulLogo from "@/../public/ul.svg";
 
 const partners = [
   {
-    logo: inriaLogo,
-    alt: "Institut national de recherche en sciences et technologies du numérique",
-    url: "https://www.inria.fr/",
-  },
-  {
     logo: cnrsLogo,
     alt: "Centre National de la Recherche Scientifique",
     url: "https://www.cnrs.fr/",
@@ -39,6 +34,11 @@ const partners = [
     logo: ulLogo,
     alt: "Université de Lorraine",
     url: "https://www.univ-lorraine.fr/",
+  },
+  {
+    logo: inriaLogo,
+    alt: "Institut national de recherche en sciences et technologies du numérique",
+    url: "https://www.inria.fr/",
   },
 ];
 

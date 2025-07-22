@@ -1,9 +1,9 @@
 import { useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
+import ShareIcon from "@mui/icons-material/Reply";
 import {
   Box,
   IconButton,
@@ -14,7 +14,6 @@ import {
   TableCell,
   type IconButtonProps,
 } from "@mui/material";
-import ShareIcon from "@/../public/share.svg";
 import {
   useHistoryContext,
   type HistoryEntry,
@@ -181,17 +180,7 @@ export default function HistoryItem({
           <ActionButton
             title={t("shareAriaLabel")}
             icon={
-              <Image
-                src={ShareIcon}
-                alt=""
-                style={{
-                  // Only way I found to change the color of the SVG when it's used as the "src" attribute of an <img> tag.
-                  // This filter was generated with https://angel-rs.github.io/css-color-filter-generator/ with the primary color from
-                  // the MUI theme (#458ca5).
-                  filter:
-                    "brightness(0) saturate(100%) invert(53%) sepia(7%) saturate(2888%) hue-rotate(150deg) brightness(93%) contrast(89%)",
-                }}
-              />
+              <ShareIcon style={{ transform: "scaleX(-1.3) scaleY(1.3)" }} />
             }
             onClick={handleShare}
           />

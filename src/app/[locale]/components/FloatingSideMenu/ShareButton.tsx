@@ -1,9 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Image from "next/image";
+import ShareIcon from "@mui/icons-material/Reply";
 import FloatingSideButton from "./FloatingSideButton";
-import ShareIcon from "@/../public/share.svg";
 import { usePathname } from "@/i18n/routing";
 import { useShare } from "@/lib/hooks";
 
@@ -23,7 +22,7 @@ export default function ShareButton() {
   return (
     <FloatingSideButton
       id="share-button"
-      icon={<Image src={ShareIcon} width={18} height={18} alt="" />}
+      icon={<ShareIcon style={{ transform: "scaleX(-1.3) scaleY(1.3)" }} />}
       label={t("shareButton")}
       onClick={handleShareButton}
     />

@@ -44,6 +44,7 @@
         "searchComparator": "Rechercher un comparateur",
         "value": "Valeur",
         "searchValue": "Rechercher une valeur",
+        "valueTooltip": "Entrer une seule valeur. Les métacaractères comme * ou ? ne sont pas autorisés.",
         "minValue": "Valeur min",
         "maxValue": "Valeur max",
         "equals": "est égal à",

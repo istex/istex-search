@@ -2,7 +2,7 @@ import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { Autocomplete, IconButton, Stack } from "@mui/material";
+import { Autocomplete, IconButton, Stack, Tooltip } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 import {
   AutocompleteInput,
@@ -445,45 +445,51 @@ export default function Rule({
         // Text and language
         const freeSolo = comparator !== "equals" || !requiresFetchingValues;
         return (
-          <Autocomplete
-            size="small"
-            fullWidth
-            options={valueQuery.data ?? []}
-            getOptionLabel={(option) =>
-              fieldType === "language"
-                ? labelizeIsoLanguage(locale, option, tLanguages)
-                : field?.requiresLabeling === true && option !== ""
-                  ? tFields(`${fieldName}.${option}`)
-                  : option
-            }
-            freeSolo={freeSolo}
-            value={textValue}
-            onChange={handleTextValueChange}
-            onBlur={
-              // We use onBlur instead of onInputChange to avoid rerendering the whole form on each key press.
-              // This is essentially the same behavior as autoSelect=true but without selecting the highlighted
-              // option (cf. https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-autoSelect)
-              freeSolo
-                ? (((event) => {
-                    handleTextValueChange(event, event.target.value);
-                  }) as React.FocusEventHandler<HTMLInputElement>)
-                : undefined
-            }
-            loading={valueQuery.isLoading}
-            renderInput={(params) => (
-              <AutocompleteInput
-                label={t("value")}
-                placeholder={t("searchValue")}
-                error={
-                  (displayErrors && (textValue == null || textValue === "")) ||
-                  valueQuery.isError ||
-                  valueQuery.isLoadingError
-                }
-                isLoading={valueQuery.isLoading}
-                {...params}
-              />
-            )}
-          />
+          <Tooltip title={t("valueTooltip")}>
+            <Autocomplete
+              size="small"
+              fullWidth
+              options={valueQuery.data ?? []}
+              getOptionLabel={(option) =>
+                fieldType === "language"
+                  ? labelizeIsoLanguage(locale, option, tLanguages)
+                  : field?.requiresLabeling === true && option !== ""
+                    ? tFields(`${fieldName}.${option}`)
+                    : option
+              }
+              freeSolo={freeSolo}
+              value={textValue}
+              onChange={handleTextValueChange}
+              onBlur={
+                // We use onBlur instead of onInputChange to avoid rerendering the whole form on each key press.
+                // This is essentially the same behavior as autoSelect=true but without selecting the highlighted
+                // option (cf. https://mui.com/material-ui/api/autocomplete/#autocomplete-prop-autoSelect)
+                freeSolo
+                  ? (((event) => {
+                      handleTextValueChange(
+                        event,
+                        event.target.value !== "" ? event.target.value : null,
+                      );
+                    }) as React.FocusEventHandler<HTMLInputElement>)
+                  : undefined
+              }
+              loading={valueQuery.isLoading}
+              renderInput={(params) => (
+                <AutocompleteInput
+                  label={t("value")}
+                  placeholder={t("searchValue")}
+                  error={
+                    (displayErrors &&
+                      (textValue == null || textValue === "")) ||
+                    valueQuery.isError ||
+                    valueQuery.isLoadingError
+                  }
+                  isLoading={valueQuery.isLoading}
+                  {...params}
+                />
+              )}
+            />
+          </Tooltip>
         );
       })()}
 

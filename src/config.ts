@@ -396,5 +396,6 @@ export const isoLanguagesToLabelize = [
   "syr",
   "und",
   "unknown",
+  "way",
   "zxx",
 ] as const;

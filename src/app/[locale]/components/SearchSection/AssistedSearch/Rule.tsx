@@ -404,6 +404,7 @@ export default function Rule({
               size="small"
               fullWidth
               label={t("value")}
+              placeholder={t("searchValue")}
               numericFormatProps={{
                 decimalScale: 0,
                 thousandSeparator: isDateField ? "" : undefined,

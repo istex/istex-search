@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import abesLogo from "@/../public/abes.svg";
 import cnrsLogo from "@/../public/cnrs.svg";
 import couperinLogo from "@/../public/couperin.svg";
@@ -42,12 +42,6 @@ const partners = [
   },
 ];
 
-// This is used to calculate the flex-basis of each element
-// Examples:
-//   - 2 items per line           => MAX_ITEMS_PER_LINE / 2
-//   - All items on the same line => MAX_ITEMS_PER_LINE / partners.length
-const MAX_ITEMS_PER_LINE = 12;
-
 export default function Footer() {
   return (
     <Box
@@ -63,47 +57,45 @@ export default function Footer() {
       }}
     >
       <Container sx={{ py: 3 }}>
-        <Grid component="ul" container spacing={2}>
+        <Stack
+          component="ul"
+          direction="row"
+          columnGap={4}
+          useFlexGap
+          sx={{ justifyContent: "center", flexWrap: "wrap" }}
+        >
           {partners.map(({ logo, alt, url, width }) => (
-            <Grid
+            <Box
               key={alt}
               component="li"
-              size={{
-                xs: MAX_ITEMS_PER_LINE / 2,
-                md: MAX_ITEMS_PER_LINE / partners.length,
+              sx={{
+                minHeight: 100,
+                minWidth: width ?? 128,
               }}
             >
-              <Box
-                sx={{
-                  m: "auto",
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                style={{
                   position: "relative",
-                  minHeight: 100,
-                  maxWidth: width ?? 128,
+                  display: "block",
+                  width: "100%",
+                  height: "100%",
                 }}
               >
-                <a
-                  href={url}
-                  target="_blank"
-                  rel="noreferrer"
+                <Image
+                  src={logo}
+                  alt={alt}
+                  fill
                   style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
+                    objectFit: "contain",
                   }}
-                >
-                  <Image
-                    src={logo}
-                    alt={alt}
-                    fill
-                    style={{
-                      objectFit: "contain",
-                    }}
-                  />
-                </a>
-              </Box>
-            </Grid>
+                />
+              </a>
+            </Box>
           ))}
-        </Grid>
+        </Stack>
 
         <Box
           sx={{

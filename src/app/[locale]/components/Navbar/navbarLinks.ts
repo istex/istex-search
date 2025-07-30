@@ -14,7 +14,7 @@ const navbarLinks = {
     },
     {
       label: "specializedCorpus",
-      url: "https://corpus-specialises.corpus.istex.fr/",
+      url: "https://corpus.istex.fr/instance/corpus-specialises/",
     },
     {
       label: "istexTdm",

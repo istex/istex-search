@@ -43,7 +43,7 @@ export default function CorpusSection() {
           </Typography>
           <CorpusGrid />
           <Box sx={{ display: "flex", gap: 2, pt: 2 }}>
-            <CorpusButton href="https://corpus-specialises.corpus.istex.fr/">
+            <CorpusButton href="https://corpus.istex.fr/instance/corpus-specialises/">
               {t("corpus.seeMoreButton")}
             </CorpusButton>
             <CorpusButton href="https://www.istex.fr/contactez-nous/">

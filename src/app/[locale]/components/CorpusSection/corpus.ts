@@ -2,32 +2,32 @@ const corpus = [
   {
     title: "Mémoire-Neurosciences",
     collection: "Mémoire",
-    url: "https://memoire-neurosciences.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/memoire-neurosciences/",
   },
   {
     title: "Paleosaurus",
     collection: "Paléoclimatologie",
-    url: "https://paleoclimatologie-paleosaurus.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/paleoclimatologie-paleosaurus/",
   },
   {
     title: "Paleonotus",
     collection: "Paléoclimatologie",
-    url: "https://paleoclimatologie-paleonotus.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/paleoclimatologie-paleonotus/",
   },
   {
     title: "Machine Translation",
     collection: "Traduction",
-    url: "https://traduction-machinetranslation.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/traduction-machinetranslation/",
   },
   {
     title: "Systématique Animale",
     collection: "Systématique",
-    url: "https://systematique-animale.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/systematique-animale/",
   },
   {
     title: "Systématique Végétale",
     collection: "Systématique",
-    url: "https://systematique-vegetalcsv.corpus.istex.fr/",
+    url: "https://corpus.istex.fr/instance/systematique-vegetalcsv/",
   },
 ] as const;
 

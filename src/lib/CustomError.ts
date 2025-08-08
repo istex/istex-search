@@ -9,6 +9,7 @@ export type CustomErrorInfo =
   | { name: "QIdNotFoundError"; qId: string }
   | { name: "QIdSaveError"; qId: string }
   | { name: "EmptyQueryError" }
+  | { name: "GetAggregationError" }
   | { name: "default" };
 
 class CustomError extends Error {

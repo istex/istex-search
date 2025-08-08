@@ -1,14 +1,18 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Stack, Typography } from "@mui/material";
+import { Skeleton, Stack, Typography } from "@mui/material";
+import ErrorUi from "./ErrorUi";
 import Button from "@/components/Button";
 import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import Selector from "@/components/Selector";
-import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import {
+  useAggregationQuery,
+  useApplyFilters,
+  useSearchParams,
+} from "@/lib/hooks";
 
 const INPUT_MODES = ["range", "value"] as const;
 type InputMode = (typeof INPUT_MODES)[number];
@@ -26,14 +30,16 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const filters = searchParams.getFilters();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
   const { isDate = false, hasDecimals = false } = field;
-  const { results } = useQueryContext();
-  const aggregation = results.aggregations[field.name].buckets[0];
-  const initialMin = isDate
-    ? Number(aggregation.fromAsString)
-    : (aggregation.from ?? null);
-  const initialMax = isDate
-    ? Number(aggregation.toAsString)
-    : (aggregation.to ?? null);
+  const aggregationQuery = useAggregationQuery(field);
+  const aggregation = aggregationQuery.data?.[0];
+  const initialMin =
+    aggregation != null && isDate
+      ? Number(aggregation.fromAsString)
+      : (aggregation?.from ?? null);
+  const initialMax =
+    aggregation != null && isDate
+      ? Number(aggregation.toAsString)
+      : (aggregation?.to ?? null);
   const initialValue = initialMin === initialMax ? initialMin : null;
   const [min, setMin] = React.useState(initialMin);
   const [max, setMax] = React.useState(initialMax);
@@ -48,6 +54,18 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const hasActiveFilters = filters.some((node) => isMatchingNode(node, field));
   const isValid =
     inputMode === "range" ? min != null && max != null : value != null;
+  const commonNumberInputProps: NumberInputProps = {
+    variant: "outlined",
+    size: "small",
+    color: "primary",
+    disabled: isImportSearchMode,
+    title: isImportSearchMode ? tResults("unavailableTitle") : undefined,
+    hideActionButtons: true,
+    step: hasDecimals ? 0.1 : undefined,
+    numericFormatProps: isDate
+      ? { decimalScale: 0, thousandSeparator: "" }
+      : undefined,
+  };
 
   const getClearedFilters = () => {
     return filters.filter((node, index) => {
@@ -108,18 +126,29 @@ export default function NumberFilter({ field }: NumberFilterProps) {
     applyFilters(newFilters);
   };
 
-  const commonNumberInputProps: NumberInputProps = {
-    variant: "outlined",
-    size: "small",
-    color: "primary",
-    disabled: isImportSearchMode,
-    title: isImportSearchMode ? tResults("unavailableTitle") : undefined,
-    hideActionButtons: true,
-    step: hasDecimals ? 0.1 : undefined,
-    numericFormatProps: isDate
-      ? { decimalScale: 0, thousandSeparator: "" }
-      : undefined,
-  };
+  // When sending a request, aggregationQuery.data is initially undefined, so the
+  // React states are initialized to null. There might be a way to initialize the
+  // inputs to the values returned by query without an additional render cycle,
+  //but I couldn't find it
+  React.useEffect(() => {
+    setMin(initialMin);
+  }, [initialMin]);
+
+  React.useEffect(() => {
+    setMax(initialMax);
+  }, [initialMax]);
+
+  React.useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  if (aggregationQuery.isError) {
+    return <ErrorUi error={aggregationQuery.error} />;
+  }
+
+  if (aggregationQuery.isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <Stack
@@ -205,5 +234,37 @@ function isMatchingNode(node: Node, field: Field) {
     node.nodeType === "node" &&
     node.fieldType === "number" &&
     node.field === field.name
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <Stack spacing={1}>
+      {/* Input mode selector */}
+      <Skeleton
+        width="80%"
+        height="3rem"
+        sx={{
+          "&&": { mx: "auto" },
+          borderRadius: 6,
+        }}
+      />
+
+      {/* Inputs */}
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ justifyContent: "space-between" }}
+      >
+        <Skeleton variant="rounded" height="2.25rem" sx={{ flexGrow: 1 }} />
+        <Skeleton variant="rounded" height="2.25rem" sx={{ flexGrow: 1 }} />
+      </Stack>
+
+      {/* Buttons */}
+      <Stack direction="row" spacing={1}>
+        <Skeleton variant="rounded" height="2.25rem" sx={{ flexGrow: 1 }} />
+        <Skeleton variant="rounded" width="2.25rem" height="2.25rem" />
+      </Stack>
+    </Stack>
   );
 }

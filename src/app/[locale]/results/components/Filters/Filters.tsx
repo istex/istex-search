@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -14,23 +14,18 @@ import BooleanFilter from "./BooleanFilter";
 import NumberFilter from "./NumberFilter";
 import TextFilter from "./TextFilter";
 import Button from "@/components/Button";
-import { useQueryContext } from "@/contexts/QueryContext";
 import type { Node } from "@/lib/ast";
 import fields, { type Field, type FieldType } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 
-const FIELDS = fields.filter(
-  (field) => field.inFilters != null && field.inFilters,
-);
+const FIELDS = fields.filter((field) => field.inFilters === true);
 
 export default function Filters() {
   const t = useTranslations("results.Filters");
   const tFields = useTranslations("fields");
-  const locale = useLocale();
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
-  const { results } = useQueryContext();
 
   const clearAll = () => {
     applyFilters([]);
@@ -65,8 +60,6 @@ export default function Filters() {
                 )
               : field.defaultOpen;
 
-          const count = results.aggregations[field.name].buckets.length;
-
           return (
             <Accordion
               key={field.name}
@@ -93,10 +86,6 @@ export default function Filters() {
               >
                 <Typography component="span" sx={{ fontWeight: "bold" }}>
                   {tFields(`${field.name}.title`)}
-
-                  {(field.type === "text" || field.type === "language") && (
-                    <>&nbsp;({count.toLocaleString(locale)})</>
-                  )}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ bgcolor: "white" }}>

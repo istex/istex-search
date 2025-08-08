@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { useSearchParams as nextUseSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import SearchParams from "./SearchParams";
 import { istexApiConfig } from "@/config";
 import {
@@ -9,7 +10,9 @@ import {
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
-import type { AST } from "@/lib/ast";
+import { astContainsField, type AST } from "@/lib/ast";
+import type { Field } from "@/lib/fields";
+import { getAggregation } from "@/lib/istexApi";
 import { clamp } from "@/lib/utils";
 import type { NextSearchParams } from "@/types/next";
 
@@ -100,4 +103,33 @@ export function useApplyFilters() {
     resetSelectedExcludedDocuments();
     router.push(`/results?${searchParams.toString()}`);
   };
+}
+
+export function useAggregationQuery(field: Field) {
+  const searchParams = useSearchParams();
+  const filters = searchParams.getFilters();
+  const { queryString, results } = useQueryContext();
+
+  // If filters are active, send a request if the field is NOT one of them,
+  // otherwise, send a request if the field is not open by default.
+  // When a field is part of an active filter or open by default, its aggregation
+  // is part of the main request run on the server, the one used to generate the
+  // results page
+  const enabled =
+    filters.length > 0
+      ? !astContainsField(filters, field)
+      : field.defaultOpen == null || !field.defaultOpen;
+
+  // If we don't need to send a request, we just make the query return the
+  // aggregation from the main request
+  const placeholderData = !enabled
+    ? results.aggregations[field.name].buckets
+    : undefined;
+
+  return useQuery({
+    queryKey: ["aggregation", field.name, queryString, filters],
+    queryFn: async () => await getAggregation(field, queryString, filters),
+    enabled,
+    placeholderData,
+  });
 }

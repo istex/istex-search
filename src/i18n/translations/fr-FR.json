@@ -490,6 +490,7 @@
     "QIdNotFoundError": "Aucune requête ne correspond à {qId}.",
     "QIdSaveError": "Erreur lors de la sauvegarde de {qId}.",
     "EmptyQueryError": "Veuillez renseigner une requête.",
+    "GetAggregationError": "Un problème est survenu pendant la récupération des valeurs.",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "Modal": {

@@ -1,4 +1,9 @@
-import { fieldTypes, type FieldName, type FieldType } from "./fields";
+import {
+  fieldTypes,
+  type Field,
+  type FieldName,
+  type FieldType,
+} from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;
 export type NodeType = (typeof nodeTypes)[number];
@@ -310,7 +315,25 @@ export function astContainsPartialNode(ast: AST): boolean {
     }
 
     if (node.nodeType === "group") {
-      return astContainsPartialNode(node.nodes);
+      if (astContainsPartialNode(node.nodes)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+export function astContainsField(ast: AST, field: Field): boolean {
+  for (const node of ast) {
+    if (node.nodeType === "node" && node.field === field.name) {
+      return true;
+    }
+
+    if (node.nodeType === "group") {
+      if (astContainsField(node.nodes, field)) {
+        return true;
+      }
     }
   }
 

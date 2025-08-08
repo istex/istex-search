@@ -3,15 +3,20 @@ import {
   customRender as render,
   screen,
   userEvent,
+  waitFor,
 } from "../../test-utils";
 import NumberFilter from "@/app/[locale]/results/components/Filters/NumberFilter";
 import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import type { IstexApiResponse } from "@/lib/istexApi";
+import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 
 describe("NumberFilter", () => {
   it("disables the mode selector and the number inputs when in import mode", () => {
-    renderNumberFilter(2000, 2010, false, { searchMode: "import" });
+    renderNumberFilter({
+      min: 2000,
+      max: 2010,
+      searchParams: { searchMode: "import" },
+    });
 
     const rangeModeTab = getRangeModeTab();
     const valueModeTab = getValueModeTab();
@@ -27,7 +32,7 @@ describe("NumberFilter", () => {
   it("initializes the min and max inputs with the min and max aggregation values", () => {
     const min = 2000;
     const max = 2010;
-    renderNumberFilter(min, max);
+    renderNumberFilter({ min, max });
 
     const rangeModeTab = getRangeModeTab();
     const valueModeTab = getValueModeTab();
@@ -42,7 +47,7 @@ describe("NumberFilter", () => {
 
   it("sets the input mode to value and initializes the value input when the min and max aggregation values are equal", () => {
     const value = 2000;
-    renderNumberFilter(value, value);
+    renderNumberFilter({ min: value, max: value });
 
     const rangeModeTab = getRangeModeTab();
     const valueModeTab = getValueModeTab();
@@ -56,7 +61,7 @@ describe("NumberFilter", () => {
   it("disables the apply button when the min, max or single value are equal to their initial values coming from the aggregation", async () => {
     const min = 2000;
     const max = 2010;
-    renderNumberFilter(min, max);
+    renderNumberFilter({ min, max });
 
     const applyButton = getApplyButton();
     const minInput = getMinInput();
@@ -71,7 +76,7 @@ describe("NumberFilter", () => {
   });
 
   it("disables the apply button when the min, max or single value inputs are empty", async () => {
-    renderNumberFilter(2000, 2010);
+    renderNumberFilter({ min: 2000, max: 2010 });
 
     const applyButton = getApplyButton();
     const minInput = getMinInput();
@@ -81,7 +86,7 @@ describe("NumberFilter", () => {
   });
 
   it("disables the clear button when no filters are active for the current field", () => {
-    renderNumberFilter(2000, 2010);
+    renderNumberFilter({ min: 2000, max: 2010 });
 
     const clearButton = getClearButton();
 
@@ -95,7 +100,7 @@ describe("NumberFilter", () => {
     const min = 2000;
     const max = 2010;
     const newMin = 2005;
-    renderNumberFilter(min, max);
+    renderNumberFilter({ min, max });
 
     const minInput = getMinInput();
     await userEvent.clear(minInput);
@@ -128,7 +133,7 @@ describe("NumberFilter", () => {
     const router = useRouter();
     const value = 2000;
     const newValue = 2005;
-    renderNumberFilter(value, value);
+    renderNumberFilter({ min: value, max: value });
 
     const valueInput = getValueInput();
     await userEvent.clear(valueInput);
@@ -156,12 +161,60 @@ describe("NumberFilter", () => {
 
   it("removes the filter on the current field when clicking on the clear button", async () => {
     const router = useRouter();
-    renderNumberFilter(2000, 2010, true);
+    renderNumberFilter({ min: 2000, max: 2010, withFilters: true });
 
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
     expect(router.push).toHaveBeenCalledWith("/results?");
+  });
+
+  it("dynamically gets the available values when the filter isn't open by default", async () => {
+    const min = 2000;
+    const max = 2010;
+    const aggregation = [
+      {
+        key: `${min}-${max}`,
+        fromAsString: min.toString(),
+        toAsString: max.toString(),
+        docCount: 3,
+      },
+    ];
+    (getAggregation as jest.Mock).mockReturnValueOnce(aggregation);
+    renderNumberFilter({
+      min,
+      max,
+      defaultOpen: false,
+    });
+
+    await waitFor(() => {
+      const rangeModeTab = getRangeModeTab();
+      const valueModeTab = getValueModeTab();
+      const minInput = getMinInput();
+      const maxInput = getMaxInput();
+
+      expect(rangeModeTab).toBeInTheDocument();
+      expect(valueModeTab).toBeInTheDocument();
+      expect(minInput).toBeInTheDocument();
+      expect(maxInput).toBeInTheDocument();
+    });
+  });
+
+  it("dislpays an error card when dynamically getting the available values fails", async () => {
+    (getAggregation as jest.Mock).mockReturnValueOnce(
+      Promise.reject(new Error()),
+    );
+    renderNumberFilter({
+      min: 2000,
+      max: 2010,
+      defaultOpen: false,
+    });
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+
+      expect(alert).toBeInTheDocument();
+    });
   });
 });
 
@@ -193,12 +246,21 @@ function getClearButton() {
   return screen.getByRole("button", { name: "Effacer" });
 }
 
-function renderNumberFilter(
-  min: number,
-  max: number,
+interface RenderNumberFilterOptions {
+  min: number;
+  max: number;
+  withFilters?: boolean;
+  searchParams?: Parameters<typeof mockSearchParams>[0];
+  defaultOpen?: boolean;
+}
+
+function renderNumberFilter({
+  min,
+  max,
   withFilters = false,
-  searchParams: Parameters<typeof mockSearchParams>[0] = {},
-) {
+  searchParams = {},
+  defaultOpen = true,
+}: RenderNumberFilterOptions) {
   if (withFilters) {
     const finalFilters: AST = [
       getDefaultOperatorNode(),
@@ -237,7 +299,12 @@ function renderNumberFilter(
 
   render(
     <NumberFilter
-      field={{ name: "publicationDate", type: "number", isDate: true }}
+      field={{
+        name: "publicationDate",
+        type: "number",
+        isDate: true,
+        defaultOpen,
+      }}
     />,
     {
       results,

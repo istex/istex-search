@@ -7,14 +7,19 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
+import ErrorUi from "./ErrorUi";
 import Button from "@/components/Button";
-import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import {
+  useAggregationQuery,
+  useApplyFilters,
+  useSearchParams,
+} from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
 import { visuallyHidden } from "@/lib/utils";
 
@@ -32,8 +37,7 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
   const isImportSearchMode = searchParams.getSearchMode() === "import";
-  const { results } = useQueryContext();
-  const aggregation = results.aggregations[field.name].buckets;
+  const aggregationQuery = useAggregationQuery(field);
   const activeFilter = filters.find((node) => isMatchingNode(node, field));
   const initialValue =
     activeFilter?.nodeType === "node" && activeFilter.fieldType === "boolean"
@@ -81,6 +85,14 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
     applyFilters(newFilters);
   };
 
+  if (aggregationQuery.isError) {
+    return <ErrorUi error={aggregationQuery.error} />;
+  }
+
+  if (aggregationQuery.isLoading) {
+    return <LoadingSkeleton />;
+  }
+
   return (
     <Stack
       component="form"
@@ -105,7 +117,7 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
             <RadioGroupItem
               key={v}
               field={field}
-              aggregation={aggregation.find(
+              aggregation={aggregationQuery.data?.find(
                 ({ keyAsString }) => keyAsString === v,
               )}
               value={v}
@@ -207,5 +219,20 @@ function isMatchingNode(node: Node, field: Field) {
     node.nodeType === "node" &&
     node.fieldType === "boolean" &&
     node.field === field.name
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <Stack spacing={2}>
+      <Skeleton variant="rounded" />
+      <Skeleton variant="rounded" />
+
+      {/* Buttons */}
+      <Stack direction="row" spacing={1}>
+        <Skeleton variant="rounded" height="2.25rem" sx={{ flexGrow: 1 }} />
+        <Skeleton variant="rounded" width="2.25rem" height="2.25rem" />
+      </Stack>
+    </Stack>
   );
 }

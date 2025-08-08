@@ -7,17 +7,22 @@ import {
   IconButton,
   InputAdornment,
   InputBase,
+  Skeleton,
   Stack,
   type IconButtonProps,
 } from "@mui/material";
 import ArrowDownIcon from "./ArrowDownIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
+import ErrorUi from "./ErrorUi";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
-import { useQueryContext } from "@/contexts/QueryContext";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import {
+  useAggregationQuery,
+  useApplyFilters,
+  useSearchParams,
+} from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
 import { areSetsEqual, labelizeIsoLanguage } from "@/lib/utils";
 
@@ -41,8 +46,7 @@ export default function TextFilter({ field }: TextFilterProps) {
   const applyFilters = useApplyFilters();
   const searchParams = useSearchParams();
   const filters = searchParams.getFilters();
-  const { results } = useQueryContext();
-  const aggregation = results.aggregations[field.name].buckets;
+  const aggregationQuery = useAggregationQuery(field);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("desc");
   const [sortField, setSortField] = React.useState<SortField>("docCount");
@@ -63,20 +67,37 @@ export default function TextFilter({ field }: TextFilterProps) {
     selectedValues,
   );
 
-  const labelizedValues: LabelizedAggregation = aggregation.map((value) => {
-    if (field.type === "language") {
-      return {
-        ...value,
-        label: labelizeIsoLanguage(locale, value.key.toString(), tLanguages),
-      };
-    }
+  if (aggregationQuery.isError) {
+    return <ErrorUi error={aggregationQuery.error} />;
+  }
 
-    if (field.requiresLabeling === true) {
-      return { ...value, label: tFields(`${field.name}.${value.key}`) };
-    }
+  if (aggregationQuery.isLoading) {
+    return <LoadingSkeleton />;
+  }
 
-    return value;
-  });
+  // This is just to make TypeScript happy
+  if (aggregationQuery.data == null) {
+    throw new Error(
+      `aggregationQuery.data is null for ${field.name}, this should not happen.`,
+    );
+  }
+
+  const labelizedValues: LabelizedAggregation = aggregationQuery.data.map(
+    (value) => {
+      if (field.type === "language") {
+        return {
+          ...value,
+          label: labelizeIsoLanguage(locale, value.key.toString(), tLanguages),
+        };
+      }
+
+      if (field.requiresLabeling === true) {
+        return { ...value, label: tFields(`${field.name}.${value.key}`) };
+      }
+
+      return value;
+    },
+  );
   const filteredValues = filterValues(labelizedValues, searchTerm);
   const sortedValues = sortValues(filteredValues, sortField, sortOrder);
 
@@ -156,9 +177,14 @@ export default function TextFilter({ field }: TextFilterProps) {
         fullWidth
         size="small"
         placeholder={t("search")}
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        }
         endAdornment={
           <InputAdornment position="end">
-            <SearchIcon />
+            ({aggregationQuery.data.length.toLocaleString(locale)})
           </InputAdornment>
         }
         value={searchTerm}
@@ -407,5 +433,46 @@ function isMatchingGroupNode(node: Node, field: Field) {
   return (
     node.nodeType === "group" &&
     node.nodes.some((child) => isMatchingNode(child, field))
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <Stack spacing={1}>
+      {/* Search input */}
+      <Skeleton variant="rounded" sx={{ height: "2rem" }} />
+
+      {/* Sort buttons */}
+      <Stack
+        direction="row"
+        sx={{
+          justifyContent: "space-between",
+          color: "colors.darkBlack",
+          px: 4,
+        }}
+      >
+        {Array(2)
+          .fill(0)
+          .map((_, i) => (
+            <Stack key={i} direction="row" spacing={1}>
+              <Skeleton variant="rectangular" width={15} height={15} />
+              <Skeleton variant="rectangular" width={15} height={15} />
+            </Stack>
+          ))}
+      </Stack>
+
+      {/* List of checkboxes */}
+      {Array(5)
+        .fill(0)
+        .map((_, i) => (
+          <Skeleton key={i} variant="rounded" />
+        ))}
+
+      {/* Buttons */}
+      <Stack direction="row" spacing={1}>
+        <Skeleton variant="rounded" height="2.25rem" sx={{ flexGrow: 1 }} />
+        <Skeleton variant="rounded" width="2.25rem" height="2.25rem" />
+      </Stack>
+    </Stack>
   );
 }

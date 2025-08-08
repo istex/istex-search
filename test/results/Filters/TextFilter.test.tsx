@@ -3,16 +3,21 @@ import {
   customRender as render,
   screen,
   userEvent,
+  waitFor,
 } from "../../test-utils";
 import TextFilter from "@/app/[locale]/results/components/Filters/TextFilter";
 import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import type { Aggregation, IstexApiResponse } from "@/lib/istexApi";
+import {
+  getAggregation,
+  type Aggregation,
+  type IstexApiResponse,
+} from "@/lib/istexApi";
 
 describe("TextFilter", () => {
   it("automatically selects the values found in filters", () => {
-    renderTextFilter(
-      [
+    renderTextFilter({
+      aggregation: [
         {
           key: "elsevier",
           docCount: 3,
@@ -22,8 +27,8 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      ["elsevier"],
-    );
+      filterValues: ["elsevier"],
+    });
 
     const elsevierCheckbox = screen.getByRole("checkbox", {
       name: "elsevier 3",
@@ -37,8 +42,8 @@ describe("TextFilter", () => {
   });
 
   it("disables the values when in import mode", () => {
-    renderTextFilter(
-      [
+    renderTextFilter({
+      aggregation: [
         {
           key: "elsevier",
           docCount: 3,
@@ -48,9 +53,8 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      undefined,
-      { searchMode: "import" },
-    );
+      searchParams: { searchMode: "import" },
+    });
 
     const elsevierCheckbox = screen.getByRole("checkbox", {
       name: "elsevier 3",
@@ -66,16 +70,18 @@ describe("TextFilter", () => {
   });
 
   it("filters the list of values based on the content of the search bar", async () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 3,
-      },
-      {
-        key: "wiley",
-        docCount: 3,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 3,
+        },
+        {
+          key: "wiley",
+          docCount: 3,
+        },
+      ],
+    });
 
     const searchInput = screen.getByRole("textbox");
     await userEvent.type(searchInput, "elsevier");
@@ -92,16 +98,18 @@ describe("TextFilter", () => {
   });
 
   it("sorts the values by name in ascending order when clicking on the asc sort button above the keys", async () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 3,
-      },
-      {
-        key: "wiley",
-        docCount: 4,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 3,
+        },
+        {
+          key: "wiley",
+          docCount: 4,
+        },
+      ],
+    });
 
     {
       const [firstCheckbox, secondCheckbox] = screen.getAllByRole("checkbox");
@@ -122,16 +130,18 @@ describe("TextFilter", () => {
   });
 
   it("sorts the values by name in descending order when clicking on the desc sort button above the keys", async () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 4,
-      },
-      {
-        key: "wiley",
-        docCount: 3,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 4,
+        },
+        {
+          key: "wiley",
+          docCount: 3,
+        },
+      ],
+    });
 
     {
       const [firstCheckbox, secondCheckbox] = screen.getAllByRole("checkbox");
@@ -152,16 +162,18 @@ describe("TextFilter", () => {
   });
 
   it("sorts the values by doc count in ascending order when clicking on the asc sort button above the doc counts", async () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 3,
-      },
-      {
-        key: "wiley",
-        docCount: 4,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 3,
+        },
+        {
+          key: "wiley",
+          docCount: 4,
+        },
+      ],
+    });
 
     {
       const [firstCheckbox, secondCheckbox] = screen.getAllByRole("checkbox");
@@ -182,16 +194,18 @@ describe("TextFilter", () => {
   });
 
   it("sorts the values by doc count in descending order when clicking on the desc sort button above the doc counts", async () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 4,
-      },
-      {
-        key: "wiley",
-        docCount: 3,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 4,
+        },
+        {
+          key: "wiley",
+          docCount: 3,
+        },
+      ],
+    });
 
     {
       const [firstCheckbox, secondCheckbox] = screen.getAllByRole("checkbox");
@@ -212,8 +226,8 @@ describe("TextFilter", () => {
   });
 
   it("disables the apply button when the selected values are the same as the initial ones", async () => {
-    renderTextFilter(
-      [
+    renderTextFilter({
+      aggregation: [
         {
           key: "elsevier",
           docCount: 3,
@@ -223,8 +237,8 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      ["elsevier"],
-    );
+      filterValues: ["elsevier"],
+    });
 
     const wileyCheckbox = screen.getByRole("checkbox", { name: "wiley 3" });
     await userEvent.click(wileyCheckbox); // check wiley to change list of selected values from initial one
@@ -236,16 +250,18 @@ describe("TextFilter", () => {
   });
 
   it("disables the clear button when no filters are active for the current field", () => {
-    renderTextFilter([
-      {
-        key: "elsevier",
-        docCount: 3,
-      },
-      {
-        key: "wiley",
-        docCount: 3,
-      },
-    ]);
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 3,
+        },
+        {
+          key: "wiley",
+          docCount: 3,
+        },
+      ],
+    });
 
     const clearButton = getClearButton();
 
@@ -256,8 +272,8 @@ describe("TextFilter", () => {
     jest.spyOn(Math, "random").mockReturnValue(0);
 
     const router = useRouter();
-    renderTextFilter(
-      [
+    renderTextFilter({
+      aggregation: [
         {
           key: "elsevier",
           docCount: 3,
@@ -267,8 +283,8 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      ["elsevier"],
-    );
+      filterValues: ["elsevier"],
+    });
 
     const wileyCheckbox = screen.getByRole("checkbox", { name: "wiley 3" });
     await userEvent.click(wileyCheckbox);
@@ -299,8 +315,8 @@ describe("TextFilter", () => {
 
   it("removes the filter on the current field when clicking on the clear button", async () => {
     const router = useRouter();
-    renderTextFilter(
-      [
+    renderTextFilter({
+      aggregation: [
         {
           key: "elsevier",
           docCount: 3,
@@ -310,13 +326,70 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      ["elsevier"],
-    );
+      filterValues: ["elsevier"],
+    });
 
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
     expect(router.push).toHaveBeenCalledWith("/results?");
+  });
+
+  it("dynamically gets the available values when the filter isn't open by default", async () => {
+    const aggregation = [
+      {
+        key: "elsevier",
+        docCount: 3,
+      },
+      {
+        key: "wiley",
+        docCount: 3,
+      },
+    ];
+    (getAggregation as jest.Mock).mockReturnValueOnce(
+      Promise.resolve(aggregation),
+    );
+    renderTextFilter({
+      aggregation,
+      defaultOpen: false,
+    });
+
+    await waitFor(() => {
+      const elsevierCheckbox = screen.getByRole("checkbox", {
+        name: "elsevier 3",
+      });
+      const wileyCheckbox = screen.getByRole("checkbox", {
+        name: "wiley 3",
+      });
+
+      expect(elsevierCheckbox).toBeInTheDocument();
+      expect(wileyCheckbox).toBeInTheDocument();
+    });
+  });
+
+  it("dislpays an error card when dynamically getting the available values fails", async () => {
+    (getAggregation as jest.Mock).mockReturnValueOnce(
+      Promise.reject(new Error()),
+    );
+    renderTextFilter({
+      aggregation: [
+        {
+          key: "elsevier",
+          docCount: 3,
+        },
+        {
+          key: "wiley",
+          docCount: 3,
+        },
+      ],
+      defaultOpen: false,
+    });
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+
+      expect(alert).toBeInTheDocument();
+    });
   });
 });
 
@@ -328,11 +401,19 @@ function getClearButton() {
   return screen.getByRole("button", { name: "Effacer" });
 }
 
-function renderTextFilter(
-  aggregationValues: Aggregation["string"]["buckets"],
-  filterValues?: string[],
-  searchParams: Parameters<typeof mockSearchParams>[0] = {},
-) {
+interface RenderTextFilterOptions {
+  aggregation: Aggregation["string"]["buckets"];
+  filterValues?: string[];
+  searchParams?: Parameters<typeof mockSearchParams>[0];
+  defaultOpen?: boolean;
+}
+
+function renderTextFilter({
+  aggregation,
+  filterValues,
+  searchParams = {},
+  defaultOpen = true,
+}: RenderTextFilterOptions) {
   if (filterValues != null && filterValues.length > 0) {
     const finalFilters: AST = [
       getDefaultOperatorNode(),
@@ -360,12 +441,15 @@ function renderTextFilter(
     hits: [],
     aggregations: {
       corpusName: {
-        buckets: aggregationValues,
+        buckets: aggregation,
       },
     },
   };
 
-  render(<TextFilter field={{ name: "corpusName", type: "text" }} />, {
-    results,
-  });
+  render(
+    <TextFilter field={{ name: "corpusName", type: "text", defaultOpen }} />,
+    {
+      results,
+    },
+  );
 }

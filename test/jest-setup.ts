@@ -25,6 +25,7 @@ mock("next/navigation", {
 
 mock("@/lib/istexApi", {
   getPossibleValues: jest.fn(() => []),
+  getAggregation: jest.fn(() => []),
 });
 
 const shareMock = jest.fn();

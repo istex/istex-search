@@ -31,15 +31,17 @@ function getQueryClient() {
 }
 
 interface TanStackQueryProviderProps {
+  client?: QueryClient;
   children: React.ReactNode;
 }
 
 export default function TanStackQueryProvider({
+  client,
   children,
 }: TanStackQueryProviderProps) {
-  const queryClient = getQueryClient();
-
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={client ?? getQueryClient()}>
+      {children}
+    </QueryClientProvider>
   );
 }

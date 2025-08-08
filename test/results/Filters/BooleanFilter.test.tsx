@@ -3,15 +3,16 @@ import {
   customRender as render,
   screen,
   userEvent,
+  waitFor,
 } from "../../test-utils";
 import BooleanFilter from "@/app/[locale]/results/components/Filters/BooleanFilter";
 import { useRouter } from "@/i18n/routing";
 import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import type { IstexApiResponse } from "@/lib/istexApi";
+import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 
 describe("BooleanFilter", () => {
   it("automatically selects the value found in filters", () => {
-    renderBooleanFilter(true);
+    renderBooleanFilter({ filterValue: true });
 
     const trueRadioButton = getTrueRadioButton();
 
@@ -19,7 +20,7 @@ describe("BooleanFilter", () => {
   });
 
   it("disables the radio buttons when in import mode", () => {
-    renderBooleanFilter(undefined, { searchMode: "import" });
+    renderBooleanFilter({ searchParams: { searchMode: "import" } });
 
     const trueRadioButton = getTrueRadioButton();
     const falseRadioButton = getFalseRadioButton();
@@ -29,7 +30,7 @@ describe("BooleanFilter", () => {
   });
 
   it("disables the apply button when the selected value is the same as the initial one", () => {
-    renderBooleanFilter(true);
+    renderBooleanFilter({ filterValue: true });
 
     const applyButton = getApplyButton();
 
@@ -75,12 +76,50 @@ describe("BooleanFilter", () => {
 
   it("removes the filter on the current field when clicking on the clear button", async () => {
     const router = useRouter();
-    renderBooleanFilter(true);
+    renderBooleanFilter({ filterValue: true });
 
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
     expect(router.push).toHaveBeenCalledWith("/results?");
+  });
+
+  it("dynamically gets the available values when the filter isn't open by default", async () => {
+    const aggregation = [
+      {
+        key: 0,
+        keyAsString: "false",
+        docCount: 4,
+      },
+      {
+        key: 1,
+        keyAsString: "true",
+        docCount: 3,
+      },
+    ];
+    (getAggregation as jest.Mock).mockReturnValueOnce(aggregation);
+    renderBooleanFilter({ defaultOpen: false });
+
+    await waitFor(() => {
+      const trueRadioButton = getTrueRadioButton();
+      const falseRadioButton = getFalseRadioButton();
+
+      expect(trueRadioButton).toBeInTheDocument();
+      expect(falseRadioButton).toBeInTheDocument();
+    });
+  });
+
+  it("dislpays an error card when dynamically getting the available values fails", async () => {
+    (getAggregation as jest.Mock).mockReturnValueOnce(
+      Promise.reject(new Error()),
+    );
+    renderBooleanFilter({ defaultOpen: false });
+
+    await waitFor(() => {
+      const alert = screen.getByRole("alert");
+
+      expect(alert).toBeInTheDocument();
+    });
   });
 });
 
@@ -100,10 +139,17 @@ function getClearButton() {
   return screen.getByRole("button", { name: "Effacer" });
 }
 
-function renderBooleanFilter(
-  filterValue?: boolean,
-  searchParams: Parameters<typeof mockSearchParams>[0] = {},
-) {
+interface RenderBooleanFilterOptions {
+  filterValue?: boolean;
+  searchParams?: Parameters<typeof mockSearchParams>[0];
+  defaultOpen?: boolean;
+}
+
+function renderBooleanFilter({
+  filterValue,
+  searchParams = {},
+  defaultOpen = true,
+}: RenderBooleanFilterOptions = {}) {
   if (filterValue != null) {
     const finalFilters: AST = [
       getDefaultOperatorNode(),
@@ -148,6 +194,7 @@ function renderBooleanFilter(
         name: "qualityIndicators.refBibsNative",
         type: "boolean",
         requiresLabeling: true,
+        defaultOpen,
       }}
     />,
     { results },

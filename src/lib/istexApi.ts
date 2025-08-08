@@ -1,6 +1,6 @@
 import { md5 } from "js-md5";
 import CustomError from "./CustomError";
-import { astToString, type AST } from "./ast";
+import { astContainsField, astToString, type AST } from "./ast";
 import { buildExtractParamsFromFormats } from "./formats";
 import {
   DEFAULT_SORT_BY,
@@ -17,7 +17,7 @@ import {
   type SortDir,
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
-import fields, { type FieldName } from "@/lib/fields";
+import fields, { type Field, type FieldName } from "@/lib/fields";
 
 export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
 
@@ -207,11 +207,7 @@ export function buildResultPreviewUrl({
     (fields ?? istexApiConfig.defaultFields).join(","),
   );
   url.searchParams.set("sid", "istex-search");
-  url.searchParams.set(
-    "facet",
-    getFacetUrlParam() +
-      ",qualityIndicators.abstractCharCount[1-1000000],qualityIndicators.pdfText,qualityIndicators.tdmReady,qualityIndicators.teiSource",
-  );
+  url.searchParams.set("facet", getFacetUrlParam(filters));
   if (stats) {
     url.searchParams.set("stats", "");
   }
@@ -283,21 +279,55 @@ export async function getResults({
   return res;
 }
 
-export async function getPossibleValues(fieldName: FieldName) {
+export async function getAggregation(
+  field: Field,
+  queryString: string,
+  filters?: AST,
+) {
+  const facetParam =
+    field.type === "text" || field.type === "language"
+      ? `${field.name}[*]`
+      : field.name;
+
+  const finalQueryString = createCompleteQuery(queryString, filters);
+
   const url = new URL("document", istexApiConfig.baseUrl);
-  url.searchParams.set("q", "*");
   url.searchParams.set("size", "0");
   url.searchParams.set("sid", "istex-search");
-  url.searchParams.set("facet", `${fieldName}[*]`);
+  url.searchParams.set("facet", facetParam);
 
-  const response = await fetch(url);
+  // If the query string is too long some browsers won't accept to send a GET request
+  // so we send a POST request instead and pass the query string in the body
+  const fetchOptions: RequestInit = {};
+  if (finalQueryString.length > istexApiConfig.queryStringMaxLength) {
+    fetchOptions.method = "POST";
+    fetchOptions.headers = {
+      "Content-Type": "application/json",
+    };
+    fetchOptions.body = JSON.stringify({ qString: finalQueryString });
+  } else {
+    url.searchParams.set("q", finalQueryString);
+  }
+
+  const response = await fetch(url, fetchOptions);
   if (!response.ok) {
-    throw new CustomError({ name: "default" });
+    throw new CustomError({ name: "GetAggregationError" });
   }
 
   const data = (await response.json()) as IstexApiResponse;
 
-  return data.aggregations[fieldName].buckets.map(
+  return data.aggregations[field.name].buckets;
+}
+
+export async function getPossibleValues(fieldName: FieldName) {
+  const field = fields.find((field) => field.name === fieldName);
+  if (field == null) {
+    throw new Error(`Could not find the ${fieldName} field.`);
+  }
+
+  const aggregation = await getAggregation(field, "*");
+
+  return aggregation.map(
     ({ key, keyAsString }) => keyAsString ?? key.toString(),
   );
 }
@@ -394,18 +424,52 @@ export function getExternalPdfUrl(document: Result) {
   return null;
 }
 
-const FILTER_FIELDS = fields.filter(
-  (field) => field.inFilters != null && field.inFilters,
+const FILTER_FIELDS = fields.filter((field) => field.inFilters === true);
+
+const INDICATORS_FIELDNAMES: readonly FieldName[] = [
+  "qualityIndicators.abstractCharCount",
+  "qualityIndicators.pdfText",
+  "qualityIndicators.tdmReady",
+  "qualityIndicators.teiSource",
+  "enrichments.type",
+  "language",
+];
+const INDICATORS_FIELDS = fields.filter((field) =>
+  INDICATORS_FIELDNAMES.includes(field.name),
 );
 
-function getFacetUrlParam() {
-  return FILTER_FIELDS.map((field) => {
-    let value = field.name;
+function getFacetUrlParam(filters?: AST) {
+  const fieldToFacetParam = (field: Field) => {
+    let param = field.name;
 
     if (field.type === "text" || field.type === "language") {
-      value += "[*]";
+      param += "[*]";
     }
 
-    return value;
-  }).join(",");
+    // qualityIndicators.abstractCharCount is used to count the documents with a non-empty abstract, so
+    // we use the [1-1000000] interval to exclude the documents with a qualityIndicators.abstract of 0
+    if (field.name === "qualityIndicators.abstractCharCount") {
+      param += "[1-1000000]";
+    }
+
+    return param;
+  };
+
+  const finalFields = [];
+
+  // If filters are active, only ask for aggregations on the fields with an active filter, otherwise,
+  // ask on the fields that are open by default
+  if (filters != null && filters.length > 0) {
+    finalFields.push(
+      ...FILTER_FIELDS.filter((field) => astContainsField(filters, field)),
+    );
+  } else {
+    finalFields.push(
+      ...FILTER_FIELDS.filter((field) => field.defaultOpen === true),
+    );
+  }
+
+  finalFields.push(...INDICATORS_FIELDS);
+
+  return finalFields.map(fieldToFacetParam).join(",");
 }

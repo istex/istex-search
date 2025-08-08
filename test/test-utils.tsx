@@ -1,6 +1,7 @@
 import * as React from "react";
 import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { QueryClient } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import type {
   ArchiveType,
@@ -18,6 +19,14 @@ import messages from "@/i18n/translations/fr-FR.json";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
 
+const testQueryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
+
 export function customRender(
   ui: Parameters<typeof render>[0],
   context?: Partial<QueryContextProps>,
@@ -29,7 +38,7 @@ export function customRender(
   };
 
   const wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
-    <TanStackQueryProvider>
+    <TanStackQueryProvider client={testQueryClient}>
       <MuiSetup locale={routing.defaultLocale}>
         <NextIntlClientProvider
           locale={routing.defaultLocale}

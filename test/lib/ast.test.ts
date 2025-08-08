@@ -1,4 +1,5 @@
 import * as Module from "@/lib/ast";
+import type { Field } from "@/lib/fields";
 
 describe("astToString", () => {
   it("skips partial nodes", () => {
@@ -638,11 +639,27 @@ describe("astContainsPartialNode", () => {
   it("returns true when an AST contains a partial node", () => {
     const ast: Module.AST = [
       {
-        nodeType: "node",
-        fieldType: "text",
-        field: "abstract",
-        value: "bar",
-        comparator: "contains",
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "abstract",
+            value: "foo",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "abstract",
+            value: "bar",
+            comparator: "contains",
+          },
+        ],
       },
       {
         nodeType: "operator",
@@ -680,11 +697,27 @@ describe("astContainsPartialNode", () => {
   it("returns false when given a complete AST", () => {
     const ast: Module.AST = [
       {
-        nodeType: "node",
-        fieldType: "text",
-        field: "abstract",
-        value: "bar",
-        comparator: "contains",
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "abstract",
+            value: "foo",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "abstract",
+            value: "bar",
+            comparator: "contains",
+          },
+        ],
       },
       {
         nodeType: "operator",
@@ -716,5 +749,131 @@ describe("astContainsPartialNode", () => {
     ];
 
     expect(Module.astContainsPartialNode(ast)).toBe(false);
+  });
+});
+
+describe("astContainsField", () => {
+  it("returns true when an AST contains a given field", () => {
+    const ast: Module.AST = [
+      {
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "foo",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "bar",
+            comparator: "contains",
+          },
+        ],
+      },
+      {
+        nodeType: "operator",
+        value: "AND",
+      },
+      {
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "language",
+            value: "hello",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "language",
+            value: "world",
+            comparator: "contains",
+          },
+        ],
+      },
+    ];
+
+    const field: Field = {
+      name: "language",
+      type: "text",
+    };
+
+    expect(Module.astContainsField(ast, field)).toBe(true);
+  });
+
+  it("returns false when an AST doesn't contain a given field", () => {
+    const ast: Module.AST = [
+      {
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "foo",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "bar",
+            comparator: "contains",
+          },
+        ],
+      },
+      {
+        nodeType: "operator",
+        value: "AND",
+      },
+      {
+        nodeType: "group",
+        nodes: [
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "language",
+            value: "hello",
+            comparator: "contains",
+          },
+          {
+            nodeType: "operator",
+            value: "OR",
+          },
+          {
+            nodeType: "node",
+            fieldType: "text",
+            field: "language",
+            value: "world",
+            comparator: "contains",
+          },
+        ],
+      },
+    ];
+
+    const field: Field = {
+      name: "publicationDate",
+      type: "text",
+    };
+
+    expect(Module.astContainsField(ast, field)).toBe(false);
   });
 });

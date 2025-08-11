@@ -9,6 +9,8 @@ import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 
+const QUERY_MAX_SIZE = 256;
+
 export default function InfoPanels() {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
@@ -38,7 +40,10 @@ export default function InfoPanels() {
   // The complete query is potentially very long and is only displayed on a few lines anyway.
   // Since it can contain a list of identifiers that can be analyzed by browser extensions such
   // as Click & Read or Zotero, it's best to keep it short
-  const truncatedCompleteQuery = `${completeQuery.slice(0, 512)}…`;
+  const truncatedCompleteQuery =
+    completeQuery.length > QUERY_MAX_SIZE
+      ? `${completeQuery.slice(0, QUERY_MAX_SIZE)}…`
+      : completeQuery;
 
   return (
     <>

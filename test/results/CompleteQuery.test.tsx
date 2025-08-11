@@ -11,4 +11,13 @@ describe("CompleteQuery", () => {
 
     expect(query).toHaveTextContent(createCompleteQuery(queryString));
   });
+
+  it("truncates the displayed query when it's too long", () => {
+    const queryString = Array(100).fill("hello").join("");
+    render(<CompleteQuery />, { queryString });
+
+    const query = screen.getByRole("code");
+
+    expect(query.innerHTML.length).toBeLessThan(queryString.length);
+  });
 });

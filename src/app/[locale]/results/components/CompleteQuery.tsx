@@ -33,6 +33,11 @@ export default function CompleteQuery() {
     excludedDocuments,
   );
 
+  // The complete query is potentially very long and is only displayed on one line anyway.
+  // Since it can contain a list of identifiers that can be analyzed by browser extensions such
+  // as Click & Read or Zotero, it's best to keep it short
+  const truncatedCompleteQuery = `${completeQuery.slice(0, 256)}…`;
+
   const openSnackbar = () => {
     setSnackbarOpen(true);
   };
@@ -82,7 +87,7 @@ export default function CompleteQuery() {
           }}
         >
           <strong>{t("prefix")}</strong>
-          <code title={completeQuery}>{completeQuery}</code>
+          <code title={truncatedCompleteQuery}>{truncatedCompleteQuery}</code>
         </Typography>
         <IconButton
           title={t("copy.label")}

@@ -6,7 +6,7 @@ import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
-import { buildResultPreviewUrl, createCompleteQuery } from "@/lib/istexApi";
+import { buildResultPreviewUrl } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
 
 export default function InfoPanels() {
@@ -22,12 +22,6 @@ export default function InfoPanels() {
   const sortDir = searchParams.getSortDirection();
   const currentUsageName = searchParams.getUsageName();
   const currentUsage = usages[currentUsageName];
-  const completeQuery = createCompleteQuery(
-    queryString,
-    filters,
-    selectedDocuments,
-    excludedDocuments,
-  );
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
@@ -39,6 +33,12 @@ export default function InfoPanels() {
     sortDir,
     randomSeed,
   });
+  const completeQuery = resultsApiUrl.searchParams.get("q") ?? "";
+
+  // The complete query is potentially very long and is only displayed on a few lines anyway.
+  // Since it can contain a list of identifiers that can be analyzed by browser extensions such
+  // as Click & Read or Zotero, it's best to keep it short
+  const truncatedCompleteQuery = `${completeQuery.slice(0, 512)}…`;
 
   return (
     <>
@@ -74,10 +74,10 @@ export default function InfoPanels() {
             <Typography
               data-testid="query-string"
               variant="body2"
-              title={completeQuery}
+              title={truncatedCompleteQuery}
               sx={{ ...lineclamp(6), wordBreak: "break-word" }}
             >
-              {completeQuery}
+              {truncatedCompleteQuery}
             </Typography>
           </Panel>
 

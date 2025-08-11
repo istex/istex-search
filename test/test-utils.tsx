@@ -3,6 +3,7 @@ import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { QueryClient } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import type {
   ArchiveType,
   SearchMode,
@@ -59,6 +60,9 @@ export function customRender(
     </TanStackQueryProvider>
   );
 
+  // Necessary to make navigator.clipboard available
+  userEvent.setup();
+
   return render(ui, { wrapper });
 }
 
@@ -94,6 +98,16 @@ export function mockSearchParams(searchParams: {
 
 export function mockPathname(pathname: string) {
   (usePathname as jest.Mock).mockReturnValue(pathname);
+}
+
+const defaultIsSecureContext = window.isSecureContext;
+
+export function mockIsSecureContext(isSecureContext: boolean) {
+  window.isSecureContext = isSecureContext;
+}
+
+export function restoreIsSecureContext() {
+  window.isSecureContext = defaultIsSecureContext;
 }
 
 export * from "@testing-library/react";

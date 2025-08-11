@@ -10,7 +10,6 @@
 
 # testing
 /coverage
-junit.xml
 
 # next.js
 /.next/

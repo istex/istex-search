@@ -62,11 +62,7 @@ test:
   rules:
     - *is-working-branch
   script:
-    - npm run test:ci
-  artifacts:
-    when: always
-    reports:
-      junit: junit.xml
+    - npm run test
 
 deploy:dev:
   stage: deploy

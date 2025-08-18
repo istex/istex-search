@@ -94,7 +94,7 @@ export default function Navbar() {
             sx={(theme) => ({
               gap: 1,
               color: "text.primary",
-              bgcolor: `color-mix(in srgb, ${theme.vars.palette.colors.blue}, transparent 80%)`,
+              bgcolor: theme.alpha(theme.vars.palette.colors.blue, 0.2),
               borderRadius: 0,
               textDecoration: "none",
               fontSize: "0.625rem",

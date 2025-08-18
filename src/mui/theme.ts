@@ -43,7 +43,9 @@ const subtitleOptions: TypographyStyle = {
 };
 
 export default createTheme({
-  cssVariables: true,
+  cssVariables: {
+    nativeColor: true,
+  },
   palette: {
     colors,
     primary: {

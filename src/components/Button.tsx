@@ -44,7 +44,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     return {
       color: _mainColor,
       "&:hover": {
-        backgroundColor: `color-mix(in srgb, ${_mainColor}, white 85%)`,
+        backgroundColor: theme.lighten(_mainColor, 0.85),
       },
     };
   }
@@ -54,7 +54,7 @@ const Button = styled(CustomButton)<CustomButtonProps>(({
     color: _secondaryColor,
     boxShadow: "none",
     "&:hover": {
-      background: `linear-gradient(to left, color-mix(in srgb, ${_mainColor}, white 15%), ${_mainColor})`,
+      background: `linear-gradient(to left, ${theme.lighten(_mainColor, 0.15)}, ${_mainColor})`,
       backgroundColor: _mainColor,
       boxShadow: "none",
     },

@@ -29,7 +29,7 @@ export default function IndicatorChart({
         fontWeight: 700,
         borderRadius: "100%",
         border: `${CIRCLE_WIDTH / 2}px solid`,
-        borderColor: `color-mix(in srgb, ${theme.vars.palette.colors.lightGreen}, transparent 80%)`,
+        borderColor: theme.alpha(theme.vars.palette.colors.lightGreen, 0.2),
         position: "relative",
         fontSize: "0.8rem",
       }}

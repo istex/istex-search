@@ -19,7 +19,7 @@ export default function DownloadSteps() {
         {Array(NUMBER_OF_STEPS)
           .fill(0)
           .map((_, i) => {
-            const lighterBlue = `color-mix(in srgb, ${blue}, white ${i * 20}%)`;
+            const lighterBlue = theme.lighten(blue, i * 0.2);
 
             return (
               <Grid

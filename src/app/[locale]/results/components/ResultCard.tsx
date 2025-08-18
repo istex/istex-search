@@ -50,7 +50,7 @@ export default function ResultCard({ index, displayIcons }: ResultCardProps) {
       variant="outlined"
       sx={(theme) => ({
         height: "100%",
-        bgcolor: `color-mix(in srgb, ${theme.vars.palette.colors[cardColor]}, white 95%)`,
+        bgcolor: theme.lighten(theme.vars.palette.colors[cardColor], 0.95),
         borderColor: theme.vars.palette.colors[cardColor],
         display: "flex",
         flexDirection: "column",

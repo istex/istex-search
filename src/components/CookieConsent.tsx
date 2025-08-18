@@ -73,7 +73,10 @@ export default function CookieConsent() {
 
           "--cc-btn-primary-bg": theme.vars.palette.primary.main,
           "--cc-btn-primary-border-color": "var(--cc-btn-primary-bg)",
-          "--cc-btn-primary-hover-bg": `color-mix(in srgb, ${theme.vars.palette.primary.main}, white 10%)`,
+          "--cc-btn-primary-hover-bg": theme.lighten(
+            theme.vars.palette.primary.main,
+            0.1,
+          ),
           "--cc-btn-primary-hover-border-color": "transparent",
 
           "--cc-btn-secondary-bg": "transparent",
@@ -91,7 +94,10 @@ export default function CookieConsent() {
           "& a": {
             color: theme.vars.palette.primary.main,
             textDecoration: "underline",
-            textDecorationColor: `color-mix(in srgb, ${theme.vars.palette.primary.main}, transparent 60%)`,
+            textDecorationColor: theme.alpha(
+              theme.vars.palette.primary.main,
+              0.4,
+            ),
             background: "none",
             "&:hover": {
               color: theme.vars.palette.primary.main,

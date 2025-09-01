@@ -46,6 +46,12 @@ describe("MultilineTextField", () => {
   });
 
   it("displays the error lines with bold red text", () => {
+    // Explanation of why this is needed:
+    // https://github.com/TanStack/virtual/issues/641#issuecomment-2851908893
+    Object.defineProperty(HTMLElement.prototype, "offsetHeight", {
+      value: 800,
+    });
+
     const value = ["id1", "id2", "id3"].join("\n");
     const errorLines = [2, 3];
     const bold = "700";
@@ -57,9 +63,7 @@ describe("MultilineTextField", () => {
       />,
     );
 
-    const lineNumbers = screen
-      .getByTestId("line-numbers")
-      .querySelectorAll(".MuiBox-root");
+    const lineNumbers = screen.getAllByTestId(/^line-number-/);
 
     const [firstLineNumber, secondLineNumber, thirdLineNumber] =
       Array.from(lineNumbers);

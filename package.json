@@ -20,6 +20,7 @@
     "@mui/material": "7.3.1",
     "@mui/material-nextjs": "7.3.0",
     "@tanstack/react-query": "5.85.6",
+    "@tanstack/react-virtual": "3.13.12",
     "js-md5": "0.8.3",
     "next": "15.5.2",
     "next-intl": "4.3.5",
@@ -27,7 +28,6 @@
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-number-format": "5.4.4",
-    "react-window": "1.8.11",
     "vanilla-cookieconsent": "3.1.0"
   },
   "devDependencies": {
@@ -40,7 +40,6 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
-    "@types/react-window": "^1.8.8",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "eslint": "^9.9.0",
     "eslint-config-next": "15.5.2",

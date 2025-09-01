@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FixedSizeList } from "react-window";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
 
 const LINE_HEIGHT = 23;
@@ -28,6 +28,13 @@ const MultilineTextField = React.forwardRef<
   const lineCount =
     typeof props.value === "string" ? props.value.split("\n").length : 0;
   const digitCount = Math.floor(Math.log10(lineCount) + 1);
+  const rowVirtualizer = useVirtualizer({
+    count: lineCount,
+    getScrollElement: () => lineNumbersRef.current,
+    estimateSize: () => LINE_HEIGHT,
+    initialRect: { width: digitCount, height: LINE_HEIGHT },
+    overscan: 5,
+  });
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (event) => {
     // textarea elements don't submit the form when pressing Enter by default
@@ -48,31 +55,36 @@ const MultilineTextField = React.forwardRef<
   const lineNumbersElement = showLineNumbers ? (
     <Box
       data-testid="line-numbers"
+      ref={lineNumbersRef}
       sx={{
         textAlign: "right",
         pr: 2,
-        "& > *": {
-          overflow: maxHeight != null ? "hidden !important" : "inherit",
-        },
+        overflow: maxHeight != null ? "hidden" : "inherit",
+        height: maxHeight,
       }}
     >
-      <FixedSizeList
-        outerRef={lineNumbersRef}
-        height={maxHeight ?? 0}
-        itemCount={lineCount}
-        width={`${digitCount}ch`}
-        itemSize={LINE_HEIGHT}
-        overscanCount={5}
+      <Box
+        sx={{
+          height: rowVirtualizer.getTotalSize(),
+          width: `${digitCount}ch`,
+          position: "relative",
+        }}
       >
-        {({ index, style }) => {
-          const lineNumber = index + 1;
+        {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+          const lineNumber = virtualItem.index + 1;
           const hasError = errorLines.includes(lineNumber);
 
           return (
             <Box
-              key={lineNumber}
-              style={style}
+              key={virtualItem.key}
+              data-testid={`line-number-${virtualItem.key}`}
               sx={(theme) => ({
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: virtualItem.size,
+                transform: `translateY(${virtualItem.start}px)`,
                 fontWeight: hasError ? "bold" : "normal",
                 color: hasError
                   ? theme.vars.palette.colors.red
@@ -82,8 +94,8 @@ const MultilineTextField = React.forwardRef<
               {lineNumber}
             </Box>
           );
-        }}
-      </FixedSizeList>
+        })}
+      </Box>
     </Box>
   ) : undefined;
 

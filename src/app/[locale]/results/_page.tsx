@@ -1,3 +1,4 @@
+import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Stack } from "@mui/material";
 import DownloadButton from "./components/DownloadButton";
@@ -37,7 +38,7 @@ async function getTranslatedResults(
 
 export default async function ResultsPage(props: PageProps) {
   const nextSearchParams = await props.searchParams;
-  const { locale } = await props.params;
+  const locale = (await props.params).locale as Locale;
   const searchParams = new SearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();

@@ -1,3 +1,4 @@
+import type { Locale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import CorpusSection from "./components/CorpusSection";
 import CourseSection from "./components/CourseSection";
@@ -18,7 +19,7 @@ export function generateStaticParams() {
 
 export default async function HomePage(props: PageProps) {
   const nextSearchParams = await props.searchParams;
-  const { locale } = await props.params;
+  const locale = (await props.params).locale as Locale;
 
   logger.info({
     status: 200,

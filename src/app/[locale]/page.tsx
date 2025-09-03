@@ -9,7 +9,6 @@ import { redirect, routing } from "@/i18n/routing";
 import SearchParams from "@/lib/SearchParams";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import logger from "@/lib/logger";
-import type { PageProps } from "@/types/next";
 
 // This function tells Next.js to pre-render (at build time) all pages in this layout
 // for every supported locale
@@ -17,7 +16,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function HomePage(props: PageProps) {
+export default async function HomePage(props: PageProps<"/[locale]">) {
   const nextSearchParams = await props.searchParams;
   const locale = (await props.params).locale as Locale;
 

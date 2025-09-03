@@ -5,7 +5,6 @@ import ResultsPage from "./_page";
 import Loading from "./loading";
 import { redirect, routing } from "@/i18n/routing";
 import logger from "@/lib/logger";
-import type { PageProps } from "@/types/next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("results.metadata");
@@ -20,7 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
 // actual page change. We have to wrap ResultsPage in Suspense ourselves and make sure it's
 // invalidated when the search params change.
 // More info: https://github.com/vercel/next.js/issues/46258#issuecomment-1479233189
-export default async function _ResultsPage(props: PageProps) {
+export default async function _ResultsPage(
+  props: PageProps<"/[locale]/results">,
+) {
   const { locale } = await props.params;
 
   logger.info({

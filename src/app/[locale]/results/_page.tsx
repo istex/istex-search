@@ -19,7 +19,6 @@ import {
   type IstexApiResponse,
 } from "@/lib/istexApi";
 import logger from "@/lib/logger";
-import type { PageProps } from "@/types/next";
 
 async function getTranslatedResults(
   options: GetResultsOptions,
@@ -36,7 +35,9 @@ async function getTranslatedResults(
   return response;
 }
 
-export default async function ResultsPage(props: PageProps) {
+export default async function ResultsPage(
+  props: PageProps<"/[locale]/results">,
+) {
   const nextSearchParams = await props.searchParams;
   const locale = (await props.params).locale as Locale;
   const searchParams = new SearchParams(nextSearchParams);

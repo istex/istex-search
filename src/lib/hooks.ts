@@ -14,9 +14,10 @@ import { astContainsField, type AST } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { getAggregation } from "@/lib/istexApi";
 import { clamp } from "@/lib/utils";
-import type { NextSearchParams } from "@/types/next";
 
-export function useSearchParams(searchParams?: NextSearchParams) {
+export function useSearchParams(
+  searchParams?: Awaited<PageProps<"/[locale]">["searchParams"]>,
+) {
   return new SearchParams(searchParams ?? nextUseSearchParams());
 }
 

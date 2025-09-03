@@ -29,7 +29,8 @@ import {
   type SortDir,
   type UsageName,
 } from "@/config";
-import type { NextSearchParams } from "@/types/next";
+
+type NextSearchParams = Awaited<PageProps<"/[locale]">["searchParams"]>;
 
 // Wrapper class around URLSearchParams with stricter getters and setters
 export default class SearchParams {

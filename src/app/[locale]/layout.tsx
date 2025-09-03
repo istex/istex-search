@@ -13,7 +13,6 @@ import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
-import type { LayoutProps } from "@/types/next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home.metadata");
@@ -24,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout(props: LayoutProps) {
+export default function RootLayout(props: LayoutProps<"/[locale]">) {
   const params = use(props.params);
 
   return (

@@ -17,7 +17,7 @@ export default tseslint.config(
   ...compat.extends("next/core-web-vitals"),
   ...compat.extends("next/typescript"),
   {
-    ignores: [".next/*"],
+    ignores: [".next/*", "next-env.d.ts"],
   },
 
   // TypeScript

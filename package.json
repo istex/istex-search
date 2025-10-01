@@ -42,7 +42,7 @@
     "@types/react-dom": "^19.0.2",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
     "eslint": "^9.9.0",
-    "eslint-config-next": "15.5.3",
+    "eslint-config-next": "15.5.4",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",

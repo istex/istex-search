@@ -24,7 +24,7 @@
     "js-md5": "0.8.3",
     "next": "15.5.4",
     "next-intl": "4.3.9",
-    "pino": "9.9.5",
+    "pino": "9.12.0",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "react-number-format": "5.4.4",

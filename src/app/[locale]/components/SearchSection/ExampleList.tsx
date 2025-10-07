@@ -5,11 +5,11 @@ import { examples } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
 
-interface ExamplesListProps {
+interface ExampleListProps {
   setError: (error: CustomError) => void;
 }
 
-export default function ExamplesList({ setError }: ExamplesListProps) {
+export default function ExampleList({ setError }: ExampleListProps) {
   const tExamples = useTranslations("config.examples");
   const t = useTranslations("home.SearchSection.RegularSearchInput");
   const { goToResultsPage } = useQueryContext();
@@ -28,7 +28,7 @@ export default function ExamplesList({ setError }: ExamplesListProps) {
         {t("examplesTitle")}
       </Typography>
 
-      <Grid id="examples-grid" container rowSpacing={1} columnSpacing={2}>
+      <Grid container rowSpacing={1} columnSpacing={2}>
         {examples.map((queryString, index) => (
           <Grid key={queryString}>
             <Button

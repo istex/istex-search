@@ -36,11 +36,11 @@ export const corpusWithExternalFulltextLink = [
 ] as const;
 
 export const examples = [
+  '(abstract:(montessori "gentle education") title:(montessori "gentle education") subject.value:(montessori "gentle education")) NOT (abstract:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences") title:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences") subject.value:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences"))',
   '("loi Veil" AND 1975) OR ("loi Veil" AND "interruption volontaire de grossesse") OR "loi relative à l\'interruption volontaire de grossesse" NOT t?bac*',
   'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
   'title:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games") OR abstract:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville Games") OR subject.value:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games")',
   '"Facteur Cheval" NOT author.affiliations:"Facteur Cheval" NOT refBibs.title:"Facteur Cheval" NOT host.title:"Sociologie du travail"',
-  '"Anatole France" AND "Le crime de Sylvestre Bonnard"',
   '(subject.value:"Frida Kahlo" OR keywords.teeft:"Frida Kahlo" OR namedEntities.unitex.persName:"Frida Kahlo") AND (subject.value:"Diego Rivera" OR keywords.teeft:"Diego Rivera" OR namedEntities.unitex.persName:"Diego Rivera")',
 ] as const;
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
-import ExamplesList from "./ExamplesList";
+import ExampleList from "./ExampleList";
 import SearchBar from "./SearchBar";
 import SearchTitle from "./SearchTitle";
 import ErrorCard from "@/components/ErrorCard";
@@ -83,7 +83,7 @@ export default function RegularSearchInput() {
 
       {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
 
-      {onHomePage && <ExamplesList setError={setError} />}
+      {onHomePage && <ExampleList setError={setError} />}
     </Box>
   );
 }

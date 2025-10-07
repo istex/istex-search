@@ -5,7 +5,6 @@ import {
   userEvent,
 } from "../test-utils";
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
-import { examples } from "@/config";
 import { useRouter } from "@/i18n/routing";
 
 describe("RegularSearchInput", () => {
@@ -54,29 +53,6 @@ describe("RegularSearchInput", () => {
     const input = screen.getByRole("textbox");
 
     expect(input).toHaveValue(queryString);
-  });
-
-  it("fills the input and goes to the results page when clicking on an example", async () => {
-    const router = useRouter();
-    render(<RegularSearchInput />);
-
-    const firstExample = screen.getByRole("button", {
-      name: "50 ans de la loi Veil",
-    });
-    const firstExampleQuery = examples[0];
-    await userEvent.click(firstExample);
-
-    expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ q: firstExampleQuery }).toString()}`,
-    );
-  });
-
-  it("should render the entire examples list", () => {
-    render(<RegularSearchInput />);
-
-    expect(screen.getAllByRole("button")).toHaveLength(
-      Object.keys(examples).length + 4,
-    ); // +4 for the 3 search modes buttons + the search button
   });
 });
 

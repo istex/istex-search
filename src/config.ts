@@ -36,7 +36,7 @@ export const corpusWithExternalFulltextLink = [
 ] as const;
 
 export const examples = [
-  '(abstract:(montessori "gentle education") title:(montessori "gentle education") subject.value:(montessori "gentle education")) NOT (abstract:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences") title:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences") subject.value:(dementia senior* alzheimer* musculoskeletal categories.wos:"2 - veterinary sciences"))',
+  "(abstract:Montessori title:Montessori subject.value:Montessori) NOT (abstract:(dementia senior* Alzheimer* musculoskeletal) title:(dementia senior* Alzheimer* musculoskeletal) subject.value:(dementia senior* Alzheimer* musculoskeletal) categories.wos: veterinary)",
   '("loi Veil" AND 1975) OR ("loi Veil" AND "interruption volontaire de grossesse") OR "loi relative à l\'interruption volontaire de grossesse" NOT t?bac*',
   'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
   'title:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games") OR abstract:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville Games") OR subject.value:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games")',

@@ -63,10 +63,8 @@ export default function Group(props: GroupProps) {
       previousNodeIndex >= 0 ? childNodes[previousNodeIndex] : null;
     const nextNode =
       nextNodeIndex <= childNodes.length - 1 ? childNodes[nextNodeIndex] : null;
-    const isPrecededByOperator =
-      previousNode != null && previousNode.nodeType === "operator";
-    const isFollowedByOperator =
-      nextNode != null && nextNode.nodeType === "operator";
+    const isPrecededByOperator = previousNode?.nodeType === "operator";
+    const isFollowedByOperator = nextNode?.nodeType === "operator";
 
     // It is important to keep the splice calls in this order not
     // to mess up the indices

@@ -284,17 +284,12 @@ export async function getAggregation(
   queryString: string,
   filters?: AST,
 ) {
-  const facetParam =
-    field.type === "text" || field.type === "language"
-      ? `${field.name}[*]`
-      : field.name;
-
   const finalQueryString = createCompleteQuery(queryString, filters);
 
   const url = new URL("document", istexApiConfig.baseUrl);
   url.searchParams.set("size", "0");
   url.searchParams.set("sid", "istex-search");
-  url.searchParams.set("facet", facetParam);
+  url.searchParams.set("facet", fieldToFacetParam(field));
 
   // If the query string is too long some browsers won't accept to send a GET request
   // so we send a POST request instead and pass the query string in the body
@@ -438,23 +433,19 @@ const INDICATORS_FIELDS = fields.filter((field) =>
   INDICATORS_FIELDNAMES.includes(field.name),
 );
 
+function fieldToFacetParam(field: Field) {
+  let param = field.name;
+
+  if (field.aggregationParameters != null) {
+    param += field.aggregationParameters;
+  } else if (field.type === "text" || field.type === "language") {
+    param += "[*]";
+  }
+
+  return param;
+}
+
 function getFacetUrlParam(filters?: AST) {
-  const fieldToFacetParam = (field: Field) => {
-    let param = field.name;
-
-    if (field.type === "text" || field.type === "language") {
-      param += "[*]";
-    }
-
-    // qualityIndicators.abstractCharCount is used to count the documents with a non-empty abstract, so
-    // we use the [1-1000000] interval to exclude the documents with a qualityIndicators.abstract of 0
-    if (field.name === "qualityIndicators.abstractCharCount") {
-      param += "[1-1000000]";
-    }
-
-    return param;
-  };
-
   const finalFields = [];
 
   // If filters are active, only ask for aggregations on the fields with an active filter, otherwise,

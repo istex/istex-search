@@ -90,11 +90,11 @@ describe("Istex API related functions", () => {
       };
 
       expect(Module.buildResultPreviewUrl(minimalParams).toString()).toBe(
-        "https://api.istex.fr/document?q=hello&size=10&from=0&rankBy=qualityOverRelevance&output=corpusName%2Ctitle%2Cdoi%2CaccessCondition.contentType%2CfulltextUrl%2Chost.title%2Chost.genre%2Cauthor%2Cabstract%2Cgenre%2CpublicationDate%2CarkIstex%2Cfulltext%2Cmetadata%2Cannexes%2Cenrichments&sid=istex-search&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D%2CqualityIndicators.tdmReady",
+        "https://api.istex.fr/document?q=hello&size=10&from=0&rankBy=qualityOverRelevance&output=corpusName%2Ctitle%2Cdoi%2CaccessCondition.contentType%2CfulltextUrl%2Chost.title%2Chost.genre%2Cauthor%2Cabstract%2Cgenre%2CpublicationDate%2CarkIstex%2Cfulltext%2Cmetadata%2Cannexes%2Cenrichments&sid=istex-search&facet=host.title%5B10%5D%2Clanguage%5B*%5D%2CpublicationDate%2CcorpusName%5B*%5D%2CaccessCondition.contentType%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.tdmReady%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D",
       );
 
       expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-        "https://api.istex.fr/document?q=hello&size=10&from=20&rankBy=qualityOverRelevance&output=abstract%2Ctitle&sid=istex-search&facet=corpusName%5B*%5D%2Clanguage%5B*%5D%2CpublicationDate%2Chost.genre%5B*%5D%2Cgenre%5B*%5D%2Cenrichments.type%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D%2CqualityIndicators.tdmReady",
+        "https://api.istex.fr/document?q=hello&size=10&from=20&rankBy=qualityOverRelevance&output=abstract%2Ctitle&sid=istex-search&facet=host.title%5B10%5D%2Clanguage%5B*%5D%2CpublicationDate%2CcorpusName%5B*%5D%2CaccessCondition.contentType%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.tdmReady%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D",
       );
     });
 

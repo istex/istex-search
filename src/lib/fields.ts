@@ -90,15 +90,16 @@ export interface Field {
   requiresFetchingValues?: boolean;
   implicitNodes?: AST;
   comparators?: Comparator[];
+  aggregationParameters?: string;
 }
 
 const fields: readonly Field[] = [
   {
-    name: "corpusName",
+    name: "host.title",
     type: "text",
     inFilters: true,
     defaultOpen: true,
-    requiresFetchingValues: true,
+    aggregationParameters: "[10]",
   },
   {
     name: "language",
@@ -115,10 +116,25 @@ const fields: readonly Field[] = [
     isDate: true,
   },
   {
-    name: "host.genre",
+    name: "corpusName",
     type: "text",
     inFilters: true,
     defaultOpen: true,
+    requiresFetchingValues: true,
+  },
+  {
+    name: "accessCondition.contentType",
+    type: "text",
+    inFilters: true,
+    defaultOpen: true,
+    requiresLabeling: true,
+    requiresFetchingValues: true,
+    comparators: ["equals"],
+  },
+  {
+    name: "host.genre",
+    type: "text",
+    inFilters: true,
     requiresLabeling: true,
     requiresFetchingValues: true,
     comparators: ["equals"],
@@ -127,16 +143,6 @@ const fields: readonly Field[] = [
     name: "genre",
     type: "text",
     inFilters: true,
-    defaultOpen: true,
-    requiresLabeling: true,
-    requiresFetchingValues: true,
-    comparators: ["equals"],
-  },
-  {
-    name: "enrichments.type",
-    type: "text",
-    inFilters: true,
-    defaultOpen: true,
     requiresLabeling: true,
     requiresFetchingValues: true,
     comparators: ["equals"],
@@ -166,6 +172,20 @@ const fields: readonly Field[] = [
     requiresFetchingValues: true,
   },
   {
+    name: "enrichments.type",
+    type: "text",
+    inFilters: true,
+    requiresLabeling: true,
+    requiresFetchingValues: true,
+    comparators: ["equals"],
+  },
+  {
+    name: "qualityIndicators.tdmReady",
+    type: "boolean",
+    inFilters: true,
+    requiresLabeling: true,
+  },
+  {
     name: "qualityIndicators.pdfWordCount",
     type: "number",
     inFilters: true,
@@ -173,25 +193,21 @@ const fields: readonly Field[] = [
   {
     name: "qualityIndicators.pdfCharCount",
     type: "number",
-    inFilters: true,
   },
   {
     name: "qualityIndicators.score",
     type: "number",
-    inFilters: true,
     hasDecimals: true,
   },
   {
     name: "qualityIndicators.pdfVersion",
     type: "text",
-    inFilters: true,
     requiresFetchingValues: true,
     comparators: ["equals"],
   },
   {
     name: "qualityIndicators.refBibsNative",
     type: "boolean",
-    inFilters: true,
     requiresLabeling: true,
   },
   {
@@ -301,12 +317,6 @@ const fields: readonly Field[] = [
     requiresFetchingValues: true,
   },
   {
-    name: "accessCondition.contentType",
-    type: "text",
-    requiresFetchingValues: true,
-    comparators: ["equals"],
-  },
-  {
     name: "subject.value",
     type: "text",
   },
@@ -369,6 +379,7 @@ const fields: readonly Field[] = [
   {
     name: "qualityIndicators.abstractCharCount",
     type: "number",
+    aggregationParameters: "[1-1000000]",
   },
   {
     name: "qualityIndicators.abstractWordCount",
@@ -418,10 +429,6 @@ const fields: readonly Field[] = [
     type: "text",
   },
   {
-    name: "host.title",
-    type: "text",
-  },
-  {
     name: "serie.title",
     type: "text",
   },
@@ -432,10 +439,6 @@ const fields: readonly Field[] = [
   {
     name: "refBibs.serie.title",
     type: "text",
-  },
-  {
-    name: "qualityIndicators.tdmReady",
-    type: "boolean",
   },
   {
     name: "accessCondition.value",

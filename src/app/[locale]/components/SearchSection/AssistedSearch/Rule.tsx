@@ -82,9 +82,16 @@ export default function Rule({
 
   const fieldNamesOrderedByTitle = React.useMemo(
     () =>
-      fieldNames.toSorted((a, b) =>
-        tFields(`${a}.title`).localeCompare(tFields(`${b}.title`)),
-      ),
+      fieldNames.toSorted((a, b) => {
+        const firstTitle = tFields.has(`${a}.ruleTitle`)
+          ? tFields(`${a}.ruleTitle`)
+          : tFields(`${a}.title`);
+        const secondTitle = tFields.has(`${b}.ruleTitle`)
+          ? tFields(`${b}.ruleTitle`)
+          : tFields(`${b}.title`);
+
+        return firstTitle.localeCompare(secondTitle);
+      }),
     [tFields],
   );
 
@@ -92,8 +99,13 @@ export default function Rule({
   const fieldNameFilterOptions = React.useMemo(
     () =>
       createFilterOptions({
-        stringify: (option: FieldName) =>
-          tFields(`${option}.title`) + " " + tFields(`${option}.description`),
+        stringify: (option: FieldName) => {
+          const title = tFields.has(`${option}.ruleTitle`)
+            ? tFields(`${option}.ruleTitle`)
+            : tFields(`${option}.title`);
+
+          return title + " " + tFields(`${option}.description`);
+        },
       }),
     [tFields],
   );
@@ -308,7 +320,11 @@ export default function Rule({
         options={fieldNamesOrderedByTitle}
         value={fieldName}
         onChange={handleFieldNameChange}
-        getOptionLabel={(option) => tFields(`${option}.title`)}
+        getOptionLabel={(option) =>
+          tFields.has(`${option}.ruleTitle`)
+            ? tFields(`${option}.ruleTitle`)
+            : tFields(`${option}.title`)
+        }
         filterOptions={fieldNameFilterOptions}
         slotProps={{
           listbox: {

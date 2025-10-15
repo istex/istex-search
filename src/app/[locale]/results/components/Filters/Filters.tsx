@@ -85,7 +85,9 @@ export default function Filters() {
                 }}
               >
                 <Typography component="span" sx={{ fontWeight: "bold" }}>
-                  {tFields(`${field.name}.title`)}
+                  {tFields.has(`${field.name}.filterTitle`)
+                    ? tFields(`${field.name}.filterTitle`)
+                    : tFields(`${field.name}.title`)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ bgcolor: "white" }}>

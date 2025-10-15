@@ -79,7 +79,9 @@ export function FieldInputMenuItem(
           fontSize: "0.875rem",
         }}
       >
-        {t(`${option}.title`)}
+        {t.has(`${option}.ruleTitle`)
+          ? t(`${option}.ruleTitle`)
+          : t(`${option}.title`)}
       </Typography>
       <Typography
         sx={{

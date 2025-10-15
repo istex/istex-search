@@ -656,6 +656,7 @@
         "description": "Recherche par le numéro de la revue ou de la monographie"
       },
       "title": {
+        "filterTitle": "Revue / monographie (top 10)",
         "title": "Titre de la revue ou de la monographie",
         "description": "Recherche dans le titre de la revue ou de la monographie"
       },
@@ -810,7 +811,10 @@
     "accessCondition": {
       "contentType": {
         "title": "Libre accès",
-        "description": "Recherche de documents selon leur accessibilité"
+        "description": "Recherche de documents selon leur accessibilité",
+        "isOpenAccess": "Oui",
+        "isNotOpenAccess": "Non",
+        "unknown": "Inconnu"
       },
       "value": {
         "title": "Type de libre accès",
@@ -899,8 +903,10 @@
         "description": "Recherche selon la provenance du document TEI"
       },
       "tdmReady": {
-        "title": "TXT compatible TDM",
-        "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes"
+        "title": "Texte nettoyé (TXT)",
+        "description": "Recherche de documents au format TXT exploitables dans un outil de fouille de textes (TDM)",
+        "true": "Oui",
+        "false": "Non"
       },
       "pdfVersion": {
         "title": "Version du PDF",

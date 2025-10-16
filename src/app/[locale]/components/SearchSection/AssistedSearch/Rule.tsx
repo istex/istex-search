@@ -80,34 +80,35 @@ export default function Rule({
     retry: false,
   });
 
-  const fieldNamesOrderedByTitle = React.useMemo(
-    () =>
-      fieldNames.toSorted((a, b) => {
-        const firstTitle = tFields.has(`${a}.ruleTitle`)
-          ? tFields(`${a}.ruleTitle`)
-          : tFields(`${a}.title`);
-        const secondTitle = tFields.has(`${b}.ruleTitle`)
-          ? tFields(`${b}.ruleTitle`)
-          : tFields(`${b}.title`);
+  const labelizeFieldName = (fieldName: FieldName) => {
+    return tFields.has(`${fieldName}.ruleTitle`)
+      ? tFields(`${fieldName}.ruleTitle`)
+      : tFields(`${fieldName}.title`);
+  };
 
-        return firstTitle.localeCompare(secondTitle);
-      }),
-    [tFields],
-  );
+  const labelizePossibleValue = (value: string) => {
+    return fieldType === "language"
+      ? labelizeIsoLanguage(locale, value, tLanguages)
+      : field?.requiresLabeling === true && value !== ""
+        ? tFields(`${fieldName}.${value}`)
+        : value;
+  };
+
+  const fieldNamesOrderedByTitle = fieldNames.toSorted((first, second) => {
+    const firstTitle = labelizeFieldName(first);
+    const secondTitle = labelizeFieldName(second);
+
+    return firstTitle.localeCompare(secondTitle, [locale]);
+  });
 
   // Custom search filter to search in the field title and description
-  const fieldNameFilterOptions = React.useMemo(
-    () =>
-      createFilterOptions({
-        stringify: (option: FieldName) => {
-          const title = tFields.has(`${option}.ruleTitle`)
-            ? tFields(`${option}.ruleTitle`)
-            : tFields(`${option}.title`);
+  const fieldNameFilterOptions = createFilterOptions({
+    stringify: (option: FieldName) =>
+      labelizeFieldName(option) + " " + tFields(`${option}.description`),
+  });
 
-          return title + " " + tFields(`${option}.description`);
-        },
-      }),
-    [tFields],
+  const valueQuerySortedValues = (valueQuery.data ?? []).toSorted((a, b) =>
+    labelizePossibleValue(a).localeCompare(labelizePossibleValue(b), [locale]),
   );
 
   const handleFieldNameChange = (
@@ -320,11 +321,7 @@ export default function Rule({
         options={fieldNamesOrderedByTitle}
         value={fieldName}
         onChange={handleFieldNameChange}
-        getOptionLabel={(option) =>
-          tFields.has(`${option}.ruleTitle`)
-            ? tFields(`${option}.ruleTitle`)
-            : tFields(`${option}.title`)
-        }
+        getOptionLabel={labelizeFieldName}
         filterOptions={fieldNameFilterOptions}
         slotProps={{
           listbox: {
@@ -466,14 +463,8 @@ export default function Rule({
             <Autocomplete
               size="small"
               fullWidth
-              options={valueQuery.data ?? []}
-              getOptionLabel={(option) =>
-                fieldType === "language"
-                  ? labelizeIsoLanguage(locale, option, tLanguages)
-                  : field?.requiresLabeling === true && option !== ""
-                    ? tFields(`${fieldName}.${option}`)
-                    : option
-              }
+              options={valueQuerySortedValues}
+              getOptionLabel={labelizePossibleValue}
               freeSolo={freeSolo}
               value={textValue}
               onChange={handleTextValueChange}

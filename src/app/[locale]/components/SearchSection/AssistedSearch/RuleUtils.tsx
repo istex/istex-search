@@ -65,6 +65,12 @@ export function FieldInputMenuItem(
   const t = useTranslations("fields");
   const { option, ...rest } = props;
 
+  const labelizeFieldName = (fieldName: FieldName) => {
+    return t.has(`${fieldName}.ruleTitle`)
+      ? t(`${fieldName}.ruleTitle`)
+      : t(`${fieldName}.title`);
+  };
+
   return (
     <MenuItem
       sx={(theme) => ({
@@ -79,9 +85,7 @@ export function FieldInputMenuItem(
           fontSize: "0.875rem",
         }}
       >
-        {t.has(`${option}.ruleTitle`)
-          ? t(`${option}.ruleTitle`)
-          : t(`${option}.title`)}
+        {labelizeFieldName(option)}
       </Typography>
       <Typography
         sx={{

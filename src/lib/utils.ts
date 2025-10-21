@@ -136,3 +136,24 @@ export function areSetsEqual<T>(first: Set<T>, second: Set<T>) {
     Array.from(first).every((value) => second.has(value))
   );
 }
+
+export function splitArray<T>(array: T[], predicate: (item: T) => boolean) {
+  const result: T[][] = [];
+  let currentGroupIndex = -1;
+  let previousItemWasMatch = false;
+
+  for (let i = 0; i < array.length; i++) {
+    const isMatch = predicate(array[i]);
+    const needToCreateNewGroup = i === 0 || isMatch !== previousItemWasMatch;
+
+    if (needToCreateNewGroup) {
+      result.push([]);
+      currentGroupIndex++;
+    }
+
+    result[currentGroupIndex].push(array[i]);
+    previousItemWasMatch = isMatch;
+  }
+
+  return result;
+}

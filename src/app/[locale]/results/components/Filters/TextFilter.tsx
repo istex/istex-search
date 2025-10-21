@@ -26,7 +26,7 @@ import {
 import type { Aggregation } from "@/lib/istexApi";
 import { areSetsEqual, labelizeIsoLanguage } from "@/lib/utils";
 
-interface TextFilterProps {
+export interface TextFilterProps {
   field: Field & { type: "text" | "language" };
 }
 

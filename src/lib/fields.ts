@@ -148,7 +148,7 @@ const fields: readonly Field[] = [
     comparators: ["equals"],
   },
   {
-    name: "categories.wos",
+    name: "categories.inist",
     type: "text",
     inFilters: true,
     requiresFetchingValues: true,
@@ -166,7 +166,7 @@ const fields: readonly Field[] = [
     requiresFetchingValues: true,
   },
   {
-    name: "categories.inist",
+    name: "categories.wos",
     type: "text",
     inFilters: true,
     requiresFetchingValues: true,

@@ -23,7 +23,7 @@ import {
 import type { Aggregation } from "@/lib/istexApi";
 import { visuallyHidden } from "@/lib/utils";
 
-interface BooleanFilterProps {
+export interface BooleanFilterProps {
   field: Field & { type: "boolean" };
 }
 

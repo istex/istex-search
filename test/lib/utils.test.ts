@@ -216,4 +216,36 @@ describe("Utility functions", () => {
       expect(Module.areSetsEqual(a, b)).toBe(false);
     });
   });
+
+  describe("splitArray", () => {
+    it("creates 2 groups when the items that meet the predicate are at the beginning and next to each other", () => {
+      const array = ["prefix_a", "prefix_b", "c", "d", "e"];
+      const predicate = (item: string) => item.startsWith("prefix_");
+      const expected = [
+        ["prefix_a", "prefix_b"],
+        ["c", "d", "e"],
+      ];
+
+      const result = Module.splitArray(array, predicate);
+      expect(result).toEqual(expected);
+    });
+
+    it("creates 3 groups when the itens that meet the predicate at in the middle and next to each other", () => {
+      const array = ["a", "b", "prefix_c", "prefix_d", "e"];
+      const predicate = (item: string) => item.startsWith("prefix_");
+      const expected = [["a", "b"], ["prefix_c", "prefix_d"], ["e"]];
+
+      const result = Module.splitArray(array, predicate);
+      expect(result).toEqual(expected);
+    });
+
+    it("only creates 1 group when no item meets the predicate", () => {
+      const array = ["a", "b", "c"];
+      const predicate = (item: string) => item.startsWith("prefix_");
+      const expected = [["a", "b", "c"]];
+
+      const result = Module.splitArray(array, predicate);
+      expect(result).toEqual(expected);
+    });
+  });
 });

@@ -17,7 +17,7 @@ import {
 const INPUT_MODES = ["range", "value"] as const;
 type InputMode = (typeof INPUT_MODES)[number];
 
-interface NumberFilterProps {
+export interface NumberFilterProps {
   field: Field & { type: "number" };
 }
 

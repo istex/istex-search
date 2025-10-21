@@ -186,7 +186,8 @@
       },
       "apply": "Appliquer",
       "clear": "Effacer",
-      "clearAll": "Effacer tout"
+      "clearAll": "Effacer tout",
+      "categoriesGroupHeader": "Catégories scientifiques"
     },
     "FilterTags": {
       "title": "Vos filtres actifs\u00A0:",

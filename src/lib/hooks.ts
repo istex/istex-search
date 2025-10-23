@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useTranslations } from "next-intl";
 import { useSearchParams as nextUseSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -18,7 +19,10 @@ import { clamp } from "@/lib/utils";
 export function useSearchParams(
   searchParams?: Awaited<PageProps<"/[locale]">["searchParams"]>,
 ) {
-  return new SearchParams(searchParams ?? nextUseSearchParams());
+  const nextSearchParams = nextUseSearchParams();
+  const params = searchParams ?? nextSearchParams;
+
+  return React.useMemo(() => new SearchParams(params), [params]);
 }
 
 export function useOnHomePage() {

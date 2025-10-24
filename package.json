@@ -1,6 +1,6 @@
 {
   "name": "istex-search",
-  "version": "6.8.0",
+  "version": "6.9.0",
   "description": "Web application dedicated to Istex browsing and sub-corpus extraction",
   "private": true,
   "type": "module",

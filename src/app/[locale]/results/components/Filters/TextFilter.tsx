@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -33,9 +34,10 @@ export interface TextFilterProps {
 type SortField = "key" | "docCount";
 type SortOrder = "asc" | "desc";
 
-type LabelizedAggregation = (Aggregation[string]["buckets"][number] & {
+type AggregationBucket = Aggregation[string]["buckets"][number];
+type LabelizedAggregation = AggregationBucket & {
   label?: string;
-})[];
+};
 
 export default function TextFilter({ field }: TextFilterProps) {
   const t = useTranslations("results.Filters.TextFilter");
@@ -48,6 +50,7 @@ export default function TextFilter({ field }: TextFilterProps) {
   const filters = searchParams.getFilters();
   const aggregationQuery = useAggregationQuery(field);
   const [searchTerm, setSearchTerm] = React.useState("");
+  const searchTermLowercase = searchTerm.toLowerCase();
   const [sortOrder, setSortOrder] = React.useState<SortOrder>("desc");
   const [sortField, setSortField] = React.useState<SortField>("docCount");
   const initiallySelectedValues = new Set(
@@ -67,23 +70,8 @@ export default function TextFilter({ field }: TextFilterProps) {
     selectedValues,
   );
 
-  if (aggregationQuery.isError) {
-    return <ErrorUi error={aggregationQuery.error} />;
-  }
-
-  if (aggregationQuery.isLoading) {
-    return <LoadingSkeleton />;
-  }
-
-  // This is just to make TypeScript happy
-  if (aggregationQuery.data == null) {
-    throw new Error(
-      `aggregationQuery.data is null for ${field.name}, this should not happen.`,
-    );
-  }
-
-  const labelizedValues: LabelizedAggregation = aggregationQuery.data.map(
-    (value) => {
+  const labelizeValue = React.useCallback(
+    (value: AggregationBucket): LabelizedAggregation => {
       if (field.type === "language") {
         return {
           ...value,
@@ -97,9 +85,57 @@ export default function TextFilter({ field }: TextFilterProps) {
 
       return value;
     },
+    [field, locale, tFields, tLanguages],
   );
-  const filteredValues = filterValues(labelizedValues, searchTerm);
-  const sortedValues = sortValues(filteredValues, sortField, sortOrder);
+
+  const filterValues = React.useCallback(
+    ({ key, label }: LabelizedAggregation) => {
+      // Filter on the label if it exists, on the key otherwise
+      return (label ?? key.toString())
+        .toLowerCase()
+        .includes(searchTermLowercase);
+    },
+    [searchTermLowercase],
+  );
+
+  const sortValues = React.useCallback(
+    (a: LabelizedAggregation, b: LabelizedAggregation) => {
+      if (sortField === "key") {
+        const firstValue = a.label ?? a[sortField].toString();
+        const secondValue = b.label ?? b[sortField].toString();
+
+        return sortOrder === "asc"
+          ? firstValue.localeCompare(secondValue, [locale])
+          : secondValue.localeCompare(firstValue, [locale]);
+      } else {
+        const firstValue = a[sortField];
+        const secondValue = b[sortField];
+
+        return sortOrder === "asc"
+          ? firstValue - secondValue
+          : secondValue - firstValue;
+      }
+    },
+    [sortField, sortOrder, locale],
+  );
+
+  const sortedValues = React.useMemo(
+    () =>
+      (aggregationQuery.data ?? [])
+        .map(labelizeValue)
+        .filter(filterValues)
+        .sort(sortValues),
+    [aggregationQuery.data, labelizeValue, filterValues, sortValues],
+  );
+
+  const valueListRef = React.useRef(null);
+  const rowVirtualizer = useVirtualizer({
+    count: sortedValues.length,
+    getScrollElement: () => valueListRef.current,
+    estimateSize: () => 28,
+    initialRect: { width: 140, height: 28 },
+    overscan: 3,
+  });
 
   const getClearedFilters = () => {
     return filters.filter((node, index) => {
@@ -163,6 +199,21 @@ export default function TextFilter({ field }: TextFilterProps) {
 
     applyFilters(newFilters);
   };
+
+  if (aggregationQuery.isError) {
+    return <ErrorUi error={aggregationQuery.error} />;
+  }
+
+  if (aggregationQuery.isLoading) {
+    return <LoadingSkeleton />;
+  }
+
+  // This is just to make TypeScript happy
+  if (aggregationQuery.data == null) {
+    throw new Error(
+      `aggregationQuery.data is null for ${field.name}, this should not happen.`,
+    );
+  }
 
   return (
     <Stack
@@ -249,22 +300,38 @@ export default function TextFilter({ field }: TextFilterProps) {
       </Stack>
 
       {/* Values */}
-      <Stack sx={{ maxHeight: 140, overflow: "auto" }}>
-        {sortedValues.map((aggregation) => {
-          const key = aggregation.key.toString();
-          const checked = selectedValues.has(key);
+      <Box ref={valueListRef} sx={{ maxHeight: 140, overflow: "auto" }}>
+        <Box
+          sx={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+            const aggregation = sortedValues[virtualItem.index];
+            const key = aggregation.key.toString();
+            const checked = selectedValues.has(key);
 
-          return (
-            <ChecklistItem
-              key={key}
-              field={field}
-              aggregation={aggregation}
-              checked={checked}
-              setValue={setValue}
-            />
-          );
-        })}
-      </Stack>
+            return (
+              <Box
+                key={virtualItem.key}
+                sx={{
+                  position: "absolute",
+                  width: "100%",
+                  transform: `translateY(${virtualItem.start}px)`,
+                }}
+              >
+                <ChecklistItem
+                  field={field}
+                  aggregation={aggregation}
+                  checked={checked}
+                  setValue={setValue}
+                />
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
 
       {/* Buttons */}
       <Stack direction="row" spacing={1}>
@@ -324,7 +391,7 @@ function SortButton(props: SortButtonProps) {
 }
 
 interface ChecklistItemProps extends TextFilterProps {
-  aggregation: LabelizedAggregation[number];
+  aggregation: LabelizedAggregation;
   checked: boolean;
   setValue: (value: string, checked: boolean) => void;
 }
@@ -382,43 +449,6 @@ function ChecklistItem({
       }}
     />
   );
-}
-
-function filterValues(values: LabelizedAggregation, searchTerm: string) {
-  const term = searchTerm.toLowerCase();
-
-  return values.filter(({ key, label }) =>
-    // Filter on the label if it exists, on the key otherwise
-    (label ?? key.toString()).toLowerCase().includes(term),
-  );
-}
-
-function sortValues(
-  values: LabelizedAggregation,
-  sortField: SortField,
-  sortOrder: SortOrder,
-) {
-  return values.sort((a, b) => {
-    if (sortField === "key") {
-      if (sortOrder === "asc") {
-        // Sort based on the label if it exists, on the key otherwise
-        return (a.label ?? a[sortField].toString()).localeCompare(
-          b.label ?? b[sortField].toString(),
-        );
-      } else {
-        // Same as above in reverse order
-        return (b.label ?? b[sortField].toString()).localeCompare(
-          a.label ?? a[sortField].toString(),
-        );
-      }
-    } else {
-      if (sortOrder === "asc") {
-        return a[sortField] - b[sortField];
-      } else {
-        return b[sortField] - a[sortField];
-      }
-    }
-  });
 }
 
 function isMatchingNode(node: Node, field: Field) {

@@ -60,7 +60,11 @@ function CustomCheckbox(props: CustomCheckboxProps) {
           {...rest}
         />
       }
-      sx={{ ml: 0 }}
+      sx={{
+        marginInline: 0,
+        pr: 2,
+        width: "100%",
+      }}
     />
   );
 }

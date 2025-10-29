@@ -131,36 +131,34 @@ function getHistoryFromLocalStorage() {
   }
 
   const result: HistoryEntry[] = [];
-  const parsed = JSON.parse(historyFromLocalStorage);
+  const parsed = JSON.parse(historyFromLocalStorage) as unknown;
   if (!Array.isArray(parsed)) {
     throw new Error("Unexpected history structure");
   }
 
-  for (const entry of parsed) {
+  for (const entry of parsed as unknown[]) {
     if (
+      typeof entry !== "object" ||
+      entry == null ||
+      !("date" in entry) ||
       typeof entry.date !== "number" ||
+      !("searchParams" in entry) ||
       typeof entry.searchParams !== "string"
     ) {
       throw new Error("Unexpected history entry structure");
     }
 
-    // Sanity check to remove any entry still using the old base64 AST
-    // TODO: remove this in a few months, so around September 2025, when every user's history is cleaned
-    const searchParams = new URLSearchParams(entry.searchParams as string);
-    const astString = searchParams.get("ast");
-    if (astString != null && !isValidJson(astString)) {
-      continue;
-    }
-
     result.push({
       date: entry.date,
-      searchParams: new SearchParams(searchParams.toString()),
-      selectedDocuments: Array.isArray(entry.selectedDocuments)
-        ? entry.selectedDocuments
-        : [],
-      excludedDocuments: Array.isArray(entry.excludedDocuments)
-        ? entry.excludedDocuments
-        : [],
+      searchParams: new SearchParams(entry.searchParams),
+      selectedDocuments:
+        "selectedDocuments" in parsed && Array.isArray(parsed.selectedDocuments)
+          ? parsed.selectedDocuments
+          : [],
+      excludedDocuments:
+        "excludedDocuments" in parsed && Array.isArray(parsed.excludedDocuments)
+          ? parsed.excludedDocuments
+          : [],
     });
   }
 
@@ -180,9 +178,13 @@ function getCurrentRequestFromLocalStorage() {
     return initialCurrentRequest;
   }
 
-  const parsed = JSON.parse(currentRequestFromLocalStorage);
+  const parsed = JSON.parse(currentRequestFromLocalStorage) as unknown;
   if (
+    typeof parsed !== "object" ||
+    parsed == null ||
+    !("date" in parsed) ||
     typeof parsed.date !== "number" ||
+    !("searchParams" in parsed) ||
     typeof parsed.searchParams !== "string"
   ) {
     throw new Error("Unexpected current request structure");
@@ -190,13 +192,15 @@ function getCurrentRequestFromLocalStorage() {
 
   const result: HistoryEntry = {
     date: parsed.date,
-    searchParams: new SearchParams(parsed.searchParams as string),
-    selectedDocuments: Array.isArray(parsed.selectedDocuments)
-      ? parsed.selectedDocuments
-      : [],
-    excludedDocuments: Array.isArray(parsed.excludedDocuments)
-      ? parsed.excludedDocuments
-      : [],
+    searchParams: new SearchParams(parsed.searchParams),
+    selectedDocuments:
+      "selectedDocuments" in parsed && Array.isArray(parsed.selectedDocuments)
+        ? parsed.selectedDocuments
+        : [],
+    excludedDocuments:
+      "excludedDocuments" in parsed && Array.isArray(parsed.excludedDocuments)
+        ? parsed.excludedDocuments
+        : [],
   };
 
   return result;
@@ -210,14 +214,4 @@ export function useHistoryContext() {
   }
 
   return context;
-}
-
-// TODO: remove this function when the above sanity check is removed
-function isValidJson(content: string) {
-  try {
-    JSON.parse(content);
-    return true;
-  } catch (_error) {
-    return false;
-  }
 }

@@ -341,8 +341,10 @@ export default function Rule({
           />
         )}
         renderOption={(renderProps, option) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { key, ...rest } = renderProps;
 
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           return <FieldInputMenuItem key={key} option={option} {...rest} />;
         }}
       />

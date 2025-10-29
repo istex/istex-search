@@ -22,7 +22,7 @@ export default function CorpusSection() {
     <Box
       component="section"
       sx={{
-        backgroundImage: `url(${wires.src as string})`,
+        backgroundImage: `url(${wires.src})`,
         backgroundPosition: "bottom left",
         backgroundRepeat: "no-repeat",
         bgcolor: "colors.veryLightBlue",

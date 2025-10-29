@@ -153,7 +153,7 @@ const NumberInput = React.forwardRef<HTMLDivElement, NumberInputProps>(
         slotProps={{
           ...slotProps,
           input: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
             inputComponent: NumericFormatCustom as any,
             endAdornment: !hideActionButtons && (
               <InputAdornment position="end">

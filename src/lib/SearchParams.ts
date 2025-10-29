@@ -3,6 +3,7 @@ import { md5 } from "js-md5";
 import CustomError from "./CustomError";
 import { getEmptyAst, type AST } from "./ast";
 import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
+import logger from "./logger";
 import { clamp, closest, isValidMd5 } from "./utils";
 import {
   DEFAULT_ARCHIVE_TYPE,
@@ -72,7 +73,21 @@ export default class SearchParams {
         );
       }
 
-      return (await response.json()).req as string;
+      const body = (await response.json()) as unknown;
+      if (
+        typeof body !== "object" ||
+        body == null ||
+        !("req" in body) ||
+        typeof body.req !== "string"
+      ) {
+        logger.error(
+          `Incorrect response structure while getting the query for the q_id ${qId}`,
+        );
+
+        throw new CustomError({ name: "default" });
+      }
+
+      return body.req;
     }
 
     return "";

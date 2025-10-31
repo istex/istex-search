@@ -28,7 +28,6 @@ export default function ResultsSettings() {
   const maxSize = useMaxSize();
   const [size, setSize] = React.useState<number | null>(useSize());
 
-  // eslint-disable-next-line react-compiler/react-compiler
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateUrl = React.useCallback(
     // We debounce the URL update to avoid a roundtrip to the server on each change

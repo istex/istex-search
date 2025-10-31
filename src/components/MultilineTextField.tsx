@@ -28,6 +28,7 @@ const MultilineTextField = React.forwardRef<
   const lineCount =
     typeof props.value === "string" ? props.value.split("\n").length : 0;
   const digitCount = Math.floor(Math.log10(lineCount) + 1);
+  // eslint-disable-next-line react-hooks/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: lineCount,
     getScrollElement: () => lineNumbersRef.current,

@@ -5,6 +5,6 @@ export default createMiddleware(routing);
 
 export const config = {
   // Taken from here:
-  // https://next-intl.dev/docs/getting-started/app-router/with-i18n-routing#middleware
+  // https://next-intl.dev/docs/routing/setup#proxy
   matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
 };

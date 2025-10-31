@@ -7,9 +7,7 @@ export default withNextIntl({
   output: "standalone",
 
   // React Compiler
-  experimental: {
-    reactCompiler: true,
-  },
+  reactCompiler: true,
 
   // Automatically transform `import { Stack } from "@mui/material"`
   // into `import Stack from "@mui/material/Stack"` for better tree-shaking
@@ -24,9 +22,4 @@ export default withNextIntl({
   // Don't bundle the log dependencies with the rest of the server components,
   // let them be `require`d by Node.js
   serverExternalPackages: ["pino", "pino-pretty"],
-
-  // Linting is done in a separate CI step
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
 });

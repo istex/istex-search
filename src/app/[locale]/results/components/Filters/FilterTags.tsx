@@ -187,6 +187,8 @@ export default function FilterTags() {
       } else {
         // Insert a NOT operator
         groupNode.nodes.splice(nodeIndex, 0, {
+          // Bug in the react compiler: https://github.com/facebook/react/issues/34834
+          // eslint-disable-next-line react-hooks/purity
           id: Math.random(),
           nodeType: "operator",
           value: "NOT",

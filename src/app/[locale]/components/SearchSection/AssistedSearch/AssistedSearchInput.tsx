@@ -98,6 +98,7 @@ export default function AssistedSearchInput() {
     setChildNodes([getEmptyFieldNode()]);
   };
 
+  // eslint-disable-next-line react-hooks/immutability
   React.useEffect(() => {
     rootNode.nodes = childNodes;
   }, [rootNode, childNodes]);

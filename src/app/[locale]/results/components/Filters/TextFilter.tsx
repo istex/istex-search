@@ -129,6 +129,7 @@ export default function TextFilter({ field }: TextFilterProps) {
   );
 
   const valueListRef = React.useRef(null);
+  // eslint-disable-next-line react-hooks/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: sortedValues.length,
     getScrollElement: () => valueListRef.current,

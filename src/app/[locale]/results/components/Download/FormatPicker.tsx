@@ -107,6 +107,8 @@ function Format({ name, value, indeterminate }: FormatProps) {
     searchParams.setFormats(newFormats);
 
     history.populateCurrentRequest({
+      // Bug in the react compiler: https://github.com/facebook/react/issues/34834
+      // eslint-disable-next-line react-hooks/purity
       date: Date.now(),
       searchParams,
     });

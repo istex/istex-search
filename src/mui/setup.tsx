@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as locales from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";

@@ -85,7 +85,7 @@ docker:publish:
 
 renovate:
   stage: renovate
-  image: renovate/renovate:38.129
+  image: renovate/renovate:41.169.1
   interruptible: false
   cache: []
   rules:

@@ -9,8 +9,8 @@ include:
 .is-working-branch: &is-working-branch
   if: $CI_COMMIT_REF_PROTECTED == "false" && $CI_PIPELINE_SOURCE != "merge_request_event"
 
-.is-dev: &is-dev
-  if: $CI_COMMIT_BRANCH == "dev"
+.is-default-branch: &is-default-branch
+  if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 .is-schedule: &is-schedule
   if: $CI_PIPELINE_SOURCE == "schedule"
@@ -75,7 +75,7 @@ deploy:dev:
   rules:
     - *is-not-schedule
     - *manual-if-renovate-commit
-    - *is-dev
+    - *is-default-branch
   before_script: []
   script:
     - ./scripts/deploy-dev.sh

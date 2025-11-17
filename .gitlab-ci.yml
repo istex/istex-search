@@ -20,7 +20,7 @@ include:
   when: never
 
 .manual-if-renovate-commit: &manual-if-renovate-commit
-  if: $CI_COMMIT_MESSAGE =~ /^\[Renovate\]/ && $CI_COMMIT_BRANCH == "dev"
+  if: $CI_COMMIT_MESSAGE =~ /^\[Renovate\]/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   when: manual
 
 default:

@@ -20,7 +20,7 @@ export default function FormatPicker() {
   const onSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid
         size={{
           xs: 6,

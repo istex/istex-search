@@ -49,12 +49,8 @@ export default function DownloadForm({
   }, [selectedFormats, size, compressionLevel, archiveType]);
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{ "& > .MuiPaper-root": { bgcolor: "white" } }}
-    >
-      <Grid size={{ xs: 12, sm: hasSelectedDocuments ? 5 : 8 }}>
+    <Grid container spacing={2}>
+      <Grid size={{ sm: 12, md: hasSelectedDocuments ? 6 : 8 }}>
         <Panel>
           <Stack spacing={2}>
             <UsageSelector />
@@ -79,7 +75,7 @@ export default function DownloadForm({
       </Grid>
 
       <Grid
-        size={{ xs: 12, sm: hasSelectedDocuments ? 3 : 4 }}
+        size={{ sm: 12, md: hasSelectedDocuments ? 3 : 4 }}
         container
         spacing={2}
         direction="column"
@@ -88,7 +84,7 @@ export default function DownloadForm({
       </Grid>
 
       {hasSelectedDocuments && (
-        <Grid size={{ xs: 12, md: 4 }}>
+        <Grid size={{ sm: 12, md: 3 }}>
           <SelectedDocPanel />
         </Grid>
       )}

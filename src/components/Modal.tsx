@@ -54,7 +54,7 @@ export default function Modal(props: ModalProps) {
       maxWidth={maxWidth}
       scroll={scroll}
       sx={{
-        "& .MuiPaper-root": {
+        "& .MuiDialog-container > .MuiPaper-root": {
           bgcolor: "colors.white",
         },
       }}

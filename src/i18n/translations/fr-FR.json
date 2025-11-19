@@ -128,10 +128,8 @@
     "CompleteQuery": {
       "prefix": "Requête\u00A0: ",
       "copy": {
-        "label": "Copier la requête dans le presse-papier",
-        "success": "Requête copiée dans le presse-papier.",
-        "error": "Erreur dans la copie de la requête.",
-        "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."
+        "aria-label": "Copier la requête dans le presse-papier",
+        "success": "Requête copiée dans le presse-papier."
       }
     },
     "ResultsToolbar": {
@@ -329,8 +327,20 @@
     "title": "Configurez votre téléchargement",
     "downloadButton": "Télécharger",
     "InfoPanels": {
-      "queryTitle": "Requête",
-      "rawRequestTitle": "Requête brute complète",
+      "query": {
+        "title": "Requête",
+        "copy": {
+          "aria-label": "Copier la requête dans le presse-papier",
+          "success": "Requête copiée dans le presse-papier."
+        }
+      },
+      "rawRequest": {
+        "title": "Requête brute complète",
+        "copy": {
+          "aria-label": "Copier la requête brute complète dans le presse-papier",
+          "success": "Requête brute complète copiée dans le presse-papier."
+        }
+      },
       "seeMoreLink": "EN SAVOIR PLUS"
     },
     "ResultsSettings": {
@@ -467,6 +477,10 @@
         }
       ]
     }
+  },
+  "CopyButton": {
+    "error": "Impossible d'écrire dans le presse-papier.",
+    "badEnv": "Cette fonctionnalité n'est pas disponible dans cet environnement."
   },
   "ErrorCard": {
     "title": "Erreur"

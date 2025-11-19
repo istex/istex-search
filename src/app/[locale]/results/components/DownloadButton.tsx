@@ -44,7 +44,6 @@ export default function DownloadButton() {
         })}
       >
         <Button
-          id="open-download-modal-button"
           size="large"
           sx={{ px: { xs: 4, sm: 8 }, py: 2, pointerEvents: "auto" }}
           onClick={openDownloadModal}

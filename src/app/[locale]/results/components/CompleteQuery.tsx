@@ -1,16 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { useTranslations } from "next-intl";
-import CopyIcon from "@mui/icons-material/ContentCopy";
-import {
-  Alert,
-  Container,
-  IconButton,
-  Paper,
-  Snackbar,
-  Typography,
-} from "@mui/material";
+import { Container, Paper, Typography } from "@mui/material";
+import CopyButton from "@/components/CopyButton";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
@@ -24,10 +16,6 @@ export default function CompleteQuery() {
   const { queryString } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
   const filters = searchParams.getFilters();
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [copyState, setCopyState] = React.useState<
-    "success" | "error" | "badEnv"
-  >("success");
   const completeQuery = createCompleteQuery(
     queryString,
     filters,
@@ -42,32 +30,6 @@ export default function CompleteQuery() {
     completeQuery.length > QUERY_MAX_SIZE
       ? `${completeQuery.slice(0, QUERY_MAX_SIZE)}…`
       : completeQuery;
-
-  const openSnackbar = () => {
-    setSnackbarOpen(true);
-  };
-
-  const closeSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
-  const handleCopy = () => {
-    if (!window.isSecureContext) {
-      setCopyState("badEnv");
-      openSnackbar();
-      return;
-    }
-
-    navigator.clipboard
-      .writeText(completeQuery)
-      .then(() => {
-        setCopyState("success");
-      })
-      .catch(() => {
-        setCopyState("error");
-      })
-      .finally(openSnackbar);
-  };
 
   return (
     <Container component="section" sx={{ pb: { xs: 3, sm: 1 } }}>
@@ -94,26 +56,12 @@ export default function CompleteQuery() {
           <strong>{t("prefix")}</strong>
           <code title={truncatedCompleteQuery}>{truncatedCompleteQuery}</code>
         </Typography>
-        <IconButton
-          title={t("copy.label")}
-          aria-label={t("copy.label")}
-          onClick={handleCopy}
-        >
-          <CopyIcon />
-        </IconButton>
+        <CopyButton
+          aria-label={t("copy.aria-label")}
+          clipboardText={completeQuery}
+          successLabel={t("copy.success")}
+        />
       </Paper>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={closeSnackbar}
-      >
-        <Alert
-          severity={copyState === "badEnv" ? "warning" : copyState}
-          onClose={closeSnackbar}
-        >
-          {t(`copy.${copyState}`)}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }

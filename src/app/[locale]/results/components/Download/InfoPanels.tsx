@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
-import { Grid, Link, Typography } from "@mui/material";
+import { Grid, Link, Stack, Typography } from "@mui/material";
 import HighlightedUrl from "../HighlightedUrl";
+import CopyButton from "@/components/CopyButton";
 import Panel, { PanelTitle } from "@/components/Panel";
 import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
@@ -67,7 +68,22 @@ export default function InfoPanels() {
       </Grid>
 
       <Grid>
-        <Panel heading={t("queryTitle")}>
+        <Panel>
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "end",
+            }}
+          >
+            <PanelTitle>{t("query.title")}</PanelTitle>
+            <CopyButton
+              aria-label={t("query.copy.aria-label")}
+              clipboardText={resultsApiUrl.toString()}
+              successLabel={t("query.copy.success")}
+              size="small"
+            />
+          </Stack>
           <Panel
             sx={{
               "&&": {
@@ -82,11 +98,25 @@ export default function InfoPanels() {
               title={truncatedCompleteQuery}
               sx={{ ...lineclamp(6), wordBreak: "break-word" }}
             >
-              {truncatedCompleteQuery}
+              <code>{truncatedCompleteQuery}</code>
             </Typography>
           </Panel>
 
-          <PanelTitle>{t("rawRequestTitle")}</PanelTitle>
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "space-between",
+              alignItems: "end",
+            }}
+          >
+            <PanelTitle>{t("rawRequest.title")}</PanelTitle>
+            <CopyButton
+              aria-label={t("rawRequest.copy.aria-label")}
+              clipboardText={resultsApiUrl.toString()}
+              successLabel={t("rawRequest.copy.success")}
+              size="small"
+            />
+          </Stack>
           <Panel
             sx={{
               "&&": {

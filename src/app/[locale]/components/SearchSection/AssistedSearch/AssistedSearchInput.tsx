@@ -137,7 +137,7 @@ export default function AssistedSearchInput() {
               {error != null && <ErrorCard info={error.info} />}
             </Stack>
 
-            <SearchButton isAlone />
+            <SearchButton alone />
           </>
         )}
 

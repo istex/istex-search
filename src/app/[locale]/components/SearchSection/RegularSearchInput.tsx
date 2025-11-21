@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
 import ExampleList from "./ExampleList";
-import SearchBar from "./SearchBar";
+import SearchButton from "./SearchButton";
 import SearchTitle from "./SearchTitle";
 import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
@@ -49,7 +49,12 @@ export default function RegularSearchInput() {
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <SearchTitle />
 
-      <SearchBar>
+      <Box
+        sx={{
+          mt: 1,
+          display: { xs: "block", sm: "flex" },
+        }}
+      >
         <MultilineTextField
           id="regular-search-input"
           onChange={handleChange}
@@ -79,7 +84,9 @@ export default function RegularSearchInput() {
             },
           }}
         />
-      </SearchBar>
+
+        <SearchButton />
+      </Box>
 
       {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
 

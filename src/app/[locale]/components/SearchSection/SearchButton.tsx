@@ -4,10 +4,10 @@ import Button from "@/components/Button";
 import { useQueryContext } from "@/contexts/QueryContext";
 
 interface SearchButtonProps {
-  isAlone?: boolean;
+  alone?: boolean;
 }
 
-export default function SearchButton({ isAlone = false }: SearchButtonProps) {
+export default function SearchButton({ alone = false }: SearchButtonProps) {
   const t = useTranslations("home.SearchSection");
   const { loading } = useQueryContext();
 
@@ -17,18 +17,13 @@ export default function SearchButton({ isAlone = false }: SearchButtonProps) {
         type="submit"
         disabled={loading}
         sx={
-          isAlone
+          !alone
             ? {
-                px: 5,
-                py: 2,
+                borderTopLeftRadius: { sm: 0 },
+                borderBottomLeftRadius: { sm: 0 },
+                height: { sm: "65px" },
               }
-            : {
-                borderTopLeftRadius: { xs: 4, sm: 0 },
-                borderBottomLeftRadius: { xs: 4, sm: 0 },
-                height: "65px",
-                py: 1.95,
-                px: 1.75,
-              }
+            : undefined
         }
       >
         {t("button")}

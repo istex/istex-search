@@ -2,7 +2,7 @@ import * as React from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Box, IconButton } from "@mui/material";
-import SearchBar from "./SearchBar";
+import SearchButton from "./SearchButton";
 import SearchTitle from "./SearchTitle";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import ErrorCard from "@/components/ErrorCard";
@@ -125,7 +125,12 @@ export default function ImportInput() {
     <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <SearchTitle />
 
-      <SearchBar>
+      <Box
+        sx={{
+          mt: 1,
+          display: { xs: "block", sm: "flex" },
+        }}
+      >
         <MultilineTextField
           name="import-input"
           required
@@ -176,7 +181,9 @@ export default function ImportInput() {
           style={{ display: "none" }}
           onChange={handleCorpusFile}
         />
-      </SearchBar>
+
+        <SearchButton />
+      </Box>
 
       {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
     </Box>

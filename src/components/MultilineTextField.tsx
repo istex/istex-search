@@ -112,11 +112,17 @@ const MultilineTextField = React.forwardRef<
           ...slotProps?.input,
         },
         htmlInput: {
-          onScroll: handleScroll,
-          // Dirty hack to avoid a flicker with the input height, explained here
-          // https://github.com/mui/material-ui/issues/23031
-          style: { minHeight: LINE_HEIGHT },
           ...slotProps?.htmlInput,
+          onScroll: handleScroll,
+          style: {
+            // TODO: investigate this TypeScript error more and make an MUI issue if needed
+            // @ts-expect-error The type of slotProps.htmlInput is incorrect and TypeScript doesn't know style exists
+            ...slotProps?.htmlInput?.style,
+
+            // Dirty hack to avoid a flicker with the input height, explained here
+            // https://github.com/mui/material-ui/issues/23031
+            height: LINE_HEIGHT,
+          },
         },
       }}
       {...rest}

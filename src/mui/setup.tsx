@@ -18,9 +18,9 @@ interface MuiSetupProps {
 const { vars, ...themeWithoutVars } = theme;
 
 export default function MuiSetup({ locale, children }: MuiSetupProps) {
-  const themeWithLocale = React.useMemo(
-    () => createTheme(themeWithoutVars, locales[localeToMuiImportName(locale)]),
-    [locale],
+  const themeWithLocale = createTheme(
+    themeWithoutVars,
+    locales[localeToMuiImportName(locale)],
   );
 
   return (

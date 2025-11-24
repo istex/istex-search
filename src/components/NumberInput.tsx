@@ -17,16 +17,8 @@ function NumericFormatCustom(
 ) {
   const { decimalSeparator, thousandSeparator, value, ref, ...rest } = props;
   const locale = useLocale();
-
-  const defaultThousandSeparator = React.useMemo(
-    () => getThousandSeparator(locale),
-    [locale],
-  );
-
-  const defaultDecimalSeparator = React.useMemo(
-    () => getDecimalSeparator(locale),
-    [locale],
-  );
+  const defaultThousandSeparator = getThousandSeparator(locale);
+  const defaultDecimalSeparator = getDecimalSeparator(locale);
 
   return (
     <NumericFormat

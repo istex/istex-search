@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useTranslations } from "next-intl";
 import { Box, Stack, Typography, type StackProps } from "@mui/material";
 import FileButton from "./FileButton";
@@ -14,41 +13,38 @@ export default function FileList({ document, direction, gap }: FileListProps) {
   const t = useTranslations("results.Document");
   const externalPdfUrl = getExternalPdfUrl(document);
 
-  const data = React.useMemo(
-    () => ({
-      fulltext: document.fulltext?.map((file) => ({
-        ...file,
-        enrichmentName: null,
-      })),
-      metadata: document.metadata?.map((file) => ({
-        ...file,
-        enrichmentName: null,
-      })),
-      annexes: document.annexes?.map((file) => ({
-        ...file,
-        enrichmentName: null,
-      })),
-      enrichments:
-        document.enrichments != null
-          ? Object.entries(document.enrichments).map((enrichment) => ({
-              enrichmentName: enrichment[0],
-              extension: enrichment[1][0].extension,
-              uri: enrichment[1][0].uri,
-            }))
-          : undefined,
-      openAccess:
-        externalPdfUrl != null
-          ? [
-              {
-                extension: "openAccess",
-                uri: externalPdfUrl.href,
-                enrichmentName: null,
-              },
-            ]
-          : undefined,
-    }),
-    [document, externalPdfUrl],
-  );
+  const data = {
+    fulltext: document.fulltext?.map((file) => ({
+      ...file,
+      enrichmentName: null,
+    })),
+    metadata: document.metadata?.map((file) => ({
+      ...file,
+      enrichmentName: null,
+    })),
+    annexes: document.annexes?.map((file) => ({
+      ...file,
+      enrichmentName: null,
+    })),
+    enrichments:
+      document.enrichments != null
+        ? Object.entries(document.enrichments).map((enrichment) => ({
+            enrichmentName: enrichment[0],
+            extension: enrichment[1][0].extension,
+            uri: enrichment[1][0].uri,
+          }))
+        : undefined,
+    openAccess:
+      externalPdfUrl != null
+        ? [
+            {
+              extension: "openAccess",
+              uri: externalPdfUrl.href,
+              enrichmentName: null,
+            },
+          ]
+        : undefined,
+  };
 
   return (
     <Stack

@@ -11,10 +11,7 @@ type MultilineTextFieldProps = TextFieldProps & {
   errorLines?: number[];
 };
 
-const MultilineTextField = React.forwardRef<
-  HTMLDivElement,
-  MultilineTextFieldProps
->(function MultilineTextField(props, forwardedRef) {
+export default function MultilineTextField(props: MultilineTextFieldProps) {
   const lineNumbersRef = React.useRef<React.ComponentRef<"div">>(null);
   const {
     showLineNumbers = false,
@@ -102,7 +99,6 @@ const MultilineTextField = React.forwardRef<
 
   return (
     <TextField
-      ref={forwardedRef}
       onKeyDown={handleKeyDown}
       multiline
       slotProps={{
@@ -128,6 +124,4 @@ const MultilineTextField = React.forwardRef<
       {...rest}
     />
   );
-});
-
-export default MultilineTextField;
+}

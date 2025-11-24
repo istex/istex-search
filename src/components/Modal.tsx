@@ -5,9 +5,9 @@ import { useTranslations } from "next-intl";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
-  Slide,
   DialogTitle,
   IconButton,
+  Slide,
   type DialogProps,
   type SlideProps,
 } from "@mui/material";
@@ -34,16 +34,11 @@ export default function Modal(props: ModalProps) {
     ...rest
   } = props;
 
-  const Transition = React.useMemo(() => {
-    return React.forwardRef(function Transition(
-      transitionProps: TransitionProps & { children: React.ReactElement },
-      ref: React.Ref<unknown>,
-    ) {
-      return (
-        <Slide direction={slideDirection} ref={ref} {...transitionProps} />
-      );
-    });
-  }, [slideDirection]);
+  const Transition = (
+    transitionProps: TransitionProps & { children: React.ReactElement },
+  ) => {
+    return <Slide direction={slideDirection} {...transitionProps} />;
+  };
 
   return (
     <Dialog

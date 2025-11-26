@@ -15,7 +15,6 @@ COPY tsconfig.json ./
 COPY next.config.ts ./
 COPY package.json ./
 COPY public ./public
-COPY scripts ./scripts
 COPY src ./src
 RUN npm run build
 
@@ -28,11 +27,10 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
-# Copy the build from the previous stage and the start script
+# Copy the build from the previous stage
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./.next/standalone
-COPY --from=builder --chown=nextjs:nodejs /app/scripts/start-prod-server.sh .
 
 # Necessary to run in Kubernetes
 ENV HOSTNAME "0.0.0.0"
 
-ENTRYPOINT ["./start-prod-server.sh"]
+ENTRYPOINT ["node", ".next/standalone/server.js"]

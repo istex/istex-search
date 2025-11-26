@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "./scripts/build-for-prod.sh",
-    "start": "./scripts/start-prod-server.sh",
+    "build": "next build && cp -r .next/static .next/standalone/.next/static",
+    "start": "node .next/standalone/server.js",
     "format:check": "prettier --check .",
     "lint": "next typegen && eslint . --report-unused-disable-directives --max-warnings 0",
     "test": "jest"

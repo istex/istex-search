@@ -21,8 +21,10 @@ interface QueryContextValue {
   errorInfo?: CustomErrorInfo;
 }
 
-export interface QueryContextProps
-  extends Omit<QueryContextValue, "goToResultsPage"> {
+export interface QueryContextProps extends Omit<
+  QueryContextValue,
+  "goToResultsPage"
+> {
   children: React.ReactNode;
 }
 

@@ -365,9 +365,14 @@
     "WaitingModal": {
       "title": "Téléchargement de votre corpus",
       "approximately": "environ",
-      "citationTitle": "Comment citer Istex\u00A0Search",
-      "citationContent": "Institut de l'information scientifique et technique\u00A0-\u00A0UAR76 (Inist\u2011CNRS) ({year})\u00A0: Istex\u00A0-\u00A0search.istex.fr",
       "closeModal": "Votre téléchargement a commencé, vous pouvez fermer cette fenêtre."
+    },
+    "Citation": {
+      "title": "Comment citer Istex\u00A0Search",
+      "copy": {
+        "aria-label": "Copier la citation dans le presse-papier",
+        "success": "Citation copiée dans le presse-papier."
+      }
     }
   },
   "help": {

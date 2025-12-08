@@ -4,14 +4,14 @@ import { Box, Tab, Tabs, type TabsProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { montserrat } from "@/mui/fonts";
 
-interface SelectorProps extends TabsProps {
-  options: readonly string[];
-  t: (key: string) => string;
+interface SelectorProps<T extends string> extends TabsProps {
+  options: readonly T[];
+  t: (key: T) => string;
   disabled?: boolean;
   value?: unknown; // Base type is any so we set to unknown so that eslint doesn't complain
 }
 
-export default function Selector(props: SelectorProps) {
+export default function Selector<T extends string>(props: SelectorProps<T>) {
   const { value, onChange, options, t, disabled, ...rest } = props;
 
   return (

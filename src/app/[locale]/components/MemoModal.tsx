@@ -58,7 +58,7 @@ const sections = [
   },
 ] as const;
 
-export default function HistoryModal({ open, onClose }: MemoModalProps) {
+export default function MemoModal({ open, onClose }: MemoModalProps) {
   const t = useTranslations("results.MemoModal");
 
   return (

@@ -21,7 +21,6 @@ export default function CopyButton(props: CopyButtonProps) {
     "aria-label": ariaLabel,
     clipboardText,
     successLabel,
-    sx,
     ...rest
   } = props;
   const t = useTranslations("CopyButton");
@@ -46,7 +45,7 @@ export default function CopyButton(props: CopyButtonProps) {
     }
 
     navigator.clipboard
-      .writeText(props.clipboardText)
+      .writeText(clipboardText)
       .then(() => {
         setCopyState("success");
       })
@@ -59,10 +58,9 @@ export default function CopyButton(props: CopyButtonProps) {
   return (
     <>
       <IconButton
-        title={props["aria-label"]}
-        aria-label={props["aria-label"]}
+        title={ariaLabel}
+        aria-label={ariaLabel}
         onClick={handleCopy}
-        sx={sx}
         {...rest}
       >
         <CopyIcon fontSize="inherit" />
@@ -77,7 +75,7 @@ export default function CopyButton(props: CopyButtonProps) {
           severity={copyState === "badEnv" ? "warning" : copyState}
           onClose={closeSnackbar}
         >
-          {copyState === "success" ? props.successLabel : t(copyState)}
+          {copyState === "success" ? successLabel : t(copyState)}
         </Alert>
       </Snackbar>
     </>

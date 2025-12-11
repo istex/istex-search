@@ -1,6 +1,15 @@
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
-import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  DialogContent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Citation from "./Citation";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
@@ -55,9 +64,22 @@ export default function WaitingModal({
 
           <Typography>{t("closeModal")}</Typography>
 
-          <Divider />
-
-          <Citation />
+          <Box>
+            <Accordion disableGutters>
+              <AccordionSummary
+                id="citation-accordion-header"
+                aria-controls="citation-accordion-header"
+                expandIcon={<ExpandMoreIcon />}
+              >
+                <Typography component="span" sx={{ fontWeight: "bold" }}>
+                  {t("citationTitle")}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ bgcolor: "white" }}>
+                <Citation />
+              </AccordionDetails>
+            </Accordion>
+          </Box>
         </Stack>
       </DialogContent>
     </Modal>

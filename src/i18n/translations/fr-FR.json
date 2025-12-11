@@ -365,10 +365,10 @@
     "WaitingModal": {
       "title": "Téléchargement de votre corpus",
       "approximately": "environ",
-      "closeModal": "Votre téléchargement a commencé, vous pouvez fermer cette fenêtre."
+      "closeModal": "Votre téléchargement a commencé, vous pouvez fermer cette fenêtre.",
+      "citationTitle": "Comment citer Istex\u00A0Search"
     },
     "Citation": {
-      "title": "Comment citer Istex\u00A0Search",
       "copy": {
         "aria-label": "Copier la citation dans le presse-papier",
         "success": "Citation copiée dans le presse-papier."

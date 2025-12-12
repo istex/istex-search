@@ -10,7 +10,7 @@ import {
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
-import NumberInput from "@/components/NumberInput";
+import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import { rangeComparators, type Comparator, type FieldNode } from "@/lib/ast";
 import fields, {
   fieldNames,
@@ -79,6 +79,18 @@ export default function Rule({
     enabled: requiresFetchingValues,
     retry: false,
   });
+
+  const commonNumberInputProps: NumberInputProps = {
+    format: isDateField
+      ? {
+          useGrouping: false,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }
+      : undefined,
+    size: "small",
+    sx: { width: "100%", ...fontFamilyStyle },
+  };
 
   const labelizeFieldName = (fieldName: FieldName) => {
     return tFields.has(`${fieldName}.ruleTitle`)
@@ -382,32 +394,20 @@ export default function Rule({
               >
                 {/* Min */}
                 <NumberInput
-                  size="small"
-                  fullWidth
+                  {...commonNumberInputProps}
                   label={t("minValue")}
-                  numericFormatProps={{
-                    decimalScale: 0,
-                    thousandSeparator: isDateField ? "" : undefined,
-                  }}
                   value={minValue}
-                  onChange={handleMinValueChange}
+                  onValueChange={handleMinValueChange}
                   error={displayErrors && minValue == null}
-                  sx={fontFamilyStyle}
                 />
 
                 {/* Max */}
                 <NumberInput
-                  size="small"
-                  fullWidth
+                  {...commonNumberInputProps}
                   label={t("maxValue")}
-                  numericFormatProps={{
-                    decimalScale: 0,
-                    thousandSeparator: isDateField ? "" : undefined,
-                  }}
                   value={maxValue}
-                  onChange={handleMaxValueChange}
+                  onValueChange={handleMaxValueChange}
                   error={displayErrors && maxValue == null}
-                  sx={fontFamilyStyle}
                 />
               </Stack>
             );
@@ -416,18 +416,12 @@ export default function Rule({
           // Number
           return (
             <NumberInput
-              size="small"
-              fullWidth
+              {...commonNumberInputProps}
               label={t("value")}
               placeholder={t("searchValue")}
-              numericFormatProps={{
-                decimalScale: 0,
-                thousandSeparator: isDateField ? "" : undefined,
-              }}
               value={numberValue}
-              onChange={handleNumberValueChange}
+              onValueChange={handleNumberValueChange}
               error={displayErrors && numberValue == null}
-              sx={fontFamilyStyle}
             />
           );
         }

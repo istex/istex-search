@@ -5,6 +5,7 @@ const config = {
     "^react(.*)$",
     "^next(.*)$",
     "<THIRD_PARTY_MODULES>",
+    "^@base-ui/react(.*)$",
     "^@mui/(.*)$",
     "^[./]",
     "^@/(.*)$",

@@ -88,17 +88,16 @@ export default function ResultsSettings() {
           {t("download")}
         </Box>
         <NumberInput
-          id="size-input"
           size="small"
           min={1}
           max={maxSize}
           slotProps={{
-            htmlInput: {
+            input: {
               "aria-labelledby": "size-input-label",
             },
           }}
           value={size}
-          onChange={handleChange}
+          onValueChange={handleChange}
         />
         <span>/&nbsp;{t("resultCount", { count: documentCount })}</span>
         {documentCount > maxSize && (

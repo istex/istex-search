@@ -55,15 +55,17 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const isValid =
     inputMode === "range" ? min != null && max != null : value != null;
   const commonNumberInputProps: NumberInputProps = {
-    variant: "outlined",
     size: "small",
-    color: "primary",
     disabled: isImportSearchMode,
     title: isImportSearchMode ? tResults("unavailableTitle") : undefined,
     hideActionButtons: true,
     step: hasDecimals ? 0.1 : undefined,
-    numericFormatProps: isDate
-      ? { decimalScale: 0, thousandSeparator: "" }
+    format: isDate
+      ? {
+          useGrouping: false,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }
       : undefined,
   };
 
@@ -181,7 +183,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
             {...commonNumberInputProps}
             placeholder={t("minPlaceholder")}
             value={min}
-            onChange={setMin}
+            onValueChange={setMin}
           />
           <Typography component="span" sx={{ verticalAlign: "middle" }}>
             {t("to")}
@@ -190,7 +192,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
             {...commonNumberInputProps}
             placeholder={t("maxPlaceholder")}
             value={max}
-            onChange={setMax}
+            onValueChange={setMax}
           />
         </Stack>
       ) : (
@@ -198,7 +200,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
           {...commonNumberInputProps}
           placeholder={t("valuePlaceholder")}
           value={value}
-          onChange={setValue}
+          onValueChange={setValue}
           sx={{ width: "50%" }}
         />
       )}

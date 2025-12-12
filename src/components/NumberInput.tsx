@@ -1,196 +1,142 @@
+"use client";
+
 import * as React from "react";
-import { NumericFormat, type NumericFormatProps } from "react-number-format";
 import { useLocale, useTranslations } from "next-intl";
+import { NumberField as BaseNumberField } from "@base-ui/react/number-field";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
+  FormControl,
   IconButton,
   InputAdornment,
-  Stack,
-  TextField,
-  type IconButtonProps,
-  type TextFieldProps,
+  InputLabel,
+  OutlinedInput,
+  type OutlinedInputProps,
+  type SxProps,
 } from "@mui/material";
 
-function NumericFormatCustom(
-  props: NumericFormatProps & { ref?: React.Ref<HTMLInputElement> },
-) {
-  const { decimalSeparator, thousandSeparator, value, ref, ...rest } = props;
-  const locale = useLocale();
-  const defaultThousandSeparator = getThousandSeparator(locale);
-  const defaultDecimalSeparator = getDecimalSeparator(locale);
+// This component is a placeholder for FormControl to correctly set the shrink label state on SSR.
+function SSRInitialFilled(_: BaseNumberField.Root.Props) {
+  return null;
+}
+SSRInitialFilled.muiName = "Input";
 
-  return (
-    <NumericFormat
-      {...rest}
-      value={value ?? ""} // We can't ever pass null to value because it breaks the shrink state of the label, so we pass empty string instead
-      getInputRef={ref}
-      thousandSeparator={thousandSeparator ?? defaultThousandSeparator}
-      decimalSeparator={decimalSeparator ?? defaultDecimalSeparator}
-    />
-  );
+export interface NumberInputProps extends BaseNumberField.Root.Props {
+  error?: boolean;
+  hideActionButtons?: boolean;
+  label?: React.ReactNode;
+  placeholder?: string;
+  size?: "small" | "medium";
+  slotProps?: OutlinedInputProps["slotProps"];
+  sx?: SxProps;
 }
 
-export type NumberInputProps = Omit<TextFieldProps, "onChange"> & {
-  hideActionButtons?: boolean;
-  max?: number;
-  min?: number;
-  numericFormatProps?: NumericFormatProps;
-  onChange?: (value: number | null) => void;
-  step?: number;
-  value?: number | null;
-};
-
-export function NumberInput(props: NumberInputProps) {
-  const t = useTranslations("NumberInput");
+export default function NumberInput(props: NumberInputProps) {
   const {
-    disabled = false,
+    error,
     hideActionButtons = false,
-    max = Infinity,
-    min = -Infinity,
-    numericFormatProps: numericFormatPropsProp,
-    onChange,
-    size,
+    id: idProp,
+    label,
+    placeholder,
+    size = "medium",
     slotProps,
-    step = 1,
-    value: valueProp,
+    sx,
     ...rest
   } = props;
-  const isControlled = valueProp !== undefined && onChange !== undefined;
+  const t = useTranslations("NumberInput");
+  const locale = useLocale();
 
-  // We use an internal state when the component is uncontrolled
-  const [fallbackValue, setFallbackValue] = React.useState(valueProp);
-  const value = isControlled ? valueProp : fallbackValue;
-  const setValue = isControlled ? onChange : setFallbackValue;
+  let id = React.useId();
+  if (idProp != null && idProp !== "") {
+    id = idProp;
+  }
 
-  const increment = () => {
-    // If we increment when the input is empty, we consider the previous value to be 0
-    const newValue = (value != null && !Number.isNaN(value) ? value : 0) + step;
+  const inputLabel = label != null && (
+    <InputLabel htmlFor={id}>{label}</InputLabel>
+  );
 
-    if (newValue > max) {
-      return;
-    }
-
-    setValue(newValue);
-  };
-
-  const decrement = () => {
-    // If we decrement when the input is empty, we consider the previous value to be 0
-    const newValue = (value != null && !Number.isNaN(value) ? value : 0) - step;
-
-    if (newValue < min) {
-      return;
-    }
-
-    setValue(newValue);
-  };
-
-  const numericFormatProps: NumericFormatProps = {
-    // We set a default to avoid displaying floating point errors when using a decimal step
-    decimalScale: 5,
-
-    // react-number-format doesn't provide min or max props so we do the checking here instead
-    isAllowed: ({ floatValue }) => {
-      if (floatValue == null) {
-        return true;
-      }
-
-      return floatValue >= min && floatValue <= max;
-    },
-
-    // Only add the min, max and step html attributes when the value isn't the default one
-    max: max !== Infinity ? max : undefined,
-    min: min !== -Infinity ? min : undefined,
-    step: step !== 1 ? step : undefined,
-
-    // Allow to increment with ArrowUp and decrement with ArrowDown
-    onKeyDown: (event) => {
-      if (event.key === "ArrowUp") {
-        increment();
-      } else if (event.key === "ArrowDown") {
-        decrement();
-      }
-    },
-
-    onValueChange: ({ floatValue }) => {
-      // When incrementing or decrementing, the value prop is already up to date
-      // so we make sure the value needs to be updated to prevent an unnecessary re-render
-      if (floatValue === value) {
-        return;
-      }
-
-      setValue(floatValue ?? null);
-    },
-    value,
-
-    ...numericFormatPropsProp,
-  };
-
-  const commonAdornmentButtonProps: IconButtonProps = {
-    edge: "end",
-    sx: { p: size !== "small" ? "1px" : 0 },
-  };
-
-  return (
-    <TextField
-      {...rest}
-      value={value ?? ""} // We can't ever pass null to value because it breaks the shrink state of the label, so we pass empty string instead
-      disabled={disabled}
-      size={size}
-      slotProps={{
-        ...slotProps,
-        input: {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-          inputComponent: NumericFormatCustom as any,
-          endAdornment: !hideActionButtons && (
-            <InputAdornment position="end">
-              <Stack>
-                <IconButton
-                  aria-label={t("incrementAriaLabel")}
-                  disabled={disabled || (value ?? 0) + step > max}
-                  onClick={increment}
-                  {...commonAdornmentButtonProps}
-                >
-                  <KeyboardArrowUpIcon fontSize={size} />
-                </IconButton>
-                <IconButton
-                  aria-label={t("decrementAriaLabel")}
-                  disabled={disabled || (value ?? 0) - step < min}
-                  onClick={decrement}
-                  {...commonAdornmentButtonProps}
-                >
-                  <KeyboardArrowDownIcon fontSize={size} />
-                </IconButton>
-              </Stack>
-            </InputAdornment>
-          ),
-          ...slotProps?.input,
+  const endAdornment = !hideActionButtons && (
+    <InputAdornment
+      position="end"
+      sx={{
+        flexDirection: "column",
+        maxHeight: "unset",
+        alignSelf: "stretch",
+        borderLeft: "1px solid",
+        borderColor: "divider",
+        ml: 0,
+        "& button": {
+          py: 0,
+          flex: 1,
+          borderRadius: 0.5,
         },
-        // @ts-expect-error The type should be React.ComponentProps<typeof inputComponent> but instead
-        // it is hard-coded to InputBaseComponentProps
-        htmlInput: { ...slotProps?.htmlInput, ...numericFormatProps },
       }}
-    />
+    >
+      <BaseNumberField.Increment
+        render={<IconButton size={size} aria-label={t("incrementAriaLabel")} />}
+      >
+        <KeyboardArrowUpIcon
+          fontSize={size}
+          sx={{ transform: "translateY(2px)" }}
+        />
+      </BaseNumberField.Increment>
+
+      <BaseNumberField.Decrement
+        render={<IconButton size={size} aria-label={t("decrementAriaLabel")} />}
+      >
+        <KeyboardArrowDownIcon
+          fontSize={size}
+          sx={{ transform: "translateY(-2px)" }}
+        />
+      </BaseNumberField.Decrement>
+    </InputAdornment>
   );
-}
 
-// Taken from here:
-// https://stackoverflow.com/questions/32054025/how-to-determine-thousands-separator-in-javascript#comments-77517574
-
-function getThousandSeparator(locale: string) {
   return (
-    new Intl.NumberFormat(locale)
-      .formatToParts(1234.5678)
-      .find((part) => part.type === "group")?.value ?? ""
+    <BaseNumberField.Root
+      {...rest}
+      locale={locale}
+      render={(props, state) => (
+        <FormControl
+          size={size}
+          ref={props.ref}
+          disabled={state.disabled}
+          required={state.required}
+          error={error}
+          variant="outlined"
+          sx={sx}
+        >
+          {props.children}
+        </FormControl>
+      )}
+    >
+      <SSRInitialFilled {...rest} />
+
+      {inputLabel}
+
+      <BaseNumberField.Input
+        id={id}
+        aria-invalid={error}
+        render={(props, state) => (
+          <OutlinedInput
+            label={label}
+            placeholder={placeholder}
+            inputRef={props.ref}
+            value={state.inputValue}
+            onBlur={props.onBlur}
+            onChange={props.onChange}
+            onKeyUp={props.onKeyUp}
+            onKeyDown={props.onKeyDown}
+            onFocus={props.onFocus}
+            slotProps={{
+              ...slotProps,
+              input: { ...props, ...slotProps?.input },
+            }}
+            endAdornment={endAdornment}
+            sx={{ pr: 0 }}
+          />
+        )}
+      />
+    </BaseNumberField.Root>
   );
 }
-
-function getDecimalSeparator(locale: string) {
-  return (
-    new Intl.NumberFormat(locale)
-      .formatToParts(1234.5678)
-      .find((part) => part.type === "decimal")?.value ?? "."
-  );
-}
-
-export default NumberInput;

@@ -41,10 +41,9 @@ export type BooleanComparator = BaseComparator;
 
 export type Comparator =
   | TextComparator
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   | LanguageComparator
   | NumberComparator
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents, @typescript-eslint/no-duplicate-type-constituents
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
   | BooleanComparator;
 
 export interface BaseNode {

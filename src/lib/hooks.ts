@@ -16,11 +16,8 @@ import type { Field } from "@/lib/fields";
 import { getAggregation } from "@/lib/istexApi";
 import { clamp } from "@/lib/utils";
 
-export function useSearchParams(
-  searchParams?: Awaited<PageProps<"/[locale]">["searchParams"]>,
-) {
-  const nextSearchParams = nextUseSearchParams();
-  const params = searchParams ?? nextSearchParams;
+export function useSearchParams() {
+  const params = nextUseSearchParams();
 
   return React.useMemo(() => new SearchParams(params), [params]);
 }

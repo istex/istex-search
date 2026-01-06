@@ -5,7 +5,7 @@ export const DISPLAY_PERF_METRICS =
   process.env.NODE_ENV !== "production";
 
 export const istexApiConfig = {
-  baseUrl: "https://api.istex.fr",
+  baseUrl: process.env.NEXT_PUBLIC_ISTEX_API_URL ?? "https://api.istex.fr",
   maxSize: 100_000,
   maxPaginationOffset: 10_000,
   queryStringMaxLength: 2_000,

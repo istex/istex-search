@@ -78,13 +78,13 @@ const CITATION_EXAMPLES = {
       {`TY  - COMP
 TI  - Istex Search - search.istex.fr
 AU  - Institut de l'information scientifique et technique - UAR76 (Inist-CNRS)
-DA  - 2025///
 PY  - 2025
 UR  - https://search.istex.fr
 KW  - corpus
 KW  - fouille de textes
 KW  - Istex
-KW  - publications scientifiques`}
+KW  - publications scientifiques
+ER  - `}
     </CitationContainer>
   ),
 } as const;

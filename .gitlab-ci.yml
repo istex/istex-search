@@ -6,7 +6,7 @@ include:
     file: docker-publish.yml
     inputs:
       image_name: istex/istex-search
-      registry: $CI_NEXUS_REGISTRY_URL:$CI_NEXUS_DOCKER_PORT
+      registry_url: $CI_NEXUS_REGISTRY_URL:$CI_NEXUS_DOCKER_PORT
 
 .is-working-branch: &is-working-branch
   if: $CI_COMMIT_REF_PROTECTED == "false" && $CI_PIPELINE_SOURCE != "merge_request_event"

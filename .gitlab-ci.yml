@@ -27,7 +27,7 @@ include:
 
 default:
   image:
-    name: node:24.11.0-alpine
+    name: node:24.13.0-alpine
   tags:
     - docker
   cache:

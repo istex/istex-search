@@ -44,7 +44,7 @@ export default function ImportInput() {
     setIdList(event.target.value);
   };
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
     setError(null);
 

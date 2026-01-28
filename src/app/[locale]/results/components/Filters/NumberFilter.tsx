@@ -86,7 +86,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
     setInputMode(value);
   };
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
 
     if (!isValid) {

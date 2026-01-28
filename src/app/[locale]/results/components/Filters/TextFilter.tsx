@@ -171,7 +171,7 @@ export default function TextFilter({ field }: TextFilterProps) {
     setSearchTerm(event.target.value);
   };
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
 
     // We start by removing the existing filters for the current field

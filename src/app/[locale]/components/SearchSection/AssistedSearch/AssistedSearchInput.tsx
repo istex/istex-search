@@ -47,7 +47,7 @@ export default function AssistedSearchInput() {
 
   const [childNodes, setChildNodes] = React.useState(rootNode.nodes);
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
     setError(null);
 

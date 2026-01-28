@@ -19,7 +19,7 @@ describe("SearchButton", () => {
   });
 
   it("calls the form onSubmit handler when clicking on the button", async () => {
-    const onSubmit = jest.fn((e: React.FormEvent) => {
+    const onSubmit = jest.fn((e: React.SubmitEvent) => {
       e.preventDefault();
     });
     render(

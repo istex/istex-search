@@ -24,7 +24,7 @@ export default function RegularSearchInput() {
   const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
 
     const trimmedQueryString = queryString.trim();

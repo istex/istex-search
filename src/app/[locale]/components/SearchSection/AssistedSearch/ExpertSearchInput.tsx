@@ -19,7 +19,7 @@ interface ExpertSearchInputProps {
   setErrorMessage: (errorMessage: string) => void;
   modalOpen: boolean;
   setModalOpen: (open: boolean) => void;
-  onSubmit: React.FormEventHandler;
+  onSubmit: React.SubmitEventHandler;
   hide: () => void;
 }
 
@@ -79,7 +79,7 @@ export default function ExpertSearchInput({
       </Stack>
 
       <Box sx={{ textAlign: "center" }}>
-        <Button type="submit" onClick={onSubmit}>
+        <Button type="submit" onSubmit={onSubmit}>
           {t("validate")}
         </Button>
       </Box>
@@ -88,7 +88,10 @@ export default function ExpertSearchInput({
         <DialogContent>{t("Dialog.content")}</DialogContent>
 
         <DialogActions sx={{ pt: 0 }}>
-          <Button onClick={onSubmit} autoFocus>
+          <Button
+            onClick={onSubmit as unknown as React.MouseEventHandler}
+            autoFocus
+          >
             {t("Dialog.confirm")}
           </Button>
         </DialogActions>

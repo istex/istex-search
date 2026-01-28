@@ -63,7 +63,7 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
     setValue(value);
   };
 
-  const handleSubmit: React.FormEventHandler = (event) => {
+  const handleSubmit: React.SubmitEventHandler = (event) => {
     event.preventDefault();
 
     const newFilters = getClearedFilters();

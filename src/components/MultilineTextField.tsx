@@ -39,7 +39,7 @@ export default function MultilineTextField(props: MultilineTextFieldProps) {
     // so we recreate this behavior but still allow to insert new lines by
     // pressing Shift+Enter
     if (onSubmit != null && event.key === "Enter" && !event.shiftKey) {
-      onSubmit(event);
+      onSubmit(event as unknown as React.SubmitEvent<HTMLDivElement>);
     }
   };
 

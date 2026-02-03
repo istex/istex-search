@@ -1,10 +1,10 @@
-import { customRender as render, screen, userEvent } from "../../test-utils";
 import Operator from "@/app/[locale]/components/SearchSection/AssistedSearch/Operator";
 import {
   getDefaultOperatorNode,
   getEmptyFieldNode,
   type OperatorNode,
 } from "@/lib/ast";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 
 const operatorNode = getDefaultOperatorNode();
 const fieldNode = getEmptyFieldNode();

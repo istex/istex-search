@@ -1,21 +1,21 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, Tooltip } from "@mui/material";
-import Sorting from "../Sorting";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import NumberInput from "@/components/NumberInput";
 import { istexApiConfig } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
-import type SearchParams from "@/lib/SearchParams";
 import {
   useDocumentCount,
   useMaxSize,
   useSearchParams,
   useSize,
 } from "@/lib/hooks";
+import type SearchParams from "@/lib/SearchParams";
 import { clamp, debounce } from "@/lib/utils";
+import Sorting from "../Sorting";
 
 export default function ResultsSettings() {
   const t = useTranslations("download.ResultsSettings");
@@ -28,7 +28,6 @@ export default function ResultsSettings() {
   const maxSize = useMaxSize();
   const [size, setSize] = React.useState<number | null>(useSize());
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateUrl = React.useCallback(
     // We debounce the URL update to avoid a roundtrip to the server on each change
     // and to make the input more reactive

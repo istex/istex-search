@@ -1,5 +1,3 @@
-import { useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -10,12 +8,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Citation from "./Citation";
+import Image from "next/image";
+import { useLocale, useTranslations } from "next-intl";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
 import { estimateArchiveSize } from "@/lib/formats";
 import { useSearchParams, useSize } from "@/lib/hooks";
 import { bytesToSize } from "@/lib/utils";
+import Citation from "./Citation";
 
 export default function WaitingModal({
   open,

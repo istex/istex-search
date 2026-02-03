@@ -1,13 +1,13 @@
+import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
+import { supportedIdTypes } from "@/config";
+import { useRouter } from "@/i18n/routing";
+import { buildQueryStringFromIds } from "@/lib/queryIds";
 import {
   customRender as render,
   screen,
   userEvent,
   waitFor,
 } from "../test-utils";
-import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
-import { supportedIdTypes } from "@/config";
-import { useRouter } from "@/i18n/routing";
-import { buildQueryStringFromIds } from "@/lib/queryIds";
 
 describe("ImportInput", () => {
   afterEach(jest.resetAllMocks);

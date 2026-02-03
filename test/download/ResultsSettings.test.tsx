@@ -1,13 +1,13 @@
+import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
+import { istexApiConfig } from "@/config";
+import { routing, useRouter } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
-import { istexApiConfig } from "@/config";
-import { routing, useRouter } from "@/i18n/routing";
-import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("ResultsSettings", () => {
   beforeEach(() => {
@@ -68,7 +68,6 @@ async function testModification(
   };
   render(<ResultsSettings />, { results });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const input = screen.getByRole("textbox");
   await userEvent.clear(input);
@@ -91,7 +90,6 @@ async function testAllButton(resultCount: number, expectedValue: number) {
   });
   render(<ResultsSettings />, { results });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const button = screen.getByRole("button", { name: "Tout" });
   await userEvent.click(button);

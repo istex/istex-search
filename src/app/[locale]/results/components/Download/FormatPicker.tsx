@@ -1,9 +1,9 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Box, FormControl, Grid, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import Checkbox from "@/components/Checkbox";
-import { type FormatCategoryName, DEFAULT_USAGE_NAME, formats } from "@/config";
+import { DEFAULT_USAGE_NAME, type FormatCategoryName, formats } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
 import {
@@ -107,8 +107,6 @@ function Format({ name, value, indeterminate }: FormatProps) {
     searchParams.setFormats(newFormats);
 
     history.populateCurrentRequest({
-      // Bug in the react compiler: https://github.com/facebook/react/issues/34834
-      // eslint-disable-next-line react-hooks/purity
       date: Date.now(),
       searchParams,
     });

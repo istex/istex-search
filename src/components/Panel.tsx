@@ -1,10 +1,10 @@
-import * as React from "react";
 import {
   Paper,
-  Typography,
   type PaperProps,
+  Typography,
   type TypographyProps,
 } from "@mui/material";
+import type * as React from "react";
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 

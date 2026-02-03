@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Box, Container, Link, Typography } from "@mui/material";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import notFoundImage from "@/../public/404.png";
 import RichText from "@/components/RichText";
 import { SEARCH_MODE_ASSISTED } from "@/config";

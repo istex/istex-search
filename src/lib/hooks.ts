@@ -1,8 +1,7 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
-import { useSearchParams as nextUseSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import SearchParams from "./SearchParams";
+import { useSearchParams as nextUseSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import { istexApiConfig } from "@/config";
 import {
   resetSelectedExcludedDocuments,
@@ -11,10 +10,11 @@ import {
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
-import { astContainsField, type AST } from "@/lib/ast";
+import { type AST, astContainsField } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { getAggregation } from "@/lib/istexApi";
 import { clamp } from "@/lib/utils";
+import SearchParams from "./SearchParams";
 
 export function useSearchParams() {
   const params = nextUseSearchParams();

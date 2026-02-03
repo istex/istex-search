@@ -1,20 +1,17 @@
-import * as React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Box,
   IconButton,
+  type IconButtonProps,
   InputAdornment,
   InputBase,
   Skeleton,
   Stack,
-  type IconButtonProps,
 } from "@mui/material";
-import ArrowDownIcon from "./ArrowDownIcon";
-import ArrowUpIcon from "./ArrowUpIcon";
-import ErrorUi from "./ErrorUi";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { useLocale, useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
@@ -26,6 +23,9 @@ import {
 } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
 import { areSetsEqual, labelizeIsoLanguage } from "@/lib/utils";
+import ArrowDownIcon from "./ArrowDownIcon";
+import ArrowUpIcon from "./ArrowUpIcon";
+import ErrorUi from "./ErrorUi";
 
 export interface TextFilterProps {
   field: Field & { type: "text" | "language" };
@@ -129,7 +129,6 @@ export default function TextFilter({ field }: TextFilterProps) {
   );
 
   const valueListRef = React.useRef(null);
-  // eslint-disable-next-line react-hooks/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: sortedValues.length,
     getScrollElement: () => valueListRef.current,

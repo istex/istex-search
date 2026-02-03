@@ -1,14 +1,14 @@
 import type { Locale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
+import { QueryProvider } from "@/contexts/QueryContext";
+import { redirect, routing } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
+import logger from "@/lib/logger";
+import SearchParams from "@/lib/SearchParams";
 import CorpusSection from "./components/CorpusSection";
 import CourseSection from "./components/CourseSection";
 import DownloadSection from "./components/DownloadSection";
 import SearchSection from "./components/SearchSection";
-import { QueryProvider } from "@/contexts/QueryContext";
-import { redirect, routing } from "@/i18n/routing";
-import SearchParams from "@/lib/SearchParams";
-import type { IstexApiResponse } from "@/lib/istexApi";
-import logger from "@/lib/logger";
 
 // This function tells Next.js to pre-render (at build time) all pages in this layout
 // for every supported locale

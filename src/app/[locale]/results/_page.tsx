@@ -1,6 +1,16 @@
+import { Stack } from "@mui/material";
 import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { Stack } from "@mui/material";
+import { DISPLAY_PERF_METRICS } from "@/config";
+import { redirect } from "@/i18n/routing";
+import CustomError from "@/lib/CustomError";
+import {
+  type GetResultsOptions,
+  getResults,
+  type IstexApiResponse,
+} from "@/lib/istexApi";
+import logger from "@/lib/logger";
+import SearchParams from "@/lib/SearchParams";
 import DownloadButton from "./components/DownloadButton";
 import Filters from "./components/Filters";
 import FilterTags from "./components/Filters/FilterTags";
@@ -9,16 +19,6 @@ import Panels from "./components/Panel/Panels";
 import PerfMetrics from "./components/PerfMetrics";
 import ResultGrid from "./components/ResultGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
-import { DISPLAY_PERF_METRICS } from "@/config";
-import { redirect } from "@/i18n/routing";
-import CustomError from "@/lib/CustomError";
-import SearchParams from "@/lib/SearchParams";
-import {
-  getResults,
-  type GetResultsOptions,
-  type IstexApiResponse,
-} from "@/lib/istexApi";
-import logger from "@/lib/logger";
 
 async function getTranslatedResults(
   options: GetResultsOptions,
@@ -74,7 +74,7 @@ export default async function ResultsPage(
     redirect({ href: "/", locale });
   }
 
-  let results;
+  let results: IstexApiResponse;
   try {
     results = await getTranslatedResults({
       queryString,
@@ -97,7 +97,7 @@ export default async function ResultsPage(
   }
 
   // Get the potential random seed in the pagination URLs sent by the API
-  let randomSeedToUse;
+  let randomSeedToUse: string | undefined;
   if (results.total > 0 && results.firstPageURI != null) {
     const firstPageUrl = new URL(results.firstPageURI);
     const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");

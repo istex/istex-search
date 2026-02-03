@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import { Box, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import * as React from "react";
+import { useQueryContext } from "@/contexts/QueryContext";
 import DocumentDetail from "./Document/DocumentDetail";
 import ResultCard from "./ResultCard";
 import ResultsToolbar from "./ResultsToolbar";
-import { useQueryContext } from "@/contexts/QueryContext";
 
 const COLUMN_COUNT_KEY = "columnState";
 const DEFAULT_COLUMN_COUNT = 2;

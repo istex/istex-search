@@ -4,19 +4,19 @@ import {
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
+  formats,
+  istexApiConfig,
   MAX_PER_PAGE,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
+  perPageOptions,
   SEARCH_MODE_ASSISTED,
   SEARCH_MODE_IMPORT,
   SEARCH_MODE_REGULAR,
-  formats,
-  istexApiConfig,
-  perPageOptions,
 } from "@/config";
+import { type AST, getEmptyAst } from "@/lib/ast";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
-import { getEmptyAst, type AST } from "@/lib/ast";
 
 describe("SearchParams class", () => {
   describe("getQueryString", () => {
@@ -30,7 +30,6 @@ describe("SearchParams class", () => {
       const qId = "invalid";
       const searchParams = new SearchParams({ q_id: qId });
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       expect(searchParams.getQueryString()).rejects.toEqual(
         new CustomError({ name: "QIdNotFoundError", qId }),
       );

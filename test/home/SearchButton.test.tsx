@@ -1,5 +1,5 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
 import SearchButton from "@/app/[locale]/components/SearchSection/SearchButton";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("SearchButton", () => {
   it("enables the button when loading is set to false", () => {

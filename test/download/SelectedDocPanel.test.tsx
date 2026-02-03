@@ -1,6 +1,6 @@
-import { act, customRender as render, screen, waitFor } from "../test-utils";
 import SelectedDocPanel from "@/app/[locale]/results/components/Download/SelectedDocPanel";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
+import { act, customRender as render, screen, waitFor } from "../test-utils";
 
 describe("SelectedDocPanel", () => {
   it("should render PanelTitle", () => {

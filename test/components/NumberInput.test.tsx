@@ -1,5 +1,5 @@
-import { customRender as render, screen } from "../test-utils";
 import NumberInput from "@/components/NumberInput";
+import { customRender as render, screen } from "../test-utils";
 
 describe("NumberInput", () => {
   it("puts the input in an error state when the error prop is true", () => {

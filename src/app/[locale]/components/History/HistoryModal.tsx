@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import {
   DialogActions,
   DialogContent,
@@ -8,10 +6,12 @@ import {
   TableContainer,
   Typography,
 } from "@mui/material";
-import HistoryItem from "./HistoryItem";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useHistoryContext } from "@/contexts/HistoryContext";
+import HistoryItem from "./HistoryItem";
 
 interface HistoryModalProps {
   open: boolean;

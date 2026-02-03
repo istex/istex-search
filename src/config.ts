@@ -1,4 +1,4 @@
-import { isValidDoi, isValidArk, isValidIstexId } from "./lib/utils";
+import { isValidArk, isValidDoi, isValidIstexId } from "./lib/utils";
 
 export const DISPLAY_PERF_METRICS =
   process.env.DISPLAY_PERF_METRICS != null ||

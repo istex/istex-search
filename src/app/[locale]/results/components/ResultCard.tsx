@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
@@ -11,13 +10,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import FileList from "./Document/FileList";
+import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
+import FileList from "./Document/FileList";
 
 interface ResultCardProps {
   index: number;

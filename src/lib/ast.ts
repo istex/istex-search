@@ -1,8 +1,8 @@
 import {
-  fieldTypes,
   type Field,
   type FieldName,
   type FieldType,
+  fieldTypes,
 } from "./fields";
 
 export const nodeTypes = ["node", "operator", "group"] as const;
@@ -43,7 +43,6 @@ export type Comparator =
   | TextComparator
   | LanguageComparator
   | NumberComparator
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
   | BooleanComparator;
 
 export interface BaseNode {
@@ -139,7 +138,7 @@ function fieldNodeToString(node: BaseFieldNode): string {
     return "";
   }
 
-  let result;
+  let result: string;
 
   if (node.fieldType === "text") {
     result = textNodeToString(node as TextNode);
@@ -147,9 +146,7 @@ function fieldNodeToString(node: BaseFieldNode): string {
     result = languageNodeToString(node as LanguageNode);
   } else if (node.fieldType === "number") {
     result = numberNodeToString(node as NumberNode);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  else if (node.fieldType === "boolean") {
+  } else if (node.fieldType === "boolean") {
     result = booleanNodeToString(node as BooleanNode);
   } else {
     throw new Error(

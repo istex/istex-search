@@ -1,18 +1,18 @@
-import { use } from "react";
-import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
 import { Box } from "@mui/material";
-import FloatingSideMenu from "./components/FloatingSideMenu";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import HelpButton from "./components/HelpButton";
-import Navbar from "./components/Navbar";
+import type { Metadata } from "next";
+import { type Locale, NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import * as React from "react";
 import CookieConsent from "@/components/CookieConsent";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
+import FloatingSideMenu from "./components/FloatingSideMenu";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import HelpButton from "./components/HelpButton";
+import Navbar from "./components/Navbar";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home.metadata");
@@ -24,13 +24,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout(props: LayoutProps<"/[locale]">) {
-  const params = use(props.params);
+  const params = React.use(props.params);
 
   return (
     <html lang={params.locale}>
       <body>
         <TanStackQueryProvider>
-          <MuiSetup locale={params.locale}>
+          <MuiSetup locale={params.locale as Locale}>
             <NextIntlClientProvider>
               <HistoryProvider>
                 <Navbar />

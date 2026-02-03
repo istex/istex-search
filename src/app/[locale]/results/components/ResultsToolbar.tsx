@@ -1,12 +1,12 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import TableRowsIcon from "@mui/icons-material/TableRows";
 import WindowIcon from "@mui/icons-material/Window";
 import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
+import { useSearchParams } from "@/lib/hooks";
 import PerPage from "./PerPage";
 import Sorting from "./Sorting";
-import { useSearchParams } from "@/lib/hooks";
 
 interface ResultsToolbarProps {
   columns: number;

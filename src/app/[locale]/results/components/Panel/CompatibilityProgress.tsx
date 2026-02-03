@@ -1,6 +1,6 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Grid, LinearProgress, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import { useQueryContext } from "@/contexts/QueryContext";
 
 interface CompatibilityProgressProps {

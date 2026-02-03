@@ -1,11 +1,11 @@
+import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
-import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("DownloadButton (download modal)", () => {
   it("disables the button when the query string is missing", () => {

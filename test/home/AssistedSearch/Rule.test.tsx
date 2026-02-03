@@ -1,18 +1,18 @@
-import * as React from "react";
-import { customRender as render, screen, userEvent } from "../../test-utils";
+import type * as React from "react";
 import Rule from "@/app/[locale]/components/SearchSection/AssistedSearch/Rule";
 import { getComparators } from "@/app/[locale]/components/SearchSection/AssistedSearch/RuleUtils";
 import {
-  textComparators,
-  numberComparators,
   booleanComparators,
-  getEmptyFieldNode,
   type FieldNode,
+  getEmptyFieldNode,
+  numberComparators,
+  textComparators,
 } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 
 describe("Rule", () => {
   const partialNode = getEmptyFieldNode();

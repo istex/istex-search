@@ -1,6 +1,5 @@
-import { useTranslations } from "next-intl";
 import { Grid, Link, Stack, Typography } from "@mui/material";
-import HighlightedUrl from "../HighlightedUrl";
+import { useTranslations } from "next-intl";
 import CopyButton from "@/components/CopyButton";
 import Panel, { PanelTitle } from "@/components/Panel";
 import { usages } from "@/config";
@@ -9,6 +8,7 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import { useSearchParams } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
 import { lineclamp } from "@/lib/utils";
+import HighlightedUrl from "../HighlightedUrl";
 
 const QUERY_MAX_SIZE = 256;
 

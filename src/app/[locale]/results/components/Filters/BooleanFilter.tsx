@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useLocale, useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   FormControl,
@@ -11,7 +9,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ErrorUi from "./ErrorUi";
+import { useLocale, useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
@@ -22,6 +21,7 @@ import {
 } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
 import { visuallyHidden } from "@/lib/utils";
+import ErrorUi from "./ErrorUi";
 
 export interface BooleanFilterProps {
   field: Field & { type: "boolean" };

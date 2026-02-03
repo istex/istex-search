@@ -1,13 +1,13 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import {
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   type SelectChangeEvent,
+  Stack,
 } from "@mui/material";
-import { perPageOptions, type PerPageOption } from "@/config";
+import { useTranslations } from "next-intl";
+import * as React from "react";
+import { type PerPageOption, perPageOptions } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";

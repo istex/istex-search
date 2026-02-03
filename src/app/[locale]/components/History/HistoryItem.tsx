@@ -1,5 +1,3 @@
-import { useLocale, useTranslations } from "next-intl";
-import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
@@ -7,16 +5,18 @@ import ShareIcon from "@mui/icons-material/Reply";
 import {
   Box,
   IconButton,
-  Stack,
-  Skeleton,
-  SvgIcon,
-  TableRow,
-  TableCell,
   type IconButtonProps,
+  Skeleton,
+  Stack,
+  SvgIcon,
+  TableCell,
+  TableRow,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
 import {
-  useHistoryContext,
   type HistoryEntry,
+  useHistoryContext,
 } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/routing";
 import { buildExtractParamsFromFormats } from "@/lib/formats";

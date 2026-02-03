@@ -1,21 +1,21 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Box, Stack } from "@mui/material";
-import SearchButton from "../SearchButton";
-import SearchTitle from "../SearchTitle";
-import ExpertSearchInput from "./ExpertSearchInput";
-import Group from "./Group";
-import QueryPanel from "./QueryPanel";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import ErrorCard from "@/components/ErrorCard";
 import { SEARCH_MODE_REGULAR } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
-import CustomError from "@/lib/CustomError";
 import {
   astContainsPartialNode,
   astToString,
   getEmptyFieldNode,
 } from "@/lib/ast";
+import CustomError from "@/lib/CustomError";
 import { useOnHomePage, useSearchParams } from "@/lib/hooks";
+import SearchButton from "../SearchButton";
+import SearchTitle from "../SearchTitle";
+import ExpertSearchInput from "./ExpertSearchInput";
+import Group from "./Group";
+import QueryPanel from "./QueryPanel";
 
 export default function AssistedSearchInput() {
   const tErrors = useTranslations("errors");
@@ -51,7 +51,7 @@ export default function AssistedSearchInput() {
     event.preventDefault();
     setError(null);
 
-    let newQueryString;
+    let newQueryString: string;
 
     // Use the expert query when in expert mode
     if (expertInputOpen) {
@@ -98,7 +98,6 @@ export default function AssistedSearchInput() {
     setChildNodes([getEmptyFieldNode()]);
   };
 
-  // eslint-disable-next-line react-hooks/immutability
   React.useEffect(() => {
     rootNode.nodes = childNodes;
   }, [rootNode, childNodes]);

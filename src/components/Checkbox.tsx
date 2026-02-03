@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  Checkbox as MuiCheckbox,
   FormControlLabel,
-  type CheckboxProps as MuiCheckboxProps,
   type FormControlLabelProps,
+  Checkbox as MuiCheckbox,
+  type CheckboxProps as MuiCheckboxProps,
 } from "@mui/material";
 import { styled, type Theme } from "@mui/material/styles";
 import IncludeIcon from "./IncludeIcon";

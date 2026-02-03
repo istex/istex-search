@@ -1,5 +1,5 @@
-import { customRender as render, screen } from "../test-utils";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
+import { customRender as render, screen } from "../test-utils";
 
 describe("DelayedCircularProgress", () => {
   it("displays a circular progress by default", () => {

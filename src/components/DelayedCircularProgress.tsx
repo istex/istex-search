@@ -1,8 +1,8 @@
 import {
   Box,
   CircularProgress,
-  Fade,
   type CircularProgressProps,
+  Fade,
 } from "@mui/material";
 
 interface DelayedCircularProgressProps extends CircularProgressProps {

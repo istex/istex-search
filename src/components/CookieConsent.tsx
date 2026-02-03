@@ -1,7 +1,7 @@
 "use client";
 
-import * as React from "react";
 import { useLocale, useMessages } from "next-intl";
+import * as React from "react";
 import * as cookieConsent from "vanilla-cookieconsent";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import { GlobalStyles } from "@mui/material";

@@ -1,9 +1,7 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Box, IconButton } from "@mui/material";
-import SearchButton from "./SearchButton";
-import SearchTitle from "./SearchTitle";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import SearchLogoUpload from "@/../public/id-search-upload.svg";
 import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
@@ -11,11 +9,14 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
 import {
   buildQueryStringFromIds,
+  type CorpusFileParsingResult,
+  getIdsFromQueryString,
   getIdTypeFromId,
   getIdTypeFromQueryString,
-  getIdsFromQueryString,
   parseCorpusFileContent,
 } from "@/lib/queryIds";
+import SearchButton from "./SearchButton";
+import SearchTitle from "./SearchTitle";
 
 export default function ImportInput() {
   const t = useTranslations("home.SearchSection.ImportInput");
@@ -57,7 +58,7 @@ export default function ImportInput() {
     }
 
     // The ID type of the whole list is based on the ID type of the first ID
-    let newQueryString;
+    let newQueryString: string;
     try {
       const newIdType = getIdTypeFromId(firstId);
       if (newIdType == null) {
@@ -99,7 +100,7 @@ export default function ImportInput() {
         return;
       }
 
-      let parsingResult;
+      let parsingResult: CorpusFileParsingResult;
       try {
         parsingResult = parseCorpusFileContent(corpusFileContent);
       } catch (err) {

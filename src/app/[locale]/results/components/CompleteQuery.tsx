@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { Container, Paper, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
 import CopyButton from "@/components/CopyButton";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";

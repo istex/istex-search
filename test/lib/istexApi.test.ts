@@ -1,8 +1,8 @@
 import {
-  MIN_PER_PAGE,
-  NO_FORMAT_SELECTED,
   corpusWithExternalFulltextLink,
   formats,
+  MIN_PER_PAGE,
+  NO_FORMAT_SELECTED,
 } from "@/config";
 import type { AST } from "@/lib/ast";
 import * as Module from "@/lib/istexApi";

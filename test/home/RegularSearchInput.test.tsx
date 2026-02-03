@@ -1,11 +1,11 @@
+import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
+import { useRouter } from "@/i18n/routing";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
-import { useRouter } from "@/i18n/routing";
 
 describe("RegularSearchInput", () => {
   beforeEach(jest.clearAllMocks);

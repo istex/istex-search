@@ -1,18 +1,18 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import {
   Box,
+  type BoxProps,
   Container,
   Link,
   Typography,
-  type BoxProps,
   type TypographyProps,
 } from "@mui/material";
-import CorpusGrid from "./CorpusGrid";
-import corpus from "./corpus";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import wires from "@/../public/wires.svg";
 import Button from "@/components/Button";
 import { usages } from "@/config";
+import CorpusGrid from "./CorpusGrid";
+import corpus from "./corpus";
 
 export default function CorpusSection() {
   const t = useTranslations("home.CorpusSection");

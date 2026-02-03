@@ -1,5 +1,5 @@
-import { createTheme } from "@mui/material/styles";
 import type { TypographyStyle } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import { montserrat, openSans } from "./fonts";
 

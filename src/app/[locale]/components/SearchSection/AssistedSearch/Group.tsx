@@ -1,18 +1,18 @@
-import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Box, Button as MuiButton, Stack } from "@mui/material";
-import Operator from "./Operator";
-import Rule from "./Rule";
+import { useTranslations } from "next-intl";
 import {
+  type FieldNode,
   getDefaultOperatorNode,
   getEmptyFieldNode,
   getEmptyGroupNode,
-  type FieldNode,
   type Node,
   type OperatorNode,
 } from "@/lib/ast";
+import Operator from "./Operator";
+import Rule from "./Rule";
 
 interface GroupProps {
   root?: boolean;

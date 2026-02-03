@@ -1,35 +1,35 @@
-import { ReadonlyURLSearchParams } from "next/navigation";
 import { md5 } from "js-md5";
-import CustomError from "./CustomError";
-import { getEmptyAst, type AST } from "./ast";
-import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
-import logger from "./logger";
-import { clamp, closest, isValidMd5 } from "./utils";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import {
+  type ArchiveType,
+  type CompressionLevel,
+  compressionLevels,
   DEFAULT_ARCHIVE_TYPE,
   DEFAULT_COMPRESSION_LEVEL,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   DEFAULT_USAGE_NAME,
+  istexApiConfig,
   MIN_PER_PAGE,
   NO_FORMAT_SELECTED,
-  SEARCH_MODE_REGULAR,
-  compressionLevels,
-  istexApiConfig,
+  type PerPageOption,
   perPageOptions,
   rankValues,
-  searchModes,
-  sortDir,
-  sortFields,
-  usages,
-  type ArchiveType,
-  type CompressionLevel,
-  type PerPageOption,
+  SEARCH_MODE_REGULAR,
   type SearchMode,
   type SortBy,
   type SortDir,
+  searchModes,
+  sortDir,
+  sortFields,
   type UsageName,
+  usages,
 } from "@/config";
+import { type AST, getEmptyAst } from "./ast";
+import CustomError from "./CustomError";
+import { buildExtractParamsFromFormats, parseExtractParams } from "./formats";
+import logger from "./logger";
+import { clamp, closest, isValidMd5 } from "./utils";
 
 type NextSearchParams = Awaited<PageProps<"/[locale]">["searchParams"]>;
 

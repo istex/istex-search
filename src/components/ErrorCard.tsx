@@ -1,5 +1,5 @@
+import { Alert, type AlertProps, AlertTitle, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { Alert, AlertTitle, Typography, type AlertProps } from "@mui/material";
 import type { CustomErrorInfo } from "@/lib/CustomError";
 
 interface ErrorCardProps extends Omit<AlertProps, "severity"> {

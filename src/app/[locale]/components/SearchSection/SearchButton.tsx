@@ -1,5 +1,5 @@
-import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
+import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { useQueryContext } from "@/contexts/QueryContext";
 

@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
@@ -11,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import type { ModalProps } from "@/components/Modal";
 

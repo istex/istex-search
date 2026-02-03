@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Box, IconButton, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import Panel from "@/components/Panel";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 

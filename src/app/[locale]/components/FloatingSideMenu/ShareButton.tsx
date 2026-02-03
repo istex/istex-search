@@ -1,10 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import ShareIcon from "@mui/icons-material/Reply";
-import FloatingSideButton from "./FloatingSideButton";
+import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/routing";
 import { useShare } from "@/lib/hooks";
+import FloatingSideButton from "./FloatingSideButton";
 
 export default function ShareButton() {
   const t = useTranslations("FloatingSideMenu");

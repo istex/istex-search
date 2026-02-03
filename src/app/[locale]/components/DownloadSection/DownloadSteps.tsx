@@ -1,8 +1,8 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { Container, Grid, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
 import { istexApiConfig } from "@/config";
 
 const NUMBER_OF_STEPS = 3;

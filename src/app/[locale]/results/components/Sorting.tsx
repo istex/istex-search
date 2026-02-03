@@ -1,15 +1,15 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
   IconButton,
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   type SelectChangeEvent,
+  Stack,
 } from "@mui/material";
-import { rankValues, sortFields, type SortBy } from "@/config";
+import { useTranslations } from "next-intl";
+import * as React from "react";
+import { rankValues, type SortBy, sortFields } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";

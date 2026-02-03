@@ -1,6 +1,6 @@
-import { customRender as render, screen } from "../test-utils";
 import CompleteQuery from "@/app/[locale]/results/components/CompleteQuery";
 import { createCompleteQuery } from "@/lib/istexApi";
+import { customRender as render, screen } from "../test-utils";
 
 describe("CompleteQuery", () => {
   it("displays the correct query", () => {

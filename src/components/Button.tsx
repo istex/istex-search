@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { Button as MuiButton } from "@mui/material";
 import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
-import { styled, type Palette } from "@mui/material/styles";
+import { type Palette, styled } from "@mui/material/styles";
+import type * as React from "react";
 import type { KeyOf } from "@/types/utility";
 
 interface CustomButtonProps extends MuiButtonProps {
@@ -19,46 +19,44 @@ function CustomButton(props: CustomButtonProps) {
   return <MuiButton variant={variant} {...rest} />;
 }
 
-const Button = styled(CustomButton)<CustomButtonProps>(({
-  variant,
-  mainColor,
-  secondaryColor,
-  theme,
-}) => {
-  const _mainColor = theme.vars.palette.colors[mainColor ?? "blue"];
-  const _secondaryColor = theme.vars.palette.colors[secondaryColor ?? "white"];
+const Button = styled(CustomButton)<CustomButtonProps>(
+  ({ variant, mainColor, secondaryColor, theme }) => {
+    const _mainColor = theme.vars.palette.colors[mainColor ?? "blue"];
+    const _secondaryColor =
+      theme.vars.palette.colors[secondaryColor ?? "white"];
 
-  if (variant === "outlined") {
-    return {
-      borderColor: _mainColor,
-      color: _mainColor,
-      "&:hover": {
-        backgroundColor: _mainColor,
+    if (variant === "outlined") {
+      return {
         borderColor: _mainColor,
-        color: _secondaryColor,
-      },
-    };
-  }
+        color: _mainColor,
+        "&:hover": {
+          backgroundColor: _mainColor,
+          borderColor: _mainColor,
+          color: _secondaryColor,
+        },
+      };
+    }
 
-  if (variant === "text") {
+    if (variant === "text") {
+      return {
+        color: _mainColor,
+        "&:hover": {
+          backgroundColor: theme.lighten(_mainColor, 0.85),
+        },
+      };
+    }
+
     return {
-      color: _mainColor,
+      backgroundColor: _mainColor,
+      color: _secondaryColor,
+      boxShadow: "none",
       "&:hover": {
-        backgroundColor: theme.lighten(_mainColor, 0.85),
+        background: `linear-gradient(to left, ${theme.lighten(_mainColor, 0.15)}, ${_mainColor})`,
+        backgroundColor: _mainColor,
+        boxShadow: "none",
       },
     };
-  }
-
-  return {
-    backgroundColor: _mainColor,
-    color: _secondaryColor,
-    boxShadow: "none",
-    "&:hover": {
-      background: `linear-gradient(to left, ${theme.lighten(_mainColor, 0.15)}, ${_mainColor})`,
-      backgroundColor: _mainColor,
-      boxShadow: "none",
-    },
-  };
-});
+  },
+);
 
 export default Button;

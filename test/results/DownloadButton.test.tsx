@@ -1,5 +1,5 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
 import DownloadButton from "@/app/[locale]/results/components/DownloadButton";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("DownloadButton (results page)", () => {
   it("opens the modal when clicking the button", async () => {

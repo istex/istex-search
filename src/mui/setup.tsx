@@ -1,16 +1,22 @@
 "use client";
 
-import * as React from "react";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
-import * as locales from "@mui/material/locale";
+import { frFR, type Localization } from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
+import type { Locale } from "next-intl";
+import type * as React from "react";
 import theme from "./theme";
 
 interface MuiSetupProps {
-  locale: string;
+  locale: Locale;
   children: React.ReactNode;
 }
+
+// Update this map if another locale is ever added
+const localeMap: Record<Locale, Localization> = {
+  "fr-FR": frFR,
+};
 
 // Using the theme as is throws with "`vars` is a private field used for CSS variables support." because the initial
 // call to createTheme generated the CSS variables so we need to remove them first.
@@ -18,10 +24,7 @@ interface MuiSetupProps {
 const { vars, ...themeWithoutVars } = theme;
 
 export default function MuiSetup({ locale, children }: MuiSetupProps) {
-  const themeWithLocale = createTheme(
-    themeWithoutVars,
-    locales[localeToMuiImportName(locale)],
-  );
+  const themeWithLocale = createTheme(themeWithoutVars, localeMap[locale]);
 
   return (
     <AppRouterCacheProvider>
@@ -31,10 +34,4 @@ export default function MuiSetup({ locale, children }: MuiSetupProps) {
       </ThemeProvider>
     </AppRouterCacheProvider>
   );
-}
-
-function localeToMuiImportName(locale: string) {
-  // locales follow the format '<lang>-<country>' and the MUI import name have
-  // the same format but without the hyphen
-  return locale.replace("-", "") as keyof typeof locales;
 }

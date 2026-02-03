@@ -1,6 +1,6 @@
-import * as React from "react";
+import { Box, type BoxProps, Stack } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { Box, Stack, type BoxProps } from "@mui/material";
+import * as React from "react";
 import CopyButton from "@/components/CopyButton";
 import Selector from "@/components/Selector";
 

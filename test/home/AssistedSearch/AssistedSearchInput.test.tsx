@@ -1,4 +1,8 @@
-import * as React from "react";
+import type * as React from "react";
+import AssistedSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/AssistedSearchInput";
+import ExpertSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/ExpertSearchInput";
+import { useRouter } from "@/i18n/routing";
+import type { AST } from "@/lib/ast";
 import {
   mockPathname,
   mockSearchParams,
@@ -6,10 +10,6 @@ import {
   screen,
   userEvent,
 } from "../../test-utils";
-import AssistedSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/AssistedSearchInput";
-import ExpertSearchInput from "@/app/[locale]/components/SearchSection/AssistedSearch/ExpertSearchInput";
-import { useRouter } from "@/i18n/routing";
-import type { AST } from "@/lib/ast";
 
 describe("AssistedSearchInput", () => {
   jest.setTimeout(30_000);

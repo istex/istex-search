@@ -1,5 +1,5 @@
-import type { Locale } from "next-intl";
 import type { SxProps } from "@mui/material";
+import type { Locale } from "next-intl";
 import { isoLanguagesToLabelize } from "@/config";
 import { routing } from "@/i18n/routing";
 

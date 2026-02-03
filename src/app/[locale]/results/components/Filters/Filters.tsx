@@ -1,26 +1,26 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
+  type AccordionProps,
   AccordionSummary,
   Stack,
-  Typography,
-  type AccordionProps,
   type SxProps,
+  Typography,
 } from "@mui/material";
-import BooleanFilter, { type BooleanFilterProps } from "./BooleanFilter";
-import NumberFilter, { type NumberFilterProps } from "./NumberFilter";
-import TextFilter, { type TextFilterProps } from "./TextFilter";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import Button from "@/components/Button";
 import type { AST, Node } from "@/lib/ast";
 import fields, { type Field } from "@/lib/fields";
 import { useApplyFilters, useSearchParams } from "@/lib/hooks";
 import { splitArray } from "@/lib/utils";
+import BooleanFilter, { type BooleanFilterProps } from "./BooleanFilter";
+import NumberFilter, { type NumberFilterProps } from "./NumberFilter";
+import TextFilter, { type TextFilterProps } from "./TextFilter";
 
 const FILTER_FIELDS = splitArray(
   fields.filter((field) => field.inFilters === true),

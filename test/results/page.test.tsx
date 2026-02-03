@@ -1,6 +1,6 @@
-import { renderAsync, screen } from "../test-utils";
 import ResultsPage from "@/app/[locale]/results/_page";
-import { routing, redirect } from "@/i18n/routing";
+import { redirect, routing } from "@/i18n/routing";
+import { renderAsync, screen } from "../test-utils";
 
 describe("Results page", () => {
   it("redirects to home page when no query string is found", async () => {

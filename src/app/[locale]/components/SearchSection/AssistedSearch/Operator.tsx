@@ -1,13 +1,13 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Box, MenuItem, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import {
   DEFAULT_OPERATOR,
-  operators,
   type Node,
   type OperatorNode,
   type Operator as OperatorType,
+  operators,
 } from "@/lib/ast";
 
 interface OperatorProps {

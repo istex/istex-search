@@ -1,5 +1,10 @@
+import { Divider, Grid, Stack } from "@mui/material";
 import * as React from "react";
-import { Grid, Divider, Stack } from "@mui/material";
+import Panel from "@/components/Panel";
+import { ARCHIVE_SIZE_THRESHOLD_WARNING } from "@/config";
+import { useDocumentContext } from "@/contexts/DocumentContext";
+import { estimateArchiveSize } from "@/lib/formats";
+import { useSearchParams, useSize } from "@/lib/hooks";
 import ArchiveSettings from "./ArchiveSettings";
 import ArchiveSizeWarning from "./ArchiveSizeWarning";
 import DownloadButton from "./DownloadButton";
@@ -8,11 +13,6 @@ import InfoPanels from "./InfoPanels";
 import ResultsSettings from "./ResultsSettings";
 import SelectedDocPanel from "./SelectedDocPanel";
 import UsageSelector from "./UsageSelector";
-import Panel from "@/components/Panel";
-import { ARCHIVE_SIZE_THRESHOLD_WARNING } from "@/config";
-import { useDocumentContext } from "@/contexts/DocumentContext";
-import { estimateArchiveSize } from "@/lib/formats";
-import { useSearchParams, useSize } from "@/lib/hooks";
 
 const ONE_GIGABYTE = 1 * 1024 * 1024 * 1024;
 

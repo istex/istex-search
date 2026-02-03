@@ -1,19 +1,18 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import {
   InputLabel,
   MenuItem,
   Select as MuiSelect,
-  Stack,
   type SelectChangeEvent,
   type SelectProps,
+  Stack,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
 import {
-  compressionLevels,
-  usages,
   type ArchiveType,
   type CompressionLevel,
+  compressionLevels,
+  usages,
 } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { usePathname, useRouter } from "@/i18n/routing";

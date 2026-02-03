@@ -1,13 +1,13 @@
+import FormatPicker from "@/app/[locale]/results/components/Download/FormatPicker";
+import { formats } from "@/config";
+import { useRouter } from "@/i18n/routing";
+import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import FormatPicker from "@/app/[locale]/results/components/Download/FormatPicker";
-import { formats } from "@/config";
-import { useRouter } from "@/i18n/routing";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("FormatPicker", () => {
   it("inserts the extract params in the URL when selecting a format", async () => {
@@ -63,7 +63,6 @@ async function testFormatSelection(
 ) {
   render(<FormatPicker />);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const jsonCheckbox = getCheckbox(checkboxName);
   await userEvent.click(jsonCheckbox);

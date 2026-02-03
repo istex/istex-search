@@ -1,8 +1,8 @@
-import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
+import { useTranslations } from "next-intl";
+import { useQueryContext } from "@/contexts/QueryContext";
 import Indicator from "./Indicator";
 import LanguageIndicator from "./LanguageIndicator";
-import { useQueryContext } from "@/contexts/QueryContext";
 
 export default function IndicatorPanelContent() {
   const t = useTranslations("results.Panel");
@@ -63,7 +63,6 @@ export default function IndicatorPanelContent() {
             key: "other",
             docCount: otherLanguagesCount,
           },
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         ].filter((language) => language?.docCount > 0)}
         total={results.total}
       />

@@ -1,13 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Box, DialogContent } from "@mui/material";
-import DownloadForm from "./Download/DownloadForm";
-import WaitingModal from "./Download/WaitingModal";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { useDocumentCount } from "@/lib/hooks";
+import DownloadForm from "./Download/DownloadForm";
+import WaitingModal from "./Download/WaitingModal";
 
 export default function DownloadButton() {
   const t = useTranslations("results");

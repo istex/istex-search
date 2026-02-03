@@ -1,9 +1,9 @@
-import * as React from "react";
 import InfoIcon from "@mui/icons-material/Info";
 import { Stack, Tooltip, Typography } from "@mui/material";
-import RenderingMetric from "./RenderingMetric";
+import type * as React from "react";
 import Panel from "@/components/Panel";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import RenderingMetric from "./RenderingMetric";
 
 // Very arbitrary time in milliseconds below which we consider the fetch
 // call hit cache

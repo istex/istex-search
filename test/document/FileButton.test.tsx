@@ -1,7 +1,7 @@
-import { customRender as render, screen } from "../test-utils";
 import FileButton, {
   type FileButtonProps,
 } from "@/app/[locale]/results/components/Document/FileButton";
+import { customRender as render, screen } from "../test-utils";
 
 describe("FileButton", () => {
   const defaultProps: FileButtonProps = {

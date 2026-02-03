@@ -1,3 +1,4 @@
+import CopyButton from "@/components/CopyButton";
 import {
   mockIsSecureContext,
   customRender as render,
@@ -5,7 +6,6 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import CopyButton from "@/components/CopyButton";
 
 describe("CopyButton", () => {
   it("shows a success message when navigator.clipboard.writeText() succeeds", async () => {

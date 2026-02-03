@@ -1,8 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import { Box, TextField, type TextFieldProps } from "@mui/material";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import * as React from "react";
 
 const LINE_HEIGHT = 23;
 
@@ -25,7 +25,6 @@ export default function MultilineTextField(props: MultilineTextFieldProps) {
   const lineCount =
     typeof props.value === "string" ? props.value.split("\n").length : 0;
   const digitCount = Math.floor(Math.log10(lineCount) + 1);
-  // eslint-disable-next-line react-hooks/incompatible-library
   const rowVirtualizer = useVirtualizer({
     count: lineCount,
     getScrollElement: () => lineNumbersRef.current,

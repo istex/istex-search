@@ -1,7 +1,7 @@
+import { Box, Stack, type StackProps, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { Box, Stack, Typography, type StackProps } from "@mui/material";
-import FileButton from "./FileButton";
 import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
+import FileButton from "./FileButton";
 
 interface FileListProps {
   document: Result;

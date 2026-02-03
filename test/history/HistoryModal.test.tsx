@@ -1,10 +1,10 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
 import HistoryModal from "@/app/[locale]/components/History/HistoryModal";
 import {
-  useHistoryContext,
   type HistoryEntry,
+  useHistoryContext,
 } from "@/contexts/HistoryContext";
 import SearchParams from "@/lib/SearchParams";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("HistoryModal", () => {
   const history = useHistoryContext();

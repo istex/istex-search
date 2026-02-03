@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -14,6 +12,8 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import navbarLinks from "./navbarLinks";
 
 export default function Navbar() {

@@ -1,15 +1,15 @@
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
 import DownloadForm from "@/app/[locale]/results/components/Download/DownloadForm";
 import {
   resetSelectedExcludedDocuments,
   type SelectedDocument,
 } from "@/contexts/DocumentContext";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import {
+  mockSearchParams,
+  customRender as render,
+  screen,
+  userEvent,
+} from "../test-utils";
 
 describe("DownloadForm", () => {
   it("doesn't render SelectedDocPanel when no documents are selected", () => {

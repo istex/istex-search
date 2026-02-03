@@ -1,10 +1,10 @@
 import {
-  NO_FORMAT_SELECTED,
-  formats,
-  formatSizes,
   type ArchiveType,
   type CompressionLevel,
   type FormatCategoryName,
+  formatSizes,
+  formats,
+  NO_FORMAT_SELECTED,
 } from "@/config";
 
 // The selected formats are represented as an integer where each bit represents a format
@@ -108,7 +108,6 @@ export function parseExtractParams(extractParams: string) {
     // If formatCategory does not contain '[' and ']', it means it's 'covers' or 'annexes'
     if (indexOfOpeningBracket === -1 || indexOfClosingBracket === -1) {
       const formatCategoryName = formatCategory as keyof typeof formats.others;
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (formats.others[formatCategoryName] != null) {
         selectedFormats = selectFormat(
           selectedFormats,
@@ -138,7 +137,6 @@ export function parseExtractParams(extractParams: string) {
         // @ts-expect-error TypeScript is not happy here because currentCategoryFormat is
         // just a regular string but the filter above makes sure currentCategoryFormat is
         // in formats[formatCategoryName]
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         formats[formatCategoryName][currentCategoryFormat],
       );
     }

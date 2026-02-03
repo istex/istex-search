@@ -1,5 +1,5 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
 import Modal from "@/components/Modal";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("Modal", () => {
   it("renders the title in a heading tag", () => {

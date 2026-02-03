@@ -1,5 +1,5 @@
-import * as React from "react";
 import { useTranslations } from "next-intl";
+import type * as React from "react";
 import Button from "@/components/Button";
 import { NO_FORMAT_SELECTED } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";

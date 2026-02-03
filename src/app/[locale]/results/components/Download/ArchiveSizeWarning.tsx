@@ -1,5 +1,5 @@
+import { Alert, type AlertProps, AlertTitle, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { Alert, AlertTitle, Typography, type AlertProps } from "@mui/material";
 import { ARCHIVE_SIZE_THRESHOLD_ERROR } from "@/config";
 
 interface ArchiveSizeWarningProps {

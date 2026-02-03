@@ -1,23 +1,23 @@
 import { md5 } from "js-md5";
-import CustomError from "./CustomError";
-import { astContainsField, astToString, type AST } from "./ast";
-import { buildExtractParamsFromFormats } from "./formats";
 import {
+  type ArchiveType,
+  type CompressionLevel,
+  corpusWithExternalFulltextLink,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
   DISPLAY_PERF_METRICS,
-  MIN_PER_PAGE,
-  corpusWithExternalFulltextLink,
   istexApiConfig,
-  rankValues,
-  type ArchiveType,
-  type CompressionLevel,
+  MIN_PER_PAGE,
   type PerPageOption,
+  rankValues,
   type SortBy,
   type SortDir,
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
 import fields, { type Field, type FieldName } from "@/lib/fields";
+import { type AST, astContainsField, astToString } from "./ast";
+import CustomError from "./CustomError";
+import { buildExtractParamsFromFormats } from "./formats";
 
 export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
 

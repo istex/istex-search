@@ -1,5 +1,5 @@
-import { useTranslations } from "next-intl";
 import { Box, Container, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
 import courseImage from "@/../public/courses.webp";
 import Button from "@/components/Button";
 

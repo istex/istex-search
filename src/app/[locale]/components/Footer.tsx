@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Box, Container, Stack } from "@mui/material";
+import Image from "next/image";
 import abesLogo from "@/../public/abes.svg";
 import cnrsLogo from "@/../public/cnrs.svg";
 import couperinLogo from "@/../public/couperin.svg";

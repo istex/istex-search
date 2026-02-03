@@ -1,10 +1,10 @@
+import InfoPanels from "@/app/[locale]/results/components/Download/InfoPanels";
+import { buildResultPreviewUrl } from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
   screen,
 } from "../test-utils";
-import InfoPanels from "@/app/[locale]/results/components/Download/InfoPanels";
-import { buildResultPreviewUrl } from "@/lib/istexApi";
 
 describe("InfoPanels", () => {
   it("displays the correct usage panel based on the usage in the URL", () => {

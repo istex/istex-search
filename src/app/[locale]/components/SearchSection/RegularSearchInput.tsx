@@ -1,14 +1,14 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import { Box } from "@mui/material";
-import ExampleList from "./ExampleList";
-import SearchButton from "./SearchButton";
-import SearchTitle from "./SearchTitle";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
 import { useOnHomePage } from "@/lib/hooks";
+import ExampleList from "./ExampleList";
+import SearchButton from "./SearchButton";
+import SearchTitle from "./SearchTitle";
 
 export default function RegularSearchInput() {
   const t = useTranslations("home.SearchSection.RegularSearchInput");

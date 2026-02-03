@@ -1,15 +1,15 @@
 "use client";
 
 import { Container } from "@mui/material";
-import AssistedSearchInput from "./AssistedSearch/AssistedSearchInput";
-import ImportInput from "./ImportInput";
-import RegularSearchInput from "./RegularSearchInput";
 import {
   SEARCH_MODE_ASSISTED,
   SEARCH_MODE_IMPORT,
   SEARCH_MODE_REGULAR,
 } from "@/config";
 import { useSearchParams } from "@/lib/hooks";
+import AssistedSearchInput from "./AssistedSearch/AssistedSearchInput";
+import ImportInput from "./ImportInput";
+import RegularSearchInput from "./RegularSearchInput";
 
 export default function SearchSection() {
   const searchParams = useSearchParams();

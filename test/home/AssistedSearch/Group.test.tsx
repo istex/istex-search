@@ -1,14 +1,14 @@
-import * as React from "react";
-import { customRender as render, screen, userEvent } from "../../test-utils";
+import type * as React from "react";
 import Group from "@/app/[locale]/components/SearchSection/AssistedSearch/Group";
 import {
+  type FieldNode,
   getDefaultOperatorNode,
   getEmptyFieldNode,
   getEmptyGroupNode,
-  type FieldNode,
   type Node,
   type OperatorNode,
 } from "@/lib/ast";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 
 const node = getEmptyGroupNode();
 

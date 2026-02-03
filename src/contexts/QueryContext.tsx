@@ -1,13 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { useHistoryContext } from "./HistoryContext";
 import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import { useRouter } from "@/i18n/routing";
 import type { CustomErrorInfo } from "@/lib/CustomError";
-import type SearchParams from "@/lib/SearchParams";
 import { useSearchParams } from "@/lib/hooks";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import type SearchParams from "@/lib/SearchParams";
+import { useHistoryContext } from "./HistoryContext";
 
 interface QueryContextValue {
   queryString: string;
@@ -21,10 +21,8 @@ interface QueryContextValue {
   errorInfo?: CustomErrorInfo;
 }
 
-export interface QueryContextProps extends Omit<
-  QueryContextValue,
-  "goToResultsPage"
-> {
+export interface QueryContextProps
+  extends Omit<QueryContextValue, "goToResultsPage"> {
   children: React.ReactNode;
 }
 

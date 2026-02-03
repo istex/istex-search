@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Box } from "@mui/material";
-import HelpModal from "./HelpModal";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import HelpIcon from "@/../public/help-icon.svg";
 import Button from "@/components/Button";
+import HelpModal from "./HelpModal";
 
 export default function HelpButton() {
   const t = useTranslations("help");

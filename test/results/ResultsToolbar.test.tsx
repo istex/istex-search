@@ -1,3 +1,5 @@
+import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
+import { useRouter } from "@/i18n/routing";
 import {
   mockPathname,
   mockSearchParams,
@@ -5,8 +7,6 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
-import { useRouter } from "@/i18n/routing";
 
 describe("ResultsToolbar", () => {
   beforeEach(() => {

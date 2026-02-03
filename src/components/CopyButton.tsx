@@ -1,14 +1,14 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import CopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Alert,
   IconButton,
-  Snackbar,
   type IconButtonProps,
+  Snackbar,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 
 interface CopyButtonProps extends IconButtonProps {
   "aria-label": string;

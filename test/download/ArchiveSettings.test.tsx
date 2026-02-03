@@ -1,10 +1,10 @@
+import ArchiveSettings from "@/app/[locale]/results/components/Download/ArchiveSettings";
+import { useRouter } from "@/i18n/routing";
 import {
   mockSearchParams,
   customRender as render,
   userEvent,
 } from "../test-utils";
-import ArchiveSettings from "@/app/[locale]/results/components/Download/ArchiveSettings";
-import { useRouter } from "@/i18n/routing";
 
 describe("ArchiveSettings", () => {
   it("changes the archive type in the URL when changing the select value", async () => {

@@ -1,5 +1,5 @@
+import { type SupportedIdType, supportedIdTypes } from "@/config";
 import CustomError from "./CustomError";
-import { supportedIdTypes, type SupportedIdType } from "@/config";
 
 const MAX_NUMBER_OF_ERRORS = 20;
 

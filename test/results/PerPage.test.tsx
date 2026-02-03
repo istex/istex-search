@@ -1,12 +1,12 @@
+import PerPage from "@/app/[locale]/results/components/PerPage";
+import { perPageOptions } from "@/config";
+import { useRouter } from "@/i18n/routing";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import PerPage from "@/app/[locale]/results/components/PerPage";
-import { perPageOptions } from "@/config";
-import { useRouter } from "@/i18n/routing";
 
 describe("PerPage", () => {
   it("changes the number of results per page when using the dropdown", async () => {

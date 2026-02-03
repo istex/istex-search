@@ -1,17 +1,17 @@
 "use client";
 
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Dialog,
+  type DialogProps,
   DialogTitle,
   IconButton,
   Slide,
-  type DialogProps,
   type SlideProps,
 } from "@mui/material";
 import type { TransitionProps } from "@mui/material/transitions";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 
 export interface ModalProps extends DialogProps {
   open: boolean; // Make open required

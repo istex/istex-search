@@ -1,3 +1,11 @@
+import TextFilter from "@/app/[locale]/results/components/Filters/TextFilter";
+import { useRouter } from "@/i18n/routing";
+import { type AST, getDefaultOperatorNode } from "@/lib/ast";
+import {
+  type Aggregation,
+  getAggregation,
+  type IstexApiResponse,
+} from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
@@ -5,14 +13,6 @@ import {
   userEvent,
   waitFor,
 } from "../../test-utils";
-import TextFilter from "@/app/[locale]/results/components/Filters/TextFilter";
-import { useRouter } from "@/i18n/routing";
-import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import {
-  getAggregation,
-  type Aggregation,
-  type IstexApiResponse,
-} from "@/lib/istexApi";
 
 describe("TextFilter", () => {
   it("automatically selects the values found in filters", () => {

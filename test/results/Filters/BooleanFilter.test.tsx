@@ -1,3 +1,7 @@
+import BooleanFilter from "@/app/[locale]/results/components/Filters/BooleanFilter";
+import { useRouter } from "@/i18n/routing";
+import { type AST, getDefaultOperatorNode } from "@/lib/ast";
+import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
@@ -5,10 +9,6 @@ import {
   userEvent,
   waitFor,
 } from "../../test-utils";
-import BooleanFilter from "@/app/[locale]/results/components/Filters/BooleanFilter";
-import { useRouter } from "@/i18n/routing";
-import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 
 describe("BooleanFilter", () => {
   it("automatically selects the value found in filters", () => {

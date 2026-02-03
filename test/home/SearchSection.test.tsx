@@ -1,10 +1,10 @@
+import SearchSection from "@/app/[locale]/components/SearchSection/SearchSection";
+import { SEARCH_MODE_ASSISTED, SEARCH_MODE_IMPORT } from "@/config";
 import {
   mockSearchParams,
   customRender as render,
   screen,
 } from "../test-utils";
-import SearchSection from "@/app/[locale]/components/SearchSection/SearchSection";
-import { SEARCH_MODE_IMPORT, SEARCH_MODE_ASSISTED } from "@/config";
 
 describe("SearchSection", () => {
   it("should render the RegularSearchInput", () => {

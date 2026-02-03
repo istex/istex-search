@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
-import CompatibilityProgress from "./CompatibilityProgress";
-import { usages, formats } from "@/config";
+import { formats, usages } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { isFormatSelected } from "@/lib/formats";
+import CompatibilityProgress from "./CompatibilityProgress";
 
 export default function CompatibilityPanelContent() {
   const { results } = useQueryContext();

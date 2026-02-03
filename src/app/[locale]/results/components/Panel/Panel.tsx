@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -7,6 +5,8 @@ import {
   AccordionSummary,
   Typography,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import { useQueryContext } from "@/contexts/QueryContext";
 
 export type PanelName = "indicators" | "compatibility";

@@ -1,19 +1,19 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import {
   MenuItem,
-  TextField,
-  Typography,
-  type TextFieldProps,
   type SxProps,
+  TextField,
+  type TextFieldProps,
+  Typography,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import {
   booleanComparators,
+  type Comparator,
   languageComparators,
   numberComparators,
   textComparators,
-  type Comparator,
 } from "@/lib/ast";
 import type { Field, FieldName } from "@/lib/fields";
 import { unique } from "@/lib/utils";
@@ -32,7 +32,6 @@ type AutocompleteInputProps = TextFieldProps & {
 export function AutocompleteInput(props: AutocompleteInputProps) {
   // NOTE: We still have to spread InputProps in slotProps.input because of a consistency problem about
   // the slotProps pattern in TextField described here https://github.com/mui/material-ui/issues/43573
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
   const { InputProps, isLoading = false, slotProps, ...rest } = props;
 
   return (

@@ -1,10 +1,10 @@
-import * as React from "react";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import ResultsPage from "./_page";
-import Loading from "./loading";
+import * as React from "react";
 import { redirect, routing } from "@/i18n/routing";
 import logger from "@/lib/logger";
+import ResultsPage from "./_page";
+import Loading from "./loading";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("results.metadata");

@@ -1,14 +1,14 @@
+import Filters from "@/app/[locale]/results/components/Filters";
+import { useRouter } from "@/i18n/routing";
+import { type AST, getDefaultOperatorNode } from "@/lib/ast";
+import fields from "@/lib/fields";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../../test-utils";
-import Filters from "@/app/[locale]/results/components/Filters";
-import { useRouter } from "@/i18n/routing";
-import { getDefaultOperatorNode, type AST } from "@/lib/ast";
-import fields from "@/lib/fields";
-import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("Filters", () => {
   it("expands the accordion when the field has an active filter", () => {

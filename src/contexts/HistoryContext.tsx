@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import type { SelectedDocument } from "./DocumentContext";
 import { DEFAULT_SORT_BY, NO_FORMAT_SELECTED } from "@/config";
-import SearchParams from "@/lib/SearchParams";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
+import SearchParams from "@/lib/SearchParams";
+import type { SelectedDocument } from "./DocumentContext";
 
 export interface HistoryEntry {
   date: number;

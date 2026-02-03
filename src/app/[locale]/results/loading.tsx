@@ -1,9 +1,9 @@
 "use client";
 
 import { Box, Skeleton, Stack } from "@mui/material";
-import ResultsPageShell from "./components/ResultsPageShell";
 import { MIN_PER_PAGE } from "@/config";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import ResultsPageShell from "./components/ResultsPageShell";
 
 export default function Loading() {
   let lastSavedQueryString = "";

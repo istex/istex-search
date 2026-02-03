@@ -1,7 +1,8 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
+import { IconButton, type SvgIconProps, Typography } from "@mui/material";
 import Image from "next/image";
-import { IconButton, Typography } from "@mui/material";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
+import OpenAccessIcon from "@/../public/open-access.svg";
 import BlankIcon from "./BlankIcon";
 import BmpIcon from "./BmpIcon";
 import GifIcon from "./GifIcon";
@@ -15,7 +16,6 @@ import TiffIcon from "./TiffIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
 import ZipIcon from "./ZipIcon";
-import OpenAccessIcon from "@/../public/open-access.svg";
 
 export interface FileButtonProps {
   category: string;
@@ -72,7 +72,7 @@ export default function FileButton({
 }
 
 function getIcon(extension: string) {
-  let Component;
+  let Component: (props: SvgIconProps) => React.ReactNode;
 
   switch (extension) {
     case "pdf":

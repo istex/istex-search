@@ -1,6 +1,6 @@
-import { customRender as render, screen, within } from "../test-utils";
 import CompatibilityPanelContent from "@/app/[locale]/results/components/Panel/CompatibilityPanelContent";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import { customRender as render, screen, within } from "../test-utils";
 
 describe("CompatibilityPanelContent", () => {
   const results: IstexApiResponse = {

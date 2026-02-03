@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Box, Container, Stack, Typography } from "@mui/material";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import headerBackground from "@/../public/header-background.webp";
 import istexSearchLogo from "@/../public/istex-search.svg";
 import RichText from "@/components/RichText";

@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import {
   Box,
   DialogActions,
@@ -6,6 +5,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
 import Modal from "@/components/Modal";
 import Panel, { type PanelProps } from "@/components/Panel";
 import RichText from "@/components/RichText";

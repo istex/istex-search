@@ -1,6 +1,6 @@
-import { customRender as render, screen, userEvent } from "../test-utils";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("ResultCard", () => {
   it("renders correctly", () => {

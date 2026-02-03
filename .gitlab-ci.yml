@@ -49,8 +49,7 @@ lint:
   rules:
     - *is-working-branch
   script:
-    - npm run format:check
-    - npm run lint
+    - npm run lint:ci
 
 build:
   stage: build

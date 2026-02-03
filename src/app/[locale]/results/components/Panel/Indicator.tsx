@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
 import { Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useTranslations } from "next-intl";
 import IndicatorChart from "./IndicatorChart";
 
 interface IndicatorProps {

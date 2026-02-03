@@ -1,12 +1,12 @@
+import FilterTags from "@/app/[locale]/results/components/Filters/FilterTags";
+import { useRouter } from "@/i18n/routing";
+import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../../test-utils";
-import FilterTags from "@/app/[locale]/results/components/Filters/FilterTags";
-import { useRouter } from "@/i18n/routing";
-import { getDefaultOperatorNode, type AST } from "@/lib/ast";
 
 describe("FilterTags", () => {
   it("renders a tag for each value of each active fitler", () => {

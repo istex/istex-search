@@ -1,6 +1,6 @@
-import { customRender as render, screen } from "../test-utils";
 import IndicatorPanelContent from "@/app/[locale]/results/components/Panel/IndicatorPanelContent";
 import type { IstexApiResponse } from "@/lib/istexApi";
+import { customRender as render, screen } from "../test-utils";
 
 describe("IndicatorPanelContent", () => {
   const results: IstexApiResponse = {

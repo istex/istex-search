@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
@@ -8,11 +7,12 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, IconButton, Stack, Typography } from "@mui/material";
-import FileList from "./FileList";
+import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useShare } from "@/lib/hooks";
+import FileList from "./FileList";
 
 const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 

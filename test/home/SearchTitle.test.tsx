@@ -1,3 +1,7 @@
+import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
+import { SEARCH_MODE_ASSISTED } from "@/config";
+import { useRouter } from "@/i18n/routing";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockPathname,
   mockSearchParams,
@@ -5,10 +9,6 @@ import {
   screen,
   userEvent,
 } from "../test-utils";
-import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
-import { SEARCH_MODE_ASSISTED } from "@/config";
-import { useRouter } from "@/i18n/routing";
-import type { IstexApiResponse } from "@/lib/istexApi";
 
 describe("SearchTitle", () => {
   it("highlights the currently selected search mode", () => {

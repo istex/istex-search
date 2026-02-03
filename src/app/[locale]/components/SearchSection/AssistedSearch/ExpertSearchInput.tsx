@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
@@ -8,6 +6,8 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import MultilineTextField from "@/components/MultilineTextField";

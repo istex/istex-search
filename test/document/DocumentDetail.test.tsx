@@ -1,3 +1,6 @@
+import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
+import ResultCard from "@/app/[locale]/results/components/ResultCard";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   customRender as render,
   screen,
@@ -5,9 +8,6 @@ import {
   waitFor,
   within,
 } from "../test-utils";
-import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
-import ResultCard from "@/app/[locale]/results/components/ResultCard";
-import type { IstexApiResponse } from "@/lib/istexApi";
 
 const dummyUri = "https://foo.bar/";
 const dummyUriWithSid = `${dummyUri}?sid=istex-search`;

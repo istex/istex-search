@@ -1,6 +1,6 @@
 import { Grid, Link, Paper, Typography } from "@mui/material";
-import corpus from "./corpus";
 import { montserrat } from "@/mui/fonts";
+import corpus from "./corpus";
 
 export default function CorpusGrid() {
   return (

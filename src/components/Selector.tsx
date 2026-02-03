@@ -8,7 +8,6 @@ interface SelectorProps<T extends string> extends TabsProps {
   options: readonly T[];
   t: (key: T) => string;
   disabled?: boolean;
-  value?: unknown; // Base type is any so we set to unknown so that eslint doesn't complain
 }
 
 export default function Selector<T extends string>(props: SelectorProps<T>) {

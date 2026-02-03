@@ -1,5 +1,3 @@
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Skeleton,
@@ -8,17 +6,19 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { toggleButtonClasses } from "@mui/material/ToggleButton";
 import { toggleButtonGroupClasses } from "@mui/material/ToggleButtonGroup";
-import { styled } from "@mui/material/styles";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import SearchByIdIcon from "@/../public/id-search.svg";
 import {
-  SEARCH_MODE_IMPORT,
   SEARCH_MODE_ASSISTED,
+  SEARCH_MODE_IMPORT,
   SEARCH_MODE_REGULAR,
-  searchModes,
   type SearchMode,
+  searchModes,
 } from "@/config";
 import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
@@ -34,7 +34,7 @@ export default function SearchTitle() {
   const onHomePage = useOnHomePage();
 
   const getTranslationKey = () => {
-    let key;
+    let key: string;
 
     switch (searchMode) {
       case SEARCH_MODE_REGULAR:

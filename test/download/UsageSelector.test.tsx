@@ -1,13 +1,13 @@
+import UsageSelector from "@/app/[locale]/results/components/Download/UsageSelector";
+import { usages } from "@/config";
+import { useRouter } from "@/i18n/routing";
+import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,
   customRender as render,
   screen,
   userEvent,
 } from "../test-utils";
-import UsageSelector from "@/app/[locale]/results/components/Download/UsageSelector";
-import { usages } from "@/config";
-import { useRouter } from "@/i18n/routing";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
 
 describe("UsageSelector", () => {
   it("automatically selects formats when selecting a usage", async () => {

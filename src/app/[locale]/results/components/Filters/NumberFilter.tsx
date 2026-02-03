@@ -1,8 +1,7 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Skeleton, Stack, Typography } from "@mui/material";
-import ErrorUi from "./ErrorUi";
+import { useTranslations } from "next-intl";
+import * as React from "react";
 import Button from "@/components/Button";
 import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import Selector from "@/components/Selector";
@@ -13,6 +12,7 @@ import {
   useApplyFilters,
   useSearchParams,
 } from "@/lib/hooks";
+import ErrorUi from "./ErrorUi";
 
 const INPUT_MODES = ["range", "value"] as const;
 type InputMode = (typeof INPUT_MODES)[number];

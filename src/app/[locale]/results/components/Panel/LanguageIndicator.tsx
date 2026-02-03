@@ -1,8 +1,8 @@
-import { useLocale, useTranslations } from "next-intl";
 import { Box, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import IndicatorChart from "./IndicatorChart";
+import { useLocale, useTranslations } from "next-intl";
 import { labelizeIsoLanguage } from "@/lib/utils";
+import IndicatorChart from "./IndicatorChart";
 
 interface LanguageIndicatorProps {
   label: string;

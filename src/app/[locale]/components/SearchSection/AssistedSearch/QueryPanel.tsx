@@ -1,11 +1,11 @@
-import * as React from "react";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { Box, Paper, Stack, Typography } from "@mui/material";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import type * as React from "react";
 import AssistedSearchIcon from "@/../public/assisted-search.svg";
 import ExpertSearchIcon from "@/../public/expert-search-icon.svg";
 import Button from "@/components/Button";
-import { astToString, type AST } from "@/lib/ast";
+import { type AST, astToString } from "@/lib/ast";
 
 interface QueryPanelProps {
   ast: AST;

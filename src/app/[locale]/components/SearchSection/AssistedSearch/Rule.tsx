@@ -1,24 +1,24 @@
-import * as React from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useQuery } from "@tanstack/react-query";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Autocomplete, IconButton, Stack, Tooltip } from "@mui/material";
 import { createFilterOptions } from "@mui/material/Autocomplete";
+import { useQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+import * as React from "react";
+import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
+import { type Comparator, type FieldNode, rangeComparators } from "@/lib/ast";
+import fields, {
+  type FieldName,
+  type FieldType,
+  fieldNames,
+} from "@/lib/fields";
+import { getPossibleValues } from "@/lib/istexApi";
+import { labelizeIsoLanguage } from "@/lib/utils";
 import {
   AutocompleteInput,
   FieldInputMenuItem,
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
-import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
-import { rangeComparators, type Comparator, type FieldNode } from "@/lib/ast";
-import fields, {
-  fieldNames,
-  type FieldName,
-  type FieldType,
-} from "@/lib/fields";
-import { getPossibleValues } from "@/lib/istexApi";
-import { labelizeIsoLanguage } from "@/lib/utils";
 
 interface RuleProps {
   displayErrors: boolean;
@@ -74,7 +74,7 @@ export default function Rule({
   const valueQuery = useQuery({
     queryKey: ["rule-value", fieldName],
     // React Query won't call the function if fieldName is null because it controls the enabled property
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // biome-ignore lint/style/noNonNullAssertion: reason
     queryFn: async () => await getPossibleValues(fieldName!),
     enabled: requiresFetchingValues,
     retry: false,
@@ -116,7 +116,7 @@ export default function Rule({
   // Custom search filter to search in the field title and description
   const fieldNameFilterOptions = createFilterOptions({
     stringify: (option: FieldName) =>
-      labelizeFieldName(option) + " " + tFields(`${option}.description`),
+      `${labelizeFieldName(option)} ${tFields(`${option}.description`)}`,
   });
 
   const valueQuerySortedValues = (valueQuery.data ?? []).toSorted((a, b) =>
@@ -353,10 +353,8 @@ export default function Rule({
           />
         )}
         renderOption={(renderProps, option) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const { key, ...rest } = renderProps;
 
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           return <FieldInputMenuItem key={key} option={option} {...rest} />;
         }}
       />

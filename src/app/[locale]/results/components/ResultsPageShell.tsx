@@ -1,9 +1,9 @@
-import * as React from "react";
 import { Container } from "@mui/material";
+import type * as React from "react";
+import { DocumentProvider } from "@/contexts/DocumentContext";
+import { type QueryContextProps, QueryProvider } from "@/contexts/QueryContext";
 import SearchSection from "../../components/SearchSection";
 import CompleteQuery from "./CompleteQuery";
-import { DocumentProvider } from "@/contexts/DocumentContext";
-import { QueryProvider, type QueryContextProps } from "@/contexts/QueryContext";
 
 // It would be better to declare this in a layout but we need the query string which is fetched
 // in the search params, which are not available in a layout.

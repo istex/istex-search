@@ -1,7 +1,7 @@
 import {
   DEFAULT_COMPRESSION_LEVEL,
-  NO_FORMAT_SELECTED,
   formats,
+  NO_FORMAT_SELECTED,
 } from "@/config";
 import * as Module from "@/lib/formats";
 

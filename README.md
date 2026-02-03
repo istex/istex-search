@@ -4,14 +4,17 @@
 
 ## Prerequisites
 
-- Development: [Node.js >= 20.11](https://nodejs.org)
-- Production: [docker](https://www.docker.com)
+- Development:
+  - [Node.js >= 20.11](https://nodejs.org/)
+  - [pnpm](https://pnpm.io/) ([npm](https://www.npmjs.com/) also works but pnpm is preferred.)
+- Production:
+  - [docker](https://www.docker.com/)
 
 ## Development
 
 ```
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Then the development server is listening on [localhost:3000](http://localhost:3000).

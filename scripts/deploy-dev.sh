@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export DOCKER_BUILDKIT=1
+
 docker compose down
 if [ ! $? -eq 0 ]; then
   exit 1

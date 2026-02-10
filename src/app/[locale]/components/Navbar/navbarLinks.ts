@@ -10,7 +10,7 @@ const navbarLinks = {
     },
     {
       label: "documentaryDataset",
-      url: "https://documentary-dataset.data.istex.fr/",
+      url: "https://data.istex.fr/instance/documentary-dataset/",
     },
     {
       label: "specializedCorpus",

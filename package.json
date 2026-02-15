@@ -31,7 +31,7 @@
     "vanilla-cookieconsent": "3.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.13",
+    "@biomejs/biome": "2.3.15",
     "@testing-library/jest-dom": "^6.3.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.5.2",

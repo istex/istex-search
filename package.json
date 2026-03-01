@@ -21,7 +21,7 @@
     "@mui/material": "7.3.8",
     "@mui/material-nextjs": "7.3.8",
     "@tanstack/react-query": "5.90.21",
-    "@tanstack/react-virtual": "3.13.18",
+    "@tanstack/react-virtual": "3.13.19",
     "js-md5": "0.8.3",
     "next": "16.1.6",
     "next-intl": "4.8.2",

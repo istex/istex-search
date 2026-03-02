@@ -63,6 +63,7 @@ async function testFormatSelection(
 ) {
   render(<FormatPicker />);
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
   const router = useRouter();
   const jsonCheckbox = getCheckbox(checkboxName);
   await userEvent.click(jsonCheckbox);

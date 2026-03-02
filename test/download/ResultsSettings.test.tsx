@@ -68,6 +68,7 @@ async function testModification(
   };
   render(<ResultsSettings />, { results });
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
   const router = useRouter();
   const input = screen.getByRole("textbox");
   await userEvent.clear(input);
@@ -90,6 +91,7 @@ async function testAllButton(resultCount: number, expectedValue: number) {
   });
   render(<ResultsSettings />, { results });
 
+  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
   const router = useRouter();
   const button = screen.getByRole("button", { name: "Tout" });
   await userEvent.click(button);

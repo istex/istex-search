@@ -182,7 +182,7 @@ export function buildResultPreviewUrl({
     actualPerPage = istexApiConfig.maxPaginationOffset - from;
   }
 
-  const url = new URL("document", istexApiConfig.baseUrl);
+  const url = new URL("document", istexApiConfig.getBaseUrl());
   url.searchParams.set(
     "q",
     createCompleteQuery(
@@ -286,7 +286,7 @@ export async function getAggregation(
 ) {
   const finalQueryString = createCompleteQuery(queryString, filters);
 
-  const url = new URL("document", istexApiConfig.baseUrl);
+  const url = new URL("document", istexApiConfig.getBaseUrl());
   url.searchParams.set("size", "0");
   url.searchParams.set("sid", "istex-search");
   url.searchParams.set("facet", fieldToFacetParam(field));
@@ -356,7 +356,7 @@ export function buildFullApiUrl({
   archiveType,
   compressionLevel,
 }: BuildFullApiUrlOptions) {
-  const url = new URL("document", istexApiConfig.baseUrl);
+  const url = new URL("document", istexApiConfig.getBaseUrl());
 
   if (queryString != null) {
     const fullQueryString = createCompleteQuery(

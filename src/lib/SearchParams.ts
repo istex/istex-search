@@ -62,7 +62,7 @@ export default class SearchParams {
         throw new CustomError({ name: "QIdNotFoundError", qId });
       }
 
-      const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+      const url = new URL(`q_id/${qId}`, istexApiConfig.getBaseUrl());
 
       const response = await fetch(url);
       if (!response.ok) {
@@ -106,7 +106,7 @@ export default class SearchParams {
 
     if (queryString.length > istexApiConfig.queryStringMaxLength) {
       const qId = md5(queryString);
-      const url = new URL(`q_id/${qId}`, istexApiConfig.baseUrl);
+      const url = new URL(`q_id/${qId}`, istexApiConfig.getBaseUrl());
       const response = await fetch(url, {
         method: "POST",
         headers: {

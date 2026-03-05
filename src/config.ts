@@ -5,7 +5,21 @@ export const DISPLAY_PERF_METRICS =
   process.env.NODE_ENV !== "production";
 
 export const istexApiConfig = {
-  baseUrl: process.env.NEXT_PUBLIC_ISTEX_API_URL ?? "https://api.istex.fr",
+  getBaseUrl: () => {
+    const defaultBaseUrl = "https://api.istex.fr";
+
+    // Client side
+    if (typeof window !== "undefined") {
+      return "ISTEX_API_URL" in window &&
+        typeof window.ISTEX_API_URL === "string" &&
+        window.ISTEX_API_URL !== ""
+        ? window.ISTEX_API_URL
+        : defaultBaseUrl;
+    }
+
+    // Server side
+    return process.env.ISTEX_API_URL ?? defaultBaseUrl;
+  },
   maxSize: 100_000,
   maxPaginationOffset: 10_000,
   queryStringMaxLength: 2_000,

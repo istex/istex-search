@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { type Locale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import * as React from "react";
@@ -28,6 +29,13 @@ export default function RootLayout(props: LayoutProps<"/[locale]">) {
 
   return (
     <html lang={params.locale}>
+      {/* If the Istex API URL is overridden via an environment variable, we inject it into the window object */}
+      {process.env.ISTEX_API_URL && (
+        <Script id="inject-api-url" strategy="beforeInteractive">
+          {`window.ISTEX_API_URL = "${process.env.ISTEX_API_URL}"`}
+        </Script>
+      )}
+
       <body>
         <TanStackQueryProvider>
           <MuiSetup locale={params.locale as Locale}>

@@ -972,7 +972,8 @@
       "chapter": "Chapitre",
       "case-report": "Étude de cas",
       "collected-courses": "Recueil de cours",
-      "book": "Monographie"
+      "book": "Monographie",
+      "encyclopedia": "Entrée d'encyclopédie"
     }
   }
 }

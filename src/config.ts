@@ -50,6 +50,7 @@ export const corpusWithExternalFulltextLink = [
 ] as const;
 
 export const examples = [
+  '(abstract:Barbie title:Barbie subject.value:Barbie) AND publicationDate:[1959 TO 2024] NOT (abstract:("Klaus Barbie" "barbie box" "barbies boxes" "Barbie Zelizer" gene judicial)  title:("Klaus Barbie" "Barbie Zelizer" drosophila virus drugs) categories.scopus.raw:("3 - Cell Biology" "3 - Organic Chemistry"))',
   "(abstract:Montessori title:Montessori subject.value:Montessori) NOT (abstract:(dementia senior* Alzheimer* musculoskeletal) title:(dementia senior* Alzheimer* musculoskeletal) subject.value:(dementia senior* Alzheimer* musculoskeletal) categories.wos: veterinary)",
   '("loi Veil" AND 1975) OR ("loi Veil" AND "interruption volontaire de grossesse") OR "loi relative à l\'interruption volontaire de grossesse" NOT t?bac*',
   'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',

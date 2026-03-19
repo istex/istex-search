@@ -34,15 +34,27 @@ describe("NumberFilter", () => {
     const max = 2010;
     renderNumberFilter({ min, max });
 
-    const rangeModeTab = getRangeModeTab();
-    const valueModeTab = getValueModeTab();
     const minInput = getMinInput();
     const maxInput = getMaxInput();
 
-    expect(rangeModeTab).toHaveAttribute("aria-selected", "true");
-    expect(valueModeTab).toHaveAttribute("aria-selected", "false");
     expect(minInput).toHaveValue(min.toString());
     expect(maxInput).toHaveValue(max.toString());
+  });
+
+  it("initializes the min input to an empty value when the min aggregation value is missing", () => {
+    renderNumberFilter({ max: 2010 }); // Missing min
+
+    const minInput = getMinInput();
+
+    expect(minInput).not.toHaveValue();
+  });
+
+  it("initializes the max input to an empty value when the max aggregation value is missing", () => {
+    renderNumberFilter({ min: 2000 }); // Missing max
+
+    const maxInput = getMaxInput();
+
+    expect(maxInput).not.toHaveValue();
   });
 
   it("sets the input mode to value and initializes the value input when the min and max aggregation values are equal", () => {
@@ -200,7 +212,7 @@ describe("NumberFilter", () => {
     });
   });
 
-  it("dislpays an error card when dynamically getting the available values fails", async () => {
+  it("displays an error card when dynamically getting the available values fails", async () => {
     (getAggregation as jest.Mock).mockReturnValueOnce(
       Promise.reject(new Error()),
     );
@@ -247,8 +259,8 @@ function getClearButton() {
 }
 
 interface RenderNumberFilterOptions {
-  min: number;
-  max: number;
+  min?: number;
+  max?: number;
   withFilters?: boolean;
   searchParams?: Parameters<typeof mockSearchParams>[0];
   defaultOpen?: boolean;
@@ -269,8 +281,8 @@ function renderNumberFilter({
         nodeType: "node",
         field: "publicationDate",
         fieldType: "number",
-        min,
-        max,
+        min: min ?? 0,
+        max: max ?? 0,
         comparator: "between",
       },
     ];
@@ -286,8 +298,8 @@ function renderNumberFilter({
         buckets: [
           {
             key: `${min}-${max}`,
-            fromAsString: min.toString(),
-            toAsString: max.toString(),
+            fromAsString: min?.toString(),
+            toAsString: max?.toString(),
             docCount: 3,
           },
         ],

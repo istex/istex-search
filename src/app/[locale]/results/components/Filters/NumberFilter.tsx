@@ -12,6 +12,7 @@ import {
   useApplyFilters,
   useSearchParams,
 } from "@/lib/hooks";
+import type { Aggregation } from "@/lib/istexApi";
 import ErrorUi from "./ErrorUi";
 
 const INPUT_MODES = ["range", "value"] as const;
@@ -34,11 +35,11 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const aggregation = aggregationQuery.data?.[0];
   const initialMin =
     aggregation != null && isDate
-      ? Number(aggregation.fromAsString)
+      ? getDateAggregationMin(aggregation)
       : (aggregation?.from ?? null);
   const initialMax =
     aggregation != null && isDate
-      ? Number(aggregation.toAsString)
+      ? getDateAggregationMax(aggregation)
       : (aggregation?.to ?? null);
   const initialValue = initialMin === initialMax ? initialMin : null;
   const [min, setMin] = React.useState(initialMin);
@@ -237,6 +238,26 @@ function isMatchingNode(node: Node, field: Field) {
     node.fieldType === "number" &&
     node.field === field.name
   );
+}
+
+function getDateAggregationMin(
+  aggregation: Aggregation[string]["buckets"][number],
+) {
+  const fromAsNumber = Number(aggregation.fromAsString);
+
+  // The API might not return a fromAsString key in the bucket, in which case fromAsNumber
+  // is NaN and that's not acceptable for the NumberInput, but null is
+  return !Number.isNaN(fromAsNumber) ? fromAsNumber : null;
+}
+
+function getDateAggregationMax(
+  aggregation: Aggregation[string]["buckets"][number],
+) {
+  const toAsNumber = Number(aggregation.toAsString);
+
+  // The API might not return a toAsString key in the bucket, in which case toAsNumber
+  // is NaN and that's not acceptable for the NumberInput, but null is
+  return !Number.isNaN(toAsNumber) ? toAsNumber : null;
 }
 
 function LoadingSkeleton() {

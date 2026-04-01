@@ -21,6 +21,11 @@ import { buildExtractParamsFromFormats } from "./formats";
 
 export type AccessCondition = "isNotOpenAccess" | "isOpenAccess" | "unknown";
 
+export interface FileInfo {
+  extension: string;
+  uri: string;
+}
+
 export interface Result {
   id: string;
   corpusName: string;
@@ -39,25 +44,10 @@ export interface Result {
   genre?: string[];
   publicationDate?: string;
   arkIstex: string;
-  fulltext?: {
-    extension: string;
-    uri: string;
-  }[];
-  metadata?: {
-    extension: string;
-    uri: string;
-  }[];
-  annexes?: {
-    extension: string;
-    uri: string;
-  }[];
-  enrichments?: Record<
-    string,
-    {
-      extension: string;
-      uri: string;
-    }[]
-  >;
+  fulltext?: FileInfo[];
+  metadata?: FileInfo[];
+  annexes?: FileInfo[];
+  enrichments?: Record<string, FileInfo[]>;
 }
 
 export type Aggregation = Record<

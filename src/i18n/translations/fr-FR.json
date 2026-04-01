@@ -204,11 +204,12 @@
       "annexes": "Annexes",
       "enrichments": "Enrichissements",
       "openAccess": "Libre accès",
+      "istexView": "Istex\u00A0View",
       "selectDocument": "Sélectionner",
       "unselectDocument": "Désélectionner",
       "excludeDocument": "Exclure",
       "includeDocument": "Inclure",
-      "formatsLinks": {
+      "formatLinks": {
         "fulltext": "Accéder au texte intégral au format {extension}",
         "metadata": "Accéder aux métadonnées au format {extension}",
         "annexes": "Accéder à l'annexe au format {extension}",
@@ -218,7 +219,10 @@
         "nb": "Accéder aux catégories Inist générées par Nb au format {extension}",
         "grobidFulltext": "Accéder au texte structuré par Grobid au format {extension}",
         "refBibs": "Accéder aux références bibliographiques structurées par Grobid au format {extension}",
-        "openAccess": "Accéder à ce document sur sa plateforme d'origine"
+        "openAccess": "Accéder à ce document sur sa plateforme d'origine",
+        "openAccessAltText": "Icône libre accès",
+        "istexView": "Consulter et explorer le document XML TEI dans Istex\u00A0View",
+        "istexViewAltText": "Logo Istex View"
       }
     },
     "Panel": {

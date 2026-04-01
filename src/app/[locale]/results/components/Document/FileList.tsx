@@ -1,7 +1,16 @@
-import { Box, Stack, type StackProps, Typography } from "@mui/material";
+import { Box, Chip, Stack, type StackProps } from "@mui/material";
+import { alpha } from "@mui/material/styles";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
+import IstexViewIcon from "@/../public/istex-view.svg";
+import OpenAccessIcon from "@/../public/open-access.svg";
 import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
-import FileButton from "./FileButton";
+import { FileButtonRoot } from "./FileButton";
+import FileListCategory, {
+  FileListCategoryHeader,
+  type FileListCategoryProps,
+  FileListCategoryRoot,
+} from "./FileListCategory";
 
 interface FileListProps {
   document: Result;
@@ -12,39 +21,17 @@ interface FileListProps {
 export default function FileList({ document, direction, gap }: FileListProps) {
   const t = useTranslations("results.Document");
   const externalPdfUrl = getExternalPdfUrl(document);
+  const istexViewUrl = new URL("https://view.istex.fr");
+  istexViewUrl.hash = encodeURIComponent(document.arkIstex);
 
-  const data = {
-    fulltext: document.fulltext?.map((file) => ({
-      ...file,
-      enrichmentName: null,
-    })),
-    metadata: document.metadata?.map((file) => ({
-      ...file,
-      enrichmentName: null,
-    })),
-    annexes: document.annexes?.map((file) => ({
-      ...file,
-      enrichmentName: null,
-    })),
-    enrichments:
-      document.enrichments != null
-        ? Object.entries(document.enrichments).map((enrichment) => ({
-            enrichmentName: enrichment[0],
-            extension: enrichment[1][0].extension,
-            uri: enrichment[1][0].uri,
-          }))
-        : undefined,
-    openAccess:
-      externalPdfUrl != null
-        ? [
-            {
-              extension: "openAccess",
-              uri: externalPdfUrl.href,
-              enrichmentName: null,
-            },
-          ]
-        : undefined,
-  };
+  const enrichmentsInfo: FileListCategoryProps["files"] | null =
+    document.enrichments != null
+      ? Object.entries(document.enrichments).map(([enrichmentName, files]) => ({
+          labelOverride: enrichmentName,
+          extension: files[0].extension,
+          uri: files[0].uri,
+        }))
+      : null;
 
   return (
     <Stack
@@ -53,47 +40,70 @@ export default function FileList({ document, direction, gap }: FileListProps) {
         gap,
       }}
     >
-      {Object.entries(data).map(([category, files]) => {
-        if (files == null) {
-          return null;
-        }
+      {document.fulltext != null && (
+        <FileListCategory category="fulltext" files={document.fulltext} />
+      )}
+      {document.metadata != null && (
+        <FileListCategory category="metadata" files={document.metadata} />
+      )}
+      {document.annexes != null && (
+        <FileListCategory category="annexes" files={document.annexes} />
+      )}
+      {enrichmentsInfo != null && (
+        <FileListCategory category="enrichments" files={enrichmentsInfo} />
+      )}
 
-        return (
-          <Box key={category} sx={{ fontSize: "0.8rem" }}>
-            <Typography
-              component="h4"
-              variant="subtitle2"
-              sx={{
-                fontSize: "inherit",
-              }}
-            >
-              {t(category)}
-            </Typography>
-            <Stack
-              direction="row"
-              sx={{
-                flexWrap: "wrap",
-                gap: 0.5,
-              }}
-            >
-              {files.map(({ enrichmentName, extension, uri }) => {
-                const fullUri = new URL(uri);
-                fullUri.searchParams.set("sid", "istex-search");
+      <FileListCategoryRoot>
+        <FileListCategoryHeader>
+          {t("istexView")}{" "}
+          <Chip
+            label="NEW"
+            size="small"
+            sx={(theme) => {
+              return {
+                fontSize: "0.6rem",
+                fontWeight: "bold",
+                height: "18px",
+                border: 1,
+                borderColor: (theme.vars || theme).palette.success.dark,
+                bgcolor: alpha(theme.palette.success.main, 0.5),
+                color: (theme.vars || theme).palette.success.dark,
+                "& .MuiChip-label": {
+                  px: "4px",
+                },
+              };
+            }}
+          />
+        </FileListCategoryHeader>
+        <Box sx={{ display: "flex" }}>
+          <FileButtonRoot
+            href={istexViewUrl.href}
+            label={t("formatLinks.istexView")}
+          >
+            <Image
+              src={IstexViewIcon}
+              alt={t("formatLinks.istexViewAltText")}
+            />
+          </FileButtonRoot>
+        </Box>
+      </FileListCategoryRoot>
 
-                return (
-                  <FileButton
-                    key={enrichmentName ?? extension}
-                    category={category}
-                    enrichmentName={enrichmentName}
-                    extension={extension}
-                    uri={fullUri}
-                  />
-                );
-              })}
-            </Stack>
+      {externalPdfUrl != null && (
+        <FileListCategoryRoot>
+          <FileListCategoryHeader>{t("openAccess")}</FileListCategoryHeader>
+          <Box sx={{ display: "flex" }}>
+            <FileButtonRoot
+              href={externalPdfUrl.href}
+              label={t("formatLinks.openAccess")}
+            >
+              <Image
+                src={OpenAccessIcon}
+                alt={t("formatLinks.openAccessAltText")}
+              />
+            </FileButtonRoot>
           </Box>
-        );
-      })}
+        </FileListCategoryRoot>
+      )}
     </Stack>
   );
 }

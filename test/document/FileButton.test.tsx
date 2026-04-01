@@ -7,7 +7,6 @@ describe("FileButton", () => {
   const defaultProps: FileButtonProps = {
     category: "fulltext",
     extension: "pdf",
-    enrichmentName: null,
     uri: new URL("https://example.com/"),
   };
 
@@ -20,22 +19,13 @@ describe("FileButton", () => {
     expect(button).toHaveTextContent(extension);
   });
 
-  it("uses the enrichmentName instead of the extension when present for the text content", () => {
+  it("uses the labelOverride instead of the extension when present for the text content", () => {
     const enrichmentName = "nb";
-    render(<FileButton {...defaultProps} enrichmentName={enrichmentName} />);
+    render(<FileButton {...defaultProps} labelOverride={enrichmentName} />);
 
     const button = getButton();
 
     expect(button).toHaveTextContent(enrichmentName);
-  });
-
-  it("doesn't display the text content when the extension is openAccess", () => {
-    const extension = "openAccess";
-    render(<FileButton {...defaultProps} extension={extension} />);
-
-    const button = getButton();
-
-    expect(button).not.toHaveTextContent(extension);
   });
 });
 

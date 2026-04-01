@@ -67,6 +67,9 @@ export default createTheme({
     error: {
       main: colors.red,
     },
+    success: {
+      main: colors.lightGreen,
+    },
   },
   typography: {
     fontFamily: openSans.style.fontFamily,

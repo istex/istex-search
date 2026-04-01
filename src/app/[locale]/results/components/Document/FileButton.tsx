@@ -1,8 +1,6 @@
 import { IconButton, type SvgIconProps, Typography } from "@mui/material";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type * as React from "react";
-import OpenAccessIcon from "@/../public/open-access.svg";
 import BlankIcon from "./BlankIcon";
 import BmpIcon from "./BmpIcon";
 import GifIcon from "./GifIcon";
@@ -19,25 +17,40 @@ import ZipIcon from "./ZipIcon";
 
 export interface FileButtonProps {
   category: string;
-  enrichmentName: string | null;
+  labelOverride?: string;
   extension: string;
   uri: URL;
 }
 
 export default function FileButton({
   category,
-  enrichmentName,
+  labelOverride,
   extension,
   uri,
 }: FileButtonProps) {
   const t = useTranslations("results.Document");
-  const label = t(`formatsLinks.${enrichmentName ?? category}`, {
+  const label = t(`formatLinks.${labelOverride ?? category}`, {
     extension: extension.toUpperCase(),
   });
 
   return (
+    <FileButtonRoot href={uri.href} label={label}>
+      {getIcon(extension)}
+      <FileButtonLabel>{labelOverride ?? extension}</FileButtonLabel>
+    </FileButtonRoot>
+  );
+}
+
+export interface FileButtonRootProps {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}
+
+export function FileButtonRoot({ href, label, children }: FileButtonRootProps) {
+  return (
     <IconButton
-      href={uri.href}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
@@ -53,21 +66,24 @@ export default function FileButton({
         borderRadius: 0,
       }}
     >
-      {getIcon(extension)}
-      {extension !== "openAccess" && (
-        <Typography
-          variant="caption"
-          sx={{
-            textTransform: "lowercase",
-            fontSize: "0.7rem",
-            color: "colors.blue",
-            maxHeight: "1rem",
-          }}
-        >
-          {enrichmentName ?? extension}
-        </Typography>
-      )}
+      {children}
     </IconButton>
+  );
+}
+
+export function FileButtonLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <Typography
+      variant="caption"
+      sx={{
+        textTransform: "lowercase",
+        fontSize: "0.7rem",
+        color: "colors.blue",
+        maxHeight: "1rem",
+      }}
+    >
+      {children}
+    </Typography>
   );
 }
 
@@ -112,8 +128,6 @@ function getIcon(extension: string) {
     case "tiff":
       Component = TiffIcon;
       break;
-    case "openAccess":
-      return <Image src={OpenAccessIcon} alt="" />;
     default:
       Component = BlankIcon;
   }

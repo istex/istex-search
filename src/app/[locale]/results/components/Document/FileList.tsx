@@ -57,7 +57,7 @@ export default function FileList({ document, direction, gap }: FileListProps) {
         <FileListCategoryHeader>
           {t("istexView")}{" "}
           <Chip
-            label="NEW"
+            label={t("istexViewNewChip")}
             size="small"
             sx={(theme) => {
               return {

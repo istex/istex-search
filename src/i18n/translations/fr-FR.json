@@ -205,6 +205,7 @@
       "enrichments": "Enrichissements",
       "openAccess": "Libre accès",
       "istexView": "Istex\u00A0View",
+      "istexViewNewChip": "Nouveau",
       "selectDocument": "Sélectionner",
       "unselectDocument": "Désélectionner",
       "excludeDocument": "Exclure",
@@ -221,7 +222,7 @@
         "refBibs": "Accéder aux références bibliographiques structurées par Grobid au format {extension}",
         "openAccess": "Accéder à ce document sur sa plateforme d'origine",
         "openAccessAltText": "Icône libre accès",
-        "istexView": "Consulter et explorer le document XML TEI dans Istex\u00A0View",
+        "istexView": "Explorer le document XML TEI et ses enrichissements dans Istex\u00A0View",
         "istexViewAltText": "Logo Istex View"
       }
     },

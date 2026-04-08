@@ -1,6 +1,11 @@
 "use client";
 
-import { NumberField as BaseNumberField } from "@base-ui/react/number-field";
+import {
+  NumberField as BaseNumberField,
+  type NumberFieldInputState,
+  type NumberFieldRootState,
+} from "@base-ui/react/number-field";
+import type { HTMLProps } from "@base-ui/react/types";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
@@ -51,6 +56,43 @@ export default function NumberInput(props: NumberInputProps) {
     id = idProp;
   }
 
+  function renderRoot(props: HTMLProps, state: NumberFieldRootState) {
+    return (
+      <FormControl
+        size={size}
+        ref={props.ref}
+        disabled={state.disabled}
+        required={state.required}
+        error={error}
+        variant="outlined"
+        sx={sx}
+      >
+        {props.children}
+      </FormControl>
+    );
+  }
+
+  function renderInput(props: HTMLProps, state: NumberFieldInputState) {
+    return (
+      <OutlinedInput
+        label={label}
+        placeholder={placeholder}
+        inputRef={props.ref}
+        value={state.inputValue}
+        onBlur={props.onBlur}
+        onChange={props.onChange}
+        onKeyUp={props.onKeyUp}
+        onKeyDown={props.onKeyDown}
+        onFocus={props.onFocus}
+        slotProps={{
+          ...slotProps,
+          input: { ...props, ...slotProps?.input },
+        }}
+        endAdornment={endAdornment}
+        sx={{ pr: 0 }}
+      />
+    );
+  }
   const inputLabel = label != null && (
     <InputLabel htmlFor={id}>{label}</InputLabel>
   );
@@ -93,23 +135,7 @@ export default function NumberInput(props: NumberInputProps) {
   );
 
   return (
-    <BaseNumberField.Root
-      {...rest}
-      locale={locale}
-      render={(props, state) => (
-        <FormControl
-          size={size}
-          ref={props.ref}
-          disabled={state.disabled}
-          required={state.required}
-          error={error}
-          variant="outlined"
-          sx={sx}
-        >
-          {props.children}
-        </FormControl>
-      )}
-    >
+    <BaseNumberField.Root {...rest} locale={locale} render={renderRoot}>
       <SSRInitialFilled {...rest} />
 
       {inputLabel}
@@ -117,25 +143,7 @@ export default function NumberInput(props: NumberInputProps) {
       <BaseNumberField.Input
         id={id}
         aria-invalid={error}
-        render={(props, state) => (
-          <OutlinedInput
-            label={label}
-            placeholder={placeholder}
-            inputRef={props.ref}
-            value={state.inputValue}
-            onBlur={props.onBlur}
-            onChange={props.onChange}
-            onKeyUp={props.onKeyUp}
-            onKeyDown={props.onKeyDown}
-            onFocus={props.onFocus}
-            slotProps={{
-              ...slotProps,
-              input: { ...props, ...slotProps?.input },
-            }}
-            endAdornment={endAdornment}
-            sx={{ pr: 0 }}
-          />
-        )}
+        render={renderInput}
       />
     </BaseNumberField.Root>
   );

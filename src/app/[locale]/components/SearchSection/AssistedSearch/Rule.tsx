@@ -15,7 +15,7 @@ import { getPossibleValues } from "@/lib/istexApi";
 import { labelizeIsoLanguage } from "@/lib/utils";
 import {
   AutocompleteInput,
-  FieldInputMenuItem,
+  AutocompleteOption,
   fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
@@ -355,7 +355,7 @@ export default function Rule({
         renderOption={(renderProps, option) => {
           const { key, ...rest } = renderProps;
 
-          return <FieldInputMenuItem key={key} option={option} {...rest} />;
+          return <AutocompleteOption key={key} option={option} {...rest} />;
         }}
       />
 

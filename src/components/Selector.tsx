@@ -45,9 +45,6 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
     padding: theme.spacing(1),
     minHeight: "fit-content",
   },
-  "& .MuiTabs-flexContainer": {
-    height: "100%",
-  },
   "& .MuiTabs-indicator": {
     top: 3,
     bottom: 3,

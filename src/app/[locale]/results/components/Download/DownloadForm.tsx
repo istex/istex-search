@@ -78,7 +78,7 @@ export default function DownloadForm({
         size={{ sm: 12, md: hasSelectedDocuments ? 3 : 4 }}
         container
         spacing={2}
-        direction="column"
+        sx={{ flexDirection: "column" }}
       >
         <InfoPanels />
       </Grid>

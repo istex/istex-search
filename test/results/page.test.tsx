@@ -5,8 +5,8 @@ import { renderAsync, screen } from "../test-utils";
 describe("Results page", () => {
   it("redirects to home page when no query string is found", async () => {
     await renderAsync(ResultsPage, {
-      params: { locale: routing.defaultLocale },
-      searchParams: {},
+      params: Promise.resolve({ locale: routing.defaultLocale }),
+      searchParams: Promise.resolve({}),
     });
 
     expect(redirect).toHaveBeenCalledWith({
@@ -17,8 +17,8 @@ describe("Results page", () => {
 
   it("renders an alert when a syntax error is the query string", async () => {
     await renderAsync(ResultsPage, {
-      params: { locale: routing.defaultLocale },
-      searchParams: { q: "hello:" },
+      params: Promise.resolve({ locale: routing.defaultLocale }),
+      searchParams: Promise.resolve({ q: "hello:" }),
     });
 
     const alert = screen.getByRole("alert");

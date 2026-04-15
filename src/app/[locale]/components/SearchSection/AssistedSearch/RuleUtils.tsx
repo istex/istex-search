@@ -1,5 +1,6 @@
 import {
-  MenuItem,
+  type AutocompleteRenderInputParams,
+  ListItem,
   type SxProps,
   TextField,
   type TextFieldProps,
@@ -25,29 +26,26 @@ export const fontFamilyStyle: SxProps = {
   },
 };
 
-type AutocompleteInputProps = TextFieldProps & {
-  isLoading?: boolean;
-};
+type AutocompleteInputProps = TextFieldProps &
+  AutocompleteRenderInputParams & {
+    isLoading?: boolean;
+  };
 
 export function AutocompleteInput(props: AutocompleteInputProps) {
-  // NOTE: We still have to spread InputProps in slotProps.input because of a consistency problem about
-  // the slotProps pattern in TextField described here https://github.com/mui/material-ui/issues/43573
-  const { InputProps, isLoading = false, slotProps, ...rest } = props;
+  const { isLoading = false, slotProps, ...rest } = props;
 
   return (
     <TextField
       slotProps={{
         ...slotProps,
         input: {
-          // TODO: replace the next line with slotProps?.input once the slotProps pattern is standardized everywhere in MUI
-          ...InputProps,
+          ...slotProps.input,
           endAdornment: (
             <>
               {isLoading && (
                 <DelayedCircularProgress color="inherit" size={20} />
               )}
-              {/* TODO: replace the next line with slotProps?.input?.endAdornment when it becomes available */}
-              {InputProps?.endAdornment}
+              {slotProps.input.endAdornment}
             </>
           ),
         },
@@ -58,7 +56,7 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
   );
 }
 
-export function FieldInputMenuItem(
+export function AutocompleteOption(
   props: React.HTMLAttributes<HTMLLIElement> & { option: FieldName },
 ) {
   const t = useTranslations("fields");
@@ -71,7 +69,7 @@ export function FieldInputMenuItem(
   };
 
   return (
-    <MenuItem
+    <ListItem
       sx={(theme) => ({
         display: "block !important",
         fontFamily: inter.style.fontFamily,
@@ -96,7 +94,7 @@ export function FieldInputMenuItem(
       >
         {t(`${option}.description`)}
       </Typography>
-    </MenuItem>
+    </ListItem>
   );
 }
 

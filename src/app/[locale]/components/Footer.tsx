@@ -60,9 +60,8 @@ export default function Footer() {
         <Stack
           component="ul"
           direction="row"
-          columnGap={4}
           useFlexGap
-          sx={{ justifyContent: "center", flexWrap: "wrap" }}
+          sx={{ justifyContent: "center", flexWrap: "wrap", columnGap: 4 }}
         >
           {partners.map(({ logo, alt, url, width }) => (
             <Box

@@ -2,6 +2,7 @@ import { Box, Chip, Stack, type StackProps } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import type * as React from "react";
 import IstexViewIcon from "@/../public/istex-view.svg";
 import OpenAccessIcon from "@/../public/open-access.svg";
 import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
@@ -15,7 +16,7 @@ import FileListCategory, {
 interface FileListProps {
   document: Result;
   direction?: StackProps["direction"];
-  gap?: StackProps["gap"];
+  gap?: React.CSSProperties["gap"];
 }
 
 export default function FileList({ document, direction, gap }: FileListProps) {

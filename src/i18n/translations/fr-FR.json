@@ -575,7 +575,7 @@
         "description": "Application web open\u2011source dédiée aux données structurées qui permet de visualiser et d'enrichir ses données puis de les transformer en site web."
       },
       "cortext": {
-        "label": "CorTexT",
+        "label": "Cortext",
         "description": "Logiciel libre destiné à la fouille et l'analyse de corpus textuels hétérogènes proposant plusieurs traitements automatiques (clustering, visualisation de données temporelles, etc.)."
       },
       "gargantext": {

@@ -132,7 +132,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   // When sending a request, aggregationQuery.data is initially undefined, so the
   // React states are initialized to null. There might be a way to initialize the
   // inputs to the values returned by query without an additional render cycle,
-  //but I couldn't find it
+  // but I couldn't find it
   React.useEffect(() => {
     setMin(initialMin);
   }, [initialMin]);
@@ -143,6 +143,7 @@ export default function NumberFilter({ field }: NumberFilterProps) {
 
   React.useEffect(() => {
     setValue(initialValue);
+    setInputMode(initialValue != null ? "value" : "range");
   }, [initialValue]);
 
   if (aggregationQuery.isError) {

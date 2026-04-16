@@ -23,7 +23,7 @@
     },
     {
       "groupName": "MUI",
-      "matchPackageNames": ["@emotion{/,}**", "@mui{/,}**"]
+      "matchPackageNames": ["@base-ui/react", "@emotion{/,}**", "@mui{/,}**"]
     }
   ]
 }

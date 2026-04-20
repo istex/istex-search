@@ -3,6 +3,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -18,6 +19,7 @@ import { useSearchParams } from "@/lib/hooks";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
 import FileList from "./Document/FileList";
+import RetractedBadge from "./Document/RetractedBadge";
 
 interface ResultCardProps {
   index: number;
@@ -83,6 +85,13 @@ export default function ResultCard({ index, displayIcons }: ResultCardProps) {
           >
             {document.title}
           </Typography>
+
+          {/* Retracted badge */}
+          {document.doi != null && document.doi.length > 0 && (
+            <Box sx={{ py: 0.75 }}>
+              <RetractedBadge doi={document.doi[0]} />
+            </Box>
+          )}
 
           {/* Host title */}
           {document.host?.title != null && (

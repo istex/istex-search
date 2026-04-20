@@ -1,10 +1,10 @@
-import { Box, Chip, Stack, type StackProps } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { Box, Stack, type StackProps } from "@mui/material";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type * as React from "react";
 import IstexViewIcon from "@/../public/istex-view.svg";
 import OpenAccessIcon from "@/../public/open-access.svg";
+import Badge from "@/components/Badge";
 import { getExternalPdfUrl, type Result } from "@/lib/istexApi";
 import { FileButtonRoot } from "./FileButton";
 import FileListCategory, {
@@ -57,24 +57,7 @@ export default function FileList({ document, direction, gap }: FileListProps) {
       <FileListCategoryRoot>
         <FileListCategoryHeader>
           {t("istexView")}{" "}
-          <Chip
-            label={t("istexViewNewChip")}
-            size="small"
-            sx={(theme) => {
-              return {
-                fontSize: "0.6rem",
-                fontWeight: "bold",
-                height: "18px",
-                border: 1,
-                borderColor: (theme.vars || theme).palette.success.dark,
-                bgcolor: alpha(theme.palette.success.main, 0.5),
-                color: (theme.vars || theme).palette.success.dark,
-                "& .MuiChip-label": {
-                  px: "4px",
-                },
-              };
-            }}
-          />
+          <Badge label={t("istexViewNewChip")} severity="success" />
         </FileListCategoryHeader>
         <Box sx={{ display: "flex" }}>
           <FileButtonRoot

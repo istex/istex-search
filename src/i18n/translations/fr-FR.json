@@ -224,6 +224,9 @@
         "openAccessAltText": "Icône libre accès",
         "istexView": "Explorer le document XML TEI et ses enrichissements dans Istex\u00A0View",
         "istexViewAltText": "Logo Istex View"
+      },
+      "RetractedBadge": {
+        "label": "Rétracté"
       }
     },
     "Panel": {

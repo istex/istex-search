@@ -13,6 +13,7 @@ import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useShare } from "@/lib/hooks";
 import FileList from "./FileList";
+import RetractedBadge from "./RetractedBadge";
 
 const tags = ["genre", "corpusName", "publicationDate", "arkIstex"] as const;
 
@@ -103,6 +104,10 @@ export default function DocumentDetail() {
               {displayedDocument.title}
             </Typography>
           )}
+          {displayedDocument?.doi != null &&
+            displayedDocument.doi.length > 0 && (
+              <RetractedBadge doi={displayedDocument.doi[0]} />
+            )}
           {displayedDocument?.host?.title != null && (
             <Typography
               variant="subtitle2"

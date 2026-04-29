@@ -33,7 +33,7 @@ export default function RetractedBadge({ doi }: RetractedBadgeProps) {
     <Chip
       label={t("label")}
       component="a"
-      href="https://services.istex.fr/5123-2/"
+      href="https://services.istex.fr/art-retracte-istex/"
       target="_blank"
       rel="noreferrer"
       onClick={preventClickPropagation}

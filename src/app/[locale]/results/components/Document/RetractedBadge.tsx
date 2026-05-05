@@ -62,13 +62,16 @@ type BibCheckIsRetractedResponse = {
 }[];
 
 async function getRetractedState(doi: string) {
-  const response = await fetch(
-    "https://biblio-ref.services.istex.fr/v1/is-retracted",
-    {
-      method: "POST",
-      body: JSON.stringify([{ value: doi }]),
-    },
+  const url = new URL(
+    "/v1/is-retracted",
+    "https://biblio-ref.services.istex.fr",
   );
+  url.searchParams.set("sid", "istex-search");
+
+  const response = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify([{ value: doi }]),
+  });
   if (!response.ok) {
     console.error(response);
     throw new Error("Error from bibCheck web service");

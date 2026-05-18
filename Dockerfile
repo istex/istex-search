@@ -6,6 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 COPY package.json ./
 COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 
 
 # Build stage where we install all the dependencies and create the production build

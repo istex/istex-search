@@ -35,7 +35,7 @@ default:
       - .pnpm-store
   before_script:
     - corepack enable
-    - corepack prepare pnpm@latest-10 --activate
+    - corepack prepare pnpm@latest-11 --activate
     - pnpm config set store-dir .pnpm-store
     - pnpm install --frozen-lockfile
 

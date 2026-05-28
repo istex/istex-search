@@ -46,6 +46,7 @@ export const istexApiConfig = {
 export const corpusWithExternalFulltextLink = [
   "oa-plos",
   "oa-scielo",
+  "oa-copernicus",
   "open-edition-journals",
 ] as const;
 

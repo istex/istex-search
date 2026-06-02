@@ -12,7 +12,6 @@ import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useSearchParams } from "@/lib/hooks";
 import { clamp } from "@/lib/utils";
-import { inter } from "@/mui/fonts";
 
 export default function Pagination() {
   const t = useTranslations("results.Pagination");
@@ -56,7 +55,6 @@ export default function Pagination() {
         borderBottom: `1px solid ${theme.vars.palette.colors.veryLightBlack}`,
         my: 7.5,
         color: theme.vars.palette.colors.lightBlack,
-        fontFamily: inter.style.fontFamily,
       })}
     >
       <Box>

@@ -16,7 +16,6 @@ import { labelizeIsoLanguage } from "@/lib/utils";
 import {
   AutocompleteInput,
   AutocompleteOption,
-  fontFamilyStyle,
   getComparators,
 } from "./RuleUtils";
 
@@ -89,7 +88,7 @@ export default function Rule({
         }
       : undefined,
     size: "small",
-    sx: { width: "100%", ...fontFamilyStyle },
+    sx: { width: "100%" },
   };
 
   const labelizeFieldName = (fieldName: FieldName) => {

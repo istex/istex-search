@@ -1,7 +1,6 @@
 import {
   type AutocompleteRenderInputParams,
   ListItem,
-  type SxProps,
   TextField,
   type TextFieldProps,
   Typography,
@@ -18,13 +17,6 @@ import {
 } from "@/lib/ast";
 import type { Field, FieldName } from "@/lib/fields";
 import { unique } from "@/lib/utils";
-import { inter } from "@/mui/fonts";
-
-export const fontFamilyStyle: SxProps = {
-  ".MuiInputBase-input": {
-    fontFamily: inter.style.fontFamily,
-  },
-};
 
 type AutocompleteInputProps = TextFieldProps &
   AutocompleteRenderInputParams & {
@@ -50,7 +42,6 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
           ),
         },
       }}
-      sx={fontFamilyStyle}
       {...rest}
     />
   );
@@ -72,7 +63,6 @@ export function AutocompleteOption(
     <ListItem
       sx={(theme) => ({
         display: "block !important",
-        fontFamily: inter.style.fontFamily,
         py: `${theme.spacing(1)} !important`,
       })}
       {...rest}

@@ -1,6 +1,6 @@
 "use client";
 
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -92,6 +92,7 @@ export default function Navbar() {
             target="_blank"
             rel="noreferrer"
             sx={(theme) => ({
+              px: 3,
               gap: 1,
               color: "text.primary",
               bgcolor: theme.alpha(theme.vars.palette.colors.blue, 0.2),
@@ -101,7 +102,7 @@ export default function Navbar() {
               textTransform: "uppercase",
             })}
           >
-            <KeyboardBackspaceIcon />
+            <KeyboardBackspaceRoundedIcon />
             {t(navbarLinks.istex.label)}
           </Button>
         </Box>

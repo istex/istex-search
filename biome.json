@@ -8,6 +8,9 @@
   "formatter": {
     "indentStyle": "space"
   },
+  "files": {
+    "includes": ["**", "!**/*.svg"]
+  },
   "linter": {
     "domains": {
       "next": "recommended",

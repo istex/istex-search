@@ -51,13 +51,12 @@ export const corpusWithExternalFulltextLink = [
 ] as const;
 
 export const examples = [
+  'title:("moon exploration" "lunar exploration" "moon mission" "lunar mission" "lunar rover" "lunar probe" "exploring moon"~1 (moon AND "planetary exploration")) abstract:("moon exploration" "lunar exploration" "moon mission" "lunar mission" "lunar rover" "lunar probe" "exploring moon"~1 (moon AND "planetary exploration"))',
   '(abstract:Barbie title:Barbie subject.value:Barbie) AND publicationDate:[1959 TO 2024] NOT (abstract:("Klaus Barbie" "barbie box" "barbies boxes" "Barbie Zelizer" gene judicial)  title:("Klaus Barbie" "Barbie Zelizer" drosophila virus drugs) categories.scopus.raw:("3 - Cell Biology" "3 - Organic Chemistry"))',
   "(abstract:Montessori title:Montessori subject.value:Montessori) NOT (abstract:(dementia senior* Alzheimer* musculoskeletal) title:(dementia senior* Alzheimer* musculoskeletal) subject.value:(dementia senior* Alzheimer* musculoskeletal) categories.wos: veterinary)",
   '("loi Veil" AND 1975) OR ("loi Veil" AND "interruption volontaire de grossesse") OR "loi relative à l\'interruption volontaire de grossesse" NOT t?bac*',
-  'subject.value:("Immanuel Kant" OR "Emmanuel Kant") OR (Aufklärung AND "Immanuel Kant") NOT genre.raw:("book-reviews" OR other OR editorial OR "brief-communication")',
   'title:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games") OR abstract:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville Games") OR subject.value:("jeux paralympiques" "paralympic games" parlympiens paralympians para?límpicos paralimpici "Jeux de Stoke Mandeville" "Stoke Mandeville games")',
   '"Facteur Cheval" NOT author.affiliations:"Facteur Cheval" NOT refBibs.title:"Facteur Cheval" NOT host.title:"Sociologie du travail"',
-  '(subject.value:"Frida Kahlo" OR keywords.teeft:"Frida Kahlo" OR namedEntities.unitex.persName:"Frida Kahlo") AND (subject.value:"Diego Rivera" OR keywords.teeft:"Diego Rivera" OR namedEntities.unitex.persName:"Diego Rivera")',
 ] as const;
 
 export const perPageOptions = [10, 20, 30] as const;

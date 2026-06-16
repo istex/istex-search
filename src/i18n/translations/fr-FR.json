@@ -530,13 +530,12 @@
   },
   "config": {
     "examples": [
+      "Exploration lunaire",
       "Poupée Barbie",
       "Méthode Montessori",
       "50 ans de la loi Veil",
-      "Emmanuel Kant",
       "Jeux paralympiques",
-      "Facteur Cheval",
-      "Frieda et Diego"
+      "Facteur Cheval"
     ],
     "formats": {
       "fulltext": {

@@ -134,6 +134,29 @@ export default class SearchParams {
     this.searchParams.delete("q_id");
   }
 
+  getPrompt(): string {
+    const prompt = this.searchParams.get("prompt")?.trim();
+    if (prompt == null) {
+      return "";
+    }
+
+    return prompt;
+  }
+
+  setPrompt(prompt: string): void {
+    prompt = prompt.trim();
+    if (prompt === "") {
+      this.deletePrompt();
+      return;
+    }
+
+    this.searchParams.set("prompt", prompt);
+  }
+
+  deletePrompt(): void {
+    this.searchParams.delete("prompt");
+  }
+
   getFormats(): number {
     const extractParams = this.searchParams.get("extract");
     if (extractParams == null) {
@@ -392,7 +415,7 @@ export default class SearchParams {
 
   setRandomSeed(value: string): void {
     if (value === "") {
-      this.searchParams.delete("randomSeed");
+      this.deleteRandomSeed();
     }
 
     this.searchParams.set("randomSeed", value);
@@ -416,7 +439,7 @@ export default class SearchParams {
 
   setArchiveType(value: ArchiveType): void {
     if (value === DEFAULT_ARCHIVE_TYPE) {
-      this.searchParams.delete("archiveType");
+      this.deleteArchiveType();
       return;
     }
 
@@ -443,7 +466,7 @@ export default class SearchParams {
 
   setCompressionLevel(value: CompressionLevel): void {
     if (value === DEFAULT_COMPRESSION_LEVEL) {
-      this.searchParams.delete("compressionLevel");
+      this.deleteCompressionLevel();
       return;
     }
 

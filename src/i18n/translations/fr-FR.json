@@ -25,6 +25,7 @@
         "searchTitle": "Créez votre requête",
         "resultsTitle": "Résultats de votre requête",
         "placeholder": "\"physique nucléaire\" AND language:fre",
+        "promptButtonAriaLabel": "Générer une requête depuis un prompt",
         "examplesTitle": "Testez des exemples de requêtes"
       },
       "AssistedSearchInput": {
@@ -73,6 +74,14 @@
         "placeholder": "Collez votre liste d'identifiants* (ARK, DOI, ID Istex) ou importez votre fichier .corpus\n* un seul format à la fois",
         "button": "Rechercher",
         "uploadIconAlt": "Déposer un fichier .corpus"
+      },
+      "PromptModal": {
+        "title": "Recherche en langage naturel",
+        "introduction": "Décrivez votre besoin en langage naturel. La requête sera automatiquement convertie en syntaxe Lucene compatible avec Istex\u00A0Search.<br></br>Champs pris en charge actuellement\u00A0: titre, résumé, sujet, auteur, date de publication, langue et type de document (article de recherche).",
+        "noteTitle": "Précision",
+        "note": "Les requêtes sont générées automatiquement à partir de votre description et peuvent varier légèrement d'une génération à l'autre. ",
+        "placeholder": "Articles de recherche en anglais sur l'énergie nucléaire publiés après 2015",
+        "submitButton": "Générer la requête"
       }
     },
     "CorpusSection": {
@@ -519,6 +528,9 @@
     "QIdSaveError": "Erreur lors de la sauvegarde de {qId}.",
     "EmptyQueryError": "Veuillez renseigner une requête.",
     "GetAggregationError": "Un problème est survenu pendant la récupération des valeurs.",
+    "EmptyPromptError": "Veuillez renseigner un prompt.",
+    "TextLuceneError": "Erreur text-lucene",
+    "TextLuceneEmptyResponseError": "Response vide",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "Modal": {

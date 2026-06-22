@@ -54,6 +54,38 @@ describe("SearchParams class", () => {
     });
   });
 
+  describe("getPrompt", () => {
+    it("gets the prompt", () => {
+      const searchParams = new SearchParams({ prompt: "my prompt" });
+
+      expect(searchParams.getPrompt()).toBe("my prompt");
+    });
+
+    it("returns an empty string when the prompt parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getPrompt()).toBe("");
+    });
+  });
+
+  describe("setPrompt", () => {
+    it("sets the prompt", () => {
+      const searchParams = new SearchParams({ prompt: "my prompt" });
+
+      searchParams.setPrompt("my new prompt");
+      expect(searchParams.getPrompt()).toBe("my new prompt");
+    });
+  });
+
+  describe("deletePrompt", () => {
+    it("deletes the prompt", () => {
+      const searchParams = new SearchParams({ prompt: "my prompt" });
+
+      searchParams.deletePrompt();
+      expect(searchParams.getPrompt()).toBe("");
+    });
+  });
+
   describe("getFormats", () => {
     it("gets the formats", () => {
       const validSearchParams = new SearchParams({ extract: "fulltext[pdf]" });

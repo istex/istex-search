@@ -54,6 +54,19 @@ describe("RegularSearchInput", () => {
 
     expect(input).toHaveValue(queryString);
   });
+
+  it("opens the prompt modal when clicking on the icon button in the end adornment", async () => {
+    const queryString = "hello";
+    render(<RegularSearchInput />, { queryString });
+
+    const iconButton = screen.getByRole("button", {
+      name: "Générer une requête depuis un prompt",
+    });
+    await userEvent.click(iconButton);
+
+    const modal = screen.getByRole("dialog");
+    expect(modal).toBeVisible();
+  });
 });
 
 async function search(queryString?: string) {

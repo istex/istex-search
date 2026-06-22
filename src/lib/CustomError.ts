@@ -10,6 +10,9 @@ export type CustomErrorInfo =
   | { name: "QIdSaveError"; qId: string }
   | { name: "EmptyQueryError" }
   | { name: "GetAggregationError" }
+  | { name: "EmptyPromptError" }
+  | { name: "TextLuceneError" }
+  | { name: "TextLuceneEmptyResponseError" }
   | { name: "default" };
 
 class CustomError extends Error {
@@ -17,6 +20,7 @@ class CustomError extends Error {
 
   constructor(info: CustomErrorInfo) {
     super(info.name);
+    this.name = CustomError.name;
     this.info = info;
   }
 }

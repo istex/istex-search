@@ -80,6 +80,7 @@ export async function renderAsync<T>(
 
 export function mockSearchParams(searchParams: {
   q?: string;
+  prompt?: string;
   ast?: string;
   extract?: string;
   size?: string;

@@ -53,7 +53,6 @@ export default function ExpertSearchInput({
         <MultilineTextField
           id="expert-search-input"
           onChange={handleChange}
-          onSubmit={onSubmit}
           helperText={errorMessage}
           required
           autoFocus
@@ -79,9 +78,7 @@ export default function ExpertSearchInput({
       </Stack>
 
       <Box sx={{ textAlign: "center" }}>
-        <Button type="submit" onSubmit={onSubmit}>
-          {t("validate")}
-        </Button>
+        <Button type="submit">{t("validate")}</Button>
       </Box>
 
       <Modal title={t("Dialog.title")} open={modalOpen} onClose={closeModal}>

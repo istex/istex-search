@@ -123,7 +123,7 @@ export default function ImportInput() {
   };
 
   return (
-    <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
+    <form noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <SearchTitle />
 
       <Box
@@ -145,7 +145,6 @@ export default function ImportInput() {
           errorLines={errorLines}
           value={idList}
           onChange={handleChange}
-          onSubmit={handleSubmit}
           sx={{
             mb: { xs: 2, sm: 0 },
             // This targets the fieldset around the input
@@ -187,6 +186,6 @@ export default function ImportInput() {
       </Box>
 
       {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
-    </Box>
+    </form>
   );
 }

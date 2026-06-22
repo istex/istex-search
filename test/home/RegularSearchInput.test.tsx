@@ -5,6 +5,7 @@ import {
   customRender as render,
   screen,
   userEvent,
+  waitFor,
 } from "../test-utils";
 
 describe("RegularSearchInput", () => {
@@ -40,10 +41,12 @@ describe("RegularSearchInput", () => {
 
     await search();
 
-    const alert = screen.queryByRole("alert");
+    await waitFor(() => {
+      const alert = screen.queryByRole("alert");
 
-    expect(alert).toBeInTheDocument();
-    expect(router.push).not.toHaveBeenCalled();
+      expect(alert).toBeInTheDocument();
+      expect(router.push).not.toHaveBeenCalled();
+    });
   });
 
   it("initializes the input based on the query string in the URL", () => {

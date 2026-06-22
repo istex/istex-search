@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import ErrorCard from "@/components/ErrorCard";
@@ -58,7 +58,7 @@ export default function AssistedSearchInput() {
       newQueryString = expertQueryString;
 
       if (newQueryString.trim() === "") {
-        setExpertErrorMessage(tErrors("emptyQueryError"));
+        setExpertErrorMessage(tErrors("EmptyQueryError"));
         return;
       }
 
@@ -103,7 +103,7 @@ export default function AssistedSearchInput() {
   }, [rootNode, childNodes]);
 
   return (
-    <Box component="form" noValidate autoCorrect="off" onSubmit={handleSubmit}>
+    <form noValidate autoCorrect="off" onSubmit={handleSubmit}>
       <SearchTitle />
 
       <Stack spacing={2} sx={{ pt: 1 }}>
@@ -155,6 +155,6 @@ export default function AssistedSearchInput() {
           />
         )}
       </Stack>
-    </Box>
+    </form>
   );
 }

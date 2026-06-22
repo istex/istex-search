@@ -15,9 +15,6 @@ import SearchTitle from "./SearchTitle";
 export default function RegularSearchInput() {
   const t = useTranslations("home.SearchSection.RegularSearchInput");
   const queryContext = useQueryContext();
-  const [queryString, setQueryString] = React.useState(
-    queryContext.queryString,
-  );
   const [error, setError] = React.useState<CustomError | null>(
     queryContext.errorInfo != null
       ? new CustomError(queryContext.errorInfo)
@@ -27,25 +24,21 @@ export default function RegularSearchInput() {
   const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 
-  const handleSubmit: React.SubmitEventHandler = (event) => {
-    event.preventDefault();
-
-    const trimmedQueryString = queryString.trim();
-    if (trimmedQueryString === "") {
+  const handleSubmit = async (formData: FormData) => {
+    const queryString =
+      formData.get("regular-search-input")?.toString().trim() ?? "";
+    if (queryString === "") {
       setError(new CustomError({ name: "EmptyQueryError" }));
       return;
     }
 
-    goToResultsPage(queryString).catch((err: unknown) => {
-      if (err instanceof CustomError) {
-        setError(err);
+    try {
+      await goToResultsPage(queryString);
+    } catch (error) {
+      if (error instanceof CustomError) {
+        setError(error);
       }
-    });
-  };
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setError(null);
-    setQueryString(event.target.value);
+    }
   };
 
   const openPromptModal = () => {
@@ -58,12 +51,7 @@ export default function RegularSearchInput() {
 
   return (
     <>
-      <Box
-        component="form"
-        noValidate
-        autoCorrect="off"
-        onSubmit={handleSubmit}
-      >
+      <form noValidate autoCorrect="off" action={handleSubmit}>
         <SearchTitle />
 
         <Box
@@ -73,17 +61,15 @@ export default function RegularSearchInput() {
           }}
         >
           <MultilineTextField
-            id="regular-search-input"
-            onChange={handleChange}
-            onSubmit={handleSubmit}
+            name="regular-search-input"
             required
             autoFocus
+            defaultValue={queryContext.queryString}
             error={error != null}
             fullWidth
             maxRows={8}
             minRows={1}
             placeholder={t("placeholder")}
-            value={queryString}
             slotProps={{
               input: {
                 endAdornment: (
@@ -120,7 +106,7 @@ export default function RegularSearchInput() {
         {error != null && <ErrorCard info={error.info} sx={{ mt: 2 }} />}
 
         {onHomePage && <ExampleList setError={setError} />}
-      </Box>
+      </form>
 
       {/* We unmount the modal when closed so that its internal form error state can be reset */}
       {promptModalOpen && (

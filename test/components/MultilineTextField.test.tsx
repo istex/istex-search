@@ -7,9 +7,9 @@ import {
 } from "../test-utils";
 
 describe("MultilineTextField", () => {
-  it("submits the form on Enter", async () => {
-    const mockSubmit = jest.fn();
-    render(<MultilineTextField onSubmit={mockSubmit} />);
+  it("calls onSubmit on Enter", async () => {
+    const submitMock = jest.fn();
+    render(<MultilineTextField onSubmit={submitMock} />);
 
     const input = screen.getByRole("textbox");
     await waitFor(() => {
@@ -17,12 +17,29 @@ describe("MultilineTextField", () => {
     });
     await userEvent.keyboard("{Enter}");
 
-    expect(mockSubmit).toHaveBeenCalled();
+    expect(submitMock).toHaveBeenCalled();
+  });
+
+  it("submits the closest form on Enter if onSubmit is not provided", async () => {
+    const actionMock = jest.fn();
+    render(
+      <form action={actionMock}>
+        <MultilineTextField />
+      </form>,
+    );
+
+    const input = screen.getByRole("textbox");
+    await waitFor(() => {
+      input.focus();
+    });
+    await userEvent.keyboard("{Enter}");
+
+    expect(actionMock).toHaveBeenCalled();
   });
 
   it("doesn't submit the form on Shift+Enter", async () => {
-    const mockSubmit = jest.fn();
-    render(<MultilineTextField onSubmit={mockSubmit} />);
+    const submitMock = jest.fn();
+    render(<MultilineTextField onSubmit={submitMock} />);
 
     const input = screen.getByRole("textbox");
     await waitFor(() => {
@@ -30,7 +47,7 @@ describe("MultilineTextField", () => {
     });
     await userEvent.keyboard("{Shift>}{Enter}{/Shift}");
 
-    expect(mockSubmit).not.toHaveBeenCalled();
+    expect(submitMock).not.toHaveBeenCalled();
   });
 
   it("shows the line numbers when showLineNumbers is true", () => {

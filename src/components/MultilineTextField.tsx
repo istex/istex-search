@@ -23,7 +23,7 @@ export default function MultilineTextField(props: MultilineTextFieldProps) {
   const maxHeight =
     typeof props.maxRows === "number" ? LINE_HEIGHT * props.maxRows : null;
   const lineCount =
-    typeof props.value === "string" ? props.value.split("\n").length : 0;
+    typeof props.value === "string" ? props.value.split("\n").length : 1;
   const digitCount = Math.floor(Math.log10(lineCount) + 1);
   const rowVirtualizer = useVirtualizer({
     count: lineCount,
@@ -37,8 +37,21 @@ export default function MultilineTextField(props: MultilineTextFieldProps) {
     // textarea elements don't submit the form when pressing Enter by default
     // so we recreate this behavior but still allow to insert new lines by
     // pressing Shift+Enter
-    if (onSubmit != null && event.key === "Enter" && !event.shiftKey) {
-      onSubmit(event as unknown as React.SubmitEvent<HTMLDivElement>);
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+
+      // If an onSubmit prop was passed, use that for the submit logic
+      if (onSubmit != null) {
+        onSubmit(event as unknown as React.SubmitEvent<HTMLDivElement>);
+        return;
+      }
+
+      // If no onSubmit prop was passed, fall back to submitting the closest
+      // form in the DOM
+      const closestForm = event.currentTarget.closest("form");
+      if (closestForm != null) {
+        closestForm.requestSubmit();
+      }
     }
   };
 

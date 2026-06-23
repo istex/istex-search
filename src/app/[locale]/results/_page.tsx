@@ -48,6 +48,11 @@ export default async function ResultsPage(
   const sortDir = searchParams.getSortDirection();
   const randomSeedFromSearchParams = searchParams.getRandomSeed();
 
+  logger.info({
+    status: 200,
+    pathname: `/${locale}/results`,
+  });
+
   const emptyResults: IstexApiResponse = {
     total: 0,
     hits: [],

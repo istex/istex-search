@@ -25,18 +25,6 @@ export default async function HomePage(props: PageProps<"/[locale]">) {
     pathname: `/${locale}`,
   });
 
-  // Redirect to the current page but with the default locale if the one
-  // from the slot isn't supported
-  if (!routing.locales.includes(locale)) {
-    logger.warn(
-      `Unsupported locale '${locale}', redirecting to '/${routing.defaultLocale}'.`,
-    );
-    redirect({
-      href: "/",
-      locale: routing.defaultLocale,
-    });
-  }
-
   setRequestLocale(locale);
 
   const searchParams = new SearchParams(nextSearchParams);

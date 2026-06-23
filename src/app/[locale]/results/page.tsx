@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import * as React from "react";
-import { redirect, routing } from "@/i18n/routing";
-import logger from "@/lib/logger";
 import ResultsPage from "./_page";
 import Loading from "./loading";
 
@@ -22,25 +20,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function _ResultsPage(
   props: PageProps<"/[locale]/results">,
 ) {
-  const { locale } = await props.params;
-
-  logger.info({
-    status: 200,
-    pathname: `/${locale}/results`,
-  });
-
-  // Redirect to the current page but with the default locale if the one
-  // from the slot isn't supported
-  if (!routing.locales.includes(locale)) {
-    logger.warn(
-      `Unsupported locale '${locale}', redirecting to '/${routing.defaultLocale}'.`,
-    );
-    redirect({
-      href: { pathname: "/results", query: await props.searchParams },
-      locale: routing.defaultLocale,
-    });
-  }
-
   // We want to trigger the Suspense only when search params that require
   // a new API call are changed
   const searchParams = await props.searchParams;

@@ -49,7 +49,7 @@ export default class SearchParams {
 
   async getQueryString(): Promise<string> {
     const queryString = this.searchParams.get("q")?.trim();
-    const qId = this.searchParams.get("q_id");
+    const qId = this.searchParams.get("q_id")?.trim();
     const isQueryStringPresent = queryString != null && queryString !== "";
     const isQIdPresent = qId != null;
 
@@ -290,7 +290,7 @@ export default class SearchParams {
 
   getFilters(): AST {
     const base64Ast = this.searchParams.get("filters");
-    if (base64Ast === null) {
+    if (base64Ast == null) {
       return [];
     }
 
@@ -338,7 +338,7 @@ export default class SearchParams {
 
   getAst(): AST {
     const jsonAst = this.searchParams.get("ast");
-    if (jsonAst === null) {
+    if (jsonAst == null) {
       return getEmptyAst();
     }
 
@@ -416,6 +416,7 @@ export default class SearchParams {
   setRandomSeed(value: string): void {
     if (value === "") {
       this.deleteRandomSeed();
+      return;
     }
 
     this.searchParams.set("randomSeed", value);
@@ -481,6 +482,9 @@ export default class SearchParams {
     return this.searchParams.toString();
   }
 
+  // This method is never called explicitly but is used when saving the history
+  // to local storage. A HistoryEntry contains a SearchParams instance and when
+  // converted to JSON we want the string representation to be stored
   toJSON(): string {
     return this.searchParams.toString();
   }

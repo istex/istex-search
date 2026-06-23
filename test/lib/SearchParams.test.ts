@@ -18,10 +18,16 @@ import { type AST, getEmptyAst } from "@/lib/ast";
 import CustomError from "@/lib/CustomError";
 import SearchParams from "@/lib/SearchParams";
 
-describe("SearchParams class", () => {
+describe("SearchParams", () => {
   describe("getQueryString", () => {
     it("gets the query string", async () => {
       const searchParams = new SearchParams({ q: "hello" });
+
+      expect(await searchParams.getQueryString()).toBe("hello");
+    });
+
+    it("trims the query string", async () => {
+      const searchParams = new SearchParams({ q: "  hello   " });
 
       expect(await searchParams.getQueryString()).toBe("hello");
     });
@@ -43,6 +49,13 @@ describe("SearchParams class", () => {
       await searchParams.setQueryString("world");
       expect(await searchParams.getQueryString()).toBe("world");
     });
+
+    it("trims the query string", async () => {
+      const searchParams = new SearchParams({ q: "hello" });
+
+      await searchParams.setQueryString("  world   ");
+      expect(await searchParams.getQueryString()).toBe("world");
+    });
   });
 
   describe("deleteQueryString", () => {
@@ -61,6 +74,12 @@ describe("SearchParams class", () => {
       expect(searchParams.getPrompt()).toBe("my prompt");
     });
 
+    it("trims the prompt", () => {
+      const searchParams = new SearchParams({ prompt: "  my prompt   " });
+
+      expect(searchParams.getPrompt()).toBe("my prompt");
+    });
+
     it("returns an empty string when the prompt parameter is missing", () => {
       const searchParams = new SearchParams({});
 
@@ -73,6 +92,13 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({ prompt: "my prompt" });
 
       searchParams.setPrompt("my new prompt");
+      expect(searchParams.getPrompt()).toBe("my new prompt");
+    });
+
+    it("trims the prompt", () => {
+      const searchParams = new SearchParams({ prompt: "my prompt" });
+
+      searchParams.setPrompt("  my new prompt   ");
       expect(searchParams.getPrompt()).toBe("my new prompt");
     });
   });
@@ -88,15 +114,21 @@ describe("SearchParams class", () => {
 
   describe("getFormats", () => {
     it("gets the formats", () => {
-      const validSearchParams = new SearchParams({ extract: "fulltext[pdf]" });
+      const searchParams = new SearchParams({ extract: "fulltext[pdf]" });
 
-      expect(validSearchParams.getFormats()).toBe(formats.fulltext.pdf);
+      expect(searchParams.getFormats()).toBe(formats.fulltext.pdf);
     });
 
     it("returns NO_FORMAT_SELECTED when the extract parameter is invalid", () => {
-      const invalidSearchParams = new SearchParams({ extract: "hello" });
+      const searchParams = new SearchParams({ extract: "hello" });
 
-      expect(invalidSearchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
+      expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
+    });
+
+    it("returns NO_FORMAT_SELECTED when the extract parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getFormats()).toBe(NO_FORMAT_SELECTED);
     });
   });
 
@@ -120,15 +152,21 @@ describe("SearchParams class", () => {
 
   describe("getUsageName", () => {
     it("gets the usage name", () => {
-      const validSearchParams = new SearchParams({ usage: "lodex" });
+      const searchParams = new SearchParams({ usage: "lodex" });
 
-      expect(validSearchParams.getUsageName()).toBe("lodex");
+      expect(searchParams.getUsageName()).toBe("lodex");
     });
 
     it("returns the default usage name if the usage parameter is invalid", () => {
-      const invalidSearchParams = new SearchParams({ usage: "hello" });
+      const searchParams = new SearchParams({ usage: "hello" });
 
-      expect(invalidSearchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
+      expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
+    });
+
+    it("returns the default usage name if the usage parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);
     });
   });
 
@@ -152,29 +190,29 @@ describe("SearchParams class", () => {
 
   describe("getSize", () => {
     it("gets the size", () => {
-      const validSearchParams = new SearchParams({ size: "2" });
+      const searchParams = new SearchParams({ size: "2" });
 
-      expect(validSearchParams.getSize()).toBe(2);
+      expect(searchParams.getSize()).toBe(2);
     });
 
     it("returns 0 when the size parameter is not a number", () => {
-      const invalidSearchParams = new SearchParams({ size: "hello" });
+      const searchParams = new SearchParams({ size: "hello" });
 
-      expect(invalidSearchParams.getSize()).toBe(0);
+      expect(searchParams.getSize()).toBe(0);
     });
 
     it("returns the max allowed when the size parameter is too big", () => {
-      const tooBig = new SearchParams({
+      const searchParams = new SearchParams({
         size: (istexApiConfig.maxSize + 2).toString(),
       });
 
-      expect(tooBig.getSize()).toBe(istexApiConfig.maxSize);
+      expect(searchParams.getSize()).toBe(istexApiConfig.maxSize);
     });
 
-    it("returns 0 whe the size parameter is negative", () => {
-      const tooSmall = new SearchParams({ size: "-1" });
+    it("returns 0 when the size parameter is negative", () => {
+      const searchParams = new SearchParams({ size: "-1" });
 
-      expect(tooSmall.getSize()).toBe(0);
+      expect(searchParams.getSize()).toBe(0);
     });
 
     it("rounds to the closest integer when the size parameter is a decimal number", () => {
@@ -184,27 +222,39 @@ describe("SearchParams class", () => {
       expect(decimalRoundDown.getSize()).toBe(1);
       expect(decimalRowndUp.getSize()).toBe(2);
     });
+
+    it("returns 0 when the size parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getSize()).toBe(0);
+    });
   });
 
   describe("setSize", () => {
-    const searchParams = new SearchParams({ size: "2" });
-
     it("sets the size", () => {
+      const searchParams = new SearchParams({ size: "2" });
+
       searchParams.setSize(3);
       expect(searchParams.getSize()).toBe(3);
     });
 
     it("sets the size to the max allowed when size is too big", () => {
+      const searchParams = new SearchParams({ size: "2" });
+
       searchParams.setSize(istexApiConfig.maxSize + 2);
       expect(searchParams.getSize()).toBe(istexApiConfig.maxSize);
     });
 
     it("sets the size to 0 when the size is negative", () => {
+      const searchParams = new SearchParams({ size: "2" });
+
       searchParams.setSize(-1);
       expect(searchParams.getSize()).toBe(0);
     });
 
     it("sets the size to the closest integer when size is a decimal number", () => {
+      const searchParams = new SearchParams({ size: "2" });
+
       searchParams.setSize(1.2);
       expect(searchParams.getSize()).toBe(1);
 
@@ -228,32 +278,32 @@ describe("SearchParams class", () => {
     const maxPage = Math.ceil(istexApiConfig.maxPaginationOffset / perPage);
 
     it("gets the page", () => {
-      const validSearchParams = new SearchParams({
+      const searchParams = new SearchParams({
         page: "2",
         perPage: perPage.toString(),
       });
 
-      expect(validSearchParams.getPage()).toBe(2);
+      expect(searchParams.getPage()).toBe(2);
     });
 
     it("returns the first page when the page parameter is not a number", () => {
-      const invalidSearchParams = new SearchParams({ page: "hello" });
+      const searchParams = new SearchParams({ page: "hello" });
 
-      expect(invalidSearchParams.getPage()).toBe(minPage);
+      expect(searchParams.getPage()).toBe(minPage);
     });
 
     it("returns the last page when the page parameter is too big", () => {
-      const tooBig = new SearchParams({
+      const searchParams = new SearchParams({
         page: (maxPage + 2).toString(),
       });
 
-      expect(tooBig.getPage()).toBe(maxPage);
+      expect(searchParams.getPage()).toBe(maxPage);
     });
 
     it("returns the first page when the page parameter is negative", () => {
-      const tooSmall = new SearchParams({ page: "-1" });
+      const searchParams = new SearchParams({ page: "-1" });
 
-      expect(tooSmall.getPage()).toBe(minPage);
+      expect(searchParams.getPage()).toBe(minPage);
     });
 
     it("returns the closest integer when the page parameter is a decimal number", () => {
@@ -262,6 +312,12 @@ describe("SearchParams class", () => {
 
       const decimalRowndUp = new SearchParams({ page: "1.7" });
       expect(decimalRowndUp.getPage()).toBe(2);
+    });
+
+    it("returns the first page when the page parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getPage()).toBe(minPage);
     });
   });
 
@@ -310,41 +366,47 @@ describe("SearchParams class", () => {
 
   describe("getPerPage", () => {
     it("gets the per page", () => {
-      const validSearchParams = new SearchParams({
+      const searchParams = new SearchParams({
         perPage: perPageOptions[1].toString(),
       });
 
-      expect(validSearchParams.getPerPage()).toBe(perPageOptions[1]);
+      expect(searchParams.getPerPage()).toBe(perPageOptions[1]);
     });
 
     it("returns the min per page when the perPage parameter is not a number", () => {
-      const invalidSearchParams = new SearchParams({ perPage: "hello" });
+      const searchParams = new SearchParams({ perPage: "hello" });
 
-      expect(invalidSearchParams.getPerPage()).toBe(MIN_PER_PAGE);
+      expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
     });
 
     it("returns the max per page when the perPage parameter is too big", () => {
-      const tooBig = new SearchParams({
+      const searchParams = new SearchParams({
         perPage: (MAX_PER_PAGE + 2).toString(),
       });
 
-      expect(tooBig.getPerPage()).toBe(MAX_PER_PAGE);
+      expect(searchParams.getPerPage()).toBe(MAX_PER_PAGE);
     });
 
     it("returns the min per page when the perPage parameter is too small", () => {
-      const tooSmall = new SearchParams({
+      const searchParams = new SearchParams({
         perPage: (MIN_PER_PAGE - 2).toString(),
       });
 
-      expect(tooSmall.getPerPage()).toBe(MIN_PER_PAGE);
+      expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
     });
 
     it("returns the closest per page option when the perPage parameter is between min and max but not a valid value", () => {
-      const inBetween = new SearchParams({
+      const searchParams = new SearchParams({
         perPage: (perPageOptions[1] + 2).toString(),
       });
 
-      expect(inBetween.getPerPage()).toBe(perPageOptions[1]);
+      expect(searchParams.getPerPage()).toBe(perPageOptions[1]);
+    });
+
+    it("returns the min per page when the perPage parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getPerPage()).toBe(MIN_PER_PAGE);
     });
   });
 
@@ -387,6 +449,26 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getFilters()).toEqual(filters);
     });
+
+    it("returns an empty array if the filters parameter is not a valid base64 string", () => {
+      const searchParams = new SearchParams({ filter: "not base64" });
+
+      expect(searchParams.getFilters()).toEqual([]);
+    });
+
+    it("returns an empty array if the filters parameter is a valid base64 but doesn't decode to valid JSON", () => {
+      const searchParams = new SearchParams({
+        filter: btoa("not json"),
+      });
+
+      expect(searchParams.getFilters()).toEqual([]);
+    });
+
+    it("returns an empty array if the filters parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getFilters()).toEqual([]);
+    });
   });
 
   describe("setFilters", () => {
@@ -403,7 +485,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setFilters(filters);
-
       expect(searchParams.getFilters()).toEqual(filters);
     });
   });
@@ -424,7 +505,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteFilters();
-
       expect(searchParams.getFilters()).toEqual([]);
     });
   });
@@ -445,6 +525,12 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_REGULAR);
     });
+
+    it("returns the default search mode when the searchMode parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_REGULAR);
+    });
   });
 
   describe("setSearchMode", () => {
@@ -452,7 +538,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setSearchMode(SEARCH_MODE_ASSISTED);
-
       expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_ASSISTED);
     });
   });
@@ -464,7 +549,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteSearchMode();
-
       expect(searchParams.getSearchMode()).toBe(SEARCH_MODE_REGULAR);
     });
   });
@@ -486,6 +570,18 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getAst()).toEqual(ast);
     });
+
+    it("returns an empty AST if the ast parameter is invalid", () => {
+      const searchParams = new SearchParams({ ast: "invalid" });
+
+      expect(searchParams.getAst()).toEqual(getEmptyAst());
+    });
+
+    it("returns an empty AST if the ast parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getAst()).toEqual(getEmptyAst());
+    });
   });
 
   describe("setAst", () => {
@@ -502,7 +598,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setAst(ast);
-
       expect(searchParams.getAst()).toEqual(ast);
     });
   });
@@ -523,7 +618,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteAst();
-
       expect(searchParams.getAst()).toEqual(getEmptyAst());
     });
   });
@@ -542,7 +636,13 @@ describe("SearchParams class", () => {
         sortBy: "hello",
       });
 
-      expect(searchParams.getSortBy()).toBe("qualityOverRelevance");
+      expect(searchParams.getSortBy()).toBe(DEFAULT_SORT_BY);
+    });
+
+    it("returns the default sort by when the sortBy parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getSortBy()).toBe(DEFAULT_SORT_BY);
     });
   });
 
@@ -551,7 +651,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setSortBy("publicationDate");
-
       expect(searchParams.getSortBy()).toBe("publicationDate");
     });
   });
@@ -563,7 +662,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteSortBy();
-
       expect(searchParams.getSortBy()).toBe(DEFAULT_SORT_BY);
     });
   });
@@ -582,7 +680,13 @@ describe("SearchParams class", () => {
         sortDirection: "hello",
       });
 
-      expect(searchParams.getSortDirection()).toBe("asc");
+      expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
+    });
+
+    it("returns the default sort direction when the sortDirection parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
     });
   });
 
@@ -591,7 +695,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setSortDirection("asc");
-
       expect(searchParams.getSortDirection()).toBe("asc");
     });
   });
@@ -603,7 +706,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteSortDirection();
-
       expect(searchParams.getSortDirection()).toBe(DEFAULT_SORT_DIR);
     });
   });
@@ -617,6 +719,12 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getRandomSeed()).toBe(randomSeed);
     });
+
+    it("returns undefined when the random seed paramater is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getRandomSeed()).toBe(undefined);
+    });
   });
 
   describe("setRandomSeed", () => {
@@ -625,7 +733,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setRandomSeed(randomSeed);
-
       expect(searchParams.getRandomSeed()).toBe(randomSeed);
     });
   });
@@ -637,7 +744,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteRandomSeed();
-
       expect(searchParams.getRandomSeed()).toBe(undefined);
     });
   });
@@ -667,6 +773,12 @@ describe("SearchParams class", () => {
 
       expect(searchParams.getArchiveType()).toBe("zip");
     });
+
+    it("returns the default archive type when the archiveType parameter is missing", () => {
+      const searchParams = new SearchParams({});
+
+      expect(searchParams.getArchiveType()).toBe(DEFAULT_ARCHIVE_TYPE);
+    });
   });
 
   describe("setArchiveType", () => {
@@ -674,7 +786,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setArchiveType("tar");
-
       expect(searchParams.getArchiveType()).toBe("tar");
     });
   });
@@ -686,7 +797,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteArchiveType();
-
       expect(searchParams.getArchiveType()).toBe(DEFAULT_ARCHIVE_TYPE);
     });
   });
@@ -700,10 +810,28 @@ describe("SearchParams class", () => {
       expect(searchParams.getCompressionLevel()).toBe(9);
     });
 
-    it("returns the default compression level when the compressionLevel parameter is invalid", () => {
+    it("returns the default compression level when the compressionLevel parameter is not a number", () => {
       const searchParams = new SearchParams({
         compressionLevel: "hello",
       });
+
+      expect(searchParams.getCompressionLevel()).toBe(
+        DEFAULT_COMPRESSION_LEVEL,
+      );
+    });
+
+    it("returns the default compression level when the compressionLevel parameter is a number but not a valid compression level", () => {
+      const searchParams = new SearchParams({
+        compressionLevel: "5",
+      });
+
+      expect(searchParams.getCompressionLevel()).toBe(
+        DEFAULT_COMPRESSION_LEVEL,
+      );
+    });
+
+    it("returns the default compression level when the compressionLevel parameter is missing", () => {
+      const searchParams = new SearchParams({});
 
       expect(searchParams.getCompressionLevel()).toBe(
         DEFAULT_COMPRESSION_LEVEL,
@@ -716,7 +844,6 @@ describe("SearchParams class", () => {
       const searchParams = new SearchParams({});
 
       searchParams.setCompressionLevel(9);
-
       expect(searchParams.getCompressionLevel()).toBe(9);
     });
   });
@@ -728,10 +855,35 @@ describe("SearchParams class", () => {
       });
 
       searchParams.deleteCompressionLevel();
-
       expect(searchParams.getCompressionLevel()).toBe(
         DEFAULT_COMPRESSION_LEVEL,
       );
+    });
+  });
+
+  describe("toString", () => {
+    it("converts the search params into a URL encoded URL component", () => {
+      const searchParams = new SearchParams({
+        q: "hello/world",
+        size: "8",
+      });
+
+      expect(searchParams.toString()).toBe("q=hello%2Fworld&size=8");
+    });
+  });
+
+  describe("toNative", () => {
+    it("returns the underlying URLSearchParams instance", () => {
+      const searchParams = new SearchParams({
+        q: "hello",
+        size: "8",
+      });
+      const native = searchParams.toNative();
+
+      expect(native).toBeInstanceOf(URLSearchParams);
+      expect(native.get("q")).toBe("hello");
+      expect(native.get("size")).toBe("8");
+      expect(native.get("unknown")).toBe(null);
     });
   });
 
@@ -745,7 +897,6 @@ describe("SearchParams class", () => {
       });
 
       searchParams.clear();
-
       expect(await searchParams.getQueryString()).toBe("");
       expect(searchParams.getSize()).toBe(0);
       expect(searchParams.getUsageName()).toBe(DEFAULT_USAGE_NAME);

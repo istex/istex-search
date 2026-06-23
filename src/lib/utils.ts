@@ -124,19 +124,6 @@ export function labelizeIsoLanguage(
   }
 }
 
-export function areSetsEqual<T>(first: Set<T>, second: Set<T>) {
-  // Use the native implementation if it's available
-  // TODO: Remove this function and just use the native implementation once browser support is >95%
-  if (typeof Set.prototype.symmetricDifference === "function") {
-    return first.symmetricDifference(second).size === 0;
-  }
-
-  return (
-    first.size === second.size &&
-    Array.from(first).every((value) => second.has(value))
-  );
-}
-
 export function splitArray<T>(array: T[], predicate: (item: T) => boolean) {
   const result: T[][] = [];
   let currentGroupIndex = -1;

@@ -22,7 +22,7 @@ import {
   useSearchParams,
 } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
-import { areSetsEqual, labelizeIsoLanguage } from "@/lib/utils";
+import { labelizeIsoLanguage } from "@/lib/utils";
 import ArrowDownIcon from "./ArrowDownIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
 import ErrorUi from "./ErrorUi";
@@ -65,10 +65,8 @@ export default function TextFilter({ field }: TextFilterProps) {
   const [selectedValues, setSelectedValues] = React.useState(
     initiallySelectedValues,
   );
-  const hasPendingModifications = !areSetsEqual(
-    initiallySelectedValues,
-    selectedValues,
-  );
+  const hasPendingModifications =
+    initiallySelectedValues.symmetricDifference(selectedValues).size !== 0;
 
   const labelizeValue = React.useCallback(
     (value: AggregationBucket): LabelizedAggregation => {

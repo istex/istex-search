@@ -201,22 +201,6 @@ describe("Utility functions", () => {
     });
   });
 
-  describe("areSetsEqual", () => {
-    it("returns true when both sets are equal", () => {
-      const a = new Set([1, 2, 3]);
-      const b = new Set([1, 2, 3]);
-
-      expect(Module.areSetsEqual(a, b)).toBe(true);
-    });
-
-    it("returns false the sets are different", () => {
-      const a = new Set([1, 2, 3]);
-      const b = new Set([2, 3, 4]);
-
-      expect(Module.areSetsEqual(a, b)).toBe(false);
-    });
-  });
-
   describe("splitArray", () => {
     it("creates 2 groups when the items that meet the predicate are at the beginning and next to each other", () => {
       const array = ["prefix_a", "prefix_b", "c", "d", "e"];

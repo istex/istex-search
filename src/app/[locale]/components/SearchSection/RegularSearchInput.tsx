@@ -15,6 +15,9 @@ import SearchTitle from "./SearchTitle";
 export default function RegularSearchInput() {
   const t = useTranslations("home.SearchSection.RegularSearchInput");
   const queryContext = useQueryContext();
+  const [queryString, setQueryString] = React.useState(
+    queryContext.queryString,
+  );
   const [error, setError] = React.useState<CustomError | null>(
     queryContext.errorInfo != null
       ? new CustomError(queryContext.errorInfo)
@@ -24,21 +27,25 @@ export default function RegularSearchInput() {
   const { goToResultsPage } = useQueryContext();
   const onHomePage = useOnHomePage();
 
-  const handleSubmit = async (formData: FormData) => {
-    const queryString =
-      formData.get("regular-search-input")?.toString().trim() ?? "";
-    if (queryString === "") {
+  const handleSubmit = async () => {
+    const trimmedQueryString = queryString.trim();
+    if (trimmedQueryString === "") {
       setError(new CustomError({ name: "EmptyQueryError" }));
       return;
     }
 
     try {
-      await goToResultsPage(queryString);
+      await goToResultsPage(trimmedQueryString);
     } catch (error) {
       if (error instanceof CustomError) {
         setError(error);
       }
     }
+  };
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setError(null);
+    setQueryString(event.target.value);
   };
 
   const openPromptModal = () => {
@@ -64,17 +71,19 @@ export default function RegularSearchInput() {
             name="regular-search-input"
             required
             autoFocus
-            defaultValue={queryContext.queryString}
             error={error != null}
             fullWidth
             maxRows={8}
             minRows={1}
             placeholder={t("placeholder")}
+            value={queryString}
+            onChange={handleChange}
             slotProps={{
               input: {
                 endAdornment: (
                   <IconButton
                     size="small"
+                    title={t("promptButtonAriaLabel")}
                     aria-label={t("promptButtonAriaLabel")}
                     onClick={openPromptModal}
                     sx={{ p: 0.5, alignSelf: "start" }}

@@ -63,7 +63,7 @@ describe("RegularSearchInput", () => {
     render(<RegularSearchInput />, { queryString });
 
     const iconButton = screen.getByRole("button", {
-      name: "Générer une requête depuis un prompt",
+      name: "Recherche en langage naturel",
     });
     await userEvent.click(iconButton);
 

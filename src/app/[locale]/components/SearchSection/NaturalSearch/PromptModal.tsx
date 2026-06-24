@@ -3,6 +3,7 @@ import {
   AlertTitle,
   DialogActions,
   DialogContent,
+  Stack,
   Typography,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
@@ -12,6 +13,7 @@ import ErrorCard from "@/components/ErrorCard";
 import type { ModalProps } from "@/components/Modal";
 import Modal from "@/components/Modal";
 import MultilineTextField from "@/components/MultilineTextField";
+import Panel from "@/components/Panel";
 import RichText from "@/components/RichText";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
@@ -26,24 +28,21 @@ export default function PromptModal({
   const { goToResultsPage } = useQueryContext();
   const searchParams = useSearchParams();
   const defaultPrompt = searchParams.getPrompt();
+  const [prompt, setPrompt] = React.useState(defaultPrompt);
 
-  const getQueryStringFromPromptAction = async (
-    _: unknown,
-    formData: FormData,
-  ): Promise<ActionResult> => {
-    const newPrompt =
-      formData.get("natural-search-input")?.toString().trim() ?? "";
-    if (newPrompt === "") {
+  const getQueryStringFromPromptAction = async (): Promise<ActionResult> => {
+    const trimmedPrompt = prompt.trim();
+    if (trimmedPrompt === "") {
       return { success: false, errorInfo: { name: "EmptyPromptError" } };
     }
 
-    const result = await getQueryStringFromPrompt(newPrompt);
+    const result = await getQueryStringFromPrompt(trimmedPrompt);
     if (!result.success) {
       return result;
     }
 
     try {
-      searchParams.setPrompt(newPrompt);
+      searchParams.setPrompt(trimmedPrompt);
       await goToResultsPage(result.value, searchParams);
     } catch (error) {
       return {
@@ -62,31 +61,41 @@ export default function PromptModal({
   );
   const isError = formState?.success === false;
 
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setPrompt(event.target.value);
+  };
+
   return (
     <Modal title={t("title")} open={open} onClose={onClose}>
       <form noValidate autoCorrect="off" action={formAction}>
         <DialogContent>
-          <Typography gutterBottom>
-            <RichText>{(tags) => t.rich("introduction", tags)}</RichText>
-          </Typography>
-          <Alert severity="info" sx={{ mb: 2 }}>
-            <AlertTitle>{t("noteTitle")}</AlertTitle>
-            {t("note")}
-          </Alert>
+          <Panel>
+            <Stack spacing={2}>
+              <Typography>
+                <RichText>{(tags) => t.rich("introduction", tags)}</RichText>
+              </Typography>
 
-          <MultilineTextField
-            name="natural-search-input"
-            required
-            autoFocus
-            defaultValue={defaultPrompt}
-            error={isError}
-            fullWidth
-            maxRows={8}
-            minRows={1}
-            placeholder={t("placeholder")}
-          />
+              <MultilineTextField
+                name="natural-search-input"
+                required
+                autoFocus
+                error={isError}
+                fullWidth
+                maxRows={8}
+                minRows={1}
+                placeholder={t("placeholder")}
+                value={prompt}
+                onChange={handleChange}
+              />
 
-          {isError && <ErrorCard info={formState.errorInfo} sx={{ mt: 2 }} />}
+              {isError && <ErrorCard info={formState.errorInfo} />}
+
+              <Alert severity="info">
+                <AlertTitle>{t("noteTitle")}</AlertTitle>
+                {t("note")}
+              </Alert>
+            </Stack>
+          </Panel>
         </DialogContent>
 
         <DialogActions>

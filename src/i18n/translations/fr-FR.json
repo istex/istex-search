@@ -529,8 +529,8 @@
     "EmptyQueryError": "Veuillez renseigner une requête.",
     "GetAggregationError": "Un problème est survenu pendant la récupération des valeurs.",
     "EmptyPromptError": "Veuillez renseigner un prompt.",
-    "TextLuceneError": "Erreur text-lucene",
-    "TextLuceneEmptyResponseError": "Response vide",
+    "TextLuceneError": "Le service de génération de requêtes Lucene est momentanément indisponible, veuillez réessayer ultérieurement.",
+    "TextLuceneEmptyResponseError": "Impossible d'interpréter votre prompt, veuillez le reformuler.",
     "default": "Une erreur est survenue, veuillez réessayer ultérieurement."
   },
   "Modal": {

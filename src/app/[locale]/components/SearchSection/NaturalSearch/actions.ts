@@ -19,10 +19,16 @@ export async function getQueryStringFromPrompt(
   );
   url.searchParams.set("sid", "istex-search");
 
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify([{ value: prompt }]),
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify([{ value: prompt }]),
+    });
+  } catch (_error) {
+    return { success: false, errorInfo: { name: "TextLuceneError" } };
+  }
+
   if (!response.ok) {
     return { success: false, errorInfo: { name: "TextLuceneError" } };
   }

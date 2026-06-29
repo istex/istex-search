@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import * as React from "react";
+import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import ErrorCard from "@/components/ErrorCard";
@@ -67,7 +68,26 @@ export default function PromptModal({
   };
 
   return (
-    <Modal heading={t("title")} open={open} onClose={onClose}>
+    <Modal
+      heading={
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <span>{t("title")}</span>
+          <Badge
+            label={t("betaChipLabel")}
+            severity={"success"}
+            sx={{
+              fontSize: "0.75rem",
+              height: "22px",
+              "& .MuiChip-label": {
+                p: 0.7,
+              },
+            }}
+          />
+        </Stack>
+      }
+      open={open}
+      onClose={onClose}
+    >
       <form noValidate autoCorrect="off" action={formAction}>
         <DialogContent>
           <Panel>

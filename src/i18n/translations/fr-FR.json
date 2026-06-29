@@ -77,6 +77,7 @@
       },
       "PromptModal": {
         "title": "Recherche en langage naturel",
+        "betaChipLabel": "BÊTA",
         "introduction": "Décrivez votre besoin en langage naturel. La requête sera automatiquement convertie en syntaxe Lucene compatible avec Istex\u00A0Search.",
         "noteTitle": "Précisions",
         "note": "Les champs pris en charge actuellement sont le titre, le résumé, les mots-clés d’auteurs, les auteurs, la date de publication, la langue et le type de document (article de recherche). Les requêtes sont générées automatiquement à partir de votre description et peuvent varier légèrement d'une génération à l'autre. ",

@@ -1,18 +1,21 @@
 "use client";
 
 import { type AlertProps, Chip } from "@mui/material";
-import { alpha } from "@mui/material/styles";
+import { alpha, type SxProps, useTheme } from "@mui/material/styles";
 
 interface BadgeProps {
   label: string;
   severity: NonNullable<AlertProps["severity"]>;
+  sx?: SxProps;
 }
 
-export default function Badge({ label, severity }: BadgeProps) {
+export default function Badge({ label, severity, sx }: BadgeProps) {
+  const theme = useTheme();
+
   return (
     <Chip
       label={label}
-      sx={(theme) => ({
+      sx={{
         fontSize: "0.6rem",
         fontWeight: "bold",
         width: "fit-content",
@@ -24,7 +27,8 @@ export default function Badge({ label, severity }: BadgeProps) {
         "& .MuiChip-label": {
           px: "4px",
         },
-      })}
+        ...sx,
+      }}
     />
   );
 }

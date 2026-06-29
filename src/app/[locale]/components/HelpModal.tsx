@@ -17,7 +17,7 @@ import type { ModalProps } from "@/components/Modal";
 export default function HelpModal({
   open,
   onClose,
-}: Omit<ModalProps, "title" | "children">) {
+}: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("help.modal");
   const theme = useTheme();
 

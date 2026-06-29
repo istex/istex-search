@@ -55,7 +55,7 @@ export default function DownloadButton() {
       </Box>
 
       <Modal
-        title={tDownload("title")}
+        heading={tDownload("title")}
         open={downloadModalOpen}
         onClose={closeDownloadModal}
         slideDirection="up"

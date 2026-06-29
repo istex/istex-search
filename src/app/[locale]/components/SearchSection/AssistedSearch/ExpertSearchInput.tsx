@@ -81,7 +81,7 @@ export default function ExpertSearchInput({
         <Button type="submit">{t("validate")}</Button>
       </Box>
 
-      <Modal title={t("Dialog.title")} open={modalOpen} onClose={closeModal}>
+      <Modal heading={t("Dialog.title")} open={modalOpen} onClose={closeModal}>
         <DialogContent>{t("Dialog.content")}</DialogContent>
 
         <DialogActions sx={{ pt: 0 }}>

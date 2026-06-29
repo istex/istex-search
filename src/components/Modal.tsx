@@ -16,7 +16,7 @@ import type * as React from "react";
 export interface ModalProps extends DialogProps {
   open: boolean; // Make open required
   onClose: () => void; // Change the signature of onClose to make it easier to pass to other components
-  title: string;
+  heading: React.ReactNode;
   slideDirection?: SlideProps["direction"];
   children: React.ReactNode;
 }
@@ -26,7 +26,7 @@ export default function Modal(props: ModalProps) {
   const {
     open,
     onClose,
-    title,
+    heading,
     slideDirection,
     fullWidth = true,
     maxWidth = "lg",
@@ -56,7 +56,7 @@ export default function Modal(props: ModalProps) {
       {...rest}
     >
       <DialogTitle sx={{ display: "flex", justifyContent: "space-between" }}>
-        {title}
+        {heading}
         <IconButton
           data-testid="close-modal-button"
           size="small"

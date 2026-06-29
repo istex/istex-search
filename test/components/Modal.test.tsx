@@ -5,7 +5,7 @@ describe("Modal", () => {
   it("renders the title in a heading tag", () => {
     const title = "My super title";
     render(
-      <Modal title={title} open onClose={jest.fn()}>
+      <Modal heading={title} open onClose={jest.fn()}>
         <div />
       </Modal>,
     );
@@ -22,7 +22,7 @@ describe("Modal", () => {
   it("closes the modal when clicking on the cross", async () => {
     const onClose = jest.fn();
     render(
-      <Modal title="" open onClose={onClose}>
+      <Modal heading="" open onClose={onClose}>
         <div />
       </Modal>,
     );

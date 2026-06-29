@@ -24,7 +24,7 @@ import { type ActionResult, getQueryStringFromPrompt } from "./actions";
 export default function PromptModal({
   open,
   onClose,
-}: Omit<ModalProps, "title" | "children">) {
+}: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("home.SearchSection.PromptModal");
   const { goToResultsPage } = useQueryContext();
   const searchParams = useSearchParams();
@@ -67,7 +67,7 @@ export default function PromptModal({
   };
 
   return (
-    <Modal title={t("title")} open={open} onClose={onClose}>
+    <Modal heading={t("title")} open={open} onClose={onClose}>
       <form noValidate autoCorrect="off" action={formAction}>
         <DialogContent>
           <Panel>

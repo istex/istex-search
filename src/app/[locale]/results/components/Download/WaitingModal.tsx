@@ -20,7 +20,7 @@ import Citation from "./Citation";
 export default function WaitingModal({
   open,
   onClose,
-}: Omit<ModalProps, "title" | "children">) {
+}: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("download.WaitingModal");
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -36,7 +36,7 @@ export default function WaitingModal({
   );
 
   return (
-    <Modal title={t("title")} open={open} onClose={onClose} maxWidth="md">
+    <Modal heading={t("title")} open={open} onClose={onClose} maxWidth="md">
       <DialogContent>
         <Stack spacing={2}>
           <Image

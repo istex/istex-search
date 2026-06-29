@@ -39,7 +39,7 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
   return (
     <>
       <Modal
-        title={t("title")}
+        heading={t("title")}
         open={open}
         onClose={onClose}
         slideDirection="left"
@@ -138,7 +138,7 @@ function ConfirmModal({ open, onClose, onConfirm }: ConfirmModalProps) {
   };
 
   return (
-    <Modal title={t("title")} open={open} onClose={onClose} fullWidth={false}>
+    <Modal heading={t("title")} open={open} onClose={onClose} fullWidth={false}>
       <DialogContent>{t("content")}</DialogContent>
 
       <DialogActions>

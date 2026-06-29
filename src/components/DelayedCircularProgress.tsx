@@ -3,11 +3,13 @@ import {
   CircularProgress,
   type CircularProgressProps,
   Fade,
+  type SxProps,
 } from "@mui/material";
 
 interface DelayedCircularProgressProps extends CircularProgressProps {
   isLoading?: boolean;
   delay?: number;
+  containerSx?: SxProps;
 }
 
 // Passing isLoading allows this component to control its display.
@@ -25,10 +27,10 @@ interface DelayedCircularProgressProps extends CircularProgressProps {
 export default function DelayedCircularProgress(
   props: DelayedCircularProgressProps,
 ) {
-  const { isLoading = true, delay = 1000, size, ...rest } = props;
+  const { isLoading = true, delay = 1000, size, containerSx, ...rest } = props;
 
   return (
-    <Box sx={{ height: size }}>
+    <Box sx={{ height: size, ...containerSx }}>
       <Fade
         in={isLoading}
         style={{

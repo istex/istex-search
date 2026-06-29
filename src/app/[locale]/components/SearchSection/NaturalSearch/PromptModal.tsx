@@ -9,6 +9,7 @@ import {
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import Button from "@/components/Button";
+import DelayedCircularProgress from "@/components/DelayedCircularProgress";
 import ErrorCard from "@/components/ErrorCard";
 import type { ModalProps } from "@/components/Modal";
 import Modal from "@/components/Modal";
@@ -99,8 +100,19 @@ export default function PromptModal({
         </DialogContent>
 
         <DialogActions>
-          <Button type="submit" disabled={isPending}>
+          <Button
+            type="submit"
+            disabled={isPending}
+            sx={{ position: "relative" }}
+          >
             {t("submitButton")}
+            {isPending && (
+              <DelayedCircularProgress
+                delay={3000}
+                size={30}
+                containerSx={{ position: "absolute" }}
+              />
+            )}
           </Button>
         </DialogActions>
       </form>

@@ -37,7 +37,7 @@ export default function Navbar() {
         <Box sx={{ display: { xs: "flex", sm: "none" } }}>
           <IconButton
             size="small"
-            aria-label="external scientific documentation resources"
+            aria-label={t("burgerMenuAriaLabel")}
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleOpenNavMenu}

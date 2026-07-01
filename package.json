@@ -13,12 +13,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "@base-ui/react": "1.5.0",
+    "@base-ui/react": "1.6.0",
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
     "@mui/icons-material": "9.1.1",
-    "@mui/material": "9.1.1",
+    "@mui/material": "9.1.2",
     "@mui/material-nextjs": "9.1.1",
     "@tanstack/react-query": "5.101.0",
     "@tanstack/react-virtual": "3.14.2",

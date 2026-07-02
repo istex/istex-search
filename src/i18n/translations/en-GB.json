@@ -1,0 +1,999 @@
+{
+  "home": {
+    "metadata": {
+      "description": "Web application dedicated to Istex sub-corpus creation and extraction."
+    },
+    "Navbar": {
+      "burgerMenuAriaLabel": "External scientific documentation resources",
+      "istex": "go to istex.fr",
+      "a_zJournalsList": "Holdings summary",
+      "documentaryDataset": "Documentary references",
+      "specializedCorpus": "Specialised corpora",
+      "istexTdm": "Istex TDM",
+      "loterre": "Istex Loterre"
+    },
+    "Header": {
+      "baseline": "<strong>Create and download your scientific corpus</strong><br></br>First step of your text and data mining project"
+    },
+    "SearchSection": {
+      "searchModeGroupAriaLabel": "Search modes",
+      "regularMode": "Simple search",
+      "assistedMode": "Assisted search",
+      "importMode": "List import",
+      "button": "Search",
+      "resultCount": "{count, plural, =0 {<resultsSpan>#</resultsSpan> documents found} =1 {<resultsSpan>#</resultsSpan> document found} other {<resultsSpan>#</resultsSpan> documents found}}",
+      "RegularSearchInput": {
+        "searchTitle": "Create your query",
+        "resultsTitle": "Results of your query",
+        "placeholder": "\"nuclear physics\" AND language:eng",
+        "promptButtonAriaLabel": "Search in natural language",
+        "examplesTitle": "Test query examples"
+      },
+      "AssistedSearchInput": {
+        "searchTitle": "Query building assistant",
+        "resultsTitle": "Results of your assisted query",
+        "assistedButton": "Assisted edit",
+        "expertButton": "Expert edit",
+        "button": "Search",
+        "addRule": "Add a rule",
+        "addGroup": "Add a group",
+        "removeGroup": "Delete",
+        "removeRule": "Delete this rule",
+        "reset": "Reset",
+        "field": "Field",
+        "searchField": "Search for a field",
+        "comparator": "Comparator",
+        "searchComparator": "Search for a comparator",
+        "value": "Value",
+        "searchValue": "Search for a value",
+        "valueTooltip": "Enter only one value. Metacharacters such as * or ? are not allowed.",
+        "minValue": "Min value",
+        "maxValue": "Max value",
+        "equals": "equals",
+        "contains": "contains",
+        "between": "is between",
+        "startsWith": "starts with",
+        "endsWith": "ends with",
+        "greater": "is strictly greater than",
+        "smaller": "is strictly less than",
+        "true": "true",
+        "false": "false",
+        "operator": "Operator",
+        "ExpertSearchInput": {
+          "goBackButton": "Cancel expert edit",
+          "validate": "Confirm your modifications",
+          "Dialog": {
+            "title": "Are you sure?",
+            "content": "By confirming your modifications, you will not be able to continue with the query building assistant.",
+            "confirm": "Confirm"
+          }
+        }
+      },
+      "ImportInput": {
+        "searchTitle": "Import your identifiers",
+        "resultsTitle": "Results of your import",
+        "placeholder": "Paste your list of identifiers* (ARK, DOI, Istex ID) or import a .corpus file\n* only one format at a time",
+        "button": "Search",
+        "uploadIconAlt": "Upload a .corpus file"
+      },
+      "PromptModal": {
+        "title": "Search in natural search",
+        "betaChipLabel": "BETA",
+        "introduction": "Describe your problem in natural language. Your description will be automatically converted into an Istex\u00A0Search compatible Lucene query.",
+        "noteTitle": "Notes",
+        "note": "The currently supported fields are the title, the abstract, the author keywords, the publication date, the language and the document type (research article). The queries are automatically generated from your description and can vary from one generation to another.",
+        "placeholder": "Research articles in English about nuclear energy published after 2015",
+        "submitButton": "Generate the query"
+      }
+    },
+    "CorpusSection": {
+      "corpus": {
+        "title": "Explore ready-to-use corpora",
+        "subtitle": "Browse our {corpusLength} latest specialised corpora",
+        "seeMoreButton": "SEE ALL",
+        "contactButton": "CORPUS ON DEMAND"
+      },
+      "gateways": {
+        "title": "Tune your download to your use case",
+        "subtitle": "Istex\u00A0Search offers connectors for corpus analysis tools.",
+        "paragraph": "No matter your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows to download your corpus in formats compatible with text and data mining tools.",
+        "buttonTop": "For more information about these tools:",
+        "gatewaySuggestion": "Want to suggest a connector for a tool?",
+        "contactButton": "CONTACT US"
+      }
+    },
+    "DownloadSection": {
+      "title": "Download your data in 3 steps",
+      "body": "Metadata of publications in the Istex repository are available to everyone. The full texts and the enrichments created by Istex are available to members of French higher education and research institutions.",
+      "downloadSteps": [
+        {
+          "title": "Create a query",
+          "body": "Multiple search modes are available to query the Istex repository: the simple search, the assisted search and the import of an identifier list."
+        },
+        {
+          "title": "Browse the results",
+          "body": "Various filters and indicators are available to analyse the corpus' content and tune your query to get a high-quality corpus."
+        },
+        {
+          "title": "Massively download",
+          "body": "Istex\u00A0Search allows you to download up to {maxSize, number} documents and choose the data types (metadata, full texts, enrichments) in formats tailored to your needs."
+        }
+      ]
+    },
+    "CourseSection": {
+      "title": "Need to better understand Istex\u00A0Search?",
+      "body": "The Istex team offers trainings on the corpus creation methodology.",
+      "button": "Find out about our trainings"
+    }
+  },
+  "results": {
+    "metadata": {
+      "title": "Results"
+    },
+    "placeholders": {
+      "noTitle": "No title",
+      "noAbstract": "No abstract"
+    },
+    "unavailableTitle": "This feature is not available in this search mode.",
+    "CompleteQuery": {
+      "prefix": "Query: ",
+      "copy": {
+        "aria-label": "Copy the query into your clipboard.",
+        "success": "Query copied into your clipboard."
+      }
+    },
+    "ResultsToolbar": {
+      "groupAriaLabel": "Display modes of the results",
+      "gridAriaLabel": "Grid display",
+      "listAriaLabel": "List display"
+    },
+    "PerPage": "display: ",
+    "Sorting": {
+      "sortBy": "Sort by: ",
+      "asc": "ascending order",
+      "desc": "descending order",
+      "qualityOverRelevance": "relevance & quality",
+      "random": "random",
+      "publicationDate": "publication date",
+      "title": {
+        "raw": "title"
+      }
+    },
+    "ResultsCard": {
+      "select": "Select",
+      "unselect": "Unselect",
+      "include": "Include",
+      "exclude": "Exclude"
+    },
+    "DownloadButton": "Download the corpus ({resultCount, number})",
+    "Pagination": {
+      "firstPage": "Go to the first page",
+      "lastPage": "Go to the last page",
+      "previousPage": "Go to the previous page",
+      "nextPage": "Go to the next page",
+      "currentPageIndex": "{page, number}",
+      "page": "PAGE",
+      "on": "IN {total, number}"
+    },
+    "Filters": {
+      "NumberFilter": {
+        "range": "range",
+        "value": "value",
+        "to": "to",
+        "minPlaceholder": "Minimum",
+        "maxPlaceholder": "Maximum",
+        "valuePlaceholder": "Value"
+      },
+      "TextFilter": {
+        "search": "Search",
+        "sortKeyAsc": "Sort the values in ascending alphanumeric order",
+        "sortKeyDesc": "Sort the values in descending alphanumeric order",
+        "sortDocCountAsc": "Sort by document count in ascending order",
+        "sortDocCountDesc": "Sort by document count in descending order"
+      },
+      "apply": "Apply",
+      "clear": "Clear",
+      "clearAll": "Clear all",
+      "categoriesGroupHeader": "Scientific categories"
+    },
+    "FilterTags": {
+      "title": "Your active filters",
+      "tooltip": "Click on the filters below to exclude them.",
+      "clear": "Delete the \"{value}\" filter"
+    },
+    "Document": {
+      "backToResults": "Go back to the results",
+      "share": "Share the document",
+      "previousButtonLabel": "Go to the previous document",
+      "nextButtonLabel": "Go to the next document",
+      "docInfos": "Information about this document",
+      "seeDoc": "View this document",
+      "fulltext": "Full text",
+      "metadata": "Metadata",
+      "annexes": "Appendices",
+      "enrichments": "Enrichments",
+      "openAccess": "Open access",
+      "istexView": "Istex\u00A0View",
+      "istexViewNewChip": "NEW",
+      "selectDocument": "Select",
+      "unselectDocument": "Unselect",
+      "excludeDocument": "Exclude",
+      "includeDocument": "Include",
+      "formatLinks": {
+        "fulltext": "View the fulltext in the {extension} format",
+        "metadata": "View the metadata in the {extension} format",
+        "annexes": "View the appendix in the {extension} format",
+        "multicat": "View the WoS, Scopus and Science-Metrix categories generated by Multicat in the {extension} format",
+        "teeft": "View the indexing generated by Teeft in the {extension} format",
+        "unitex": "View the named entities generated by Unitex in the {extension} format",
+        "nb": "View the Inist categories generated by Nb in the {extension} format",
+        "grobidFulltext": "View the structured texte generated by Grobid in the {extension} format",
+        "refBibs": "View the structured references generated by Grobid in the {extension} format",
+        "openAccess": "View this document on its source platform",
+        "openAccessAltText": "Open access icon",
+        "istexView": "View the XML TEI document and its enrichments in Istex\u00A0View",
+        "istexViewAltText": "Istex View Logo"
+      },
+      "RetractedBadge": {
+        "label": "Retracted"
+      }
+    },
+    "Panel": {
+      "indicators": "Indicators on your corpus",
+      "resultCount": "{count, plural, =0 {(# documents)} =1 {(# document)} other {(# documents)}}",
+      "summaryPresence": "Abstract",
+      "pdfPresence": "PDF with text",
+      "cleanedTextPresence": "Cleaned text",
+      "publicationLanguage": "Publication language",
+      "docCount": "{count, number}\u00A0doc.",
+      "languageCount": "{language}\u00A0: {count, number} doc. ({percentage}\u00A0%)",
+      "otherLanguage": "other",
+      "compatibility": "Compatibility with the connectors"
+    },
+    "MemoModal": {
+      "title": "Query with Lucene",
+      "subtitle": "Lucene is the query language used by the Istex search engine (<link>Elasticsearch</link>). In the <strong>simple search</strong> mode, the Lucene syntax allows you to efficiently target documents you are interested in.",
+      "general": {
+        "title": "General",
+        "list": [
+          "By default, querying is case insensitive but diacritic sensitive.<pre>évolution ≠ evolution</pre>",
+          "Querying <strong>multi-term expressions</strong> requires double quotes.<pre>\"speech therapy\"</pre>",
+          "A whitespace is equivalent to an <strong>OR</strong> operator.<pre>fungi OR fungus = fungi fungus</pre>"
+        ]
+      },
+      "operators": {
+        "title": "Operators",
+        "list": [
+          "<strong>AND</strong> (or <strong>&&</strong>) returns the documents that contain all the queried terms.<pre>cinéma AND Chaplin</pre>",
+          "<strong>OR</strong> (or <strong>||</strong>) returns the documents that contain at least one of the queried terms.<pre>Greenland OR subarctic</pre>",
+          "<strong>+</strong> can be used directly in front of a term to make it required.<pre>+cinéma +Chaplin</pre>",
+          "<strong>NOT</strong> returns the documents that do not contain the queried term.<pre>linguistics NOT syntax</pre>",
+          "<strong>-</strong> (or <strong>!</strong>) can be used directly in front of a term to exclude it.<pre>linguistics -syntax</pre>"
+        ]
+      },
+      "fields": {
+        "title": "Fields",
+        "list": [
+          "The list of fields is available in the <fieldsLink>tutorial appendix</fieldsLink>.",
+          "Querying a specific field is done with the technical name followed by a <strong>:</strong> (e.g. <i>title</i>, <i>publicationDate</i>, <i>doi</i>).<pre>title:Rimbaud</pre>",
+          "If no field name is provided, all fields are queried.",
+          "The exact querying of a field is possible thanks to <strong>.raw</strong> (e.g. <i>host.title.raw</i>).<pre>title.raw:\"Verlaine, Flaubert et Rimbaud\"</pre>"
+        ]
+      },
+      "metacharacters": {
+        "title": "Metacharacters * and ?",
+        "list": [
+          "The <strong>*</strong> metacharacter replaces 0 up to <i>n</i> character(s).<pre>title:mémoris*</pre>",
+          "The <strong>?</strong> metacharacter replaces 1 character.<pre>title:m?mori?ation</pre>",
+          "The <strong>*</strong> and <strong>?</strong> metacharacters are not allowed in quoted queries."
+        ]
+      },
+      "parentheses": {
+        "title": "Parentheses",
+        "list": [
+          "Parentheses allow you to prioritise the operations and create groups.<pre>(Luke OR Leia) AND Skywalker</pre><pre>title:(plastic NOT bertrand)</pre>"
+        ]
+      },
+      "ranges": {
+        "title": "Querying by ranges",
+        "list": [
+          "You can query by ranges with square brackets.<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
+        ]
+      },
+      "boosting": {
+        "title": "Boosting",
+        "list": [
+          "The <strong>^ followed by a number</strong> metacharacter allows you to give more weight to a term.<pre>\"star wars\"^2 skywalker</pre>",
+          "Boosting affects the results order but not their count."
+        ]
+      },
+      "fuzzy": {
+        "title": "Fuzzy search",
+        "list": [
+          "The <strong>~</strong> metacharacter allows you to query variants of a term (2\u2011character difference max).<pre>title:mémorisation~2</pre>"
+        ]
+      },
+      "proximity": {
+        "title": "Proximity search",
+        "list": [
+          "The <strong>~ followed by a number</strong> metacharacter allows you to query an expression that contains 2 terms with a distance in between.<pre>title:\"reading child\"~10</pre><pre>title:\"return jedi\"~2</pre>"
+        ]
+      },
+      "regex": {
+        "title": "Regular expressions",
+        "list": [
+          "Regular expression must be written in between <strong>//</strong> to be interpreted.<pre>title:/[frc]at/</pre>"
+        ]
+      },
+      "seeMoreLink": "LEARN MORE"
+    },
+    "Share": {
+      "email": {
+        "corpus": {
+          "subject": "An Istex query has been shared with you",
+          "body": "Here's the link to the shared Istex query\u000A{url}"
+        },
+        "document": {
+          "subject": "An Istex document has been shared with you",
+          "body": "Here's the link to the shared Istex document\u000A{url}"
+        }
+      }
+    }
+  },
+  "download": {
+    "title": "Configure your download",
+    "downloadButton": "Download",
+    "InfoPanels": {
+      "query": {
+        "title": "Query",
+        "copy": {
+          "aria-label": "Copy the query into your clipboard",
+          "success": "Query copied into your clipboard."
+        }
+      },
+      "rawRequest": {
+        "title": "Full request",
+        "copy": {
+          "aria-label": "Copy the full request into your clipboard",
+          "success": "Full request copied into your clipboard."
+        }
+      },
+      "seeMoreLink": "LEARN MORE"
+    },
+    "ResultsSettings": {
+      "download": "Download",
+      "allButton": "All",
+      "resultCount": "{count, number}",
+      "warningTooltip": "Your query returns {resultCount, number} results but the limit is {maxSize, number}."
+    },
+    "SelectedDoc": {
+      "title": "Selected documents",
+      "unselect": "Unselect",
+      "noDocTitle": "No title"
+    },
+    "ArchiveSettings": {
+      "archiveType": "Archive format:",
+      "compressionLevel": "Compression:"
+    },
+    "ArchiveSizeWarning": {
+      "title": "Warning",
+      "message": "Estimated size\u00A0>\u00A0{size}"
+    },
+    "WaitingModal": {
+      "title": "Downloading of your corpus",
+      "approximately": "approximately",
+      "closeModal": "Your download as begun, you can close this window.",
+      "citationTitle": "How to cite Istex\u00A0Search"
+    },
+    "Citation": {
+      "copy": {
+        "aria-label": "Copy the citation into your clipboard",
+        "success": "Citation copied into your clipboard."
+      }
+    }
+  },
+  "help": {
+    "button": "NEED HELP?",
+    "modal": {
+      "title": "Need help?",
+      "description": "Check out our FAQ, the Istex documentation and our tutorials",
+      "faq": "Faq",
+      "documentation": "Documentation",
+      "tutorial": "Tutorial",
+      "contact": "Please don't hesitate to get in touch if you need to, we'll get back to you as soon as possible!",
+      "contactTitle": "Please write to us",
+      "message": "Send us an email via the <externalLink>contact form</externalLink>."
+    }
+  },
+  "FloatingSideMenu": {
+    "historyButton": "Search history",
+    "shareButton": "Share your query",
+    "memoButton": "Query tips"
+  },
+  "History": {
+    "title": "History",
+    "currentRequestTitle": "Current query",
+    "historyTitle": "Most recent downloads",
+    "emptyHistoryContent": "Your history is empty.",
+    "editAriaLabel": "Edit this query",
+    "shareAriaLabel": "Share this query",
+    "downloadAriaLabel": "Download the corpus corresponding to this query",
+    "deleteAriaLabel": "Delete this query",
+    "clearHistory": "Clear the history",
+    "ConfirmModal": {
+      "title": "Confirm",
+      "content": "Are you sure you want to clear your query history?",
+      "confirm": "Clear"
+    }
+  },
+  "cookieConsent": {
+    "consentModal": {
+      "title": "Cookies",
+      "description": "We use cookies and collect data to improve the experience on our website.",
+      "acceptAllBtn": "Accept all",
+      "acceptNecessaryBtn": "Reject all",
+      "showPreferencesBtn": "Manage preferences"
+    },
+    "preferencesModal": {
+      "title": "Manage preferences",
+      "acceptAllBtn": "Accept all",
+      "acceptNecessaryBtn": "Reject all",
+      "savePreferencesBtn": "Confirm preferences",
+      "closeIconLabel": "Close the modal",
+      "sections": [
+        {
+          "title": "Cookies",
+          "description": "We use cookies and collect data to improve the experience on our website."
+        },
+        {
+          "title": "Stricly necessary cookies",
+          "description": "These cookies are required for the website to function properly.",
+          "linkedCategory": "necessary",
+          "cookieTable": {
+            "headers": {
+              "name": "Name",
+              "description": "Description",
+              "duration": "Duration"
+            },
+            "body": [
+              {
+                "name": "NEXT_LOCALE",
+                "description": "Cookie to store the display language.",
+                "duration": "1 year"
+              },
+              {
+                "name": "cc_cookie",
+                "description": "Cookie to store your cookie preferences.",
+                "duration": "6 months"
+              }
+            ]
+          }
+        },
+        {
+          "title": "Analytics",
+          "description": "These cookies collect information about how you use our website via <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a>. All data is anonymised and cannot be used to identify you.",
+          "linkedCategory": "analytics",
+          "cookieTable": {
+            "headers": {
+              "name": "Name",
+              "description": "Description",
+              "duration": "Duration"
+            },
+            "body": [
+              {
+                "name": "_pk_id.*",
+                "description": "These cookies are used by <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a> to distinguish users by giving them an identifier.",
+                "duration": "13 months"
+              },
+              {
+                "name": "_pk_ses.*",
+                "description": "These cookies are used by <a href=\"https://matomo.org/\" target=\"_blank\" rel=\"noreferrer\">Matomo</a> to distinguish users by giving them a unique session.",
+                "duration": "30 minutes"
+              }
+            ]
+          }
+        },
+        {
+          "title": "More information",
+          "description": "To get more information, you can visit our <a href=\"https://www.istex.fr/politique-de-confidentialite/\" target=\"_blank\" rel=\"noreferrer\">privacy policy</a>."
+        }
+      ]
+    }
+  },
+  "CopyButton": {
+    "error": "Could not write to your clipboard.",
+    "badEnv": "This feature is not available in this environment."
+  },
+  "ErrorCard": {
+    "title": "Error"
+  },
+  "NotFoundPage": {
+    "title": "Oops, page not found!",
+    "body": "It tooks like you've reached a dead end… The page you are looking for doesn't exist (anymore). Here are some options to find your way:",
+    "list": [
+      "Go back to the Istex\u00A0Search <homeLink><strong>home page</strong></homeLink> to make a new query.",
+      "Use the <assistedSearchLink><strong>assisted search</strong></assistedSearchLink> to get assistance in querying the Istex repository."
+    ],
+    "contact": "If you believe this is a mistake, please <link>contact us</link> to let us know."
+  },
+  "errors": {
+    "SyntaxError": "A syntax error was detected.",
+    "PartialAstError": "Please fill all the fields.",
+    "IdTypeNotSupportedError": "\"{id}\" is not one of the supported identifier formats.",
+    "IdsError": "{count, plural, =1 {A syntax error was detected at line {lines}.} other {Syntax errors were detected at lines {lines}.}}",
+    "CorpusFileFormatError": "The file is not a valid .corpus file.",
+    "EmptyIdsError": "Please enter one or more identifiers.",
+    "FileReadError": "Error while reading the file.",
+    "QIdNotFoundError": "No query matches {qId}.",
+    "QIdSaveError": "Error while saving {qId}.",
+    "EmptyQueryError": "Please enter a query.",
+    "GetAggregationError": "A problem occurred while fetching the values.",
+    "EmptyPromptError": "Please enter a prompt.",
+    "TextLuceneError": "The Lucene query generation service is temporarily unavailable, please try again later.",
+    "TextLuceneEmptyResponseError": "Could not process your prompt, please rephrase it.",
+    "default": "An error occurred, please try again later."
+  },
+  "Modal": {
+    "closeButton": "Close the modal"
+  },
+  "NumberInput": {
+    "incrementAriaLabel": "Increase the value",
+    "decrementAriaLabel": "Decrease the value"
+  },
+  "config": {
+    "examples": [
+      "Lunar exploration",
+      "Barbie doll",
+      "Montessori education",
+      "50th anniversary of the Veil Act",
+      "Paralympic Games",
+      "Facteur Cheval"
+    ],
+    "formats": {
+      "fulltext": {
+        "category": "Full text",
+        "pdf": "PDF",
+        "tei": "TEI",
+        "txt": "TXT",
+        "cleaned": "CLEANED",
+        "zip": "ZIP",
+        "tiff": "TIFF"
+      },
+      "metadata": {
+        "category": "Metadata",
+        "json": "JSON",
+        "xml": "XML",
+        "mods": "MODS"
+      },
+      "enrichments": {
+        "category": "Enrichments",
+        "multicat": "multicat",
+        "nb": "nb",
+        "grobidFulltext": "grobidFulltext",
+        "refBibs": "refBibs",
+        "teeft": "teeft",
+        "unitex": "unitex"
+      },
+      "others": {
+        "annexes": "Appendices",
+        "covers": "Covers"
+      }
+    },
+    "usages": {
+      "custom": {
+        "label": "Custom usage",
+        "description": "Choose the data types to download (full texts, metadata, enrichments, appendices or covers) and their format."
+      },
+      "lodex": {
+        "label": "Lodex",
+        "description": "Open\u2011source web application designed for structured data, which allows you to visualise and enrich your data and turn it into a website."
+      },
+      "cortext": {
+        "label": "Cortext",
+        "description": "Open\u2011source software designed for the mining and analysis of heterogeneous text corpora, offering a range of automated processing functions (clustering, visualisation of temporal data, etc.)."
+      },
+      "gargantext": {
+        "label": "GarganText",
+        "description": "Open\u2011source software designed for the collaborative exploration of document collections, combining tools for natural language processing, complex network analysis and interactive data visualisation."
+      },
+      "nooj": {
+        "label": "NooJ",
+        "description": "An application designed for corpus analysis, enabling the creation of linguistic resources (dictionaries, grammars) and their use for annotation or querying purposes (semantic analysis, concordances, information extraction, etc.)."
+      }
+    },
+    "archiveTypes": {
+      "zip": "ZIP",
+      "tar": "TAR.GZ"
+    },
+    "compressionLevels": {
+      "0": "none",
+      "6": "medium",
+      "9": "high"
+    }
+  },
+  "languages": {
+    "aar": "Afar",
+    "abk": "Abkhazian",
+    "alg": "Algonquian languages",
+    "ang": "Old English",
+    "arc": "Aramaic",
+    "frm": "Middle French",
+    "fro": "Old French",
+    "glv": "Manx",
+    "grc": "Ancient Greek",
+    "moh": "Mohawk",
+    "mul": "Multiple languages",
+    "nai": "North American Indian languages",
+    "new": "Newari",
+    "roa": "Romance languages",
+    "sco": "Scots",
+    "syr": "Syriac",
+    "und": "Undetermined",
+    "unknown": "Unknown",
+    "way": "Wayana",
+    "zxx": "No linguistic content"
+  },
+  "fields": {
+    "author": {
+      "affiliations": {
+        "title": "Author affiliation",
+        "description": "Search by author affiliation"
+      },
+      "name": {
+        "title": "Author name",
+        "description": "Search by author name"
+      }
+    },
+    "host": {
+      "author": {
+        "affiliations": {
+          "title": "Monograph author affiliation",
+          "description": "Search by monograph author affiliation"
+        },
+        "name": {
+          "title": "Monograph author name",
+          "description": "Search by monograph author name"
+        }
+      },
+      "doi": {
+        "title": "DOI of the journal",
+        "description": "Search by the DOI of the journal"
+      },
+      "eisbn": {
+        "title": "e-ISBN of the monograph",
+        "description": "Search by the ISBN of the electronic monograph"
+      },
+      "eissn": {
+        "title": "e-ISSN of the journal",
+        "description": "Search by the ISSN of the electronic journal"
+      },
+      "isbn": {
+        "title": "ISBN of the monograph",
+        "description": "Search by the ISBN of the print monograph"
+      },
+      "issn": {
+        "title": "ISSN of the journal",
+        "description": "Search by the ISSN of the print journal"
+      },
+      "language": {
+        "title": "Publication language of the journal or monograph",
+        "description": "Search by the publication language of the journal or monograph"
+      },
+      "subject": {
+        "value": {
+          "title": "Journal keyword",
+          "description": "Search by one of the journal's keywords"
+        }
+      },
+      "conference": {
+        "name": {
+          "title": "Conference name (journal or monograph)",
+          "description": "Search by conference name (proceedings published as a journal or monograph)"
+        }
+      },
+      "issue": {
+        "title": "Issue of the journal or monograph",
+        "description": "Search by the issue of the journal or monograph"
+      },
+      "title": {
+        "filterTitle": "Journal / monograph (top 10)",
+        "title": "Title of the journal or monograph",
+        "description": "Search by the title of the journal or monograph"
+      },
+      "genre": {
+        "title": "Publication type",
+        "description": "Search by publication type",
+        "journal": "Journal",
+        "book-series": "Book series",
+        "database": "Database",
+        "book": "Monograph",
+        "reference-works": "Reference works"
+      },
+      "volume": {
+        "title": "Volume of the journal or monograph",
+        "description": "Search by the volume of the journal or monograph"
+      }
+    },
+    "arkIstex": {
+      "title": "ARK",
+      "description": "Search by the document ARK"
+    },
+    "corpusName": {
+      "title": "Package",
+      "description": "Search by package loaded into Istex"
+    },
+    "categories": {
+      "inist": {
+        "title": "Inist category",
+        "description": "Search by scientific domain from the Pascal and Francis classification"
+      },
+      "scienceMetrix": {
+        "title": "Science\u2011Metrix category",
+        "description": "Search by scientific domain from the Science\u2011Metrix classification"
+      },
+      "scopus": {
+        "title": "Scopus category",
+        "description": "Search by scientific domain from the Scopus classification"
+      },
+      "wos": {
+        "title": "WoS category",
+        "description": "Search by scientific domain from the Web of Science classification"
+      }
+    },
+    "figure": {
+      "title": "Legend content",
+      "description": "Search by legend content"
+    },
+    "table": {
+      "title": "Table content",
+      "description": "Search by table content"
+    },
+    "fulltext@1": {
+      "title": "Text body",
+      "description": "Search in the text body without metadata (limited to structured documents)"
+    },
+    "publicationDate": {
+      "title": "Publication date",
+      "description": "Search by publication date"
+    },
+    "refBibs": {
+      "publicationDate": {
+        "title": "Publication date of a referenced document",
+        "description": "Search by publication date of a reference"
+      },
+      "doi": {
+        "title": "DOI of a referenced document",
+        "description": "Search by the DOI of a reference"
+      },
+      "author": {
+        "name": {
+          "title": "Author name of a referenced document",
+          "description": "Search by the author name of a reference of type article or chapter"
+        }
+      },
+      "host": {
+        "author": {
+          "name": {
+            "title": "Author name of a referenced monograph",
+            "description": "Search by the author name of a reference of type monograph"
+          }
+        },
+        "title": {
+          "title": "Journal title of a referenced document",
+          "description": "Search by the journal title of a reference"
+        },
+        "volume": {
+          "title": "Journal volume of a referenced document",
+          "description": "Search by the volume number of a reference"
+        }
+      },
+      "title": {
+        "title": "Title of a reference",
+        "description": "Search by the title of a reference"
+      },
+      "serie": {
+        "title": {
+          "title": "Series title of a reference",
+          "description": "Search by the series title of a reference"
+        }
+      }
+    },
+    "serie": {
+      "doi": {
+        "title": "DOI of the series",
+        "description": "Search by the DOI of the series"
+      },
+      "eissn": {
+        "title": "e-ISSN of the series",
+        "description": "Search by the ISSN of the electronic monograph series"
+      },
+      "issn": {
+        "title": "ISSN of the series",
+        "description": "Search by the ISSN of the print monograph series"
+      },
+      "conference": {
+        "name": {
+          "title": "Conference name (series)",
+          "description": "Search by the conference name (proceedings published as a series)"
+        }
+      },
+      "issue": {
+        "title": "Issue of the series",
+        "description": "Search by the issue of the monograph series"
+      },
+      "title": {
+        "title": "Title of the series",
+        "description": "Search by the title of a monograph series"
+      }
+    },
+    "doi": {
+      "title": "DOI of the document",
+      "description": "Search by the DOI of the document"
+    },
+    "hasFormula": {
+      "title": "Formula",
+      "description": "Search the presence of a math formula"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Search by document language"
+    },
+    "subject": {
+      "lang": {
+        "title": "Language of the author keywords",
+        "description": "Search by the language of the author keywords"
+      },
+      "value": {
+        "title": "Author keyword",
+        "description": "Search by one of the author keywords"
+      }
+    },
+    "accessCondition": {
+      "contentType": {
+        "title": "Open access",
+        "description": "Search open\u2011access documents",
+        "isOpenAccess": "Yes",
+        "isNotOpenAccess": "No",
+        "unknown": "Unknown"
+      },
+      "value": {
+        "title": "Open access type",
+        "description": "Search by open access type"
+      }
+    },
+    "keywords": {
+      "teeft": {
+        "title": "Teeft keyword",
+        "description": "Search by one of the keywords extracted by Teeft (Terms Extraction for English Full Texts)"
+      }
+    },
+    "namedEntities": {
+      "unitex": {
+        "orgName": {
+          "title": "Organisation name",
+          "description": "Search by named entity of type \"organisation name\" detected by Unitex"
+        },
+        "orgName_funder": {
+          "title": "Funding organisation name",
+          "description": "Search by named entity of type \"funding organisation name\" detected by Unitex"
+        },
+        "placeName": {
+          "title": "Place name",
+          "description": "Search by named entity of type \"place name\" detected by Unitex"
+        },
+        "geogName": {
+          "title": "Geographic name",
+          "description": "Search by named entity of type \"geographic name\" detected by Unitex"
+        },
+        "persName": {
+          "title": "Person name",
+          "description": "Search by named entity of type \"person name\" detected by Unitex"
+        },
+        "date": {
+          "title": "Name expressing a date",
+          "description": "Search by named entity of type \"date, period, century\" detected by Unitex"
+        },
+        "ref_url": {
+          "title": "URL",
+          "description": "Search by named entity of type \"URL\" detected by Unitex"
+        }
+      }
+    },
+    "qualityIndicators": {
+      "pdfCharCount": {
+        "title": "Number of characters in the PDF",
+        "description": "Search by the number of characters in the PDF"
+      },
+      "abstractCharCount": {
+        "title": "Number of characters in the abstract",
+        "description": "Search by the number of characters in the abstract"
+      },
+      "pdfWordCount": {
+        "title": "Number of words in the PDF",
+        "description": "Search by the number of words in the PDF"
+      },
+      "abstractWordCount": {
+        "title": "Number of words in the abstract",
+        "description": "Search by the number of words in the abstract"
+      },
+      "pdfWordsPerPage": {
+        "title": "Number of words per page in the PDF",
+        "description": "Search by the number of words per page in the PDF"
+      },
+      "pdfPageCount": {
+        "title": "Number of pages in the PDF",
+        "description": "Search by the number of pages in the PDF"
+      },
+      "pdfText": {
+        "title": "PDF with text",
+        "description": "Search PDF documents that contain text"
+      },
+      "refBibsNative": {
+        "title": "References",
+        "description": "Search the presence of native references",
+        "true": "Provided by the publisher",
+        "false": "Found by Grobid"
+      },
+      "score": {
+        "title": "Score",
+        "description": "Search by the quality score of the document"
+      },
+      "teiSource": {
+        "title": "TEI source",
+        "description": "Search by how the TEI document was created"
+      },
+      "tdmReady": {
+        "title": "Cleaned text (TXT)",
+        "description": "Search documents in a TXT format usable in a text and data mining (TDM) tool",
+        "true": "Yes",
+        "false": "No"
+      },
+      "pdfVersion": {
+        "title": "PDF version",
+        "description": "Search by the PDF version"
+      }
+    },
+    "abstract": {
+      "title": "Abstract",
+      "description": "Search in the abstract"
+    },
+    "fulltext": {
+      "title": "Full text",
+      "description": "Search in the full text (text body and metadata)"
+    },
+    "title": {
+      "title": "Title",
+      "description": "Search in the title"
+    },
+    "enrichments": {
+      "type": {
+        "title": "Enrichment type",
+        "description": "Search documents that contain at least one enrichment",
+        "multicat": "WoS, Scopus, Science\u2011Metrix categories (Multicat)",
+        "teeft": "Indexing (Teeft)",
+        "unitex": "Named entities (Unitex)",
+        "nb": "Inist categories (naive bayes)",
+        "grobidFulltext": "Structured text (Grobid)",
+        "refBibs": "Structured references (Grobid)"
+      }
+    },
+    "genre": {
+      "title": "Content type",
+      "description": "Search by content type",
+      "research-article": "Research article",
+      "article": "Article",
+      "other": "Other",
+      "abstract": "Abstract",
+      "brief-communication": "Brief communication",
+      "book-reviews": "Book review",
+      "review-article": "Review article",
+      "conference": "Conference",
+      "editorial": "Editorial",
+      "chapter": "Chapter",
+      "case-report": "Case report",
+      "collected-courses": "Collected courses",
+      "book": "Monograph",
+      "encyclopedia": "Encyclopedia"
+    }
+  }
+}

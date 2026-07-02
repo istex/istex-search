@@ -37,7 +37,7 @@ const sections = [
     listLength: 1,
   },
   {
-    name: "intervals",
+    name: "ranges",
     listLength: 1,
   },
   {

@@ -1,7 +1,7 @@
 "use client";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import { frFR, type Localization } from "@mui/material/locale";
+import { enUS, frFR, type Localization } from "@mui/material/locale";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import type { Locale } from "next-intl";
@@ -16,6 +16,7 @@ interface MuiSetupProps {
 // Update this map if another locale is ever added
 const localeMap: Record<Locale, Localization> = {
   "fr-FR": frFR,
+  "en-GB": enUS,
 };
 
 // Using the theme as is throws with "`vars` is a private field used for CSS variables support." because the initial

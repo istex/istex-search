@@ -62,10 +62,18 @@ export default function ResultsToolbar({
           display: { xs: "none", sm: "inline-flex" },
         }}
       >
-        <ToggleButton value={2} aria-label={t("gridAriaLabel")}>
+        <ToggleButton
+          value={2}
+          title={t("gridAriaLabel")}
+          aria-label={t("gridAriaLabel")}
+        >
           <WindowIcon />
         </ToggleButton>
-        <ToggleButton value={1} aria-label={t("listAriaLabel")}>
+        <ToggleButton
+          value={1}
+          title={t("listAriaLabel")}
+          aria-label={t("listAriaLabel")}
+        >
           <TableRowsIcon />
         </ToggleButton>
       </StyledToggleButtonGroup>

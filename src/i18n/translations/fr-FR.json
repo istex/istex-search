@@ -81,7 +81,7 @@
         "betaChipLabel": "BÊTA",
         "introduction": "Décrivez votre besoin en langage naturel. La requête sera automatiquement convertie en syntaxe Lucene compatible avec Istex\u00A0Search.",
         "noteTitle": "Précisions",
-        "note": "Les champs pris en charge actuellement sont le titre, le résumé, les mots-clés d’auteurs, les auteurs, la date de publication, la langue et le type de document (article de recherche). Les requêtes sont générées automatiquement à partir de votre description et peuvent varier légèrement d'une génération à l'autre. ",
+        "note": "Les champs pris en charge actuellement sont le titre, le résumé, les mots-clés d’auteurs, les auteurs, la date de publication, la langue et le type de document (article de recherche). Les requêtes sont générées automatiquement à partir de votre description et peuvent varier légèrement d'une génération à l'autre.",
         "placeholder": "Articles de recherche en anglais sur l'énergie nucléaire publiés après 2015",
         "submitButton": "Générer la requête"
       }
@@ -127,7 +127,6 @@
     }
   },
   "results": {
-    "noResults": "Votre requête ne ramène aucun résultat.",
     "metadata": {
       "title": "Résultats"
     },
@@ -139,7 +138,7 @@
     "CompleteQuery": {
       "prefix": "Requête\u00A0: ",
       "copy": {
-        "aria-label": "Copier la requête dans le presse-papier",
+        "aria-label": "Copier la requête dans le presse-papier.",
         "success": "Requête copiée dans le presse-papier."
       }
     },
@@ -174,8 +173,7 @@
       "nextPage": "Aller à la page suivante",
       "currentPageIndex": "{page, number}",
       "page": "PAGE",
-      "on": "SUR {total, number}",
-      "resultsPerPage": "par page"
+      "on": "SUR {total, number}"
     },
     "Filters": {
       "NumberFilter": {
@@ -247,8 +245,8 @@
       "pdfPresence": "PDF texte",
       "cleanedTextPresence": "Texte nettoyé",
       "publicationLanguage": "Langue de publication",
-      "docCount": "{count}\u00A0doc.",
-      "languageCount": "{language}\u00A0: {count} doc. ({percentage}\u00A0%)",
+      "docCount": "{count, number}\u00A0doc.",
+      "languageCount": "{language}\u00A0: {count, number} doc. ({percentage}\u00A0%)",
       "otherLanguage": "autres",
       "compatibility": "Compatibilité avec les passerelles"
     },
@@ -296,7 +294,7 @@
           "Les parenthèses permettent de prioriser les opérations et d'effectuer des regroupements.<pre>(Luke OR Leia) AND Skywalker</pre><pre>title:(plastic NOT bertrand)</pre>"
         ]
       },
-      "intervals": {
+      "ranges": {
         "title": "Recherche par intervalle",
         "list": [
           "Il est possible de rechercher par intervalles grâces aux crochets (recherche inclusive) ou aux accolades (recherche exclusive).<pre>publicationDate:[2015 TO *]</pre><pre>title.raw:'{ape TO appliance}'</pre>"
@@ -379,7 +377,7 @@
     },
     "ArchiveSizeWarning": {
       "title": "Avertissement",
-      "message": "Taille estimée > {sizeInGigabytes, number}\u00A0Go"
+      "message": "Taille estimée\u00A0>\u00A0{size}"
     },
     "WaitingModal": {
       "title": "Téléchargement de votre corpus",
@@ -398,7 +396,7 @@
     "button": "BESOIN D'AIDE\u00A0?",
     "modal": {
       "title": "Besoin d'aide\u00A0?",
-      "description": "Consultez notre Faq, la documentation Istex ou nos tutoriels",
+      "description": "Consultez notre FAQ, la documentation Istex ou nos tutoriels",
       "faq": "Faq",
       "documentation": "Documentation",
       "tutorial": "Tutoriel",
@@ -663,19 +661,19 @@
       },
       "eisbn": {
         "title": "e-ISBN de la monographie",
-        "description": "Recherche par le numéro ISBN de la monographie électronique"
+        "description": "Recherche par l'ISBN de la monographie électronique"
       },
       "eissn": {
         "title": "e-ISSN de la revue",
-        "description": "Recherche par le numéro ISSN de la revue électronique"
+        "description": "Recherche par l'ISSN de la revue électronique"
       },
       "isbn": {
         "title": "ISBN de la monographie",
-        "description": "Recherche par le numéro ISBN de la monographie papier"
+        "description": "Recherche par l'ISBN de la monographie papier"
       },
       "issn": {
         "title": "ISSN de la revue",
-        "description": "Recherche par le numéro ISSN de la revue papier"
+        "description": "Recherche par l'ISSN de la revue papier"
       },
       "language": {
         "title": "Langue de publication de la revue ou de la monographie",
@@ -706,7 +704,7 @@
         "title": "Type de publication",
         "description": "Recherche selon le type de publication",
         "journal": "Revue",
-        "book-series": "Monographie en séries",
+        "book-series": "Monographie en série",
         "database": "Base de données",
         "book": "Monographie",
         "reference-works": "Ouvrage de référence"
@@ -730,8 +728,8 @@
         "description": "Recherche par un domaine scientifique de la classification Pascal et Francis"
       },
       "scienceMetrix": {
-        "title": "Catégorie Science-Metrix",
-        "description": "Recherche par un domaine scientifique de la classification Science-Metrix"
+        "title": "Catégorie Science\u2011Metrix",
+        "description": "Recherche par un domaine scientifique de la classification Science\u2011Metrix"
       },
       "scopus": {
         "title": "Catégorie Scopus",
@@ -795,37 +793,37 @@
       },
       "serie": {
         "title": {
-          "title": "Titre de série d'une référence bibliographique",
-          "description": "Recherche par le titre de la série d'une référence bibliographique"
+          "title": "Titre de collection d'une référence bibliographique",
+          "description": "Recherche par le titre de la collection d'une référence bibliographique"
         }
       }
     },
     "serie": {
       "doi": {
-        "title": "DOI de la série",
-        "description": "Recherche par le DOI de la série de monographies"
+        "title": "DOI de la collection",
+        "description": "Recherche par le DOI de la collection de monographies"
       },
       "eissn": {
-        "title": "e-ISSN de la série",
-        "description": "Recherche par le numéro ISSN de la série de monographies électroniques"
+        "title": "e-ISSN de la collection",
+        "description": "Recherche par le numéro ISSN de la collection de monographies électroniques"
       },
       "issn": {
-        "title": "ISSN de la série",
-        "description": "Recherche par le numéro ISSN de la série de monographies papiers"
+        "title": "ISSN de la collection",
+        "description": "Recherche par le numéro ISSN de la collection de monographies papiers"
       },
       "conference": {
         "name": {
-          "title": "Nom de la conférence (série)",
-          "description": "Recherche par le nom de la conférence (actes publiés sous la forme d'une série)"
+          "title": "Nom de la conférence (collection)",
+          "description": "Recherche par le nom de la conférence (actes publiés sous la forme d'une collection)"
         }
       },
       "issue": {
-        "title": "Numéro de la série",
-        "description": "Recherche par le numéro de la série de monographies"
+        "title": "Numéro de la collection",
+        "description": "Recherche par le numéro de la collection de monographies"
       },
       "title": {
-        "title": "Titre de la série",
-        "description": "Recherche dans le titre de la série de monographies"
+        "title": "Titre de la collection",
+        "description": "Recherche dans le titre de la collection de monographies"
       }
     },
     "doi": {
@@ -853,7 +851,7 @@
     "accessCondition": {
       "contentType": {
         "title": "Libre accès",
-        "description": "Recherche de documents selon leur accessibilité",
+        "description": "Recherche de documents en accès ouvert",
         "isOpenAccess": "Oui",
         "isNotOpenAccess": "Non",
         "unknown": "Inconnu"
@@ -971,7 +969,7 @@
       "type": {
         "title": "Type d'enrichissement",
         "description": "Recherche de documents comportant un enrichissement",
-        "multicat": "Catégories WoS, Scopus, Science-Metrix (Multicat)",
+        "multicat": "Catégories WoS, Scopus, Science\u2011Metrix (Multicat)",
         "teeft": "Indexation (Teeft)",
         "unitex": "Entités nommées (Unitex)",
         "nb": "Catégories Inist (bayésien naïf)",

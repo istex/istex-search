@@ -93,12 +93,12 @@
         "seeMoreButton": "TOUT VOIR",
         "contactButton": "CORPUS À LA DEMANDE"
       },
-      "gateways": {
+      "connectors": {
         "title": "Adaptez votre téléchargement à votre usage",
         "subtitle": "Istex\u00A0Search propose des passerelles vers des outils d'analyse de corpus.",
         "paragraph": "Quel que soit votre besoin (curation de données, sémantisation, analyses statistiques, reconstructions phylogénétiques, etc.), Istex\u00A0Search permet de télécharger votre corpus dans des formats compatibles avec des outils de fouille de textes.",
         "buttonTop": "Pour plus d'informations sur ces outils\u00A0:",
-        "gatewaySuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00A0?",
+        "connectorSuggestion": "Vous souhaitez nous faire une suggestion de passerelle vers un outil\u00A0?",
         "contactButton": "CONTACTEZ-NOUS"
       }
     },

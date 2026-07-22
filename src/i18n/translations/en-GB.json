@@ -93,12 +93,12 @@
         "seeMoreButton": "SEE ALL",
         "contactButton": "CORPUS ON DEMAND"
       },
-      "gateways": {
+      "connectors": {
         "title": "Tune your download to your use case",
         "subtitle": "Istex\u00A0Search offers connectors for corpus analysis tools.",
         "paragraph": "No matter your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows to download your corpus in formats compatible with text and data mining tools.",
         "buttonTop": "For more information about these tools:",
-        "gatewaySuggestion": "Want to suggest a connector for a tool?",
+        "connectorSuggestion": "Want to suggest a connector for a tool?",
         "contactButton": "CONTACT US"
       }
     },

@@ -52,27 +52,27 @@ export default function CorpusSection() {
           </Box>
         </Article>
 
-        {/* Gateways */}
+        {/* Connectors */}
         <Article
           sx={{ flex: 1, px: 3, bgcolor: "colors.blue", color: "colors.white" }}
         >
-          <Title sx={{ mb: 4 }}>{t("gateways.title")}</Title>
+          <Title sx={{ mb: 4 }}>{t("connectors.title")}</Title>
           <Paragraph sx={{ fontWeight: "bold" }}>
-            {t("gateways.subtitle")}
+            {t("connectors.subtitle")}
           </Paragraph>
-          <Paragraph>{t("gateways.paragraph")}</Paragraph>
-          <Paragraph>{t("gateways.buttonTop")}</Paragraph>
+          <Paragraph>{t("connectors.paragraph")}</Paragraph>
+          <Paragraph>{t("connectors.buttonTop")}</Paragraph>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, pt: 1, mb: 4 }}>
             {Object.entries(usages)
-              .filter(([_, { isGateway }]) => isGateway)
+              .filter(([_, { isConnector }]) => isConnector)
               .map(([name, { url }]) => (
-                <GatewayButton key={name} href={url}>
+                <ConnectorButton key={name} href={url}>
                   {tUsages(`${name}.label`)}
-                </GatewayButton>
+                </ConnectorButton>
               ))}
           </Box>
           <Paragraph sx={{ fontWeight: "bold" }}>
-            {t("gateways.gatewaySuggestion")}
+            {t("connectors.connectorSuggestion")}
           </Paragraph>
           <Link
             href="https://www.istex.fr/contactez-nous/"
@@ -83,7 +83,7 @@ export default function CorpusSection() {
               fontWeight: "bold",
             }}
           >
-            {t("gateways.contactButton")}
+            {t("connectors.contactButton")}
           </Link>
         </Article>
       </Container>
@@ -126,7 +126,7 @@ function CorpusButton({ href, children }: ButtonProps) {
   );
 }
 
-function GatewayButton({ href, children }: ButtonProps) {
+function ConnectorButton({ href, children }: ButtonProps) {
   return (
     <Button
       variant="outlined"

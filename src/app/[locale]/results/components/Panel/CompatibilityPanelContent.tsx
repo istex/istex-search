@@ -32,7 +32,7 @@ export default function CompatibilityPanelContent() {
   return (
     <Grid container spacing={1}>
       {Object.entries(usages)
-        .filter(([_, { isGateway }]) => isGateway)
+        .filter(([_, { isConnector }]) => isConnector)
         .map(([name, usage]) => {
           const data: { label: string; count: number }[] = [];
           let compatibilityCount = 0;

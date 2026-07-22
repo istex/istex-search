@@ -114,19 +114,19 @@ export type CompressionLevel = (typeof compressionLevels)[number];
 
 export const usages = {
   custom: {
-    isGateway: false,
+    isConnector: false,
     url: "https://doc.istex.fr/tdm/annexes/liste-des-formats.html",
     formats: NO_FORMAT_SELECTED,
     archiveTypes,
   },
   lodex: {
-    isGateway: true,
+    isConnector: true,
     url: "https://www.lodex.fr/",
     formats: formats.metadata.json,
     archiveTypes,
   },
   cortext: {
-    isGateway: true,
+    isConnector: true,
     url: "https://cortext.net/",
     formats:
       formats.fulltext.tei |
@@ -135,13 +135,13 @@ export const usages = {
     archiveTypes: ["zip"],
   },
   gargantext: {
-    isGateway: true,
+    isConnector: true,
     url: "https://gargantext.org/",
     formats: formats.metadata.json,
     archiveTypes: ["zip"],
   },
   nooj: {
-    isGateway: true,
+    isConnector: true,
     url: "https://nooj.univ-fcomte.fr/",
     formats: formats.metadata.json | formats.fulltext.txt,
     archiveTypes: ["zip"],

@@ -310,7 +310,7 @@
       "fuzzy": {
         "title": "Fuzzy search",
         "list": [
-          "The <strong>~</strong> metacharacter allows you to query variants of a term (2\u2011character difference max).<pre>title:mémorisation~2</pre>"
+          "The <strong>~</strong> metacharacter allows you to query variants of a term (2-character difference max).<pre>title:mémorisation~2</pre>"
         ]
       },
       "proximity": {
@@ -586,15 +586,15 @@
       },
       "lodex": {
         "label": "Lodex",
-        "description": "Open\u2011source web application designed for structured data, which allows you to visualise and enrich your data and turn it into a website."
+        "description": "Open-source web application designed for structured data, which allows you to visualise and enrich your data and turn it into a website."
       },
       "cortext": {
         "label": "Cortext",
-        "description": "Open\u2011source software designed for the mining and analysis of heterogeneous text corpora, offering a range of automated processing functions (clustering, visualisation of temporal data, etc.)."
+        "description": "Open-source software designed for the mining and analysis of heterogeneous text corpora, offering a range of automated processing functions (clustering, visualisation of temporal data, etc.)."
       },
       "gargantext": {
         "label": "GarganText",
-        "description": "Open\u2011source software designed for the collaborative exploration of document collections, combining tools for natural language processing, complex network analysis and interactive data visualisation."
+        "description": "Open-source software designed for the collaborative exploration of document collections, combining tools for natural language processing, complex network analysis and interactive data visualisation."
       },
       "nooj": {
         "label": "NooJ",
@@ -728,8 +728,8 @@
         "description": "Search by scientific domain from the Pascal and Francis classification"
       },
       "scienceMetrix": {
-        "title": "Science\u2011Metrix category",
-        "description": "Search by scientific domain from the Science\u2011Metrix classification"
+        "title": "Science-Metrix category",
+        "description": "Search by scientific domain from the Science-Metrix classification"
       },
       "scopus": {
         "title": "Scopus category",
@@ -851,7 +851,7 @@
     "accessCondition": {
       "contentType": {
         "title": "Open access",
-        "description": "Search open\u2011access documents",
+        "description": "Search open-access documents",
         "isOpenAccess": "Yes",
         "isNotOpenAccess": "No",
         "unknown": "Unknown"
@@ -969,7 +969,7 @@
       "type": {
         "title": "Enrichment type",
         "description": "Search documents that contain at least one enrichment",
-        "multicat": "WoS, Scopus, Science\u2011Metrix categories (Multicat)",
+        "multicat": "WoS, Scopus, Science-Metrix categories (Multicat)",
         "teeft": "Indexing (Teeft)",
         "unitex": "Named entities (Unitex)",
         "nb": "Inist categories (naive bayes)",

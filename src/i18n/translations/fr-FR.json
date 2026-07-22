@@ -586,7 +586,7 @@
       },
       "lodex": {
         "label": "Lodex",
-        "description": "Application web open\u2011source dédiée aux données structurées qui permet de visualiser et d'enrichir ses données puis de les transformer en site web."
+        "description": "Application web open-source dédiée aux données structurées qui permet de visualiser et d'enrichir ses données puis de les transformer en site web."
       },
       "cortext": {
         "label": "Cortext",
@@ -728,8 +728,8 @@
         "description": "Recherche par un domaine scientifique de la classification Pascal et Francis"
       },
       "scienceMetrix": {
-        "title": "Catégorie Science\u2011Metrix",
-        "description": "Recherche par un domaine scientifique de la classification Science\u2011Metrix"
+        "title": "Catégorie Science-Metrix",
+        "description": "Recherche par un domaine scientifique de la classification Science-Metrix"
       },
       "scopus": {
         "title": "Catégorie Scopus",
@@ -969,7 +969,7 @@
       "type": {
         "title": "Type d'enrichissement",
         "description": "Recherche de documents comportant un enrichissement",
-        "multicat": "Catégories WoS, Scopus, Science\u2011Metrix (Multicat)",
+        "multicat": "Catégories WoS, Scopus, Science-Metrix (Multicat)",
         "teeft": "Indexation (Teeft)",
         "unitex": "Entités nommées (Unitex)",
         "nb": "Catégories Inist (bayésien naïf)",

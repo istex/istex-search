@@ -16,7 +16,7 @@ import { HistoryProvider } from "@/contexts/HistoryContext";
 import { type QueryContextProps, QueryProvider } from "@/contexts/QueryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import { routing, usePathname } from "@/i18n/routing";
-import messages from "@/i18n/translations/fr-FR.json";
+import messages from "@/i18n/translations/fr-FR";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import MuiSetup from "@/mui/setup";
 

@@ -88,6 +88,21 @@ export default createTheme({
         variant: "rounded",
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          // This fixes the label overflowing in the end adornment when the input
+          // is not focused (cf. https://github.com/mui/material-ui/issues/39427)
+          "&:not(.MuiInputLabel-shrink):has(+ .MuiInputBase-root .MuiInputAdornment-positionEnd)":
+            {
+              maxWidth: "calc(100% - 48px)",
+              "&:has(+ .MuiInput-root)": {
+                maxWidth: "calc(100% - 24px)",
+              },
+            },
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
         ul, ol {

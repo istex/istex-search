@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import * as React from "react";
+import LocalePicker from "./LocalePicker";
 import navbarLinks from "./navbarLinks";
 
 export default function Navbar() {
@@ -136,6 +137,11 @@ export default function Navbar() {
               </Button>
             </li>
           ))}
+        </Box>
+
+        {/* Locale picker */}
+        <Box sx={{ display: "flex", ml: { xs: 0, sm: 3 } }}>
+          <LocalePicker />
         </Box>
       </Container>
     </AppBar>

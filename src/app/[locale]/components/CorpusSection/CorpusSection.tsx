@@ -12,7 +12,7 @@ import wires from "@/../public/wires.svg";
 import Button from "@/components/Button";
 import { usages } from "@/config";
 import CorpusGrid from "./CorpusGrid";
-import corpus from "./corpus";
+import CORPUS_URLS from "./corpus";
 
 export default function CorpusSection() {
   const t = useTranslations("home.CorpusSection");
@@ -39,7 +39,7 @@ export default function CorpusSection() {
         <Article sx={{ flex: 1.5 }}>
           <Title>{t("corpus.title")}</Title>
           <Typography variant="subtitle1">
-            {t("corpus.subtitle", { corpusLength: corpus.length })}
+            {t("corpus.subtitle", { corpusLength: CORPUS_URLS.length })}
           </Typography>
           <CorpusGrid />
           <Box sx={{ display: "flex", gap: 2, pt: 2 }}>

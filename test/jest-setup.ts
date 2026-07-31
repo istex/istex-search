@@ -20,7 +20,7 @@ mock("next-intl/server", {
 });
 
 mock("next/navigation", {
-  useSearchParams: jest.fn(),
+  useSearchParams: jest.fn(() => ({})),
 });
 
 mock("@/lib/istexApi", {

@@ -10,7 +10,10 @@
       "documentaryDataset": "Référentiels documentaires",
       "specializedCorpus": "Corpus spécialisés",
       "istexTdm": "Istex TDM",
-      "loterre": "Istex Loterre"
+      "loterre": "Istex Loterre",
+      "LocalePicker": {
+        "selectAriaLabel": "Langue"
+      }
     },
     "Header": {
       "baseline": "<strong>Créez et téléchargez votre corpus scientifique</strong><br></br>Première étape de votre projet de fouille de textes"
@@ -91,7 +94,33 @@
         "title": "Explorez des corpus prêts à l'emploi",
         "subtitle": "Découvrez nos {corpusLength} derniers corpus spécialisés",
         "seeMoreButton": "TOUT VOIR",
-        "contactButton": "CORPUS À LA DEMANDE"
+        "contactButton": "CORPUS À LA DEMANDE",
+        "CorpusGrid": [
+          {
+            "collectionTitle": "Collection Mémoire",
+            "title": "Mémoire-Neurosciences"
+          },
+          {
+            "collectionTitle": "Collection Paléoclimatologie",
+            "title": "Paleosaurus"
+          },
+          {
+            "collectionTitle": "Collection Paléoclimatologie",
+            "title": "Paleonotus"
+          },
+          {
+            "collectionTitle": "Collection Traduction",
+            "title": "Machine Translation"
+          },
+          {
+            "collectionTitle": "Collection Systématique",
+            "title": "Systématique Animale"
+          },
+          {
+            "collectionTitle": "Collection Systématique",
+            "title": "Systématique Végétale"
+          }
+        ]
       },
       "connectors": {
         "title": "Adaptez votre téléchargement à votre usage",

@@ -10,7 +10,10 @@
       "documentaryDataset": "Documentary references",
       "specializedCorpus": "Specialised corpora",
       "istexTdm": "Istex TDM",
-      "loterre": "Istex Loterre"
+      "loterre": "Istex Loterre",
+      "LocalePicker": {
+        "selectAriaLabel": "Language"
+      }
     },
     "Header": {
       "baseline": "<strong>Create and download your scientific corpus</strong><br></br>First step of your text and data mining project"
@@ -64,7 +67,7 @@
           "validate": "Confirm your modifications",
           "Dialog": {
             "title": "Are you sure?",
-            "content": "By confirming your modifications, you will not be able to continue with the query building assistant.",
+            "content": "If you confirm your modifications, you will not be able to continue with the query building assistant.",
             "confirm": "Confirm"
           }
         }
@@ -77,11 +80,11 @@
         "uploadIconAlt": "Upload a .corpus file"
       },
       "PromptModal": {
-        "title": "Search in natural search",
+        "title": "Search in natural language",
         "betaChipLabel": "BETA",
         "introduction": "Describe your problem in natural language. Your description will be automatically converted into an Istex\u00A0Search compatible Lucene query.",
         "noteTitle": "Notes",
-        "note": "The currently supported fields are the title, the abstract, the author keywords, the publication date, the language and the document type (research article). The queries are automatically generated from your description and can vary from one generation to another.",
+        "note": "The fields that are currently supported are the title, the abstract, the author keywords, the publication date, the language and the document type (research article). The queries are automatically generated from your description and can vary from one generation to another.",
         "placeholder": "Research articles in English about nuclear energy published after 2015",
         "submitButton": "Generate the query"
       }
@@ -91,14 +94,40 @@
         "title": "Explore ready-to-use corpora",
         "subtitle": "Browse our {corpusLength} latest specialised corpora",
         "seeMoreButton": "SEE ALL",
-        "contactButton": "CORPUS ON DEMAND"
+        "contactButton": "CORPUS ON DEMAND",
+        "CorpusGrid": [
+          {
+            "collectionTitle": "Memory collection",
+            "title": "Mémoire-Neurosciences"
+          },
+          {
+            "collectionTitle": "Palaeoclimatology collection",
+            "title": "Paleosaurus"
+          },
+          {
+            "collectionTitle": "Palaeoclimatology collection",
+            "title": "Paleonotus"
+          },
+          {
+            "collectionTitle": "Translation collection",
+            "title": "Machine Translation"
+          },
+          {
+            "collectionTitle": "Systematics collection",
+            "title": "Systématique Animale"
+          },
+          {
+            "collectionTitle": "Systematics collection",
+            "title": "Systématique Végétale"
+          }
+        ]
       },
       "connectors": {
-        "title": "Tune your download to your use case",
+        "title": "Adapt your download to your use case",
         "subtitle": "Istex\u00A0Search offers connectors for corpus analysis tools.",
-        "paragraph": "No matter your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows to download your corpus in formats compatible with text and data mining tools.",
+        "paragraph": "Whatever your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows to download your corpus in formats compatible with text and data mining tools.",
         "buttonTop": "For more information about these tools:",
-        "connectorSuggestion": "Want to suggest a connector for a tool?",
+        "connectorSuggestion": "Would you like to suggest a connector for a tool?",
         "contactButton": "CONTACT US"
       }
     },
@@ -121,9 +150,9 @@
       ]
     },
     "CourseSection": {
-      "title": "Need to better understand Istex\u00A0Search?",
-      "body": "The Istex team offers trainings on the corpus creation methodology.",
-      "button": "Find out about our trainings"
+      "title": "Need to understand more about Istex\u00A0Search?",
+      "body": "The Istex team offers training on the corpus creation methodology.",
+      "button": "Find out about our training courses"
     }
   },
   "results": {
@@ -304,7 +333,7 @@
         "title": "Boosting",
         "list": [
           "The <strong>^ followed by a number</strong> metacharacter allows you to give more weight to a term.<pre>\"star wars\"^2 skywalker</pre>",
-          "Boosting affects the results order but not their count."
+          "Boosting affects the order of the results but not their count."
         ]
       },
       "fuzzy": {
@@ -325,7 +354,7 @@
           "Regular expression must be written in between <strong>//</strong> to be interpreted.<pre>title:/[frc]at/</pre>"
         ]
       },
-      "seeMoreLink": "LEARN MORE"
+      "seeMoreLink": "FIND OUT MORE"
     },
     "Share": {
       "email": {
@@ -358,13 +387,13 @@
           "success": "Full request copied into your clipboard."
         }
       },
-      "seeMoreLink": "LEARN MORE"
+      "seeMoreLink": "FIND OUT MORE"
     },
     "ResultsSettings": {
       "download": "Download",
       "allButton": "All",
       "resultCount": "{count, number}",
-      "warningTooltip": "Your query returns {resultCount, number} results but the limit is {maxSize, number}."
+      "warningTooltip": "Your query has returned {resultCount, number} results but the limit is {maxSize, number}."
     },
     "SelectedDoc": {
       "title": "Selected documents",
@@ -382,7 +411,7 @@
     "WaitingModal": {
       "title": "Downloading of your corpus",
       "approximately": "approximately",
-      "closeModal": "Your download as begun, you can close this window.",
+      "closeModal": "Your download has begun, you can close this window.",
       "citationTitle": "How to cite Istex\u00A0Search"
     },
     "Citation": {
@@ -495,7 +524,7 @@
         },
         {
           "title": "More information",
-          "description": "To get more information, you can visit our <a href=\"https://www.istex.fr/politique-de-confidentialite/\" target=\"_blank\" rel=\"noreferrer\">privacy policy</a>."
+          "description": "For more information, you can visit our <a href=\"https://www.istex.fr/politique-de-confidentialite/\" target=\"_blank\" rel=\"noreferrer\">privacy policy</a>."
         }
       ]
     }
@@ -514,7 +543,7 @@
       "Go back to the Istex\u00A0Search <homeLink><strong>home page</strong></homeLink> to make a new query.",
       "Use the <assistedSearchLink><strong>assisted search</strong></assistedSearchLink> to get assistance in querying the Istex repository."
     ],
-    "contact": "If you believe this is a mistake, please <link>contact us</link> to let us know."
+    "contact": "If you think this is a mistake, please <link>contact us</link> to let us know."
   },
   "errors": {
     "SyntaxError": "A syntax error was detected.",
@@ -716,7 +745,7 @@
     },
     "arkIstex": {
       "title": "ARK",
-      "description": "Search by the document ARK"
+      "description": "Search by the document's ARK"
     },
     "corpusName": {
       "title": "Package",
@@ -832,7 +861,7 @@
     },
     "hasFormula": {
       "title": "Formula",
-      "description": "Search the presence of a math formula"
+      "description": "Search for the presence of a maths formula"
     },
     "language": {
       "title": "Language",
@@ -926,11 +955,11 @@
       },
       "pdfText": {
         "title": "PDF with text",
-        "description": "Search PDF documents that contain text"
+        "description": "Search for PDF documents that contain text"
       },
       "refBibsNative": {
         "title": "References",
-        "description": "Search the presence of native references",
+        "description": "Search for the presence of native references",
         "true": "Provided by the publisher",
         "false": "Found by Grobid"
       },

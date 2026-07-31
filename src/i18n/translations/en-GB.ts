@@ -137,7 +137,7 @@ const enGB: Translation = {
         subtitle:
           "Istex\u00A0Search offers connectors for corpus analysis tools.",
         paragraph:
-          "Whatever your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows to download your corpus in formats compatible with text and data mining tools.",
+          "Whatever your use case (data curation, semantisation, statistics, phylogenetic reconstructions, etc.), Istex\u00A0Search allows you to download your corpus in formats compatible with text and data mining tools.",
         buttonTop: "For more information about these tools:",
         connectorSuggestion:
           "Would you like to suggest a connector for a tool?",

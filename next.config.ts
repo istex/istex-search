@@ -22,4 +22,10 @@ export default withNextIntl({
   // Don't bundle the log dependencies with the rest of the server components,
   // let them be `require`d by Node.js
   serverExternalPackages: ["pino", "pino-pretty"],
+
+  // TypeScript 7 doesn't provide the compiler API yet, so we make Next.js fall
+  // back to using the CLI in the meantime
+  experimental: {
+    useTypeScriptCli: true,
+  },
 });

@@ -10,14 +10,14 @@ describe("LocalePicker", () => {
   it("displays every supported locale", async () => {
     render(<LocalePicker />);
 
-    const select = screen.getByRole("combobox");
-    await userEvent.click(select);
+    const button = screen.getByRole("button");
+    await userEvent.click(button);
 
-    const options = screen.getAllByRole("option");
+    const menuItems = screen.getAllByRole("menuitem");
 
-    expect(options).toHaveLength(routing.locales.length);
+    expect(menuItems).toHaveLength(routing.locales.length);
     for (let i = 0; i < routing.locales.length; i++) {
-      expect(options[i]).toHaveAttribute("data-value", routing.locales[i]);
+      expect(menuItems[i]).toHaveAttribute("value", routing.locales[i]);
     }
   });
 
@@ -25,16 +25,16 @@ describe("LocalePicker", () => {
     render(<LocalePicker />);
 
     const router = useRouter();
-    const select = screen.getByRole("combobox");
-    await userEvent.click(select);
+    const button = screen.getByRole("button");
+    await userEvent.click(button);
 
-    const unselectedOption = screen.getAllByRole("option", {
-      selected: false,
-    })[0];
-    await userEvent.click(unselectedOption);
+    const unselectedMenuItem = screen
+      .getAllByRole("menuitem")
+      .filter((menuItem) => !menuItem.classList.contains("Mui-selected"))[0];
+    await userEvent.click(unselectedMenuItem);
 
     expect(router.push).toHaveBeenCalledWith(expect.anything(), {
-      locale: unselectedOption.getAttribute("data-value"),
+      locale: unselectedMenuItem.getAttribute("value"),
     });
   });
 });

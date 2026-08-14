@@ -13,7 +13,7 @@ const frFR = {
       istexTdm: "Istex TDM",
       loterre: "Istex Loterre",
       LocalePicker: {
-        selectAriaLabel: "Langue",
+        buttonAriaLabel: "Langue",
       },
     },
     Header: {

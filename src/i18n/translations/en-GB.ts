@@ -15,7 +15,7 @@ const enGB: Translation = {
       istexTdm: "Istex TDM",
       loterre: "Istex Loterre",
       LocalePicker: {
-        selectAriaLabel: "Language",
+        buttonAriaLabel: "Language",
       },
     },
     Header: {

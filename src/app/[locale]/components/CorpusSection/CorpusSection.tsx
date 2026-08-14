@@ -74,17 +74,24 @@ export default function CorpusSection() {
           <Paragraph sx={{ fontWeight: "bold" }}>
             {t("connectors.connectorSuggestion")}
           </Paragraph>
-          <Link
+          <Button
+            variant="outlined"
+            mainColor="white"
+            secondaryColor="blue"
             href="https://www.istex.fr/contactez-nous/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t("connectors.contactButton")}
+          </Button>
+          <Link
             target="_blank"
             rel="noreferrer"
             sx={{
               color: "colors.white",
               fontWeight: "bold",
             }}
-          >
-            {t("connectors.contactButton")}
-          </Link>
+          ></Link>
         </Article>
       </Container>
     </Box>

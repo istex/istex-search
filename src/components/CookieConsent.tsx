@@ -5,7 +5,7 @@ import * as React from "react";
 import * as cookieConsent from "vanilla-cookieconsent";
 import "vanilla-cookieconsent/dist/cookieconsent.css";
 import { GlobalStyles } from "@mui/material";
-import { routing } from "@/i18n/routing";
+import routing from "@/i18n/routing";
 
 const config: cookieConsent.CookieConsentConfig = {
   categories: {

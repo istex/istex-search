@@ -1,10 +1,11 @@
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import { type Locale, useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 import globeIcon from "@/../public/globe.svg";
-import { routing, usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import routing from "@/i18n/routing";
+import { useSearchParams } from "@/lib/hooks";
 
 const smallFontSize = {
   fontSize: "0.625rem",

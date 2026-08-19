@@ -1,5 +1,6 @@
 import LocalePicker from "@/app/[locale]/components/Navbar/LocalePicker";
-import { routing, useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
+import routing from "@/i18n/routing";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("LocalePicker", () => {

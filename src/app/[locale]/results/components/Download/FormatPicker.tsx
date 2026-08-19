@@ -5,7 +5,7 @@ import type * as React from "react";
 import Checkbox from "@/components/Checkbox";
 import { DEFAULT_USAGE_NAME, type FormatCategoryName, formats } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   deselectFormat,
   getWholeCategoryFormat,

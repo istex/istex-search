@@ -10,7 +10,7 @@ import * as React from "react";
 import { type PerPageOption, perPageOptions } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
 
 interface PerPageProps {

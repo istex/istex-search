@@ -2,7 +2,7 @@
 
 import ShareIcon from "@mui/icons-material/Reply";
 import { useTranslations } from "next-intl";
-import { usePathname } from "@/i18n/routing";
+import { usePathname } from "@/i18n/navigation";
 import { useShare } from "@/lib/hooks";
 import FloatingSideButton from "./FloatingSideButton";
 

@@ -18,7 +18,7 @@ import {
   type HistoryEntry,
   useHistoryContext,
 } from "@/contexts/HistoryContext";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 import { useDownload, useShare } from "@/lib/hooks";
 import { buildFullApiUrl } from "@/lib/istexApi";

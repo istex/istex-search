@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { type Locale, NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
-import * as React from "react";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 import CookieConsent from "@/components/CookieConsent";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
@@ -24,11 +23,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout(props: LayoutProps<"/[locale]">) {
-  const params = React.use(props.params);
+export default async function RootLayout(props: LayoutProps<"/[locale]">) {
+  const locale = await getLocale();
 
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       {/* If the Istex API URL is overridden via an environment variable, we inject it into the window object */}
       {process.env.ISTEX_API_URL && (
         <Script id="inject-api-url" strategy="beforeInteractive">
@@ -38,7 +37,7 @@ export default function RootLayout(props: LayoutProps<"/[locale]">) {
 
       <body>
         <TanStackQueryProvider>
-          <MuiSetup locale={params.locale as Locale}>
+          <MuiSetup locale={locale}>
             <NextIntlClientProvider>
               <HistoryProvider>
                 <Navbar />

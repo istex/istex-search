@@ -1,6 +1,6 @@
 import FormatPicker from "@/app/[locale]/results/components/Download/FormatPicker";
 import { formats } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,

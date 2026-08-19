@@ -1,8 +1,7 @@
 import { Stack } from "@mui/material";
-import type { Locale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { DISPLAY_PERF_METRICS } from "@/config";
-import { redirect } from "@/i18n/routing";
+import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import {
   type GetResultsOptions,
@@ -39,7 +38,7 @@ export default async function ResultsPage(
   props: PageProps<"/[locale]/results">,
 ) {
   const nextSearchParams = await props.searchParams;
-  const locale = (await props.params).locale as Locale;
+  const locale = await getLocale();
   const searchParams = new SearchParams(nextSearchParams);
   const page = searchParams.getPage();
   const perPage = searchParams.getPerPage();

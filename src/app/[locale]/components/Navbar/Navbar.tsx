@@ -141,7 +141,9 @@ export default function Navbar() {
 
         {/* Locale picker */}
         <Box sx={{ display: "flex", ml: { xs: 0, sm: 3 } }}>
-          <LocalePicker />
+          <React.Suspense>
+            <LocalePicker />
+          </React.Suspense>
         </Box>
       </Container>
     </AppBar>

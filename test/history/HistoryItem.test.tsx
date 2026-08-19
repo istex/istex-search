@@ -2,7 +2,7 @@ import { Table, TableBody } from "@mui/material";
 import HistoryItem from "@/app/[locale]/components/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { useDownload, useShare } from "@/lib/hooks";
 import SearchParams from "@/lib/SearchParams";
 import { formatDate } from "@/lib/utils";

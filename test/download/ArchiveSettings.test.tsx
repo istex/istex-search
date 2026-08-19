@@ -1,5 +1,5 @@
 import ArchiveSettings from "@/app/[locale]/results/components/Download/ArchiveSettings";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import {
   mockSearchParams,
   customRender as render,

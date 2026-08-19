@@ -1,6 +1,6 @@
 import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
 import { supportedIdTypes } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { buildQueryStringFromIds } from "@/lib/queryIds";
 import {
   customRender as render,

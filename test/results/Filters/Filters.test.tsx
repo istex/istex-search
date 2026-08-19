@@ -1,5 +1,5 @@
 import Filters from "@/app/[locale]/results/components/Filters";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import fields from "@/lib/fields";
 import type { IstexApiResponse } from "@/lib/istexApi";

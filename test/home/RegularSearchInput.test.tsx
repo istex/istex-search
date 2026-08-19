@@ -1,5 +1,5 @@
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import {
   mockSearchParams,
   customRender as render,

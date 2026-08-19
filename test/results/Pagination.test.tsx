@@ -1,6 +1,7 @@
 import Pagination from "@/app/[locale]/results/components/Pagination";
 import { istexApiConfig, MIN_PER_PAGE } from "@/config";
-import { routing, useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
+import routing from "@/i18n/routing";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockSearchParams,

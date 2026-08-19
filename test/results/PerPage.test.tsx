@@ -1,6 +1,6 @@
 import PerPage from "@/app/[locale]/results/components/PerPage";
 import { perPageOptions } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import {
   mockSearchParams,
   customRender as render,

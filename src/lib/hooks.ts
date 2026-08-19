@@ -9,7 +9,7 @@ import {
 } from "@/contexts/DocumentContext";
 import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { type AST, astContainsField } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { getAggregation } from "@/lib/istexApi";

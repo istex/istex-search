@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import type { CustomErrorInfo } from "@/lib/CustomError";
 import { useSearchParams } from "@/lib/hooks";
 import type { IstexApiResponse } from "@/lib/istexApi";

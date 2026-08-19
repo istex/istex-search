@@ -1,5 +1,5 @@
 import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import {
   mockPathname,
   mockSearchParams,

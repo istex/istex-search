@@ -1,5 +1,5 @@
 import FilterTags from "@/app/[locale]/results/components/Filters/FilterTags";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import {
   mockSearchParams,

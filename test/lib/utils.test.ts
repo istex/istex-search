@@ -1,5 +1,5 @@
 import { isoLanguagesToLabelize } from "@/config";
-import { routing } from "@/i18n/routing";
+import routing from "@/i18n/routing";
 import * as Module from "@/lib/utils";
 
 describe("Utility functions", () => {

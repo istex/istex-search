@@ -1,5 +1,6 @@
 import ResultsPage from "@/app/[locale]/results/_page";
-import { redirect, routing } from "@/i18n/routing";
+import { redirect } from "@/i18n/navigation";
+import routing from "@/i18n/routing";
 import { renderAsync, screen } from "../test-utils";
 
 describe("Results page", () => {

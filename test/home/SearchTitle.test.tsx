@@ -1,6 +1,6 @@
 import SearchTitle from "@/app/[locale]/components/SearchSection/SearchTitle";
 import { SEARCH_MODE_ASSISTED } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockPathname,

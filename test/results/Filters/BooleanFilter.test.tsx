@@ -1,5 +1,5 @@
 import BooleanFilter from "@/app/[locale]/results/components/Filters/BooleanFilter";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 import {

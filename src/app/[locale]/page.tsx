@@ -1,7 +1,7 @@
-import type { Locale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getLocale } from "next-intl/server";
 import { QueryProvider } from "@/contexts/QueryContext";
-import { redirect, routing } from "@/i18n/routing";
+import { redirect } from "@/i18n/navigation";
+import routing from "@/i18n/routing";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import logger from "@/lib/logger";
 import SearchParams from "@/lib/SearchParams";
@@ -18,14 +18,12 @@ export function generateStaticParams() {
 
 export default async function HomePage(props: PageProps<"/[locale]">) {
   const nextSearchParams = await props.searchParams;
-  const locale = (await props.params).locale as Locale;
+  const locale = await getLocale();
 
   logger.info({
     status: 200,
     pathname: `/${locale}`,
   });
-
-  setRequestLocale(locale);
 
   const searchParams = new SearchParams(nextSearchParams);
 

@@ -1,3 +1,4 @@
+import routing from "@/i18n/routing";
 import "@testing-library/jest-dom";
 
 const routerMock = {
@@ -9,13 +10,14 @@ const routerMock = {
   replace: jest.fn(),
 };
 
-mock("@/i18n/routing", {
+mock("@/i18n/navigation", {
   redirect: jest.fn(),
   useRouter: () => routerMock,
   usePathname: jest.fn(() => "/"),
 });
 
 mock("next-intl/server", {
+  getLocale: jest.fn(() => Promise.resolve(routing.defaultLocale)),
   getTranslations: jest.fn(),
 });
 

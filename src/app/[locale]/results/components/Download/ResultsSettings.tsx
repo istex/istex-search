@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import NumberInput from "@/components/NumberInput";
 import { istexApiConfig } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   useDocumentCount,
   useMaxSize,

@@ -1,6 +1,6 @@
 import UsageSelector from "@/app/[locale]/results/components/Download/UsageSelector";
 import { usages } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
 import {
   mockSearchParams,

@@ -3,7 +3,7 @@ import {
   getQueryStringFromPrompt,
 } from "@/app/[locale]/components/SearchSection/NaturalSearch/actions";
 import PromptModal from "@/app/[locale]/components/SearchSection/NaturalSearch/PromptModal";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import {
   mockSearchParams,
   customRender as render,

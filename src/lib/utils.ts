@@ -1,7 +1,7 @@
 import type { SxProps } from "@mui/material";
 import type { Locale } from "next-intl";
 import { isoLanguagesToLabelize } from "@/config";
-import { routing } from "@/i18n/routing";
+import routing from "@/i18n/routing";
 
 export function lineclamp(lines: number): SxProps {
   return {

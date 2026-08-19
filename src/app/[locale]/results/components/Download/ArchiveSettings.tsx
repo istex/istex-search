@@ -15,7 +15,7 @@ import {
   usages,
 } from "@/config";
 import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/routing";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { useSearchParams } from "@/lib/hooks";
 
 export default function ArchiveSettings() {

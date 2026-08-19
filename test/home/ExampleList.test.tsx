@@ -1,6 +1,6 @@
 import ExampleList from "@/app/[locale]/components/SearchSection/ExampleList";
 import { examples } from "@/config";
-import { useRouter } from "@/i18n/routing";
+import { useRouter } from "@/i18n/navigation";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("ExampleList", () => {

@@ -62,7 +62,12 @@ export default function MemoModal({ open, onClose }: MemoModalProps) {
   const t = useTranslations("results.MemoModal");
 
   return (
-    <Modal heading={t("title")} open={open} onClose={onClose}>
+    <Modal
+      heading={t("title")}
+      open={open}
+      onClose={onClose}
+      slideDirection="left"
+    >
       <DialogContent>
         <Typography variant="body2" sx={{ mb: 1 }}>
           <RichText>

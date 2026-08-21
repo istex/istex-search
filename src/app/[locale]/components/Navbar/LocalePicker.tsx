@@ -1,4 +1,4 @@
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
 import Image from "next/image";
 import { type Locale, useLocale, useTranslations } from "next-intl";
 import * as React from "react";
@@ -94,4 +94,8 @@ export default function LocalePicker() {
       </Menu>
     </Box>
   );
+}
+
+export function LocalePickerLoadingSkeleton() {
+  return <Skeleton variant="circular" width={24} height={24} sx={{ m: 1 }} />;
 }

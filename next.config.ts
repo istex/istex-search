@@ -23,12 +23,16 @@ export default withNextIntl({
   // let them be `require`d by Node.js
   serverExternalPackages: ["pino", "pino-pretty"],
 
-  // TypeScript 7 doesn't provide the compiler API yet, so we make Next.js fall
-  // back to using the CLI in the meantime
-  experimental: {
-    useTypeScriptCli: true,
-  },
-
   // Cache components
   cacheComponents: true,
+
+  // Experimental features
+  experimental: {
+    // TypeScript 7 doesn't provide the compiler API yet, so we make Next.js fall
+    // back to using the CLI in the meantime
+    useTypeScriptCli: true,
+
+    // Use the Rust port of the React Compiler instead of the Babel version
+    turbopackRustReactCompiler: true,
+  },
 });

@@ -84,9 +84,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.4(@types/react@19.2.18)
-      babel-plugin-react-compiler:
-        specifier: ^1.0.0
-        version: 1.0.0
       jest:
         specifier: ^30.0.0
         version: 30.4.2(@types/node@24.13.3)(babel-plugin-macros@3.1.0)(supports-color@8.1.1)
@@ -4333,7 +4330,8 @@ snapshots:
 
   babel-plugin-react-compiler@1.0.0:
     dependencies:
-      '@babel/types': 7.28.5
+      '@babel/types': 7.29.0
+    optional: true
 
   babel-preset-current-node-syntax@1.2.0(@babel/core@7.29.0(supports-color@8.1.1)):
     dependencies:

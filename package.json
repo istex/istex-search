@@ -10,7 +10,7 @@
     "start": "node .next/standalone/server.js",
     "lint": "biome check",
     "lint:ci": "biome ci --error-on-warnings --no-errors-on-unmatched --colors=off",
-    "test": "jest"
+    "test": "TURBOPACK=true jest # Remove the TURBOPACK variable when Next.js fixes experimental.turbopackRustReactCompiler"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
@@ -40,7 +40,6 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
-    "babel-plugin-react-compiler": "^1.0.0",
     "jest": "^30.0.0",
     "jest-environment-jsdom": "^30.0.0",
     "pino-pretty": "^13.0.0",

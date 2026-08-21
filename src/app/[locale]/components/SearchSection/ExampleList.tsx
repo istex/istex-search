@@ -2,8 +2,8 @@ import { Grid, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
 import { examples } from "@/config";
-import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
+import { useGoToResultsPage } from "@/lib/hooks";
 
 interface ExampleListProps {
   setError: (error: CustomError) => void;
@@ -12,7 +12,7 @@ interface ExampleListProps {
 export default function ExampleList({ setError }: ExampleListProps) {
   const tExamples = useTranslations("config.examples");
   const t = useTranslations("home.SearchSection.RegularSearchInput");
-  const { goToResultsPage } = useQueryContext();
+  const goToResultsPage = useGoToResultsPage();
 
   const handleClick = (queryString: string) => {
     goToResultsPage(queryString).catch((err: unknown) => {

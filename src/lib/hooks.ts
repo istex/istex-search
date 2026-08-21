@@ -22,6 +22,32 @@ export function useSearchParams() {
   return React.useMemo(() => new SearchParams(params), [params]);
 }
 
+export function useGoToResultsPage() {
+  const router = useRouter();
+  const defaultSearchParams = useSearchParams();
+  const history = useHistoryContext();
+
+  return async (queryString: string, searchParams?: SearchParams) => {
+    // The context consumer can provide their own SearchParams instead
+    // if they need to specify other search params. If they don't, the
+    // search params used for the previous render are used.
+    const searchParamsToUse = searchParams ?? defaultSearchParams;
+    searchParamsToUse.deleteSize();
+    searchParamsToUse.deletePage();
+    searchParamsToUse.deleteFilters();
+    searchParamsToUse.deleteRandomSeed();
+    await searchParamsToUse.setQueryString(queryString);
+
+    history.populateCurrentRequest({
+      date: Date.now(),
+      searchParams: searchParamsToUse,
+    });
+
+    resetSelectedExcludedDocuments();
+    router.push(`/results?${searchParamsToUse.toString()}`);
+  };
+}
+
 export function useOnHomePage() {
   return usePathname() === "/";
 }

@@ -7,6 +7,7 @@ import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
+import { useGoToResultsPage } from "@/lib/hooks";
 import {
   buildQueryStringFromIds,
   type CorpusFileParsingResult,
@@ -20,7 +21,7 @@ import SearchTitle from "./SearchTitle";
 
 export default function ImportInput() {
   const t = useTranslations("home.SearchSection.ImportInput");
-  const { queryString, goToResultsPage, errorInfo } = useQueryContext();
+  const { queryString, errorInfo } = useQueryContext();
   const idType = getIdTypeFromQueryString(queryString);
   const [idList, setIdList] = React.useState(
     getIdsFromQueryString(idType, queryString).join("\n"),
@@ -29,6 +30,7 @@ export default function ImportInput() {
     errorInfo != null ? new CustomError(errorInfo) : null,
   );
   const fileInputRef = React.useRef<React.ComponentRef<"input">>(null);
+  const goToResultsPage = useGoToResultsPage();
 
   // error.info.lines is a string because that's what the next-intl expects for translation
   // values, so we need to split it to get the IDs as numbers

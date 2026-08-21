@@ -6,7 +6,7 @@ import ErrorCard from "@/components/ErrorCard";
 import MultilineTextField from "@/components/MultilineTextField";
 import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
-import { useOnHomePage } from "@/lib/hooks";
+import { useGoToResultsPage, useOnHomePage } from "@/lib/hooks";
 import ExampleList from "./ExampleList";
 import PromptModal from "./NaturalSearch/PromptModal";
 import SearchButton from "./SearchButton";
@@ -24,7 +24,7 @@ export default function RegularSearchInput() {
       : null,
   );
   const [promptModalOpen, setPromptModalOpen] = React.useState(false);
-  const { goToResultsPage } = useQueryContext();
+  const goToResultsPage = useGoToResultsPage();
   const onHomePage = useOnHomePage();
 
   const handleSubmit = async () => {

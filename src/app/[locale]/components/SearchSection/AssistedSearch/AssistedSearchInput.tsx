@@ -10,7 +10,11 @@ import {
   getEmptyFieldNode,
 } from "@/lib/ast";
 import CustomError from "@/lib/CustomError";
-import { useOnHomePage, useSearchParams } from "@/lib/hooks";
+import {
+  useGoToResultsPage,
+  useOnHomePage,
+  useSearchParams,
+} from "@/lib/hooks";
 import SearchButton from "../SearchButton";
 import SearchTitle from "../SearchTitle";
 import ExpertSearchInput from "./ExpertSearchInput";
@@ -22,8 +26,9 @@ export default function AssistedSearchInput() {
   const searchParams = useSearchParams();
   const ast = searchParams.getAst();
   const queryString = astToString(ast);
-  const { goToResultsPage, errorInfo } = useQueryContext();
+  const { errorInfo } = useQueryContext();
   const onHomePage = useOnHomePage();
+  const goToResultsPage = useGoToResultsPage();
   const [assistedFormOpen, setAssistedFormOpen] = React.useState(onHomePage);
   const [expertInputOpen, setExpertInputOpen] = React.useState(false);
   const [expertQueryString, setExpertQueryString] = React.useState(queryString);

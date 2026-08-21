@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
+import { cacheLife } from "next/cache";
 import routing from "@/i18n/routing";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap() {
+  "use cache";
+  cacheLife("max");
+
   return [
     {
       url: "https://search.istex.fr",
@@ -17,5 +21,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ),
       },
     },
-  ];
+  ] satisfies MetadataRoute.Sitemap;
 }

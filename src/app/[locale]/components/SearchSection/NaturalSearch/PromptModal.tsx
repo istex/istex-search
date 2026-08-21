@@ -17,9 +17,8 @@ import Modal from "@/components/Modal";
 import MultilineTextField from "@/components/MultilineTextField";
 import Panel from "@/components/Panel";
 import RichText from "@/components/RichText";
-import { useQueryContext } from "@/contexts/QueryContext";
 import CustomError from "@/lib/CustomError";
-import { useSearchParams } from "@/lib/hooks";
+import { useGoToResultsPage, useSearchParams } from "@/lib/hooks";
 import { type ActionResult, getQueryStringFromPrompt } from "./actions";
 
 export default function PromptModal({
@@ -27,10 +26,10 @@ export default function PromptModal({
   onClose,
 }: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("home.SearchSection.PromptModal");
-  const { goToResultsPage } = useQueryContext();
   const searchParams = useSearchParams();
   const defaultPrompt = searchParams.getPrompt();
   const [prompt, setPrompt] = React.useState(defaultPrompt);
+  const goToResultsPage = useGoToResultsPage();
 
   const getQueryStringFromPromptAction = async (): Promise<ActionResult> => {
     const trimmedPrompt = prompt.trim();

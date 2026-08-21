@@ -5,7 +5,6 @@ import {
   corpusWithExternalFulltextLink,
   DEFAULT_SORT_BY,
   DEFAULT_SORT_DIR,
-  DISPLAY_PERF_METRICS,
   istexApiConfig,
   MIN_PER_PAGE,
   type PerPageOption,
@@ -203,70 +202,6 @@ export function buildResultPreviewUrl({
   }
 
   return url;
-}
-
-export interface GetResultsOptions {
-  queryString: string;
-  perPage: PerPageOption;
-  page: number;
-  filters: AST;
-  sortBy: SortBy;
-  sortDir: SortDir;
-  randomSeed?: string;
-  stats?: boolean;
-}
-
-export async function getResults({
-  queryString,
-  perPage,
-  page,
-  filters,
-  sortBy,
-  sortDir,
-  randomSeed,
-  stats,
-}: GetResultsOptions) {
-  // Create the URL
-  const url = buildResultPreviewUrl({
-    queryString,
-    perPage,
-    page,
-    filters,
-    sortBy,
-    sortDir,
-    randomSeed,
-    stats,
-  });
-
-  // The final query string is built from the initial query string + the filters
-  const finalQueryString = url.searchParams.get("q") ?? "";
-
-  // If the query string is too long some browsers won't accept to send a GET request
-  // so we send a POST request instead and pass the query string in the body
-  const fetchOptions: RequestInit = { next: { revalidate: 60 } };
-  if (finalQueryString.length > istexApiConfig.queryStringMaxLength) {
-    url.searchParams.delete("q");
-    fetchOptions.method = "POST";
-    fetchOptions.headers = {
-      "Content-Type": "application/json",
-    };
-    fetchOptions.body = JSON.stringify({ qString: finalQueryString });
-  }
-
-  if (DISPLAY_PERF_METRICS) performance.mark("before_fetch");
-  const response = await fetch(url, fetchOptions);
-  if (!response.ok) {
-    throw new CustomError(
-      response.status === 400 ? { name: "SyntaxError" } : { name: "default" },
-    );
-  }
-  if (DISPLAY_PERF_METRICS) performance.mark("after_fetch");
-
-  if (DISPLAY_PERF_METRICS) performance.mark("before_parsing");
-  const res = (await response.json()) as IstexApiResponse;
-  if (DISPLAY_PERF_METRICS) performance.mark("after_parsing");
-
-  return res;
 }
 
 export async function getAggregation(

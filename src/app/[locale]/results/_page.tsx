@@ -3,11 +3,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { DISPLAY_PERF_METRICS } from "@/config";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
-import {
-  type GetResultsOptions,
-  getResults,
-  type IstexApiResponse,
-} from "@/lib/istexApi";
+import { type GetResultsOptions, getResults } from "@/lib/getResults";
+import type { IstexApiResponse } from "@/lib/istexApi";
 import logger from "@/lib/logger";
 import SearchParams from "@/lib/SearchParams";
 import DownloadButton from "./components/DownloadButton";
@@ -46,11 +43,6 @@ export default async function ResultsPage(
   const sortBy = searchParams.getSortBy();
   const sortDir = searchParams.getSortDirection();
   const randomSeedFromSearchParams = searchParams.getRandomSeed();
-
-  logger.info({
-    status: 200,
-    pathname: `/${locale}/results`,
-  });
 
   const emptyResults: IstexApiResponse = {
     total: 0,

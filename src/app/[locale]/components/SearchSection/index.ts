@@ -1,1 +1,1 @@
-export { default } from "./SearchSection";
+export { default, SearchSectionLoadingSkeleton } from "./SearchSection";

@@ -9,7 +9,6 @@ const routerMock = {
   prefetch: jest.fn(),
   replace: jest.fn(),
 };
-
 mock("@/i18n/navigation", {
   redirect: jest.fn(),
   useRouter: () => routerMock,
@@ -49,6 +48,13 @@ const historyMock = {
 mock("@/contexts/HistoryContext", {
   useHistoryContext: () => historyMock,
 });
+
+// We don't use the mock helper here because next/cache has side effects that
+// use the TextEncoder API, which is not implemented in jsdom, so we can't
+// afford to import the actual next/cache.
+jest.mock("next/cache", () => ({
+  cacheLife: jest.fn(),
+}));
 
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {

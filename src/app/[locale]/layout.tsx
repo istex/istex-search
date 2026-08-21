@@ -6,6 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import CookieConsent from "@/components/CookieConsent";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
+import routing from "@/i18n/routing";
 import Matomo from "@/matomo";
 import MuiSetup from "@/mui/setup";
 import FloatingSideMenu from "./components/FloatingSideMenu";
@@ -13,6 +14,12 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HelpButton from "./components/HelpButton";
 import Navbar from "./components/Navbar";
+
+// This function tells Next.js to pre-render (at build time) all pages in this layout
+// for every supported locale
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("home.metadata");

@@ -28,4 +28,7 @@ export default withNextIntl({
   experimental: {
     useTypeScriptCli: true,
   },
+
+  // Cache components
+  cacheComponents: true,
 });

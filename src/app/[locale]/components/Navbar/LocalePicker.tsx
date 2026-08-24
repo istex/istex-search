@@ -1,7 +1,16 @@
-import { Box, IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  type SelectChangeEvent,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import { type Locale, useLocale, useTranslations } from "next-intl";
-import * as React from "react";
 import globeIcon from "@/../public/globe.svg";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import routing from "@/i18n/routing";
@@ -15,59 +24,46 @@ export default function LocalePicker() {
   const t = useTranslations("home.Navbar.LocalePicker");
   const router = useRouter();
   const pathname = usePathname();
-  const currentLocale = useLocale();
+  const locale = useLocale();
   const searchParams = useSearchParams();
-  const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const open = anchorElement != null;
 
-  const id = React.useId();
-  const buttonId = `${id}-button`;
-  const menuId = `${id}-menu`;
-
-  const openLocaleMenu: React.MouseEventHandler<HTMLButtonElement> = (
-    event,
-  ) => {
-    setAnchorElement(event.currentTarget);
-  };
-
-  const closeLocaleMenu = () => {
-    setAnchorElement(null);
-  };
-
-  const languageLabels = new Intl.DisplayNames([currentLocale], {
+  const languageLabels = new Intl.DisplayNames([locale], {
     type: "language",
   });
 
-  const onLocaleChange = (locale: Locale) => {
+  const onLocaleChange = (event: SelectChangeEvent<Locale>) => {
     router.push(`${pathname}?${searchParams.toString()}`, {
-      locale,
+      locale: event.target.value,
     });
-    closeLocaleMenu();
   };
 
+  const renderValue = () => (
+    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+      <Image src={globeIcon} alt="" />
+      <Typography variant="body2" sx={{ fontSize: "0.75rem" }}>
+        {locale.substring(0, 2).toUpperCase()}
+      </Typography>
+    </Stack>
+  );
+
   return (
-    <Box>
-      <IconButton
-        id={buttonId}
-        title={t("buttonAriaLabel")}
-        aria-label={t("buttonAriaLabel")}
-        aria-controls={open ? menuId : undefined}
-        aria-haspopup="true"
-        aria-expanded={open}
-        onClick={openLocaleMenu}
-      >
-        <Image src={globeIcon} alt="" />
-      </IconButton>
-      <Menu
-        id={menuId}
-        anchorEl={anchorElement}
-        open={anchorElement != null}
-        onClose={closeLocaleMenu}
-        slotProps={{
-          list: {
-            "aria-labelledby": buttonId,
+    <FormControl>
+      <InputLabel id="locale-picker-label" sx={{ display: "none" }}>
+        {t("selectAriaLabel")}
+      </InputLabel>
+      <Select
+        id="locale-picker"
+        labelId="locale-picker-label"
+        size="small"
+        value={locale}
+        onChange={onLocaleChange}
+        renderValue={renderValue}
+        sx={{
+          ...smallFontSize,
+          bgcolor: "white",
+          flexGrow: 1,
+          "& .MuiSelect-select": {
+            py: 0,
           },
         }}
       >
@@ -77,25 +73,31 @@ export default function LocalePicker() {
           const language = locale.substring(0, 2);
 
           return (
-            <MenuItem
-              key={locale}
-              value={locale}
-              selected={locale === currentLocale}
-              aria-selected
-              onClick={() => {
-                onLocaleChange(locale);
-              }}
-              sx={smallFontSize}
-            >
+            <MenuItem key={locale} value={locale} sx={smallFontSize}>
               {languageLabels.of(language)}
             </MenuItem>
           );
         })}
-      </Menu>
-    </Box>
+      </Select>
+    </FormControl>
   );
 }
 
 export function LocalePickerLoadingSkeleton() {
-  return <Skeleton variant="circular" width={24} height={24} sx={{ m: 1 }} />;
+  return (
+    <Stack
+      direction="row"
+      spacing={1}
+      component={Paper}
+      elevation={0}
+      sx={{
+        alignItems: "center",
+        px: 1.75,
+        border: "1px solid rgba(0, 0, 0, 0.23)",
+      }}
+    >
+      <Skeleton variant="circular" width={24} height={24} />
+      <Skeleton variant="text" width="5ch" />
+    </Stack>
+  );
 }

@@ -15,7 +15,7 @@ const esES: Translation = {
       istexTdm: "Istex TDM",
       loterre: "Istex Loterre",
       LocalePicker: {
-        buttonAriaLabel: "Idioma",
+        selectAriaLabel: "Idioma",
       },
     },
     Header: {

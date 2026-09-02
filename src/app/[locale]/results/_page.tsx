@@ -1,6 +1,5 @@
 import { Stack } from "@mui/material";
 import { getLocale, getTranslations } from "next-intl/server";
-import { DISPLAY_PERF_METRICS } from "@/config";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
 import { type GetResultsOptions, getResults } from "@/lib/getResults";
@@ -12,7 +11,6 @@ import Filters from "./components/Filters";
 import FilterTags from "./components/Filters/FilterTags";
 import Pagination from "./components/Pagination";
 import Panels from "./components/Panel/Panels";
-import PerfMetrics from "./components/PerfMetrics";
 import ResultGrid from "./components/ResultGrid";
 import ResultsPageShell from "./components/ResultsPageShell";
 
@@ -80,7 +78,6 @@ export default async function ResultsPage(
       sortBy,
       sortDir,
       randomSeed: randomSeedFromSearchParams,
-      stats: DISPLAY_PERF_METRICS,
     });
   } catch (err) {
     return (
@@ -119,10 +116,6 @@ export default async function ResultsPage(
           <FilterTags />
           <ResultGrid />
           <Pagination />
-
-          {DISPLAY_PERF_METRICS && (
-            <PerfMetrics istexApiStats={results.stats} />
-          )}
         </Stack>
       </Stack>
 

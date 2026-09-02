@@ -66,14 +66,6 @@ export type Aggregation = Record<
 >;
 
 export interface IstexApiResponse {
-  stats?: {
-    elasticsearch: {
-      took: number;
-    };
-    "istex-api": {
-      took: number;
-    };
-  };
   total: number;
   prevPageURI?: string;
   nextPageURI?: string;
@@ -144,7 +136,6 @@ export interface BuildResultPreviewUrlOptions {
   sortBy?: SortBy;
   sortDir?: SortDir;
   randomSeed?: string;
-  stats?: boolean;
 }
 
 export function buildResultPreviewUrl({
@@ -158,7 +149,6 @@ export function buildResultPreviewUrl({
   sortBy,
   sortDir,
   randomSeed,
-  stats = false,
 }: BuildResultPreviewUrlOptions) {
   const actualPage = page ?? 1;
   let actualPerPage: number = perPage ?? MIN_PER_PAGE;
@@ -197,9 +187,6 @@ export function buildResultPreviewUrl({
   );
   url.searchParams.set("sid", "istex-search");
   url.searchParams.set("facet", getFacetUrlParam(filters));
-  if (stats) {
-    url.searchParams.set("stats", "");
-  }
 
   return url;
 }

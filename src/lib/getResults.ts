@@ -1,6 +1,5 @@
 import { cacheLife } from "next/cache";
 import {
-  DISPLAY_PERF_METRICS,
   istexApiConfig,
   type PerPageOption,
   type SortBy,
@@ -27,7 +26,6 @@ export interface GetResultsOptions {
   sortBy: SortBy;
   sortDir: SortDir;
   randomSeed?: string;
-  stats?: boolean;
 }
 
 export async function getResults({
@@ -38,7 +36,6 @@ export async function getResults({
   sortBy,
   sortDir,
   randomSeed,
-  stats,
 }: GetResultsOptions) {
   "use cache";
   cacheLife("minutes");
@@ -52,7 +49,6 @@ export async function getResults({
     sortBy,
     sortDir,
     randomSeed,
-    stats,
   });
 
   // The final query string is built from the initial query string + the filters
@@ -70,18 +66,12 @@ export async function getResults({
     fetchOptions.body = JSON.stringify({ qString: finalQueryString });
   }
 
-  if (DISPLAY_PERF_METRICS) performance.mark("before_fetch");
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
     throw new CustomError(
       response.status === 400 ? { name: "SyntaxError" } : { name: "default" },
     );
   }
-  if (DISPLAY_PERF_METRICS) performance.mark("after_fetch");
 
-  if (DISPLAY_PERF_METRICS) performance.mark("before_parsing");
-  const res = (await response.json()) as IstexApiResponse;
-  if (DISPLAY_PERF_METRICS) performance.mark("after_parsing");
-
-  return res;
+  return (await response.json()) as IstexApiResponse;
 }

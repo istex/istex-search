@@ -1,9 +1,5 @@
 import { isValidArk, isValidDoi, isValidIstexId } from "./lib/utils";
 
-export const DISPLAY_PERF_METRICS =
-  process.env.DISPLAY_PERF_METRICS != null ||
-  process.env.NODE_ENV !== "production";
-
 export const istexApiConfig = {
   getBaseUrl: () => {
     const defaultBaseUrl = "https://api.istex.fr";

@@ -81,6 +81,7 @@ export default function CorpusSection() {
             href="https://www.istex.fr/contactez-nous/"
             target="_blank"
             rel="noreferrer"
+            sx={{ mt: 1 }}
           >
             {t("connectors.contactButton")}
           </Button>

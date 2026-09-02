@@ -14,7 +14,7 @@
 
 ```
 pnpm install
-pnpm run dev
+pnpm dev
 ```
 
 Then the development server is listening on [localhost:3000](http://localhost:3000).

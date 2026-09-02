@@ -52,21 +52,21 @@ lint:
   rules:
     - *is-working-branch
   script:
-    - pnpm run lint:ci
+    - pnpm lint:ci
 
 build:
   stage: build
   rules:
     - *is-working-branch
   script:
-    - pnpm run build
+    - pnpm build
 
 test:
   stage: test
   rules:
     - *is-working-branch
   script:
-    - pnpm run test
+    - pnpm test
 
 deploy:dev:
   stage: deploy

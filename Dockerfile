@@ -16,7 +16,7 @@ COPY tsconfig.json ./
 COPY next.config.ts ./
 COPY public ./public
 COPY src ./src
-RUN pnpm run build
+RUN pnpm build
 
 
 # Final stage where we get the production build and run it

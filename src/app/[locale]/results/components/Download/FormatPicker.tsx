@@ -4,8 +4,6 @@ import { useTranslations } from "next-intl";
 import type * as React from "react";
 import Checkbox from "@/components/Checkbox";
 import { DEFAULT_USAGE_NAME, type FormatCategoryName, formats } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import {
   deselectFormat,
   getWholeCategoryFormat,
@@ -13,7 +11,7 @@ import {
   isWholeCategorySelected,
   selectFormat,
 } from "@/lib/formats";
-import { useSearchParams } from "@/lib/hooks";
+import { useSelectedFormats, useUsageName } from "@/lib/searchParams";
 
 export default function FormatPicker() {
   const theme = useTheme();
@@ -88,13 +86,9 @@ interface FormatProps {
 
 function Format({ name, value, indeterminate }: FormatProps) {
   const t = useTranslations("config.formats");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const history = useHistoryContext();
-  const selectedFormats = searchParams.getFormats();
-  const currentUsageName = searchParams.getUsageName();
-  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
+  const [selectedFormats, setSelectedFormats] = useSelectedFormats();
+  const [usageName] = useUsageName();
+  const customUsageNotSelected = usageName !== DEFAULT_USAGE_NAME;
 
   const handleChange = (
     _: React.ChangeEvent<HTMLInputElement>,
@@ -104,14 +98,7 @@ function Format({ name, value, indeterminate }: FormatProps) {
       ? selectFormat(selectedFormats, value)
       : deselectFormat(selectedFormats, value);
 
-    searchParams.setFormats(newFormats);
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+    setSelectedFormats(newFormats);
   };
 
   return (
@@ -131,11 +118,10 @@ interface FormatCategoryProps {
 }
 
 function FormatCategory({ name }: FormatCategoryProps) {
-  const searchParams = useSearchParams();
   const wholeCategoryFormat = getWholeCategoryFormat(name);
-  const selectedFormats = searchParams.getFormats();
-  const currentUsageName = searchParams.getUsageName();
-  const customUsageNotSelected = currentUsageName !== DEFAULT_USAGE_NAME;
+  const [selectedFormats] = useSelectedFormats();
+  const [usageName] = useUsageName();
+  const customUsageNotSelected = usageName !== DEFAULT_USAGE_NAME;
 
   const isFormatFromCategorySelected = isFormatSelected(
     wholeCategoryFormat,

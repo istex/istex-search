@@ -3,7 +3,6 @@ import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 import {
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -167,7 +166,7 @@ describe("NumberFilter", () => {
     ];
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -178,7 +177,7 @@ describe("NumberFilter", () => {
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
-    expect(router.push).toHaveBeenCalledWith("/results?");
+    expect(router.push).toHaveBeenCalledWith("/results");
   });
 
   it("dynamically gets the available values when the filter isn't open by default", async () => {
@@ -262,7 +261,7 @@ interface RenderNumberFilterOptions {
   min?: number;
   max?: number;
   withFilters?: boolean;
-  searchParams?: Parameters<typeof mockSearchParams>[0];
+  searchParams?: Record<string, string>;
   defaultOpen?: boolean;
 }
 
@@ -307,8 +306,6 @@ function renderNumberFilter({
     },
   };
 
-  mockSearchParams(searchParams);
-
   render(
     <NumberFilter
       field={{
@@ -321,5 +318,6 @@ function renderNumberFilter({
     {
       results,
     },
+    { searchParams },
   );
 }

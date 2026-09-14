@@ -4,13 +4,13 @@ import {
   type CompressionLevel,
   corpusWithExternalFulltextLink,
   DEFAULT_SORT_BY,
-  DEFAULT_SORT_DIR,
+  DEFAULT_SORT_DIRECTION,
   istexApiConfig,
   MIN_PER_PAGE,
   type PerPageOption,
   rankValues,
   type SortBy,
-  type SortDir,
+  type SortDirection,
 } from "@/config";
 import type { SelectedDocument } from "@/contexts/DocumentContext";
 import fields, { type Field, type FieldName } from "@/lib/fields";
@@ -110,10 +110,10 @@ export function createCompleteQuery(
   return completeQueryString;
 }
 
-export function setSearchParamsSorting(
+function setSortingSearchParam(
   searchParams: URLSearchParams,
   sortBy: SortBy,
-  sortDir: SortDir,
+  sortDirection: SortDirection,
 ) {
   const sortParams = rankValues.some((value) => value === sortBy)
     ? "rankBy"
@@ -121,7 +121,7 @@ export function setSearchParamsSorting(
 
   searchParams.set(
     sortParams,
-    `${sortBy}${sortParams === "sortBy" ? `[${sortDir}]` : ""}`,
+    `${sortBy}${sortParams === "sortBy" ? `[${sortDirection}]` : ""}`,
   );
 }
 
@@ -134,7 +134,7 @@ export interface BuildResultPreviewUrlOptions {
   selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
-  sortDir?: SortDir;
+  sortDirection?: SortDirection;
   randomSeed?: string;
 }
 
@@ -147,13 +147,13 @@ export function buildResultPreviewUrl({
   selectedDocuments,
   excludedDocuments,
   sortBy,
-  sortDir,
+  sortDirection,
   randomSeed,
 }: BuildResultPreviewUrlOptions) {
-  const actualPage = page ?? 1;
-  let actualPerPage: number = perPage ?? MIN_PER_PAGE;
+  const actualPage = page ?? 0;
+  let actualPerPage = perPage ?? MIN_PER_PAGE;
 
-  const from = (actualPage - 1) * actualPerPage;
+  const from = actualPage * actualPerPage;
 
   // The API returns a 404 if the offset + the size exceeds the limit
   // so we have to decrease the size if it's about to go beyond the limit
@@ -173,10 +173,10 @@ export function buildResultPreviewUrl({
   );
   url.searchParams.set("size", actualPerPage.toString());
   url.searchParams.set("from", from.toString());
-  setSearchParamsSorting(
+  setSortingSearchParam(
     url.searchParams,
     sortBy ?? DEFAULT_SORT_BY,
-    sortDir ?? DEFAULT_SORT_DIR,
+    sortDirection ?? DEFAULT_SORT_DIRECTION,
   );
   if (randomSeed != null) {
     url.searchParams.set("randomSeed", randomSeed);
@@ -248,7 +248,7 @@ export interface BuildFullApiUrlOptions {
   selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
   sortBy?: SortBy;
-  sortDir?: SortDir;
+  sortDirection?: SortDirection;
   randomSeed?: string;
   archiveType?: ArchiveType;
   compressionLevel?: CompressionLevel;
@@ -263,7 +263,7 @@ export function buildFullApiUrl({
   selectedDocuments,
   excludedDocuments,
   sortBy,
-  sortDir,
+  sortDirection,
   randomSeed,
   archiveType,
   compressionLevel,
@@ -290,10 +290,10 @@ export function buildFullApiUrl({
   }
 
   url.searchParams.set("size", size.toString());
-  setSearchParamsSorting(
+  setSortingSearchParam(
     url.searchParams,
     sortBy ?? DEFAULT_SORT_BY,
-    sortDir ?? DEFAULT_SORT_DIR,
+    sortDirection ?? DEFAULT_SORT_DIRECTION,
   );
   if (randomSeed != null) {
     url.searchParams.set("randomSeed", randomSeed);

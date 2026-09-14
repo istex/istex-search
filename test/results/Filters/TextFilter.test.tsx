@@ -1,4 +1,5 @@
 import TextFilter from "@/app/[locale]/results/components/Filters/TextFilter";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import {
@@ -7,7 +8,6 @@ import {
   type IstexApiResponse,
 } from "@/lib/istexApi";
 import {
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -53,7 +53,7 @@ describe("TextFilter", () => {
           docCount: 3,
         },
       ],
-      searchParams: { searchMode: "import" },
+      searchParams: { searchMode: SEARCH_MODE_IMPORT },
     });
 
     const elsevierCheckbox = screen.getByRole("checkbox", {
@@ -332,7 +332,7 @@ describe("TextFilter", () => {
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
-    expect(router.push).toHaveBeenCalledWith("/results?");
+    expect(router.push).toHaveBeenCalledWith("/results");
   });
 
   it("dynamically gets the available values when the filter isn't open by default", async () => {
@@ -404,7 +404,7 @@ function getClearButton() {
 interface RenderTextFilterOptions {
   aggregation: Aggregation["string"]["buckets"];
   filterValues?: string[];
-  searchParams?: Parameters<typeof mockSearchParams>[0];
+  searchParams?: Record<string, string>;
   defaultOpen?: boolean;
 }
 
@@ -440,8 +440,6 @@ function renderTextFilter({
     searchParams.filters = btoa(JSON.stringify(finalFilters));
   }
 
-  mockSearchParams(searchParams);
-
   const results: IstexApiResponse = {
     total: 3,
     hits: [],
@@ -454,8 +452,7 @@ function renderTextFilter({
 
   render(
     <TextFilter field={{ name: "corpusName", type: "text", defaultOpen }} />,
-    {
-      results,
-    },
+    { results },
+    { searchParams },
   );
 }

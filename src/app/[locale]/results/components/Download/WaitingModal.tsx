@@ -13,7 +13,12 @@ import { useLocale, useTranslations } from "next-intl";
 import zipIcon from "@/../public/zip.svg";
 import Modal, { type ModalProps } from "@/components/Modal";
 import { estimateArchiveSize } from "@/lib/formats";
-import { useSearchParams, useSize } from "@/lib/hooks";
+import { useSize } from "@/lib/hooks";
+import {
+  useArchiveType,
+  useCompressionLevel,
+  useSelectedFormats,
+} from "@/lib/searchParams";
 import { bytesToSize } from "@/lib/utils";
 import Citation from "./Citation";
 
@@ -23,11 +28,10 @@ export default function WaitingModal({
 }: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("download.WaitingModal");
   const locale = useLocale();
-  const searchParams = useSearchParams();
-  const selectedFormats = searchParams.getFormats();
-  const compressionLevel = searchParams.getCompressionLevel();
-  const archiveType = searchParams.getArchiveType();
-  const size = useSize();
+  const [selectedFormats] = useSelectedFormats();
+  const [compressionLevel] = useCompressionLevel();
+  const [archiveType] = useArchiveType();
+  const [size] = useSize();
   const archiveSize = estimateArchiveSize(
     selectedFormats,
     size,

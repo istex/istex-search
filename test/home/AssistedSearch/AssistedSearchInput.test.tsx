@@ -5,7 +5,6 @@ import { useRouter } from "@/i18n/navigation";
 import type { AST } from "@/lib/ast";
 import {
   mockPathname,
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -145,15 +144,15 @@ function renderAssistedSearchInput(onHomePage = false) {
     },
   ];
 
-  mockSearchParams({
-    ast: JSON.stringify(ast),
-  });
-
   if (!onHomePage) {
     mockPathname("/results");
   }
 
-  render(<AssistedSearchInput />);
+  render(
+    <AssistedSearchInput />,
+    {},
+    { searchParams: { ast: JSON.stringify(ast) } },
+  );
 }
 
 function renderConfirmModal({

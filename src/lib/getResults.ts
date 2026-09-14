@@ -3,7 +3,7 @@ import {
   istexApiConfig,
   type PerPageOption,
   type SortBy,
-  type SortDir,
+  type SortDirection,
 } from "@/config";
 import type { AST } from "./ast";
 import CustomError from "./CustomError";
@@ -24,7 +24,7 @@ export interface GetResultsOptions {
   page: number;
   filters: AST;
   sortBy: SortBy;
-  sortDir: SortDir;
+  sortDirection: SortDirection;
   randomSeed?: string;
 }
 
@@ -34,7 +34,7 @@ export async function getResults({
   page,
   filters,
   sortBy,
-  sortDir,
+  sortDirection,
   randomSeed,
 }: GetResultsOptions) {
   "use cache";
@@ -47,7 +47,7 @@ export async function getResults({
     page,
     filters,
     sortBy,
-    sortDir,
+    sortDirection,
     randomSeed,
   });
 

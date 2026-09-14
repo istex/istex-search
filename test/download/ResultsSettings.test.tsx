@@ -1,24 +1,10 @@
 import ResultsSettings from "@/app/[locale]/results/components/Download/ResultsSettings";
-import { istexApiConfig } from "@/config";
-import { useRouter } from "@/i18n/navigation";
+import { istexApiConfig, SEARCH_MODE_IMPORT } from "@/config";
 import routing from "@/i18n/routing";
 import type { IstexApiResponse } from "@/lib/istexApi";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("ResultsSettings", () => {
-  beforeEach(() => {
-    jest.useFakeTimers({ advanceTimers: true });
-  });
-
-  afterEach(() => {
-    jest.useRealTimers();
-  });
-
   it("changes the size in the URL when changing the input value", async () => {
     const resultCount = 3;
     const newValue = 2;
@@ -46,10 +32,11 @@ describe("ResultsSettings", () => {
   });
 
   it("disables the sorting when in import mode", () => {
-    mockSearchParams({
-      searchMode: "import",
-    });
-    render(<ResultsSettings />);
+    render(
+      <ResultsSettings />,
+      {},
+      { searchParams: { searchMode: SEARCH_MODE_IMPORT } },
+    );
 
     const sorting = screen.getByRole("combobox");
     expect(sorting).toHaveAttribute("aria-disabled", "true");
@@ -62,45 +49,46 @@ async function testModification(
   wishValue: number,
   expectedValue: number,
 ) {
+  const onUrlUpdate = jest.fn();
   const results: IstexApiResponse = {
     total: resultCount,
     hits: [],
     aggregations: {},
   };
-  render(<ResultsSettings />, { results });
+  render(<ResultsSettings />, { results }, { onUrlUpdate });
 
-  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
-  const router = useRouter();
   const input = screen.getByRole("textbox");
   await userEvent.clear(input);
   await userEvent.paste(wishValue.toString());
-  jest.runAllTimers();
 
-  expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {
-    scroll: false,
-  });
+  expect(onUrlUpdate).toHaveBeenCalledWith(
+    expect.objectContaining({
+      queryString: `?size=${expectedValue}`,
+    }),
+  );
 }
 
 async function testAllButton(resultCount: number, expectedValue: number) {
+  const onUrlUpdate = jest.fn();
   const results: IstexApiResponse = {
     total: resultCount,
     hits: [],
     aggregations: {},
   };
-  mockSearchParams({
-    size: "1",
-  });
-  render(<ResultsSettings />, { results });
+  render(
+    <ResultsSettings />,
+    { results },
+    { searchParams: { size: "1" }, onUrlUpdate },
+  );
 
-  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
-  const router = useRouter();
   const button = screen.getByRole("button", { name: "Tout" });
   await userEvent.click(button);
-  jest.runAllTimers();
 
-  expect(router.replace).toHaveBeenCalledWith(`/?size=${expectedValue}`, {
-    scroll: false,
-  });
+  expect(onUrlUpdate).toHaveBeenCalledWith(
+    expect.objectContaining({
+      queryString: `?size=${expectedValue}`,
+    }),
+  );
 }
 
 // Common logic between tests that make sure the size input value is properly
@@ -111,10 +99,11 @@ function testInitialization(resultCount: number, expectedValue: number) {
     hits: [],
     aggregations: {},
   };
-  mockSearchParams({
-    size: resultCount.toString(),
-  });
-  render(<ResultsSettings />, { results });
+  render(
+    <ResultsSettings />,
+    { results },
+    { searchParams: { size: resultCount.toString() } },
+  );
 
   const input = screen.getByRole("textbox");
 

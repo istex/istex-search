@@ -4,6 +4,7 @@ import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import CookieConsent from "@/components/CookieConsent";
+import CustomNuqsAdapter from "@/contexts/CustomNuqsAdapter";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import TanStackQueryProvider from "@/contexts/TanStackQueryProvider";
 import routing from "@/i18n/routing";
@@ -47,14 +48,16 @@ export default async function RootLayout(props: LayoutProps<"/[locale]">) {
           <MuiSetup locale={locale}>
             <NextIntlClientProvider>
               <HistoryProvider>
-                <Navbar />
-                <Header />
-                <Box component="main" sx={{ flexGrow: 1 }}>
-                  {props.children}
-                </Box>
-                <FloatingSideMenu />
-                <Footer />
-                <HelpButton />
+                <CustomNuqsAdapter>
+                  <Navbar />
+                  <Header />
+                  <Box component="main" sx={{ flexGrow: 1 }}>
+                    {props.children}
+                  </Box>
+                  <FloatingSideMenu />
+                  <Footer />
+                  <HelpButton />
+                </CustomNuqsAdapter>
               </HistoryProvider>
 
               <Matomo />

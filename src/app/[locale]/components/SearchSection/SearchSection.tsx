@@ -8,14 +8,13 @@ import {
   SEARCH_MODE_REGULAR,
   searchModes,
 } from "@/config";
-import { useSearchParams } from "@/lib/hooks";
+import { useSearchMode } from "@/lib/searchParams";
 import AssistedSearchInput from "./AssistedSearch/AssistedSearchInput";
 import ImportInput from "./ImportInput";
 import RegularSearchInput from "./RegularSearchInput";
 
 export default function SearchSection() {
-  const searchParams = useSearchParams();
-  const searchMode = searchParams.getSearchMode();
+  const [searchMode] = useSearchMode();
 
   const getSearchComponent = () => {
     switch (searchMode) {

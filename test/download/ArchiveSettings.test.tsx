@@ -1,31 +1,28 @@
 import ArchiveSettings from "@/app/[locale]/results/components/Download/ArchiveSettings";
-import { useRouter } from "@/i18n/navigation";
-import {
-  mockSearchParams,
-  customRender as render,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, userEvent } from "../test-utils";
 
 describe("ArchiveSettings", () => {
   it("changes the archive type in the URL when changing the select value", async () => {
-    mockSearchParams({});
-    const { container } = render(<ArchiveSettings />);
+    const onUrlUpdate = jest.fn();
+    const { container } = render(<ArchiveSettings />, {}, { onUrlUpdate });
 
-    const router = useRouter();
     const select = getArchiveTypeSelect(container);
     await userEvent.click(select);
     await userEvent.keyboard("{ArrowDown}{Enter}");
 
-    expect(router.replace).toHaveBeenCalledWith("/?archiveType=tar", {
-      scroll: false,
-    });
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: "?archiveType=tar",
+      }),
+    );
   });
 
   it("initializes the select value based on the archive type in the URL", () => {
-    mockSearchParams({
-      archiveType: "tar",
-    });
-    const { container } = render(<ArchiveSettings />);
+    const { container } = render(
+      <ArchiveSettings />,
+      {},
+      { searchParams: { archiveType: "tar" } },
+    );
 
     const select = getArchiveTypeSelect(container);
 
@@ -33,24 +30,26 @@ describe("ArchiveSettings", () => {
   });
 
   it("changes the compression level in the URL when changing the select value", async () => {
-    mockSearchParams({});
-    const { container } = render(<ArchiveSettings />);
+    const onUrlUpdate = jest.fn();
+    const { container } = render(<ArchiveSettings />, {}, { onUrlUpdate });
 
-    const router = useRouter();
     const select = getCompressionLevelSelect(container);
     await userEvent.click(select);
     await userEvent.keyboard("{ArrowDown}{Enter}");
 
-    expect(router.replace).toHaveBeenCalledWith("/?compressionLevel=9", {
-      scroll: false,
-    });
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: "?compressionLevel=9",
+      }),
+    );
   });
 
-  it("initializes the select value based on the archive type in the URL", () => {
-    mockSearchParams({
-      compressionLevel: "9",
-    });
-    const { container } = render(<ArchiveSettings />);
+  it("initializes the select value based on the compression level in the URL", () => {
+    const { container } = render(
+      <ArchiveSettings />,
+      {},
+      { searchParams: { compressionLevel: "9" } },
+    );
 
     const select = getCompressionLevelSelect(container);
 
@@ -58,18 +57,15 @@ describe("ArchiveSettings", () => {
   });
 
   it("disables the archive type select when only one option is available", () => {
-    mockSearchParams({
-      usage: "cortext",
-    });
-    const { container } = render(<ArchiveSettings />);
+    const { container } = render(
+      <ArchiveSettings />,
+      {},
+      { searchParams: { usage: "cortext" } },
+    );
 
     const select = getArchiveTypeSelect(container);
 
     expect(select).toHaveAttribute("aria-disabled", "true");
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
   });
 });
 

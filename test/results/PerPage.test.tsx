@@ -1,17 +1,15 @@
 import PerPage from "@/app/[locale]/results/components/PerPage";
 import { perPageOptions } from "@/config";
-import { useRouter } from "@/i18n/navigation";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("PerPage", () => {
   it("changes the number of results per page when using the dropdown", async () => {
-    const router = useRouter();
-    render(<PerPage fontSize="" labelColor="" selectColor="" />);
+    const onUrlUpdate = jest.fn();
+    render(
+      <PerPage fontSize="" labelColor="" selectColor="" />,
+      {},
+      { onUrlUpdate },
+    );
 
     const dropdown = screen.getByRole("combobox");
     await userEvent.click(dropdown);
@@ -21,20 +19,21 @@ describe("PerPage", () => {
     });
     await userEvent.click(secondOption);
 
-    expect(router.replace).toHaveBeenCalledWith(
-      `/?perPage=${secondOptionLabel}`,
-      {
-        scroll: false,
-      },
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: `?perPage=${secondOptionLabel}`,
+        options: expect.objectContaining({ shallow: false }),
+      }),
     );
   });
 
   it("initializes the dropdown value based on the perPage in the URL", () => {
     const perPage = perPageOptions[1].toString();
-    mockSearchParams({
-      perPage,
-    });
-    render(<PerPage fontSize="" labelColor="" selectColor="" />);
+    render(
+      <PerPage fontSize="" labelColor="" selectColor="" />,
+      {},
+      { searchParams: { perPage } },
+    );
 
     const dropdown = screen.getByRole("combobox");
 
@@ -42,11 +41,12 @@ describe("PerPage", () => {
   });
 
   it("resets the current page when changing the number of results per page", async () => {
-    const router = useRouter();
-    mockSearchParams({
-      page: "2",
-    });
-    render(<PerPage fontSize="" labelColor="" selectColor="" />);
+    const onUrlUpdate = jest.fn();
+    render(
+      <PerPage fontSize="" labelColor="" selectColor="" />,
+      {},
+      { searchParams: { page: "2" }, onUrlUpdate },
+    );
 
     const dropdown = screen.getByRole("combobox");
     await userEvent.click(dropdown);
@@ -57,11 +57,11 @@ describe("PerPage", () => {
     await userEvent.click(secondOption);
 
     // No page search param here
-    expect(router.replace).toHaveBeenCalledWith(
-      `/?perPage=${secondOptionLabel}`,
-      {
-        scroll: false,
-      },
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: `?perPage=${secondOptionLabel}`,
+        options: expect.objectContaining({ shallow: false }),
+      }),
     );
   });
 });

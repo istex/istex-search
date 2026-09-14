@@ -20,21 +20,6 @@ describe("Utility functions", () => {
     });
   });
 
-  describe("closest", () => {
-    const values = [10, 20, 30];
-
-    it("returns the closest value from values", () => {
-      expect(Module.closest(10, values)).toBe(10);
-      expect(Module.closest(20, values)).toBe(20);
-      expect(Module.closest(30, values)).toBe(30);
-      expect(Module.closest(2, values)).toBe(10);
-      expect(Module.closest(15, values)).toBe(10);
-      expect(Module.closest(17, values)).toBe(20);
-      expect(Module.closest(22, values)).toBe(20);
-      expect(Module.closest(37, values)).toBe(30);
-    });
-  });
-
   describe("isValidMd5", () => {
     it("returns true if md5 is valid", () => {
       const validMd5 = "0123456789ABCDEF0123456789ABCDEF";
@@ -101,54 +86,6 @@ describe("Utility functions", () => {
       const array = [1, 2, 3, 4, 5];
 
       expect(Module.unique(array)).toEqual(array);
-    });
-  });
-
-  describe("debounce", () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      jest.runOnlyPendingTimers();
-      jest.useRealTimers();
-    });
-
-    it("calls the internal function once when calling the debounced function twice rapidly", () => {
-      const internal = jest.fn();
-      const debounced = Module.debounce(internal);
-
-      debounced();
-      debounced("hello", 1);
-      jest.runAllTimers();
-
-      expect(internal).toHaveBeenCalledTimes(1);
-      expect(internal).toHaveBeenNthCalledWith(1, "hello", 1);
-    });
-
-    it("calls the internal function twice when calling the debounced function twice with delay", () => {
-      const internal = jest.fn();
-      const debounced = Module.debounce(internal);
-
-      debounced("foo", 1);
-      jest.runAllTimers();
-      debounced("bar", 2);
-      jest.runAllTimers();
-
-      expect(internal).toHaveBeenCalledTimes(2);
-      expect(internal).toHaveBeenNthCalledWith(1, "foo", 1);
-      expect(internal).toHaveBeenNthCalledWith(2, "bar", 2);
-    });
-
-    it("doesn't call the internal function when cancelling the debounced function", () => {
-      const internal = jest.fn();
-      const debounced = Module.debounce(internal);
-
-      debounced();
-      debounced.cancel();
-      jest.runAllTimers();
-
-      expect(internal).not.toHaveBeenCalled();
     });
   });
 

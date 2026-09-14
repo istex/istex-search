@@ -12,14 +12,12 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 import Button from "@/components/Button";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import {
-  useAggregationQuery,
-  useApplyFilters,
-  useSearchParams,
-} from "@/lib/hooks";
+import { useAggregationQuery, useApplyFilters } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
+import { useFilters, useSearchMode } from "@/lib/searchParams";
 import { visuallyHidden } from "@/lib/utils";
 import ErrorUi from "./ErrorUi";
 
@@ -34,9 +32,8 @@ export default function BooleanFilter({ field }: BooleanFilterProps) {
   const tResults = useTranslations("results");
   const tFilters = useTranslations("results.Filters");
   const applyFilters = useApplyFilters();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const [filters] = useFilters();
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const aggregationQuery = useAggregationQuery(field);
   const activeFilter = filters.find((node) => isMatchingNode(node, field));
   const initialValue =

@@ -21,7 +21,7 @@ mock("next-intl/server", {
 });
 
 mock("next/navigation", {
-  useSearchParams: jest.fn(() => ({})),
+  useSearchParams: jest.fn(() => new URLSearchParams({})),
 });
 
 mock("@/lib/istexApi", {
@@ -41,12 +41,11 @@ const historyMock = {
   push: jest.fn(),
   delete: jest.fn(),
   clear: jest.fn(),
-  getCurrentRequest: jest.fn(),
-  populateCurrentRequest: jest.fn(),
   isEmpty: jest.fn(),
 };
 mock("@/contexts/HistoryContext", {
   useHistoryContext: () => historyMock,
+  setCurrentRequestInLocalStorage: jest.fn(),
 });
 
 // We don't use the mock helper here because next/cache has side effects that

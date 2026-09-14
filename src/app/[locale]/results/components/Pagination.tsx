@@ -6,43 +6,37 @@ import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Box, IconButton, Stack } from "@mui/material";
 import { useTranslations } from "next-intl";
-import { istexApiConfig } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
-import { clamp } from "@/lib/utils";
+import { usePagination } from "@/lib/hooks";
+import { useRandomSeed } from "@/lib/searchParams";
 
 export default function Pagination() {
   const t = useTranslations("results.Pagination");
-  const history = useHistoryContext();
-  const { results, randomSeed } = useQueryContext();
-  const maxResults = clamp(
-    results.total,
-    0,
-    istexApiConfig.maxPaginationOffset,
-  );
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const perPage = searchParams.getPerPage();
-  const lastPage = Math.ceil(maxResults / perPage);
-  const page =
-    results.total > 0 ? clamp(searchParams.getPage(), 1, lastPage) : 0;
+  const { randomSeed } = useQueryContext();
+  const { page, lastPage, setPage } = usePagination();
+  const [, setRandomSeed] = useRandomSeed();
+  const onFirstPage = page === 0;
+  const onLastPage = page === lastPage;
 
-  const handleChangePage = (newPage: number) => {
-    searchParams.setPage(newPage);
+  const changePage = (newPage: number) => {
+    setRandomSeed(randomSeed ?? null);
+    setPage(newPage, { shallow: false, history: "push" });
+  };
 
-    if (randomSeed != null) {
-      searchParams.setRandomSeed(randomSeed);
-    }
+  const goToPreivousPage = () => {
+    changePage(page - 1);
+  };
 
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
+  const goToNextPage = () => {
+    changePage(page + 1);
+  };
 
-    router.push(`${pathname}?${searchParams.toString()}`);
+  const goToFirstPage = () => {
+    changePage(0);
+  };
+
+  const goToLastPage = () => {
+    changePage(lastPage);
   };
 
   return (
@@ -60,23 +54,19 @@ export default function Pagination() {
       <Box>
         <IconButton
           color="inherit"
-          disabled={page <= 1}
+          disabled={onFirstPage}
           aria-label={t("firstPage")}
           title={t("firstPage")}
-          onClick={() => {
-            handleChangePage(1);
-          }}
+          onClick={goToFirstPage}
         >
           <KeyboardDoubleArrowLeftIcon />
         </IconButton>
         <IconButton
           color="inherit"
-          disabled={page <= 1}
+          disabled={onFirstPage}
           aria-label={t("previousPage")}
           title={t("previousPage")}
-          onClick={() => {
-            handleChangePage(page - 1);
-          }}
+          onClick={goToPreivousPage}
         >
           <KeyboardArrowLeftIcon />
         </IconButton>
@@ -100,30 +90,26 @@ export default function Pagination() {
             fontWeight: 700,
           })}
         >
-          {t("currentPageIndex", { page })}
+          {t("currentPageIndex", { page: page + 1 })}
         </Box>
-        <p>{t("on", { total: lastPage })}</p>
+        <p>{t("on", { total: lastPage + 1 })}</p>
       </Stack>
       <Box>
         <IconButton
           color="inherit"
-          disabled={page >= lastPage}
+          disabled={onLastPage}
           aria-label={t("nextPage")}
           title={t("nextPage")}
-          onClick={() => {
-            handleChangePage(page + 1);
-          }}
+          onClick={goToNextPage}
         >
           <KeyboardArrowRightIcon />
         </IconButton>
         <IconButton
           color="inherit"
-          disabled={page >= lastPage}
+          disabled={onLastPage}
           aria-label={t("lastPage")}
           title={t("lastPage")}
-          onClick={() => {
-            handleChangePage(lastPage);
-          }}
+          onClick={goToLastPage}
         >
           <KeyboardDoubleArrowRightIcon />
         </IconButton>

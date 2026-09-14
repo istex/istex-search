@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import {
   type HistoryEntry,
+  setCurrentRequestInLocalStorage,
   useHistoryContext,
 } from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
@@ -26,6 +27,7 @@ import {
   getIdsFromQueryString,
   getIdTypeFromQueryString,
 } from "@/lib/queryIds";
+import { getQueryStringFromQId, loadSearchParams } from "@/lib/searchParams";
 import { formatDate, lineclamp } from "@/lib/utils";
 
 interface HistoryItemProps {
@@ -50,15 +52,34 @@ export default function HistoryItem({
   const history = useHistoryContext();
   const share = useShare();
   const download = useDownload();
+  const {
+    queryString,
+    qId,
+    size,
+    formats,
+    filters,
+    sortBy,
+    sortDirection,
+    randomSeed,
+  } = loadSearchParams(entry.searchParams);
   const queryStringQuery = useQuery({
     queryKey: ["history-query-string", entry.date],
-    queryFn: async () => await entry.searchParams.getQueryString(),
+    queryFn: async () => {
+      if (queryString != null) {
+        return queryString;
+      }
+
+      if (qId == null) {
+        return "";
+      }
+
+      return await getQueryStringFromQId(qId);
+    },
   });
   const idType = getIdTypeFromQueryString(queryStringQuery.data ?? "");
-  const size = entry.searchParams.getSize();
 
   const handleEdit = () => {
-    history.populateCurrentRequest(entry);
+    setCurrentRequestInLocalStorage(entry);
 
     localStorage.setItem(
       "selectedDocuments",
@@ -75,32 +96,22 @@ export default function HistoryItem({
 
   const handleShare = () => {
     // Create the share URL and copy the search params from the entry to it.
-    // We can't simply do url.searchParams = entry.searchParams because url.searchParams is read-only.
     const url = new URL(window.location.pathname, window.location.origin);
-    for (const [key, value] of entry.searchParams) {
-      url.searchParams.set(key, value);
-    }
+    url.search = entry.searchParams;
 
     share("corpus", url);
   };
 
   const handleDownload = () => {
-    // We use the native search params instead of getQueryString() to get the query string or the q_id here
-    // because it's asynchronous and we don't wan't to get the corresponding query string if a q_id is present,
-    // we just want to pass it as is.
-    const nativeSearchParams = entry.searchParams.toNative();
-    const queryString = nativeSearchParams.get("q") ?? undefined;
-    const qId = nativeSearchParams.get("q_id") ?? undefined;
-
     const url = buildFullApiUrl({
-      queryString,
-      qId,
-      selectedFormats: entry.searchParams.getFormats(),
-      size: entry.searchParams.getSize(),
-      filters: entry.searchParams.getFilters(),
-      sortBy: entry.searchParams.getSortBy(),
-      sortDir: entry.searchParams.getSortDirection(),
-      randomSeed: entry.searchParams.getRandomSeed(),
+      queryString: queryString ?? undefined,
+      qId: qId ?? undefined,
+      selectedFormats: formats,
+      size,
+      filters,
+      sortBy,
+      sortDirection,
+      randomSeed: randomSeed ?? undefined,
     });
 
     download(url);
@@ -152,7 +163,7 @@ export default function HistoryItem({
       {/* Formats */}
       <TableCell>
         <Box sx={lineclamp(3)}>
-          {buildExtractParamsFromFormats(entry.searchParams.getFormats())
+          {buildExtractParamsFromFormats(formats)
             .split(";")
             .map((format, i) => (
               <Box key={i}>{format}</Box>
@@ -164,7 +175,7 @@ export default function HistoryItem({
       <TableCell>{size !== 0 ? size.toLocaleString(locale) : ""}</TableCell>
 
       {/* SortBy */}
-      <TableCell>{tSorting(entry.searchParams.getSortBy())}</TableCell>
+      <TableCell>{tSorting(sortBy)}</TableCell>
 
       {/* Date */}
       <TableCell>{formatDate(entry.date, locale)}</TableCell>

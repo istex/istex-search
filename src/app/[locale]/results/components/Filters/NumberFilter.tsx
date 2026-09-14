@@ -5,14 +5,12 @@ import * as React from "react";
 import Button from "@/components/Button";
 import NumberInput, { type NumberInputProps } from "@/components/NumberInput";
 import Selector from "@/components/Selector";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import {
-  useAggregationQuery,
-  useApplyFilters,
-  useSearchParams,
-} from "@/lib/hooks";
+import { useAggregationQuery, useApplyFilters } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
+import { useFilters, useSearchMode } from "@/lib/searchParams";
 import ErrorUi from "./ErrorUi";
 
 const INPUT_MODES = ["range", "value"] as const;
@@ -27,9 +25,8 @@ export default function NumberFilter({ field }: NumberFilterProps) {
   const tResults = useTranslations("results");
   const tFilters = useTranslations("results.Filters");
   const applyFilters = useApplyFilters();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const [filters] = useFilters();
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const { isDate = false, hasDecimals = false } = field;
   const aggregationQuery = useAggregationQuery(field);
   const aggregation = aggregationQuery.data?.[0];

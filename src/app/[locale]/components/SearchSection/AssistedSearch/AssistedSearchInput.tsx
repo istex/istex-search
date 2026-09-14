@@ -10,11 +10,8 @@ import {
   getEmptyFieldNode,
 } from "@/lib/ast";
 import CustomError from "@/lib/CustomError";
-import {
-  useGoToResultsPage,
-  useOnHomePage,
-  useSearchParams,
-} from "@/lib/hooks";
+import { useGoToResultsPage, useOnHomePage } from "@/lib/hooks";
+import { useAst } from "@/lib/searchParams";
 import SearchButton from "../SearchButton";
 import SearchTitle from "../SearchTitle";
 import ExpertSearchInput from "./ExpertSearchInput";
@@ -23,8 +20,7 @@ import QueryPanel from "./QueryPanel";
 
 export default function AssistedSearchInput() {
   const tErrors = useTranslations("errors");
-  const searchParams = useSearchParams();
-  const ast = searchParams.getAst();
+  const [ast] = useAst();
   const queryString = astToString(ast);
   const { errorInfo } = useQueryContext();
   const onHomePage = useOnHomePage();
@@ -85,14 +81,10 @@ export default function AssistedSearchInput() {
       newQueryString = astToString(ast);
     }
 
-    if (expertInputOpen) {
-      searchParams.deleteAst();
-      searchParams.setSearchMode(SEARCH_MODE_REGULAR);
-    } else {
-      searchParams.setAst(ast);
-    }
-
-    goToResultsPage(newQueryString, searchParams).catch((err: unknown) => {
+    goToResultsPage(newQueryString, {
+      searchMode: expertInputOpen ? SEARCH_MODE_REGULAR : undefined,
+      ast: expertInputOpen ? null : ast,
+    }).catch((err: unknown) => {
       if (err instanceof CustomError) {
         setError(err);
       }

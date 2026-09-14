@@ -1,41 +1,37 @@
 import { useTranslations } from "next-intl";
 import Selector from "@/components/Selector";
-import { type UsageName, usages } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
+import { type UsageName, usageNames, usages } from "@/config";
+import {
+  useArchiveType,
+  useSelectedFormats,
+  useUsageName,
+} from "@/lib/searchParams";
 
 export default function UsageSelector() {
   const t = useTranslations("config.usages");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const history = useHistoryContext();
+  const [, setSelectedFormats] = useSelectedFormats();
+  const [usageName, setUsageName] = useUsageName();
+  const [archiveType, setArchiveType] = useArchiveType();
 
   const handleChange = (_: React.SyntheticEvent, newValue: UsageName) => {
     const newUsage = usages[newValue];
-    const currentArchiveType = searchParams.getArchiveType();
 
-    searchParams.setUsageName(newValue);
-    searchParams.setFormats(newUsage.formats);
+    setUsageName(newValue);
+    setSelectedFormats(newUsage.formats);
 
-    if (!newUsage.archiveTypes.includes(currentArchiveType)) {
-      searchParams.setArchiveType(newUsage.archiveTypes[0]);
-    }
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+    // If the new usage doesn't support the current archive type, set the
+    // archive type to the first one supported by this usage.
+    const newArchiveType = newUsage.archiveTypes.includes(archiveType)
+      ? archiveType
+      : newUsage.archiveTypes[0];
+    setArchiveType(newArchiveType);
   };
 
   return (
     <Selector
-      value={searchParams.getUsageName()}
+      value={usageName}
       onChange={handleChange}
-      options={Object.keys(usages)}
+      options={usageNames}
       t={(usage) => t(`${usage}.label`)}
     />
   );

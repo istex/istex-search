@@ -1,12 +1,7 @@
 import FilterTags from "@/app/[locale]/results/components/Filters/FilterTags";
 import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../../test-utils";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 
 describe("FilterTags", () => {
   it("renders a tag for each value of each active fitler", () => {
@@ -34,7 +29,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ corpusName: ["wiley"] });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -50,7 +45,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ corpusName: ["wiley"] });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -67,7 +62,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ publicationDate: 2010 });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -84,7 +79,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ corpusName: ["elsevier"] });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -100,7 +95,7 @@ describe("FilterTags", () => {
     });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -116,7 +111,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ corpusName: ["elsevier"] });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -132,7 +127,7 @@ describe("FilterTags", () => {
     });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -148,7 +143,7 @@ describe("FilterTags", () => {
     const expectedFilters = generateFilters({ publicationDate: 2010 });
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -246,9 +241,9 @@ function generateFilters(options: {
 }
 
 function renderFilterTags(filters: AST) {
-  mockSearchParams({
-    filters: btoa(JSON.stringify(filters)),
-  });
-
-  render(<FilterTags />);
+  render(
+    <FilterTags />,
+    {},
+    { searchParams: { filters: btoa(JSON.stringify(filters)) } },
+  );
 }

@@ -1,16 +1,9 @@
 import { QueryClient } from "@tanstack/react-query";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useSearchParams } from "next/navigation";
 import { type AbstractIntlMessages, NextIntlClientProvider } from "next-intl";
+import { NuqsTestingAdapter } from "nuqs/adapters/testing";
 import type * as React from "react";
-import type {
-  ArchiveType,
-  SearchMode,
-  SortBy,
-  SortDir,
-  UsageName,
-} from "@/config";
 import { DocumentProvider } from "@/contexts/DocumentContext";
 import { HistoryProvider } from "@/contexts/HistoryContext";
 import { type QueryContextProps, QueryProvider } from "@/contexts/QueryContext";
@@ -32,6 +25,10 @@ const testQueryClient = new QueryClient({
 export function customRender(
   ui: Parameters<typeof render>[0],
   context?: Partial<QueryContextProps>,
+  nuqsAdapterProps?: Omit<
+    React.ComponentProps<typeof NuqsTestingAdapter>,
+    "children"
+  >,
 ) {
   const emptyResults: IstexApiResponse = {
     total: 0,
@@ -47,14 +44,16 @@ export function customRender(
           messages={messages as unknown as AbstractIntlMessages}
         >
           <HistoryProvider>
-            <QueryProvider
-              queryString={context?.queryString ?? ""}
-              results={context?.results ?? emptyResults}
-              loading={context?.loading}
-              randomSeed={context?.randomSeed}
-            >
-              <DocumentProvider>{children}</DocumentProvider>
-            </QueryProvider>
+            <NuqsTestingAdapter {...nuqsAdapterProps}>
+              <QueryProvider
+                queryString={context?.queryString ?? ""}
+                results={context?.results ?? emptyResults}
+                loading={context?.loading}
+                randomSeed={context?.randomSeed}
+              >
+                <DocumentProvider>{children}</DocumentProvider>
+              </QueryProvider>
+            </NuqsTestingAdapter>
           </HistoryProvider>
         </NextIntlClientProvider>
       </MuiSetup>
@@ -77,25 +76,6 @@ export async function renderAsync<T>(
   const TmpComponent = () => resolvedComponent;
 
   return customRender(<TmpComponent />);
-}
-
-export function mockSearchParams(searchParams: {
-  q?: string;
-  prompt?: string;
-  ast?: string;
-  extract?: string;
-  size?: string;
-  page?: string;
-  perPage?: string;
-  usage?: UsageName;
-  filters?: string;
-  searchMode?: SearchMode;
-  sortBy?: SortBy;
-  sortDirection?: SortDir;
-  archiveType?: ArchiveType;
-  compressionLevel?: string;
-}) {
-  (useSearchParams as jest.Mock).mockReturnValue(searchParams);
 }
 
 export function mockPathname(pathname: string) {

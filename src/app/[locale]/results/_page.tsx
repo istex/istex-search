@@ -5,7 +5,7 @@ import CustomError from "@/lib/CustomError";
 import { type GetResultsOptions, getResults } from "@/lib/getResults";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import logger from "@/lib/logger";
-import SearchParams from "@/lib/SearchParams";
+import { getQueryStringFromQId, loadSearchParams } from "@/lib/searchParams";
 import DownloadButton from "./components/DownloadButton";
 import Filters from "./components/Filters";
 import FilterTags from "./components/Filters/FilterTags";
@@ -32,15 +32,17 @@ async function getTranslatedResults(
 export default async function ResultsPage(
   props: PageProps<"/[locale]/results">,
 ) {
-  const nextSearchParams = await props.searchParams;
   const locale = await getLocale();
-  const searchParams = new SearchParams(nextSearchParams);
-  const page = searchParams.getPage();
-  const perPage = searchParams.getPerPage();
-  const filters = searchParams.getFilters();
-  const sortBy = searchParams.getSortBy();
-  const sortDir = searchParams.getSortDirection();
-  const randomSeedFromSearchParams = searchParams.getRandomSeed();
+  const {
+    queryString: queryStringFromSearchParams,
+    qId,
+    filters,
+    page,
+    perPage,
+    sortBy,
+    sortDirection,
+    randomSeed: randomSeedFromSearchParams,
+  } = await loadSearchParams(props.searchParams);
 
   const emptyResults: IstexApiResponse = {
     total: 0,
@@ -48,24 +50,28 @@ export default async function ResultsPage(
     aggregations: {},
   };
 
-  let queryString: string;
-  try {
-    queryString = await searchParams.getQueryString();
-  } catch (err) {
-    return (
-      <ResultsPageShell
-        queryString=""
-        results={emptyResults}
-        errorInfo={err instanceof CustomError ? err.info : { name: "default" }}
-      />
-    );
+  let queryString = queryStringFromSearchParams;
+  if (queryString == null && qId != null) {
+    try {
+      queryString = await getQueryStringFromQId(qId);
+    } catch (err) {
+      return (
+        <ResultsPageShell
+          queryString=""
+          results={emptyResults}
+          errorInfo={
+            err instanceof CustomError ? err.info : { name: "default" }
+          }
+        />
+      );
+    }
   }
 
-  if (queryString === "") {
+  if (queryString == null) {
     logger.warn(
       `Access to '/results' without a query string, redirecting to '/${locale}'.`,
     );
-    redirect({ href: "/", locale });
+    return redirect({ href: "/", locale });
   }
 
   let results: IstexApiResponse;
@@ -76,8 +82,8 @@ export default async function ResultsPage(
       page,
       filters,
       sortBy,
-      sortDir,
-      randomSeed: randomSeedFromSearchParams,
+      sortDirection,
+      randomSeed: randomSeedFromSearchParams ?? undefined,
     });
   } catch (err) {
     return (

@@ -55,28 +55,6 @@ describe("Istex API related functions", () => {
     });
   });
 
-  describe("setSearchParamsSorting", () => {
-    it("sets search params sorting with sortBy", () => {
-      const searchParams = new URLSearchParams();
-      const sortBy = "publicationDate";
-      const sortDir = "desc";
-
-      Module.setSearchParamsSorting(searchParams, sortBy, sortDir);
-
-      expect(searchParams.get("sortBy")).toBe("publicationDate[desc]");
-    });
-
-    it("sets search params sorting with rankBy", () => {
-      const searchParams = new URLSearchParams();
-      const sortBy = "qualityOverRelevance";
-      const sortDir = "desc";
-
-      Module.setSearchParamsSorting(searchParams, sortBy, sortDir);
-
-      expect(searchParams.get("rankBy")).toBe("qualityOverRelevance");
-    });
-  });
-
   describe("buildResultPreviewUrl", () => {
     it("builds the result preview URL", () => {
       const minimalParams: Module.BuildResultPreviewUrlOptions = {
@@ -94,7 +72,7 @@ describe("Istex API related functions", () => {
       );
 
       expect(Module.buildResultPreviewUrl(completeParams).toString()).toBe(
-        "https://api.istex.fr/document?q=hello&size=10&from=20&rankBy=qualityOverRelevance&output=abstract%2Ctitle&sid=istex-search&facet=host.title%5B10%5D%2Clanguage%5B*%5D%2CpublicationDate%2CcorpusName%5B*%5D%2CaccessCondition.contentType%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.tdmReady%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D",
+        "https://api.istex.fr/document?q=hello&size=10&from=30&rankBy=qualityOverRelevance&output=abstract%2Ctitle&sid=istex-search&facet=host.title%5B10%5D%2Clanguage%5B*%5D%2CpublicationDate%2CcorpusName%5B*%5D%2CaccessCondition.contentType%5B*%5D%2Clanguage%5B*%5D%2Cenrichments.type%5B*%5D%2CqualityIndicators.tdmReady%2CqualityIndicators.abstractCharCount%5B1-1000000%5D%2CqualityIndicators.pdfText%2CqualityIndicators.teiSource%5B*%5D",
       );
     });
 
@@ -102,12 +80,12 @@ describe("Istex API related functions", () => {
       const params: Module.BuildResultPreviewUrlOptions = {
         queryString: "hello",
         sortBy: "publicationDate",
-        sortDir: "desc",
+        sortDirection: "desc",
       };
       const url = Module.buildResultPreviewUrl(params);
 
       expect(url.searchParams.get("sortBy")).toBe(
-        `${params.sortBy}[${params.sortDir}]`,
+        `${params.sortBy}[${params.sortDirection}]`,
       );
     });
 
@@ -215,12 +193,12 @@ describe("Istex API related functions", () => {
         selectedFormats: formats.fulltext.pdf,
         size: 2,
         sortBy: "publicationDate",
-        sortDir: "desc",
+        sortDirection: "desc",
       };
       const url = Module.buildFullApiUrl(params);
 
       expect(url.searchParams.get("sortBy")).toBe(
-        `${params.sortBy}[${params.sortDir}]`,
+        `${params.sortBy}[${params.sortDirection}]`,
       );
     });
 

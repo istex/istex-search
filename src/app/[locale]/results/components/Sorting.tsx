@@ -10,10 +10,8 @@ import {
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { rankValues, type SortBy, sortFields } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
+import { useSortBy, useSortDirection } from "@/lib/searchParams";
 
 interface SortingProps {
   isLabelLowerCase?: boolean;
@@ -32,12 +30,8 @@ export default function Sorting({
 }: SortingProps) {
   const t = useTranslations("results.Sorting");
   const tResults = useTranslations("results");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const history = useHistoryContext();
-  const sortBy = searchParams.getSortBy();
-  const sortDirection = searchParams.getSortDirection();
+  const [sortBy, setSortBy] = useSortBy();
+  const [sortDirection, setSortDirection] = useSortDirection();
   const { loading } = useQueryContext();
   const [selectMinWidth, setSelectMinWidth] = React.useState<number | null>(
     null,
@@ -55,25 +49,14 @@ export default function Sorting({
   );
 
   const handleSortByChange = (event: SelectChangeEvent<SortBy>) => {
-    searchParams.setSortBy(event.target.value as SortBy);
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+    setSortBy(event.target.value, { shallow: false, history: "push" });
   };
 
   const toggleSortDirection = () => {
-    searchParams.setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc", {
+      shallow: false,
+      history: "push",
     });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
   };
 
   return (

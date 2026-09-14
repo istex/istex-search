@@ -1,21 +1,8 @@
 import ResultsToolbar from "@/app/[locale]/results/components/ResultsToolbar";
-import { useRouter } from "@/i18n/navigation";
-import {
-  mockPathname,
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("ResultsToolbar", () => {
-  beforeEach(() => {
-    mockPathname("/");
-  });
-
-  afterEach(jest.resetAllMocks);
-
-  it("should render correctly", () => {
+  it("renders correctly", () => {
     render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     expect(screen.getByText("trier par :")).toBeInTheDocument();
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
@@ -28,62 +15,72 @@ describe("ResultsToolbar", () => {
     expect(listButton).not.toHaveClass("Mui-selected");
   });
 
-  it("should render correctly when the sort direction is desc", () => {
-    mockSearchParams({
-      sortBy: "publicationDate",
-      sortDirection: "desc",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("renders correctly when the sort direction is desc", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "publicationDate", sortDirection: "desc" } },
+    );
+
     const sortDirButton = screen.getByLabelText("ordre décroissant");
     expect(sortDirButton).toBeInTheDocument();
   });
 
-  it("should render selected sort field according to the search params", () => {
-    mockSearchParams({
-      sortBy: "publicationDate",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("renders the selected sort field according to the search params", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "publicationDate" } },
+    );
+
     const sortSelectElement = screen.getAllByText("date de publication")[0];
     expect(sortSelectElement).toBeInTheDocument();
   });
 
-  it("should not display sort direction button when the sort field is qualityOverRelevance", () => {
-    mockSearchParams({
-      sortBy: "qualityOverRelevance",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("doesn't display the sort direction button when the sort field is qualityOverRelevance", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "qualityOverRelevance" } },
+    );
+
     const sortDirButton = screen.queryByLabelText("ordre croissant");
     expect(sortDirButton).not.toBeInTheDocument();
   });
 
-  it("should not display sort direction button when the sort field is random", () => {
-    mockSearchParams({
-      sortBy: "random",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("doesn't display the sort direction button when the sort field is random", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "random" } },
+    );
+
     const sortDirButton = screen.queryByLabelText("ordre croissant");
     expect(sortDirButton).not.toBeInTheDocument();
   });
 
-  it("should display sort direction button when the sort field is publicationDate", () => {
-    mockSearchParams({
-      sortBy: "publicationDate",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("displays the sort direction button when the sort field is publicationDate", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "publicationDate" } },
+    );
+
     const sortDirButton = screen.getByLabelText("ordre croissant");
     expect(sortDirButton).toBeInTheDocument();
   });
 
-  it("should display sort direction button when the sort field is title", () => {
-    mockSearchParams({
-      sortBy: "title.raw",
-    });
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("displays the sort direction button when the sort field is title", () => {
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "title.raw" } },
+    );
     const sortDirButton = screen.getByLabelText("ordre croissant");
     expect(sortDirButton).toBeInTheDocument();
   });
 
-  it("should display the sorting options when the sort select is clicked", async () => {
+  it("displays the sorting options when the sort select is clicked", async () => {
     render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     expect(sortSelectElement).toBeInTheDocument();
@@ -96,29 +93,43 @@ describe("ResultsToolbar", () => {
     expect(screen.getByText("titre")).toBeVisible();
   });
 
-  it("should call router.replace with the correct params when the sort field is changed", async () => {
-    const router = useRouter();
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("updates the URL when the sort field is changed", async () => {
+    const onUrlUpdate = jest.fn();
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { onUrlUpdate },
+    );
+
     const sortSelectElement = screen.getAllByText("pertinence & qualité")[0];
     await userEvent.click(sortSelectElement);
     const titleSortOption = screen.getByText("titre");
     await userEvent.click(titleSortOption);
-    expect(router.replace).toHaveBeenCalledWith("/?sortBy=title.raw", {
-      scroll: false,
-    });
+
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: "?sortBy=title.raw",
+        options: expect.objectContaining({ shallow: false, history: "push" }),
+      }),
+    );
   });
 
-  it("should call router.replace with the correct params when the sort direction button is clicked", async () => {
-    mockSearchParams({
-      sortBy: "title.raw",
-    });
-    const router = useRouter();
-    render(<ResultsToolbar columns={2} setColumns={jest.fn()} />);
+  it("updates the URL when the sort direction button is clicked", async () => {
+    const onUrlUpdate = jest.fn();
+    render(
+      <ResultsToolbar columns={2} setColumns={jest.fn()} />,
+      {},
+      { searchParams: { sortBy: "title.raw" }, onUrlUpdate },
+    );
+
     const sortDirButton = screen.getByLabelText("ordre croissant");
     await userEvent.click(sortDirButton);
-    expect(router.replace).toHaveBeenCalledWith(
-      "/?sortBy=title.raw&sortDirection=desc",
-      { scroll: false },
+
+    expect(onUrlUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryString: "?sortBy=title.raw&sortDirection=desc",
+        options: expect.objectContaining({ shallow: false, history: "push" }),
+      }),
     );
   });
 });

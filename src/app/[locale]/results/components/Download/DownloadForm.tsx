@@ -4,7 +4,12 @@ import Panel from "@/components/Panel";
 import { ARCHIVE_SIZE_THRESHOLD_WARNING } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { estimateArchiveSize } from "@/lib/formats";
-import { useSearchParams, useSize } from "@/lib/hooks";
+import { useSize } from "@/lib/hooks";
+import {
+  useArchiveType,
+  useCompressionLevel,
+  useSelectedFormats,
+} from "@/lib/searchParams";
 import ArchiveSettings from "./ArchiveSettings";
 import ArchiveSizeWarning from "./ArchiveSizeWarning";
 import DownloadButton from "./DownloadButton";
@@ -25,11 +30,10 @@ export default function DownloadForm({
   closeModal,
   openWaitingModal,
 }: DownloadFormProps) {
-  const searchParams = useSearchParams();
-  const selectedFormats = searchParams.getFormats();
-  const compressionLevel = searchParams.getCompressionLevel();
-  const archiveType = searchParams.getArchiveType();
-  const size = useSize();
+  const [selectedFormats] = useSelectedFormats();
+  const [compressionLevel] = useCompressionLevel();
+  const [archiveType] = useArchiveType();
+  const [size] = useSize();
   const { selectedDocuments } = useDocumentContext();
   const hasSelectedDocuments = selectedDocuments.length > 0;
   const [archiveSizeInGigabytes, setArchiveSizeInGigabytes] = React.useState(0);

@@ -1,72 +1,27 @@
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import { useTranslations } from "next-intl";
-import * as React from "react";
 import Button from "@/components/Button";
 import NumberInput from "@/components/NumberInput";
-import { istexApiConfig } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import {
-  useDocumentCount,
-  useMaxSize,
-  useSearchParams,
-  useSize,
-} from "@/lib/hooks";
-import type SearchParams from "@/lib/SearchParams";
-import { clamp, debounce } from "@/lib/utils";
+import { istexApiConfig, SEARCH_MODE_IMPORT } from "@/config";
+import { useDocumentCount, useMaxSize, useSize } from "@/lib/hooks";
+import { useSearchMode } from "@/lib/searchParams";
 import Sorting from "../Sorting";
 
 export default function ResultsSettings() {
   const t = useTranslations("download.ResultsSettings");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const history = useHistoryContext();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const documentCount = useDocumentCount();
   const maxSize = useMaxSize();
-  const [size, setSize] = React.useState<number | null>(useSize());
+  const [size, setSize] = useSize();
 
-  const updateUrl = React.useCallback(
-    // We debounce the URL update to avoid a roundtrip to the server on each change
-    // and to make the input more reactive
-    debounce((size: number, searchParams: SearchParams) => {
-      searchParams.setSize(size);
-
-      history.populateCurrentRequest({
-        date: Date.now(),
-        searchParams,
-      });
-
-      router.replace(`${pathname}?${searchParams.toString()}`, {
-        scroll: false,
-      });
-    }, 350),
-    [],
-  );
-
-  const updateSize = (size: number | null) => {
-    setSize(size);
-    updateUrl(size ?? 0, searchParams);
+  const handleChange = (value: number | null) => {
+    setSize(value);
   };
 
-  const handleChange = (newValue: number | null) => {
-    if (newValue == null) {
-      updateSize(newValue);
-      return;
-    }
-
-    updateSize(clamp(newValue, 0, maxSize));
+  const setSizeToMax = () => {
+    setSize(maxSize);
   };
-
-  // If maxSize changed because we have selected documents and some of them were removed from the
-  // SelectedDocPanel, we need to make sure our current size isn't greater than maxSize
-  React.useEffect(() => {
-    if (size != null && size > maxSize) {
-      setSize(maxSize);
-    }
-  }, [size, maxSize]);
 
   return (
     <Stack spacing={1.875}>
@@ -118,9 +73,7 @@ export default function ResultsSettings() {
           id="all-button"
           variant="outlined"
           disabled={size === maxSize}
-          onClick={() => {
-            updateSize(maxSize);
-          }}
+          onClick={setSizeToMax}
           sx={{ ml: "auto" }}
         >
           {t("allButton")}

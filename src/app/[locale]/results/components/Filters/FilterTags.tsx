@@ -6,7 +6,8 @@ import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useLocale, useTranslations } from "next-intl";
 import type { Node } from "@/lib/ast";
 import fields, { type Field } from "@/lib/fields";
-import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import { useApplyFilters } from "@/lib/hooks";
+import { useFilters } from "@/lib/searchParams";
 import { labelizeIsoLanguage } from "@/lib/utils";
 
 interface Tag {
@@ -23,8 +24,7 @@ export default function FilterTags() {
   const tLanguages = useTranslations("languages");
   const locale = useLocale();
   const applyFilters = useApplyFilters();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
   const tags: Tag[] = filters
     .flatMap((node, index) => {
       // We don't want to render a tag for operators but we can't simply filter on the nodeType before

@@ -23,12 +23,12 @@ import {
 import { resetSelectedExcludedDocuments } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useRouter } from "@/i18n/navigation";
-import { useOnHomePage, useSearchParams } from "@/lib/hooks";
+import { useOnHomePage } from "@/lib/hooks";
+import { serializeSearchParams, useSearchMode } from "@/lib/searchParams";
 
 export default function SearchTitle() {
   const t = useTranslations("home.SearchSection");
-  const searchParams = useSearchParams();
-  const searchMode = searchParams.getSearchMode();
+  const [searchMode] = useSearchMode();
   const router = useRouter();
   const { results, loading } = useQueryContext();
   const onHomePage = useOnHomePage();
@@ -60,10 +60,8 @@ export default function SearchTitle() {
   };
 
   const goToHomePage = (searchMode: SearchMode) => {
-    searchParams.clear();
-    searchParams.setSearchMode(searchMode);
     resetSelectedExcludedDocuments();
-    router.push(`/?${searchParams.toString()}`);
+    router.push(serializeSearchParams("/", { searchMode }));
   };
 
   const handleChange = (

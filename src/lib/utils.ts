@@ -31,12 +31,6 @@ export function clamp(number: number, min: number, max: number) {
   return Math.max(min, Math.min(number, max));
 }
 
-export function closest(number: number, values: number[] | readonly number[]) {
-  return values.reduce((prev, curr) =>
-    Math.abs(curr - number) < Math.abs(prev - number) ? curr : prev,
-  );
-}
-
 export function isValidMd5(hash: string) {
   return /^[a-f0-9]{32}$/gi.test(hash);
 }
@@ -67,27 +61,6 @@ export function formatDate(timestamp: number, locale = routing.defaultLocale) {
     hour: "2-digit",
     minute: "2-digit",
   }).format(timestamp);
-}
-
-export function debounce<T extends (...args: never[]) => void>(
-  callback: T,
-  delay = 1000,
-) {
-  let timeoutId: number | undefined;
-
-  const debounced = (...args: Parameters<T>) => {
-    window.clearTimeout(timeoutId);
-
-    timeoutId = window.setTimeout(callback, delay, ...args);
-  };
-
-  debounced.cancel = () => {
-    if (timeoutId != null) {
-      window.clearTimeout(timeoutId);
-    }
-  };
-
-  return debounced;
 }
 
 // Taken from here:

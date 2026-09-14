@@ -1,10 +1,12 @@
 import { Table, TableBody } from "@mui/material";
 import HistoryItem from "@/app/[locale]/components/History/HistoryItem";
 import type { HistoryEntry } from "@/contexts/HistoryContext";
-import { useHistoryContext } from "@/contexts/HistoryContext";
+import {
+  setCurrentRequestInLocalStorage,
+  useHistoryContext,
+} from "@/contexts/HistoryContext";
 import { useRouter } from "@/i18n/navigation";
 import { useDownload, useShare } from "@/lib/hooks";
-import SearchParams from "@/lib/SearchParams";
 import { formatDate } from "@/lib/utils";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
@@ -15,10 +17,21 @@ const defaultParams = {
 };
 const defaultEntry: HistoryEntry = {
   date: Date.now(),
-  searchParams: new SearchParams(defaultParams),
+  searchParams: new URLSearchParams(defaultParams).toString(),
 };
 
 describe("HistoryItem", () => {
+  beforeAll(() => {
+    // nuqs search params loader expect Request to be available but jsdom doesn't
+    // provide an implementation for it, so we just create a fake one.
+    // nuqs just checks if the input passed to the loader is an instance of Request.
+    // Since it's never the case, we don't need to provide a valid implementation.
+    if (typeof globalThis.Request === "undefined") {
+      // @ts-expect-error This isn't the correct type but it doesn't matter here.
+      globalThis.Request = class Request {};
+    }
+  });
+
   it("displays the history entry elements properly", () => {
     renderHistoryItem();
 
@@ -54,7 +67,6 @@ describe("HistoryItem", () => {
 
   it("goes to the results page and sets the current request with the correct search params when clicking on the edit button", async () => {
     const router = useRouter();
-    const history = useHistoryContext();
     const onClose = jest.fn();
     renderHistoryItem({ onClose });
 
@@ -64,7 +76,7 @@ describe("HistoryItem", () => {
     expect(router.push).toHaveBeenCalledWith(
       "/results?q=hello&size=3&extract=metadata%5Bjson%5D",
     );
-    expect(history.populateCurrentRequest).toHaveBeenCalledWith(defaultEntry);
+    expect(setCurrentRequestInLocalStorage).toHaveBeenCalledWith(defaultEntry);
     expect(onClose).toHaveBeenCalled();
   });
 

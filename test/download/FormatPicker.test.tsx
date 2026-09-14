@@ -1,31 +1,28 @@
 import FormatPicker from "@/app/[locale]/results/components/Download/FormatPicker";
-import { formats } from "@/config";
-import { useRouter } from "@/i18n/navigation";
-import { buildExtractParamsFromFormats } from "@/lib/formats";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("FormatPicker", () => {
-  it("inserts the extract params in the URL when selecting a format", async () => {
-    await testFormatSelection("JSON", formats.metadata.json);
-  });
-
   it("selects all formats from a category when clicking the category checkbox", async () => {
-    await testFormatSelection(
-      "Métadonnées",
-      formats.metadata.json | formats.metadata.xml | formats.metadata.mods,
-    );
+    render(<FormatPicker />);
+
+    const jsonCheckbox = getCheckbox("JSON");
+    const modsCheckbox = getCheckbox("MODS");
+    const xmlCheckbox = getCheckbox("XML");
+    const metadataCheckbox = getCheckbox("Métadonnées");
+    await userEvent.click(metadataCheckbox);
+
+    expect(jsonCheckbox).toBeChecked();
+    expect(modsCheckbox).toBeChecked();
+    expect(xmlCheckbox).toBeChecked();
+    expect(metadataCheckbox).toBeChecked();
   });
 
   it("sets the category checkbox to indeterminate when selecting a format", () => {
-    mockSearchParams({
-      extract: "metadata[json]",
-    });
-    render(<FormatPicker />);
+    render(
+      <FormatPicker />,
+      {},
+      { searchParams: { extract: "metadata[json]" } },
+    );
 
     const jsonCheckbox = getCheckbox("JSON");
     const metadataCheckbox = getCheckbox("Métadonnées");
@@ -35,10 +32,15 @@ describe("FormatPicker", () => {
   });
 
   it("checks the category checkbox when all formats from the category are selected", () => {
-    mockSearchParams({
-      extract: "metadata[json,xml,mods]",
-    });
-    render(<FormatPicker />);
+    render(
+      <FormatPicker />,
+      {},
+      {
+        searchParams: {
+          extract: "metadata[json,xml,mods]",
+        },
+      },
+    );
 
     const jsonCheckbox = getCheckbox("JSON");
     const xmlCheckbox = getCheckbox("XML");
@@ -55,21 +57,4 @@ describe("FormatPicker", () => {
 
 function getCheckbox(name: string) {
   return screen.getByRole("checkbox", { name });
-}
-
-async function testFormatSelection(
-  checkboxName: string,
-  expectedFormats: number,
-) {
-  render(<FormatPicker />);
-
-  // biome-ignore lint/correctness/useHookAtTopLevel: this function is mocked so it's not an actual react hook
-  const router = useRouter();
-  const jsonCheckbox = getCheckbox(checkboxName);
-  await userEvent.click(jsonCheckbox);
-  const expectedUri = `/?extract=${encodeURIComponent(
-    buildExtractParamsFromFormats(expectedFormats),
-  )}`;
-
-  expect(router.replace).toHaveBeenCalledWith(expectedUri, { scroll: false });
 }

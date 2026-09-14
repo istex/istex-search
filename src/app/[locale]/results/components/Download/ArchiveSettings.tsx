@@ -14,42 +14,30 @@ import {
   compressionLevels,
   usages,
 } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
+import {
+  useArchiveType,
+  useCompressionLevel,
+  useUsageName,
+} from "@/lib/searchParams";
 
 export default function ArchiveSettings() {
   const t = useTranslations("download.ArchiveSettings");
   const tConfig = useTranslations("config");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const archiveType = searchParams.getArchiveType();
-  const compressionLevel = searchParams.getCompressionLevel();
-  const currentUsage = usages[searchParams.getUsageName()];
-  const history = useHistoryContext();
+  const [archiveType, setArchiveType] = useArchiveType();
+  const [compressionLevel, setCompressionLevel] = useCompressionLevel();
+  const [usageName] = useUsageName();
+  const usage = usages[usageName];
   const theme = useTheme();
   const fontSize = theme.typography.fontSize;
 
   const handleArchiveTypeChange = (event: SelectChangeEvent<ArchiveType>) => {
-    searchParams.setArchiveType(event.target.value);
-    common();
+    setArchiveType(event.target.value);
   };
 
   const handleCompressionLevelChange = (
     event: SelectChangeEvent<CompressionLevel>,
   ) => {
-    searchParams.setCompressionLevel(event.target.value);
-    common();
-  };
-
-  const common = () => {
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+    setCompressionLevel(event.target.value);
   };
 
   return (
@@ -78,11 +66,11 @@ export default function ArchiveSettings() {
         <Select
           id="archive-type-select"
           labelId="archive-type-label"
-          disabled={currentUsage.archiveTypes.length === 1}
+          disabled={usage.archiveTypes.length === 1}
           value={archiveType}
           onChange={handleArchiveTypeChange}
         >
-          {currentUsage.archiveTypes.map((value) => (
+          {usage.archiveTypes.map((value) => (
             <MenuItem key={value} value={value} sx={{ fontSize }}>
               {tConfig(`archiveTypes.${value}`)}
             </MenuItem>

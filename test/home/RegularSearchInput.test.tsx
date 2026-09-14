@@ -1,7 +1,6 @@
 import RegularSearchInput from "@/app/[locale]/components/SearchSection/RegularSearchInput";
 import { useRouter } from "@/i18n/navigation";
 import {
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -25,12 +24,8 @@ describe("RegularSearchInput", () => {
     const queryString = "hello";
     const size = 3;
     const page = 2;
-    mockSearchParams({
-      size: size.toString(),
-      page: page.toString(),
-    });
 
-    await search(queryString);
+    await search(queryString, { size: size.toString(), page: page.toString() });
 
     // router.push is only called with the queryString, not the size nor the page
     expect(router.push).toHaveBeenCalledWith(`/results?q=${queryString}`);
@@ -72,8 +67,11 @@ describe("RegularSearchInput", () => {
   });
 });
 
-async function search(queryString?: string) {
-  const renderResult = render(<RegularSearchInput />);
+async function search(
+  queryString?: string,
+  searchParams?: Record<string, string>,
+) {
+  const renderResult = render(<RegularSearchInput />, {}, { searchParams });
 
   const input = screen.getByRole("textbox");
   const button = screen.getByRole("button", { name: "Rechercher" });

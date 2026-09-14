@@ -1,50 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams as nextUseSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import * as React from "react";
+import type { Options } from "nuqs/server";
 import { istexApiConfig } from "@/config";
 import {
   resetSelectedExcludedDocuments,
   useDocumentContext,
 } from "@/contexts/DocumentContext";
-import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { type AST, astContainsField } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
 import { getAggregation } from "@/lib/istexApi";
 import { clamp } from "@/lib/utils";
-import SearchParams from "./SearchParams";
-
-export function useSearchParams() {
-  const params = nextUseSearchParams();
-
-  return React.useMemo(() => new SearchParams(params), [params]);
-}
+import {
+  generateQIdFromQueryString,
+  type SearchParams,
+  serializeSearchParams,
+  useFilters,
+  useRawPagination,
+  useRawSize,
+} from "./searchParams";
 
 export function useGoToResultsPage() {
   const router = useRouter();
-  const defaultSearchParams = useSearchParams();
-  const history = useHistoryContext();
+  const baseSearchParams = useSearchParams();
 
-  return async (queryString: string, searchParams?: SearchParams) => {
-    // The context consumer can provide their own SearchParams instead
-    // if they need to specify other search params. If they don't, the
-    // search params used for the previous render are used.
-    const searchParamsToUse = searchParams ?? defaultSearchParams;
-    searchParamsToUse.deleteSize();
-    searchParamsToUse.deletePage();
-    searchParamsToUse.deleteFilters();
-    searchParamsToUse.deleteRandomSeed();
-    await searchParamsToUse.setQueryString(queryString);
+  return async (queryString: string, overriddenSearchParams?: SearchParams) => {
+    const finalSearchParams: SearchParams = {
+      ...baseSearchParams,
+      ...overriddenSearchParams,
+      size: null,
+      page: null,
+      filters: null,
+      randomSeed: null,
+    };
 
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams: searchParamsToUse,
-    });
+    if (queryString.length > istexApiConfig.queryStringMaxLength) {
+      finalSearchParams.queryString = null;
+      finalSearchParams.qId = await generateQIdFromQueryString(queryString);
+    } else {
+      finalSearchParams.queryString = queryString;
+      finalSearchParams.qId = null;
+    }
+
+    const query = serializeSearchParams(baseSearchParams, finalSearchParams);
 
     resetSelectedExcludedDocuments();
-    router.push(`/results?${searchParamsToUse.toString()}`);
+    router.push(`/results${query}`);
   };
 }
 
@@ -98,44 +101,61 @@ export function useMaxSize() {
 }
 
 export function useSize() {
-  const searchParams = useSearchParams();
-  const sizeFromSearchParams = searchParams.getSize();
+  const [rawSize, setSize] = useRawSize();
   const maxSize = useMaxSize();
 
-  return sizeFromSearchParams !== 0
-    ? clamp(sizeFromSearchParams, 0, maxSize)
-    : maxSize;
+  return [
+    rawSize !== 0 ? clamp(rawSize, 0, maxSize) : maxSize,
+    setSize,
+  ] as const;
+}
+
+export function usePagination() {
+  const { results } = useQueryContext();
+  const maxResults = clamp(
+    results.total,
+    0,
+    istexApiConfig.maxPaginationOffset,
+  );
+
+  const {
+    page: rawPage,
+    perPage,
+    setPage: setRawPage,
+    setPerPage,
+  } = useRawPagination();
+  const lastPage = Math.max(0, Math.ceil(maxResults / perPage) - 1);
+  const page = clamp(rawPage, 0, lastPage);
+
+  const setPage = (newPage: number | null, options?: Options) => {
+    setRawPage(
+      newPage != null ? clamp(newPage, 0, lastPage) : newPage,
+      options,
+    );
+  };
+
+  return { page, perPage, lastPage, setPage, setPerPage };
 }
 
 export function useApplyFilters() {
   const router = useRouter();
-  const history = useHistoryContext();
   const searchParams = useSearchParams();
 
   return (filters: AST) => {
-    searchParams.deleteSize();
-    searchParams.deletePage();
-    searchParams.deleteRandomSeed();
-
-    if (filters.length > 0) {
-      searchParams.setFilters(filters);
-    } else {
-      searchParams.deleteFilters();
-    }
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
+    const query = serializeSearchParams(searchParams, {
+      size: null,
+      page: null,
+      randomSeed: null,
+      filters: filters.length > 0 ? filters : null,
     });
 
     resetSelectedExcludedDocuments();
-    router.push(`/results?${searchParams.toString()}`);
+    router.push(`/results${query}`);
   };
 }
 
 export function useAggregationQuery(field: Field) {
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
   const { queryString, results } = useQueryContext();
 
   // If filters are active, send a request if the field is NOT one of them,

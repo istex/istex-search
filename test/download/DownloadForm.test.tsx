@@ -4,12 +4,7 @@ import {
   type SelectedDocument,
 } from "@/contexts/DocumentContext";
 import type { IstexApiResponse } from "@/lib/istexApi";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("DownloadForm", () => {
   it("doesn't render SelectedDocPanel when no documents are selected", () => {
@@ -69,12 +64,10 @@ describe("DownloadForm", () => {
   });
 
   it("renders an alert when the estimated archive size is greater than 1GB", () => {
-    mockSearchParams({
-      extract: "fulltext[pdf]",
-    });
     render(
       <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
       { results: generateResults(10000) },
+      { searchParams: { extract: "fulltext[pdf]" } },
     );
 
     const alert = screen.getByRole("alert");
@@ -83,12 +76,10 @@ describe("DownloadForm", () => {
   });
 
   it("doesn't render any alert when the estimated archive size is less than 1GB", () => {
-    mockSearchParams({
-      extract: "fulltext[pdf]",
-    });
     render(
       <DownloadForm closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
       { results: generateResults(3) },
+      { searchParams: { extract: "fulltext[pdf]" } },
     );
 
     const alert = screen.queryByRole("alert");

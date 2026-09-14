@@ -4,7 +4,8 @@ import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTranslations } from "next-intl";
 import type * as React from "react";
-import { useSearchParams } from "@/lib/hooks";
+import { SEARCH_MODE_IMPORT } from "@/config";
+import { useSearchMode } from "@/lib/searchParams";
 import PerPage from "./PerPage";
 import Sorting from "./Sorting";
 
@@ -18,8 +19,7 @@ export default function ResultsToolbar({
   setColumns,
 }: ResultsToolbarProps) {
   const t = useTranslations("results.ResultsToolbar");
-  const searchParams = useSearchParams();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
 
   const handleLayout = (_: React.MouseEvent, newColumns: number | null) => {
     if (newColumns != null) {

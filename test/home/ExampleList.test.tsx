@@ -1,6 +1,7 @@
 import ExampleList from "@/app/[locale]/components/SearchSection/ExampleList";
 import { examples } from "@/config";
 import { useRouter } from "@/i18n/navigation";
+import { serializeSearchParams } from "@/lib/searchParams";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("ExampleList", () => {
@@ -13,7 +14,7 @@ describe("ExampleList", () => {
     await userEvent.click(firstExample);
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ q: firstExampleQuery }).toString()}`,
+      `/results${serializeSearchParams({ queryString: firstExampleQuery })}`,
     );
   });
 });

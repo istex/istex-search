@@ -4,8 +4,8 @@ import {
 } from "@/app/[locale]/components/SearchSection/NaturalSearch/actions";
 import PromptModal from "@/app/[locale]/components/SearchSection/NaturalSearch/PromptModal";
 import { useRouter } from "@/i18n/navigation";
+import { serializeSearchParams } from "@/lib/searchParams";
 import {
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -36,7 +36,7 @@ describe("PromptModal", () => {
 
     expect(getQueryStringFromPrompt).toHaveBeenCalledWith(prompt);
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ prompt, q: queryString }).toString()}`,
+      `/results${serializeSearchParams({ prompt, queryString })}`,
     );
   });
 
@@ -80,8 +80,11 @@ describe("PromptModal", () => {
 
   it("initializes the input based on the prompt in the URL", () => {
     const prompt = "I want a corpus";
-    mockSearchParams({ prompt });
-    render(<PromptModal open onClose={() => {}} />);
+    render(
+      <PromptModal open onClose={() => {}} />,
+      {},
+      { searchParams: { prompt } },
+    );
 
     const input = getInput();
 

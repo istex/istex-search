@@ -4,7 +4,6 @@ import { useRouter } from "@/i18n/navigation";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   mockPathname,
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -12,10 +11,11 @@ import {
 
 describe("SearchTitle", () => {
   it("highlights the currently selected search mode", () => {
-    mockSearchParams({
-      searchMode: SEARCH_MODE_ASSISTED,
-    });
-    render(<SearchTitle />);
+    render(
+      <SearchTitle />,
+      {},
+      { searchParams: { searchMode: SEARCH_MODE_ASSISTED } },
+    );
 
     const regularButton = getRegularButton();
     const assistedButton = getAssistedButton();

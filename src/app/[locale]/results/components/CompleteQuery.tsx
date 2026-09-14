@@ -5,17 +5,16 @@ import { useTranslations } from "next-intl";
 import CopyButton from "@/components/CopyButton";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useSearchParams } from "@/lib/hooks";
 import { createCompleteQuery } from "@/lib/istexApi";
+import { useFilters } from "@/lib/searchParams";
 
 const QUERY_MAX_SIZE = 256;
 
 export default function CompleteQuery() {
   const t = useTranslations("results.CompleteQuery");
-  const searchParams = useSearchParams();
   const { queryString } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
   const completeQuery = createCompleteQuery(
     queryString,
     filters,

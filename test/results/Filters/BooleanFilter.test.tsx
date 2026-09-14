@@ -3,7 +3,6 @@ import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import { getAggregation, type IstexApiResponse } from "@/lib/istexApi";
 import {
-  mockSearchParams,
   customRender as render,
   screen,
   userEvent,
@@ -70,7 +69,7 @@ describe("BooleanFilter", () => {
     ];
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({ filters: btoa(JSON.stringify(expectedFilters)) }).toString()}`,
+      `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
     );
   });
 
@@ -81,7 +80,7 @@ describe("BooleanFilter", () => {
     const clearButton = getClearButton();
     await userEvent.click(clearButton);
 
-    expect(router.push).toHaveBeenCalledWith("/results?");
+    expect(router.push).toHaveBeenCalledWith("/results");
   });
 
   it("dynamically gets the available values when the filter isn't open by default", async () => {
@@ -141,7 +140,7 @@ function getClearButton() {
 
 interface RenderBooleanFilterOptions {
   filterValue?: boolean;
-  searchParams?: Parameters<typeof mockSearchParams>[0];
+  searchParams?: Record<string, string>;
   defaultOpen?: boolean;
 }
 
@@ -165,7 +164,6 @@ function renderBooleanFilter({
 
     searchParams.filters = btoa(JSON.stringify(finalFilters));
   }
-  mockSearchParams(searchParams);
 
   const results: IstexApiResponse = {
     total: 3,
@@ -198,5 +196,6 @@ function renderBooleanFilter({
       }}
     />,
     { results },
+    { searchParams },
   );
 }

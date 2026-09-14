@@ -3,18 +3,16 @@ import {
   type HistoryEntry,
   useHistoryContext,
 } from "@/contexts/HistoryContext";
-import SearchParams from "@/lib/SearchParams";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("HistoryModal", () => {
   const history = useHistoryContext();
   const fakeEntry: HistoryEntry = {
     date: Date.now(),
-    searchParams: new SearchParams({ q: "hello" }),
+    searchParams: new URLSearchParams({ q: "hello" }).toString(),
   };
 
   (history.get as jest.Mock).mockReturnValue([fakeEntry]);
-  (history.getCurrentRequest as jest.Mock).mockReturnValue(fakeEntry);
 
   it("renders the modal when open is true", () => {
     render(<HistoryModal open onClose={jest.fn()} />);

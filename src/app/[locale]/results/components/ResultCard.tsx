@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useSearchParams } from "@/lib/hooks";
+import { useSearchMode } from "@/lib/searchParams";
 import { lineclamp } from "@/lib/utils";
 import { montserrat } from "@/mui/fonts";
 import FileList from "./Document/FileList";
@@ -36,8 +37,7 @@ export default function ResultCard({ index, displayIcons }: ResultCardProps) {
   } = useDocumentContext();
   const { results } = useQueryContext();
   const t = useTranslations("results.ResultsCard");
-  const searchParams = useSearchParams();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const document = results.hits[index];
 
   const isSelected = selectedDocuments.some(

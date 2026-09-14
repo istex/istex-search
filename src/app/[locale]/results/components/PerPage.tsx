@@ -8,10 +8,8 @@ import {
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import { type PerPageOption, perPageOptions } from "@/config";
-import { useHistoryContext } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { usePathname, useRouter } from "@/i18n/navigation";
-import { useSearchParams } from "@/lib/hooks";
+import { usePagination } from "@/lib/hooks";
 
 interface PerPageProps {
   fontSize: string;
@@ -25,11 +23,7 @@ export default function PerPage({
   selectColor,
 }: PerPageProps) {
   const t = useTranslations("results");
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const history = useHistoryContext();
-  const perPage = searchParams.getPerPage();
+  const { perPage, setPerPage } = usePagination();
   const { loading } = useQueryContext();
   const [selectMinWidth, setSelectMinWidth] = React.useState<number | null>(
     null,
@@ -47,15 +41,7 @@ export default function PerPage({
   );
 
   const handlePerPageChange = (event: SelectChangeEvent<PerPageOption>) => {
-    searchParams.deletePage();
-    searchParams.setPerPage(event.target.value);
-
-    history.populateCurrentRequest({
-      date: Date.now(),
-      searchParams,
-    });
-
-    router.replace(`${pathname}?${searchParams.toString()}`, { scroll: false });
+    setPerPage(event.target.value, { shallow: false });
   };
 
   return (

@@ -5,8 +5,14 @@ import Panel, { PanelTitle } from "@/components/Panel";
 import { usages } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
-import { useSearchParams } from "@/lib/hooks";
+import { usePagination } from "@/lib/hooks";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
+import {
+  useFilters,
+  useSortBy,
+  useSortDirection,
+  useUsageName,
+} from "@/lib/searchParams";
 import { lineclamp } from "@/lib/utils";
 import HighlightedUrl from "../HighlightedUrl";
 
@@ -15,16 +21,14 @@ const QUERY_MAX_SIZE = 256;
 export default function InfoPanels() {
   const t = useTranslations("download.InfoPanels");
   const tUsages = useTranslations("config.usages");
-  const searchParams = useSearchParams();
   const { queryString, randomSeed } = useQueryContext();
   const { selectedDocuments, excludedDocuments } = useDocumentContext();
-  const perPage = searchParams.getPerPage();
-  const page = searchParams.getPage();
-  const filters = searchParams.getFilters();
-  const sortBy = searchParams.getSortBy();
-  const sortDir = searchParams.getSortDirection();
-  const currentUsageName = searchParams.getUsageName();
-  const currentUsage = usages[currentUsageName];
+  const { page, perPage } = usePagination();
+  const [filters] = useFilters();
+  const [sortBy] = useSortBy();
+  const [sortDirection] = useSortDirection();
+  const [usageName] = useUsageName();
+  const usage = usages[usageName];
   const resultsApiUrl = buildResultPreviewUrl({
     queryString,
     perPage,
@@ -33,7 +37,7 @@ export default function InfoPanels() {
     selectedDocuments,
     excludedDocuments,
     sortBy,
-    sortDir,
+    sortDirection,
     randomSeed,
   });
   const completeQuery = resultsApiUrl.searchParams.get("q") ?? "";
@@ -49,12 +53,12 @@ export default function InfoPanels() {
   return (
     <>
       <Grid>
-        <Panel heading={tUsages(`${currentUsageName}.label`)}>
+        <Panel heading={tUsages(`${usageName}.label`)}>
           <Typography variant="body2" gutterBottom>
-            {tUsages(`${currentUsageName}.description`)}
+            {tUsages(`${usageName}.description`)}
           </Typography>
           <Link
-            href={currentUsage.url}
+            href={usage.url}
             target="_blank"
             rel="noreferrer"
             sx={(theme) => ({

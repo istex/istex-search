@@ -1,11 +1,6 @@
 import DownloadButton from "@/app/[locale]/results/components/Download/DownloadButton";
 import type { IstexApiResponse } from "@/lib/istexApi";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../test-utils";
+import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("DownloadButton (download modal)", () => {
   it("disables the button when the query string is missing", () => {
@@ -86,17 +81,19 @@ describe("DownloadButton (download modal)", () => {
     const queryString = "hello";
     const closeModal = jest.fn();
     const openWaitingModal = jest.fn();
-    mockSearchParams({
-      q: queryString,
-      extract: "metadata[json]",
-      size: "3",
-    });
     render(
       <DownloadButton
         closeModal={closeModal}
         openWaitingModal={openWaitingModal}
       />,
       { queryString, results: generateResults(3) },
+      {
+        searchParams: {
+          q: queryString,
+          extract: "metadata[json]",
+          size: "3",
+        },
+      },
     );
 
     const button = screen.getByRole("button");
@@ -109,10 +106,9 @@ describe("DownloadButton (download modal)", () => {
 });
 
 function testButtonState(
-  searchParams: Parameters<typeof mockSearchParams>[0],
+  searchParams: Record<string, string>,
   enabled: boolean,
 ) {
-  mockSearchParams(searchParams);
   render(
     <DownloadButton closeModal={jest.fn()} openWaitingModal={jest.fn()} />,
     {
@@ -122,6 +118,7 @@ function testButtonState(
           ? generateResults(Number(searchParams.size))
           : undefined,
     },
+    { searchParams },
   );
 
   const button = screen.getByRole("button");

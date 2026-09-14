@@ -3,19 +3,11 @@ import { useRouter } from "@/i18n/navigation";
 import { type AST, getDefaultOperatorNode } from "@/lib/ast";
 import fields from "@/lib/fields";
 import type { IstexApiResponse } from "@/lib/istexApi";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-  userEvent,
-} from "../../test-utils";
+import { customRender as render, screen, userEvent } from "../../test-utils";
 
 describe("Filters", () => {
   it("expands the accordion when the field has an active filter", () => {
-    mockSearchParams({
-      filters: getWosCategoriesFilter(),
-    });
-    const { container } = renderFilters();
+    const { container } = renderFilters(getWosCategoriesFilter());
 
     const wosCategoriesAccordionHeader = container.querySelector(
       "#categories\\.wos-header",
@@ -28,7 +20,6 @@ describe("Filters", () => {
   });
 
   it("expands the accordion when the field is open by default and no filters are active", () => {
-    mockSearchParams({});
     const { container } = renderFilters();
 
     const corpusNameAccordionHeader =
@@ -38,10 +29,7 @@ describe("Filters", () => {
   });
 
   it("doesn't expand the accordion when the field is open by default and filters are active", () => {
-    mockSearchParams({
-      filters: getWosCategoriesFilter(),
-    });
-    const { container } = renderFilters();
+    const { container } = renderFilters(getWosCategoriesFilter());
 
     const corpusNameAccordionHeader =
       container.querySelector("#corpusName-header");
@@ -50,7 +38,6 @@ describe("Filters", () => {
   });
 
   it("disables the clear button when no filters are active", () => {
-    mockSearchParams({});
     renderFilters();
 
     const clearButton = screen.getByRole("button", { name: "Effacer tout" });
@@ -60,20 +47,17 @@ describe("Filters", () => {
 
   it("removes all filters when clicking on the clear button", async () => {
     const router = useRouter();
-    mockSearchParams({
-      filters: getWosCategoriesFilter(),
-    });
-    renderFilters();
+    renderFilters(getWosCategoriesFilter());
 
     const clearButton = screen.getByRole("button", { name: "Effacer tout" });
     await userEvent.click(clearButton);
 
-    expect(router.push).toHaveBeenCalledWith("/results?");
+    expect(router.push).toHaveBeenCalledWith("/results");
   });
 });
 
 function getWosCategoriesFilter() {
-  const filters: AST = [
+  return [
     getDefaultOperatorNode(),
     {
       id: Math.random(),
@@ -88,9 +72,7 @@ function getWosCategoriesFilter() {
         },
       ],
     },
-  ];
-
-  return btoa(JSON.stringify(filters));
+  ] satisfies AST;
 }
 
 const results: IstexApiResponse = {
@@ -120,6 +102,10 @@ const results: IstexApiResponse = {
   ),
 };
 
-function renderFilters() {
-  return render(<Filters />, { results });
+function renderFilters(filters?: AST) {
+  return render(
+    <Filters />,
+    { results },
+    { searchParams: { filters: btoa(JSON.stringify(filters)) } },
+  );
 }

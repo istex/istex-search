@@ -1,15 +1,10 @@
 import InfoPanels from "@/app/[locale]/results/components/Download/InfoPanels";
 import { buildResultPreviewUrl } from "@/lib/istexApi";
-import {
-  mockSearchParams,
-  customRender as render,
-  screen,
-} from "../test-utils";
+import { customRender as render, screen } from "../test-utils";
 
 describe("InfoPanels", () => {
   it("displays the correct usage panel based on the usage in the URL", () => {
-    mockSearchParams({ usage: "lodex" });
-    render(<InfoPanels />);
+    render(<InfoPanels />, {}, { searchParams: { usage: "lodex" } });
 
     const usageHeading = screen.getByRole("heading", {
       name: "Lodex",
@@ -19,7 +14,6 @@ describe("InfoPanels", () => {
   });
 
   it("sets the active usage to the custom usage by default", () => {
-    mockSearchParams({});
     render(<InfoPanels />);
 
     const usageHeading = screen.getByRole("heading", {

@@ -14,14 +14,12 @@ import { useLocale, useTranslations } from "next-intl";
 import * as React from "react";
 import Button from "@/components/Button";
 import Checkbox from "@/components/Checkbox";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { getDefaultOperatorNode, type Node } from "@/lib/ast";
 import type { Field } from "@/lib/fields";
-import {
-  useAggregationQuery,
-  useApplyFilters,
-  useSearchParams,
-} from "@/lib/hooks";
+import { useAggregationQuery, useApplyFilters } from "@/lib/hooks";
 import type { Aggregation } from "@/lib/istexApi";
+import { useFilters, useSearchMode } from "@/lib/searchParams";
 import { labelizeIsoLanguage } from "@/lib/utils";
 import ArrowDownIcon from "./ArrowDownIcon";
 import ArrowUpIcon from "./ArrowUpIcon";
@@ -46,8 +44,7 @@ export default function TextFilter({ field }: TextFilterProps) {
   const tLanguages = useTranslations("languages");
   const locale = useLocale();
   const applyFilters = useApplyFilters();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
   const aggregationQuery = useAggregationQuery(field);
   const [searchTerm, setSearchTerm] = React.useState("");
   const searchTermLowercase = searchTerm.toLowerCase();
@@ -402,8 +399,7 @@ function ChecklistItem({
 }: ChecklistItemProps) {
   const tResults = useTranslations("results");
   const locale = useLocale();
-  const searchParams = useSearchParams();
-  const isImportSearchMode = searchParams.getSearchMode() === "import";
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const key = aggregation.key.toString();
   const label = aggregation.label ?? key;
 

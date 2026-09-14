@@ -3,12 +3,11 @@
 import * as React from "react";
 import { DEFAULT_SORT_BY, NO_FORMAT_SELECTED } from "@/config";
 import { buildExtractParamsFromFormats } from "@/lib/formats";
-import SearchParams from "@/lib/SearchParams";
 import type { SelectedDocument } from "./DocumentContext";
 
 export interface HistoryEntry {
   date: number;
-  searchParams: SearchParams;
+  searchParams: string;
   selectedDocuments?: SelectedDocument[];
   excludedDocuments?: string[];
 }
@@ -22,8 +21,6 @@ interface HistoryContextValue {
   push: (item: HistoryEntry) => void;
   delete: (index: number) => void;
   clear: () => void;
-  getCurrentRequest: () => HistoryEntry;
-  populateCurrentRequest: (newCurrentRequest: HistoryEntry) => void;
   isEmpty: () => boolean;
 }
 
@@ -31,12 +28,12 @@ const HistoryContext = React.createContext<HistoryContextValue | null>(null);
 
 const initialCurrentRequest: HistoryEntry = {
   date: 0,
-  searchParams: new SearchParams({
+  searchParams: new URLSearchParams({
     q: "",
     extract: buildExtractParamsFromFormats(NO_FORMAT_SELECTED),
     size: (0).toString(),
     sortBy: DEFAULT_SORT_BY,
-  }),
+  }).toString(),
 };
 
 interface HistoryProviderProps {
@@ -45,9 +42,6 @@ interface HistoryProviderProps {
 
 export function HistoryProvider({ children }: HistoryProviderProps) {
   const [history, setHistory] = React.useState(getHistoryFromLocalStorage());
-  const [currentRequest, setCurrentRequest] = React.useState(
-    getCurrentRequestFromLocalStorage(),
-  );
 
   const get: HistoryContextValue["get"] = () => {
     return history;
@@ -77,15 +71,6 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
     setHistory([]);
   };
 
-  const getCurrentRequest: HistoryContextValue["getCurrentRequest"] = () => {
-    return currentRequest;
-  };
-
-  const populateCurrentRequest: HistoryContextValue["populateCurrentRequest"] =
-    (newCurrentRequest) => {
-      setCurrentRequest(newCurrentRequest);
-    };
-
   const isEmpty: HistoryContextValue["isEmpty"] = () => {
     return history.length === 0;
   };
@@ -98,20 +83,11 @@ export function HistoryProvider({ children }: HistoryProviderProps) {
     window.localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   }, [history]);
 
-  React.useEffect(() => {
-    window.localStorage.setItem(
-      CURRENT_REQUEST_KEY,
-      JSON.stringify(currentRequest),
-    );
-  }, [currentRequest]);
-
   const contextValue: HistoryContextValue = {
     get,
     push,
     delete: _delete,
     clear,
-    getCurrentRequest,
-    populateCurrentRequest,
     isEmpty,
   };
 
@@ -150,7 +126,7 @@ function getHistoryFromLocalStorage() {
 
     result.push({
       date: entry.date,
-      searchParams: new SearchParams(entry.searchParams),
+      searchParams: entry.searchParams,
       selectedDocuments:
         "selectedDocuments" in parsed && Array.isArray(parsed.selectedDocuments)
           ? parsed.selectedDocuments
@@ -165,7 +141,7 @@ function getHistoryFromLocalStorage() {
   return result;
 }
 
-function getCurrentRequestFromLocalStorage() {
+export function getCurrentRequestFromLocalStorage() {
   // We can't use local storage while running in a server environment so we just return the
   // default value
   if (typeof window === "undefined") {
@@ -179,6 +155,7 @@ function getCurrentRequestFromLocalStorage() {
   }
 
   const parsed = JSON.parse(currentRequestFromLocalStorage) as unknown;
+  console.log(parsed);
   if (
     typeof parsed !== "object" ||
     parsed == null ||
@@ -192,7 +169,7 @@ function getCurrentRequestFromLocalStorage() {
 
   const result: HistoryEntry = {
     date: parsed.date,
-    searchParams: new SearchParams(parsed.searchParams),
+    searchParams: parsed.searchParams,
     selectedDocuments:
       "selectedDocuments" in parsed && Array.isArray(parsed.selectedDocuments)
         ? parsed.selectedDocuments
@@ -204,6 +181,13 @@ function getCurrentRequestFromLocalStorage() {
   };
 
   return result;
+}
+
+export function setCurrentRequestInLocalStorage(currentRequest: HistoryEntry) {
+  window.localStorage.setItem(
+    CURRENT_REQUEST_KEY,
+    JSON.stringify(currentRequest),
+  );
 }
 
 export function useHistoryContext() {

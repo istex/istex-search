@@ -12,11 +12,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
-import type * as React from "react";
+import * as React from "react";
 import Button from "@/components/Button";
 import type { AST, Node } from "@/lib/ast";
 import fields, { type Field } from "@/lib/fields";
-import { useApplyFilters, useSearchParams } from "@/lib/hooks";
+import { useApplyFilters } from "@/lib/hooks";
+import { useFilters } from "@/lib/searchParams";
 import { splitArray } from "@/lib/utils";
 import BooleanFilter, { type BooleanFilterProps } from "./BooleanFilter";
 import NumberFilter, { type NumberFilterProps } from "./NumberFilter";
@@ -36,8 +37,7 @@ const SCIENTIFIC_CATEGORY_FIELDS = FILTER_FIELDS[1];
 export default function Filters() {
   const t = useTranslations("results.Filters");
   const applyFilters = useApplyFilters();
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
 
   // We need to expand the scientific category group if at least one of the
   // scientific category fields has an active filter
@@ -46,6 +46,13 @@ export default function Filters() {
     SCIENTIFIC_CATEGORY_FIELDS.some((field) =>
       fieldHasActiveFilter(filters, field),
     );
+  const [expanded, setExpanded] = React.useState(
+    scientificCategoryGroupExpanded,
+  );
+
+  const handleChange: AccordionWrapperProps["onChange"] = (_, isExpanded) => {
+    setExpanded(isExpanded);
+  };
 
   const clearAll = () => {
     applyFilters([]);
@@ -73,7 +80,8 @@ export default function Filters() {
         <AccordionWrapper
           title={t("categoriesGroupHeader")}
           id="categories"
-          defaultExpanded={scientificCategoryGroupExpanded}
+          expanded={expanded}
+          onChange={handleChange}
         >
           {SCIENTIFIC_CATEGORY_FIELDS.map((field) => (
             <FilterAccordion
@@ -108,14 +116,18 @@ interface FilterAccordionProps {
 
 function FilterAccordion({ field, children, sx }: FilterAccordionProps) {
   const t = useTranslations("fields");
-  const searchParams = useSearchParams();
-  const filters = searchParams.getFilters();
+  const [filters] = useFilters();
 
   // When we have filters, only expend the accordions that have an active filter
-  const expanded =
+  const defaultExpanded =
     filters.length > 0
       ? fieldHasActiveFilter(filters, field)
-      : field.defaultOpen;
+      : (field.defaultOpen ?? false);
+  const [expanded, setExpanded] = React.useState(defaultExpanded);
+
+  const handleChange: AccordionWrapperProps["onChange"] = (_, isExpanded) => {
+    setExpanded(isExpanded);
+  };
 
   return (
     <AccordionWrapper
@@ -125,7 +137,8 @@ function FilterAccordion({ field, children, sx }: FilterAccordionProps) {
           : t(`${field.name}.title`)
       }
       id={field.name}
-      defaultExpanded={expanded}
+      expanded={expanded}
+      onChange={handleChange}
       sx={sx}
     >
       {children ?? renderFilterComponent(field)}
@@ -137,7 +150,8 @@ interface AccordionWrapperProps {
   title: React.ReactNode;
   id: string;
   children: React.ReactNode;
-  defaultExpanded?: AccordionProps["defaultExpanded"];
+  expanded?: AccordionProps["expanded"];
+  onChange?: AccordionProps["onChange"];
   sx?: SxProps;
 }
 
@@ -145,12 +159,14 @@ function AccordionWrapper({
   title,
   id,
   children,
-  defaultExpanded,
+  expanded,
+  onChange,
   sx,
 }: AccordionWrapperProps) {
   return (
     <Accordion
-      defaultExpanded={defaultExpanded}
+      expanded={expanded}
+      onChange={onChange}
       elevation={0}
       disableGutters
       slotProps={{ transition: { unmountOnExit: true } }}

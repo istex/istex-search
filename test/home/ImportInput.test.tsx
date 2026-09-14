@@ -2,6 +2,7 @@ import ImportInput from "@/app/[locale]/components/SearchSection/ImportInput";
 import { supportedIdTypes } from "@/config";
 import { useRouter } from "@/i18n/navigation";
 import { buildQueryStringFromIds } from "@/lib/queryIds";
+import { serializeSearchParams } from "@/lib/searchParams";
 import {
   customRender as render,
   screen,
@@ -10,7 +11,9 @@ import {
 } from "../test-utils";
 
 describe("ImportInput", () => {
-  afterEach(jest.resetAllMocks);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   it("goes to the results page when submitting the form with valid IDs", async () => {
     const router = useRouter();
@@ -28,9 +31,7 @@ describe("ImportInput", () => {
     await userEvent.click(button);
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({
-        q: queryString,
-      }).toString()}`,
+      `/results${serializeSearchParams({ queryString })}`,
     );
   }, 10_000);
 
@@ -113,9 +114,7 @@ describe("ImportInput", () => {
     await userEvent.upload(fileInput, corpusFile);
 
     expect(router.push).toHaveBeenCalledWith(
-      `/results?${new URLSearchParams({
-        q: queryString,
-      }).toString()}`,
+      `/results${serializeSearchParams({ queryString })}`,
     );
   });
 

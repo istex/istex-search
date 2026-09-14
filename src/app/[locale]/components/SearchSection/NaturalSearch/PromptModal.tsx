@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTranslations } from "next-intl";
+import { debounce } from "nuqs";
 import * as React from "react";
 import Badge from "@/components/Badge";
 import Button from "@/components/Button";
@@ -18,7 +19,8 @@ import MultilineTextField from "@/components/MultilineTextField";
 import Panel from "@/components/Panel";
 import RichText from "@/components/RichText";
 import CustomError from "@/lib/CustomError";
-import { useGoToResultsPage, useSearchParams } from "@/lib/hooks";
+import { useGoToResultsPage } from "@/lib/hooks";
+import { usePrompt } from "@/lib/searchParams";
 import { type ActionResult, getQueryStringFromPrompt } from "./actions";
 
 export default function PromptModal({
@@ -26,9 +28,7 @@ export default function PromptModal({
   onClose,
 }: Omit<ModalProps, "heading" | "children">) {
   const t = useTranslations("home.SearchSection.PromptModal");
-  const searchParams = useSearchParams();
-  const defaultPrompt = searchParams.getPrompt();
-  const [prompt, setPrompt] = React.useState(defaultPrompt);
+  const [prompt, setPrompt] = usePrompt();
   const goToResultsPage = useGoToResultsPage();
 
   const getQueryStringFromPromptAction = async (): Promise<ActionResult> => {
@@ -43,8 +43,7 @@ export default function PromptModal({
     }
 
     try {
-      searchParams.setPrompt(trimmedPrompt);
-      await goToResultsPage(result.value, searchParams);
+      await goToResultsPage(result.value, { prompt: trimmedPrompt });
     } catch (error) {
       return {
         success: false,
@@ -52,6 +51,8 @@ export default function PromptModal({
           error instanceof CustomError ? error.info : { name: "default" },
       };
     }
+
+    onClose();
 
     return result;
   };
@@ -63,7 +64,7 @@ export default function PromptModal({
   const isError = formState?.success === false;
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    setPrompt(event.target.value);
+    setPrompt(event.target.value, { limitUrlUpdates: debounce(250) });
   };
 
   return (

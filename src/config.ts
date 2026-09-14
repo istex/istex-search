@@ -144,6 +144,7 @@ export const usages = {
   },
 } as const;
 export type UsageName = keyof typeof usages;
+export const usageNames = Object.keys(usages) as UsageName[];
 export const DEFAULT_USAGE_NAME: UsageName = "custom";
 
 export const rankValues = ["qualityOverRelevance", "random"] as const;
@@ -151,9 +152,9 @@ export const sortFields = ["publicationDate", "title.raw"] as const;
 export const DEFAULT_SORT_BY = rankValues[0];
 export type SortBy = (typeof sortFields)[number] | (typeof rankValues)[number];
 
-export const sortDir = ["asc", "desc"] as const;
-export const DEFAULT_SORT_DIR = sortDir[0];
-export type SortDir = (typeof sortDir)[number];
+export const sortDirections = ["asc", "desc"] as const;
+export const DEFAULT_SORT_DIRECTION = sortDirections[0];
+export type SortDirection = (typeof sortDirections)[number];
 
 export const searchModes = ["regular", "assisted", "import"] as const;
 export const SEARCH_MODE_REGULAR = searchModes[0];

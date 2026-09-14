@@ -10,7 +10,10 @@ import { useTranslations } from "next-intl";
 import * as React from "react";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
-import { useHistoryContext } from "@/contexts/HistoryContext";
+import {
+  getCurrentRequestFromLocalStorage,
+  useHistoryContext,
+} from "@/contexts/HistoryContext";
 import HistoryItem from "./HistoryItem";
 
 interface HistoryModalProps {
@@ -58,11 +61,7 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
           <TableContainer sx={{ mb: 2 }}>
             <Table size="small">
               <TableBody>
-                <HistoryItem
-                  entry={history.getCurrentRequest()}
-                  onClose={onClose}
-                  isCurrentRequest
-                />
+                <CurrentRequestHistoryItem onClose={onClose} />
               </TableBody>
             </Table>
           </TableContainer>
@@ -122,6 +121,23 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
         onConfirm={clearHistory}
       />
     </>
+  );
+}
+
+// This component exists only to opt out of the automatic memoization from the
+// React Compiler on the smallest component tree possible. We opt out of
+// memoization because we want the local storage to be read on every render.
+function CurrentRequestHistoryItem({
+  onClose,
+}: Pick<React.ComponentProps<typeof HistoryItem>, "onClose">) {
+  "use no memo";
+
+  return (
+    <HistoryItem
+      entry={getCurrentRequestFromLocalStorage()}
+      onClose={onClose}
+      isCurrentRequest
+    />
   );
 }
 

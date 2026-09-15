@@ -7,6 +7,7 @@
   "prHourlyLimit": 8,
   "prConcurrentLimit": 8,
   "configMigration": true,
+  "minimumReleaseAge": "1 day",
   "packageRules": [
     {
       "groupName": "React/Next.js",

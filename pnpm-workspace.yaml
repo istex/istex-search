@@ -3,3 +3,7 @@ allowBuilds:
   '@swc/core': false
   sharp: false
   unrs-resolver: false
+
+# This is the default value in pnpm 11+, but we want to be explicit about it
+# because this setting is mirrored in renovate.json.
+minimumReleaseAge: 1440

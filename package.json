@@ -13,7 +13,7 @@
     "test": "TURBOPACK=true jest # Remove the TURBOPACK variable when Next.js fixes experimental.turbopackRustReactCompiler"
   },
   "dependencies": {
-    "@base-ui/react": "1.7.0",
+    "@base-ui/react": "1.8.0",
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",

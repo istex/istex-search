@@ -2,8 +2,11 @@ import { Stack } from "@mui/material";
 import { getLocale, getTranslations } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import CustomError from "@/lib/CustomError";
-import { type GetResultsOptions, getResults } from "@/lib/getResults";
-import type { IstexApiResponse } from "@/lib/istexApi";
+import {
+  type GetResultsOptions,
+  getResults,
+  type IstexApiResponse,
+} from "@/lib/istexApi";
 import logger from "@/lib/logger";
 import { getQueryStringFromQId, loadSearchParams } from "@/lib/searchParams";
 import DownloadButton from "./components/DownloadButton";

@@ -48,13 +48,6 @@ mock("@/contexts/HistoryContext", {
   setCurrentRequestInLocalStorage: jest.fn(),
 });
 
-// We don't use the mock helper here because next/cache has side effects that
-// use the TextEncoder API, which is not implemented in jsdom, so we can't
-// afford to import the actual next/cache.
-jest.mock("next/cache", () => ({
-  cacheLife: jest.fn(),
-}));
-
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {
     const actual = jest.requireActual<Record<string, unknown>>(moduleName);

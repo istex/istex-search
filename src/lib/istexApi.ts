@@ -191,6 +191,61 @@ export function buildResultPreviewUrl({
   return url;
 }
 
+export interface GetResultsOptions {
+  queryString: string;
+  perPage: PerPageOption;
+  page: number;
+  filters: AST;
+  sortBy: SortBy;
+  sortDirection: SortDirection;
+  randomSeed?: string;
+}
+
+export async function getResults({
+  queryString,
+  perPage,
+  page,
+  filters,
+  sortBy,
+  sortDirection,
+  randomSeed,
+}: GetResultsOptions) {
+  // Create the URL
+  const url = buildResultPreviewUrl({
+    queryString,
+    perPage,
+    page,
+    filters,
+    sortBy,
+    sortDirection,
+    randomSeed,
+  });
+
+  // The final query string is built from the initial query string + the filters
+  const finalQueryString = url.searchParams.get("q") ?? "";
+
+  // If the query string is too long some browsers won't accept to send a GET request
+  // so we send a POST request instead and pass the query string in the body
+  const fetchOptions: RequestInit = {};
+  if (finalQueryString.length > istexApiConfig.queryStringMaxLength) {
+    url.searchParams.delete("q");
+    fetchOptions.method = "POST";
+    fetchOptions.headers = {
+      "Content-Type": "application/json",
+    };
+    fetchOptions.body = JSON.stringify({ qString: finalQueryString });
+  }
+
+  const response = await fetch(url, fetchOptions);
+  if (!response.ok) {
+    throw new CustomError(
+      response.status === 400 ? { name: "SyntaxError" } : { name: "default" },
+    );
+  }
+
+  return (await response.json()) as IstexApiResponse;
+}
+
 export async function getAggregation(
   field: Field,
   queryString: string,

@@ -1,9 +1,10 @@
 # Base stage where we setup pnpm and copy the package files to later install dependencies
-FROM node:24.13.0-alpine AS base
+FROM node:24.21.0-alpine AS base
 WORKDIR /app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
+RUN corepack prepare pnpm@latest-12 --activate
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./

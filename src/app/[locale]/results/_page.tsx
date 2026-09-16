@@ -53,6 +53,8 @@ export default async function ResultsPage(
     aggregations: {},
   };
 
+  // If we don't have a queryString but a q_id is present, we try to get the
+  // queryString from it.
   let queryString = queryStringFromSearchParams;
   if (queryString == null && qId != null) {
     try {
@@ -70,6 +72,7 @@ export default async function ResultsPage(
     }
   }
 
+  // If we didn't manage to get a queryString, we just redirect to the home page.
   if (queryString == null) {
     logger.warn(
       `Access to '/results' without a query string, redirecting to '/${locale}'.`,
@@ -99,14 +102,12 @@ export default async function ResultsPage(
   }
 
   // Get the potential random seed in the pagination URLs sent by the API
-  let randomSeedToUse: string | undefined;
+  let randomSeedToUse = randomSeedFromSearchParams ?? undefined;
   if (results.total > 0 && results.firstPageURI != null) {
     const firstPageUrl = new URL(results.firstPageURI);
     const randomSeedFromResults = firstPageUrl.searchParams.get("randomSeed");
 
-    if (randomSeedFromSearchParams != null) {
-      randomSeedToUse = randomSeedFromSearchParams;
-    } else if (randomSeedFromResults != null) {
+    if (randomSeedFromResults != null) {
       randomSeedToUse = randomSeedFromResults;
     }
   }

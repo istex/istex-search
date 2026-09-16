@@ -155,7 +155,6 @@ export function getCurrentRequestFromLocalStorage() {
   }
 
   const parsed = JSON.parse(currentRequestFromLocalStorage) as unknown;
-  console.log(parsed);
   if (
     typeof parsed !== "object" ||
     parsed == null ||

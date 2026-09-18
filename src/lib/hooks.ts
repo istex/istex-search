@@ -7,6 +7,7 @@ import {
   resetSelectedExcludedDocuments,
   useDocumentContext,
 } from "@/contexts/DocumentContext";
+import { setCurrentRequestInLocalStorage } from "@/contexts/HistoryContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { type AST, astContainsField } from "@/lib/ast";
@@ -44,7 +45,13 @@ export function useGoToResultsPage() {
       finalSearchParams.qId = null;
     }
 
-    const query = serializeSearchParams(baseSearchParams, finalSearchParams);
+    const query = serializeSearchParams(finalSearchParams);
+
+    const queryWithoutLeadingQuestionMark = query.substring(1);
+    setCurrentRequestInLocalStorage({
+      date: Date.now(),
+      searchParams: queryWithoutLeadingQuestionMark,
+    });
 
     resetSelectedExcludedDocuments();
     router.push(`/results${query}`);
@@ -147,6 +154,12 @@ export function useApplyFilters() {
       page: null,
       randomSeed: null,
       filters: filters.length > 0 ? filters : null,
+    });
+
+    const queryWithoutLeadingQuestionMark = query.substring(1);
+    setCurrentRequestInLocalStorage({
+      date: Date.now(),
+      searchParams: queryWithoutLeadingQuestionMark,
     });
 
     resetSelectedExcludedDocuments();

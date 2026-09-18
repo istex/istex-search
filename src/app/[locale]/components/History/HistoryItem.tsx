@@ -90,7 +90,7 @@ export default function HistoryItem({
       JSON.stringify(entry.excludedDocuments ?? []),
     );
 
-    router.push(`/results?${entry.searchParams.toString()}`);
+    router.push(`/results?${entry.searchParams}`);
     onClose();
   };
 

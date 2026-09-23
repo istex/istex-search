@@ -28,8 +28,7 @@ export function useGoToResultsPage() {
   const baseSearchParams = useSearchParams();
 
   return async (queryString: string, overriddenSearchParams?: SearchParams) => {
-    const finalSearchParams: SearchParams = {
-      ...baseSearchParams,
+    const newSearchParams: SearchParams = {
       ...overriddenSearchParams,
       size: null,
       page: null,
@@ -38,14 +37,14 @@ export function useGoToResultsPage() {
     };
 
     if (queryString.length > istexApiConfig.queryStringMaxLength) {
-      finalSearchParams.queryString = null;
-      finalSearchParams.qId = await generateQIdFromQueryString(queryString);
+      newSearchParams.queryString = null;
+      newSearchParams.qId = await generateQIdFromQueryString(queryString);
     } else {
-      finalSearchParams.queryString = queryString;
-      finalSearchParams.qId = null;
+      newSearchParams.queryString = queryString;
+      newSearchParams.qId = null;
     }
 
-    const query = serializeSearchParams(finalSearchParams);
+    const query = serializeSearchParams(baseSearchParams, newSearchParams);
 
     const queryWithoutLeadingQuestionMark = query.substring(1);
     setCurrentRequestInLocalStorage({

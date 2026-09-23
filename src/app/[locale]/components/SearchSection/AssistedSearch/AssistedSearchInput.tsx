@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 import { useTranslations } from "next-intl";
 import * as React from "react";
 import ErrorCard from "@/components/ErrorCard";
-import { SEARCH_MODE_REGULAR } from "@/config";
+import { SEARCH_MODE_ASSISTED, SEARCH_MODE_REGULAR } from "@/config";
 import { useQueryContext } from "@/contexts/QueryContext";
 import {
   astContainsPartialNode,
@@ -82,7 +82,7 @@ export default function AssistedSearchInput() {
     }
 
     goToResultsPage(newQueryString, {
-      searchMode: expertInputOpen ? SEARCH_MODE_REGULAR : undefined,
+      searchMode: expertInputOpen ? SEARCH_MODE_REGULAR : SEARCH_MODE_ASSISTED,
       ast: expertInputOpen ? null : ast,
     }).catch((err: unknown) => {
       if (err instanceof CustomError) {

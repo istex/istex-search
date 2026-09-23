@@ -22,7 +22,9 @@ describe("AssistedSearchInput", () => {
     await selectValue();
     await search();
 
-    expect(router.push).toHaveBeenCalled();
+    expect(router.push).toHaveBeenCalledWith(
+      expect.stringContaining("searchMode=assisted"),
+    );
   });
 
   it("fills the inputs based on the AST in the URL", () => {

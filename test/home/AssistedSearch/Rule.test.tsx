@@ -27,8 +27,6 @@ describe("Rule", () => {
 
   jest.setTimeout(20_000);
 
-  beforeEach(jest.clearAllMocks);
-
   it("doesn't fill the inputs when the node is partial", () => {
     renderRule({ node: partialNode });
 

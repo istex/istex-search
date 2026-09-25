@@ -11,10 +11,6 @@ import {
 } from "../test-utils";
 
 describe("ImportInput", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it("goes to the results page when submitting the form with valid IDs", async () => {
     const router = useRouter();
     const ids = [

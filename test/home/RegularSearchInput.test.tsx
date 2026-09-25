@@ -8,8 +8,6 @@ import {
 } from "../test-utils";
 
 describe("RegularSearchInput", () => {
-  beforeEach(jest.clearAllMocks);
-
   it("goes to the results page with the query string in the URL when clicking the search button", async () => {
     const router = useRouter();
     const queryString = "hello";

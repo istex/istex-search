@@ -48,6 +48,10 @@ mock("@/contexts/HistoryContext", {
   setCurrentRequestInLocalStorage: jest.fn(),
 });
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 function mock(moduleName: string, mockedValue: Record<string, unknown>) {
   jest.mock(moduleName, () => {
     const actual = jest.requireActual<Record<string, unknown>>(moduleName);

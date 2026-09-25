@@ -34,15 +34,59 @@ describe("FilterTags", () => {
   });
 
   it("removes the field node and its preceding NOT operator when present from the group when clicking on the remove button", async () => {
+    // We can't use the generateFilters helper here because we need the node IDs
+    // to be different for the handleDelete logic to work but we also need them
+    // to be predictable for the tests so we can't simply remove the mock and
+    // use Math.random().
+
     const router = useRouter();
-    const filters = generateFilters({
-      corpusName: { values: ["elsevier", "wiley"], not: true },
-    });
+    const filters: AST = [
+      { id: 0, nodeType: "operator", value: "AND" },
+      {
+        id: 1,
+        nodeType: "group",
+        nodes: [
+          { id: 2, nodeType: "operator", value: "NOT" },
+          {
+            id: 3,
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "elsevier",
+            comparator: "equals",
+          },
+          {
+            id: 4,
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "wiley",
+            comparator: "equals",
+          },
+        ],
+      },
+    ];
     renderFilterTags(filters);
 
     await userEvent.click(getRemoveNotCorpusNameButton());
 
-    const expectedFilters = generateFilters({ corpusName: ["wiley"] });
+    const expectedFilters: AST = [
+      { id: 0, nodeType: "operator", value: "AND" },
+      {
+        id: 1,
+        nodeType: "group",
+        nodes: [
+          {
+            id: 4,
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "wiley",
+            comparator: "equals",
+          },
+        ],
+      },
+    ];
 
     expect(router.push).toHaveBeenCalledWith(
       `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,
@@ -100,15 +144,51 @@ describe("FilterTags", () => {
   });
 
   it("removes the NOT operator before the node within a group when already present when clicking on the tag", async () => {
+    // We can't use the generateFilters helper here because we need the node IDs
+    // to be different for the toggleNot logic to work but we also need them
+    // to be predictable for the tests so we can't simply remove the mock and
+    // use Math.random().
+
     const router = useRouter();
-    const filters = generateFilters({
-      corpusName: { values: ["elsevier"], not: true },
-    });
+    const filters: AST = [
+      { id: 0, nodeType: "operator", value: "AND" },
+      {
+        id: 1,
+        nodeType: "group",
+        nodes: [
+          { id: 2, nodeType: "operator", value: "NOT" },
+          {
+            id: 3,
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "elsevier",
+            comparator: "equals",
+          },
+        ],
+      },
+    ];
     renderFilterTags(filters);
 
     await userEvent.click(getCorpusNameButton());
 
-    const expectedFilters = generateFilters({ corpusName: ["elsevier"] });
+    const expectedFilters: AST = [
+      { id: 0, nodeType: "operator", value: "AND" },
+      {
+        id: 1,
+        nodeType: "group",
+        nodes: [
+          {
+            id: 3,
+            nodeType: "node",
+            fieldType: "text",
+            field: "corpusName",
+            value: "elsevier",
+            comparator: "equals",
+          },
+        ],
+      },
+    ];
 
     expect(router.push).toHaveBeenCalledWith(
       `/results?filters=${btoa(JSON.stringify(expectedFilters))}`,

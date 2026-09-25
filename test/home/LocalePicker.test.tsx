@@ -4,10 +4,6 @@ import routing from "@/i18n/routing";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
 describe("LocalePicker", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it("displays every supported locale", async () => {
     render(<LocalePicker />);
 

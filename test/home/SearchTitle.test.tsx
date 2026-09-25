@@ -70,10 +70,6 @@ describe("SearchTitle", () => {
 
     expect(resultCountText).toBeInTheDocument();
   });
-
-  beforeEach(() => {
-    jest.resetAllMocks();
-  });
 });
 
 function getRegularButton() {

@@ -20,10 +20,6 @@ jest.mock(
 );
 
 describe("PromptModal", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it("goes to the results page with the prompt converted into a query string when submitting the form", async () => {
     const router = useRouter();
     const prompt = "I want a corpus";

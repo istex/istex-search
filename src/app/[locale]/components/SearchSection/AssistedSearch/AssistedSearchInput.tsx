@@ -20,7 +20,8 @@ import QueryPanel from "./QueryPanel";
 
 export default function AssistedSearchInput() {
   const tErrors = useTranslations("errors");
-  const [ast] = useAst();
+  const [astFromSearchParams] = useAst();
+  const ast = structuredClone(astFromSearchParams);
   const queryString = astToString(ast);
   const { errorInfo } = useQueryContext();
   const onHomePage = useOnHomePage();
@@ -98,6 +99,19 @@ export default function AssistedSearchInput() {
   React.useEffect(() => {
     rootNode.nodes = childNodes;
   }, [rootNode, childNodes]);
+
+  // Cache components preserve state across navigations, and we don't want the
+  // expert input to still be open when going back to the regular search then
+  // to the assisted search again.
+  React.useLayoutEffect(() => {
+    return () => {
+      setAssistedFormOpen(onHomePage);
+      setExpertInputOpen(false);
+      setExpertErrorMessage("");
+      setExpertValidateModalOpen(false);
+      setError(null);
+    };
+  }, [onHomePage]);
 
   return (
     <form noValidate autoCorrect="off" onSubmit={handleSubmit}>

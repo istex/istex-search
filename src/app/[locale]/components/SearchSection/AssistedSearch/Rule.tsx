@@ -301,6 +301,7 @@ export default function Rule({
 
     // @ts-expect-error value isn't in the TypeScript type but it can be here at runtime
     delete nodeWithoutValue.value;
+    nodeWithoutValue.partial = true;
 
     if (resetMinAndMax) {
       // @ts-expect-error same as above but for min

@@ -51,6 +51,20 @@ describe("AssistedSearchInput", () => {
     expect(expertEditButton).toBeInTheDocument();
   });
 
+  it("displays an error on the value input when trying to submit the form after changing the comparator", async () => {
+    renderAssistedSearchInput(true);
+
+    const comparatorInput = getComparatorInput();
+    const valueInput = getValueInput();
+
+    await userEvent.click(comparatorInput);
+    await userEvent.keyboard("est égal à{ArrowDown}{Enter}");
+    await search();
+
+    expect(valueInput).not.toHaveValue();
+    expect(valueInput).toHaveAttribute("aria-invalid", "true");
+  });
+
   it("displays the assistant form and removes the assisted edit button when clicking on the assisted edit button", async () => {
     renderAssistedSearchInput();
 
@@ -146,9 +160,7 @@ function renderAssistedSearchInput(onHomePage = false) {
     },
   ];
 
-  if (!onHomePage) {
-    mockPathname("/results");
-  }
+  mockPathname(onHomePage ? "/" : "/results");
 
   render(
     <AssistedSearchInput />,

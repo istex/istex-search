@@ -48,6 +48,16 @@ mock("@/contexts/HistoryContext", {
   setCurrentRequestInLocalStorage: jest.fn(),
 });
 
+// The AssistedSearchInput uses structuredClone, which is not defined in jsdom.
+// https://github.com/jsdom/jsdom/issues/3363
+// This implementation is less robust than the actual structuredClone but it's
+// enough for the AssistedSearchInput.
+if (typeof globalThis.structuredClone === "undefined") {
+  globalThis.structuredClone = (value: unknown) => {
+    return JSON.parse(JSON.stringify(value));
+  };
+}
+
 beforeEach(() => {
   jest.clearAllMocks();
 });

@@ -7,6 +7,15 @@ import "vanilla-cookieconsent/dist/cookieconsent.css";
 import { GlobalStyles } from "@mui/material";
 import routing from "@/i18n/routing";
 
+const matomoCookies: cookieConsent.CookieItem[] = [
+  {
+    name: /^(_pk_id.*)/,
+  },
+  {
+    name: /^(_pk_ses.*)/,
+  },
+];
+
 const config: cookieConsent.CookieConsentConfig = {
   categories: {
     necessary: {
@@ -17,15 +26,11 @@ const config: cookieConsent.CookieConsentConfig = {
       services: {
         matomo: {
           label: "Matomo",
-          cookies: [
-            {
-              name: /^(_pk_id.*)/,
-            },
-            {
-              name: /^(_pk_ses.*)/,
-            },
-          ],
+          cookies: matomoCookies,
         },
+      },
+      autoClear: {
+        cookies: matomoCookies,
       },
     },
   },

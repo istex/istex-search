@@ -516,7 +516,7 @@ const enGB: Translation = {
               {
                 name: "NEXT_LOCALE",
                 description: "Cookie to store the display language.",
-                duration: "1 year",
+                duration: "Session",
               },
               {
                 name: "cc_cookie",

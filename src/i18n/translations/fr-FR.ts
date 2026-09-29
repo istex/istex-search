@@ -517,7 +517,7 @@ const frFR = {
               {
                 name: "NEXT_LOCALE",
                 description: "Cookie pour stocker la langue à afficher.",
-                duration: "1 an",
+                duration: "Session",
               },
               {
                 name: "cc_cookie",

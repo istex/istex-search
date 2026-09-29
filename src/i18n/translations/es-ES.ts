@@ -521,7 +521,7 @@ const esES: Translation = {
                 name: "NEXT_LOCALE",
                 description:
                   "Cookie para almacenar el idioma de visualización.",
-                duration: "1 año",
+                duration: "Sesión",
               },
               {
                 name: "cc_cookie",

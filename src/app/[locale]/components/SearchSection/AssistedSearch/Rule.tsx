@@ -11,6 +11,7 @@ import fields, {
   type FieldType,
   fieldNames,
 } from "@/lib/fields";
+import { useOnHomePage } from "@/lib/hooks";
 import { getPossibleValues } from "@/lib/istexApi";
 import { labelizeIsoLanguage } from "@/lib/utils";
 import {
@@ -36,6 +37,7 @@ export default function Rule({
   const tFields = useTranslations("fields");
   const tLanguages = useTranslations("languages");
   const locale = useLocale();
+  const onHomePage = useOnHomePage();
   const isNodePartial = node.partial === true;
   const isTextNode = node.fieldType === "text" && "value" in node;
   const isLanguageNode = node.fieldType === "language" && "value" in node;
@@ -312,6 +314,22 @@ export default function Rule({
 
     return nodeWithoutValue;
   };
+
+  React.useEffect(() => {
+    // Cache components preserve state across navigations, which can lead to
+    // an outdated form when going back to the home page, especially after a
+    // search in expert mode where the AST and the query string are out of sync.
+    if (onHomePage) {
+      setFieldName(null);
+      setComparator(null);
+      setFieldType(null);
+      setTextValue("");
+      setNumberValue(null);
+      setMinValue(null);
+      setMaxValue(null);
+      setBooleanValue(null);
+    }
+  }, [onHomePage]);
 
   return (
     <Stack

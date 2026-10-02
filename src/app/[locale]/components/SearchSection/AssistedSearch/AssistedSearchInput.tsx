@@ -103,14 +103,12 @@ export default function AssistedSearchInput() {
   // Cache components preserve state across navigations, and we don't want the
   // expert input to still be open when going back to the regular search then
   // to the assisted search again.
-  React.useLayoutEffect(() => {
-    return () => {
-      setAssistedFormOpen(onHomePage);
-      setExpertInputOpen(false);
-      setExpertErrorMessage("");
-      setExpertValidateModalOpen(false);
-      setError(null);
-    };
+  React.useEffect(() => {
+    setAssistedFormOpen(onHomePage);
+    setExpertInputOpen(false);
+    setExpertErrorMessage("");
+    setExpertValidateModalOpen(false);
+    setError(null);
   }, [onHomePage]);
 
   return (

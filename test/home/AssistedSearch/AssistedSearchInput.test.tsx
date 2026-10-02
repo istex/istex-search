@@ -27,8 +27,11 @@ describe("AssistedSearchInput", () => {
     );
   });
 
-  it("fills the inputs based on the AST in the URL", () => {
-    renderAssistedSearchInput(true);
+  it("fills the inputs based on the AST in the URL", async () => {
+    renderAssistedSearchInput();
+
+    const assistedEditButton = getAssistedEditButton();
+    await userEvent.click(assistedEditButton);
 
     const fieldInput = getFieldInput();
     const comparatorInput = getComparatorInput();

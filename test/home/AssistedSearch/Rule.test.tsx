@@ -12,7 +12,12 @@ import type { Field } from "@/lib/fields";
 import { getPossibleValues } from "@/lib/istexApi";
 import { unique } from "@/lib/utils";
 import type { PartialExcept } from "@/types/utility";
-import { customRender as render, screen, userEvent } from "../../test-utils";
+import {
+  mockPathname,
+  customRender as render,
+  screen,
+  userEvent,
+} from "../../test-utils";
 
 describe("Rule", () => {
   const partialNode = getEmptyFieldNode();
@@ -240,6 +245,7 @@ function renderRule({
   setNode,
   remove,
 }: PartialExcept<React.ComponentProps<typeof Rule>, "node">) {
+  mockPathname("/results");
   render(
     <Rule
       displayErrors={displayErrors ?? false}

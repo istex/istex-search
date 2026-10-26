@@ -25,6 +25,7 @@ export default withNextIntl({
 
   // Cache components
   cacheComponents: true,
+  partialPrefetching: true,
 
   // Experimental features
   experimental: {

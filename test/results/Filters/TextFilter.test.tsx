@@ -415,10 +415,13 @@ function renderTextFilter({
   defaultOpen = true,
 }: RenderTextFilterOptions) {
   // Explanation of why this is needed:
-  // https://github.com/TanStack/virtual/issues/641#issuecomment-2851908893
-  Object.defineProperty(HTMLElement.prototype, "offsetHeight", {
-    value: 800,
-  });
+  // https://github.com/TanStack/virtual/issues/641#issuecomment-6482955511
+  jest
+    .spyOn(HTMLElement.prototype, "offsetHeight", "get")
+    .mockImplementationOnce(() => 800);
+  jest
+    .spyOn(HTMLElement.prototype, "clientHeight", "get")
+    .mockImplementationOnce(() => 800);
 
   if (filterValues != null && filterValues.length > 0) {
     const finalFilters: AST = [

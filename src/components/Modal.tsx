@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import type { TransitionProps } from "@mui/material/transitions";
 import { useTranslations } from "next-intl";
-import type * as React from "react";
+import * as React from "react";
 
 export interface ModalProps extends DialogProps {
   open: boolean; // Make open required
@@ -34,11 +34,12 @@ export default function Modal(props: ModalProps) {
     ...rest
   } = props;
 
-  const Transition = (
-    transitionProps: TransitionProps & { children: React.ReactElement },
-  ) => {
-    return <Slide direction={slideDirection} {...transitionProps} />;
-  };
+  const Transition = React.useCallback(
+    (transitionProps: TransitionProps & { children: React.ReactElement }) => {
+      return <Slide direction={slideDirection} {...transitionProps} />;
+    },
+    [slideDirection],
+  );
 
   return (
     <Dialog

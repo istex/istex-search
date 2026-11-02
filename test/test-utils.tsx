@@ -73,9 +73,8 @@ export async function renderAsync<T>(
   props: T,
 ) {
   const resolvedComponent = await component(props);
-  const TmpComponent = () => resolvedComponent;
 
-  return customRender(<TmpComponent />);
+  return customRender(resolvedComponent);
 }
 
 export function mockPathname(pathname: string) {

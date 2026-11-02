@@ -24,7 +24,7 @@ include:
 
 default:
   image:
-    name: node:24.22.1-alpine
+    name: node:26.13.0-alpine
   tags:
     - docker
   cache:
@@ -34,8 +34,7 @@ default:
     paths:
       - .pnpm-store
   before_script:
-    - corepack enable
-    - corepack prepare pnpm@latest-12 --activate
+    - npm install -g pnpm@12.16.1
     - pnpm config set store-dir .pnpm-store
     - pnpm install --frozen-lockfile
 

@@ -1,10 +1,7 @@
 # Base stage where we setup pnpm and copy the package files to later install dependencies
-FROM node:24.22.1-alpine AS base
+FROM node:26.13.0-alpine AS base
 WORKDIR /app
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN corepack prepare pnpm@latest-12 --activate
+RUN npm install -g pnpm@12.16.1
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
@@ -21,7 +18,7 @@ RUN pnpm build
 
 
 # Final stage where we get the production build and run it
-FROM base
+FROM node:26.13.0-alpine
 
 # Create a group and a user to avoid being root in the container
 RUN addgroup --system --gid 1001 nodejs

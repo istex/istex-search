@@ -29,7 +29,7 @@
     "pino": "10.4.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "vanilla-cookieconsent": "3.2.1"
+    "vanilla-cookieconsent": "3.3.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.7",

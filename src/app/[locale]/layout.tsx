@@ -36,14 +36,14 @@ export default async function RootLayout(props: LayoutProps<"/[locale]">) {
 
   return (
     <html lang={locale}>
-      {/* If the Istex API URL is overridden via an environment variable, we inject it into the window object */}
-      {process.env.ISTEX_API_URL && (
-        <Script id="inject-api-url" strategy="beforeInteractive">
-          {`window.ISTEX_API_URL = "${process.env.ISTEX_API_URL}"`}
-        </Script>
-      )}
-
       <body>
+        {/* If the Istex API URL is overridden via an environment variable, we inject it into the window object */}
+        {process.env.ISTEX_API_URL && (
+          <Script id="inject-api-url" strategy="beforeInteractive">
+            {`window.ISTEX_API_URL = "${process.env.ISTEX_API_URL}"`}
+          </Script>
+        )}
+
         <TanStackQueryProvider>
           <MuiSetup locale={locale}>
             <NextIntlClientProvider>

@@ -34,7 +34,7 @@ const results: IstexApiResponse = {
     arkIstex: "arkIstex",
     fulltext: [
       { extension: "pdf", uri: dummyUri },
-      { extension: "zip", uri: dummyUri },
+      { extension: "txt", uri: dummyUri },
     ],
     metadata: [
       { extension: "xml", uri: dummyUri },
@@ -88,12 +88,12 @@ describe("DocumentDetail", () => {
       "Accéder au texte intégral au format PDF",
     );
 
-    expect(within(drawer).getByText("zip")).toBeInTheDocument();
-    const zipLink = within(drawer).getByText("zip").closest("a");
-    expect(zipLink).toHaveAttribute("href", dummyUriWithSid);
-    expect(zipLink).toHaveAttribute(
+    expect(within(drawer).getByText("txt")).toBeInTheDocument();
+    const txtLink = within(drawer).getByText("txt").closest("a");
+    expect(txtLink).toHaveAttribute("href", dummyUriWithSid);
+    expect(txtLink).toHaveAttribute(
       "title",
-      "Accéder au texte intégral au format ZIP",
+      "Accéder au texte intégral au format TXT",
     );
 
     expect(within(drawer).getByText("xml")).toBeInTheDocument();

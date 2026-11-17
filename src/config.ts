@@ -75,7 +75,6 @@ export const formats = {
     tei: 1 << 1,
     txt: 1 << 2,
     cleaned: 1 << 3,
-    zip: 1 << 4,
     tiff: 1 << 5,
   },
   metadata: {
@@ -191,7 +190,6 @@ export const formatSizes = {
       tei: 126311, // ~123.3 KB
       txt: 80585, // ~78.7 KB
       cleaned: 53569, // ~52.3 KB
-      zip: 2123192, // ~2.02 MB
       tiff: 6685424, // ~6.38 MB
     },
     metadata: {
@@ -220,7 +218,6 @@ export const formatSizes = {
           tei: 0.93,
           txt: 0.89,
           cleaned: 0.87,
-          zip: 1,
           tiff: 1,
         },
         metadata: {
@@ -247,7 +244,6 @@ export const formatSizes = {
           tei: 0.3,
           txt: 0.38,
           cleaned: 0.34,
-          zip: 0.85,
           tiff: 0.96,
         },
         metadata: {
@@ -274,7 +270,6 @@ export const formatSizes = {
           tei: 0.3,
           txt: 0.38,
           cleaned: 0.34,
-          zip: 0.84,
           tiff: 0.98,
         },
         metadata: {
@@ -305,7 +300,6 @@ export const formatSizes = {
           tei: 0.94,
           txt: 0.91,
           cleaned: 0.89,
-          zip: 1.01,
           tiff: 1.07,
         },
         metadata: {
@@ -332,7 +326,6 @@ export const formatSizes = {
           tei: 0.29,
           txt: 0.37,
           cleaned: 0.33,
-          zip: 0.85,
           tiff: 0.98,
         },
         metadata: {
@@ -359,7 +352,6 @@ export const formatSizes = {
           tei: 0.28,
           txt: 0.37,
           cleaned: 0.33,
-          zip: 0.88,
           tiff: 0.96,
         },
         metadata: {

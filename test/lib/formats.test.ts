@@ -92,7 +92,6 @@ describe("Functions manipulating the available download formats", () => {
         formats.fulltext.tei |
         formats.fulltext.txt |
         formats.fulltext.cleaned |
-        formats.fulltext.zip |
         formats.fulltext.tiff;
 
       const metadataFormats =

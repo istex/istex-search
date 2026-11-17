@@ -13,7 +13,6 @@ import TeiIcon from "./TeiIcon";
 import TiffIcon from "./TiffIcon";
 import TxtIcon from "./TxtIcon";
 import XmlIcon from "./XmlIcon";
-import ZipIcon from "./ZipIcon";
 
 export interface FileButtonProps {
   category: string;
@@ -93,9 +92,6 @@ function getIcon(extension: string) {
   switch (extension) {
     case "pdf":
       Component = PdfIcon;
-      break;
-    case "zip":
-      Component = ZipIcon;
       break;
     case "tei":
       Component = TeiIcon;

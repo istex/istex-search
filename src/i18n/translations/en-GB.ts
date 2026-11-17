@@ -620,7 +620,6 @@ const enGB: Translation = {
         tei: "TEI",
         txt: "TXT",
         cleaned: "CLEANED",
-        zip: "ZIP",
         tiff: "TIFF",
       },
       metadata: {

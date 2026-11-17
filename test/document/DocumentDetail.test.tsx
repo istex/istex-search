@@ -40,7 +40,6 @@ const results: IstexApiResponse = {
       { extension: "xml", uri: dummyUri },
       { extension: "json", uri: dummyUri },
     ],
-    annexes: [{ extension: "jpg", uri: dummyUri }],
     enrichments: {
       nb: [
         {
@@ -111,14 +110,6 @@ describe("DocumentDetail", () => {
     expect(jsonLink).toHaveAttribute(
       "title",
       "Accéder aux métadonnées au format JSON",
-    );
-
-    expect(within(drawer).getByText("jpg")).toBeInTheDocument();
-    const jpgLink = within(drawer).getByText("jpg").closest("a");
-    expect(jpgLink).toHaveAttribute("href", dummyUriWithSid);
-    expect(jpgLink).toHaveAttribute(
-      "title",
-      "Accéder à l'annexe au format JPG",
     );
 
     expect(within(drawer).getByText("nb")).toBeInTheDocument();

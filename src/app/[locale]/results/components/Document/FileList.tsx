@@ -47,9 +47,6 @@ export default function FileList({ document, direction, gap }: FileListProps) {
       {document.metadata != null && (
         <FileListCategory category="metadata" files={document.metadata} />
       )}
-      {document.annexes != null && (
-        <FileListCategory category="annexes" files={document.annexes} />
-      )}
       {enrichmentsInfo != null && (
         <FileListCategory category="enrichments" files={enrichmentsInfo} />
       )}

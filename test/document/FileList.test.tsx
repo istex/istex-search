@@ -64,31 +64,6 @@ describe("FileList", () => {
     expect(metadataHeading).not.toBeInTheDocument();
   });
 
-  it("displays the annexes buttons when annexes formats are available", () => {
-    const documentWithAnnexes: Result = {
-      ...baseDocument,
-      annexes: [
-        {
-          extension: "jpeg",
-          uri: "https://example.com/jpeg",
-        },
-      ],
-    };
-    render(<FileList document={documentWithAnnexes} />);
-
-    const jpegLink = screen.getByRole("link", { name: /JPEG/ });
-
-    expect(jpegLink).toBeInTheDocument();
-  });
-
-  it("doesn't display the annexes buttons when annexes formats are not available", () => {
-    render(<FileList document={baseDocument} />);
-
-    const annexesHeading = screen.queryByRole("heading", { name: "Annexes" });
-
-    expect(annexesHeading).not.toBeInTheDocument();
-  });
-
   it("displays the enrichment buttons when enrichment formats are available", () => {
     const documentWithEnrichments: Result = {
       ...baseDocument,

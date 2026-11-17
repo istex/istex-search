@@ -45,7 +45,6 @@ export interface Result {
   arkIstex: string;
   fulltext?: FileInfo[];
   metadata?: FileInfo[];
-  annexes?: FileInfo[];
   enrichments?: Record<string, FileInfo[]>;
 }
 

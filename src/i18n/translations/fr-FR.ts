@@ -250,7 +250,6 @@ const frFR = {
       seeDoc: "Consulter ce document",
       fulltext: "Texte intégral",
       metadata: "Métadonnées",
-      annexes: "Annexes",
       enrichments: "Enrichissements",
       openAccess: "Libre accès",
       istexView: "Istex\u00A0View",
@@ -262,7 +261,6 @@ const frFR = {
       formatLinks: {
         fulltext: "Accéder au texte intégral au format {extension}",
         metadata: "Accéder aux métadonnées au format {extension}",
-        annexes: "Accéder à l'annexe au format {extension}",
         multicat:
           "Accéder aux catégories WoS, Scopus et Science-Metrix générées par Multicat au format {extension}",
         teeft: "Accéder à l'indexation générée par Teeft au format {extension}",

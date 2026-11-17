@@ -254,7 +254,6 @@ const esES: Translation = {
       seeDoc: "Consultar este documento",
       fulltext: "Texto completo",
       metadata: "Metadatos",
-      annexes: "Anexos",
       enrichments: "Enriquecimientos",
       openAccess: "Acceso abierto",
       istexView: "Istex\u00A0View",
@@ -266,7 +265,6 @@ const esES: Translation = {
       formatLinks: {
         fulltext: "Acceder al texto completo en formato {extension}",
         metadata: "Acceder a los metadatos en formato {extension}",
-        annexes: "Acceder al anexo en formato {extension}",
         multicat:
           "Acceder a las categorías WoS, Scopus y Science-Metrix generadas por Multicat en formato {extension}",
         teeft:

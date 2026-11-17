@@ -34,7 +34,6 @@ export const istexApiConfig = {
     "arkIstex",
     "fulltext",
     "metadata",
-    "annexes",
     "enrichments",
   ],
 } as const;

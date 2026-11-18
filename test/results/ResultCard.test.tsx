@@ -1,4 +1,5 @@
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import { customRender as render, screen, userEvent } from "../test-utils";
 
@@ -30,7 +31,7 @@ describe("ResultCard", () => {
     expect(pdfLink).not.toBeInTheDocument();
   });
 
-  it("should handle selection correctly", async () => {
+  it("handles selection", async () => {
     renderResultCard();
     const selectButton = screen.getByRole("button", { name: "Sélectionner" });
     const excludeButton = screen.getByRole("button", { name: "Exclure" });
@@ -48,7 +49,7 @@ describe("ResultCard", () => {
     expect(newExcludeButton).toBeInTheDocument();
   });
 
-  it("should handle exclusion correctly", async () => {
+  it("handles exclusion", async () => {
     renderResultCard();
     const selectButton = screen.getByRole("button", { name: "Sélectionner" });
     const excludeButton = screen.getByRole("button", { name: "Exclure" });
@@ -66,6 +67,17 @@ describe("ResultCard", () => {
       name: "Sélectionner",
     });
     expect(newSelectButton).toBeInTheDocument();
+  });
+
+  it("disables the selection and exclusion buttons when in import mode", () => {
+    renderResultCard(false, {
+      searchParams: { searchMode: SEARCH_MODE_IMPORT },
+    });
+    const selectButton = screen.getByRole("button", { name: "Sélectionner" });
+    const excludeButton = screen.getByRole("button", { name: "Exclure" });
+
+    expect(selectButton).toBeDisabled();
+    expect(excludeButton).toBeDisabled();
   });
 });
 
@@ -100,6 +112,13 @@ const results: IstexApiResponse = {
   aggregations: {},
 };
 
-function renderResultCard(displayIcons = false) {
-  render(<ResultCard index={0} displayIcons={displayIcons} />, { results });
+function renderResultCard(
+  displayIcons = false,
+  nuqsAdapterProps?: Parameters<typeof render>[2],
+) {
+  render(
+    <ResultCard index={0} displayIcons={displayIcons} />,
+    { results },
+    nuqsAdapterProps,
+  );
 }

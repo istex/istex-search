@@ -9,9 +9,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import { Chip, Drawer, IconButton, Stack, Typography } from "@mui/material";
 import { useTranslations } from "next-intl";
 import Button from "@/components/Button";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import { useDocumentContext } from "@/contexts/DocumentContext";
 import { useQueryContext } from "@/contexts/QueryContext";
 import { useShare } from "@/lib/hooks";
+import { useSearchMode } from "@/lib/searchParams";
 import FileList from "./FileList";
 import RetractedBadge from "./RetractedBadge";
 
@@ -30,6 +32,7 @@ export default function DocumentDetail() {
   const { results } = useQueryContext();
   const t = useTranslations("results.Document");
   const tFields = useTranslations("fields");
+  const isImportSearchMode = useSearchMode()[0] === SEARCH_MODE_IMPORT;
   const share = useShare();
   const displayedDocument =
     displayedDocumentIndex !== -1 ? results.hits[displayedDocumentIndex] : null;
@@ -320,7 +323,7 @@ export default function DocumentDetail() {
                 variant={isSelected ? "contained" : "outlined"}
                 mainColor={isSelected ? "darkGreen" : undefined}
                 size="small"
-                disabled={excludedDocuments.length > 0}
+                disabled={excludedDocuments.length > 0 || isImportSearchMode}
                 startIcon={
                   isSelected ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />
                 }
@@ -334,7 +337,7 @@ export default function DocumentDetail() {
                 variant={isExcluded ? "contained" : "outlined"}
                 mainColor={isExcluded ? "grey" : undefined}
                 size="small"
-                disabled={selectedDocuments.length > 0}
+                disabled={selectedDocuments.length > 0 || isImportSearchMode}
                 startIcon={isExcluded ? <AddCircleIcon /> : <CancelIcon />}
                 onClick={() => {
                   toggleExcludedDocument(displayedDocument.arkIstex);

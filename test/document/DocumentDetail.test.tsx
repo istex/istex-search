@@ -1,5 +1,6 @@
 import DocumentDetail from "@/app/[locale]/results/components/Document/DocumentDetail";
 import ResultCard from "@/app/[locale]/results/components/ResultCard";
+import { SEARCH_MODE_IMPORT } from "@/config";
 import type { IstexApiResponse } from "@/lib/istexApi";
 import {
   customRender as render,
@@ -219,15 +220,32 @@ describe("DocumentDetail", () => {
     expect(excludeButton).toHaveTextContent("Exclure");
     expect(selectButton).not.toBeDisabled();
   });
+
+  it("disables the selection and exclusion buttons when in import mode", async () => {
+    await renderDocumentDetail(0, {
+      searchParams: { searchMode: SEARCH_MODE_IMPORT },
+    });
+
+    const drawer = screen.getByRole("presentation");
+    const selectButton = within(drawer).getByText("Sélectionner");
+    const excludeButton = within(drawer).getByText("Exclure");
+
+    expect(selectButton).toBeDisabled();
+    expect(excludeButton).toBeDisabled();
+  });
 });
 
-async function renderDocumentDetail(index = 0) {
+async function renderDocumentDetail(
+  index = 0,
+  nuqsAdapterProps?: Parameters<typeof render>[2],
+) {
   render(
     <>
       <ResultCard index={index} />
       <DocumentDetail />
     </>,
     { results },
+    nuqsAdapterProps,
   );
 
   const card = screen
